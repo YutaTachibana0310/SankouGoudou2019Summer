@@ -44,8 +44,6 @@ void UninitMyLibrary(void)
 	{
 		if (texture[i] != NULL)
 		{
-
-
 			texture[i]->Release();
 			texture[i] = NULL;
 		}

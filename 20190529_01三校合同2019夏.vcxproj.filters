@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\System">
+      <UniqueIdentifier>{a0089c6a-49fb-4aba-b642-629b6e64073f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System">
+      <UniqueIdentifier>{98f0dee0-ea50-4d4e-8d3d-708e03ba21cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Framework">
+      <UniqueIdentifier>{20fcce2f-3870-4137-ab87-66508af8c793}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Framework">
+      <UniqueIdentifier>{fba4c4cb-4265-468e-8d3a-b4c42135946d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\PostEffect">
+      <UniqueIdentifier>{84b7dab4-a507-48ae-aa5e-3092ebf303f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\PostEffect">
+      <UniqueIdentifier>{123d6183-5784-4620-80c3-af6ee8e23b7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\imgui">
+      <UniqueIdentifier>{a0e1a0a8-0c1b-46d7-baa6-7f91892dd7fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\imgui">
+      <UniqueIdentifier>{b28a90e9-60ba-48c3-9a6f-d7ddd09174f3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="camera.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="MyLibrary.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\BaseCameraPlugin.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\BaseSingleton.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\CameraShakerPlugin.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Easing.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\EasingVector.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\MeshContainer.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect\BloomController.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect\BloomFilter.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect\BlurFilter.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect\CrossBlurFilter.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect\CrossFilterController.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect\MonotoneFilter.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect\ScreenObject.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect\ShockBlur.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect\ShockBlurController.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect\SpikeNoise.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect\SpikeNoiseController.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect\StrongBlurFilter.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imconfig.h">
+      <Filter>ヘッダー ファイル\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui.h">
+      <Filter>ヘッダー ファイル\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_dx9.h">
+      <Filter>ヘッダー ファイル\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_win32.h">
+      <Filter>ヘッダー ファイル\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_internal.h">
+      <Filter>ヘッダー ファイル\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_rectpack.h">
+      <Filter>ヘッダー ファイル\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_textedit.h">
+      <Filter>ヘッダー ファイル\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_truetype.h">
+      <Filter>ヘッダー ファイル\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="debugTimer.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="debugWindow.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="camera.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="light.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="MyLibrary.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\BaseCameraPlugin.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\CameraShakerPlugin.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Easing.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\EasingVector.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\MeshContainer.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect\BloomController.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect\BloomFilter.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect\BlurFilter.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect\CrossBlurFilter.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect\CrossFilterController.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect\MonotoneFilter.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect\ScreenObject.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect\ShockBlur.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect\ShockBlurController.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect\SpikeNoise.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect\SpikeNoiseController.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect\StrongBlurFilter.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui.cpp">
+      <Filter>ソース ファイル\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_demo.cpp">
+      <Filter>ソース ファイル\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_draw.cpp">
+      <Filter>ソース ファイル\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_dx9.cpp">
+      <Filter>ソース ファイル\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_win32.cpp">
+      <Filter>ソース ファイル\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_widgets.cpp">
+      <Filter>ソース ファイル\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="debugTimer.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="debugWindow.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="PostEffect\BloomFilter.fx">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="PostEffect\BlurFilter.fx">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="PostEffect\CrossBlur.fx">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="PostEffect\HexaCrossBlur.fx">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Framework\LambertLight.fx">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="PostEffect\MonotoneFilter.fx">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="PostEffect\ShockBlur.fx">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="PostEffect\SpikeNoise.fx">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="PostEffect\StrongBlurFilter.fx">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>

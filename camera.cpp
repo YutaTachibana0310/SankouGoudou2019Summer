@@ -50,7 +50,6 @@ HRESULT InitCamera(void)
 	camera.dist = CAMERA_DIST_INITVAL;
 
 	SetCamera();
-
 	return S_OK;
 }
 

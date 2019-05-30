@@ -134,6 +134,7 @@
     <ClInclude Include="Framework\EasingVector.h" />
     <ClInclude Include="Framework\MeshContainer.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameScene.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_dx9.h" />
@@ -143,6 +144,7 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="IStateScene.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MyLibrary.h" />
@@ -158,6 +160,8 @@
     <ClInclude Include="PostEffect\SpikeNoise.h" />
     <ClInclude Include="PostEffect\SpikeNoiseController.h" />
     <ClInclude Include="PostEffect\StrongBlurFilter.h" />
+    <ClInclude Include="ResultScene.h" />
+    <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
@@ -169,6 +173,7 @@
     <ClCompile Include="Framework\EasingVector.cpp" />
     <ClCompile Include="Framework\MeshContainer.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -191,6 +196,8 @@
     <ClCompile Include="PostEffect\SpikeNoise.cpp" />
     <ClCompile Include="PostEffect\SpikeNoiseController.cpp" />
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp" />
+    <ClCompile Include="ResultScene.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Framework\LambertLight.fx">

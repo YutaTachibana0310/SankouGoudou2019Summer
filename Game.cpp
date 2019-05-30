@@ -4,11 +4,17 @@
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
+#include "Game.h"
 #include "input.h"
 #include "light.h"
 #include "camera.h"
 #include "debugWindow.h"
 #include "debugTimer.h"
+
+#include "IStateScene.h"
+#include "TitleScene.h"
+#include "GameScene.h"
+#include "ResultScene.h"
 
 /**************************************
 マクロ定義
@@ -37,6 +43,12 @@ static LPDIRECT3DSURFACE9 zMapSurface;
 //バックバッファへ描画するための頂点バッファ
 static LPDIRECT3DVERTEXBUFFER9 screenVtx;
 
+//シーン管理のステートマシン
+static IStateScene* fsm[SceneMax];
+
+//現在のシーン
+static Scene currentScene = SceneTitle;
+
 /**************************************
 初期化処理
 ***************************************/
@@ -52,7 +64,15 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	InitLight();
 	InitDebugWindow(hWnd, pDevice);
 
+
+	//ステートマシンに各シーンを追加
+	fsm[SceneTitle] = new TitleScene();
+	fsm[SceneGame] = new GameScene();
+	fsm[SceneResult] = new ResultScene();
+
 	RegisterDebugTimer("Main");
+
+	fsm[currentScene]->Init();
 }
 
 /**************************************
@@ -64,6 +84,8 @@ void UninitGame()
 	UninitLight();
 	UninitDebugWindow(0);
 	UninitDebugTimer();
+
+	fsm[currentScene]->Uninit();
 }
 
 /**************************************
@@ -76,6 +98,7 @@ void UpdateGame()
 	UpdateLight();
 	UpdateCamera();
 
+	fsm[currentScene]->Update();
 }
 
 /**************************************
@@ -98,6 +121,8 @@ void DrawGame()
 
 	//オブジェクトを描画
 	SetCamera();
+
+	fsm[currentScene]->Draw();
 
 	//結果をバックバッファへと描画
 	CountDebugTimer("Main", "DrawBackBuffer");
@@ -183,6 +208,21 @@ void CreateRenderTarget()
 	viewPort.Y = 0;
 }
 
+/**************************************
+シーン変更処理
+***************************************/
+void ChangeScene(Scene next)
+{
+	fsm[currentScene]->Uninit();
+
+	currentScene = next;
+
+	fsm[currentScene]->Init();
+}
+
+/**************************************
+レンダーターゲット作成
+***************************************/
 LPDIRECT3DTEXTURE9 GetDrawDataTemp()
 {
 	return renderTexture;

@@ -22,7 +22,7 @@
 ***************************************/
 void InitGame(HINSTANCE hInstance, HWND hWnd);
 void UninitGame(void);
-void UpdateGame(void);
+void UpdateGame(HWND hWnd);
 void DrawGame(void);
 
 LPDIRECT3DTEXTURE9 GetDrawDataTemp();

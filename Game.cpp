@@ -9,6 +9,7 @@
 #include "camera.h"
 #include "debugWindow.h"
 #include "debugTimer.h"
+#include "UIManager.h"
 
 /**************************************
 マクロ定義
@@ -51,6 +52,7 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	InitCamera();
 	InitLight();
 	InitDebugWindow(hWnd, pDevice);
+	InitUIManager();
 
 	RegisterDebugTimer("Main");
 }
@@ -64,18 +66,19 @@ void UninitGame()
 	UninitLight();
 	UninitDebugWindow(0);
 	UninitDebugTimer();
+	UninitUIManager();
 }
 
 /**************************************
 更新処理
 ***************************************/
-void UpdateGame()
+void UpdateGame(HWND hWnd)
 {
 	UpdateDebugWindow();
 	UpdateInput();
 	UpdateLight();
 	UpdateCamera();
-
+	UpdateUIManager(hWnd);
 }
 
 /**************************************
@@ -98,6 +101,7 @@ void DrawGame()
 
 	//オブジェクトを描画
 	SetCamera();
+	DrawUIManager();
 
 	//結果をバックバッファへと描画
 	CountDebugTimer("Main", "DrawBackBuffer");

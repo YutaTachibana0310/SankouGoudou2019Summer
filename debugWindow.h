@@ -37,6 +37,9 @@ double GetProgressTimerCount(void);		//タイマー経過時間取得処理
 void GetTimerCount(LARGE_INTEGER *ptr);	//タイマーカウント取得(20フレーム間隔)
 double CalcProgressTime(LARGE_INTEGER start, LARGE_INTEGER end);	//経過時間取得	
 
+void DebugLog(const char *str, ...);
+
+
 //ImGUIラッパー関数
 void BeginDebugWindow(const char *label);
 void EndDebugWindow(const char* label);

@@ -43,6 +43,7 @@ VS_OUTPUT VS(
 
 	Out.pos = mul(mul(mul(pos, mtxWorld), mtxView), mtxProjection);
 	Out.tex = tex;
+	Out.col = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	int i;
 	for (i = 0; i < 3; i++)

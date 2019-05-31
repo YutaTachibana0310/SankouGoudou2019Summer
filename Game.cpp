@@ -135,6 +135,11 @@ void DrawGame()
 	pDevice->SetFVF(FVF_VERTEX_2D);
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
 
+	//FPS•\Ž¦
+#ifdef _DEBUG
+	DebugLog("FPS:%d", GetCurrentFPS());
+#endif
+
 	DrawDebugWindow();
 }
 

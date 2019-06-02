@@ -4,8 +4,8 @@
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#ifndef _TEMPLATE_H_
-#define _TEMPLATE_H_
+#ifndef _ANIMCONTAINER_H_
+#define _ANIMCONTAINER_H_
 
 #include "../main.h"
 #include "MyAllocateHierarchy.h"
@@ -25,8 +25,27 @@ typedef struct
 	float currentWeightTime;		//現在のウェイト時間
 }AnimStatus;
 
-typedef struct _AnimContainer
+class AnimContainer
 {
+public:
+	AnimContainer();
+	virtual ~AnimContainer();
+
+	HRESULT LoadAnimation(LPCSTR setName, int setNo);
+	void Update(float time);
+	void Draw(LPD3DXMATRIX worldMtx);
+	void ChangeAnim(UINT animID, float playSpeed, bool forceChange = false);
+	void SetShiftTime(UINT animID, float interval);
+
+	HRESULT LoadXFile(LPCSTR fileName, const char* errorSrc);
+	HRESULT SetupCallbackKeyFrames(LPCSTR setName);
+	D3DXMATRIX GetBoneMatrix(const char* boneName);
+
+	int keyFrameCount;							//Callback KeyFramesを処理した数
+	bool isMotionEnd;							//今再生しているアニメーションが最後かどうか
+	bool isStopMove;							//キャラが移動を停止しているかどうか	
+
+private:
 	LPD3DXANIMATIONCONTROLLER animController;	//アニメーションコントローラ
 	UINT currentAnimID;							//現在のアニメーション番号
 	UINT prevAnimID;							//前のアニメーション番号
@@ -34,18 +53,14 @@ typedef struct _AnimContainer
 	MyAllocateHierarchy *allocater;				//Xファイルの情報を確保する
 	LPD3DXFRAME rootFrame;						//ルートフレーム
 	int animSetNum;								//アニメーションセットの数
-	int keyFrameCount;							//Callback KeyFramesを処理した数
-	bool isMotionEnd;							//今再生しているアニメーションが最後かどうか
-	bool isStopMove;							//キャラが移動を停止しているかどうか
 
-	HRESULT(*InitAnimation)(_AnimContainer* animation, LPCSTR setName, int setNo);
-	void(*UninitAnimation)(_AnimContainer* animation);
-	void(*UpdateAnimation)(_AnimContainer* animation, float time);
-	void(*DrawAnimation)(_AnimContainer* animation, LPD3DXMATRIX worldMtx);
-	void(*ChangeAnimation)(_AnimContainer* animation, UINT animID, float playSpeed);
-
-	void(*SetShiftTime)(_AnimContainer* animation, UINT animID, float interval);
-}AnimContainer;
+	//メッシュコンテナ描画処理
+	void DrawMeshContainer(LPD3DXMESHCONTAINER meshContainerBase, LPD3DXFRAME frameBase);
+	void DrawFrame(LPD3DXFRAME frame);
+	HRESULT SetupBoneMatrixPointers(LPD3DXFRAME frameBase, LPD3DXFRAME frameRoot);
+	void UpdateFrameMatrixes(LPD3DXFRAME frameBase, LPD3DXMATRIX parentMatrix);
+	D3DXFRAME_DERIVED* SearchBoneFrame(const char* boneName, D3DXFRAME* frame);
+};
 
 struct AnimCallBackHandler : public ID3DXAnimationCallbackHandler
 {
@@ -54,13 +69,5 @@ struct AnimCallBackHandler : public ID3DXAnimationCallbackHandler
 	int animStatus;
 	HRESULT CALLBACK HandleCallback(THIS_ UINT track, LPVOID pCallbackData);
 };
-
-/**************************************
-プロトタイプ宣言
-***************************************/
-AnimContainer* CreateAnimContainer(void);	//アニメーションコンテナを作成
-HRESULT LoadXFile(AnimContainer* animation, LPCSTR fileName, const char* errorSrc);	//Xファイルのロード
-HRESULT SetupCallbackKeyFrames(AnimContainer* animation, LPCSTR setName);	//アニメーション中断イベントのKeyFrameを設置する
-D3DXMATRIX GetBoneMatrix(AnimContainer* animation, const char* boneName);		//特定のボーン行列の検索処理
 
 #endif

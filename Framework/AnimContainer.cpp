@@ -5,7 +5,6 @@
 //
 //=====================================
 #include "AnimContainer.h"
-#include <stdio.h>
 
 /**************************************
 マクロ定義
@@ -22,22 +21,11 @@
 /**************************************
 プロトタイプ宣言
 ***************************************/
-void DrawMeshContainer(AnimContainer *animation, LPD3DXMESHCONTAINER meshContainerBase, LPD3DXFRAME frameBase);
-void DrawFrame(AnimContainer *animation, LPD3DXFRAME frame);
-HRESULT SetupBoneMatrixPointers(LPD3DXFRAME frameBase, LPD3DXFRAME frameRoot);
-void UpdateFrameMatrixes(LPD3DXFRAME frameBase, LPD3DXMATRIX parentMatrix);
-D3DXFRAME_DERIVED* SearchBoneFrame(AnimContainer *animation, const char* boneName, D3DXFRAME* frame);
-
-HRESULT InitAnimation(AnimContainer *animation, LPCSTR setName, int setNo);
-void UninitAnimation(AnimContainer *animation);
-void UpdateAnimation(AnimContainer *animation, float time);
-void DrawAnimation(AnimContainer *animation, LPD3DXMATRIX worldMatrix);
-void ChangeAnimation(AnimContainer *animation, UINT animID, float playSpeed);
 
 /**************************************
 ボーン行列のポインタの準備
 ***************************************/
-HRESULT SetupBoneMatrixPointers(LPD3DXFRAME frameBase, LPD3DXFRAME frameRoot)
+HRESULT AnimContainer::SetupBoneMatrixPointers(LPD3DXFRAME frameBase, LPD3DXFRAME frameRoot)
 {
 	if (frameBase->pMeshContainer != NULL)
 	{
@@ -81,7 +69,7 @@ HRESULT SetupBoneMatrixPointers(LPD3DXFRAME frameBase, LPD3DXFRAME frameRoot)
 /**************************************
 フレームの描画処理
 ***************************************/
-void DrawFrame(AnimContainer *animation, LPD3DXFRAME frame)
+void AnimContainer::DrawFrame(LPD3DXFRAME frame)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	LPD3DXMESHCONTAINER meshContainer;
@@ -94,18 +82,18 @@ void DrawFrame(AnimContainer *animation, LPD3DXFRAME frame)
 	meshContainer = frame->pMeshContainer;
 	while (meshContainer != NULL)
 	{
-		DrawMeshContainer(animation, meshContainer, frame);
+		DrawMeshContainer(meshContainer, frame);
 		meshContainer = meshContainer->pNextMeshContainer;
 	}
 
-	DrawFrame(animation, frame->pFrameSibling);
-	DrawFrame(animation, frame->pFrameFirstChild);
+	DrawFrame(frame->pFrameSibling);
+	DrawFrame(frame->pFrameFirstChild);
 }
 
 /**************************************
 メッシュコンテナの描画処理
 ***************************************/
-void DrawMeshContainer(AnimContainer *animatoin, LPD3DXMESHCONTAINER meshContainerBase, LPD3DXFRAME frameBase)
+void AnimContainer::DrawMeshContainer(LPD3DXMESHCONTAINER meshContainerBase, LPD3DXFRAME frameBase)
 {
 	D3DXMESHCONTAINER_DERIVED* meshContainer = (D3DXMESHCONTAINER_DERIVED*)meshContainerBase;
 	D3DXFRAME_DERIVED* frame = (D3DXFRAME_DERIVED*)frameBase;
@@ -181,7 +169,7 @@ void DrawMeshContainer(AnimContainer *animatoin, LPD3DXMESHCONTAINER meshContain
 /**************************************
 フレーム行列の更新
 ***************************************/
-void UpdateFrameMatrixes(LPD3DXFRAME frameBase, LPD3DXMATRIX parentMatrix)
+void AnimContainer::UpdateFrameMatrixes(LPD3DXFRAME frameBase, LPD3DXMATRIX parentMatrix)
 {
 	D3DXFRAME_DERIVED* frame = (D3DXFRAME_DERIVED*)frameBase;
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
@@ -200,33 +188,33 @@ void UpdateFrameMatrixes(LPD3DXFRAME frameBase, LPD3DXMATRIX parentMatrix)
 /**************************************
 Xファイルの読み込み
 ***************************************/
-HRESULT LoadXFile(AnimContainer* animation, LPCSTR fileName, const char* errorSrc)
+HRESULT AnimContainer::LoadXFile(LPCSTR fileName, const char* errorSrc)
 {
 	char message[64];
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	animation->allocater = new MyAllocateHierarchy();
+	allocater = new MyAllocateHierarchy();
 
 	if (FAILED(D3DXLoadMeshHierarchyFromX(fileName,
 		D3DXMESH_MANAGED,
 		pDevice,
-		animation->allocater,
+		allocater,
 		NULL,
-		&animation->rootFrame,
-		&animation->animController)))
+		&rootFrame,
+		&animController)))
 	{
 		sprintf_s(message, "Load %s Model Failed", errorSrc);
 		MessageBox(0, message, "Error", 0);
 		return E_FAIL;
 	}
 
-	if (FAILED(SetupBoneMatrixPointers(animation->rootFrame, animation->rootFrame)))
+	if (FAILED(SetupBoneMatrixPointers(rootFrame, rootFrame)))
 	{
 		return E_FAIL;
 	}
 
-	animation->isMotionEnd = false;
-	animation->animSetNum = animation->animController->GetNumAnimationSets();
-	animation->status = new AnimStatus[animation->animSetNum];
+	isMotionEnd = false;
+	animSetNum = animController->GetNumAnimationSets();
+	status = new AnimStatus[animSetNum];
 
 	return S_OK;
 }
@@ -234,10 +222,10 @@ HRESULT LoadXFile(AnimContainer* animation, LPCSTR fileName, const char* errorSr
 /**************************************
 特定のボーン行列の取得
 ***************************************/
-D3DXMATRIX GetBoneMatrix(AnimContainer* animation, const char* boneName)
+D3DXMATRIX AnimContainer::GetBoneMatrix(const char* boneName)
 {
 	char message[64];
-	D3DXFRAME_DERIVED* frame = (D3DXFRAME_DERIVED*)SearchBoneFrame(animation, boneName, animation->rootFrame);
+	D3DXFRAME_DERIVED* frame = (D3DXFRAME_DERIVED*)SearchBoneFrame(boneName, rootFrame);
 
 	//見つかった場合
 	if (frame != NULL && frame->Name != NULL && strcmp(frame->Name, boneName) == 0)
@@ -258,7 +246,7 @@ D3DXMATRIX GetBoneMatrix(AnimContainer* animation, const char* boneName)
 /**************************************
 特定のボーンを探す
 ***************************************/
-D3DXFRAME_DERIVED* SearchBoneFrame(AnimContainer *animation, const char* boneName, D3DXFRAME* frame)
+D3DXFRAME_DERIVED* AnimContainer::SearchBoneFrame(const char* boneName, D3DXFRAME* frame)
 {
 	D3DXFRAME_DERIVED* p = NULL;
 
@@ -275,7 +263,7 @@ D3DXFRAME_DERIVED* SearchBoneFrame(AnimContainer *animation, const char* boneNam
 
 	if (frame->pFrameSibling != NULL)
 	{
-		p = SearchBoneFrame(animation, boneName, frame->pFrameSibling);
+		p = SearchBoneFrame(boneName, frame->pFrameSibling);
 		if (p != NULL && strcmp(p->Name, boneName) == 0)
 		{
 			return p;
@@ -284,7 +272,7 @@ D3DXFRAME_DERIVED* SearchBoneFrame(AnimContainer *animation, const char* boneNam
 
 	if (frame->pFrameFirstChild != NULL)
 	{
-		p = SearchBoneFrame(animation, boneName, frame->pFrameFirstChild);
+		p = SearchBoneFrame(boneName, frame->pFrameFirstChild);
 		if (p != NULL && strcmp(p->Name, boneName) != 0)
 		{
 			return p;
@@ -296,20 +284,20 @@ D3DXFRAME_DERIVED* SearchBoneFrame(AnimContainer *animation, const char* boneNam
 }
 
 /**************************************
-初期化処理
+アニメーション読み込み処理
 ***************************************/
-HRESULT InitAnimation(AnimContainer *animation, LPCSTR setName, int setNo)
+HRESULT AnimContainer::LoadAnimation(LPCSTR setName, int setNo)
 {
 	char message[64];
 
-	if (FAILED(animation->animController->GetAnimationSetByName(setName, &animation->status[setNo].animSet)))
+	if (FAILED(animController->GetAnimationSetByName(setName, &status[setNo].animSet)))
 	{
 		sprintf_s(message, "Can't find %s Animationset !", setName);
 		MessageBox(0, message, "Error", 0);
 		return E_FAIL;
 	}
 
-	animation->status[setNo].setname = animation->status[setNo].animSet->GetName();
+	status[setNo].setname = status[setNo].animSet->GetName();
 
 	return S_OK;
 }
@@ -317,46 +305,45 @@ HRESULT InitAnimation(AnimContainer *animation, LPCSTR setName, int setNo)
 /**************************************
 終了処理
 ***************************************/
-void UninitAnimation(AnimContainer *animation)
+AnimContainer::~AnimContainer()
 {
-	D3DXFrameDestroy(animation->rootFrame, animation->allocater);
+	D3DXFrameDestroy(rootFrame, allocater);
 
-	SAFE_DELETE(animation->status);
-	SAFE_RELEASE(animation->animController);
-	SAFE_DELETE(animation->allocater);
-	SAFE_DELETE(animation);
+	SAFE_DELETE(status);
+	SAFE_RELEASE(animController);
+	SAFE_DELETE(allocater);
 }
 
 /**************************************
 更新処理
 ***************************************/
-void UpdateAnimation(AnimContainer* animation, float time)
+void AnimContainer::Update(float time)
 {
 	AnimCallBackHandler callBackHandler;
-	callBackHandler.animContainer = animation;
-	callBackHandler.setName = animation->status[animation->currentAnimID].setname;
+	callBackHandler.animContainer = this;
+	callBackHandler.setName = status[currentAnimID].setname;
 
 	//合成中か否かを判定
-	animation->status[animation->currentAnimID].currentWeightTime += time;
+	status[currentAnimID].currentWeightTime += time;
 
-	if (animation->status[animation->currentAnimID].currentWeightTime <= animation->status[animation->currentAnimID].shiftTime)
+	if (status[currentAnimID].currentWeightTime <= status[currentAnimID].shiftTime)
 	{
 		//合成中。ウェイトを算出
-		float weight = animation->status[animation->currentAnimID].currentWeightTime / animation->status[animation->currentAnimID].shiftTime;
+		float weight = status[currentAnimID].currentWeightTime / status[currentAnimID].shiftTime;
 
 		//ウェイトを登録
-		animation->animController->SetTrackWeight(0, weight);		//現在のアニメーション
-		animation->animController->SetTrackWeight(1, 1 - weight);	//前のアニメーション
+		animController->SetTrackWeight(0, weight);		//現在のアニメーション
+		animController->SetTrackWeight(1, 1 - weight);	//前のアニメーション
 	}
 	else
 	{
 		//合成終了中
-		animation->animController->SetTrackWeight(0, 1.0f);			//現在のアニメーション
-		animation->animController->SetTrackWeight(1, false);		//前のアニメーションを無効にする
+		animController->SetTrackWeight(0, 1.0f);			//現在のアニメーション
+		animController->SetTrackWeight(1, false);		//前のアニメーションを無効にする
 	}
 
 	//時間を更新
-	animation->animController->AdvanceTime(time, &callBackHandler);
+	animController->AdvanceTime(time, &callBackHandler);
 
 	return;
 }
@@ -364,25 +351,25 @@ void UpdateAnimation(AnimContainer* animation, float time)
 /**************************************
 描画処理
 ***************************************/
-void DrawAnimation(AnimContainer *animation, LPD3DXMATRIX worldMtx)
+void AnimContainer::Draw(LPD3DXMATRIX worldMtx)
 {
-	UpdateFrameMatrixes(animation->rootFrame, worldMtx);
-	DrawFrame(animation, animation->rootFrame);
+	UpdateFrameMatrixes(rootFrame, worldMtx);
+	DrawFrame(rootFrame);
 }
 
 /**************************************
 アニメーションの切り替え処理
 ***************************************/
-void ChangeAnimation(AnimContainer *animation, UINT animID, float playSpeed)
+void AnimContainer::ChangeAnim(UINT animID, float playSpeed, bool forceChange)
 {
 	D3DXTRACK_DESC TD;		//トラックの能力
 
-	animation->isMotionEnd = false;
-	animation->isStopMove = false;
-	animation->keyFrameCount = 0;
+	isMotionEnd = false;
+	isStopMove = false;
+	keyFrameCount = 0;
 
 	//指定のアニメーションIDの存在をチェック
-	if (animID > (UINT)animation->animSetNum)
+	if (animID > (UINT)animSetNum)
 	{
 		MessageBox(0, "AnimationsSet Don't Exist", "Error", 0);
 		return;
@@ -390,39 +377,39 @@ void ChangeAnimation(AnimContainer *animation, UINT animID, float playSpeed)
 
 	//異なるアニメーションであるかをチェック
 	//更新する必要がない
-	if (animation->currentAnimID == animID)
+	if (currentAnimID == animID && !forceChange)
 	{
 		return;
 	}
 
 	//現在のアニメーションセットの設定値を取得
-	animation->animController->GetTrackDesc(0, &TD);
+	animController->GetTrackDesc(0, &TD);
 
 	//今のアニメーションをトラック１に移行し、トラックの設定も移行
-	animation->animController->SetTrackAnimationSet(1, animation->status[animation->currentAnimID].animSet);
-	animation->animController->SetTrackDesc(1, &TD);
-	animation->animController->SetTrackSpeed(1, 0.0f);
+	animController->SetTrackAnimationSet(1, status[currentAnimID].animSet);
+	animController->SetTrackDesc(1, &TD);
+	animController->SetTrackSpeed(1, 0.0f);
 
 	//新しいアニメーションをトラック０に設定
-	animation->animController->SetTrackAnimationSet(0, animation->status[animID].animSet);
+	animController->SetTrackAnimationSet(0, status[animID].animSet);
 
 	//トラック０のスピード設定
-	animation->animController->SetTrackSpeed(0, playSpeed);
+	animController->SetTrackSpeed(0, playSpeed);
 
 	//トラック０の位置は最初からに設定
-	animation->animController->SetTrackPosition(0, 0.0f);
+	animController->SetTrackPosition(0, 0.0f);
 
 	//トラックの合成を許可
-	animation->animController->SetTrackEnable(0, true);
-	animation->animController->SetTrackEnable(1, true);
+	animController->SetTrackEnable(0, true);
+	animController->SetTrackEnable(1, true);
 
 	//ウェイト時間を初期化
-	animation->status[animID].currentWeightTime = 0.0f;
-	animation->animController->ResetTime();
+	status[animID].currentWeightTime = 0.0f;
+	animController->ResetTime();
 
 	//現在のアニメーション番号を切り替え
-	animation->prevAnimID = animation->currentAnimID;
-	animation->currentAnimID = animID;
+	prevAnimID = currentAnimID;
+	currentAnimID = animID;
 
 	return;
 }
@@ -430,17 +417,17 @@ void ChangeAnimation(AnimContainer *animation, UINT animID, float playSpeed)
 /**************************************
 動作開始にかかる時間を設定
 ***************************************/
-void SetShiftTime(AnimContainer *animation, UINT animID, float interval)
+void AnimContainer::SetShiftTime(UINT animID, float interval)
 {
 	//指定のアニメーションIDの存在をチェック
-	if (animID > (UINT)animation->animSetNum)
+	if (animID > (UINT)animSetNum)
 	{
 		MessageBox(0, "AnimationSet Don't Exist", "Error", 0);
 		return;
 	}
 
 	//シフト時間を登録
-	animation->status[animID].shiftTime = interval;
+	status[animID].shiftTime = interval;
 
 	return;
 }
@@ -448,18 +435,9 @@ void SetShiftTime(AnimContainer *animation, UINT animID, float interval)
 /**************************************
 オブジェクトを作るう
 ***************************************/
-AnimContainer* CreateAnimContainer(void)
+AnimContainer::AnimContainer(void)
 {
-	AnimContainer *obj = new AnimContainer;
 
-	obj->InitAnimation = InitAnimation;
-	obj->UninitAnimation = UninitAnimation;
-	obj->UpdateAnimation = UpdateAnimation;
-	obj->DrawAnimation = DrawAnimation;
-	obj->ChangeAnimation = ChangeAnimation;
-	obj->SetShiftTime = SetShiftTime;
-
-	return obj;
 }
 
 /**************************************
@@ -485,7 +463,7 @@ HRESULT AnimCallBackHandler::HandleCallback(UINT track, LPVOID callBackData)
 /**************************************
 アニメーション中断イベントのKeyFramesを設置する
 ***************************************/
-HRESULT SetupCallbackKeyFrames(AnimContainer *animation, LPCSTR setName)
+HRESULT AnimContainer::SetupCallbackKeyFrames(LPCSTR setName)
 {
 	//KeyFramesを設置する予定のAnimationSet
 	ID3DXKeyframedAnimationSet* animSetTemp = 0;
@@ -500,7 +478,7 @@ HRESULT SetupCallbackKeyFrames(AnimContainer *animation, LPCSTR setName)
 	const UINT callbackNum = 2;
 	D3DXKEY_CALLBACK keys[callbackNum];
 
-	if (FAILED(animation->animController->GetAnimationSetByName(setName, (ID3DXAnimationSet**)&animSetTemp)))
+	if (FAILED(animController->GetAnimationSetByName(setName, (ID3DXAnimationSet**)&animSetTemp)))
 	{
 		sprintf_s(message, "Setup Callback in %s AnimationSet Failed!", setName);
 		MessageBox(0, message, "Error", 0);
@@ -524,11 +502,11 @@ HRESULT SetupCallbackKeyFrames(AnimContainer *animation, LPCSTR setName)
 	compressedInfo->Release();
 
 	//圧縮前のデータを削除
-	animation->animController->UnregisterAnimationSet(animSetTemp);
+	animController->UnregisterAnimationSet(animSetTemp);
 	animSetTemp->Release();
 
 	//圧縮したデータを設定
-	animation->animController->RegisterAnimationSet(compressedAnimSet);
+	animController->RegisterAnimationSet(compressedAnimSet);
 	compressedAnimSet->Release();
 
 	return S_OK;

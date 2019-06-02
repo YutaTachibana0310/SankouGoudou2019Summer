@@ -19,6 +19,7 @@
 #include "dinput.h"
 #include "MyLibrary.h"
 #include <tchar.h>
+#include <stdio.h>
 
 //*****************************************************************************
 // ライブラリのリンク
@@ -53,7 +54,10 @@
 #define	NUM_VERTEX		(4)		// 頂点数
 #define	NUM_POLYGON		(2)		// ポリゴン数
 
+//解放、削除関連
 #define SAFE_RELEASE(p) {if(p){p->Release(); p = NULL;}}
+#define SAFE_DELETE(p)	{if(p){delete(p); p = NULL;}}
+#define SAFE_DELETE_ARRAY(p)	{if(p){delete[](p); p = NULL;}}
 
 #define TARGETPLAYER_MAX	(2)	//一度に参加できるプレイヤーの最大数
 

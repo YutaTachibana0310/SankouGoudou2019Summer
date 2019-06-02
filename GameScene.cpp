@@ -41,13 +41,7 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update()
 {
-	static int cntFrame = 0;
-	cntFrame++;
-	if (cntFrame == 60)
-	{
-		cntFrame = 0;
-		ChangeScene(SceneResult);
-	}
+
 }
 
 /**************************************
@@ -55,7 +49,5 @@ void GameScene::Update()
 ***************************************/
 void GameScene::Draw()
 {
-	BeginDebugWindow("Scene");
-	DebugText("Game Scene now");
-	EndDebugWindow("Scene");
+	
 }

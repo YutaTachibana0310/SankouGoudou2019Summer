@@ -42,14 +42,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -74,6 +74,14 @@
     <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -102,7 +110,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -125,6 +133,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="collider.h" />
+    <ClInclude Include="combo.h" />
     <ClInclude Include="debugTimer.h" />
     <ClInclude Include="debugWindow.h" />
     <ClInclude Include="Framework\BaseCameraPlugin.h" />
@@ -134,6 +144,7 @@
     <ClInclude Include="Framework\EasingVector.h" />
     <ClInclude Include="Framework\MeshContainer.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="guage.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
@@ -160,11 +171,17 @@
     <ClInclude Include="PostEffect\SpikeNoise.h" />
     <ClInclude Include="PostEffect\SpikeNoiseController.h" />
     <ClInclude Include="PostEffect\StrongBlurFilter.h" />
+    <ClInclude Include="score.h" />
+    <ClInclude Include="star.h" />
+    <ClInclude Include="UIdrawer.h" />
+    <ClInclude Include="UIManager.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="collider.cpp" />
+    <ClCompile Include="combo.cpp" />
     <ClCompile Include="debugTimer.cpp" />
     <ClCompile Include="debugWindow.cpp" />
     <ClCompile Include="Framework\BaseCameraPlugin.cpp" />
@@ -173,6 +190,7 @@
     <ClCompile Include="Framework\EasingVector.cpp" />
     <ClCompile Include="Framework\MeshContainer.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="guage.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -196,6 +214,10 @@
     <ClCompile Include="PostEffect\SpikeNoise.cpp" />
     <ClCompile Include="PostEffect\SpikeNoiseController.cpp" />
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp" />
+    <ClCompile Include="score.cpp" />
+    <ClCompile Include="star.cpp" />
+    <ClCompile Include="UIdrawer.cpp" />
+    <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>

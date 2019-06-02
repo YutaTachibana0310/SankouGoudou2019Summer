@@ -41,13 +41,7 @@ void ResultScene::Uninit()
 ***************************************/
 void ResultScene::Update()
 {
-	static int cntFrame = 0;
-	cntFrame++;
-	if (cntFrame == 60)
-	{
-		cntFrame = 0;
-		ChangeScene(SceneTitle);
-	}
+
 }
 
 /**************************************
@@ -55,7 +49,5 @@ void ResultScene::Update()
 ***************************************/
 void ResultScene::Draw()
 {
-	BeginDebugWindow("Scene");
-	DebugText("Result Scene now");
-	EndDebugWindow("Scene");
+
 }

@@ -13,7 +13,7 @@
 // マクロ定義
 //*****************************************************************************
 #define CLASS_NAME		"AppClass"		// ウインドウのクラス名
-#define WINDOW_NAME		"パーティクルエディタ"		// ウインドウのキャプション名
+#define WINDOW_NAME		"三校合同コンテスト_プロトタイプ"		// ウインドウのキャプション名
 
 //*****************************************************************************
 // 構造体定義
@@ -25,7 +25,7 @@
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow);
 void Uninit(void);
-void Update(void);
+void Update(HWND hwnd);
 void Draw(void);
 void DrawDebugWindowMain(void);
 
@@ -135,7 +135,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				dwExecLastTime = dwCurrentTime;
 
 				// 更新処理
-				Update();
+				Update(hWnd);
 
 				// 描画処理
 				Draw();
@@ -330,10 +330,10 @@ void Uninit(void)
 //=============================================================================
 // 更新処理
 //=============================================================================
-void Update(void)
+void Update(HWND hWnd)
 {
 	// 入力更新
-	UpdateGame();
+	UpdateGame(hWnd);
 }
 
 //=============================================================================

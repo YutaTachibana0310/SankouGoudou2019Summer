@@ -41,13 +41,7 @@ void TitleScene::Uninit()
 ***************************************/
 void TitleScene::Update()
 {
-	static int cntFrame = 0;
-	cntFrame++;
-	if (cntFrame == 60)
-	{
-		cntFrame = 0;
-		ChangeScene(SceneGame);
-	}
+
 }
 
 /**************************************
@@ -55,7 +49,5 @@ void TitleScene::Update()
 ***************************************/
 void TitleScene::Draw()
 {
-	BeginDebugWindow("Scene");
-	DebugText("Title Scene now");
-	EndDebugWindow("Scene");
+
 }

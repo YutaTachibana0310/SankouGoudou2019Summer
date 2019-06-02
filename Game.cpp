@@ -10,6 +10,7 @@
 #include "camera.h"
 #include "debugWindow.h"
 #include "debugTimer.h"
+#include "UIManager.h"
 
 #include "IStateScene.h"
 #include "TitleScene.h"
@@ -47,7 +48,7 @@ static LPDIRECT3DVERTEXBUFFER9 screenVtx;
 static IStateScene* fsm[SceneMax];
 
 //現在のシーン
-static Scene currentScene = SceneTitle;
+static Scene currentScene = SceneGame;
 
 /**************************************
 初期化処理
@@ -63,6 +64,7 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	InitCamera();
 	InitLight();
 	InitDebugWindow(hWnd, pDevice);
+	InitUIManager();
 
 
 	//ステートマシンに各シーンを追加
@@ -84,6 +86,7 @@ void UninitGame()
 	UninitLight();
 	UninitDebugWindow(0);
 	UninitDebugTimer();
+	UninitUIManager();
 
 	fsm[currentScene]->Uninit();
 }
@@ -91,12 +94,13 @@ void UninitGame()
 /**************************************
 更新処理
 ***************************************/
-void UpdateGame()
+void UpdateGame(HWND hWnd)
 {
 	UpdateDebugWindow();
 	UpdateInput();
 	UpdateLight();
 	UpdateCamera();
+	UpdateUIManager(hWnd);
 
 	fsm[currentScene]->Update();
 }
@@ -121,6 +125,7 @@ void DrawGame()
 
 	//オブジェクトを描画
 	SetCamera();
+	DrawUIManager();
 
 	fsm[currentScene]->Draw();
 

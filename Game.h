@@ -30,7 +30,7 @@ enum Scene{
 ***************************************/
 void InitGame(HINSTANCE hInstance, HWND hWnd);
 void UninitGame(void);
-void UpdateGame(void);
+void UpdateGame(HWND hWnd);
 void DrawGame(void);
 
 void ChangeScene(Scene next);

@@ -17,6 +17,14 @@
 クラス定義
 ***************************************/
 
+//シーン定義
+enum Scene{		
+	SceneTitle,
+	SceneGame,
+	SceneResult,
+	SceneMax
+};
+
 /**************************************
 プロトタイプ宣言
 ***************************************/
@@ -25,5 +33,6 @@ void UninitGame(void);
 void UpdateGame(HWND hWnd);
 void DrawGame(void);
 
+void ChangeScene(Scene next);
 LPDIRECT3DTEXTURE9 GetDrawDataTemp();
 #endif

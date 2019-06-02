@@ -462,3 +462,19 @@ void DebugDrawTexture(LPDIRECT3DTEXTURE9 texture, float sizeX, float sizeY)
 	ImGui::Image((void*)texture, ImVec2(sizeX, sizeY));
 #endif
 }
+
+/*************************************
+汎用デバッグテキスト表示
+***************************************/
+void DebugLog(const char *str, ...)
+{
+#ifdef USE_DEBUGFUNC
+	BeginDebugWindow("Console");
+	va_list ap;
+	va_start(ap, str);
+	ImGui::TextV(str, ap);
+	//ImGui::Text(str, ap);
+	va_end(ap);
+	EndDebugWindow("Console");
+#endif
+}

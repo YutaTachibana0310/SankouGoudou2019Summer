@@ -4,12 +4,18 @@
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
+#include "Game.h"
 #include "input.h"
 #include "light.h"
 #include "camera.h"
 #include "debugWindow.h"
 #include "debugTimer.h"
 #include "UIManager.h"
+
+#include "IStateScene.h"
+#include "TitleScene.h"
+#include "GameScene.h"
+#include "ResultScene.h"
 
 /**************************************
 マクロ定義
@@ -38,6 +44,12 @@ static LPDIRECT3DSURFACE9 zMapSurface;
 //バックバッファへ描画するための頂点バッファ
 static LPDIRECT3DVERTEXBUFFER9 screenVtx;
 
+//シーン管理のステートマシン
+static IStateScene* fsm[SceneMax];
+
+//現在のシーン
+static Scene currentScene = SceneGame;
+
 /**************************************
 初期化処理
 ***************************************/
@@ -54,7 +66,15 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	InitDebugWindow(hWnd, pDevice);
 	InitUIManager();
 
+
+	//ステートマシンに各シーンを追加
+	fsm[SceneTitle] = new TitleScene();
+	fsm[SceneGame] = new GameScene();
+	fsm[SceneResult] = new ResultScene();
+
 	RegisterDebugTimer("Main");
+
+	fsm[currentScene]->Init();
 }
 
 /**************************************
@@ -67,6 +87,8 @@ void UninitGame()
 	UninitDebugWindow(0);
 	UninitDebugTimer();
 	UninitUIManager();
+
+	fsm[currentScene]->Uninit();
 }
 
 /**************************************
@@ -79,6 +101,8 @@ void UpdateGame(HWND hWnd)
 	UpdateLight();
 	UpdateCamera();
 	UpdateUIManager(hWnd);
+
+	fsm[currentScene]->Update();
 }
 
 /**************************************
@@ -103,6 +127,8 @@ void DrawGame()
 	SetCamera();
 	DrawUIManager();
 
+	fsm[currentScene]->Draw();
+
 	//結果をバックバッファへと描画
 	CountDebugTimer("Main", "DrawBackBuffer");
 	pDevice->SetViewport(&oldVirwPort);
@@ -113,6 +139,11 @@ void DrawGame()
 	pDevice->SetStreamSource(0, screenVtx, 0, sizeof(VERTEX_2D));
 	pDevice->SetFVF(FVF_VERTEX_2D);
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
+
+	//FPS表示
+#ifdef _DEBUG
+	DebugLog("FPS:%d", GetCurrentFPS());
+#endif
 
 	DrawDebugWindow();
 }
@@ -187,6 +218,21 @@ void CreateRenderTarget()
 	viewPort.Y = 0;
 }
 
+/**************************************
+シーン変更処理
+***************************************/
+void ChangeScene(Scene next)
+{
+	fsm[currentScene]->Uninit();
+
+	currentScene = next;
+
+	fsm[currentScene]->Init();
+}
+
+/**************************************
+レンダーターゲット作成
+***************************************/
 LPDIRECT3DTEXTURE9 GetDrawDataTemp()
 {
 	return renderTexture;

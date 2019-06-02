@@ -20,7 +20,7 @@ void LoadTexture(LPDIRECT3DDEVICE9 device, const char *adress, OBJECT *object)
 }
 
 //=============================================================================
-// オブジェクトサークルの作成　（当たり判定用のサークルを作る）
+// オブジェクトサークルの作成　（回転オブジェクト用のサークルを作る）
 //=============================================================================
 void CreateObjectCircle(OBJECT *object, float sizeX, float sizeY)
 {

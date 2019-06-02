@@ -28,6 +28,8 @@ typedef struct
 	D3DXVECTOR3			position;
 	D3DXVECTOR3			rotation;
 	D3DXVECTOR3			size;
+	D3DXVECTOR3			colliderSize;
+
 	float               baseAngle;
 	float				radius;
 	bool				rotateUse;

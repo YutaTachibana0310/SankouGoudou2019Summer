@@ -17,6 +17,8 @@
 #define NUMBER_ROTATION (1)
 #define SIZE_X_STAR (100.0f)
 #define SIZE_Y_STAR (100.0f)
+#define COLLIDERSIZE_X_STAR (120.0f)
+#define COLLIDERSIZE_Y_STAR (120.0f)
 #define VOLUME_ZOOM (30.0f)
 
 //*****************************************************************************
@@ -53,6 +55,7 @@ HRESULT InitStar(void)
 		star[MIDDLE_RIGHT].position = POSITION_STAR_MIDDLE_RIGHT;
 
 		star[i].size = D3DXVECTOR3(SIZE_X_STAR, SIZE_Y_STAR, 0.0f);
+		star[i].colliderSize = D3DXVECTOR3(COLLIDERSIZE_X_STAR, COLLIDERSIZE_X_STAR, 0.0f);
 		star[i].rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 		//Å@êFê›íË
@@ -141,5 +144,5 @@ void RotateStar(int num)
 //=============================================================================
 bool IsSelected(HWND hWnd, int num)
 {
-	return IsHittedBB(GetMousePosition(hWnd), star[num].position, D3DXVECTOR2(star[num].size.x, star[num].size.y), D3DXVECTOR2(CURSOR_SIZE, CURSOR_SIZE));
+	return IsHittedBB(GetMousePosition(hWnd), star[num].position, D3DXVECTOR2(star[num].colliderSize.x, star[num].colliderSize.y), D3DXVECTOR2(COLLIDERSIZE_X_CURSOR, COLLIDERSIZE_Y_CURSOR));
 }

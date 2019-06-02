@@ -8,7 +8,8 @@
 #define _COLLIDER_
 
 // カーソルの当たり判定用のサークル
-#define CURSOR_SIZE (5)
+#define COLLIDERSIZE_X_CURSOR (5)
+#define COLLIDERSIZE_Y_CURSOR (5)
 
 //*****************************************************************************
 // プロトタイプ宣言

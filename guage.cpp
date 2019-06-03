@@ -13,13 +13,14 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	GUAGEPARTS_MAX	(3)
-#define WIDTH_GUAGEFLAME (5.0f)
-#define MAX_HP (100)
+#define	GUAGEPARTS_MAX		(3)
+#define WIDTH_GUAGEFLAME	(5.0f)
+#define MAX_HP				(100)
 #define DECREASESPEED_GUAGE (0.0050f)
-#define SIZE_X_GUAGE (250.0f)
-#define SIZE_Y_GUAGE (15.0f)
-#define POSITION_GUAGE (D3DXVECTOR3(SCREEN_WIDTH / 10*1.7f, SCREEN_HEIGHT / 10*2.3f, 0.0f))
+#define SIZE_X_GUAGE		(250.0f)
+#define SIZE_Y_GUAGE		(25.0f)
+#define POSITION_GUAGE		(D3DXVECTOR3(SCREEN_WIDTH / 10*1.7f, SCREEN_HEIGHT / 10*2.3f, 0.0f))
+#define INITIALVALUE_GUAGEPERCENTAGE (1.0f)
 
 //*****************************************************************************
 // グローバル変数
@@ -35,30 +36,30 @@ HRESULT InitGuageParts(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEBAR, &guageParts[GUAGEBAR_DAMAGE]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEBAR, &guageParts[GUAGEBAR_TRUE]);
+	LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEBAR,	&guageParts[GUAGEBAR_DAMAGE]);
+	LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEBAR,	&guageParts[GUAGEBAR_TRUE]);
 	LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEFLAME, &guageParts[GUAGEFLAME]);
 
-	MakeVertexGuageBar(&guageParts[GUAGEBAR_DAMAGE], damageGuagePercentage, WIDTH_GUAGEFLAME);
-	MakeVertexGuageBar(&guageParts[GUAGEBAR_TRUE], trueGuagePercentage, WIDTH_GUAGEFLAME);
-	MakeVertexObject(&guageParts[GUAGEFLAME]);
+	MakeVertexGuageBar(&guageParts[GUAGEBAR_DAMAGE],damageGuagePercentage,	WIDTH_GUAGEFLAME);
+	MakeVertexGuageBar(&guageParts[GUAGEBAR_TRUE],	trueGuagePercentage,	WIDTH_GUAGEFLAME);
+	MakeVertexObject  (&guageParts[GUAGEFLAME]);
 
 	for (int i = 0; i < GUAGEPARTS_MAX; i++)
 	{
 		guageParts[i].position = POSITION_GUAGE;
 		guageParts[i].rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		guageParts[i].size = D3DXVECTOR3(SIZE_X_GUAGE, SIZE_Y_GUAGE, 1.0f);
+		guageParts[i].size     = D3DXVECTOR3(SIZE_X_GUAGE, SIZE_Y_GUAGE, 0.0f);
 
 		InitialTexture(&guageParts[i]);
 	}
 
 	//　色設定
 	SetColorObject(&guageParts[GUAGEBAR_DAMAGE], SET_COLOR_RED);
-	SetColorObject(&guageParts[GUAGEBAR_TRUE], D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-	SetColorObject(&guageParts[GUAGEFLAME], SET_COLOR_PINK);
+	SetColorObject(&guageParts[GUAGEBAR_TRUE],	 SET_COLOR_NOT_COLORED);
+	SetColorObject(&guageParts[GUAGEFLAME],		 SET_COLOR_PINK);
 
-	damageGuagePercentage = 1.0f;
-	trueGuagePercentage = 1.0f;
+	damageGuagePercentage = INITIALVALUE_GUAGEPERCENTAGE;
+	trueGuagePercentage   = INITIALVALUE_GUAGEPERCENTAGE;
 
 	return S_OK;
 }
@@ -103,8 +104,8 @@ void DrawGuageParts(void)
 	}
 
 	// 頂点座標の設定
-	SetVertexGuageBar(&guageParts[GUAGEBAR_DAMAGE], damageGuagePercentage, WIDTH_GUAGEFLAME);
-	SetVertexGuageBar(&guageParts[GUAGEBAR_TRUE], trueGuagePercentage, WIDTH_GUAGEFLAME);
+	SetVertexGuageBar(&guageParts[GUAGEBAR_DAMAGE],	damageGuagePercentage,	WIDTH_GUAGEFLAME);
+	SetVertexGuageBar(&guageParts[GUAGEBAR_TRUE],	trueGuagePercentage,	WIDTH_GUAGEFLAME);
 	SetVertexObject(&guageParts[GUAGEFLAME]);
 }
 
@@ -116,20 +117,20 @@ void ChangeGuage(float value)
 	trueGuagePercentage += (value /= MAX_HP);
 
 	// あふれ防止
-	if (trueGuagePercentage <= 0.0f)
+	if (trueGuagePercentage	<= 0.0f)
 	{
 		trueGuagePercentage = 0.0f;
 	}
-	if (trueGuagePercentage >= 1.0f)
+	if (trueGuagePercentage >= INITIALVALUE_GUAGEPERCENTAGE)
 	{
-		trueGuagePercentage = 1.0f;
+		trueGuagePercentage	= INITIALVALUE_GUAGEPERCENTAGE;
 	}
 	if (damageGuagePercentage <= 0.0f)
 	{
 		damageGuagePercentage = 0.0f;
 	}
-	if (damageGuagePercentage >= 1.0f)
+	if (damageGuagePercentage >= INITIALVALUE_GUAGEPERCENTAGE)
 	{
-		damageGuagePercentage = 1.0f;
+		damageGuagePercentage = INITIALVALUE_GUAGEPERCENTAGE;
 	}
 }

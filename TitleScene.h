@@ -22,7 +22,7 @@ class TitleScene : public IStateScene
 public:
 	void Init();
 	void Uninit();
-	void Update();
+	void Update(HWND hWnd);
 	void Draw();
 
 	TitleScene() {};

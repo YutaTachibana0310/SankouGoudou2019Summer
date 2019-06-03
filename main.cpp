@@ -25,7 +25,7 @@
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow);
 void Uninit(void);
-void Update(HWND hwnd);
+void Update(HWND hWnd);
 void Draw(void);
 void DrawDebugWindowMain(void);
 

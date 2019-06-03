@@ -39,7 +39,7 @@ void ResultScene::Uninit()
 /**************************************
 XVˆ—
 ***************************************/
-void ResultScene::Update()
+void ResultScene::Update(HWND hWnd)
 {
 
 }

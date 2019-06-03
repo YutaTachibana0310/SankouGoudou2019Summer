@@ -39,7 +39,7 @@ void TitleScene::Uninit()
 /**************************************
 XVˆ—
 ***************************************/
-void TitleScene::Update()
+void TitleScene::Update(HWND hWnd)
 {
 
 }

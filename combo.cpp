@@ -12,16 +12,18 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define COMBOPARTS_MAX (2)
-#define	INTERVAL_NUMBER	(80.0f)	// コンボ数字の表示間隔
-#define	PLACE_MAX	(2)			// コンボの桁数
+#define COMBOPARTS_MAX		(2)
+#define	INTERVAL_NUMBER		(80.0f)	// コンボ数字の表示間隔
+#define	PLACE_MAX			(2)		// コンボの桁数
 #define SIZE_X_NUMBER_COMBO (40)
-#define SIZE_X_TEXT_COMBO (130)
+#define SIZE_X_TEXT_COMBO	(130)
 #define SIZE_Y_NUMBER_COMBO (75)
-#define SIZE_Y_TEXT_COMBO (75)
-#define VOLUME_ZOOM (50.0f)
+#define SIZE_Y_TEXT_COMBO	(75)
+#define VOLUME_ZOOM			(50.0f)
 #define POSITION_NUMBER_COMBO (D3DXVECTOR3(SCREEN_WIDTH / 10*2.2, SCREEN_HEIGHT / 10 , 0.0f))
-#define POSITION_TEXT_COMBO (D3DXVECTOR3(SCREEN_WIDTH / 10, SCREEN_HEIGHT / 10 , 0.0f))
+#define POSITION_TEXT_COMBO	  (D3DXVECTOR3(SCREEN_WIDTH / 10, SCREEN_HEIGHT / 10 , 0.0f))
+#define BASE_NUMBER			(10.0f) // 進数
+#define SPEED_VOLUMEUP		(0.2f)
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -31,11 +33,11 @@ void VolumeUpEffect(void);
 //*****************************************************************************
 // グローバル変数宣言
 //*****************************************************************************
-OBJECT comboParts[COMBOPARTS_MAX];
-int	g_combo = 0;	// コンボ
-int g_combo_max = 0;			
-float radian = 0;
-bool volumeUpEffectUse = false;
+OBJECT	comboParts[COMBOPARTS_MAX];
+int		g_combo				= 0;	// コンボ
+int		g_combo_max			= 0;			
+float	radian				= 0;
+bool	volumeUpEffectUsed  = false;
 
 //=============================================================================
 // 初期化処理
@@ -44,8 +46,8 @@ HRESULT InitCombo(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_NUMBER_COMBO, &comboParts[NUMBER_COMBO]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_TEXT_COMBO, &comboParts[TEXT_COMBO]);
+	LoadTexture(pDevice, ADRESS_TEXTURE_NUMBER_COMBO,	&comboParts[NUMBER_COMBO]);
+	LoadTexture(pDevice, ADRESS_TEXTURE_TEXT_COMBO,		&comboParts[TEXT_COMBO]);
 
 	for (int i = 0; i < COMBOPARTS_MAX; i++)
 	{
@@ -55,17 +57,17 @@ HRESULT InitCombo(void)
 	}
 
 	comboParts[NUMBER_COMBO].position = POSITION_NUMBER_COMBO;
-	comboParts[TEXT_COMBO].position = POSITION_TEXT_COMBO;
-	comboParts[NUMBER_COMBO].size = D3DXVECTOR3(SIZE_X_NUMBER_COMBO, SIZE_Y_NUMBER_COMBO, 0.0f);
-	comboParts[TEXT_COMBO].size = D3DXVECTOR3(SIZE_X_TEXT_COMBO, SIZE_Y_TEXT_COMBO, 0.0f);
+	comboParts[TEXT_COMBO].position	  = POSITION_TEXT_COMBO;
+	comboParts[NUMBER_COMBO].size	  = D3DXVECTOR3(SIZE_X_NUMBER_COMBO, SIZE_Y_NUMBER_COMBO, 0.0f);
+	comboParts[TEXT_COMBO].size		  = D3DXVECTOR3(SIZE_X_TEXT_COMBO, SIZE_Y_TEXT_COMBO, 0.0f);
 
-	SetColorObject(&comboParts[NUMBER_COMBO], SET_COLOR_NOT_COLORED);
-	SetColorObject(&comboParts[TEXT_COMBO], SET_COLOR_NOT_COLORED);
+	SetColorObject(&comboParts[NUMBER_COMBO],	SET_COLOR_NOT_COLORED);
+	SetColorObject(&comboParts[TEXT_COMBO],		SET_COLOR_NOT_COLORED);
 
 	// 最大値設定
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
 	{
-		g_combo_max += 9 * (int)powf(10.0f, (float)nCntPlace);
+		g_combo_max += (BASE_NUMBER -1)* (int)powf(BASE_NUMBER, (float)nCntPlace);
 	}
 
 	return S_OK;
@@ -101,14 +103,11 @@ void DrawCombo(void)
 	{
 		int number;
 
-		number = g_combo % (int)(powf(10.0f, (float)(PLACE_MAX - nCntPlace))) / (int)(powf(10.0f, (float)(PLACE_MAX - nCntPlace - 1)));
+		number = g_combo % (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace))) 
+			/ (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace - 1)));
 
 		DrawObject(pDevice, comboParts[NUMBER_COMBO]);
-
-		// 頂点座標の設定
 		SetVertexCounter(&comboParts[NUMBER_COMBO], nCntPlace, INTERVAL_NUMBER);
-
-		// テクスチャ座標の設定
 		SetTextureCounter(&comboParts[NUMBER_COMBO], number);
 	}
 
@@ -127,9 +126,9 @@ void ChangeCombo(int value)
 	{
 		g_combo = 0;
 	}
-	else if (g_combo >= (int)(powf(10.0f, (float)(PLACE_MAX + 1))))
+	else if (g_combo >= (int)(powf(BASE_NUMBER, (float)(PLACE_MAX + 1))))
 	{
-		g_combo = (int)(powf(10.0f, (float)(PLACE_MAX + 1))) - 1;
+		g_combo = (int)(powf(BASE_NUMBER, (float)(PLACE_MAX + 1))) - 1;
 	}
 
 	// 桁あふれ防止
@@ -139,7 +138,7 @@ void ChangeCombo(int value)
 	}
 
 	// エフェクト有効化
-	volumeUpEffectUse = true;
+	volumeUpEffectUsed = true;
 }
 
 //=============================================================================
@@ -147,16 +146,16 @@ void ChangeCombo(int value)
 //=============================================================================
 void VolumeUpEffect(void)
 {
-	if (volumeUpEffectUse == true)
+	if (volumeUpEffectUsed == true)
 	{
 		comboParts[NUMBER_COMBO].size.y = SIZE_Y_NUMBER_COMBO + VOLUME_ZOOM * sinf(radian);
 
 		if (radian >= D3DX_PI)
 		{
 			radian = 0.0f;
-			volumeUpEffectUse = false;
+			volumeUpEffectUsed = false;
 		}
 
-		radian += 0.20f;
+		radian += SPEED_VOLUMEUP;
 	}
 }

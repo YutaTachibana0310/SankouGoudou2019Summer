@@ -17,7 +17,7 @@
 #define SIZE_Y_SCORE	(30)
 #define VOLUME_ZOOM		(50.0f)
 #define POSITION_SCORE	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 8.5, SCREEN_HEIGHT / 10 * 1, 0.0f))
-#define BASE_NUMBER		(10.0f) // 進数
+#define BASE_NUMBER		(10) // 進数
 
 //*****************************************************************************
 // グローバル変数宣言

@@ -20,9 +20,9 @@
 #define SIZE_Y_NUMBER_COMBO (75)
 #define SIZE_Y_TEXT_COMBO	(75)
 #define VOLUME_ZOOM			(50.0f)
-#define POSITION_NUMBER_COMBO (D3DXVECTOR3(SCREEN_WIDTH / 10*2.2, SCREEN_HEIGHT / 10 , 0.0f))
+#define POSITION_NUMBER_COMBO (D3DXVECTOR3(SCREEN_WIDTH / 10*2.2f, SCREEN_HEIGHT / 10 , 0.0f))
 #define POSITION_TEXT_COMBO	  (D3DXVECTOR3(SCREEN_WIDTH / 10, SCREEN_HEIGHT / 10 , 0.0f))
-#define BASE_NUMBER			(10.0f) // êiêî
+#define BASE_NUMBER			(10) // êiêî
 #define SPEED_VOLUMEUP		(0.2f)
 
 //*****************************************************************************

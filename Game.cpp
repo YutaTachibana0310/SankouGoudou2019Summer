@@ -10,7 +10,6 @@
 #include "camera.h"
 #include "debugWindow.h"
 #include "debugTimer.h"
-#include "UIManager.h"
 
 #include "IStateScene.h"
 #include "TitleScene.h"
@@ -64,8 +63,6 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	InitCamera();
 	InitLight();
 	InitDebugWindow(hWnd, pDevice);
-	InitUIManager();
-
 
 	//ステートマシンに各シーンを追加
 	fsm[SceneTitle] = new TitleScene();
@@ -86,7 +83,6 @@ void UninitGame()
 	UninitLight();
 	UninitDebugWindow(0);
 	UninitDebugTimer();
-	UninitUIManager();
 
 	fsm[currentScene]->Uninit();
 }
@@ -100,9 +96,8 @@ void UpdateGame(HWND hWnd)
 	UpdateInput();
 	UpdateLight();
 	UpdateCamera();
-	UpdateUIManager(hWnd);
 
-	fsm[currentScene]->Update();
+	fsm[currentScene]->Update(hWnd);
 }
 
 /**************************************
@@ -125,7 +120,6 @@ void DrawGame()
 
 	//オブジェクトを描画
 	SetCamera();
-	DrawUIManager();
 
 	fsm[currentScene]->Draw();
 

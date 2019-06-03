@@ -10,8 +10,8 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	ADRESS_TEXTURE_GUAGEBAR	("data/TEXTURE/UI/guageBar.png")		
-#define	ADRESS_TEXTURE_GUAGEFLAME ("data/TEXTURE/UI/guageFlame.png")		
+#define	ADRESS_TEXTURE_GUAGEBAR		("data/TEXTURE/UI/guageBar.png")		
+#define	ADRESS_TEXTURE_GUAGEFLAME	("data/TEXTURE/UI/guageFlame.png")		
 
 enum GUARGE_PARTS
 {
@@ -23,11 +23,11 @@ enum GUARGE_PARTS
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-HRESULT InitGuageParts(void);
-void UninitGuageParts(void);
-void UpdateGuageParts(void);
-void DrawGuageParts(void);
-void ChangeGuage(float value);
+HRESULT InitGuageParts	(void);
+void	UninitGuageParts(void);
+void	UpdateGuageParts(void);
+void	DrawGuageParts	(void);
+void	ChangeGuage		(float value);
 
 #endif
 

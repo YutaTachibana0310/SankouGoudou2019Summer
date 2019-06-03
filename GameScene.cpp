@@ -7,6 +7,7 @@
 #include "GameScene.h"
 #include "debugWindow.h"
 #include "Game.h"
+#include "UIManager.h"
 
 /**************************************
 マクロ定義
@@ -25,7 +26,7 @@
 ***************************************/
 void GameScene::Init()
 {
-
+	InitUIManager();
 }
 
 /**************************************
@@ -33,15 +34,15 @@ void GameScene::Init()
 ***************************************/
 void GameScene::Uninit()
 {
-
+	UninitUIManager();
 }
 
 /**************************************
 更新処理
 ***************************************/
-void GameScene::Update()
+void GameScene::Update(HWND hWnd)
 {
-
+	UpdateUIManager(hWnd);
 }
 
 /**************************************
@@ -49,5 +50,5 @@ void GameScene::Update()
 ***************************************/
 void GameScene::Draw()
 {
-	
+	DrawUIManager();
 }

@@ -22,10 +22,10 @@ enum COMBO_PARTS
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-HRESULT InitCombo(void);
-void UninitCombo(void);
-void UpdateCombo(void);
-void DrawCombo(void);
-void ChangeCombo(int value);
+HRESULT InitCombo	(void);
+void	UninitCombo	(void);
+void	UpdateCombo	(void);
+void	DrawCombo	(void);
+void	ChangeCombo	(int value);
 
 #endif

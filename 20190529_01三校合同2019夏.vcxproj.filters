@@ -49,6 +49,12 @@
     <Filter Include="ヘッダー ファイル\Scene">
       <UniqueIdentifier>{79f958d3-9acf-41a1-a7b8-dc7ed3cdf38c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\BG">
+      <UniqueIdentifier>{5ed267d0-d7be-4bd2-9bcb-740e6e06be26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\BG">
+      <UniqueIdentifier>{32c236d4-f951-4bbb-ae16-90073dd29807}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -183,14 +189,20 @@
     <ClInclude Include="GameScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="ResultScene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\AnimContainer.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Framework\MyAllocateHierarchy.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGroundCity.h">
+      <Filter>ヘッダー ファイル\BG</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>ヘッダー ファイル\BG</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -322,6 +334,12 @@
     </ClCompile>
     <ClCompile Include="Framework\MyAllocateHierarchy.cpp">
       <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGroundCity.cpp">
+      <Filter>ソース ファイル\BG</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>ソース ファイル\BG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

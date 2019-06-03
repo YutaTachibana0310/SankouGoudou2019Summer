@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BackGroundCity.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="collider.h" />
     <ClInclude Include="combo.h" />
@@ -174,6 +175,7 @@
     <ClInclude Include="PostEffect\SpikeNoiseController.h" />
     <ClInclude Include="PostEffect\StrongBlurFilter.h" />
     <ClInclude Include="score.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="star.h" />
     <ClInclude Include="UIdrawer.h" />
     <ClInclude Include="UIManager.h" />
@@ -181,6 +183,7 @@
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BackGroundCity.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collider.cpp" />
     <ClCompile Include="combo.cpp" />
@@ -219,6 +222,7 @@
     <ClCompile Include="PostEffect\SpikeNoiseController.cpp" />
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp" />
     <ClCompile Include="score.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="star.cpp" />
     <ClCompile Include="UIdrawer.cpp" />
     <ClCompile Include="UIManager.cpp" />

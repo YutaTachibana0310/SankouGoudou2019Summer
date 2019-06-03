@@ -8,6 +8,9 @@
 #include "debugWindow.h"
 #include "Game.h"
 
+#include "BackGroundCity.h"
+#include "SkyBox.h"
+
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
@@ -25,7 +28,8 @@
 ***************************************/
 void GameScene::Init()
 {
-
+	//InitBackGroundCity(0);
+	InitSkyBox(0);
 }
 
 /**************************************
@@ -33,7 +37,8 @@ void GameScene::Init()
 ***************************************/
 void GameScene::Uninit()
 {
-
+	//UninitBackGroundCity(0);
+	UninitSkyBox(0);
 }
 
 /**************************************
@@ -41,7 +46,8 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update()
 {
-
+	//UpdateBackGroundCity();
+	UpdateSkyBox();
 }
 
 /**************************************
@@ -49,5 +55,6 @@ void GameScene::Update()
 ***************************************/
 void GameScene::Draw()
 {
-	
+	//DrawBackGroundCity();
+	DrawSkyBox();
 }

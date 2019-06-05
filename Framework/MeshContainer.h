@@ -24,7 +24,7 @@ public:
 
 	HRESULT Load(const char* filePath);
 	void Draw();
-
+	
 private:
 	LPD3DXMESH mesh;
 	D3DMATERIAL9* materials;

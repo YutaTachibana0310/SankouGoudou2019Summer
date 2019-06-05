@@ -143,9 +143,15 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="IStateMachine.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MyLibrary.h" />
+    <ClInclude Include="player.h" />
+    <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="PlayerMove.h" />
+    <ClInclude Include="PlayerReturn.h" />
+    <ClInclude Include="PlayerWait.h" />
     <ClInclude Include="PostEffect\BloomController.h" />
     <ClInclude Include="PostEffect\BloomFilter.h" />
     <ClInclude Include="PostEffect\BlurFilter.h" />
@@ -179,6 +185,11 @@
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
+    <ClCompile Include="player.cpp" />
+    <ClCompile Include="PlayerBullet.cpp" />
+    <ClCompile Include="PlayerMove.cpp" />
+    <ClCompile Include="PlayerReturn.cpp" />
+    <ClCompile Include="PlayerWait.cpp" />
     <ClCompile Include="PostEffect\BloomController.cpp" />
     <ClCompile Include="PostEffect\BloomFilter.cpp" />
     <ClCompile Include="PostEffect\BlurFilter.cpp" />

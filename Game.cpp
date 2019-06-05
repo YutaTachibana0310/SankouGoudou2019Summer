@@ -7,6 +7,7 @@
 #include "input.h"
 #include "light.h"
 #include "camera.h"
+#include "player.h"
 #include "debugWindow.h"
 #include "debugTimer.h"
 
@@ -37,6 +38,7 @@ static LPDIRECT3DSURFACE9 zMapSurface;
 //バックバッファへ描画するための頂点バッファ
 static LPDIRECT3DVERTEXBUFFER9 screenVtx;
 
+static Player player;
 /**************************************
 初期化処理
 ***************************************/
@@ -50,6 +52,7 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	InitInput(hInstance, hWnd);
 	InitCamera();
 	InitLight();
+	player.Init();
 	InitDebugWindow(hWnd, pDevice);
 
 	RegisterDebugTimer("Main");
@@ -62,6 +65,7 @@ void UninitGame()
 {
 	UninitInput();
 	UninitLight();
+	player.Uninit();
 	UninitDebugWindow(0);
 	UninitDebugTimer();
 }
@@ -75,6 +79,7 @@ void UpdateGame()
 	UpdateInput();
 	UpdateLight();
 	UpdateCamera();
+	//Player* Update();
 
 }
 
@@ -98,7 +103,7 @@ void DrawGame()
 
 	//オブジェクトを描画
 	SetCamera();
-
+	player.Draw();
 	//結果をバックバッファへと描画
 	CountDebugTimer("Main", "DrawBackBuffer");
 	pDevice->SetViewport(&oldVirwPort);

@@ -136,10 +136,14 @@ void MakeVertexGuageBar(OBJECT *object, float percentage, float flameWidth)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	// 頂点座標の設定
-	object->vertexWk[0].vtx = D3DXVECTOR3(flameWidth + object->position.x, object->position.y, object->position.z) + D3DXVECTOR3(-object->size.x, -object->size.y, 0.0f);
-	object->vertexWk[1].vtx = D3DXVECTOR3(-flameWidth + object->position.x*percentage, object->position.y, object->position.z) + D3DXVECTOR3(object->size.x, -object->size.y, 0.0f);
-	object->vertexWk[2].vtx = D3DXVECTOR3(flameWidth + object->position.x, object->position.y, object->position.z) + D3DXVECTOR3(-object->size.x, object->size.y, 0.0f);
-	object->vertexWk[3].vtx = D3DXVECTOR3(-flameWidth + object->position.x*percentage, object->position.y, object->position.z) + D3DXVECTOR3(object->size.x, object->size.y, 0.0f);
+	object->vertexWk[0].vtx = D3DXVECTOR3(flameWidth + object->position.x, object->position.y, object->position.z) 
+		+ D3DXVECTOR3(-object->size.x, -object->size.y, 0.0f);
+	object->vertexWk[1].vtx = D3DXVECTOR3(-flameWidth + object->position.x*percentage, object->position.y, object->position.z) 
+		+ D3DXVECTOR3(object->size.x, -object->size.y, 0.0f);
+	object->vertexWk[2].vtx = D3DXVECTOR3(flameWidth + object->position.x, object->position.y, object->position.z) 
+		+ D3DXVECTOR3(-object->size.x, object->size.y, 0.0f);
+	object->vertexWk[3].vtx = D3DXVECTOR3(-flameWidth + object->position.x*percentage, object->position.y, object->position.z) 
+		+ D3DXVECTOR3(object->size.x, object->size.y, 0.0f);
 
 	// テクスチャのパースペクティブコレクト用
 	object->vertexWk[0].rhw =
@@ -195,10 +199,12 @@ void SetVertexRotateObject(OBJECT *object)
 void SetVertexGuageBar(OBJECT *object, float percentage, float flameWidth)
 {
 	// 頂点座標の設定
-	object->vertexWk[0].vtx = D3DXVECTOR3(flameWidth + object->position.x, object->position.y, object->position.z) + D3DXVECTOR3(-object->size.x, -object->size.y, 0.0f);
-	object->vertexWk[1].vtx = D3DXVECTOR3(-flameWidth + object->position.x*percentage, object->position.y, object->position.z) + D3DXVECTOR3(object->size.x*percentage, -object->size.y, 0.0f);
-	object->vertexWk[2].vtx = D3DXVECTOR3(flameWidth + object->position.x, object->position.y, object->position.z) + D3DXVECTOR3(-object->size.x, object->size.y, 0.0f);
-	object->vertexWk[3].vtx = D3DXVECTOR3(-flameWidth + object->position.x*percentage, object->position.y, object->position.z) + D3DXVECTOR3(object->size.x*percentage, object->size.y, 0.0f);
+	object->vertexWk[0].vtx = D3DXVECTOR3(flameWidth + object->position.x - object->size.x, object->position.y - object->size.y, object->position.z);
+	object->vertexWk[1].vtx = D3DXVECTOR3(-flameWidth + object->vertexWk[0].vtx.x + (object->position.x + object->size.x -  object->vertexWk[0].vtx.x)*percentage,
+		object->position.y - object->size.y, object->position.z);
+	object->vertexWk[2].vtx = D3DXVECTOR3(flameWidth + object->position.x - object->size.x, object->position.y + object->size.y, object->position.z);
+	object->vertexWk[3].vtx = D3DXVECTOR3(-flameWidth + object->vertexWk[2].vtx.x + (object->position.x + object->size.x - object->vertexWk[2].vtx.x)*percentage,
+		object->position.y + object->size.y, object->position.z);
 }
 
 //=============================================================================
@@ -207,10 +213,14 @@ void SetVertexGuageBar(OBJECT *object, float percentage, float flameWidth)
 void SetVertexCounter(OBJECT *object, int placeCount, float placeInterval)
 {
 	// 頂点座標の設定
-	object->vertexWk[0].vtx = D3DXVECTOR3(object->position.x + placeCount * placeInterval, object->position.y, object->position.z) + D3DXVECTOR3(-object->size.x, -object->size.y, 0.0f);
-	object->vertexWk[1].vtx = D3DXVECTOR3(object->position.x + placeCount * placeInterval, object->position.y, object->position.z) + D3DXVECTOR3(object->size.x, -object->size.y, 0.0f);
-	object->vertexWk[2].vtx = D3DXVECTOR3(object->position.x + placeCount * placeInterval, object->position.y, object->position.z) + D3DXVECTOR3(-object->size.x, object->size.y, 0.0f);
-	object->vertexWk[3].vtx = D3DXVECTOR3(object->position.x + placeCount * placeInterval, object->position.y, object->position.z) + D3DXVECTOR3(object->size.x, object->size.y, 0.0f);
+	object->vertexWk[0].vtx = D3DXVECTOR3(object->position.x + placeCount * placeInterval, object->position.y, object->position.z) 
+		+ D3DXVECTOR3(-object->size.x, -object->size.y, 0.0f);
+	object->vertexWk[1].vtx = D3DXVECTOR3(object->position.x + placeCount * placeInterval, object->position.y, object->position.z) 
+		+ D3DXVECTOR3(object->size.x, -object->size.y, 0.0f);
+	object->vertexWk[2].vtx = D3DXVECTOR3(object->position.x + placeCount * placeInterval, object->position.y, object->position.z) 
+		+ D3DXVECTOR3(-object->size.x, object->size.y, 0.0f);
+	object->vertexWk[3].vtx = D3DXVECTOR3(object->position.x + placeCount * placeInterval, object->position.y, object->position.z) 
+		+ D3DXVECTOR3(object->size.x, object->size.y, 0.0f);
 }
 
 //=============================================================================

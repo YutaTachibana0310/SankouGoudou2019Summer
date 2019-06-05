@@ -7,6 +7,7 @@
 #include "GameScene.h"
 #include "debugWindow.h"
 #include "Game.h"
+#include "UIManager.h"
 
 #include "BackGroundCity.h"
 #include "SkyBox.h"
@@ -30,6 +31,7 @@ void GameScene::Init()
 {
 	InitSkyBox(0);
 	InitBackGroundCity(0);
+	InitUIManager();
 }
 
 /**************************************
@@ -39,15 +41,19 @@ void GameScene::Uninit()
 {
 	UninitSkyBox(0);
 	UninitBackGroundCity(0);
+
+	UninitUIManager();
+
 }
 
 /**************************************
 çXêVèàóù
 ***************************************/
-void GameScene::Update()
+void GameScene::Update(HWND hWnd)
 {
 	UpdateSkyBox();
 	UpdateBackGroundCity();
+	UpdateUIManager(hWnd);
 }
 
 /**************************************
@@ -58,4 +64,7 @@ void GameScene::Draw()
 	DrawSkyBox();
 
 	DrawBackGroundCity();
+
+	DrawUIManager();
+
 }

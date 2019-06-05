@@ -10,10 +10,10 @@
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-void InitUIManager(void);
+void InitUIManager	(void);
 void UninitUIManager(void);
 void UpdateUIManager(HWND hwnd);
-void DrawUIManager(void);
+void DrawUIManager	(void);
 
 #endif
 

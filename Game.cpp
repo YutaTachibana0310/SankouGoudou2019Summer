@@ -8,6 +8,7 @@
 #include "input.h"
 #include "light.h"
 #include "camera.h"
+#include "player.h"
 #include "debugWindow.h"
 #include "debugTimer.h"
 
@@ -43,6 +44,8 @@ static LPDIRECT3DSURFACE9 zMapSurface;
 //バックバッファへ描画するための頂点バッファ
 static LPDIRECT3DVERTEXBUFFER9 screenVtx;
 
+static Player player;
+
 //シーン管理のステートマシン
 static IStateScene* fsm[SceneMax];
 
@@ -62,6 +65,7 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	InitInput(hInstance, hWnd);
 	InitCamera();
 	InitLight();
+	player.Init();
 	InitDebugWindow(hWnd, pDevice);
 
 	//ステートマシンに各シーンを追加
@@ -81,6 +85,7 @@ void UninitGame()
 {
 	UninitInput();
 	UninitLight();
+	player.Uninit();
 	UninitDebugWindow(0);
 	UninitDebugTimer();
 
@@ -96,6 +101,7 @@ void UpdateGame(HWND hWnd)
 	UpdateInput();
 	UpdateLight();
 	UpdateCamera();
+	//Player* Update();
 
 	fsm[currentScene]->Update(hWnd);
 }
@@ -120,6 +126,8 @@ void DrawGame()
 
 	//オブジェクトを描画
 	SetCamera();
+
+	player.Draw();
 
 	fsm[currentScene]->Draw();
 

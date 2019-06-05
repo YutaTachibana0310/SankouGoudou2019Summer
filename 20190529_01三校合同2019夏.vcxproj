@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BackGroundCity.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="collider.h" />
     <ClInclude Include="combo.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MyLibrary.h" />
+    <ClInclude Include="PostEffectManager.h" />
     <ClInclude Include="PostEffect\BloomController.h" />
     <ClInclude Include="PostEffect\BloomFilter.h" />
     <ClInclude Include="PostEffect\BlurFilter.h" />
@@ -174,6 +176,7 @@
     <ClInclude Include="PostEffect\SpikeNoiseController.h" />
     <ClInclude Include="PostEffect\StrongBlurFilter.h" />
     <ClInclude Include="score.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="star.h" />
     <ClInclude Include="UIdrawer.h" />
     <ClInclude Include="UIManager.h" />
@@ -181,6 +184,7 @@
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BackGroundCity.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collider.cpp" />
     <ClCompile Include="combo.cpp" />
@@ -206,6 +210,7 @@
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
+    <ClCompile Include="PosetEffectManager.cpp" />
     <ClCompile Include="PostEffect\BloomController.cpp" />
     <ClCompile Include="PostEffect\BloomFilter.cpp" />
     <ClCompile Include="PostEffect\BlurFilter.cpp" />
@@ -219,6 +224,7 @@
     <ClCompile Include="PostEffect\SpikeNoiseController.cpp" />
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp" />
     <ClCompile Include="score.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="star.cpp" />
     <ClCompile Include="UIdrawer.cpp" />
     <ClCompile Include="UIManager.cpp" />

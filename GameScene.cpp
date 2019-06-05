@@ -8,6 +8,9 @@
 #include "debugWindow.h"
 #include "Game.h"
 #include "UIManager.h"
+#include "player.h"
+#include "player_controller.h"
+#include "InputController.h"
 
 /**************************************
 É}ÉNÉçíËã`
@@ -27,6 +30,8 @@
 void GameScene::Init()
 {
 	InitUIManager();
+	InitPlayer();
+	InitPlayerController();
 }
 
 /**************************************
@@ -35,6 +40,7 @@ void GameScene::Init()
 void GameScene::Uninit()
 {
 	UninitUIManager();
+	UninitPlayer();
 }
 
 /**************************************
@@ -43,6 +49,9 @@ void GameScene::Uninit()
 void GameScene::Update(HWND hWnd)
 {
 	UpdateUIManager(hWnd);
+	UpdatePlayer();
+	UpdatePlayerController(hWnd);
+
 }
 
 /**************************************
@@ -51,4 +60,5 @@ void GameScene::Update(HWND hWnd)
 void GameScene::Draw()
 {
 	DrawUIManager();
+	DrawPlayer();
 }

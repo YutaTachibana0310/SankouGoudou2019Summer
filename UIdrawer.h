@@ -60,6 +60,6 @@ void SetTextureObject		(OBJECT *object, int divX, int divY, int pattern);
 void SetTextureCounter		(OBJECT *object, int number);
 void SetAlphaObject			(OBJECT *object, float alpha);
 void SetColorObject			(OBJECT *object, D3DXCOLOR color);
-
+OBJECT*	GetStar();
 #endif
 

@@ -20,7 +20,7 @@
 ***************************************/
 void PlayerMove::OnUpdate(Player *entity)
 {
-	float t = entity->cntFrame / 120;
+	float t = (float)entity->cntFrame / 120;
 	entity->pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->initpos, &entity->goalpos, EasingType::InCubic);
 	
 }

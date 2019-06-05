@@ -8,8 +8,6 @@
 #define _PLAYERBULLET_H_
 
 #include "main.h"
-#include "IStateMachine.h"
-#include "player.h"
 
 /**************************************
 É}ÉNÉçíËã`

@@ -5,7 +5,6 @@
 //
 //=====================================
 #include "player.h"
-#include "Framework/Easing.h"
 /**************************************
 マクロ定義
 ***************************************/
@@ -20,7 +19,6 @@
 /**************************************
 グローバル変数
 ***************************************/
-D3DXMATRIX			mtxWorld;							// ワールドマトリックス
 
 /**************************************
 プロトタイプ宣言
@@ -64,8 +62,7 @@ void Player::Draw()
 {
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, quatMatrixs, shadowMatrix;
-
+	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, quatMatrixs, shadowMatrix,mtxWorld;
 	// ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&mtxWorld);
 

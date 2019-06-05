@@ -133,6 +133,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BackGroundCity.h" />
+    <ClInclude Include="BackGroundRoad.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="collider.h" />
     <ClInclude Include="combo.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MyLibrary.h" />
+    <ClInclude Include="PostEffectManager.h" />
     <ClInclude Include="PostEffect\BloomController.h" />
     <ClInclude Include="PostEffect\BloomFilter.h" />
     <ClInclude Include="PostEffect\BlurFilter.h" />
@@ -184,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BackGroundCity.cpp" />
+    <ClCompile Include="BackGroundRoad.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collider.cpp" />
     <ClCompile Include="combo.cpp" />
@@ -209,6 +212,7 @@
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
+    <ClCompile Include="PosetEffectManager.cpp" />
     <ClCompile Include="PostEffect\BloomController.cpp" />
     <ClCompile Include="PostEffect\BloomFilter.cpp" />
     <ClCompile Include="PostEffect\BlurFilter.cpp" />

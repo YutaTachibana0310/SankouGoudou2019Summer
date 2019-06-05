@@ -28,8 +28,8 @@
 ***************************************/
 void GameScene::Init()
 {
-	//InitBackGroundCity(0);
 	InitSkyBox(0);
+	InitBackGroundCity(0);
 }
 
 /**************************************
@@ -37,8 +37,8 @@ void GameScene::Init()
 ***************************************/
 void GameScene::Uninit()
 {
-	//UninitBackGroundCity(0);
 	UninitSkyBox(0);
+	UninitBackGroundCity(0);
 }
 
 /**************************************
@@ -46,8 +46,8 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update()
 {
-	//UpdateBackGroundCity();
 	UpdateSkyBox();
+	UpdateBackGroundCity();
 }
 
 /**************************************
@@ -55,6 +55,7 @@ void GameScene::Update()
 ***************************************/
 void GameScene::Draw()
 {
-	//DrawBackGroundCity();
 	DrawSkyBox();
+
+	DrawBackGroundCity();
 }

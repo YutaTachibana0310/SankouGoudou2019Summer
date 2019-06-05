@@ -33,9 +33,9 @@ HRESULT InitializePad(void);			// パッド初期化
 void UpdatePad(void);
 void UninitPad(void);
 
-int GetPadAxisXPressed(int padNo);
+//int GetPadAxisXPressed(int padNo);
 int GetPadAxisXTriggered(int padNo);
-int GetPadAxisYPressed(int padNo);
+//int GetPadAxisYPressed(int padNo);
 int GetPadAxisYTriggered(int padNo);
 
 //*****************************************************************************
@@ -735,6 +735,41 @@ HRESULT UpdateMouse()
 
 }
 
+// マウス座標取得
+D3DXVECTOR3 GetMousePosition(HWND hWnd)
+{
+	POINT position;
+
+	if (GetCursorPos(&position))
+	{
+		ScreenToClient(hWnd, &position);
+
+		if (position.x < 0)
+		{
+			position.x = 0;
+		}
+		else if (position.x > SCREEN_WIDTH)
+		{
+			position.x = SCREEN_WIDTH;
+		}
+
+		if (position.y < 0)
+		{
+			position.y = 0;
+		}
+		else if (position.y > SCREEN_HEIGHT)
+		{
+			position.y = SCREEN_HEIGHT;
+		}
+
+		return D3DXVECTOR3((float)position.x, (float)position.y, 0.0f);
+	}
+	else
+	{
+		return D3DXVECTOR3(0, 0, 0);
+	}
+}
+
 //----------------------------------------------
 BOOL IsMouseLeftPressed(void)
 {
@@ -761,17 +796,17 @@ BOOL IsMouseCenterTriggered(void)
 	return (BOOL)(mouseTrigger.rgbButtons[2] & 0x80);
 }
 //------------------
-long GetMouseX(void)
+float GetMouseX(void)
 {
-	return mouseState.lX;
+	return float(mouseState.lX);
 }
-long GetMouseY(void)
+float GetMouseY(void)
 {
-	return mouseState.lY;
+	return float(mouseState.lY);
 }
-long GetMouseZ(void)
+float GetMouseZ(void)
 {
-	return mouseState.lZ;
+	return float(mouseState.lZ);
 }
 
 //================================================= game pad

@@ -4,12 +4,18 @@
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
+#include "Game.h"
 #include "input.h"
 #include "light.h"
 #include "camera.h"
 #include "player.h"
 #include "debugWindow.h"
 #include "debugTimer.h"
+
+#include "IStateScene.h"
+#include "TitleScene.h"
+#include "GameScene.h"
+#include "ResultScene.h"
 
 /**************************************
 マクロ定義
@@ -39,6 +45,13 @@ static LPDIRECT3DSURFACE9 zMapSurface;
 static LPDIRECT3DVERTEXBUFFER9 screenVtx;
 
 static Player player;
+
+//シーン管理のステートマシン
+static IStateScene* fsm[SceneMax];
+
+//現在のシーン
+static Scene currentScene = SceneGame;
+
 /**************************************
 初期化処理
 ***************************************/
@@ -55,7 +68,14 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	player.Init();
 	InitDebugWindow(hWnd, pDevice);
 
+	//ステートマシンに各シーンを追加
+	fsm[SceneTitle] = new TitleScene();
+	fsm[SceneGame] = new GameScene();
+	fsm[SceneResult] = new ResultScene();
+
 	RegisterDebugTimer("Main");
+
+	fsm[currentScene]->Init();
 }
 
 /**************************************
@@ -68,12 +88,14 @@ void UninitGame()
 	player.Uninit();
 	UninitDebugWindow(0);
 	UninitDebugTimer();
+
+	fsm[currentScene]->Uninit();
 }
 
 /**************************************
 更新処理
 ***************************************/
-void UpdateGame()
+void UpdateGame(HWND hWnd)
 {
 	UpdateDebugWindow();
 	UpdateInput();
@@ -81,6 +103,7 @@ void UpdateGame()
 	UpdateCamera();
 	//Player* Update();
 
+	fsm[currentScene]->Update(hWnd);
 }
 
 /**************************************
@@ -103,7 +126,11 @@ void DrawGame()
 
 	//オブジェクトを描画
 	SetCamera();
+
 	player.Draw();
+
+	fsm[currentScene]->Draw();
+
 	//結果をバックバッファへと描画
 	CountDebugTimer("Main", "DrawBackBuffer");
 	pDevice->SetViewport(&oldVirwPort);
@@ -114,6 +141,11 @@ void DrawGame()
 	pDevice->SetStreamSource(0, screenVtx, 0, sizeof(VERTEX_2D));
 	pDevice->SetFVF(FVF_VERTEX_2D);
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
+
+	//FPS表示
+#ifdef _DEBUG
+	DebugLog("FPS:%d", GetCurrentFPS());
+#endif
 
 	DrawDebugWindow();
 }
@@ -188,6 +220,21 @@ void CreateRenderTarget()
 	viewPort.Y = 0;
 }
 
+/**************************************
+シーン変更処理
+***************************************/
+void ChangeScene(Scene next)
+{
+	fsm[currentScene]->Uninit();
+
+	currentScene = next;
+
+	fsm[currentScene]->Init();
+}
+
+/**************************************
+レンダーターゲット作成
+***************************************/
 LPDIRECT3DTEXTURE9 GetDrawDataTemp()
 {
 	return renderTexture;

@@ -8,6 +8,9 @@
 #include "debugWindow.h"
 #include "Game.h"
 #include "UIManager.h"
+#include "player.h"
+#include "PlayerController.h"
+#include "InputController.h"
 
 #include "BackGroundCity.h"
 #include "BackGroundRoad.h"
@@ -36,6 +39,8 @@ void GameScene::Init()
 	InitBackGroundRoad();
 	InitBackGroundField();
 	InitUIManager();
+
+	InitPlayerController();
 }
 
 /**************************************
@@ -62,6 +67,9 @@ void GameScene::Update(HWND hWnd)
 	UpdateBackGroundRoad();
 	UpdateBackGroundField();
 	UpdateUIManager(hWnd);
+
+	UpdatePlayerController(hWnd);
+
 }
 
 /**************************************

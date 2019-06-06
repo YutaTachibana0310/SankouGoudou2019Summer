@@ -207,6 +207,12 @@
     <ClInclude Include="PostEffectManager.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
+    <ClInclude Include="BackGroundRoad.h">
+      <Filter>ヘッダー ファイル\BG</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGroundField.h">
+      <Filter>ヘッダー ファイル\BG</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -346,6 +352,12 @@
     </ClCompile>
     <ClCompile Include="PosetEffectManager.cpp">
       <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGroundRoad.cpp">
+      <Filter>ソース ファイル\BG</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGuroundField.cpp">
+      <Filter>ソース ファイル\BG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

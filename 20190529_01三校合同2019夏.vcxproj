@@ -133,6 +133,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BackGroundCity.h" />
+    <ClInclude Include="BackGroundField.h" />
+    <ClInclude Include="BackGroundRoad.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="collider.h" />
     <ClInclude Include="combo.h" />
@@ -185,6 +187,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BackGroundCity.cpp" />
+    <ClCompile Include="BackGroundRoad.cpp" />
+    <ClCompile Include="BackGuroundField.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collider.cpp" />
     <ClCompile Include="combo.cpp" />

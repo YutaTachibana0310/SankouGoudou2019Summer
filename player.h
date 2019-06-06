@@ -11,6 +11,7 @@
 
 #define PLAYER_INIT_POS		D3DXVECTOR3(0.0 ,-50.0, 150.0)
 
+#define MAX_LENGTH (6)
 
 class Player
 {
@@ -34,6 +35,23 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+
+
+	/****************************/
+	//渡邉さん側にあったメンバ
+	/*****************************/
+	LPDIRECT3DTEXTURE9		D3DTexturePlayer = NULL;		// テクスチャへのポリゴン
+
+	VERTEX_2D				vertexWk[NUM_VERTEX];				// 頂点情報格納ワーク
+
+	D3DXVECTOR3				posPlayer;						// ポリゴンの移動量
+	D3DXVECTOR3				targetpos[MAX_LENGTH];
+
+	// 移動先確保用のナンバー
+	int goal;
+
+	HRESULT MakeVertexPlayer(void);
+	void SetVertex(void);
 };
 
 

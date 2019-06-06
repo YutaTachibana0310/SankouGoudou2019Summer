@@ -8,8 +8,13 @@
 #include "debugWindow.h"
 #include "Game.h"
 #include "UIManager.h"
+#include "player.h"
+#include "PlayerController.h"
+#include "InputController.h"
 
 #include "BackGroundCity.h"
+#include "BackGroundRoad.h"
+#include "BackGroundField.h"
 #include "SkyBox.h"
 
 #include "player.h"
@@ -33,8 +38,11 @@ void GameScene::Init()
 {
 	InitSkyBox(0);
 	InitBackGroundCity(0);
+	InitBackGroundRoad();
+	InitBackGroundField();
 	InitUIManager();
 
+	InitPlayerController();
 	player.Init();
 }
 
@@ -45,6 +53,8 @@ void GameScene::Uninit()
 {
 	UninitSkyBox(0);
 	UninitBackGroundCity(0);
+	UninitBackGroundRoad();
+	UninitBackGroundField();
 
 	UninitUIManager();
 
@@ -58,7 +68,10 @@ void GameScene::Update(HWND hWnd)
 {
 	UpdateSkyBox();
 	UpdateBackGroundCity();
+	UpdateBackGroundRoad();
+	UpdateBackGroundField();
 	UpdateUIManager(hWnd);
+	UpdatePlayerController(hWnd);
 	player.Update();
 }
 
@@ -70,6 +83,10 @@ void GameScene::Draw()
 	DrawSkyBox();
 
 	DrawBackGroundCity();
+
+	DrawBackGroundRoad();
+
+	DrawBackGroundField();
 
 	DrawUIManager();
 

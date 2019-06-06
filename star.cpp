@@ -13,7 +13,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	STAR_MAX			(5)
+
 #define NUMBER_ROTATION		(1)
 #define SIZE_X_STAR			(100.0f)
 #define SIZE_Y_STAR			(100.0f)
@@ -26,7 +26,6 @@
 // プロトタイプ宣言
 //*****************************************************************************
 void RotateStar(int num);
-bool IsSelected(int num, HWND hWnd);
 
 //*****************************************************************************
 // グローバル変数
@@ -145,4 +144,14 @@ bool IsSelected(int num, HWND hWnd)
 	return IsHittedBB(GetMousePosition(hWnd),star[num].position,
 		D3DXVECTOR2(star[num].colliderSize.x,star[num].colliderSize.y), 
 		D3DXVECTOR2(COLLIDERSIZE_X_CURSOR,COLLIDERSIZE_Y_CURSOR));
+}
+
+//=============================================================================
+// 星座標取得用（渡邉追記）
+//=============================================================================
+void GetStarPosition(D3DXVECTOR3 *pos) {
+	for (int i = 0; i < STAR_MAX; i++)
+	{
+		pos[i] = star[i].position;
+	}
 }

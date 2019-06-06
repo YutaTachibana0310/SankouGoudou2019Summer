@@ -163,7 +163,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="MyLibrary.h" />
     <ClInclude Include="player.h" />
-    <ClInclude Include="player_controller.h" />
+    <ClInclude Include="PlayerController.h" />
     <ClInclude Include="PostEffect\BloomController.h" />
     <ClInclude Include="PostEffect\BloomFilter.h" />
     <ClInclude Include="PostEffect\BlurFilter.h" />
@@ -211,7 +211,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
     <ClCompile Include="player.cpp" />
-    <ClCompile Include="player_controller.cpp" />
+    <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="PostEffect\BloomController.cpp" />
     <ClCompile Include="PostEffect\BloomFilter.cpp" />
     <ClCompile Include="PostEffect\BlurFilter.cpp" />

@@ -147,8 +147,11 @@ bool IsSelected(int num, HWND hWnd)
 }
 
 //=============================================================================
-// 構造体ポインタ取得用（渡邉追記）
+// 星座標取得用（渡邉追記）
 //=============================================================================
-OBJECT*	GetStar(){
-	return &star[0];
+void SetStarPosition(D3DXVECTOR3 *pos) {
+	for (int i = 0; i < STAR_MAX; i++)
+	{
+		pos[i] = star[i].position;
+	}
 }

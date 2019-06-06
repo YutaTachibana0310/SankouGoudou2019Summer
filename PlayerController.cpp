@@ -1,20 +1,22 @@
 //=============================================================================
 //
-// プレイヤーコントローラー処理 [player_controller.cpp]
+// プレイヤーコントローラー処理 [PlayerController.cpp]
 // Author : 渡邉良則
 //
 //=============================================================================
 #include "main.h"
 #include "player.h"
 #include "star.h"
-#include "input.h"
-#include "player_controller.h"
+#include "PlayerController.h"
 #include "InputController.h"
-#include "UIdrawer.h"
+#include "debugWindow.h"
 
-PLAYER_CONTROLLER player_controller;
+//*****************************************************************************
+// グローバル変数
+//*****************************************************************************
 
-PLAYER* pplayer;
+//一定時間入力がない場合に初期ポジションに戻る為のタイマー
+int resetcount;
 
 //判定用の配列
 int judgment[JUDG_LEN] = { TOP,LOWER_LEFT,MIDDLE_RIGHT,MIDDLE_LEFT,LOWER_RIGHT };
@@ -34,9 +36,17 @@ int move_stack2[MAX_LENGTH];
 // 何番に移動するかを保管
 int	movenum;
 
+//判定配列の内容と合っているかの判定
+bool matching;
+bool matching2;
+
+//ボム発生テスト用フラグ
+bool flag;
+int flagtimer;
 
 HRESULT InitPlayerController(void)
 {
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	for (int i = 0; i < MAX_LENGTH; i++) {
 		move_stack[i] = 0;
@@ -47,12 +57,15 @@ HRESULT InitPlayerController(void)
 
 	judg_current = 0;
 	judg_current2 = 0;
-	player_controller.matching = false;
-	player_controller.matching2 = false;
-	player_controller.flag = false;
-	player_controller.flag_count = 0;
+	matching = false;
+	matching2 = false;
 
 	movenum = CENTER;
+
+	resetcount = 0;
+
+	flag = false;
+	flagtimer = 0;
 
 	return S_OK;
 }
@@ -60,30 +73,40 @@ HRESULT InitPlayerController(void)
 //update処理の追加
 void UpdatePlayerController(HWND hWnd)
 {
-	pplayer = GetPlayer();
 
-
-	if (pplayer->move_wait == true) {
-		
-		for (int i = 0; i < STAR_MAX; i++) {
-			if (IsEntered(i,hWnd)) {
-				movenum = i;
-				push();
-			}
+	resetcount++;
+	
+	if (flag == true) {
+		flagtimer++;
+		if (flagtimer > 120) {
+			flag = false;
+			flagtimer = 0;
 		}
-
 	}
 
+	for (int i = 0; i < STAR_MAX; i++) {
+		if (IsEntered(i, hWnd)) {
+			movenum = i;
+			push();
+			resetcount = 0;
+		}
+	}
+
+	if (resetcount >= 120) {
+		movenum = 5;
+		push();
+		resetcount = 0;
+	}
+	DebugText("move_stack:%d,%d,%d,%d,%d,%d\n", move_stack[0], move_stack[1], move_stack[2], move_stack[3], move_stack[4], move_stack[5]);
+	DebugText("move_stack2:%d,%d,%d,%d,%d,%d\n", move_stack2[0], move_stack2[1], move_stack2[2], move_stack2[3], move_stack2[4], move_stack2[5]);
+	
 }
 
 void SetPlayerTargetPosition(int *n) {
 
 	*n = movenum;
 
-	
 }
-
-
 
 void push() {
 
@@ -95,14 +118,14 @@ void push() {
 	}
 	//初回に判定用配列の何番目に同じ数字が格納されているか確認
 	//左回り用
-	if (player_controller.matching == false) {
+	if (matching == false) {
 		for (judg_current = 0; judg_current < JUDG_LEN; judg_current++) {
 
 			//一致した場合
 			if (move_stack[current] == judgment[judg_current]) {
-				player_controller.matching = true;
+				matching = true;
 			}
-			if (player_controller.matching == true) {
+			if (matching == true) {
 				//移動保管配列と判定用配列が一致した場合抜ける（judgment_currentの値を確保）
 				break;
 			}
@@ -110,16 +133,16 @@ void push() {
 		}
 	}
 	//右回り用
-	if (player_controller.matching2 == false) {
+	if (matching2 == false) {
 		for (judg_current2 = 0; judg_current2 < JUDG_LEN; judg_current2++) {
 
 			//一致した場合
 			if (move_stack2[current2] == judgment[judg_current2]) {
 
-				player_controller.matching2 = true;
+				matching2 = true;
 
 			}
-			if (player_controller.matching2 == true) {
+			if (matching2 == true) {
 				//移動保管配列と判定用配列が一致した場合抜ける（judgment_currentの値を確保）
 				break;
 			}
@@ -137,7 +160,7 @@ void push() {
 	//移動保管配列と判定用配列と違う場合（左回り）
 	if (move_stack[current] != judgment[judg_current]) {
 
-		player_controller.matching = false;
+		matching = false;
 		current = 0;
 		//移動保管配列を初期化
 		for (int i = 0; i < MAX_LENGTH; i++) {
@@ -147,16 +170,16 @@ void push() {
 	}
 	else {
 		//正しい場合
-		player_controller.matching = true;
+		matching = true;
 		judg_current++;
 		current++;
 
 		//移動保管配列の最大値まで達した場合ボム発生処理
-		if (player_controller.matching == true && current == MAX_LENGTH) {
+		if (matching == true && current == MAX_LENGTH) {
 			current = 0;
 			judg_current = 0;
-			player_controller.matching = false;
-			player_controller.flag = true;
+			matching = false;
+			flag = true;
 
 			//配列の初期化
 			for (int i = 0; i < MAX_LENGTH; i++) {
@@ -170,7 +193,7 @@ void push() {
 	//移動保管配列と判定用配列と違う場合（右回り）
 	if (move_stack2[current2] != judgment[judg_current2]) {
 
-		player_controller.matching2 = false;
+		matching2 = false;
 		current2 = 0;
 		//移動保管配列を初期化
 		for (int i = 0; i < MAX_LENGTH; i++) {
@@ -179,16 +202,16 @@ void push() {
 	}
 	else {
 		//正しい場合
-		player_controller.matching2 = true;
+		matching2 = true;
 		judg_current2--;
 		current2++;
 
 		//移動保管配列の最大値まで達した場合ボム発生処理
-		if (player_controller.matching2 == true && current2 == MAX_LENGTH) {
+		if (matching2 == true && current2 == MAX_LENGTH) {
 			current2 = 0;
 			judg_current2 = 0;
-			player_controller.matching2 = false;
-			player_controller.flag = true;
+			matching2 = false;
+			flag = true;
 
 			//配列の初期化
 			for (int i = 0; i < MAX_LENGTH; i++) {
@@ -203,7 +226,10 @@ void push() {
 
 }
 
-
-PLAYER_CONTROLLER* GetPlayerController() {
-	return &player_controller;
+bool SetBomb() {
+	if (flag == true) {
+		return true;
+	}
+	return false;
 }
+

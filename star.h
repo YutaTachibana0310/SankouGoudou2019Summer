@@ -37,6 +37,6 @@ void	UninitStar	(void);
 void	UpdateStar	(HWND hWnd);
 void	DrawStar	(void);
 bool IsSelected(int num, HWND hWnd);
-
+void SetStarPosition(D3DXVECTOR3 *pos);
 
 #endif

@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// InputController画面処理 [InputController.cpp]
+// InputController処理 [InputController.cpp]
 // Author : 渡邉良則
 //
 //=============================================================================
@@ -9,10 +9,12 @@
 
 bool IsEntered(int m, HWND hWnd) {
 
+	//マウスクリックの検出があるか
 	if (IsMouseLeftTriggered())
 	{
 		return IsSelected(m, hWnd);
 	}
+	//マウスの入力がなくキーが押された場合
 	else if (m == TOP) {
 		return GetKeyboardTrigger(DIK_W);
 	}

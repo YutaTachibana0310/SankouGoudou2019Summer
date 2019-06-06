@@ -9,7 +9,7 @@
 #include "Game.h"
 #include "UIManager.h"
 #include "player.h"
-#include "player_controller.h"
+#include "PlayerController.h"
 #include "InputController.h"
 
 /**************************************

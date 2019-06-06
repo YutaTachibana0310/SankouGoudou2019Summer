@@ -157,6 +157,7 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="IStateScene.h" />
     <ClInclude Include="light.h" />
+    <ClInclude Include="line.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MyLibrary.h" />
     <ClInclude Include="PostEffect\BloomController.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="light.cpp" />
+    <ClCompile Include="line.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
     <ClCompile Include="PostEffect\BloomController.cpp" />

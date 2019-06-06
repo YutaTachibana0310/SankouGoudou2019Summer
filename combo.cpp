@@ -12,17 +12,21 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define COMBOPARTS_MAX		(2)
-#define	INTERVAL_NUMBER		(80.0f)	// コンボ数字の表示間隔
-#define	PLACE_MAX			(2)		// コンボの桁数
+#define COMBOPARTS_MAX		(3)
+#define	INTERVAL_NUMBER		(80.0f)			// コンボ数字の表示間隔
+#define	INTERVAL_NUMBER_TEXTURE	(0.097f)	// テクスチャ内コンボ数字の表示間隔
+#define	PLACE_MAX			(2)				// コンボの桁数
 #define SIZE_X_NUMBER_COMBO (40)
 #define SIZE_X_TEXT_COMBO	(130)
+#define SIZE_X_BACKGROUND_COMBO	(300)
 #define SIZE_Y_NUMBER_COMBO (75)
 #define SIZE_Y_TEXT_COMBO	(75)
+#define SIZE_Y_BACKGROUND_COMBO	(100)
 #define VOLUME_ZOOM			(50.0f)
-#define POSITION_NUMBER_COMBO (D3DXVECTOR3(SCREEN_WIDTH / 10*2.2f, SCREEN_HEIGHT / 10 , 0.0f))
+#define POSITION_NUMBER_COMBO (D3DXVECTOR3(SCREEN_WIDTH / 10*2.0f, SCREEN_HEIGHT / 10*2.0f , 0.0f))
 #define POSITION_TEXT_COMBO	  (D3DXVECTOR3(SCREEN_WIDTH / 10, SCREEN_HEIGHT / 10 , 0.0f))
-#define BASE_NUMBER			(10) // 進数
+#define POSITION_BACKGROUND_COMBO (D3DXVECTOR3(SCREEN_WIDTH / 10*2.5f, SCREEN_HEIGHT / 10 , 0.0f))
+#define BASE_NUMBER			(10)	// 進数
 #define SPEED_VOLUMEUP		(0.2f)
 
 //*****************************************************************************
@@ -48,6 +52,7 @@ HRESULT InitCombo(void)
 
 	LoadTexture(pDevice, ADRESS_TEXTURE_NUMBER_COMBO,	&comboParts[NUMBER_COMBO]);
 	LoadTexture(pDevice, ADRESS_TEXTURE_TEXT_COMBO,		&comboParts[TEXT_COMBO]);
+	LoadTexture(pDevice, ADRESS_TEXTURE_BACKGROUND_COMBO, &comboParts[BACKGROUND_COMBO]);
 
 	for (int i = 0; i < COMBOPARTS_MAX; i++)
 	{
@@ -56,13 +61,17 @@ HRESULT InitCombo(void)
 		comboParts[i].rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	}
 
-	comboParts[NUMBER_COMBO].position = POSITION_NUMBER_COMBO;
-	comboParts[TEXT_COMBO].position	  = POSITION_TEXT_COMBO;
+	comboParts[NUMBER_COMBO].position	  = POSITION_NUMBER_COMBO;
+	comboParts[TEXT_COMBO].position		  = POSITION_TEXT_COMBO;
+	comboParts[BACKGROUND_COMBO].position = POSITION_BACKGROUND_COMBO;
+
 	comboParts[NUMBER_COMBO].size	  = D3DXVECTOR3(SIZE_X_NUMBER_COMBO, SIZE_Y_NUMBER_COMBO, 0.0f);
 	comboParts[TEXT_COMBO].size		  = D3DXVECTOR3(SIZE_X_TEXT_COMBO, SIZE_Y_TEXT_COMBO, 0.0f);
+	comboParts[BACKGROUND_COMBO].size = D3DXVECTOR3(SIZE_X_BACKGROUND_COMBO, SIZE_Y_BACKGROUND_COMBO, 0.0f);
 
-	SetColorObject(&comboParts[NUMBER_COMBO],	SET_COLOR_NOT_COLORED);
-	SetColorObject(&comboParts[TEXT_COMBO],		SET_COLOR_NOT_COLORED);
+	SetColorObject(&comboParts[NUMBER_COMBO],	 SET_COLOR_NOT_COLORED);
+	SetColorObject(&comboParts[TEXT_COMBO],		 SET_COLOR_NOT_COLORED);
+	SetColorObject(&comboParts[BACKGROUND_COMBO],SET_COLOR_NOT_COLORED);
 
 	// 最大値設定
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
@@ -99,6 +108,10 @@ void DrawCombo(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	// 背景を先に描画
+	//DrawObject(pDevice, comboParts[BACKGROUND_COMBO]);
+	//SetVertexObject(&comboParts[BACKGROUND_COMBO]);
+
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
 	{
 		int number;
@@ -108,11 +121,11 @@ void DrawCombo(void)
 
 		DrawObject(pDevice, comboParts[NUMBER_COMBO]);
 		SetVertexCounter(&comboParts[NUMBER_COMBO], nCntPlace, INTERVAL_NUMBER);
-		SetTextureCounter(&comboParts[NUMBER_COMBO], number);
+		SetTextureCounter(&comboParts[NUMBER_COMBO], number, INTERVAL_NUMBER_TEXTURE);
 	}
 
-	DrawObject(pDevice, comboParts[TEXT_COMBO]);
-	SetVertexObject(&comboParts[TEXT_COMBO]);
+	//DrawObject(pDevice, comboParts[TEXT_COMBO]);
+	//SetVertexObject(&comboParts[TEXT_COMBO]);
 }
 
 //=============================================================================

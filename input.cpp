@@ -734,12 +734,12 @@ HRESULT UpdateMouse()
 	return result;
 
 }
-
+//#include "debugWindow.h"
 // マウス座標取得
 D3DXVECTOR3 GetMousePosition(HWND hWnd)
 {
 	POINT position;
-
+	//DebugLog(I)
 	if (GetCursorPos(&position))
 	{
 		ScreenToClient(hWnd, &position);

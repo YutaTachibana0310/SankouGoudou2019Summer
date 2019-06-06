@@ -10,6 +10,7 @@
 #include "score.h"
 #include "star.h"
 #include "combo.h"
+#include "line.h"
 
 //=============================================================================
 // 初期化処理
@@ -20,6 +21,7 @@ void InitUIManager(void)
 	InitScore();
 	InitStar();
 	InitCombo();
+	InitLine();
 }
 
 //=============================================================================
@@ -31,6 +33,7 @@ void UninitUIManager(void)
 	UninitScore();
 	UninitStar();
 	UninitCombo();
+	UninitLine();
 }
 
 //=============================================================================
@@ -42,6 +45,7 @@ void UpdateUIManager(HWND hWnd)
 	UpdateScore();
 	UpdateStar(hWnd);
 	UpdateCombo();
+	UpdateLine();
 
 #ifdef _DEBUG
 	// デバッグ用コマンド
@@ -74,5 +78,6 @@ void DrawUIManager(void)
 	DrawScore();
 	DrawStar();
 	DrawCombo();
+	DrawLine();
 }
 

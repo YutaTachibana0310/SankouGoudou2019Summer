@@ -72,7 +72,6 @@ void GameScene::Update(HWND hWnd)
 	UpdateBackGroundField();
 	UpdateUIManager(hWnd);
 	UpdatePlayerController(hWnd);
-	player.Update();
 }
 
 /**************************************

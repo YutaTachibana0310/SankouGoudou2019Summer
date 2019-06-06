@@ -12,6 +12,7 @@
 #include "BackGroundCity.h"
 #include "SkyBox.h"
 
+#include "EnemyController.h"
 /**************************************
 マクロ定義
 ***************************************/
@@ -23,7 +24,7 @@
 /**************************************
 グローバル変数
 ***************************************/
-
+static Enemy* enemy[ENMEY_MAX];
 /**************************************
 初期化処理
 ***************************************/
@@ -32,6 +33,13 @@ void GameScene::Init()
 	InitSkyBox(0);
 	InitBackGroundCity(0);
 	InitUIManager();
+
+	//エネミーの初期化
+	for (int i = 0; i <= ENMEY_MAX; i++)
+	{
+		enemy[i] = new EnemyStraight;
+		enemy[i]->Init();
+	}
 }
 
 /**************************************
@@ -44,6 +52,12 @@ void GameScene::Uninit()
 
 	UninitUIManager();
 
+	//エネミーの終了処理
+	for (int i = 0; i <= ENMEY_MAX; i++)
+	{
+		enemy[i]->Uninit(enemy[i]);
+	}
+
 }
 
 /**************************************
@@ -54,6 +68,13 @@ void GameScene::Update(HWND hWnd)
 	UpdateSkyBox();
 	UpdateBackGroundCity();
 	UpdateUIManager(hWnd);
+
+	//エネミーの更新処理
+	for (int i = 0; i <= ENMEY_MAX; i++)
+	{
+		enemy[i]->Update(hWnd);
+	}
+
 }
 
 /**************************************
@@ -67,4 +88,12 @@ void GameScene::Draw()
 
 	DrawUIManager();
 
+	//エネミーの描画処理
+	for (int i = 0; i <= ENMEY_MAX; i++)
+	{
+		enemy[i]->Draw();
+	}
+	BeginDebugWindow("count");
+	DebugText("objNum:%d", Enemy::objNum);
+	EndDebugWindow("count");
 }

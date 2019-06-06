@@ -138,6 +138,7 @@
     <ClInclude Include="combo.h" />
     <ClInclude Include="debugTimer.h" />
     <ClInclude Include="debugWindow.h" />
+    <ClInclude Include="EnemyController.h" />
     <ClInclude Include="Framework\AnimContainer.h" />
     <ClInclude Include="Framework\BaseCameraPlugin.h" />
     <ClInclude Include="Framework\BaseSingleton.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="combo.cpp" />
     <ClCompile Include="debugTimer.cpp" />
     <ClCompile Include="debugWindow.cpp" />
+    <ClCompile Include="EnemyController.cpp" />
     <ClCompile Include="Framework\AnimContainer.cpp" />
     <ClCompile Include="Framework\BaseCameraPlugin.cpp" />
     <ClCompile Include="Framework\CameraShakerPlugin.cpp" />

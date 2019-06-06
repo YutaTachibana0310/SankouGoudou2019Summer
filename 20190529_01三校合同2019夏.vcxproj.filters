@@ -61,6 +61,12 @@
     <Filter Include="ヘッダー ファイル\BG">
       <UniqueIdentifier>{32c236d4-f951-4bbb-ae16-90073dd29807}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\EnemyController">
+      <UniqueIdentifier>{e6d89f48-2d7c-4332-a8b8-f186820880d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\EnemyController">
+      <UniqueIdentifier>{5e620a78-b21c-4d54-9807-331afe55ce11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -231,6 +237,18 @@
     <ClInclude Include="PostEffectManager.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="MyLibrary.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyController.h">
+      <Filter>ヘッダー ファイル\EnemyController</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -385,6 +403,9 @@
     </ClCompile>
     <ClCompile Include="PosetEffectManager.cpp">
       <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyController.cpp">
+      <Filter>ソース ファイル\EnemyController</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

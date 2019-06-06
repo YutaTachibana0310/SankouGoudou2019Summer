@@ -9,7 +9,7 @@
 #include "Framework/MeshContainer.h"
 
 
-#define PLAYER_INIT_POS		D3DXVECTOR3(0.0 ,0.0, 0.0)
+#define PLAYER_INIT_POS		D3DXVECTOR3(0.0 ,-50.0, 150.0)
 
 
 class Player

@@ -12,6 +12,8 @@
 #include "BackGroundCity.h"
 #include "SkyBox.h"
 
+#include "player.h"
+
 /**************************************
 マクロ定義
 ***************************************/
@@ -23,7 +25,7 @@
 /**************************************
 グローバル変数
 ***************************************/
-
+class Player player;
 /**************************************
 初期化処理
 ***************************************/
@@ -32,6 +34,8 @@ void GameScene::Init()
 	InitSkyBox(0);
 	InitBackGroundCity(0);
 	InitUIManager();
+
+	player.Init();
 }
 
 /**************************************
@@ -44,6 +48,7 @@ void GameScene::Uninit()
 
 	UninitUIManager();
 
+	player.Uninit();
 }
 
 /**************************************
@@ -54,6 +59,7 @@ void GameScene::Update(HWND hWnd)
 	UpdateSkyBox();
 	UpdateBackGroundCity();
 	UpdateUIManager(hWnd);
+	player.Update();
 }
 
 /**************************************
@@ -67,4 +73,5 @@ void GameScene::Draw()
 
 	DrawUIManager();
 
+	player.Draw();
 }

@@ -13,7 +13,7 @@
 #define TEXTURE_SAMPLE00_SIZE_Y	(50) // ìØè„
 
 #define MAX_LENGTH (6)
-#define JUDG_LEN (5)
+
 
 typedef struct
 {

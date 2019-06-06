@@ -41,7 +41,7 @@ HRESULT InitPlayer(void)
 	player.nPatternAnim = 0;
 
 	//移動先の星の位置を取得（中央だけは星の配置がないので個別指定）
-	SetStarPosition(player.targetpos);
+	GetStarPosition(player.targetpos);
 	player.targetpos[CENTER] = D3DXVECTOR3(SCREEN_CENTER_X, SCREEN_CENTER_Y, 0.0f);
 
 	// 頂点情報の作成

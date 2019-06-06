@@ -12,6 +12,11 @@
 #include "debugWindow.h"
 
 //*****************************************************************************
+// プロトタイプ宣言
+//*****************************************************************************
+void push(void);
+
+//*****************************************************************************
 // グローバル変数
 //*****************************************************************************
 
@@ -22,23 +27,23 @@ int resetcount;
 int judgment[JUDG_LEN] = { TOP,LOWER_LEFT,MIDDLE_RIGHT,MIDDLE_LEFT,LOWER_RIGHT };
 
 //判定用配列の現在位置
-int judg_current;
-int judg_current2;
+int judg_currentCCW;
+int judg_currentCW;
 
 //現在の位置
-int current;
-int current2;
+int currentCCW;
+int currentCW;
 
 //移動先の番号保管配列
-int move_stack[MAX_LENGTH];
-int move_stack2[MAX_LENGTH];
+int move_stackCCW[MAX_LENGTH];
+int move_stackCW[MAX_LENGTH];
 
 // 何番に移動するかを保管
 int	movenum;
 
 //判定配列の内容と合っているかの判定
-bool matching;
-bool matching2;
+bool matchingCCW;
+bool matchingCW;
 
 //ボム発生テスト用フラグ
 bool flag;
@@ -49,16 +54,16 @@ HRESULT InitPlayerController(void)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	for (int i = 0; i < MAX_LENGTH; i++) {
-		move_stack[i] = 0;
-		move_stack2[i] = 0;
+		move_stackCCW[i] = 0;
+		move_stackCW[i] = 0;
 	}
-	current = 0;
-	current2 = 0;
+	currentCCW = 0;
+	currentCW = 0;
 
-	judg_current = 0;
-	judg_current2 = 0;
-	matching = false;
-	matching2 = false;
+	judg_currentCCW = 0;
+	judg_currentCW = 0;
+	matchingCCW = false;
+	matchingCW = false;
 
 	movenum = CENTER;
 
@@ -76,9 +81,10 @@ void UpdatePlayerController(HWND hWnd)
 
 	resetcount++;
 	
+	//ボム発生用のフラグ、カウンタ
 	if (flag == true) {
 		flagtimer++;
-		if (flagtimer > 120) {
+		if (flagtimer > RESETTIME) {
 			flag = false;
 			flagtimer = 0;
 		}
@@ -88,18 +94,23 @@ void UpdatePlayerController(HWND hWnd)
 		if (IsEntered(i, hWnd)) {
 			movenum = i;
 			push();
+
+			CheckCW();
+			CheckCCW();
 			resetcount = 0;
 		}
 	}
-
-	if (resetcount >= 120) {
+	//一定時間後に中央へ戻る処理
+	if (resetcount >= RESETTIME) {
 		movenum = 5;
 		push();
+		CheckCW();
+		CheckCCW();
 		resetcount = 0;
 	}
-	DebugText("move_stack:%d,%d,%d,%d,%d,%d\n", move_stack[0], move_stack[1], move_stack[2], move_stack[3], move_stack[4], move_stack[5]);
-	DebugText("move_stack2:%d,%d,%d,%d,%d,%d\n", move_stack2[0], move_stack2[1], move_stack2[2], move_stack2[3], move_stack2[4], move_stack2[5]);
-	
+	DebugText("move_stackCCW:%d,%d,%d,%d,%d,%d\n", move_stackCCW[0], move_stackCCW[1], move_stackCCW[2], move_stackCCW[3], move_stackCCW[4], move_stackCCW[5]);
+	DebugText("move_stackCW:%d,%d,%d,%d,%d,%d\n", move_stackCW[0], move_stackCW[1], move_stackCW[2], move_stackCW[3], move_stackCW[4], move_stackCW[5]);
+
 }
 
 void SetPlayerTargetPosition(int *n) {
@@ -111,38 +122,29 @@ void SetPlayerTargetPosition(int *n) {
 void push() {
 
 	//移動保管配列に入力されたキーの番号を保管
-	if (current < MAX_LENGTH) {
-		move_stack[current] = movenum;
-		move_stack2[current2] = movenum;
+	if (currentCCW < MAX_LENGTH) {
+		move_stackCCW[currentCCW] = movenum;
+		move_stackCW[currentCW] = movenum;
 
 	}
+
+}
+
+//右回り用
+void CheckCW() {
+
 	//初回に判定用配列の何番目に同じ数字が格納されているか確認
-	//左回り用
-	if (matching == false) {
-		for (judg_current = 0; judg_current < JUDG_LEN; judg_current++) {
+
+	if (matchingCW == false) {
+		for (judg_currentCW = 0; judg_currentCW < JUDG_LEN; judg_currentCW++) {
 
 			//一致した場合
-			if (move_stack[current] == judgment[judg_current]) {
-				matching = true;
-			}
-			if (matching == true) {
-				//移動保管配列と判定用配列が一致した場合抜ける（judgment_currentの値を確保）
-				break;
-			}
+			if (move_stackCW[currentCW] == judgment[judg_currentCW]) {
 
-		}
-	}
-	//右回り用
-	if (matching2 == false) {
-		for (judg_current2 = 0; judg_current2 < JUDG_LEN; judg_current2++) {
-
-			//一致した場合
-			if (move_stack2[current2] == judgment[judg_current2]) {
-
-				matching2 = true;
+				matchingCW = true;
 
 			}
-			if (matching2 == true) {
+			if (matchingCW == true) {
 				//移動保管配列と判定用配列が一致した場合抜ける（judgment_currentの値を確保）
 				break;
 			}
@@ -150,78 +152,101 @@ void push() {
 		}
 	}
 	//判定用配列の最大値まで進んだ場合、最初に戻す
-	if (judg_current >= JUDG_LEN) {
-		judg_current = 0;
+	if (judg_currentCW < 0) {
+		judg_currentCW = JUDG_LEN - 1;
 	}
-	if (judg_current2 < 0) {
-		judg_current2 = JUDG_LEN - 1;
+	//移動保管配列と判定用配列と違う場合（右回り）
+	if (move_stackCW[currentCW] != judgment[judg_currentCW]) {
+
+		matchingCW = false;
+		currentCW = 0;
+		//移動保管配列を初期化
+		for (int i = 0; i < MAX_LENGTH; i++) {
+			move_stackCW[i] = 0;
+		}
+	}
+	else {
+		//正しい場合
+		matchingCW = true;
+		judg_currentCW--;
+		currentCW++;
+
+		//移動保管配列の最大値まで達した場合ボム発生処理
+		if (matchingCW == true && currentCW == MAX_LENGTH) {
+			currentCW = 0;
+			judg_currentCW = 0;
+			matchingCW = false;
+			flag = true;
+
+			//配列の初期化
+			for (int i = 0; i < MAX_LENGTH; i++) {
+				move_stackCW[i] = 0;
+			}
+
+			move_stackCW[currentCW] = movenum;
+			currentCW++;
+		}
+
+	}
+}
+
+//左回り用
+void CheckCCW() {
+
+//初回に判定用配列の何番目に同じ数字が格納されているか確認
+
+	if (matchingCCW == false) {
+		for (judg_currentCCW = 0; judg_currentCCW < JUDG_LEN; judg_currentCCW++) {
+
+			//一致した場合
+			if (move_stackCCW[currentCCW] == judgment[judg_currentCCW]) {
+				matchingCCW = true;
+			}
+			if (matchingCCW == true) {
+				//移動保管配列と判定用配列が一致した場合抜ける（judgment_currentの値を確保）
+				break;
+			}
+
+		}
+	}
+
+	//判定用配列の最大値まで進んだ場合、最初に戻す
+	if (judg_currentCCW >= JUDG_LEN) {
+		judg_currentCCW = 0;
 	}
 
 	//移動保管配列と判定用配列と違う場合（左回り）
-	if (move_stack[current] != judgment[judg_current]) {
+	if (move_stackCCW[currentCCW] != judgment[judg_currentCCW]) {
 
-		matching = false;
-		current = 0;
+		matchingCCW = false;
+		currentCCW = 0;
 		//移動保管配列を初期化
 		for (int i = 0; i < MAX_LENGTH; i++) {
-			move_stack[i] = 0;
+			move_stackCCW[i] = 0;
 		}
 
 	}
 	else {
 		//正しい場合
-		matching = true;
-		judg_current++;
-		current++;
+		matchingCCW = true;
+		judg_currentCCW++;
+		currentCCW++;
 
 		//移動保管配列の最大値まで達した場合ボム発生処理
-		if (matching == true && current == MAX_LENGTH) {
-			current = 0;
-			judg_current = 0;
-			matching = false;
+		if (matchingCCW == true && currentCCW == MAX_LENGTH) {
+			currentCCW = 0;
+			judg_currentCCW = 0;
+			matchingCCW = false;
 			flag = true;
 
 			//配列の初期化
 			for (int i = 0; i < MAX_LENGTH; i++) {
-				move_stack[i] = 0;
+				move_stackCCW[i] = 0;
 			}
 
-			move_stack[current] = movenum;
-			current++;
+			move_stackCCW[currentCCW] = movenum;
+			currentCCW++;
 		}
-	}
-	//移動保管配列と判定用配列と違う場合（右回り）
-	if (move_stack2[current2] != judgment[judg_current2]) {
-
-		matching2 = false;
-		current2 = 0;
-		//移動保管配列を初期化
-		for (int i = 0; i < MAX_LENGTH; i++) {
-			move_stack2[i] = 0;
-		}
-	}
-	else {
-		//正しい場合
-		matching2 = true;
-		judg_current2--;
-		current2++;
-
-		//移動保管配列の最大値まで達した場合ボム発生処理
-		if (matching2 == true && current2 == MAX_LENGTH) {
-			current2 = 0;
-			judg_current2 = 0;
-			matching2 = false;
-			flag = true;
-
-			//配列の初期化
-			for (int i = 0; i < MAX_LENGTH; i++) {
-				move_stack2[i] = 0;
-			}
-
-			move_stack2[current2] = movenum;
-			current2++;
-		}
-
 	}
 
 }

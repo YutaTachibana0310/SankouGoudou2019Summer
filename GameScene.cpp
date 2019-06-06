@@ -12,6 +12,11 @@
 #include "PlayerController.h"
 #include "InputController.h"
 
+#include "BackGroundCity.h"
+#include "BackGroundRoad.h"
+#include "BackGroundField.h"
+#include "SkyBox.h"
+
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
@@ -29,8 +34,12 @@
 ***************************************/
 void GameScene::Init()
 {
+	InitSkyBox(0);
+	InitBackGroundCity(0);
+	InitBackGroundRoad();
+	InitBackGroundField();
 	InitUIManager();
-	InitPlayer();
+
 	InitPlayerController();
 }
 
@@ -39,8 +48,13 @@ void GameScene::Init()
 ***************************************/
 void GameScene::Uninit()
 {
+	UninitSkyBox(0);
+	UninitBackGroundCity(0);
+	UninitBackGroundRoad();
+	UninitBackGroundField();
+
 	UninitUIManager();
-	UninitPlayer();
+
 }
 
 /**************************************
@@ -48,8 +62,12 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
+	UpdateSkyBox();
+	UpdateBackGroundCity();
+	UpdateBackGroundRoad();
+	UpdateBackGroundField();
 	UpdateUIManager(hWnd);
-	UpdatePlayer();
+
 	UpdatePlayerController(hWnd);
 
 }
@@ -59,6 +77,14 @@ void GameScene::Update(HWND hWnd)
 ***************************************/
 void GameScene::Draw()
 {
+	DrawSkyBox();
+
+	DrawBackGroundCity();
+
+	DrawBackGroundRoad();
+
+	DrawBackGroundField();
+
 	DrawUIManager();
-	DrawPlayer();
+
 }

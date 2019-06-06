@@ -31,4 +31,5 @@ bool IsEntered(int m, HWND hWnd) {
 		return GetKeyboardTrigger(DIK_D);
 	}
 
+	return false;
 }

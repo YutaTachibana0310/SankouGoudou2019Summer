@@ -84,6 +84,8 @@ void UpdateBackGroundRoad(void)
 	pVtx[1].tex.y += BACKGROUNDROAD_MOVE_SPEED;//右奥
 	pVtx[2].tex.y += BACKGROUNDROAD_MOVE_SPEED;//左手前
 	pVtx[3].tex.y += BACKGROUNDROAD_MOVE_SPEED;//右手前
+
+	g_pD3DVtxBuffRoad->Unlock();
 }
 
 //=============================================================================

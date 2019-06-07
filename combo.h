@@ -10,13 +10,15 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	ADRESS_TEXTURE_NUMBER_COMBO	"data/TEXTURE/UI/number.png"	// 読み込むテクスチャファイル名
+#define	ADRESS_TEXTURE_NUMBER_COMBO	"data/TEXTURE/UI/number01.png"	// 読み込むテクスチャファイル名
 #define	ADRESS_TEXTURE_TEXT_COMBO	"data/TEXTURE/UI/comboText.png"	// 読み込むテクスチャファイル名
+#define	ADRESS_TEXTURE_BACKGROUND_COMBO	"data/TEXTURE/UI/comboBackground001.png"	// 読み込むテクスチャファイル名
 
 enum COMBO_PARTS
 {
 	NUMBER_COMBO,
 	TEXT_COMBO,
+	BACKGROUND_COMBO
 };
 
 //*****************************************************************************

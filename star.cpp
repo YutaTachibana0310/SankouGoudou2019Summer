@@ -9,18 +9,18 @@
 #include "star.h"
 #include "UIdrawer.h"
 #include "collider.h"
+#include "Framework/EasingVector.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-
 #define NUMBER_ROTATION		(1)
 #define SIZE_X_STAR			(100.0f)
 #define SIZE_Y_STAR			(100.0f)
 #define COLLIDERSIZE_X_STAR (120.0f)
 #define COLLIDERSIZE_Y_STAR (120.0f)
 #define VOLUME_ZOOM			(30.0f)
-#define SPEED_ROTATION		(0.1f)
+#define SPEED_ROTATION		(60.0f)
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -46,24 +46,24 @@ HRESULT InitStar(void)
 		InitialTexture(&star[i]);
 		MakeVertexRotateObject(&star[i]);
 
-		// 座標設定
-		star[TOP].position			= POSITION_STAR_TOP;
-		star[MIDDLE_LEFT].position  = POSITION_STAR_MIDDLE_LEFT;
-		star[LOWER_LEFT].position   = POSITION_STAR_LOWER_LEFT;
-		star[LOWER_RIGHT].position	= POSITION_STAR_LOWER_RIGHT;
-		star[MIDDLE_RIGHT].position = POSITION_STAR_MIDDLE_RIGHT;
-
-		star[i].size				= D3DXVECTOR3(SIZE_X_STAR, SIZE_Y_STAR, 0.0f);
-		star[i].colliderSize		= D3DXVECTOR3(COLLIDERSIZE_X_STAR, COLLIDERSIZE_X_STAR, 0.0f);
-		star[i].rotation			= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
-		//　色設定
-		SetColorObject(&star[TOP],			SET_COLOR_YELLOW);
-		SetColorObject(&star[MIDDLE_LEFT],	SET_COLOR_PINK);
-		SetColorObject(&star[LOWER_LEFT],	SET_COLOR_RIGHTBLUE);
-		SetColorObject(&star[LOWER_RIGHT],	SET_COLOR_RED);
-		SetColorObject(&star[MIDDLE_RIGHT],	SET_COLOR_GREEN);
+		star[i].size = D3DXVECTOR3(SIZE_X_STAR, SIZE_Y_STAR, 0.0f);
+		star[i].colliderSize = D3DXVECTOR3(COLLIDERSIZE_X_STAR, COLLIDERSIZE_X_STAR, 0.0f);
+		star[i].rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	}
+
+	// 座標設定
+	star[TOP].position			= POSITION_STAR_TOP;
+	star[MIDDLE_LEFT].position	= POSITION_STAR_MIDDLE_LEFT;
+	star[LOWER_LEFT].position	= POSITION_STAR_LOWER_LEFT;
+	star[LOWER_RIGHT].position	= POSITION_STAR_LOWER_RIGHT;
+	star[MIDDLE_RIGHT].position = POSITION_STAR_MIDDLE_RIGHT;
+
+	//　色設定
+	SetColorObject(&star[TOP],			SET_COLOR_NOT_COLORED);
+	SetColorObject(&star[MIDDLE_LEFT],	SET_COLOR_NOT_COLORED);
+	SetColorObject(&star[LOWER_LEFT],	SET_COLOR_NOT_COLORED);
+	SetColorObject(&star[LOWER_RIGHT],	SET_COLOR_NOT_COLORED);
+	SetColorObject(&star[MIDDLE_RIGHT], SET_COLOR_NOT_COLORED);
 
 	return S_OK;
 }
@@ -90,13 +90,14 @@ void UpdateStar(HWND hWnd)
 			{
 				if (IsMouseLeftTriggered())
 				{
-					star[i].rotateUsed = true;
+					ToggleRotateStar(i,true);
 				}
+				// 選択されているなら拡大表示
 				star[i].size.x = SIZE_X_STAR + VOLUME_ZOOM;
 				star[i].size.y = SIZE_Y_STAR + VOLUME_ZOOM;
 			}
 			else
-			{
+			{	// 元に戻す
 				star[i].size.x = SIZE_X_STAR;
 				star[i].size.y = SIZE_Y_STAR;
 			}
@@ -125,14 +126,34 @@ void DrawStar(void)
 //=============================================================================
 void RotateStar(int num)
 {
-	if (star[num].rotateUsed == true && star[num].rotation.z < D3DXToRadian(360.0f) * NUMBER_ROTATION)
+	star[num].countFrame++;
+	float t = (float)star[num].countFrame / SPEED_ROTATION;
+	star[num].rotation = 
+		EaseOutExponentialVector(t, star[num].easingStartRotation, star[num].easingGoalRotation);
+}
+
+//=============================================================================
+// 回転処理トグル
+//=============================================================================
+void ToggleRotateStar(int num, bool isRotated)
+{
+	star[num].rotation.z = 0.0f;
+	star[num].countFrame = 0;
+	star[num].easingStartRotation = star[num].rotation;
+	star[num].isRotated = isRotated;
+
+	if (star[num].isRotated == true && star[num].rotation.z < D3DXToRadian(360.0f) * NUMBER_ROTATION)
 	{
-		star[num].rotation.z += SPEED_ROTATION *D3DX_PI;
+		star[num].easingGoalRotation = 
+			star[num].easingStartRotation + D3DXVECTOR3(0.0f, 0.0f, D3DXToRadian(360.0f) * NUMBER_ROTATION);
 	}
-	if (star[num].rotation.z >= D3DXToRadian(360.0f) * NUMBER_ROTATION)
+	else if (star[num].rotation.z >= D3DXToRadian(360.0f) * NUMBER_ROTATION)
 	{
+		star[num].easingGoalRotation = star[num].easingStartRotation;
+		star[num].easingGoalRotation.z = D3DXToRadian(360.0f) * NUMBER_ROTATION;
 		star[num].rotation.z = 0.0f;
-		star[num].rotateUsed = false;
+		star[num].easingStartRotation = star[num].rotation;
+		star[num].isRotated = false;
 	}
 }
 

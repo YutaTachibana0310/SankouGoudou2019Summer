@@ -172,6 +172,7 @@
     <ClInclude Include="PlayerWait.h" />
     <ClInclude Include="IStateScene.h" />
     <ClInclude Include="light.h" />
+    <ClInclude Include="line.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MyLibrary.h" />
     <ClInclude Include="player.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="light.cpp" />
+    <ClCompile Include="line.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
     <ClCompile Include="player.cpp" />

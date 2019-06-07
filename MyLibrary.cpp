@@ -456,10 +456,11 @@ float GetAngleFromTwoVector(D3DXVECTOR3 *pV1, D3DXVECTOR3 *pV2)
 
 /********************************************************************
 //関数名	：void CopyVtxBuff(unsigned size, void** src, LPDIRECT3DVERTEXBUFFER9 buff)
-//引数1		：D3DXVECTOR3 *pV1 ベクトル1
-//引数2		：D3DXVECTOR3 *pV2 ベクトル2
-//戻り値	：float 2つのベクトルがなす角度
-//説明		：2つのベクトルがなす角度
+//引数1		：unsigned size コピーするバイト数
+//引数2		：void* src コピー元のアドレス
+//引数3		：LPDIRECT3DVERTEXBUFFER9 buff コピー先の頂点バッファ
+//戻り値	：void
+//説明		：頂点バッファへ値をコピーする関数
 ********************************************************************/
 void CopyVtxBuff(unsigned size, void* src, LPDIRECT3DVERTEXBUFFER9 buff)
 {
@@ -470,4 +471,63 @@ void CopyVtxBuff(unsigned size, void* src, LPDIRECT3DVERTEXBUFFER9 buff)
 	memcpy(p, src, size);
 
 	buff->Unlock();
+}
+
+/********************************************************************
+//関数名	：void MakeParticleUnitBuffer(D3DXVECTOR2 *size, D3DXVECTOR2 *tecDiv, LPDIRECT3DVERTEXBUFFER9 *buff)
+//引数1		：D3DXVECTOR2 *size パーティクルサイズ
+//引数2		：D3DXVECTOR2 *texDiv テクスチャの分割設定
+//引数3		：LPDIRECT3DVERTEXBUFFER9 buff 作成した頂点バッファを指すインターフェイス
+//戻り値	：void
+//説明		：パーティクル単位頂点バッファを作成する関数
+********************************************************************/
+void MakeParticleUnitBuffer(D3DXVECTOR2 *size, D3DXVECTOR2 *texDiv, LPDIRECT3DVERTEXBUFFER9 *buff)
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	pDevice->CreateVertexBuffer(sizeof(ParticleUnit) * NUM_VERTEX, 0, 0, D3DPOOL_MANAGED, buff, 0);
+	
+	ParticleUnit *p;
+	(*buff)->Lock(0, 0, (void**)&p, 0);
+
+	//単位サイズ設定
+	p[0].vtx = D3DXVECTOR3(-size->x / 2.0f, size->y / 2.0f, 0.0f);
+	p[1].vtx = D3DXVECTOR3(size->x / 2.0f, size->y / 2.0f, 0.0f);
+	p[2].vtx = D3DXVECTOR3(-size->x / 2.0f, -size->y / 2.0f, 0.0f);
+	p[3].vtx = D3DXVECTOR3(size->x / 2.0f, -size->y / 2.0f, 0.0f);
+	
+	//単位UV設定
+	float u = 1.0f / texDiv->x;
+	float v = 1.0f / texDiv->y;
+	p[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	p[1].tex = D3DXVECTOR2(u, 0.0f);
+	p[2].tex = D3DXVECTOR2(0.0f, v);
+	p[3].tex = D3DXVECTOR2(u, v);
+
+	(*buff)->Unlock();
+}
+
+/********************************************************************
+//関数名	：void MakeTransformBuffer
+//引数1		：DWORD maxNum パーティクルの最大数
+//引数2		：LPDIRECT3DVERTEXBUFFER9 *buff 作成した頂点バッファを指すインターフェイス
+//戻り値	：void
+//説明		：SRT情報バッファを作成する関数
+********************************************************************/
+void MakeTransformBuffer(DWORD maxNum, LPDIRECT3DVERTEXBUFFER9 *buff)
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	pDevice->CreateVertexBuffer(sizeof(Transform) * maxNum, 0, 0, D3DPOOL_MANAGED, buff, 0);
+}
+
+/********************************************************************
+//関数名	：void MakeUVBuffer
+//引数1		：DWORD maxNum パーティクルの最大数
+//引数2		：LPDIRECT3DVERTEXBUFFER9 buff 作成した頂点バッファを指すインターフェイス
+//戻り値	：void
+//説明		：UV情報を作成する関数
+********************************************************************/
+void MakeUVBUffer(DWORD maxNum, LPDIRECT3DVERTEXBUFFER9 *buff)
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	pDevice->CreateVertexBuffer(sizeof(ParticleUV) * maxNum, 0, 0, D3DPOOL_MANAGED, buff, 0);
 }

@@ -28,6 +28,7 @@ enum STARS
 	LOWER_LEFT,
 	LOWER_RIGHT,
 	MIDDLE_RIGHT,
+	CENTER
 };
 
 //*****************************************************************************
@@ -38,5 +39,7 @@ void	UninitStar	(void);
 void	UpdateStar	(HWND hWnd);
 void	DrawStar	(void);
 void	ToggleRotateStar(int num, bool isRotated);
+bool IsSelected(int num, HWND hWnd);
+void GetStarPosition(D3DXVECTOR3 *pos);
 
 #endif

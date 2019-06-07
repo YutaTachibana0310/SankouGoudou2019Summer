@@ -74,10 +74,17 @@ void UpdateUIManager(HWND hWnd)
 //=============================================================================
 void DrawUIManager(void)
 {
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
 	DrawGuageParts();
 	DrawScore();
 	DrawStar();
 	DrawCombo();
 	DrawLine();
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }
 

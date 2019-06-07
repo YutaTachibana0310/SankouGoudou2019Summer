@@ -115,6 +115,19 @@ HRESULT MeshContainer::Load(const char* filePath)
 }
 
 /**************************************
+‰ğ•úˆ—
+***************************************/
+void MeshContainer::Release()
+{
+	for (int i = 0; i < materialNum; i++)
+	{
+		SAFE_RELEASE(textures[i]);
+	}
+
+	SAFE_RELEASE(mesh);
+}
+
+/**************************************
 •`‰æˆ—
 ***************************************/
 void MeshContainer::Draw()

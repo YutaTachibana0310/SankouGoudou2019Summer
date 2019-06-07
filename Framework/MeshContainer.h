@@ -19,17 +19,18 @@
 class MeshContainer
 {
 public:
-	MeshContainer();
-	~MeshContainer();
+	MeshContainer();					//コンストラクタ
+	~MeshContainer();					//デストラクタ
 
-	HRESULT Load(const char* filePath);
-	void Draw();
+	HRESULT Load(const char* filePath);	//Xファイルの読み込み
+	void Release();						//モデルデータを解放
+	void Draw();						//モデルを描画
 
-private:
-	LPD3DXMESH mesh;
-	D3DMATERIAL9* materials;
-	LPDIRECT3DTEXTURE9 *textures;
-	DWORD materialNum;
+private:								
+	LPD3DXMESH mesh;					//メッシュデータ
+	D3DMATERIAL9* materials;			//マテリアル情報
+	LPDIRECT3DTEXTURE9 *textures;		//テクスチャ
+	DWORD materialNum;					//マテリアル数
 };
 
 #endif

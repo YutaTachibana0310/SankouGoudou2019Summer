@@ -17,6 +17,7 @@
 #include "BackGroundRoad.h"
 #include "BackGroundField.h"
 #include "SkyBox.h"
+#include "GameParticleManager.h"
 
 #include "player.h"
 
@@ -39,8 +40,12 @@ void GameScene::Init()
 {
 	InitSkyBox(0);
 	InitBackGroundCity(0);
+
 	InitBackGroundRoad();
 	InitBackGroundField();
+
+	InitGameParticleManager(0);
+
 	InitUI();
 
 	InitPlayerController();
@@ -55,8 +60,11 @@ void GameScene::Uninit()
 {
 	UninitSkyBox(0);
 	UninitBackGroundCity(0);
+
 	UninitBackGroundRoad();
 	UninitBackGroundField();
+
+	UninitGameParticleManager(0);
 
 	UninitUI();
 
@@ -71,12 +79,18 @@ void GameScene::Update(HWND hWnd)
 {
 	UpdateSkyBox();
 	UpdateBackGroundCity();
+
 	UpdateBackGroundRoad();
 	UpdateBackGroundField();
-	UpdateUI(hWnd);
+
 	UpdatePlayerController(hWnd);
 	player.Update();
+
+	UpdateGameParticleManager();
+
+	UpdateUI(hWnd);
 	UpdateCursor(hWnd);
+
 }
 
 /**************************************
@@ -87,14 +101,15 @@ void GameScene::Draw()
 	DrawSkyBox();
 
 	DrawBackGroundCity();
-
 	DrawBackGroundRoad();
-
 	DrawBackGroundField();
-
-	DrawUI();
 
 	player.Draw();
 
+	DrawGameParticleManager();
+
+	DrawUI();
+
 	DrawCursor();
+
 }

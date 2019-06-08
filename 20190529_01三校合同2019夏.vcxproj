@@ -150,6 +150,7 @@
     <ClInclude Include="Framework\MeshContainer.h" />
     <ClInclude Include="Framework\MyAllocateHierarchy.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameParticleManager.h" />
     <ClInclude Include="guage.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="imgui\imconfig.h" />
@@ -191,6 +192,7 @@
     <ClInclude Include="PostEffect\SpikeNoiseController.h" />
     <ClInclude Include="PostEffect\StrongBlurFilter.h" />
     <ClInclude Include="score.h" />
+    <ClInclude Include="ScoreParticle.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="star.h" />
     <ClInclude Include="trail.h" />
@@ -217,6 +219,7 @@
     <ClCompile Include="Framework\MeshContainer.cpp" />
     <ClCompile Include="Framework\MyAllocateHierarchy.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameParticleManager.cpp" />
     <ClCompile Include="guage.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -251,6 +254,7 @@
     <ClCompile Include="PostEffect\SpikeNoiseController.cpp" />
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp" />
     <ClCompile Include="score.cpp" />
+    <ClCompile Include="ScoreParticle.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="star.cpp" />
     <ClCompile Include="trail.cpp" />

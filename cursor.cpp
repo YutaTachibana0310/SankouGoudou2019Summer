@@ -99,29 +99,28 @@ bool IsStarHitted(int num, HWND hWnd)
 	// どのスターとも当たってなかったらfalse,それ以外はtrue
 	if (IsHittedBB(GetMousePosition(hWnd), starPosition[0],
 		D3DXVECTOR2(COLLIDERSIZE_X_STAR, COLLIDERSIZE_Y_STAR),
-		D3DXVECTOR2(COLLIDERSIZE_X_CURSOR, COLLIDERSIZE_Y_CURSOR))
+		D3DXVECTOR2(COLLIDERSIZE_X_CURSOR, COLLIDERSIZE_Y_CURSOR)))
 		return true;
 
-	if(IsHittedBB(GetMousePosition(hWnd), starPosition[1],
+	if (IsHittedBB(GetMousePosition(hWnd), starPosition[1],
 		D3DXVECTOR2(COLLIDERSIZE_X_STAR, COLLIDERSIZE_Y_STAR),
-		D3DXVECTOR2(COLLIDERSIZE_X_CURSOR, COLLIDERSIZE_Y_CURSOR))
+		D3DXVECTOR2(COLLIDERSIZE_X_CURSOR, COLLIDERSIZE_Y_CURSOR)))
 		return true;
 
-	if(IsHittedBB(GetMousePosition(hWnd), starPosition[2],
+	if (IsHittedBB(GetMousePosition(hWnd), starPosition[2],
 		D3DXVECTOR2(COLLIDERSIZE_X_STAR, COLLIDERSIZE_Y_STAR),
-		D3DXVECTOR2(COLLIDERSIZE_X_CURSOR, COLLIDERSIZE_Y_CURSOR))
+		D3DXVECTOR2(COLLIDERSIZE_X_CURSOR, COLLIDERSIZE_Y_CURSOR)))
 		return true;
 
-	if(IsHittedBB(GetMousePosition(hWnd), starPosition[3],
+	if (IsHittedBB(GetMousePosition(hWnd), starPosition[3],
 		D3DXVECTOR2(COLLIDERSIZE_X_STAR, COLLIDERSIZE_Y_STAR),
-		D3DXVECTOR2(COLLIDERSIZE_X_CURSOR, COLLIDERSIZE_Y_CURSOR))
+		D3DXVECTOR2(COLLIDERSIZE_X_CURSOR, COLLIDERSIZE_Y_CURSOR)))
 		return true;
 
-	if(IsHittedBB(GetMousePosition(hWnd), starPosition[4],
+	if (IsHittedBB(GetMousePosition(hWnd), starPosition[4],
 		D3DXVECTOR2(COLLIDERSIZE_X_STAR, COLLIDERSIZE_Y_STAR),
-		D3DXVECTOR2(COLLIDERSIZE_X_CURSOR, COLLIDERSIZE_Y_CURSOR))
+		D3DXVECTOR2(COLLIDERSIZE_X_CURSOR, COLLIDERSIZE_Y_CURSOR)))
 		return true;
 
-	else
-		return false;
+	return false;
 }

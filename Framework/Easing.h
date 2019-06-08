@@ -12,6 +12,7 @@
 //*****************************************************************************
 enum EasingType
 {
+	None,
 	InCubic,
 	OutCubic,
 	InOutCubic,
@@ -70,7 +71,7 @@ public:
 			break;
 
 		default:
-			result = Easing<T>::EaseLinear(time, start, goal);
+			result = *start;
 			break;
 		}
 

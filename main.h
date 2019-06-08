@@ -97,7 +97,7 @@ typedef struct
 //パーティクルのUV情報
 typedef struct
 {
-	D3DXVECTOR2 tex;
+	float u, v;
 }ParticleUV;
 
 typedef struct

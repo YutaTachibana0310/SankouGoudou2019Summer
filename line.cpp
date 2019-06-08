@@ -8,14 +8,14 @@
 #include "input.h"
 #include "line.h"
 #include "UIdrawer.h"
-#include "collider.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define SIZE_X_LINE			(780.0f)
-#define SIZE_Y_LINE			(450.0f)
-#define POSITION_LINE (D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,0.0f))
+//#define SIZE_X_LINE			(780.0f)
+#define SIZE_X_LINE			(SCREEN_WIDTH/2)
+#define SIZE_Y_LINE			(170.0f)
+#define POSITION_LINE (D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_HEIGHT/10*2,0.0f))
 
 //*****************************************************************************
 // グローバル変数
@@ -31,7 +31,7 @@ HRESULT InitLine(void)
 
 	LoadTexture(pDevice, ADRESS_TEXTURE_LINE, &line);
 	InitialTexture(&line);
-	MakeVertexRotateObject(&line);
+	MakeVertexObject(&line);
 
 	line.position = POSITION_LINE;
 	line.size = D3DXVECTOR3(SIZE_X_LINE, SIZE_Y_LINE, 0.0f);

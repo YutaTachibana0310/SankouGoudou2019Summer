@@ -11,41 +11,45 @@
 #include "star.h"
 #include "combo.h"
 #include "line.h"
+#include "trail.h"
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
-void InitUIManager(void)
+void InitUI(void)
 {
 	InitGuageParts();
 	InitScore();
 	InitStar();
 	InitCombo();
 	InitLine();
+	InitTrail();
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitUIManager(void)
+void UninitUI(void)
 {
 	UninitGuageParts();
 	UninitScore();
 	UninitStar();
 	UninitCombo();
 	UninitLine();
+	UninitTrail();
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateUIManager(HWND hWnd)
+void UpdateUI(HWND hWnd)
 {
 	UpdateGuageParts();
 	UpdateScore();
 	UpdateStar(hWnd);
 	UpdateCombo();
 	UpdateLine();
+	UpdateTrail();
 
 #ifdef _DEBUG
 	// デバッグ用コマンド
@@ -72,7 +76,7 @@ void UpdateUIManager(HWND hWnd)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawUIManager(void)
+void DrawUI(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -83,8 +87,9 @@ void DrawUIManager(void)
 	DrawGuageParts();
 	DrawScore();
 	DrawStar();
-	DrawCombo();
 	DrawLine();
+	DrawCombo();
+	DrawTrail();
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }
 

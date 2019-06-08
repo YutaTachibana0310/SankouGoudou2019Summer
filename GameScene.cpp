@@ -8,6 +8,7 @@
 #include "debugWindow.h"
 #include "Game.h"
 #include "UIManager.h"
+#include "cursor.h"
 #include "player.h"
 #include "PlayerController.h"
 #include "InputController.h"
@@ -40,10 +41,11 @@ void GameScene::Init()
 	InitBackGroundCity(0);
 	InitBackGroundRoad();
 	InitBackGroundField();
-	InitUIManager();
+	InitUI();
 
 	InitPlayerController();
 	player.Init();
+	InitCursor();
 }
 
 /**************************************
@@ -56,9 +58,10 @@ void GameScene::Uninit()
 	UninitBackGroundRoad();
 	UninitBackGroundField();
 
-	UninitUIManager();
+	UninitUI();
 
 	player.Uninit();
+	UninitCursor();
 }
 
 /**************************************
@@ -70,9 +73,10 @@ void GameScene::Update(HWND hWnd)
 	UpdateBackGroundCity();
 	UpdateBackGroundRoad();
 	UpdateBackGroundField();
-	UpdateUIManager(hWnd);
+	UpdateUI(hWnd);
 	UpdatePlayerController(hWnd);
 	player.Update();
+	UpdateCursor(hWnd);
 }
 
 /**************************************
@@ -88,7 +92,9 @@ void GameScene::Draw()
 
 	DrawBackGroundField();
 
-	DrawUIManager();
+	DrawUI();
 
 	player.Draw();
+
+	DrawCursor();
 }

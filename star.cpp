@@ -10,6 +10,7 @@
 #include "UIdrawer.h"
 #include "collider.h"
 #include "Framework/EasingVector.h"
+#include "cursor.h"
 
 //*****************************************************************************
 // É}ÉNÉçíËã`
@@ -17,8 +18,6 @@
 #define NUMBER_ROTATION		(1)
 #define SIZE_X_STAR			(100.0f)
 #define SIZE_Y_STAR			(100.0f)
-#define COLLIDERSIZE_X_STAR (120.0f)
-#define COLLIDERSIZE_Y_STAR (120.0f)
 #define VOLUME_ZOOM			(30.0f)
 #define SPEED_ROTATION		(60.0f)
 

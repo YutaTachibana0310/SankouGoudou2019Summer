@@ -58,8 +58,8 @@ HRESULT InitGuageParts(void)
 
 	//Å@êFê›íË
 	SetColorObject(&guageParts[GUAGEBAR_DAMAGE], SET_COLOR_RED);
-	SetColorObject(&guageParts[GUAGEBAR_TRUE],	 SET_COLOR_GREEN);
-	SetColorObject(&guageParts[GUAGEFLAME],		 SET_COLOR_BLACK);
+	SetColorObject(&guageParts[GUAGEBAR_TRUE],	 SET_COLOR_YELLOW);
+	SetColorObject(&guageParts[GUAGEFLAME],		 SET_COLOR_NOT_COLORED);
 	SetColorObject(&guageParts[GUAGETEXT], D3DXCOLOR(0.0f, 0.0f, 0.0f, TEXT_GUAGE_ALPHA));
 
 	damageGuagePercentage = INITIALVALUE_GUAGEPERCENTAGE;
@@ -111,7 +111,7 @@ void DrawGuageParts(void)
 	SetVertexGuageBar(&guageParts[GUAGEBAR_DAMAGE],	damageGuagePercentage,	WIDTH_GUAGEFLAME, DOWN_GUAGEBAR);
 	SetVertexGuageBar(&guageParts[GUAGEBAR_TRUE],	trueGuagePercentage,	WIDTH_GUAGEFLAME, DOWN_GUAGEBAR);
 	SetVertexObject(&guageParts[GUAGEFLAME]);
-	SetVertexObject(&guageParts[GUAGETEXT]);
+	//SetVertexObject(&guageParts[GUAGETEXT]);
 }
 
 //=============================================================================

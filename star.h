@@ -10,9 +10,11 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	ADRESS_TEXTURE_STAR			("data/TEXTURE/UI/star02.png")	// 読み込むテクスチャファイル名
+#define	ADRESS_TEXTURE_STAR			("data/TEXTURE/UI/star.png")	// 読み込むテクスチャファイル名
 
 #define	STAR_MAX (5)
+#define COLLIDERSIZE_X_STAR (120.0f)
+#define COLLIDERSIZE_Y_STAR (120.0f)
 
 // 座標定義
 #define POSITION_STAR_TOP			(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 5, 0.0f))
@@ -39,7 +41,7 @@ void	UninitStar	(void);
 void	UpdateStar	(HWND hWnd);
 void	DrawStar	(void);
 void	ToggleRotateStar(int num, bool isRotated);
-bool IsSelected(int num, HWND hWnd);
-void GetStarPosition(D3DXVECTOR3 *pos);
+bool	IsSelected(int num, HWND hWnd);
+void	GetStarPosition(D3DXVECTOR3 *pos);
 
 #endif

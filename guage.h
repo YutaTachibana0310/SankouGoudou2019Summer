@@ -10,9 +10,9 @@
 //*****************************************************************************
 // É}ÉNÉçíËã`
 //*****************************************************************************
-#define	ADRESS_TEXTURE_GUAGEBAR		("data/TEXTURE/UI/guageBar_vertical.png")		
-#define	ADRESS_TEXTURE_GUAGEFLAME	("data/TEXTURE/UI/guageFlame_vertical.png")		
-#define	ADRESS_TEXTURE_GUAGETEXT	("data/TEXTURE/UI/guageText_fever_vertical.png")		
+#define	ADRESS_TEXTURE_GUAGEBAR		("data/TEXTURE/UI/guage/guageBar_vertical.png")		
+#define	ADRESS_TEXTURE_GUAGEFLAME	("data/TEXTURE/UI/guage/guageFrame_vertical.png")		
+#define	ADRESS_TEXTURE_GUAGETEXT	("data/TEXTURE/UI/guage/guageText_fever_vertical.png")		
 
 enum GUARGE_PARTS
 {

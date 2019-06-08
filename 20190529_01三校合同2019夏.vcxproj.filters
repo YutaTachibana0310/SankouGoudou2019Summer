@@ -252,9 +252,6 @@
     <ClInclude Include="SkyBox.h">
       <Filter>ヘッダー ファイル\BG</Filter>
     </ClInclude>
-    <ClInclude Include="PostEffectManager.h">
-      <Filter>ヘッダー ファイル\System</Filter>
-    </ClInclude>
     <ClInclude Include="ScoreParticle.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
@@ -266,6 +263,9 @@
     </ClInclude>
     <ClInclude Include="BackGroundField.h">
       <Filter>ヘッダー ファイル\BG</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffectManager.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -28,14 +28,20 @@
     <Filter Include="ソース ファイル\PostEffect">
       <UniqueIdentifier>{84b7dab4-a507-48ae-aa5e-3092ebf303f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\PostEffect">
-      <UniqueIdentifier>{123d6183-5784-4620-80c3-af6ee8e23b7b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\imgui">
       <UniqueIdentifier>{a0e1a0a8-0c1b-46d7-baa6-7f91892dd7fc}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\imgui">
       <UniqueIdentifier>{b28a90e9-60ba-48c3-9a6f-d7ddd09174f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Player">
+      <UniqueIdentifier>{26249511-3b2d-4578-a921-99d9a63dac95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Player">
+      <UniqueIdentifier>{5288d406-a55c-4b1e-832f-bbbf5225f244}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\PostEffect">
+      <UniqueIdentifier>{123d6183-5784-4620-80c3-af6ee8e23b7b}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\UI">
       <UniqueIdentifier>{fc33b01c-96f4-468d-a347-92d294acf87a}</UniqueIdentifier>
@@ -48,6 +54,12 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Scene">
       <UniqueIdentifier>{79f958d3-9acf-41a1-a7b8-dc7ed3cdf38c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Player">
+      <UniqueIdentifier>{a11dc05d-44db-44ee-b6c3-f8b76cc62e8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Player">
+      <UniqueIdentifier>{a0027e8c-63e5-4f3b-b155-edb9a93b6d41}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\BG">
       <UniqueIdentifier>{5ed267d0-d7be-4bd2-9bcb-740e6e06be26}</UniqueIdentifier>
@@ -165,6 +177,24 @@
     <ClInclude Include="debugWindow.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
+    <ClInclude Include="IStateMachine.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMove.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWait.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerReturn.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBullet.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
     <ClInclude Include="guage.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
@@ -201,8 +231,20 @@
     <ClInclude Include="Framework\MyAllocateHierarchy.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="InputController.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerController.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
     <ClInclude Include="ResultScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="line.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
     <ClInclude Include="BackGroundCity.h">
       <Filter>ヘッダー ファイル\BG</Filter>
@@ -218,6 +260,12 @@
     </ClInclude>
     <ClInclude Include="GameParticleManager.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGroundRoad.h">
+      <Filter>ヘッダー ファイル\BG</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGroundField.h">
+      <Filter>ヘッダー ファイル\BG</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -314,6 +362,21 @@
     <ClCompile Include="debugWindow.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerMove.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBullet.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWait.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerReturn.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
     <ClCompile Include="guage.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
@@ -344,11 +407,23 @@
     <ClCompile Include="ResultScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="line.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
     <ClCompile Include="Framework\AnimContainer.cpp">
       <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Framework\MyAllocateHierarchy.cpp">
       <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="InputController.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerController.cpp">
+      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
     <ClCompile Include="BackGroundCity.cpp">
       <Filter>ソース ファイル\BG</Filter>
@@ -364,6 +439,12 @@
     </ClCompile>
     <ClCompile Include="GameParticleManager.cpp">
       <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGroundRoad.cpp">
+      <Filter>ソース ファイル\BG</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGuroundField.cpp">
+      <Filter>ソース ファイル\BG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

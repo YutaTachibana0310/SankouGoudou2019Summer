@@ -11,19 +11,20 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	INTERVAL_NUMBER	(40.0f)	// スコア数字の表示間隔
-#define	PLACE_MAX		(4)		// スコアの桁数
+#define	INTERVAL_NUMBER	(40.0f)				// スコア数字の表示間隔
+#define	INTERVAL_NUMBER_TEXTURE	(0.097f)	// テクスチャテクスチャ内のスコア数字の表示間隔
+#define	PLACE_MAX		(4)					// スコアの桁数
 #define SIZE_X_SCORE	(20)
 #define SIZE_Y_SCORE	(30)
 #define VOLUME_ZOOM		(50.0f)
-#define POSITION_SCORE	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 8.5, SCREEN_HEIGHT / 10 * 1, 0.0f))
-#define BASE_NUMBER		(10) // 進数
+#define POSITION_SCORE	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 8.5f, SCREEN_HEIGHT / 10 * 5.0f, 0.0f))
+#define BASE_NUMBER		(10)	// 進数
 
 //*****************************************************************************
 // グローバル変数宣言
 //*****************************************************************************
 OBJECT	score;					
-int		g_score		= 0; // スコア
+int		g_score		= 0;		// スコア
 int		g_score_max = 0;			
 
 //=============================================================================
@@ -82,7 +83,7 @@ void DrawScore(void)
 
 		DrawObject(pDevice, score);
 		SetVertexCounter(&score, nCntPlace, INTERVAL_NUMBER);
-		SetTextureCounter(&score, number);
+		SetTextureCounter(&score, number, INTERVAL_NUMBER_TEXTURE);
 	}
 }
 

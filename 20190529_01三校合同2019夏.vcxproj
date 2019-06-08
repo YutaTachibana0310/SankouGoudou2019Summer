@@ -138,6 +138,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="collider.h" />
     <ClInclude Include="combo.h" />
+    <ClInclude Include="cursor.h" />
     <ClInclude Include="debugTimer.h" />
     <ClInclude Include="debugWindow.h" />
     <ClInclude Include="Framework\AnimContainer.h" />
@@ -174,7 +175,6 @@
     <ClInclude Include="IStateScene.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="line.h" />
-    <ClInclude Include="main.h" />
     <ClInclude Include="MyLibrary.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="PlayerController.h" />
@@ -195,6 +195,7 @@
     <ClInclude Include="ScoreParticle.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="star.h" />
+    <ClInclude Include="trail.h" />
     <ClInclude Include="UIdrawer.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="ResultScene.h" />
@@ -207,6 +208,7 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collider.cpp" />
     <ClCompile Include="combo.cpp" />
+    <ClCompile Include="cursor.cpp" />
     <ClCompile Include="debugTimer.cpp" />
     <ClCompile Include="debugWindow.cpp" />
     <ClCompile Include="Framework\AnimContainer.cpp" />
@@ -255,6 +257,7 @@
     <ClCompile Include="ScoreParticle.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="star.cpp" />
+    <ClCompile Include="trail.cpp" />
     <ClCompile Include="UIdrawer.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="ResultScene.cpp" />

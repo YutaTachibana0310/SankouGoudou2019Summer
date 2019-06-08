@@ -8,6 +8,7 @@
 #include "debugWindow.h"
 #include "Game.h"
 #include "UIManager.h"
+#include "cursor.h"
 #include "player.h"
 #include "PlayerController.h"
 #include "InputController.h"
@@ -45,10 +46,11 @@ void GameScene::Init()
 
 	InitGameParticleManager(0);
 
-	InitUIManager();
+	InitUI();
 
 	InitPlayerController();
 	player.Init();
+	InitCursor();
 }
 
 /**************************************
@@ -64,9 +66,10 @@ void GameScene::Uninit()
 
 	UninitGameParticleManager(0);
 
-	UninitUIManager();
+	UninitUI();
 
 	player.Uninit();
+	UninitCursor();
 }
 
 /**************************************
@@ -85,7 +88,8 @@ void GameScene::Update(HWND hWnd)
 
 	UpdateGameParticleManager();
 
-	UpdateUIManager(hWnd);
+	UpdateUI(hWnd);
+	UpdateCursor(hWnd);
 
 }
 
@@ -104,6 +108,8 @@ void GameScene::Draw()
 
 	DrawGameParticleManager();
 
-	DrawUIManager();
+	DrawUI();
+
+	DrawCursor();
 
 }

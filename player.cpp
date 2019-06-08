@@ -67,7 +67,6 @@ void Player::Init()
 	MakeVertexPlayer();
 
 	return;
-
 }
 
 /***************************************

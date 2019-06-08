@@ -1,11 +1,11 @@
 //=====================================
 //
-//スコアパーティクルヘッダ[ScoreParticle.h]
+//ゲームパーティクルマネージャヘッダ[GameParticleManager.h]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#ifndef _SCOREPARTICLE_H_
-#define _SCOREPARTICLE_H_
+#ifndef _GameParticleManager_H_
+#define _GameParticleManager_H_
 
 #include "main.h"
 
@@ -20,11 +20,9 @@
 /**************************************
 プロトタイプ宣言
 ***************************************/
-void InitScoreParticle(int num);
-void UninitScoreParticle(int num);
-void UpdateScoreParticle(void);
-void DrawScoreParticle(void);
-
-void SetScoreParticle(D3DXVECTOR3 pos);
+void InitGameParticleManager(int num);
+void UninitGameParticleManager(int num);
+void UpdateGameParticleManager(void);
+void DrawGameParticleManager(void);
 
 #endif

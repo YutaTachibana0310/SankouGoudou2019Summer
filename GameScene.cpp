@@ -11,6 +11,7 @@
 
 #include "BackGroundCity.h"
 #include "SkyBox.h"
+#include "GameParticleManager.h"
 
 /**************************************
 É}ÉNÉçíËã`
@@ -31,6 +32,7 @@ void GameScene::Init()
 {
 	InitSkyBox(0);
 	InitBackGroundCity(0);
+	InitGameParticleManager(0);
 	InitUIManager();
 }
 
@@ -41,7 +43,7 @@ void GameScene::Uninit()
 {
 	UninitSkyBox(0);
 	UninitBackGroundCity(0);
-
+	UninitGameParticleManager(0);
 	UninitUIManager();
 
 }
@@ -53,6 +55,9 @@ void GameScene::Update(HWND hWnd)
 {
 	UpdateSkyBox();
 	UpdateBackGroundCity();
+
+	UpdateGameParticleManager();
+
 	UpdateUIManager(hWnd);
 }
 
@@ -64,6 +69,8 @@ void GameScene::Draw()
 	DrawSkyBox();
 
 	DrawBackGroundCity();
+
+	DrawGameParticleManager();
 
 	DrawUIManager();
 

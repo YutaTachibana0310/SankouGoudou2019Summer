@@ -174,7 +174,6 @@
     <ClInclude Include="IStateScene.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="line.h" />
-    <ClInclude Include="main.h" />
     <ClInclude Include="MyLibrary.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="PlayerController.h" />

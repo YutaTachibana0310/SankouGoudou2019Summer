@@ -273,9 +273,6 @@
     <ClInclude Include="light.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="main.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="MyLibrary.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>

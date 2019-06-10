@@ -111,5 +111,4 @@ void GameScene::Draw()
 	DrawUI();
 
 	DrawCursor();
-
 }

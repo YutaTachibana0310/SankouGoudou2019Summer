@@ -11,6 +11,7 @@
 #include "collider.h"
 #include "Framework/EasingVector.h"
 #include "cursor.h"
+#include "trail.h"
 
 //*****************************************************************************
 // É}ÉNÉçíËã`

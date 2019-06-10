@@ -100,9 +100,9 @@ void GameScene::Draw()
 {
 	DrawSkyBox();
 
-	//DrawBackGroundCity();
-	//DrawBackGroundRoad();
-	//DrawBackGroundField();
+	DrawBackGroundCity();
+	DrawBackGroundRoad();
+	DrawBackGroundField();
 
 	player.Draw();
 

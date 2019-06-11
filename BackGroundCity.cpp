@@ -1,11 +1,11 @@
 //=====================================
 //
-//テンプレート処理[BackGroundCity.cpp]
+//バックグラウンドシティ処理[BackGroundCity.cpp]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
 #include "BackGroundCity.h"
-#include "Framework\MeshContainer.h"
+#include "Framework\InstancingMeshContainer.h"
 #include "SkyBox.h"
 
 /**************************************
@@ -35,9 +35,9 @@
 /**************************************
 グローバル変数
 ***************************************/
-static D3DXVECTOR3 cityPos[BACKGROUNDCITY_NUM_MAX];
-
-static MeshContainer* meshContainer;
+static Transform cityTransform[BACKGROUNDCITY_NUM_MAX];
+static InstancingMeshContainer* meshContainer;
+static LPDIRECT3DVERTEXBUFFER9 transformBuffer;
 
 /**************************************
 プロトタイプ宣言
@@ -48,28 +48,37 @@ static MeshContainer* meshContainer;
 ***************************************/
 void InitBackGroundCity(int num)
 {
-	meshContainer = new MeshContainer();
+	meshContainer = new InstancingMeshContainer();
 	meshContainer->Load(BACKGROUNDCITY_MODEL_FILE);
 
 	//Y座標、Z座標について初期化
 	for (int i = 0; i < BACKGROUNDCITY_NUM_MAX; i += BACKGROUNDCITY_KIND_MAX)
 	{
-		cityPos[i].y = BACKGROUNDCITY_BASEPOS_Y + RandomRangef(-BACKGROUNDCITY_POS_RANGE_Y, BACKGROUNDCITY_POS_RANGE_Y);
+		cityTransform[i].pos.y = BACKGROUNDCITY_BASEPOS_Y + RandomRangef(-BACKGROUNDCITY_POS_RANGE_Y, BACKGROUNDCITY_POS_RANGE_Y);
 
 		for (int j = 0; j < BACKGROUNDCITY_KIND_MAX; j++)
 		{
-			cityPos[i+j].z = BACKGROUNDCITY_BASEPOS_Z + BACKGROUNDCITY_OFFSET_Z * (i / 2) + RandomRangef(-BACKGROUNDCITY_POS_RANGE_Z, BACKGROUNDCITY_POS_RANGE_Z);
+			cityTransform[i+j].pos.z = BACKGROUNDCITY_BASEPOS_Z + BACKGROUNDCITY_OFFSET_Z * (i / 2) + RandomRangef(-BACKGROUNDCITY_POS_RANGE_Z, BACKGROUNDCITY_POS_RANGE_Z);
 		}
 	}
 
 	//X座標について初期化
 	for (int i = 0; i < BACKGROUNDCITY_NUM_MAX; i += BACKGROUNDCITY_KIND_MAX)
 	{
-		cityPos[i].x = BACKGROUNDCITY_BASEPOS_X_INNER + RandomRangef(0.0f, BACKGROUNDCITY_POS_RANGE_X);
-		cityPos[i + 1].x = -BACKGROUNDCITY_BASEPOS_X_INNER - RandomRangef(0.0f, BACKGROUNDCITY_POS_RANGE_X);
-		//cityPos[i + 2].x = BACKGROUNDCITY_BASEPOS_X_OUTER + RandomRangef(0.0f, BACKGROUNDCITY_POS_RANGE_X);
-		//cityPos[i + 3].x = -BACKGROUNDCITY_BASEPOS_X_OUTER - RandomRangef(0.0f, BACKGROUNDCITY_POS_RANGE_X);
+		cityTransform[i].pos.x = BACKGROUNDCITY_BASEPOS_X_INNER + RandomRangef(0.0f, BACKGROUNDCITY_POS_RANGE_X);
+		cityTransform[i + 1].pos.x = -BACKGROUNDCITY_BASEPOS_X_INNER - RandomRangef(0.0f, BACKGROUNDCITY_POS_RANGE_X);
 	}
+
+	//スケール、回転情報を初期化
+	Transform *ptr = cityTransform;
+	for (int i = 0; i < BACKGROUNDCITY_NUM_MAX; i++, ptr++)
+	{
+		ptr->scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+		ptr->rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	}
+
+	//SRT情報バッファを作成
+	MakeTransformBuffer(BACKGROUNDCITY_NUM_MAX, &transformBuffer);
 }
 
 /**************************************
@@ -77,9 +86,9 @@ void InitBackGroundCity(int num)
 ***************************************/
 void UninitBackGroundCity(int num)
 {
+	SAFE_RELEASE(transformBuffer);
 	delete meshContainer;
 }
-#include "input.h"
 /**************************************
 更新処理
 ***************************************/
@@ -88,12 +97,15 @@ void UpdateBackGroundCity(void)
 	for (int i = 0; i < BACKGROUNDCITY_NUM_MAX; i++)
 	{
 		//移動処理
-		cityPos[i].z += BACKGROUNDCITY_MOVE_SPEED;
+		cityTransform[i].pos.z += BACKGROUNDCITY_MOVE_SPEED;
 
 		//一定より後ろに下がっていたら最前列へ移動
-		if (cityPos[i].z <= -100.0f)
-			cityPos[i].z += 15000.0f;
+		if (cityTransform[i].pos.z <= -100.0f)
+			cityTransform[i].pos.z += 15000.0f;
 	}
+
+	//SRT情報をバッファへセット
+	CopyVtxBuff(sizeof(cityTransform), cityTransform, transformBuffer);
 }
 
 /**************************************
@@ -102,22 +114,10 @@ void UpdateBackGroundCity(void)
 void DrawBackGroundCity(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	D3DXMATRIX mtxWorld, mtxTranslate;
-	D3DMATERIAL9 matDef;
+	
+	//ストリームソース設定
+	meshContainer->SetStreamSource(transformBuffer, BACKGROUNDCITY_NUM_MAX);
 
-	pDevice->GetMaterial(&matDef);
-
-	for (int i = 0; i < BACKGROUNDCITY_NUM_MAX; i++)
-	{
-		D3DXMatrixIdentity(&mtxWorld);
-
-		//Translate
-		D3DXMatrixTranslation(&mtxTranslate, cityPos[i].x, cityPos[i].y, cityPos[i].z);
-		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTranslate);
-
-		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
-		meshContainer->Draw();
-
-		pDevice->SetMaterial(&matDef);
-	}
+	//描画
+	meshContainer->Draw();
 }

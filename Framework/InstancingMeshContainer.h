@@ -22,7 +22,7 @@ public:
 	InstancingMeshContainer();
 	~InstancingMeshContainer();
 
-	void Load(char* const filePath);
+	void Load(const char* filePath);
 	void Release();
 	void Draw();
 

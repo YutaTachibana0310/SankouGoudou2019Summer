@@ -54,7 +54,7 @@ InstancingMeshContainer::~InstancingMeshContainer()
 /**************************************
 “Ç‚Ýž‚Ýˆ—
 ***************************************/
-void InstancingMeshContainer::Load(char* const filePath)
+void InstancingMeshContainer::Load(const char* filePath)
 {
 	LPD3DXMESH mesh;
 	LPD3DXBUFFER buffer;
@@ -102,6 +102,7 @@ void InstancingMeshContainer::Load(char* const filePath)
 		elem[i + 1] = D3DVERTEXELEMENT9{ 1, sizeof(float) * 3, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 2 };
 		elem[i + 2] = D3DVERTEXELEMENT9{ 1, sizeof(float) * 6, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 3 };
 		elem[i + 3] = D3DDECL_END();
+		break;
 	}
 	pDevice->CreateVertexDeclaration(elem, &declare);
 
@@ -191,7 +192,7 @@ void InstancingMeshContainer::Draw()
 	D3DXVECTOR4 dir[NUM_LIGHT];
 	GetLightData(diffuse, ambient, dir);
 
-	effect->SetVectorArray("lightDIffuse", (D3DXVECTOR4*)&diffuse, NUM_LIGHT);
+	effect->SetVectorArray("lightDiffuse", (D3DXVECTOR4*)&diffuse, NUM_LIGHT);
 	effect->SetVectorArray("lightAmbient", (D3DXVECTOR4*)&ambient, NUM_LIGHT);
 	effect->SetVectorArray("lightDir", (D3DXVECTOR4*)&dir, NUM_LIGHT);
 

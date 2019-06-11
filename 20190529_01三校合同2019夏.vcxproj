@@ -164,19 +164,17 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="InputController.h" />
     <ClInclude Include="IStateMachine.h" />
-    <ClInclude Include="light.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="MyLibrary.h" />
-    <ClInclude Include="player.h" />
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="PlayerReturn.h" />
     <ClInclude Include="PlayerWait.h" />
     <ClInclude Include="IStateScene.h" />
-    <ClInclude Include="light.h" />
     <ClInclude Include="line.h" />
+<<<<<<< .merge_file_a05772
+=======
     <ClInclude Include="MyLibrary.h" />
     <ClInclude Include="player.h" />
+>>>>>>> .merge_file_a11228
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="PostEffectManager.h" />
     <ClInclude Include="PostEffect\BloomController.h" />

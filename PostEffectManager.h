@@ -4,10 +4,12 @@
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#ifndef _TEMPLATE_H_
-#define _TEMPLATE_H_
+#ifndef _POSTEFFECTMANAGER_H_
+#define _POSTEFFECTMANAGER_H_
 
 #include "main.h"
+#include "PostEffect\ScreenObject.h"
+#include "Framework\BaseSingleton.h"
 
 /**************************************
 マクロ定義
@@ -16,13 +18,22 @@
 /**************************************
 クラス定義
 ***************************************/
+class PostEffectManager : public BaseSingleton<PostEffectManager>
+{
+public:
+	friend class BaseSingleton<PostEffectManager>;
 
-/**************************************
-プロトタイプ宣言
-***************************************/
-void InitPostEffectManager(int num);
-void UninitPostEffectManager(int num);
-void UpdatePostEffectManager(void);
-void DrawPostEffectManager(void);
+	static void Destroy();
+	void Update();
+	void Draw();
+
+private:
+	PostEffectManager();
+	~PostEffectManager();
+
+	bool useSceneBloom;
+	bool useCrossFilter;
+};
+
 
 #endif

@@ -9,13 +9,13 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define BLOOM_USE_DEBUG
+//#define BLOOM_USE_DEBUG
 
 #ifdef BLOOM_USE_DEBUG
 #include "../debugWindow.h"
 #endif
 
-#define BLOOM_THRETHOLD_DEFAULT (0.2f)
+#define BLOOM_THRETHOLD_DEFAULT (0.55f)
 
 /**************************************
 クラス定義

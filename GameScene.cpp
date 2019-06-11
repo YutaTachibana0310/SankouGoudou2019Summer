@@ -7,6 +7,10 @@
 #include "GameScene.h"
 #include "debugWindow.h"
 #include "Game.h"
+#include "PostEffectManager.h"
+#include "debugWindow.h"
+#include "debugTimer.h"
+
 #include "UIManager.h"
 #include "player.h"
 #include "PlayerController.h"
@@ -23,6 +27,7 @@
 /**************************************
 マクロ定義
 ***************************************/
+#define GAMESCENE_LABEL ("GameScene")
 
 /**************************************
 構造体定義
@@ -74,19 +79,24 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
+	//背景オブジェクトの更新
 	UpdateSkyBox();
 	UpdateBackGroundCity();
-
 	UpdateBackGroundRoad();
 	UpdateBackGroundField();
 
+	//プレイヤーの更新
 	UpdatePlayerController(hWnd);
 	player.Update();
 
+	//パーティクルの更新
 	UpdateGameParticleManager();
 
+	//UIの更新
 	UpdateUIManager(hWnd);
 
+	//ポストエフェクトの更新
+	PostEffectManager::Instance()->Update();
 }
 
 /**************************************
@@ -94,16 +104,21 @@ void GameScene::Update(HWND hWnd)
 ***************************************/
 void GameScene::Draw()
 {
+	//背景の描画
 	DrawSkyBox();
-
 	DrawBackGroundCity();
 	DrawBackGroundRoad();
 	DrawBackGroundField();
 
+	//プレイヤーの描画
 	player.Draw();
 
+	//パーティクル描画
 	DrawGameParticleManager();
 
+	//ポストエフェクト描画
+	PostEffectManager::Instance()->Draw();
+	
+	//UI描画
 	DrawUIManager();
-
 }

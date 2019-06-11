@@ -21,22 +21,15 @@
 class PostEffectManager : public BaseSingleton<PostEffectManager>
 {
 public:
-	static PostEffectManager* Instance();
+	friend class BaseSingleton<PostEffectManager>;
+
 	static void Destroy();
 	void Update();
 	void Draw();
 
 private:
-	//シングルトンインスタンス
-	static PostEffectManager* instance;
-
-	//シングルトン化
 	PostEffectManager();
 	~PostEffectManager();
-	PostEffectManager(const PostEffectManager &) = delete;
-	PostEffectManager(PostEffectManager &&) = delete;
-	PostEffectManager& operator=(const PostEffectManager &) = delete;
-	PostEffectManager& operator=(PostEffectManager &&) = delete;
 
 	bool useSceneBloom;
 	bool useCrossFilter;

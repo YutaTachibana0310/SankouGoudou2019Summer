@@ -11,10 +11,13 @@
 #include "PostEffect\BloomController.h"
 #include "PostEffect\CrossFilterController.h"
 
+#include "debugTimer.h"
+
 /**************************************
 マクロ定義
 ***************************************/
-#define POSTEFFECT_USE_DEBUG
+//#define POSTEFFECT_USE_DEBUG
+#define POSTEFFECT_LABEL		"PostEffect"
 
 #ifdef POSTEFFECT_USE_DEBUG
 #include "debugWindow.h"
@@ -50,27 +53,6 @@ PostEffectManager::~PostEffectManager()
 ***************************************/
 void PostEffectManager::Update()
 {
-#ifdef POSTEFFECT_USE_DEBUG
-	BeginDebugWindow("PostEffect");
-
-	//ブルーム使用切り替え
-	DebugChechBox("User Bloom", &useSceneBloom);
-
-	//クロスフィルタ使用切り替え
-	DebugChechBox("Use SceneCrossFilter", &useCrossFilter);
-
-	//スパイクノイズセット
-	if (DebugButton("Set SpikeNoise"))
-		SpikeNoiseController::Instance()->SetNoise(2.0f, 20);
-
-	//ショックブラーセット
-	if (DebugButton("Set ShockBlur"))
-		ShockBlurController::Instance()->SetBlur(D3DXVECTOR3(0.0f, 0.0f, 200.0f), 50.0f, 30);
-
-	EndDebugWindow("PostEffect");
-#endif // POSTEFFECT_USE_DEBUG
-
-
 	SpikeNoiseController::Instance()->Update();
 	ShockBlurController::Instance()->Update();
 
@@ -87,11 +69,16 @@ void PostEffectManager::Update()
 void PostEffectManager::Draw()
 {
 	SpikeNoiseController::Instance()->Draw();
+	
 	ShockBlurController::Instance()->Draw();
-
+	
 	if (useSceneBloom)
+	{
 		BloomController::Instance()->Draw();
+	}
 
 	if (useCrossFilter)
+	{
 		CrossFilterController::Instance()->Draw();
+	}
 }

@@ -31,7 +31,7 @@
 void CrossFilterController::Update()
 {
 #ifdef CROSSFILTER_USE_DEBUG
-	BeginDebugWindow("CorssFilter");
+	BeginDebugWindow("CrossFilter");
 	static float threthold = CROSSFILTER_THRETHOLD_DEFAULT;
 	DebugSliderFloat("Threthold", &threthold, 0.0f, 1.0f);
 	EndDebugWindow("CrossFilter");
@@ -87,7 +87,7 @@ void CrossFilterController::Draw(LPDIRECT3DTEXTURE9 targetTexture)
 	pDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
 
 #ifdef CROSSFILTER_USE_DEBUG
-	BeginDebugWindow("CorssFilter");
+	BeginDebugWindow("CrossFilter");
 	for (int i = 0; i < 3; i++)
 	{
 		DebugDrawTexture(blurTexture[i][0], 100.0f, 50.0f);

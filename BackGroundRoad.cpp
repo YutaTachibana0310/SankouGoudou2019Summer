@@ -9,7 +9,8 @@
 #define BACKGROUNDROAD_POS_RANGE_Z      (10000.0f)
 #define BACKGROUNDROAD_NUM_MAX			(100)
 
-#define BACKGROUNDROAD_MOVE_SPEED	    (-25.0f)
+#define BACKGROUNDROAD_MOVE_SPEED	    (-0.03f)
+
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************

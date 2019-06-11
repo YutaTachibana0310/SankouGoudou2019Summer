@@ -87,9 +87,6 @@
     <ClInclude Include="light.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="main.h">
-      <Filter>ヘッダー ファイル\System</Filter>
-    </ClInclude>
     <ClInclude Include="MyLibrary.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
@@ -264,8 +261,37 @@
     <ClInclude Include="BackGroundField.h">
       <Filter>ヘッダー ファイル\BG</Filter>
     </ClInclude>
+<<<<<<< .merge_file_a12704
     <ClInclude Include="PostEffectManager.h">
       <Filter>ヘッダー ファイル\PostEffect</Filter>
+=======
+    <ClInclude Include="light.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="MyLibrary.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="cursor.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="trail.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="MyLibrary.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>ヘッダー ファイル</Filter>
+>>>>>>> .merge_file_a11308
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -443,8 +469,16 @@
     <ClCompile Include="BackGuroundField.cpp">
       <Filter>ソース ファイル\BG</Filter>
     </ClCompile>
+<<<<<<< .merge_file_a12704
     <ClCompile Include="PosetEffectManager.cpp">
       <Filter>ソース ファイル\PostEffect</Filter>
+=======
+    <ClCompile Include="cursor.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="trail.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+>>>>>>> .merge_file_a11308
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

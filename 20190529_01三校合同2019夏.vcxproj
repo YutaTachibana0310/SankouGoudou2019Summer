@@ -235,7 +235,7 @@
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="PlayerReturn.cpp" />
     <ClCompile Include="PlayerWait.cpp" />
-    <ClCompile Include="PosetEffectManager.cpp" />
+    <ClCompile Include="PostEffectManager.cpp" />
     <ClCompile Include="PostEffect\BloomController.cpp" />
     <ClCompile Include="PostEffect\BloomFilter.cpp" />
     <ClCompile Include="PostEffect\BlurFilter.cpp" />

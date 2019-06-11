@@ -95,13 +95,9 @@ void GameScene::Update(HWND hWnd)
 	//パーティクルの更新
 	UpdateGameParticleManager();
 
-<<<<<<< .merge_file_a08208
 	//UIの更新
-	UpdateUIManager(hWnd);
-=======
 	UpdateUI(hWnd);
 	UpdateCursor(hWnd);
->>>>>>> .merge_file_a03456
 
 	//ポストエフェクトの更新
 	PostEffectManager::Instance()->Update();
@@ -124,15 +120,10 @@ void GameScene::Draw()
 	//パーティクル描画
 	DrawGameParticleManager();
 
-<<<<<<< .merge_file_a08208
 	//ポストエフェクト描画
 	PostEffectManager::Instance()->Draw();
 	
 	//UI描画
-	DrawUIManager();
-=======
 	DrawUI();
-
 	DrawCursor();
->>>>>>> .merge_file_a03456
 }

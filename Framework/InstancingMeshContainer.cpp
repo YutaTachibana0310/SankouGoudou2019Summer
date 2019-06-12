@@ -252,3 +252,11 @@ void InstancingMeshContainer::SetStreamSource(LPDIRECT3DVERTEXBUFFER9 transformB
 	pDevice->SetStreamSource(0, vtxBuff, 0, D3DXGetFVFVertexSize(fvf));
 	pDevice->SetStreamSource(1, transformBuffer, 0, sizeof(Transform));
 }
+
+/**************************************
+ƒ‰ƒCƒg‘•—¦Ý’èˆ—
+***************************************/
+void InstancingMeshContainer::SetLightAmplifier(float val)
+{
+	effect->SetFloat("amplifier", val);
+}

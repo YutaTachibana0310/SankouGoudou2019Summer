@@ -17,6 +17,8 @@ float4 lightDiffuse[3];			//ライトディフューズ配列
 float4 lightAmbient[3];			//ライトアンビエント配列
 float4 lightDir[3];				//ライト方向配列
 
+float amplifier = 1.0f;			//増幅率
+
 /**************************************
 *テクスチャサンプラー
 ***************************************/
@@ -76,8 +78,8 @@ VS_OUT vsMain(
 
 	//法線計算
 	Out.normal = normal;
-	Out.normal = mul(float4(Out.normal, 0.0f), mtxView).xyz;
-	Out.normal = mul(float4(Out.normal, 0.0f), mtxProj).xyz;
+	//Out.normal = mul(float4(Out.normal, 0.0f), mtxView).xyz;
+	//Out.normal = mul(float4(Out.normal, 0.0f), mtxProj).xyz;
 
 	return Out;
 }
@@ -88,9 +90,9 @@ VS_OUT vsMain(
 float4 psMain0(VS_OUT In) : COLOR0
 {
 	//各光源の反射率を計算
-	float power0 = dot(In.normal, lightDir[0].xyz);
-	float power1 = dot(In.normal, lightDir[1].xyz);
-	float power2 = dot(In.normal, lightDir[2].xyz);
+	float power0 = dot(In.normal, lightDir[0].xyz) * amplifier;
+	float power1 = dot(In.normal, lightDir[1].xyz) * amplifier;
+	float power2 = dot(In.normal, lightDir[2].xyz) * amplifier;
 
 	//テクスチャから色を取得
 	float4 RC = tex2D(s0, In.uv);
@@ -117,9 +119,9 @@ float4 psMain0(VS_OUT In) : COLOR0
 float4 psMain1(VS_OUT In) : COLOR0
 {
 	//各光源の反射率を計算
-	float power0 = dot(In.normal, lightDir[0].xyz);
-	float power1 = dot(In.normal, lightDir[1].xyz);
-	float power2 = dot(In.normal, lightDir[2].xyz);
+	float power0 = dot(In.normal, lightDir[0].xyz) * amplifier;
+	float power1 = dot(In.normal, lightDir[1].xyz) * amplifier;
+	float power2 = dot(In.normal, lightDir[2].xyz) * amplifier;
 
 	//マテリアルディフューズを取得
 	float4 RC = matDiffuse;

@@ -28,6 +28,8 @@
 
 #define BACKGROUNDCITY_MOVE_SPEED		(-25.0f)
 
+#define BACKGROUNDCITY_LIGHT_AMPLIFIER	(2.2f)
+
 /**************************************
 構造体定義
 ***************************************/
@@ -48,8 +50,10 @@ static LPDIRECT3DVERTEXBUFFER9 transformBuffer;
 ***************************************/
 void InitBackGroundCity(int num)
 {
+	//インスタンシング用にメッシュをロードして初期化
 	meshContainer = new InstancingMeshContainer();
 	meshContainer->Load(BACKGROUNDCITY_MODEL_FILE);
+	meshContainer->SetLightAmplifier(BACKGROUNDCITY_LIGHT_AMPLIFIER);
 
 	//Y座標、Z座標について初期化
 	for (int i = 0; i < BACKGROUNDCITY_NUM_MAX; i += BACKGROUNDCITY_KIND_MAX)

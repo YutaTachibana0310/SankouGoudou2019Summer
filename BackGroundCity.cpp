@@ -8,27 +8,34 @@
 #include "Framework\InstancingMeshContainer.h"
 #include "SkyBox.h"
 
+#include <vector>
+#include <map>
+#include <array>
+
+using namespace std;
+
 /**************************************
 マクロ定義
 ***************************************/
-#define BACKGROUNDCITY_MODEL_FILE		"data/MODEL/City/city01.x"
-#define BACKGROUNDCITY_NUM_MAX			(100)
-#define BACKGROUNDCITY_KIND_MAX			(2)
+#define BACKGROUNDCITY_KIND_MAX			(3)
 
-#define BACKGROUNDCITY_BASEPOS_X_INNER	(300.0f)
-#define BACKGROUNDCITY_BASEPOS_X_OUTER	(500.0f)
-#define BACKGROUNDCITY_BASEPOS_Y		(0.0f)
-#define BACKGROUNDCITY_BASEPOS_Z		(0.0f)
-
-#define BACKGROUNDCITY_POS_RANGE_X		(200.0f)
-#define BACKGROUNDCITY_POS_RANGE_Y		(100.0f)
-#define BACKGROUNDCITY_POS_RANGE_Z		(50.0f)
-
-#define BACKGROUNDCITY_OFFSET_Z			(300.0f)
+#define BACKGROUNDCITY_Z_MAX			(24)
+#define BACKGROUNDCITY_X_MAX			(16)
+#define BACKGROUNDCITY_NUM_MAX			(BACKGROUNDCITY_Z_MAX*BACKGROUNDCITY_X_MAX)
 
 #define BACKGROUNDCITY_MOVE_SPEED		(-25.0f)
 
 #define BACKGROUNDCITY_LIGHT_AMPLIFIER	(2.2f)
+
+#define BACKGROUNDCITY_OFFSET_X			(-600.0f)
+#define BACKGROUNDCITY_OFFSET_Z			(-600.0f)
+
+//読み込むXファイルへのパス
+static const char* fileName[] = {
+	"data/MODEL/City/city01.x",
+	"data/MODEL/City/city02.x",
+	"data/MODEL/City/city03.x"
+};
 
 /**************************************
 構造体定義
@@ -37,13 +44,15 @@
 /**************************************
 グローバル変数
 ***************************************/
-static Transform cityTransform[BACKGROUNDCITY_NUM_MAX];
-static InstancingMeshContainer* meshContainer;
-static LPDIRECT3DVERTEXBUFFER9 transformBuffer;
+static InstancingMeshContainer* meshContainer[BACKGROUNDCITY_KIND_MAX];
+static Transform* transformList[BACKGROUNDCITY_KIND_MAX];
+static int cityTypeCount[BACKGROUNDCITY_KIND_MAX];
+static LPDIRECT3DVERTEXBUFFER9 transformBuffer[BACKGROUNDCITY_KIND_MAX];
 
 /**************************************
 プロトタイプ宣言
 ***************************************/
+void MakeCityPositionMap(void);
 
 /**************************************
 初期化処理
@@ -51,38 +60,21 @@ static LPDIRECT3DVERTEXBUFFER9 transformBuffer;
 void InitBackGroundCity(int num)
 {
 	//インスタンシング用にメッシュをロードして初期化
-	meshContainer = new InstancingMeshContainer();
-	meshContainer->Load(BACKGROUNDCITY_MODEL_FILE);
-	meshContainer->SetLightAmplifier(BACKGROUNDCITY_LIGHT_AMPLIFIER);
-
-	//Y座標、Z座標について初期化
-	for (int i = 0; i < BACKGROUNDCITY_NUM_MAX; i += BACKGROUNDCITY_KIND_MAX)
+	for (int i = 0; i < BACKGROUNDCITY_KIND_MAX; i++)
 	{
-		cityTransform[i].pos.y = BACKGROUNDCITY_BASEPOS_Y + RandomRangef(-BACKGROUNDCITY_POS_RANGE_Y, BACKGROUNDCITY_POS_RANGE_Y);
-
-		for (int j = 0; j < BACKGROUNDCITY_KIND_MAX; j++)
-		{
-			cityTransform[i+j].pos.z = BACKGROUNDCITY_BASEPOS_Z + BACKGROUNDCITY_OFFSET_Z * (i / 2) + RandomRangef(-BACKGROUNDCITY_POS_RANGE_Z, BACKGROUNDCITY_POS_RANGE_Z);
-		}
+		meshContainer[i] = new InstancingMeshContainer();
+		meshContainer[i]->Load(fileName[i]);
+		meshContainer[i]->SetLightAmplifier(BACKGROUNDCITY_LIGHT_AMPLIFIER);
 	}
 
-	//X座標について初期化
-	for (int i = 0; i < BACKGROUNDCITY_NUM_MAX; i += BACKGROUNDCITY_KIND_MAX)
-	{
-		cityTransform[i].pos.x = BACKGROUNDCITY_BASEPOS_X_INNER + RandomRangef(0.0f, BACKGROUNDCITY_POS_RANGE_X);
-		cityTransform[i + 1].pos.x = -BACKGROUNDCITY_BASEPOS_X_INNER - RandomRangef(0.0f, BACKGROUNDCITY_POS_RANGE_X);
-	}
-
-	//スケール、回転情報を初期化
-	Transform *ptr = cityTransform;
-	for (int i = 0; i < BACKGROUNDCITY_NUM_MAX; i++, ptr++)
-	{
-		ptr->scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-		ptr->rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	}
+	//座標マップ作成
+	MakeCityPositionMap();
 
 	//SRT情報バッファを作成
-	MakeTransformBuffer(BACKGROUNDCITY_NUM_MAX, &transformBuffer);
+	for (int i = 0; i < BACKGROUNDCITY_KIND_MAX; i++)
+	{
+		MakeTransformBuffer(cityTypeCount[i], &transformBuffer[i]);
+	}
 }
 
 /**************************************
@@ -90,26 +82,35 @@ void InitBackGroundCity(int num)
 ***************************************/
 void UninitBackGroundCity(int num)
 {
-	SAFE_RELEASE(transformBuffer);
-	delete meshContainer;
+	for (int i = 0; i < BACKGROUNDCITY_KIND_MAX; i++)
+	{
+		SAFE_DELETE_ARRAY(transformList[i]);
+		SAFE_RELEASE(transformBuffer[i]);
+		delete meshContainer[i];
+	}
 }
+
 /**************************************
 更新処理
 ***************************************/
 void UpdateBackGroundCity(void)
 {
-	for (int i = 0; i < BACKGROUNDCITY_NUM_MAX; i++)
+	for (int i = 0; i < BACKGROUNDCITY_KIND_MAX; i++)
 	{
-		//移動処理
-		cityTransform[i].pos.z += BACKGROUNDCITY_MOVE_SPEED;
+		for (int j = 0; j < cityTypeCount[i]; j++)
+		{
+			//移動処理
+			transformList[i][j].pos.z += BACKGROUNDCITY_MOVE_SPEED;
 
-		//一定より後ろに下がっていたら最前列へ移動
-		if (cityTransform[i].pos.z <= -100.0f)
-			cityTransform[i].pos.z += 15000.0f;
+			//一定より後ろに下がっていたら最前列へ移動
+			if (transformList[i][j].pos.z <= -100.0f)
+				transformList[i][j].pos.z += -BACKGROUNDCITY_OFFSET_Z * BACKGROUNDCITY_Z_MAX;
+		}
+
+		//SRT情報をバッファへセット
+		CopyVtxBuff(sizeof(Transform) * cityTypeCount[i], &transformList[i][0], transformBuffer[i]);
 	}
 
-	//SRT情報をバッファへセット
-	CopyVtxBuff(sizeof(cityTransform), cityTransform, transformBuffer);
 }
 
 /**************************************
@@ -118,10 +119,69 @@ void UpdateBackGroundCity(void)
 void DrawBackGroundCity(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	
-	//ストリームソース設定
-	meshContainer->SetStreamSource(transformBuffer, BACKGROUNDCITY_NUM_MAX);
+	for (int i = 0; i < BACKGROUNDCITY_KIND_MAX; i++)
+	{
+		//ストリームソース設定
+		meshContainer[i]->SetStreamSource(transformBuffer[i], cityTypeCount[i]);
 
-	//描画
-	meshContainer->Draw();
+		//描画
+		meshContainer[i]->Draw();
+	}
+}
+
+/**************************************
+座標マップ作成処理
+***************************************/
+void MakeCityPositionMap(void)
+{
+	array<D3DXVECTOR3, BACKGROUNDCITY_NUM_MAX> posMap;
+
+	int maxX = BACKGROUNDCITY_X_MAX;
+	int maxZ = BACKGROUNDCITY_Z_MAX;
+
+	//碁盤上に座標マップ作成
+	float offsetZ = BACKGROUNDCITY_OFFSET_Z, offsetX = BACKGROUNDCITY_OFFSET_X;
+	float basePosX = -offsetX * maxX / 2;
+	float basePosZ = -offsetZ * maxZ;
+	for (int z = 0; z < maxZ; z++)
+	{
+		for (int x = 0; x < maxX; x++)
+		{
+			posMap[z * maxX + x].x = basePosX + offsetX * x;
+			posMap[z * maxX + x].z = basePosZ + offsetZ * z;
+		}
+	}
+
+	//座標マップにランダムにビルタイプを割り当て
+	ZeroMemory(cityTypeCount, sizeof(cityTypeCount));
+	for (auto itr = posMap.begin(); itr != posMap.end(); itr++)
+	{
+		//中心部分は空ける
+		if (fabsf(itr->x) < 500.0f)
+		{
+			itr->y = (float)BACKGROUNDCITY_KIND_MAX;
+			continue;
+		}
+
+		int type = RandomRange(0, BACKGROUNDCITY_KIND_MAX);
+		itr->y = (float)type;
+		cityTypeCount[type]++;
+	}
+
+	//各タイプのposListへコピー
+	for (int i = 0; i < BACKGROUNDCITY_KIND_MAX; i++)
+	{
+		transformList[i] = new Transform[cityTypeCount[i]];
+	}
+	int index[BACKGROUNDCITY_KIND_MAX] = {};
+	for (auto itr = posMap.begin(); itr != posMap.end(); itr++)
+	{
+		if (itr->y == (float)BACKGROUNDCITY_KIND_MAX)
+			continue;
+
+		Transform tr = { D3DXVECTOR3(itr->x, 0.0f, itr->z), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(1.0f, 1.0f, 1.0f) };
+		int type = (int)itr->y;
+		transformList[type][index[type]] = tr;
+		index[type]++;
+	}
 }

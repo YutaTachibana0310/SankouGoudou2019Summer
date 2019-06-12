@@ -121,7 +121,7 @@ void GameScene::Draw()
 	DrawGameParticleManager();
 
 	//ポストエフェクト描画
-	PostEffectManager::Instance()->Draw();
+	//PostEffectManager::Instance()->Draw();
 	
 	//UI描画
 	DrawUI();

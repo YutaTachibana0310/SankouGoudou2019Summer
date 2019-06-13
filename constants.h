@@ -6,7 +6,8 @@
 #include <windows.h>
 //流すBGMのファイル場所及び表題取得
 
-const char WAVE_BANK[] = "data/SOUND/Win/Wave Bank.xwb";
+const char BGM[] = "data/SOUND/Win/BGM.xwb";
+const char SE[] = "data/SOUND/Win/SE.xwb";
 const char SOUND_BANK[] = "data/SOUND/Win/Sound Bank.xsb";
 
 const char TITLE_BGM[] = "Blue_LIGHT_Techno";

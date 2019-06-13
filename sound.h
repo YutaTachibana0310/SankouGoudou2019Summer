@@ -9,13 +9,19 @@
 
 #include<xact3.h>
 
+#define MAXBGM (2)
+#define MAXSE (2)
+#define ALLSOUND (MAXBGM+MAXSE)
+
 class Sound{
 private:
 //ポインタ宣言
 IXACT3Engine* xactEngine;
-IXACT3WaveBank* waveBank;
+IXACT3WaveBank* BGMwaveBank;
+IXACT3WaveBank* SEwaveBank;
 IXACT3SoundBank* soundBank;
-IXACT3Wave* wave[2];
+IXACT3Wave* BGMwave[MAXBGM];
+IXACT3Wave* SEwave[MAXSE];
 
 void* mapWaveBank;
 void* soundBankData;
@@ -26,6 +32,9 @@ public:
 	static Sound *GetInstance() {
 		return sound;
 	}
+	//再生フラグ、trueの場合再生
+	bool BGMplayflag[MAXBGM];
+	bool SEplayflag[MAXSE];
 
 	//コンストラクタ
 	Sound();
@@ -42,14 +51,17 @@ public:
 
 	void run();
 
-	void SetPlaySound(int n);
+	void SetPlayBGM(int n,bool b);
 
-	void SetStopSound(int n);
+	void SetPlaySE(int n,bool b);
 
-	void CangePauseSound(int n,bool b);
+	void SetStopSound();
 
-	void CangeSoundVolume(int n,float f);
+	void CangePauseSound(bool b);
 
+	void CangeBGMVolume(int n,float f);
+
+	void CangeSEVolume(int n, float f);
 protected:
 	static Sound *sound;
 

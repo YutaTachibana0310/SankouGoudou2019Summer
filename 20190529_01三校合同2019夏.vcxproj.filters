@@ -73,6 +73,12 @@
     <Filter Include="ヘッダー ファイル\Effect">
       <UniqueIdentifier>{064cc5a3-a7c3-4bc9-b945-9421833d739f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\sound">
+      <UniqueIdentifier>{bd396638-24f7-4925-a129-2875448ed866}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\sound">
+      <UniqueIdentifier>{5ccf4d3c-dab7-4bd6-8e3b-d897b674d55d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -82,9 +88,6 @@
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="input.h">
-      <Filter>ヘッダー ファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="light.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="MyLibrary.h">
@@ -264,12 +267,6 @@
     <ClInclude Include="PostEffectManager.h">
       <Filter>ヘッダー ファイル\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="light.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="main.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="MyLibrary.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -290,6 +287,12 @@
     </ClInclude>
     <ClInclude Include="player.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="sound.h">
+      <Filter>ヘッダー ファイル\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="constants.h">
+      <Filter>ヘッダー ファイル\sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -467,14 +470,17 @@
     <ClCompile Include="BackGuroundField.cpp">
       <Filter>ソース ファイル\BG</Filter>
     </ClCompile>
-    <ClCompile Include="PosetEffectManager.cpp">
-      <Filter>ソース ファイル\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="cursor.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
     <ClCompile Include="trail.cpp">
       <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffectManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="sound.cpp">
+      <Filter>ソース ファイル\sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

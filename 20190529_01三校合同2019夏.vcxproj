@@ -138,6 +138,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="collider.h" />
     <ClInclude Include="combo.h" />
+    <ClInclude Include="constants.h" />
     <ClInclude Include="cursor.h" />
     <ClInclude Include="debugTimer.h" />
     <ClInclude Include="debugWindow.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="score.h" />
     <ClInclude Include="ScoreParticle.h" />
     <ClInclude Include="SkyBox.h" />
+    <ClInclude Include="sound.h" />
     <ClInclude Include="star.h" />
     <ClInclude Include="trail.h" />
     <ClInclude Include="UIdrawer.h" />
@@ -251,6 +253,7 @@
     <ClCompile Include="score.cpp" />
     <ClCompile Include="ScoreParticle.cpp" />
     <ClCompile Include="SkyBox.cpp" />
+    <ClCompile Include="sound.cpp" />
     <ClCompile Include="star.cpp" />
     <ClCompile Include="trail.cpp" />
     <ClCompile Include="UIdrawer.cpp" />

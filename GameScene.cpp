@@ -23,7 +23,7 @@
 #include "SkyBox.h"
 #include "GameParticleManager.h"
 
-#include "player.h"
+#include "sound.h"
 
 /**************************************
 マクロ定義
@@ -38,6 +38,8 @@
 グローバル変数
 ***************************************/
 class Player player;
+
+
 /**************************************
 初期化処理
 ***************************************/
@@ -56,6 +58,7 @@ void GameScene::Init()
 	InitPlayerController();
 	player.Init();
 	InitCursor();
+	Sound::GetInstance()->Create();
 }
 
 /**************************************
@@ -82,6 +85,9 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
+	//サウンドの再生
+	Sound::GetInstance()->SetPlaySound(1);
+	Sound::GetInstance()->CangeSoundVolume(1,0.1f);
 	//背景オブジェクトの更新
 	UpdateSkyBox();
 	UpdateBackGroundCity();

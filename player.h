@@ -40,31 +40,9 @@ public:
 	void Draw();
 
 
-	/****************************/
-	//渡邉さん側にあったメンバ
-	/*****************************/
-	LPDIRECT3DTEXTURE9		D3DTexturePlayer = NULL;		// テクスチャへのポリゴン
-
-	VERTEX_2D				vertexWk[NUM_VERTEX];				// 頂点情報格納ワーク
-
-	D3DXVECTOR3				posPlayer;						// ポリゴンの移動量
-	D3DXVECTOR3				targetpos[MAX_LENGTH];
-
 	// 移動先確保用のナンバー
 	int goal;
 
-	HRESULT MakeVertexPlayer(void);
-	void SetVertex(void);
 };
-
-//enum class PlayerMove
-//{
-//	CENTER,
-//	TOP,
-//	MIDDLE_LEFT,
-//	LOWER_LEFT,
-//	MIDDLE_RIGHT,
-//	LOWER_RIGHT,
-//};
 
 #endif

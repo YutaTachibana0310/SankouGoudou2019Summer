@@ -10,11 +10,24 @@
 #include "PlayerController.h"
 #include "InputController.h"
 #include "debugWindow.h"
+#include "IStateMachine.h"
+#include <map>
+#include "PlayerMove.h"
+#include "PlayerReturn.h"
+#include "PlayerWait.h"
 
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
 void push(void);
+
+using namespace std;
+
+static map<PlayerState, IStateMachine<Player>*> fsm;
+
+Player player;
+
+D3DXVECTOR3 MovePos[MAX_LENGTH];
 
 //*****************************************************************************
 // グローバル変数
@@ -48,15 +61,29 @@ bool matchingCW;
 //ボム発生テスト用フラグ
 bool flag;
 int flagtimer;
-
+//*****************************************************************************
+// 初期化処理
+//*****************************************************************************
 HRESULT InitPlayerController(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	fsm[PlayerState::Move] = new PlayerMove();
+	fsm[PlayerState::Wait] = new PlayerWait();
+	fsm[PlayerState::Return] = new PlayerReturn();
 
+	player.Init();
 	for (int i = 0; i < MAX_LENGTH; i++) {
 		move_stackCCW[i] = INITIAL_ARRAY_NUMBER;
 		move_stackCW[i] = INITIAL_ARRAY_NUMBER;
 	}
+
+	MovePos[TOP] = PLAYER_TOP;
+	MovePos[MIDDLE_LEFT] = PLAYER_MIDDLE_LEFT;
+	MovePos[LOWER_LEFT] = PLAYER_LOWER_LEFT;
+	MovePos[LOWER_RIGHT] = PLAYER_LOWER_RIGHT;
+	MovePos[MIDDLE_RIGHT] = PLAYER_MIDDLE_RIGHT;
+	MovePos[CENTER] = PLAYER_CENTER;
+
 	currentCCW = 0;
 	currentCW = 0;
 
@@ -72,15 +99,27 @@ HRESULT InitPlayerController(void)
 	flag = false;
 	flagtimer = 0;
 
+	player.CurrentState = PlayerState::Wait;
 	return S_OK;
 }
-
-//update処理の追加
+//*****************************************************************************
+// 終了処理
+//*****************************************************************************
+void UninitPlayerController()
+{
+	fsm.clear();
+	player.Uninit();
+}
+//*****************************************************************************
+// 更新処理
+//*****************************************************************************
 void UpdatePlayerController(HWND hWnd)
 {
 
 	resetcount++;
-	
+
+
+
 	//ボム発生用のフラグ、カウンタ
 	if (flag == true) {
 		flagtimer++;
@@ -89,28 +128,55 @@ void UpdatePlayerController(HWND hWnd)
 			flagtimer = 0;
 		}
 	}
+	if (player.CurrentState == PlayerState::Wait)
+	{
+		for (int i = 0; i < STAR_MAX; i++) {
+			if (IsEntered(i, hWnd)) {
+				movenum = i;
+				push();
+				player.goalpos = MovePos[i];
+				ChangeState(&player, PlayerState::Move);
 
-	for (int i = 0; i < STAR_MAX; i++) {
-		if (IsEntered(i, hWnd)) {
-			movenum = i;
-			push();
+				CheckCW();
+				CheckCCW();
+				resetcount = 0;
 
-			CheckCW();
-			CheckCCW();
-			resetcount = 0;
+			}
 		}
 	}
+
 	//一定時間後に中央へ戻る処理
 	if (resetcount >= RESETTIME) {
 		movenum = 5;
 		push();
+		ChangeState(&player, PlayerState::Return);
+
 		CheckCW();
 		CheckCCW();
 		resetcount = 0;
 	}
 	DebugText("move_stackCCW:%d,%d,%d,%d,%d,%d\n", move_stackCCW[0], move_stackCCW[1], move_stackCCW[2], move_stackCCW[3], move_stackCCW[4], move_stackCCW[5]);
 	DebugText("move_stackCW:%d,%d,%d,%d,%d,%d\n", move_stackCW[0], move_stackCW[1], move_stackCW[2], move_stackCW[3], move_stackCW[4], move_stackCW[5]);
+
+	player.Update();
+	fsm[player.CurrentState]->OnUpdate(&player);
 }
+
+//*****************************************************************************
+// 描画処理
+//*****************************************************************************
+void DrawPlayerController()
+{
+	player.Draw();
+
+}
+
+
+
+
+//*****************************************************************************
+// 検証用
+//*****************************************************************************
 
 void SetPlayerTargetPosition(int *n) {
 
@@ -255,6 +321,16 @@ bool SetBomb() {
 		return true;
 	}
 	return false;
+}
+
+//=============================================================================
+// Player状態遷移処理
+//=============================================================================
+void ChangeState(Player *player,PlayerState next)
+{
+	fsm[player->CurrentState]->OnExit(player);
+	player->CurrentState = next;
+	fsm[player->CurrentState]->OnStart(player);
 }
 
 //=============================================================================

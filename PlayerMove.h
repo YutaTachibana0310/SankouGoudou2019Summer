@@ -23,7 +23,7 @@
 プロトタイプ宣言
 ***************************************/
 
-class PlayerMove :IStateMachine<Player> {
+class PlayerMove : public IStateMachine<Player> {
 public:
 	void OnUpdate(Player *entity);
 	void OnStart(Player *entity);

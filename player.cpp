@@ -31,7 +31,6 @@
 /**************************************
 グローバル変数
 ***************************************/
-
 /**************************************
 プロトタイプ宣言
 ***************************************/
@@ -45,11 +44,12 @@ void Player::Init()
 	meshPlayer = new MeshContainer();
 	meshPlayer->Load(PLAYER_MODEL);
 
-	pos = PLAYER_INIT_POS;//D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	pos = PLAYER_CENTER;//D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	scl = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
 	rot = D3DXVECTOR3(0.0f, 59.7f, 0.0f);
 	rotDest= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
 
 
 	/***************************************

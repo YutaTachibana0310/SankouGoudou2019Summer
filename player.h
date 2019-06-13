@@ -6,17 +6,17 @@
 #define _PLAYER_H_
 
 #include "main.h"
+#include "PlayerController.h"
 #include "Framework/MeshContainer.h"
 
 
-#define PLAYER_INIT_POS		D3DXVECTOR3(0.0 ,-50.0, 150.0)
 
 #define MAX_LENGTH (6)
+
 
 class Player
 {
 public:
-	int currensState;
 	MeshContainer* meshPlayer;
 
 	D3DXVECTOR3			pos;				// 現在の位置
@@ -28,7 +28,10 @@ public:
 
 	D3DXVECTOR3			initpos;			// 移動前位置
 	D3DXVECTOR3			goalpos;			// 移動後位置
-	int			cntFrame;
+	int					cntFrame;
+
+	PlayerState			CurrentState;
+
 
 	//関数
 	void Init();
@@ -54,5 +57,14 @@ public:
 	void SetVertex(void);
 };
 
+//enum class PlayerMove
+//{
+//	CENTER,
+//	TOP,
+//	MIDDLE_LEFT,
+//	LOWER_LEFT,
+//	MIDDLE_RIGHT,
+//	LOWER_RIGHT,
+//};
 
 #endif

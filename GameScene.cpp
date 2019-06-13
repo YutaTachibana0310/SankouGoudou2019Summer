@@ -30,7 +30,6 @@
 /**************************************
 ƒOƒ[ƒoƒ‹•Ï”
 ***************************************/
-class Player player;
 /**************************************
 ‰Šú‰»ˆ—
 ***************************************/
@@ -43,7 +42,6 @@ void GameScene::Init()
 	InitUIManager();
 
 	InitPlayerController();
-	player.Init();
 }
 
 /**************************************
@@ -58,7 +56,6 @@ void GameScene::Uninit()
 
 	UninitUIManager();
 
-	player.Uninit();
 }
 
 /**************************************
@@ -87,7 +84,9 @@ void GameScene::Draw()
 
 	DrawBackGroundField();
 
+	DrawPlayerController();
+
 	DrawUIManager();
 
-	player.Draw();
+
 }

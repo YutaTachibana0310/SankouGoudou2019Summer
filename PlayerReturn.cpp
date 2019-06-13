@@ -7,6 +7,8 @@
 
 #include "PlayerReturn.h"
 #include "Framework/Easing.h"
+#include "PlayerController.h"
+
 /**************************************
 ƒ}ƒNƒ’è‹`
 ***************************************/
@@ -26,7 +28,7 @@
 void PlayerReturn::OnUpdate(Player *entity)
 {
 	float t = (float)entity->cntFrame / 120;
-	entity->pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->initpos, &PLAYER_INIT_POS, EasingType::OutExponential);
+	entity->pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->initpos, &PLAYER_CENTER, EasingType::OutExponential);
 
 };
 

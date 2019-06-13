@@ -11,6 +11,14 @@
 #define JUDG_LEN (5)
 #define RESETTIME (120)
 
+#define PLAYER_CENTER		D3DXVECTOR3(0.0f ,-25.0f, 150.0f)
+#define PLAYER_TOP			D3DXVECTOR3(0.0f, 25.0f, 150.0f)
+#define PLAYER_MIDDLE_LEFT	D3DXVECTOR3(-50.0f, -10.0f, 150.0f)
+#define PLAYER_LOWER_LEFT	D3DXVECTOR3(-30.0f, -50.0f, 150.0f)
+#define PLAYER_LOWER_RIGHT	D3DXVECTOR3(30.0f, -50.0f, 150.0f)
+#define PLAYER_MIDDLE_RIGHT	D3DXVECTOR3(50.0f, -10.0f, 150.0f)
+
+
 enum class PlayerState 
 {
 	Move,
@@ -18,16 +26,21 @@ enum class PlayerState
 	Return,
 };
 
+class Player;
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
 HRESULT InitPlayerController(void);
+void UninitPlayerController(void);
 void UpdatePlayerController(HWND hWnd);
+void DrawPlayerController();
 void SetPlayerTargetPosition(int *n);
 
 void CheckCW();
 void CheckCCW();
 bool SetBomb();
+
+void ChangeState(Player *player, PlayerState next);
 
 
 #endif

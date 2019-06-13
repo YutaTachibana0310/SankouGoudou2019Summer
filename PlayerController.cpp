@@ -26,6 +26,9 @@ using namespace std;
 static map<PlayerState, IStateMachine<Player>*> fsm;
 
 Player player;
+
+D3DXVECTOR3 MovePos[MAX_LENGTH];
+
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
@@ -73,6 +76,14 @@ HRESULT InitPlayerController(void)
 		move_stackCCW[i] = 0;
 		move_stackCW[i] = 0;
 	}
+
+	MovePos[CENTER] = PLAYER_CENTER;
+	MovePos[TOP] = PLAYER_TOP;
+	MovePos[MIDDLE_LEFT] = PLAYER_MIDDLE_LEFT;
+	MovePos[LOWER_LEFT] = PLAYER_LOWER_LEFT;
+	MovePos[LOWER_RIGHT] = PLAYER_LOWER_RIGHT;
+	MovePos[MIDDLE_RIGHT] = PLAYER_MIDDLE_RIGHT;
+
 	currentCCW = 0;
 	currentCW = 0;
 
@@ -88,6 +99,7 @@ HRESULT InitPlayerController(void)
 	flag = false;
 	flagtimer = 0;
 
+	player.CurrentState = PlayerState::Wait;
 	return S_OK;
 }
 //*****************************************************************************
@@ -105,7 +117,8 @@ void UpdatePlayerController(HWND hWnd)
 {
 
 	resetcount++;
-	
+
+
 	//ボム発生用のフラグ、カウンタ
 	if (flag == true) {
 		flagtimer++;
@@ -114,15 +127,20 @@ void UpdatePlayerController(HWND hWnd)
 			flagtimer = 0;
 		}
 	}
+	if (player.CurrentState == PlayerState::Wait)
+	{
+		for (int i = 0; i < STAR_MAX; i++) {
+			if (IsEntered(i, hWnd)) {
+				movenum = i;
+				push();
+				player.goalpos = MovePos[i];
+				ChangeState(&player, PlayerState::Move);
 
-	for (int i = 0; i < STAR_MAX; i++) {
-		if (IsEntered(i, hWnd)) {
-			movenum = i;
-			push();
+				CheckCW();
+				CheckCCW();
+				resetcount = 0;
 
-			CheckCW();
-			CheckCCW();
-			resetcount = 0;
+			}
 		}
 	}
 	//一定時間後に中央へ戻る処理
@@ -138,6 +156,7 @@ void UpdatePlayerController(HWND hWnd)
 	
 	
 	player.Update();
+	fsm[player.CurrentState]->OnUpdate(&player);
 
 }
 
@@ -302,3 +321,9 @@ bool SetBomb() {
 	return false;
 }
 
+void ChangeState(Player *player,PlayerState next)
+{
+	fsm[player->CurrentState]->OnExit(player);
+	player->CurrentState = next;
+	fsm[player->CurrentState]->OnStart(player);
+}

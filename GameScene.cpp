@@ -24,6 +24,7 @@
 #include "GameParticleManager.h"
 
 #include "player.h"
+#include "PlayerBullet.h"
 
 /**************************************
 ƒ}ƒNƒ’è‹`

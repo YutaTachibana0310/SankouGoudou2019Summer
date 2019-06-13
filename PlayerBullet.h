@@ -1,13 +1,14 @@
 //=====================================
 //
-//バレットヘッダ[PlayerBullet.h]
-//Author:GP12B332 12 権頭
+//プレイヤーバレットヘッダ[PlayerBullet.h]
+//Author:GP12B332 21 立花
 //
 //=====================================
 #ifndef _PLAYERBULLET_H_
 #define _PLAYERBULLET_H_
 
 #include "main.h"
+#include "TrailCollider.h"
 
 /**************************************
 マクロ定義
@@ -23,19 +24,27 @@
 class PlayerBullet
 {
 public:
+	PlayerBullet();
+	~PlayerBullet();
 
-	// 変数
-	D3DXVECTOR3			pos;				// 現在の位置
-	D3DXVECTOR3			move;				// 移動量
-	D3DXVECTOR3			scl;				// モデルの大きさ(スケール)
-	D3DXVECTOR3			rot;				// 現在の向き
-	D3DXVECTOR3			rotDest;			// 目的の向き
-
-	// 関数
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
+
+	void Set(TrailIndex start, TrailIndex end);
+	TrailCollider GetCollider();
+	bool IsActive();
+
+	//テスト用
+	void Set(D3DXVECTOR3 start, D3DXVECTOR3 end);
+	D3DXVECTOR3 pos;
+
+private:
+	bool active;
+	TrailCollider collider;
+	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
+	LPDIRECT3DTEXTURE9 texture;
 };
 
 #endif

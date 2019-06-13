@@ -74,10 +74,10 @@
       <UniqueIdentifier>{064cc5a3-a7c3-4bc9-b945-9421833d739f}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Collider">
-      <UniqueIdentifier>{95de29fb-c443-4431-91e9-b4ad0d2f48c5}</UniqueIdentifier>
+      <UniqueIdentifier>{8a05d734-25a1-44fc-b073-814e5126a090}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Collider">
-      <UniqueIdentifier>{4622b269-0f73-467a-ba4c-9cfed52fd984}</UniqueIdentifier>
+      <UniqueIdentifier>{6e5bcac6-9189-4e6c-b253-1ec550cf976a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -300,6 +300,9 @@
     <ClInclude Include="light.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
+    <ClInclude Include="TrailCollider.h">
+      <Filter>ヘッダー ファイル\Collider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -487,6 +490,9 @@
     </ClCompile>
     <ClCompile Include="PostEffectManager.cpp">
       <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="TrailCollider.cpp">
+      <Filter>ソース ファイル\Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

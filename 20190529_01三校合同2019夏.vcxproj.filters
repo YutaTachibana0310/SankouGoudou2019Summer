@@ -273,9 +273,6 @@
     <ClInclude Include="trail.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
-    <ClInclude Include="light.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="MyLibrary.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -286,6 +283,9 @@
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="light.h">
@@ -476,11 +476,11 @@
     <ClCompile Include="trail.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
-    <ClCompile Include="PostEffectManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\InstancingMeshContainer.cpp">
       <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffectManager.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

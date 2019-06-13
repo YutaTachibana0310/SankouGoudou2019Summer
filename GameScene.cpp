@@ -24,7 +24,9 @@
 #include "GameParticleManager.h"
 
 #include "player.h"
+#include "PlayerBullet.h"
 
+PlayerBullet *tmp;
 /**************************************
 マクロ定義
 ***************************************/
@@ -56,6 +58,8 @@ void GameScene::Init()
 	InitPlayerController();
 	player.Init();
 	InitCursor();
+
+	tmp = new PlayerBullet();
 }
 
 /**************************************
@@ -82,6 +86,13 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
+	BeginDebugWindow("Bullet");
+	if (DebugButton("Fire"))
+	{
+		tmp->Set(D3DXVECTOR3(-100.0f, RandomRangef(-100.0f, 100.0f), 0.0f), D3DXVECTOR3(100.0f, RandomRangef(-100.0f, 100.0f), 0.0f));
+	}
+	EndDebugWindow("Bullet");
+
 	//背景オブジェクトの更新
 	UpdateSkyBox();
 	UpdateBackGroundCity();
@@ -91,6 +102,7 @@ void GameScene::Update(HWND hWnd)
 	//プレイヤーの更新
 	UpdatePlayerController(hWnd);
 	player.Update();
+	tmp->Update();
 
 	//パーティクルの更新
 	UpdateGameParticleManager();
@@ -116,6 +128,7 @@ void GameScene::Draw()
 
 	//プレイヤーの描画
 	player.Draw();
+	tmp->Draw();
 
 	//パーティクル描画
 	DrawGameParticleManager();

@@ -40,11 +40,18 @@ bool TrailCollider::CheckCollision(TrailCollider *other)
 }
 
 /**************************************
-パラメータセット処理
+トレイルインデックスセット処理
 ***************************************/
-void TrailCollider::SetParam(TrailIndex start, TrailIndex end, float *adrPosZ)
+void TrailCollider::SetTrailIndex(TrailIndex start, TrailIndex end)
 {
 	this->start = start;
 	this->end = end;
+}
+
+/**************************************
+Z座標ポインタセット処理
+***************************************/
+void TrailCollider::SetAddressZ(float* adrPosZ)
+{
 	this->posZ = adrPosZ;
 }

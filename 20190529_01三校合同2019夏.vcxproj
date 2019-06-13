@@ -194,6 +194,7 @@
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="star.h" />
     <ClInclude Include="trail.h" />
+    <ClInclude Include="TrailCollider.h" />
     <ClInclude Include="UIdrawer.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="ResultScene.h" />
@@ -257,6 +258,7 @@
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="star.cpp" />
     <ClCompile Include="trail.cpp" />
+    <ClCompile Include="TrailCollider.cpp" />
     <ClCompile Include="UIdrawer.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="ResultScene.cpp" />

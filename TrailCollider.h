@@ -36,7 +36,8 @@ public:
 	~TrailCollider() {};
 
 	bool CheckCollision(TrailCollider *other);
-	void SetParam(TrailIndex start, TrailIndex end, float *adrPosZ);
+	void SetTrailIndex(TrailIndex start, TrailIndex end);
+	void SetAddressZ(float* adrPosZ);
 
 private:
 	TrailIndex start, end;

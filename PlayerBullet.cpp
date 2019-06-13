@@ -43,7 +43,9 @@ void PlayerBullet::Update()
 	if (!active)
 		return;
 
-	pos.z += 1.0f;
+	//移動処理
+	const float Speed = 10.0f;
+	pos.z += Speed;
 }
 
 /****************************************
@@ -60,6 +62,7 @@ void PlayerBullet::Draw()
 	pDevice->SetFVF(FVF_VERTEX_3D);
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	pDevice->SetRenderState(D3DRS_LIGHTING, false);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 	pDevice->SetTexture(0, texture);
 
 	pDevice->SetStreamSource(0, vtxBuff, 0, sizeof(VERTEX_3D));
@@ -74,6 +77,7 @@ void PlayerBullet::Draw()
 
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	pDevice->SetRenderState(D3DRS_LIGHTING, true);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 }
 
 /****************************************
@@ -90,10 +94,11 @@ PlayerBullet::PlayerBullet()
 
 	vtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 	
+	const float texSize = 1.0f;
 	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+	pVtx[1].tex = D3DXVECTOR2(texSize, 0.0f);
 	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
-	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+	pVtx[3].tex = D3DXVECTOR2(texSize, 1.0f);
 
 	pVtx[0].diffuse =
 		pVtx[1].diffuse =
@@ -107,10 +112,10 @@ PlayerBullet::PlayerBullet()
 
 	vtxBuff->Unlock();
 
-	texture = CreateTextureFromFile((LPSTR)"data/TEXTURE/test.jpg", pDevice);
+	texture = CreateTextureFromFile((LPSTR)"data/TEXTURE/Player/PlayerBullet.png", pDevice);
 
-	pos.z = 150.0f;
-	pos.y = -50.0f;
+	//TrailColliderのZ座標アドレスを設定
+	collider.SetAddressZ(&pos.z);
 }
 
 /****************************************
@@ -134,6 +139,7 @@ void PlayerBullet::Set(TrailIndex start, TrailIndex end)
 *****************************************/
 void PlayerBullet::Set(D3DXVECTOR3 start, D3DXVECTOR3 end)
 {
+
 	D3DXVECTOR3 diff = end - start;
 	diff /= 2.0f;
 
@@ -144,12 +150,16 @@ void PlayerBullet::Set(D3DXVECTOR3 start, D3DXVECTOR3 end)
 	VERTEX_3D *pVtx;
 	vtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	pVtx[0].vtx = -diff + up * 5;
-	pVtx[1].vtx = diff + up * 5;
-	pVtx[2].vtx = -diff - up * 5;
-	pVtx[3].vtx = diff - up * 5;
+	const float length = 15.0f;
+
+	pVtx[0].vtx = -diff + up * length;
+	pVtx[1].vtx = diff + up * length;
+	pVtx[2].vtx = -diff - up * length;
+	pVtx[3].vtx = diff - up * length;
 
 	vtxBuff->Unlock();
+
+	pos = start + diff;
 
 	active = true;
 

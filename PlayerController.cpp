@@ -16,18 +16,19 @@
 #include "PlayerReturn.h"
 #include "PlayerWait.h"
 
+using namespace std;
+
+//*****************************************************************************
+// マクロ定義
+//*****************************************************************************
+#define MOVETARGET_LENGTH	(6)
+
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-void push(void);
-
-using namespace std;
-
-static map<PlayerState, IStateMachine<Player>*> fsm;
-
-Player player;
-
-D3DXVECTOR3 MovePos[MAX_LENGTH];
+void push(void);				//移動履歴スタックへのプッシュ処理
+void CheckInput(HWND hWnd);		//入力判定
+void CheckComboReset(void);		//リセット確認
 
 //*****************************************************************************
 // グローバル変数
@@ -48,8 +49,8 @@ int currentCCW;
 int currentCW;
 
 //移動先の番号保管配列
-int move_stackCCW[MAX_LENGTH];
-int move_stackCW[MAX_LENGTH];
+int move_stackCCW[MOVESTACK_LENGTH];
+int move_stackCW[MOVESTACK_LENGTH];
 
 // 何番に移動するかを保管
 int	movenum;
@@ -61,22 +62,38 @@ bool matchingCW;
 //ボム発生テスト用フラグ
 bool flag;
 int flagtimer;
+
+//プレイヤーステートマシン
+static map<PlayerState, IStateMachine<Player>*> fsm;
+
+//プレイヤー
+Player player;
+
+//移動先座標
+D3DXVECTOR3 MovePos[MOVETARGET_LENGTH];
+
 //*****************************************************************************
 // 初期化処理
 //*****************************************************************************
 HRESULT InitPlayerController(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	//ステートマシン初期化
 	fsm[PlayerState::Move] = new PlayerMove();
 	fsm[PlayerState::Wait] = new PlayerWait();
 	fsm[PlayerState::Return] = new PlayerReturn();
 
+	//プレイヤー初期化
 	player.Init();
-	for (int i = 0; i < MAX_LENGTH; i++) {
+
+	//移動履歴スタックを初期化
+	for (int i = 0; i < MOVESTACK_LENGTH; i++) {
 		move_stackCCW[i] = INITIAL_ARRAY_NUMBER;
 		move_stackCW[i] = INITIAL_ARRAY_NUMBER;
 	}
 
+	//移動目標初期化
 	MovePos[TOP] = PLAYER_TOP;
 	MovePos[MIDDLE_LEFT] = PLAYER_MIDDLE_LEFT;
 	MovePos[LOWER_LEFT] = PLAYER_LOWER_LEFT;
@@ -84,6 +101,7 @@ HRESULT InitPlayerController(void)
 	MovePos[MIDDLE_RIGHT] = PLAYER_MIDDLE_RIGHT;
 	MovePos[CENTER] = PLAYER_CENTER;
 
+	//一筆書き判定用変数を初期化
 	currentCCW = 0;
 	currentCW = 0;
 
@@ -99,7 +117,9 @@ HRESULT InitPlayerController(void)
 	flag = false;
 	flagtimer = 0;
 
+	//プレイヤーをWait状態に遷移
 	player.CurrentState = PlayerState::Wait;
+
 	return S_OK;
 }
 //*****************************************************************************
@@ -110,15 +130,13 @@ void UninitPlayerController()
 	fsm.clear();
 	player.Uninit();
 }
+
 //*****************************************************************************
 // 更新処理
 //*****************************************************************************
 void UpdatePlayerController(HWND hWnd)
 {
-
 	resetcount++;
-
-
 
 	//ボム発生用のフラグ、カウンタ
 	if (flag == true) {
@@ -128,35 +146,12 @@ void UpdatePlayerController(HWND hWnd)
 			flagtimer = 0;
 		}
 	}
-	if (player.CurrentState == PlayerState::Wait)
-	{
-		for (int i = 0; i < STAR_MAX; i++) {
-			if (IsEntered(i, hWnd)) {
-				movenum = i;
-				push();
-				player.goalpos = MovePos[i];
-				ChangeState(&player, PlayerState::Move);
 
-				CheckCW();
-				CheckCCW();
-				resetcount = 0;
+	//移動の入力確認
+	CheckInput(hWnd);
 
-			}
-		}
-	}
-
-	//一定時間後に中央へ戻る処理
-	if (resetcount >= RESETTIME) {
-		movenum = 5;
-		push();
-		ChangeState(&player, PlayerState::Return);
-
-		CheckCW();
-		CheckCCW();
-		resetcount = 0;
-	}
-	DebugText("move_stackCCW:%d,%d,%d,%d,%d,%d\n", move_stackCCW[0], move_stackCCW[1], move_stackCCW[2], move_stackCCW[3], move_stackCCW[4], move_stackCCW[5]);
-	DebugText("move_stackCW:%d,%d,%d,%d,%d,%d\n", move_stackCW[0], move_stackCW[1], move_stackCW[2], move_stackCW[3], move_stackCW[4], move_stackCW[5]);
+	//コンボリセット確認
+	CheckComboReset();
 
 	player.Update();
 	fsm[player.CurrentState]->OnUpdate(&player);
@@ -171,35 +166,71 @@ void DrawPlayerController()
 
 }
 
+//*****************************************************************************
+// 入力確認
+//*****************************************************************************
+void CheckInput(HWND hWnd)
+{
+	//Wait状態以外は入力を受け付けない
+	if (player.CurrentState != PlayerState::Wait)
+		return;
 
+	//各ボタンについて確認
+	for (int i = 0; i < STAR_MAX; i++)
+	{
+		if (!IsEntered(i, hWnd))
+			continue;
 
+		movenum = i;
+		push();
+		player.goalpos = MovePos[i];
+		ChangeState(&player, PlayerState::Move);
+
+		CheckCW();
+		CheckCCW();
+		resetcount = 0;
+	}
+}
 
 //*****************************************************************************
-// 検証用
+// リセット確認
 //*****************************************************************************
+void CheckComboReset(void)
+{
+	//時間経過していなければ何もしない
+	if (resetcount < RESETTIME)
+		return;
 
-void SetPlayerTargetPosition(int *n) {
+	
+	//中央へ戻る
+	movenum = 5;
+	push();
+	ChangeState(&player, PlayerState::Return);
 
-	*n = movenum;
+	CheckCW();
+	CheckCCW();
+	resetcount = 0;
 
 }
 
-void push() {
-
+//*****************************************************************************
+// 判定用スタックへの移動履歴プッシュ処理
+//*****************************************************************************
+void push()
+{
 	//移動保管配列に入力されたキーの番号を保管
-	if (currentCCW < MAX_LENGTH) {
+	if (currentCCW < MOVESTACK_LENGTH) {
 		move_stackCCW[currentCCW] = movenum;
 		move_stackCW[currentCW] = movenum;
-
 	}
-
 }
 
-//右回り用
-void CheckCW() {
-
+//*****************************************************************************
+// ☆型一筆書き判定（右回り）
+//*****************************************************************************
+void CheckCW()
+{
 	//初回に判定用配列の何番目に同じ数字が格納されているか確認
-
 	if (matchingCW == false) {
 		for (judg_currentCW = 0; judg_currentCW < JUDG_LEN; judg_currentCW++) {
 
@@ -213,53 +244,56 @@ void CheckCW() {
 				//移動保管配列と判定用配列が一致した場合抜ける（judgment_currentの値を確保）
 				break;
 			}
-
 		}
 	}
+
 	//判定用配列の最大値まで進んだ場合、最初に戻す
 	if (judg_currentCW < 0) {
 		judg_currentCW = JUDG_LEN - 1;
 	}
+
 	//移動保管配列と判定用配列と違う場合（右回り）
-	if (move_stackCW[currentCW] != judgment[judg_currentCW]) {
+	if (move_stackCW[currentCW] != judgment[judg_currentCW])
+	{
 
 		matchingCW = false;
 		currentCW = 0;
 		//移動保管配列を初期化
-		for (int i = 0; i < MAX_LENGTH; i++) {
+		for (int i = 0; i < MOVESTACK_LENGTH; i++) {
 			move_stackCW[i] = INITIAL_ARRAY_NUMBER;
 		}
 	}
-	else {
+	else
+	{
 		//正しい場合
 		matchingCW = true;
 		judg_currentCW--;
 		currentCW++;
 
 		//移動保管配列の最大値まで達した場合ボム発生処理
-		if (matchingCW == true && currentCW == MAX_LENGTH) {
+		if (matchingCW == true && currentCW == MOVESTACK_LENGTH) {
 			currentCW = 0;
 			judg_currentCW = 0;
 			matchingCW = false;
 			flag = true;
 
 			//配列の初期化
-			for (int i = 0; i < MAX_LENGTH; i++) {
+			for (int i = 0; i < MOVESTACK_LENGTH; i++) {
 				move_stackCW[i] = INITIAL_ARRAY_NUMBER;
 			}
 
 			move_stackCW[currentCW] = movenum;
 			currentCW++;
 		}
-
 	}
 }
 
-//左回り用
+//*****************************************************************************
+// ☆型一筆書き判定（左回り）
+//*****************************************************************************
 void CheckCCW() {
 
-//初回に判定用配列の何番目に同じ数字が格納されているか確認
-
+	//初回に判定用配列の何番目に同じ数字が格納されているか確認
 	if (matchingCCW == false) {
 		for (judg_currentCCW = 0; judg_currentCCW < JUDG_LEN; judg_currentCCW++) {
 
@@ -286,7 +320,7 @@ void CheckCCW() {
 		matchingCCW = false;
 		currentCCW = 0;
 		//移動保管配列を初期化
-		for (int i = 0; i < MAX_LENGTH; i++) {
+		for (int i = 0; i < MOVESTACK_LENGTH; i++) {
 			move_stackCCW[i] = INITIAL_ARRAY_NUMBER;
 		}
 
@@ -298,14 +332,14 @@ void CheckCCW() {
 		currentCCW++;
 
 		//移動保管配列の最大値まで達した場合ボム発生処理
-		if (matchingCCW == true && currentCCW == MAX_LENGTH) {
+		if (matchingCCW == true && currentCCW == MOVESTACK_LENGTH) {
 			currentCCW = 0;
 			judg_currentCCW = 0;
 			matchingCCW = false;
 			flag = true;
 
 			//配列の初期化
-			for (int i = 0; i < MAX_LENGTH; i++) {
+			for (int i = 0; i < MOVESTACK_LENGTH; i++) {
 				move_stackCCW[i] = INITIAL_ARRAY_NUMBER;
 			}
 
@@ -326,7 +360,7 @@ bool SetBomb() {
 //=============================================================================
 // Player状態遷移処理
 //=============================================================================
-void ChangeState(Player *player,PlayerState next)
+void ChangeState(Player *player, PlayerState next)
 {
 	fsm[player->CurrentState]->OnExit(player);
 	player->CurrentState = next;
@@ -336,8 +370,8 @@ void ChangeState(Player *player,PlayerState next)
 //=============================================================================
 // CCW配列取得処理 (おーはま追記)
 //=============================================================================
-void GetMove_StackCCW(int trailHistoryCCW[MAX_LENGTH]) {
-	for (int i = 0; i < MAX_LENGTH; i++) {
+void GetMove_StackCCW(int trailHistoryCCW[MOVESTACK_LENGTH]) {
+	for (int i = 0; i < MOVESTACK_LENGTH; i++) {
 		trailHistoryCCW[i] = move_stackCCW[i];
 	}
 }
@@ -345,8 +379,8 @@ void GetMove_StackCCW(int trailHistoryCCW[MAX_LENGTH]) {
 //=============================================================================
 // CW配列取得処理 (おーはま追記)
 //=============================================================================
-void GetMove_StackCW(int trailHistoryCW[MAX_LENGTH]){
-	for (int i = 0; i < MAX_LENGTH; i++) {
+void GetMove_StackCW(int trailHistoryCW[MOVESTACK_LENGTH]) {
+	for (int i = 0; i < MOVESTACK_LENGTH; i++) {
 		trailHistoryCW[i] = move_stackCW[i];
 	}
 }

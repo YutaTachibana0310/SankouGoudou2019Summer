@@ -21,7 +21,9 @@
 #define PLAYER_MOVE_TIME	(20)
 #define PLAYER_RETURN_TIME	(60)
 
+#define MOVESTACK_LENGTH (6)
 
+//プレイヤーの状態列挙子
 enum class PlayerState 
 {
 	Move,
@@ -29,7 +31,9 @@ enum class PlayerState
 	Return,
 };
 
+//プレイヤークラスの前方宣言
 class Player;
+
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
@@ -37,7 +41,6 @@ HRESULT InitPlayerController(void);
 void UninitPlayerController(void);
 void UpdatePlayerController(HWND hWnd);
 void DrawPlayerController();
-void SetPlayerTargetPosition(int *n);
 
 void CheckCW();
 void CheckCCW();
@@ -47,15 +50,12 @@ void ChangeState(Player *player, PlayerState next);
 
 
 //(以下、おーはま追記)
-
-#include "player.h"
-
 //*****************************************************************************
 // マクロ定義 (おーはま追記)  一旦追記させてもらいました。次のGMで相談しましょう
 //*****************************************************************************
 #define INITIAL_ARRAY_NUMBER (8) // 初期化する数字（配列の要素と関係ない値で初期化）
 
-void GetMove_StackCCW(int trailHistoryCCW[MAX_LENGTH]);
-void GetMove_StackCW(int trailHistoryCW[MAX_LENGTH]);
+void GetMove_StackCCW(int trailHistoryCCW[MOVESTACK_LENGTH]);
+void GetMove_StackCW(int trailHistoryCW[MOVESTACK_LENGTH]);
 
 #endif

@@ -22,7 +22,7 @@
 /**************************************
 プロトタイプ宣言
 ***************************************/
-class PlayerWait :IStateMachine<Player> {
+class PlayerWait :public IStateMachine<Player> {
 public:
 	void OnUpdate(Player *entity);
 	void OnStart(Player *entity);

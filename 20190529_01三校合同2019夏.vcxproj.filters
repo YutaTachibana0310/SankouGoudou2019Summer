@@ -73,6 +73,12 @@
     <Filter Include="ヘッダー ファイル\Effect">
       <UniqueIdentifier>{064cc5a3-a7c3-4bc9-b945-9421833d739f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Collider">
+      <UniqueIdentifier>{95de29fb-c443-4431-91e9-b4ad0d2f48c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Collider">
+      <UniqueIdentifier>{4622b269-0f73-467a-ba4c-9cfed52fd984}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -273,9 +279,6 @@
     <ClInclude Include="trail.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
-    <ClInclude Include="light.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="MyLibrary.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -286,6 +289,9 @@
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="light.h">
@@ -476,11 +482,11 @@
     <ClCompile Include="trail.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
-    <ClCompile Include="PostEffectManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\InstancingMeshContainer.cpp">
       <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffectManager.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

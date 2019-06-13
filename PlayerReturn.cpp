@@ -7,6 +7,8 @@
 
 #include "PlayerReturn.h"
 #include "Framework/Easing.h"
+#include "PlayerController.h"
+
 /**************************************
 マクロ定義
 ***************************************/
@@ -25,9 +27,15 @@
 **************************************/
 void PlayerReturn::OnUpdate(Player *entity)
 {
-	float t = (float)entity->cntFrame / 120;
-	entity->pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->initpos, &PLAYER_INIT_POS, EasingType::OutExponential);
-
+	
+	float t = (float)entity->cntFrame / PLAYER_RETURN_TIME;
+	entity->cntFrame++;
+	entity->pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->initpos, &PLAYER_CENTER, EasingType::OutExponential);
+	
+	if (entity->cntFrame == PLAYER_RETURN_TIME)
+	{
+		ChangeState(entity, PlayerState::Wait);
+	}
 };
 
 /*************************************
@@ -36,6 +44,8 @@ void PlayerReturn::OnUpdate(Player *entity)
 void PlayerReturn::OnStart(Player * entity)
 {
 	entity->cntFrame = 0;
+	entity->initpos = entity->pos;
+
 };
 /*************************************
 終了処理

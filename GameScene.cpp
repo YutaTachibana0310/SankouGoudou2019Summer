@@ -37,7 +37,6 @@
 /**************************************
 グローバル変数
 ***************************************/
-class Player player;
 /**************************************
 初期化処理
 ***************************************/
@@ -54,7 +53,6 @@ void GameScene::Init()
 	InitUI();
 
 	InitPlayerController();
-	player.Init();
 	InitCursor();
 }
 
@@ -71,10 +69,11 @@ void GameScene::Uninit()
 
 	UninitGameParticleManager(0);
 
-	UninitUI();
+	UninitPlayerController();
 
-	player.Uninit();
+	UninitUI();
 	UninitCursor();
+
 }
 
 /**************************************
@@ -90,7 +89,6 @@ void GameScene::Update(HWND hWnd)
 
 	//プレイヤーの更新
 	UpdatePlayerController(hWnd);
-	player.Update();
 
 	//パーティクルの更新
 	UpdateGameParticleManager();
@@ -115,7 +113,7 @@ void GameScene::Draw()
 	DrawBackGroundField();
 
 	//プレイヤーの描画
-	player.Draw();
+	DrawPlayerController();
 
 	//パーティクル描画
 	DrawGameParticleManager();

@@ -24,6 +24,7 @@ void PlayerMove::OnUpdate(Player *entity)
 	entity->cntFrame++;
 	float t = (float)entity->cntFrame / 20;
 	entity->pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->initpos, &entity->goalpos, EasingType::InCubic);
+
 	if (entity->cntFrame == 20)
 	{
 		ChangeState(entity, PlayerState::Wait);

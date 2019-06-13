@@ -77,12 +77,12 @@ HRESULT InitPlayerController(void)
 		move_stackCW[i] = 0;
 	}
 
-	MovePos[CENTER] = PLAYER_CENTER;
 	MovePos[TOP] = PLAYER_TOP;
 	MovePos[MIDDLE_LEFT] = PLAYER_MIDDLE_LEFT;
 	MovePos[LOWER_LEFT] = PLAYER_LOWER_LEFT;
 	MovePos[LOWER_RIGHT] = PLAYER_LOWER_RIGHT;
 	MovePos[MIDDLE_RIGHT] = PLAYER_MIDDLE_RIGHT;
+	MovePos[CENTER] = PLAYER_CENTER;
 
 	currentCCW = 0;
 	currentCW = 0;
@@ -119,6 +119,7 @@ void UpdatePlayerController(HWND hWnd)
 	resetcount++;
 
 
+
 	//ボム発生用のフラグ、カウンタ
 	if (flag == true) {
 		flagtimer++;
@@ -143,10 +144,13 @@ void UpdatePlayerController(HWND hWnd)
 			}
 		}
 	}
+
 	//一定時間後に中央へ戻る処理
 	if (resetcount >= RESETTIME) {
 		movenum = 5;
 		push();
+		ChangeState(&player, PlayerState::Return);
+
 		CheckCW();
 		CheckCCW();
 		resetcount = 0;

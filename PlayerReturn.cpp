@@ -28,11 +28,11 @@
 void PlayerReturn::OnUpdate(Player *entity)
 {
 	
-	float t = (float)entity->cntFrame / 60;
+	float t = (float)entity->cntFrame / PLAYER_RETURN_TIME;
 	entity->cntFrame++;
 	entity->pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->initpos, &PLAYER_CENTER, EasingType::OutExponential);
 	
-	if (entity->cntFrame == 60)
+	if (entity->cntFrame == PLAYER_RETURN_TIME)
 	{
 		ChangeState(entity, PlayerState::Wait);
 	}

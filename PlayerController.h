@@ -18,6 +18,9 @@
 #define PLAYER_LOWER_RIGHT	D3DXVECTOR3(30.0f, -50.0f, 150.0f)
 #define PLAYER_MIDDLE_RIGHT	D3DXVECTOR3(50.0f, -10.0f, 150.0f)
 
+#define PLAYER_MOVE_TIME	(20)
+#define PLAYER_RETURN_TIME	(60)
+
 
 enum class PlayerState 
 {

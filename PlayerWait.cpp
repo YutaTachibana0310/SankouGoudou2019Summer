@@ -26,12 +26,6 @@
 **************************************/
 void PlayerWait::OnUpdate(Player *entity)
 {
-	////entity->cntFrame++;
-	//
-	////if (entity->cntFrame < 180)
-	////{
-	//	ChangeState(entity, PlayerState::Wait);
-	////}
 
 }
 

@@ -22,10 +22,10 @@
 void PlayerMove::OnUpdate(Player *entity)
 {
 	entity->cntFrame++;
-	float t = (float)entity->cntFrame / 20;
+	float t = (float)entity->cntFrame / PLAYER_MOVE_TIME;
 	entity->pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->initpos, &entity->goalpos, EasingType::InCubic);
 
-	if (entity->cntFrame == 20)
+	if (entity->cntFrame == PLAYER_MOVE_TIME)
 	{
 		ChangeState(entity, PlayerState::Wait);
 	}

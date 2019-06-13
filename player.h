@@ -1,19 +1,25 @@
 //=====================================
 //
-//テンプレートヘッダ[debugTimer.h]
-//===================================
+//プレイヤーヘッダ[player.h]
+//Author:GP12B332 12 権頭
+//
+//=====================================
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
 #include "main.h"
-#include "PlayerController.h"
 #include "Framework/MeshContainer.h"
 
-
-
+/**************************************
+マクロ定義
+***************************************/
 #define MAX_LENGTH (6)
 
+enum class PlayerState;
 
+/**************************************
+プレイヤークラス定義
+***************************************/
 class Player
 {
 public:

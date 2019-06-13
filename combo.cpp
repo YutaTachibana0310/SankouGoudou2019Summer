@@ -12,23 +12,29 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define COMBOPARTS_MAX		(2)
-#define	INTERVAL_NUMBER		(80.0f)	// コンボ数字の表示間隔
-#define	PLACE_MAX			(2)		// コンボの桁数
+#define COMBOPARTS_MAX		(3)
+#define	INTERVAL_NUMBER		(80.0f)			// コンボ数字の表示間隔
+#define	INTERVAL_NUMBER_TEXTURE	(0.097f)	// テクスチャ内コンボ数字の表示間隔
+#define	PLACE_MAX			(2)				// コンボの桁数
 #define SIZE_X_NUMBER_COMBO (40)
-#define SIZE_X_TEXT_COMBO	(130)
+#define SIZE_X_TEXT_COMBO	(45)
+#define SIZE_X_BACKGROUND_COMBO	(200)
 #define SIZE_Y_NUMBER_COMBO (75)
-#define SIZE_Y_TEXT_COMBO	(75)
+#define SIZE_Y_TEXT_COMBO	(20)
+#define SIZE_Y_BACKGROUND_COMBO	(200)
 #define VOLUME_ZOOM			(50.0f)
-#define POSITION_NUMBER_COMBO (D3DXVECTOR3(SCREEN_WIDTH / 10*2.2f, SCREEN_HEIGHT / 10 , 0.0f))
-#define POSITION_TEXT_COMBO	  (D3DXVECTOR3(SCREEN_WIDTH / 10, SCREEN_HEIGHT / 10 , 0.0f))
-#define BASE_NUMBER			(10) // 進数
+#define POSITION_NUMBER_COMBO (D3DXVECTOR3(SCREEN_WIDTH / 10*2.0f, SCREEN_HEIGHT / 10*2.0f , 0.0f))
+#define POSITION_TEXT_COMBO	  (D3DXVECTOR3(SCREEN_WIDTH / 10*3.2f, SCREEN_HEIGHT / 10*2.3f , 0.0f))
+#define POSITION_BACKGROUND_COMBO (D3DXVECTOR3(SCREEN_WIDTH / 10*2.25f, SCREEN_HEIGHT / 10*2.0f , 0.0f))
+#define BASE_NUMBER			(10)	// 進数
 #define SPEED_VOLUMEUP		(0.2f)
+#define ROTATION_SPEED_COMBO_BACKGROUND (0.01f)
 
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
 void VolumeUpEffect(void);
+void UpdateNumberColor(void);
 
 //*****************************************************************************
 // グローバル変数宣言
@@ -48,6 +54,7 @@ HRESULT InitCombo(void)
 
 	LoadTexture(pDevice, ADRESS_TEXTURE_NUMBER_COMBO,	&comboParts[NUMBER_COMBO]);
 	LoadTexture(pDevice, ADRESS_TEXTURE_TEXT_COMBO,		&comboParts[TEXT_COMBO]);
+	LoadTexture(pDevice, ADRESS_TEXTURE_BACKGROUND_COMBO, &comboParts[BACKGROUND_COMBO]);
 
 	for (int i = 0; i < COMBOPARTS_MAX; i++)
 	{
@@ -56,13 +63,20 @@ HRESULT InitCombo(void)
 		comboParts[i].rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	}
 
-	comboParts[NUMBER_COMBO].position = POSITION_NUMBER_COMBO;
-	comboParts[TEXT_COMBO].position	  = POSITION_TEXT_COMBO;
+	comboParts[NUMBER_COMBO].position	  = POSITION_NUMBER_COMBO;
+	comboParts[TEXT_COMBO].position		  = POSITION_TEXT_COMBO;
+	comboParts[BACKGROUND_COMBO].position = POSITION_BACKGROUND_COMBO;
+
 	comboParts[NUMBER_COMBO].size	  = D3DXVECTOR3(SIZE_X_NUMBER_COMBO, SIZE_Y_NUMBER_COMBO, 0.0f);
 	comboParts[TEXT_COMBO].size		  = D3DXVECTOR3(SIZE_X_TEXT_COMBO, SIZE_Y_TEXT_COMBO, 0.0f);
+	comboParts[BACKGROUND_COMBO].size = D3DXVECTOR3(SIZE_X_BACKGROUND_COMBO, SIZE_Y_BACKGROUND_COMBO, 0.0f);
 
-	SetColorObject(&comboParts[NUMBER_COMBO],	SET_COLOR_NOT_COLORED);
-	SetColorObject(&comboParts[TEXT_COMBO],		SET_COLOR_NOT_COLORED);
+	SetColorObject(&comboParts[NUMBER_COMBO],	 SET_COLOR_NOT_COLORED);
+	SetColorObject(&comboParts[TEXT_COMBO],		 SET_COLOR_NOT_COLORED);
+	SetColorObject(&comboParts[BACKGROUND_COMBO],SET_COLOR_NOT_COLORED);
+
+	// 回転オブジェクト用のサークルを作成
+	CreateObjectCircle(&comboParts[BACKGROUND_COMBO], comboParts[BACKGROUND_COMBO].size.x, comboParts[BACKGROUND_COMBO].size.y);
 
 	// 最大値設定
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
@@ -89,6 +103,13 @@ void UninitCombo(void)
 //=============================================================================
 void UpdateCombo(void)
 {
+	// コンボ背景回転
+	comboParts[BACKGROUND_COMBO].rotation.z += ROTATION_SPEED_COMBO_BACKGROUND;
+
+	// 数字の色更新
+	UpdateNumberColor();
+
+	// 縦に伸びるエフェクト
 	VolumeUpEffect();
 }
 
@@ -99,6 +120,10 @@ void DrawCombo(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	 //背景を先に描画
+	DrawObject(pDevice, comboParts[BACKGROUND_COMBO]);
+	SetVertexRotateObject(&comboParts[BACKGROUND_COMBO]);
+
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
 	{
 		int number;
@@ -108,7 +133,7 @@ void DrawCombo(void)
 
 		DrawObject(pDevice, comboParts[NUMBER_COMBO]);
 		SetVertexCounter(&comboParts[NUMBER_COMBO], nCntPlace, INTERVAL_NUMBER);
-		SetTextureCounter(&comboParts[NUMBER_COMBO], number);
+		SetTextureCounter(&comboParts[NUMBER_COMBO], number, INTERVAL_NUMBER_TEXTURE);
 	}
 
 	DrawObject(pDevice, comboParts[TEXT_COMBO]);
@@ -137,8 +162,12 @@ void ChangeCombo(int value)
 		g_combo = g_combo_max;
 	}
 
-	// エフェクト有効化
-	volumeUpEffectUsed = true;
+	// スコアが加算されたら行う処理
+	if (value > 0)
+	{
+		// エフェクト有効化
+		volumeUpEffectUsed = true;
+	}
 }
 
 //=============================================================================
@@ -157,5 +186,28 @@ void VolumeUpEffect(void)
 		}
 
 		radian += SPEED_VOLUMEUP;
+	}
+}
+
+//=============================================================================
+// 数字カラー更新処理
+//=============================================================================
+void UpdateNumberColor(void)
+{
+	if (g_combo < 5)
+	{
+		SetColorObject(&comboParts[NUMBER_COMBO], SET_COLOR_NOT_COLORED);
+	}
+	if (g_combo >= 5 && g_combo < 10)
+	{
+		SetColorObject(&comboParts[NUMBER_COMBO], SET_COLOR_YELLOW);
+	}
+	if (g_combo >= 10 && g_combo < 20)
+	{
+		SetColorObject(&comboParts[NUMBER_COMBO], SET_COLOR_ORANGE);
+	}
+	if (g_combo >= 20)
+	{
+		SetColorObject(&comboParts[NUMBER_COMBO], SET_COLOR_RED);
 	}
 }

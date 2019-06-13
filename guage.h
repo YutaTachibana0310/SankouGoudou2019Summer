@@ -10,14 +10,16 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	ADRESS_TEXTURE_GUAGEBAR		("data/TEXTURE/UI/guageBar.png")		
-#define	ADRESS_TEXTURE_GUAGEFLAME	("data/TEXTURE/UI/guageFlame.png")		
+#define	ADRESS_TEXTURE_GUAGEBAR		("data/TEXTURE/UI/guage/guageBar_vertical.png")		
+#define	ADRESS_TEXTURE_GUAGEFLAME	("data/TEXTURE/UI/guage/guageFrame_vertical.png")		
+#define	ADRESS_TEXTURE_GUAGETEXT	("data/TEXTURE/UI/guage/guageText_fever_vertical.png")		
 
 enum GUARGE_PARTS
 {
 	GUAGEBAR_DAMAGE,  // ダメージ表現ゲージバー
 	GUAGEBAR_TRUE,	  // 実際のゲージバー
 	GUAGEFLAME,
+	GUAGETEXT,
 };
 
 //*****************************************************************************

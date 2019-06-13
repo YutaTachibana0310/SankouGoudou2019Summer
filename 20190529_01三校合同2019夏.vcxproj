@@ -138,6 +138,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="collider.h" />
     <ClInclude Include="combo.h" />
+    <ClInclude Include="cursor.h" />
     <ClInclude Include="debugTimer.h" />
     <ClInclude Include="debugWindow.h" />
     <ClInclude Include="Framework\AnimContainer.h" />
@@ -146,9 +147,11 @@
     <ClInclude Include="Framework\CameraShakerPlugin.h" />
     <ClInclude Include="Framework\Easing.h" />
     <ClInclude Include="Framework\EasingVector.h" />
+    <ClInclude Include="Framework\InstancingMeshContainer.h" />
     <ClInclude Include="Framework\MeshContainer.h" />
     <ClInclude Include="Framework\MyAllocateHierarchy.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameParticleManager.h" />
     <ClInclude Include="guage.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="imgui\imconfig.h" />
@@ -164,15 +167,12 @@
     <ClInclude Include="IStateMachine.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="MyLibrary.h" />
-    <ClInclude Include="player.h" />
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="PlayerReturn.h" />
     <ClInclude Include="PlayerWait.h" />
     <ClInclude Include="IStateScene.h" />
-    <ClInclude Include="light.h" />
-    <ClInclude Include="main.h" />
+    <ClInclude Include="line.h" />
     <ClInclude Include="MyLibrary.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="PlayerController.h" />
@@ -190,8 +190,10 @@
     <ClInclude Include="PostEffect\SpikeNoiseController.h" />
     <ClInclude Include="PostEffect\StrongBlurFilter.h" />
     <ClInclude Include="score.h" />
+    <ClInclude Include="ScoreParticle.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="star.h" />
+    <ClInclude Include="trail.h" />
     <ClInclude Include="UIdrawer.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="ResultScene.h" />
@@ -204,6 +206,7 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collider.cpp" />
     <ClCompile Include="combo.cpp" />
+    <ClCompile Include="cursor.cpp" />
     <ClCompile Include="debugTimer.cpp" />
     <ClCompile Include="debugWindow.cpp" />
     <ClCompile Include="Framework\AnimContainer.cpp" />
@@ -211,9 +214,11 @@
     <ClCompile Include="Framework\CameraShakerPlugin.cpp" />
     <ClCompile Include="Framework\Easing.cpp" />
     <ClCompile Include="Framework\EasingVector.cpp" />
+    <ClCompile Include="Framework\InstancingMeshContainer.cpp" />
     <ClCompile Include="Framework\MeshContainer.cpp" />
     <ClCompile Include="Framework\MyAllocateHierarchy.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameParticleManager.cpp" />
     <ClCompile Include="guage.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -225,6 +230,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="light.cpp" />
+    <ClCompile Include="line.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
     <ClCompile Include="player.cpp" />
@@ -233,7 +239,7 @@
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="PlayerReturn.cpp" />
     <ClCompile Include="PlayerWait.cpp" />
-    <ClCompile Include="PosetEffectManager.cpp" />
+    <ClCompile Include="PostEffectManager.cpp" />
     <ClCompile Include="PostEffect\BloomController.cpp" />
     <ClCompile Include="PostEffect\BloomFilter.cpp" />
     <ClCompile Include="PostEffect\BlurFilter.cpp" />
@@ -247,14 +253,20 @@
     <ClCompile Include="PostEffect\SpikeNoiseController.cpp" />
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp" />
     <ClCompile Include="score.cpp" />
+    <ClCompile Include="ScoreParticle.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="star.cpp" />
+    <ClCompile Include="trail.cpp" />
     <ClCompile Include="UIdrawer.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="data\EFFECT\ModelInstancing.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="Framework\LambertLight.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>

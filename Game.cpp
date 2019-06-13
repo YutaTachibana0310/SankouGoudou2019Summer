@@ -105,7 +105,6 @@ void UpdateGame(HWND hWnd)
 ***************************************/
 void DrawGame()
 {
-	CountDebugTimer("Game", "Draw");
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	//現在のビューポートを退避してレンダーターゲットを切り替え
@@ -124,7 +123,6 @@ void DrawGame()
 	fsm[currentScene]->Draw();
 
 	//結果をバックバッファへと描画
-	CountDebugTimer("Main", "DrawBackBuffer");
 	pDevice->SetViewport(&oldVirwPort);
 	pDevice->SetRenderTarget(0, oldSuf);
 	SAFE_RELEASE(oldSuf);

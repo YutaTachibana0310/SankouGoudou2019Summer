@@ -79,6 +79,27 @@ typedef struct
 	D3DXVECTOR2 tex;		// テクスチャ座標
 } VERTEX_3D;
 
+//パーティクルの単位頂点
+typedef struct
+{
+	D3DXVECTOR3 vtx;	//頂点座標
+	D3DXVECTOR2 tex;	//UV座標
+} ParticleUnit;
+
+//SRT情報
+typedef struct
+{
+	D3DXVECTOR3 pos;	//座標
+	D3DXVECTOR3 rot;	//回転
+	D3DXVECTOR3 scale;	//スケール
+}Transform;
+
+//パーティクルのUV情報
+typedef struct
+{
+	float u, v;
+}ParticleUV;
+
 typedef struct
 {
 	D3DXVECTOR3 vtx[4];

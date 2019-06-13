@@ -95,7 +95,6 @@ HRESULT MeshContainer::Load(const char* filePath)
 
 		//テクスチャ名をwcharに変換
 		char fileName[1024];
-		size_t num;
 		ZeroMemory(fileName, sizeof(fileName));
 		strcpy(fileName, matBuffer[i].pTextureFilename);
 
@@ -119,7 +118,7 @@ HRESULT MeshContainer::Load(const char* filePath)
 ***************************************/
 void MeshContainer::Release()
 {
-	for (int i = 0; i < materialNum; i++)
+	for (unsigned i = 0; i < materialNum; i++)
 	{
 		SAFE_RELEASE(textures[i]);
 	}
@@ -152,4 +151,34 @@ void MeshContainer::Draw()
 
 	//マテリアル復元
 	pDevice->SetMaterial(&matDef);
+}
+
+/**************************************
+マテリアル取得
+***************************************/
+void MeshContainer::GetMaterial(unsigned id, D3DMATERIAL9 *pOut)
+{
+	if (id >= materialNum || id < 0)
+		return;
+
+	*pOut = materials[id];
+}
+
+/**************************************
+テクスチャ取得
+***************************************/
+void MeshContainer::GetTexture(unsigned id, LPDIRECT3DTEXTURE9 *pOut)
+{
+	if (id >= materialNum || id < 0)
+		return;
+
+	*pOut = textures[id];
+}
+
+/**************************************
+マテリアル数取得
+***************************************/
+DWORD MeshContainer::GetMaterialNum()
+{
+	return materialNum;
 }

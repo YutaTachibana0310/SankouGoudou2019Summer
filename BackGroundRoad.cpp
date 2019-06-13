@@ -9,7 +9,8 @@
 #define BACKGROUNDROAD_POS_RANGE_Z      (10000.0f)
 #define BACKGROUNDROAD_NUM_MAX			(100)
 
-#define BACKGROUNDROAD_MOVE_SPEED	    (-25.0f)
+#define BACKGROUNDROAD_MOVE_SPEED	    (-0.03f)
+
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
@@ -80,7 +81,7 @@ void UpdateBackGroundRoad(void)
 	g_pD3DVtxBuffRoad->Lock(0, 0, (void**)&pVtx, 0);
 
 	// 頂点座標の設定
-	pVtx[0].tex.y += 0.001f;//左奥
+	pVtx[0].tex.y += BACKGROUNDROAD_MOVE_SPEED;//左奥
 	pVtx[1].tex.y += BACKGROUNDROAD_MOVE_SPEED;//右奥
 	pVtx[2].tex.y += BACKGROUNDROAD_MOVE_SPEED;//左手前
 	pVtx[3].tex.y += BACKGROUNDROAD_MOVE_SPEED;//右手前

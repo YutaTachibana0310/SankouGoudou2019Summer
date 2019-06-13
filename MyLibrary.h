@@ -31,4 +31,7 @@ void ArrayCopy(int *dst, int *src, int size);											//配列コピー関数
 void RotateByQuaternion(const D3DXVECTOR3 *initPos, const D3DXVECTOR3 *axis, const FLOAT rad, D3DXVECTOR3 *out); //クォータニオンによる任意軸回転
 float GetAngleFromTwoVector(D3DXVECTOR3 *pV1, D3DXVECTOR3 *pV2);						//2つのベクトルがなす角度
 void CopyVtxBuff(unsigned size, void* src, LPDIRECT3DVERTEXBUFFER9 buff);				//頂点バッファのメモリセット処理
+void MakeParticleUnitBuffer(D3DXVECTOR2 *size, D3DXVECTOR2 *texDiv, LPDIRECT3DVERTEXBUFFER9 *buff);	//パーティクル単位バッファの作成
+void MakeTransformBuffer(DWORD maxNum, LPDIRECT3DVERTEXBUFFER9 *buff);					//SRT情報バッファの作成
+void MakeUVBUffer(DWORD maxNum, LPDIRECT3DVERTEXBUFFER9 *buff);							//UV情報バッファの作成
 #endif

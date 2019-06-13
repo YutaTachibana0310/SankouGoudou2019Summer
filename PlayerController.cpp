@@ -73,8 +73,8 @@ HRESULT InitPlayerController(void)
 
 	player.Init();
 	for (int i = 0; i < MAX_LENGTH; i++) {
-		move_stackCCW[i] = 0;
-		move_stackCW[i] = 0;
+		move_stackCCW[i] = INITIAL_ARRAY_NUMBER;
+		move_stackCW[i] = INITIAL_ARRAY_NUMBER;
 	}
 
 	MovePos[TOP] = PLAYER_TOP;
@@ -157,11 +157,9 @@ void UpdatePlayerController(HWND hWnd)
 	}
 	DebugText("move_stackCCW:%d,%d,%d,%d,%d,%d\n", move_stackCCW[0], move_stackCCW[1], move_stackCCW[2], move_stackCCW[3], move_stackCCW[4], move_stackCCW[5]);
 	DebugText("move_stackCW:%d,%d,%d,%d,%d,%d\n", move_stackCW[0], move_stackCW[1], move_stackCW[2], move_stackCW[3], move_stackCW[4], move_stackCW[5]);
-	
-	
+
 	player.Update();
 	fsm[player.CurrentState]->OnUpdate(&player);
-
 }
 
 //*****************************************************************************
@@ -229,7 +227,7 @@ void CheckCW() {
 		currentCW = 0;
 		//移動保管配列を初期化
 		for (int i = 0; i < MAX_LENGTH; i++) {
-			move_stackCW[i] = 0;
+			move_stackCW[i] = INITIAL_ARRAY_NUMBER;
 		}
 	}
 	else {
@@ -247,7 +245,7 @@ void CheckCW() {
 
 			//配列の初期化
 			for (int i = 0; i < MAX_LENGTH; i++) {
-				move_stackCW[i] = 0;
+				move_stackCW[i] = INITIAL_ARRAY_NUMBER;
 			}
 
 			move_stackCW[currentCW] = movenum;
@@ -289,7 +287,7 @@ void CheckCCW() {
 		currentCCW = 0;
 		//移動保管配列を初期化
 		for (int i = 0; i < MAX_LENGTH; i++) {
-			move_stackCCW[i] = 0;
+			move_stackCCW[i] = INITIAL_ARRAY_NUMBER;
 		}
 
 	}
@@ -308,7 +306,7 @@ void CheckCCW() {
 
 			//配列の初期化
 			for (int i = 0; i < MAX_LENGTH; i++) {
-				move_stackCCW[i] = 0;
+				move_stackCCW[i] = INITIAL_ARRAY_NUMBER;
 			}
 
 			move_stackCCW[currentCCW] = movenum;
@@ -325,9 +323,30 @@ bool SetBomb() {
 	return false;
 }
 
+//=============================================================================
+// Player状態遷移処理
+//=============================================================================
 void ChangeState(Player *player,PlayerState next)
 {
 	fsm[player->CurrentState]->OnExit(player);
 	player->CurrentState = next;
 	fsm[player->CurrentState]->OnStart(player);
+}
+
+//=============================================================================
+// CCW配列取得処理 (おーはま追記)
+//=============================================================================
+void GetMove_StackCCW(int trailHistoryCCW[MAX_LENGTH]) {
+	for (int i = 0; i < MAX_LENGTH; i++) {
+		trailHistoryCCW[i] = move_stackCCW[i];
+	}
+}
+
+//=============================================================================
+// CW配列取得処理 (おーはま追記)
+//=============================================================================
+void GetMove_StackCW(int trailHistoryCW[MAX_LENGTH]){
+	for (int i = 0; i < MAX_LENGTH; i++) {
+		trailHistoryCW[i] = move_stackCW[i];
+	}
 }

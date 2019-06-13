@@ -47,7 +47,8 @@ void Sound::Create() {
 //デストラクタ
 Sound::~Sound()
 {
-	//Destroy();
+	delete sound;
+	sound = NULL;
 	//XACTをシャットダウン
 	if (xactEngine) {
 

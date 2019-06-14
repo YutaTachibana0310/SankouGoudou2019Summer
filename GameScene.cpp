@@ -116,6 +116,9 @@ void GameScene::Draw()
 	//プレイヤーの描画
 	DrawPlayerController();
 
+	//プレイヤーバレット描画
+	DrawPlayerBullet();
+
 	//パーティクル描画
 	DrawGameParticleManager();
 

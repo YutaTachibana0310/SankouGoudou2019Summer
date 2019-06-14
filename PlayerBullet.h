@@ -24,27 +24,29 @@
 class PlayerBullet
 {
 public:
-	PlayerBullet();
-	~PlayerBullet();
+	PlayerBullet();		//コンストラクタ
+	~PlayerBullet();	//デストラクタ
 
-	void Init();
-	void Uninit();
-	void Update();
-	void Draw();
+	void Init();		//初期化処理
+	void Uninit();		//終了処理
+	void Update();		//更新処理
+	void Draw();		//描画処理
 
-	void Set(TrailIndex start, TrailIndex end);
-	TrailCollider GetCollider();
-	bool IsActive();
-
-	//テスト用
-	void Set(D3DXVECTOR3 start, D3DXVECTOR3 end);
-	D3DXVECTOR3 pos;
+	void SetTrailIndex(TrailIndex start, TrailIndex end);		//トレイルインデックスセット処理
+	void SetEdgePos(const D3DXVECTOR3 *left, const D3DXVECTOR3 *right);	//端点設定処理
+	TrailCollider GetCollider();	//当たり判定取得処理
+	bool IsActive();				//アクティブ判定
 
 private:
 	bool active;
+	D3DXVECTOR3 pos;
 	TrailCollider collider;
 	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
-	LPDIRECT3DTEXTURE9 texture;
+	int cntFrame;
+	D3DXVECTOR3 vtxUp;
+
+	static int instanceCount;
+	static LPDIRECT3DTEXTURE9 texture;
 };
 
 #endif

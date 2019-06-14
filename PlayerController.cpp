@@ -21,7 +21,8 @@ using namespace std;
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define MOVETARGET_LENGTH	(6)
+#define MOVETARGET_LENGTH				(6)
+#define PLAYER_DISTANCE_FROM_CAMERA		(1500.0f)
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -29,6 +30,7 @@ using namespace std;
 void push(void);				//移動履歴スタックへのプッシュ処理
 void CheckInput(HWND hWnd);		//入力判定
 void CheckComboReset(void);		//リセット確認
+void CalcPlayerMoveTargetPos();	//移動目標座標計算処理
 
 //*****************************************************************************
 // グローバル変数
@@ -94,12 +96,13 @@ HRESULT InitPlayerController(void)
 	}
 
 	//移動目標初期化
-	MovePos[TOP] = PLAYER_TOP;
+	/*MovePos[TOP] = PLAYER_TOP;
 	MovePos[MIDDLE_LEFT] = PLAYER_MIDDLE_LEFT;
 	MovePos[LOWER_LEFT] = PLAYER_LOWER_LEFT;
 	MovePos[LOWER_RIGHT] = PLAYER_LOWER_RIGHT;
 	MovePos[MIDDLE_RIGHT] = PLAYER_MIDDLE_RIGHT;
-	MovePos[CENTER] = PLAYER_CENTER;
+	MovePos[CENTER] = PLAYER_CENTER;*/
+	CalcPlayerMoveTargetPos();
 
 	//一筆書き判定用変数を初期化
 	currentCCW = 0;
@@ -365,6 +368,30 @@ void ChangeState(Player *player, PlayerState next)
 	fsm[player->CurrentState]->OnExit(player);
 	player->CurrentState = next;
 	fsm[player->CurrentState]->OnStart(player);
+}
+
+//=============================================================================
+// 移動目標座標計算処理
+//=============================================================================
+void CalcPlayerMoveTargetPos()
+{
+	//スターのスクリーン座標を取得
+	D3DXVECTOR3 starPos[5];
+	GetStarPosition(starPos);
+
+	for (int i = 0; i < STAR_MAX; i++)
+	{
+		//スターの位置でNear面とFar面を結ぶレイを計算して正規化
+		D3DXVECTOR3 nearPos, farPos;
+		CalcScreenToWorld(&nearPos, &starPos[i], 0.0f);
+		CalcScreenToWorld(&farPos, &starPos[i], 1.0f);
+
+		D3DXVECTOR3 ray = farPos - nearPos;
+		D3DXVec3Normalize(&ray, &ray);
+
+		//目標座標を計算
+		MovePos[i] = nearPos + ray * PLAYER_DISTANCE_FROM_CAMERA;
+	}
 }
 
 //=============================================================================

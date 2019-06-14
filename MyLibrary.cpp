@@ -540,7 +540,7 @@ void MakeUVBUffer(DWORD maxNum, LPDIRECT3DVERTEXBUFFER9 *buff)
 //戻り値	：void
 //説明		：スクリーン座標をワールド座標に変換する処理
 ********************************************************************/
-void CaclScreenToWorld(D3DXVECTOR3 *pOut, const D3DXVECTOR3 *screenPos, float f)
+void CalcScreenToWorld(D3DXVECTOR3 *pOut, const D3DXVECTOR3 *screenPos, float f)
 {
 	D3DXMATRIX view, proj, viewport, invView, invProj, invViewport;
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();

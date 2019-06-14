@@ -34,4 +34,5 @@ void CopyVtxBuff(unsigned size, void* src, LPDIRECT3DVERTEXBUFFER9 buff);				//�
 void MakeParticleUnitBuffer(D3DXVECTOR2 *size, D3DXVECTOR2 *texDiv, LPDIRECT3DVERTEXBUFFER9 *buff);	//パーティクル単位バッファの作成
 void MakeTransformBuffer(DWORD maxNum, LPDIRECT3DVERTEXBUFFER9 *buff);					//SRT情報バッファの作成
 void MakeUVBUffer(DWORD maxNum, LPDIRECT3DVERTEXBUFFER9 *buff);							//UV情報バッファの作成
+void CalcScreenToWorld(D3DXVECTOR3 *pOut, const D3DXVECTOR3 *screenPos, float f);		//スクリーン座標をワールド座標に変換する関数
 #endif

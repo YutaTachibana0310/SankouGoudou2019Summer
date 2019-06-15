@@ -306,6 +306,9 @@
     <ClInclude Include="CollisionManager.h">
       <Filter>ヘッダー ファイル\Collider</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerBulletParticle.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -499,6 +502,9 @@
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>ソース ファイル\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBulletParticle.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

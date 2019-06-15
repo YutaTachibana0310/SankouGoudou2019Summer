@@ -141,7 +141,11 @@ void UpdatePlayerController(HWND hWnd)
 {
 	BeginDebugWindow("PlayerController");
 	if (DebugButton("BUllet"))
+	{
+		int start = RandomRange(0, 5);
+		int end = WrapAround(0, 5, start + RandomRange(1, 4));
 		FirePlayerBullet((TrailIndex)RandomRange(0, 5), (TrailIndex)RandomRange(0, 5));
+	}
 	DebugText("PlayerBulletCnt : %d", bulletContainer.size());
 	EndDebugWindow("PlayerController");
 

@@ -137,6 +137,7 @@
     <ClInclude Include="BackGroundRoad.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="collider.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="combo.h" />
     <ClInclude Include="cursor.h" />
     <ClInclude Include="debugTimer.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="BackGuroundField.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collider.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="combo.cpp" />
     <ClCompile Include="cursor.cpp" />
     <ClCompile Include="debugTimer.cpp" />

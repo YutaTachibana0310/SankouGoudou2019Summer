@@ -8,6 +8,8 @@
 #ifndef _PLAYERCONTROLLER_H_
 #define _PLAYERCONTROLLER_H_
 
+#include <vector>
+
 #define JUDG_LEN (5)
 #define RESETTIME (120)
 
@@ -34,6 +36,7 @@ enum class PlayerState
 //前方宣言
 class Player;
 enum class TrailIndex;
+class PlayerBullet;
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -48,8 +51,8 @@ void CheckCW();
 void CheckCCW();
 bool SetBomb();
 
+std::vector<PlayerBullet*>* GetPlayerBulletContainer(void);
 void ChangeState(Player *player, PlayerState next);
-
 void FirePlayerBullet(TrailIndex start, TrailIndex end);
 
 //(以下、おーはま追記)

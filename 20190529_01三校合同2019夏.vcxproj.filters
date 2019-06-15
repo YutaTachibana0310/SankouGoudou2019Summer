@@ -303,6 +303,9 @@
     <ClInclude Include="TrailCollider.h">
       <Filter>ヘッダー ファイル\Collider</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>ヘッダー ファイル\Collider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -492,6 +495,9 @@
       <Filter>ソース ファイル\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="TrailCollider.cpp">
+      <Filter>ソース ファイル\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
       <Filter>ソース ファイル\Collider</Filter>
     </ClCompile>
   </ItemGroup>

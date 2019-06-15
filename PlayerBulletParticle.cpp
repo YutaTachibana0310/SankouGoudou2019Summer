@@ -5,6 +5,7 @@
 //
 //=====================================
 #include "PlayerBulletParticle.h"
+#include "Framework\Easing.h"
 
 #include <vector>
 #include <array>
@@ -15,8 +16,8 @@ using namespace std;
 マクロ定義
 ***************************************/
 #define PLAYERBULLETPARTICLE_TEXTURE_NAME	"data/TEXTURE/Effect/PlayerBulletParticle.png"
-#define PLAYERBULLETPARTCILE_NUM_MAX		(1024)
-#define PLAYERBULLETPARTICLE_SIZE			(1.0f)
+#define PLAYERBULLETPARTCILE_NUM_MAX		(4096)
+#define PLAYERBULLETPARTICLE_SIZE			(2.0f)
 
 #define PLAYERBULLETPARTICLE_LIFEFRAME		(10)
 #define PLAYERBULLETPARTTCLE_LIFE_RANGE		(3)
@@ -41,7 +42,7 @@ struct PlayerBulletParticle
 ***************************************/
 struct PlayerBulletParticleEmitter
 {
-	PlayerBulletParticleEmitter(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edgeRight, D3DXVECTOR3 *edgeLeft)
+	PlayerBulletParticleEmitter(D3DXVECTOR3 *pPos, bool *pActive, const D3DXVECTOR3 *edgeRight, const D3DXVECTOR3 *edgeLeft)
 	{
 		parentActive = pActive;
 		parentPos = pPos;
@@ -134,7 +135,7 @@ void DrawPlayerBulletParticle(void)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	//加算合成
-	//pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
 	//頂点バッファにデータを設定
 	DWORD particleCount = EmbedPlayerBulletParticleParameter();
@@ -226,15 +227,16 @@ void PlayerBulletParticleEmitter::Update(array<PlayerBulletParticle, PLAYERBULLE
 
 		itr->moveDir.x = RandomRangef(-1.0f, 1.0f);
 		itr->moveDir.y = RandomRangef(-1.0f, 1.0f);
-		itr->moveDir.z = -1.0f;
+		itr->moveDir.z = -2.0f;
+		D3DXVec3Normalize(&itr->moveDir, &itr->moveDir);
 
 		itr->lifeFrame = PLAYERBULLETPARTICLE_LIFEFRAME + RandomRange(-PLAYERBULLETPARTTCLE_LIFE_RANGE, PLAYERBULLETPARTTCLE_LIFE_RANGE);
 		itr->cntFrame = 0;
 
 		itr->speed = Speed;
 
-		itr->transform.pos.x = RandomRangef(edgeLeft.x, edgeRight.x);
-		itr->transform.pos.y = RandomRangef(edgeLeft.y, edgeRight.y);
+		float t = RandomRangef(0.0f, 1.0f);
+		itr->transform.pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &edgeLeft, &edgeRight, EasingType::Linear);
 		itr->transform.pos.z = parentPos->z;
 
 		itr->transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
@@ -250,7 +252,7 @@ void PlayerBulletParticleEmitter::Update(array<PlayerBulletParticle, PLAYERBULLE
 
 
 	//寿命判定
-	if (!parentActive)
+	if (!*parentActive)
 	{
 		active = false;
 	}
@@ -259,7 +261,7 @@ void PlayerBulletParticleEmitter::Update(array<PlayerBulletParticle, PLAYERBULLE
 /**************************************
 プレイヤーバレット発生処理
 ***************************************/
-void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edgeRight, D3DXVECTOR3 *edgeLeft)
+void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, const D3DXVECTOR3 *edgeRight, const D3DXVECTOR3 *edgeLeft)
 {
 	//未使用のエミッターの中からセット
 	for (auto itr = emitterContainer.begin(); itr != emitterContainer.end(); itr++)

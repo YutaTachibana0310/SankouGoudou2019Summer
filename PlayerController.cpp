@@ -144,7 +144,7 @@ void UpdatePlayerController(HWND hWnd)
 	{
 		int start = RandomRange(0, 5);
 		int end = WrapAround(0, 5, start + RandomRange(1, 4));
-		FirePlayerBullet((TrailIndex)RandomRange(0, 5), (TrailIndex)RandomRange(0, 5));
+		FirePlayerBullet((TrailIndex)start, (TrailIndex)end);
 	}
 	DebugText("PlayerBulletCnt : %d", bulletContainer.size());
 	EndDebugWindow("PlayerController");
@@ -197,7 +197,8 @@ void DrawPlayerBullet()
 
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	pDevice->SetRenderState(D3DRS_LIGHTING, false);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	//pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
 
 	//プレイヤーバレット描画
 	for (auto itr = bulletContainer.begin(); itr != bulletContainer.end(); itr++)
@@ -207,7 +208,8 @@ void DrawPlayerBullet()
 
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	pDevice->SetRenderState(D3DRS_LIGHTING, true);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	//pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
 }
 
 //*****************************************************************************

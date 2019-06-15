@@ -25,6 +25,6 @@ void InitPlayerBulletParticle(int num);
 void UninitPlayerBulletParticle(int num);
 void UpdatePlayerBulletParticle(void);
 void DrawPlayerBulletParticle(void);
-void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edgeRight, D3DXVECTOR3 *edgeLeft);
+void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, const D3DXVECTOR3 *edgeRight, const D3DXVECTOR3 *edgeLeft);
 
 #endif

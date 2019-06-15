@@ -6,6 +6,7 @@
 //=====================================
 #include "PlayerBullet.h"
 #include "Framework\Easing.h"
+#include "PlayerBulletParticle.h"
 
 /**************************************
 マクロ定義
@@ -199,6 +200,9 @@ void PlayerBullet::SetEdgePos(const D3DXVECTOR3 *start, const D3DXVECTOR3 *end)
 
 	//ワールド座標を始点と終点の真ん中に設定
 	pos = *start + diff;
+
+	//パーティクルセット
+	SetPlayerBulletParticle(&pos, &active, start, end);
 }
 
 /****************************************

@@ -9,6 +9,9 @@
 #include "ScoreParticle.h"
 #include "PlayerBulletParticle.h"
 
+#include "PostEffect\ScreenObject.h"
+#include "PostEffect\CrossFilterController.h"
+
 #ifdef _DEBUG
 #include "debugWindow.h"
 #endif
@@ -28,6 +31,12 @@
 static LPDIRECT3DVERTEXDECLARATION9 vtxDeclare;
 static LPD3DXEFFECT effect;
 static LPDIRECT3DINDEXBUFFER9 indexBuff;
+
+//レンダーターゲット関連
+static LPDIRECT3DTEXTURE9 renderTexture;
+static LPDIRECT3DSURFACE9 renderSurface;
+static D3DVIEWPORT9 viewPort;
+static ScreenObject *screenObj;
 
 /**************************************
 プロトタイプ宣言
@@ -69,6 +78,19 @@ void InitGameParticleManager(int num)
 	//各パーティクル初期化
 	InitScoreParticle(0);
 	InitPlayerBulletParticle(0);
+
+	//レンダーターゲット作成
+	pDevice->CreateTexture(SCREEN_WIDTH,
+		SCREEN_HEIGHT,
+		1,
+		D3DUSAGE_RENDERTARGET,
+		D3DFMT_X8R8G8B8,
+		D3DPOOL_DEFAULT,
+		&renderTexture,
+		0);
+	renderTexture->GetSurfaceLevel(0, &renderSurface);
+	screenObj = new ScreenObject();
+
 }
 
 /**************************************
@@ -82,6 +104,9 @@ void UninitGameParticleManager(int num)
 	SAFE_RELEASE(vtxDeclare);
 	SAFE_RELEASE(indexBuff);
 	SAFE_RELEASE(effect);
+	SAFE_RELEASE(renderSurface);
+	SAFE_RELEASE(renderTexture);
+	SAFE_DELETE(screenObj);
 }
 
 /**************************************
@@ -103,6 +128,12 @@ void UpdateGameParticleManager(void)
 void DrawGameParticleManager(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	//レンダーターゲット切り替え
+	LPDIRECT3DSURFACE9 oldSuf;
+	pDevice->GetRenderTarget(0, &oldSuf);
+	pDevice->SetRenderTarget(0, renderSurface);
+	pDevice->Clear(0, 0, D3DCLEAR_TARGET, 0, 0.0f, 0);
 
 	//レンダーステート切り替え
 	pDevice->SetRenderState(D3DRS_LIGHTING, false);
@@ -136,9 +167,20 @@ void DrawGameParticleManager(void)
 	effect->EndPass();
 	effect->End();
 
+	//ポストエフェクト
+	CrossFilterController::Instance()->Draw(renderTexture);
+
+	//全ての結果を元のレンダーターゲットに描画
+	pDevice->SetRenderTarget(0, oldSuf);
+	pDevice->SetTexture(0, renderTexture);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	screenObj->Draw();
+	SAFE_RELEASE(oldSuf);
+
 	//レンダーステート復元
 	pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 }
 
 #ifdef _DEBUG
@@ -159,6 +201,10 @@ void GameParticleDebugWindow(void)
 		static D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 150.0f);
 		if (DebugButton("PlayerBulletParticle"))
 			SetPlayerBulletParticle(&pos, &active, &D3DXVECTOR3(-100.0f, 0.0f, 0.0f), &D3DXVECTOR3(100.0f, 0.0f, 0.0f));
+	}
+
+	{
+		DebugDrawTexture(renderTexture, 500.0f, 200.0f);
 	}
 
 	EndDebugWindow("GameParticle");

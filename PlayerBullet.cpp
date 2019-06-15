@@ -55,7 +55,7 @@ void PlayerBullet::Update()
 		return;
 
 	//ˆÚ“®ˆ—
-	const float Speed = 10.0f;
+	const float Speed = 30.0f;
 	pos.z += Speed;
 
 	cntFrame++;

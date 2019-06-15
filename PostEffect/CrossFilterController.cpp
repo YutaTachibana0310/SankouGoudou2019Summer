@@ -88,11 +88,11 @@ void CrossFilterController::Draw(LPDIRECT3DTEXTURE9 targetTexture)
 
 #ifdef CROSSFILTER_USE_DEBUG
 	BeginDebugWindow("CrossFilter");
-	for (int i = 0; i < 3; i++)
-	{
-		DebugDrawTexture(blurTexture[i][0], 100.0f, 50.0f);
-		DebugSameLine();
-	}
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	DebugDrawTexture(blurTexture[i][0], 100.0f, 50.0f);
+	//	DebugSameLine();
+	//}
 	EndDebugWindow("CrossFilter");
 #endif // CROSSFILTER_USE_DEBUG
 }
@@ -165,7 +165,8 @@ CrossFilterController::~CrossFilterController()
 ***************************************/
 void CrossFilterController::SampleBrightness(LPDIRECT3DTEXTURE9 targetTexture)
 {
-	const float BloomPower[3] = { 0.74f, 0.63f, 0.4f };
+	const float BloomPower[3] = { 0.5f, 0.4f, 0.2f };
+
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	for (int i = 0; i < 3; i++)

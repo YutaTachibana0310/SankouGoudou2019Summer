@@ -15,13 +15,16 @@
 #include "PlayerMove.h"
 #include "PlayerReturn.h"
 #include "PlayerWait.h"
+#include "PlayerBullet.h"
+#include <vector>
 
 using namespace std;
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define MOVETARGET_LENGTH	(6)
+#define MOVETARGET_LENGTH				(6)
+#define PLAYER_DISTANCE_FROM_CAMERA		(150.0f)
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -29,6 +32,7 @@ using namespace std;
 void push(void);				//移動履歴スタックへのプッシュ処理
 void CheckInput(HWND hWnd);		//入力判定
 void CheckComboReset(void);		//リセット確認
+void CalcPlayerMoveTargetPos();	//移動目標座標計算処理
 
 //*****************************************************************************
 // グローバル変数
@@ -72,6 +76,9 @@ Player player;
 //移動先座標
 D3DXVECTOR3 MovePos[MOVETARGET_LENGTH];
 
+//バレットコンテナ
+vector<PlayerBullet*> bulletContainer;
+
 //*****************************************************************************
 // 初期化処理
 //*****************************************************************************
@@ -94,12 +101,8 @@ HRESULT InitPlayerController(void)
 	}
 
 	//移動目標初期化
-	MovePos[TOP] = PLAYER_TOP;
-	MovePos[MIDDLE_LEFT] = PLAYER_MIDDLE_LEFT;
-	MovePos[LOWER_LEFT] = PLAYER_LOWER_LEFT;
-	MovePos[LOWER_RIGHT] = PLAYER_LOWER_RIGHT;
-	MovePos[MIDDLE_RIGHT] = PLAYER_MIDDLE_RIGHT;
 	MovePos[CENTER] = PLAYER_CENTER;
+	CalcPlayerMoveTargetPos();
 
 	//一筆書き判定用変数を初期化
 	currentCCW = 0;
@@ -136,6 +139,16 @@ void UninitPlayerController()
 //*****************************************************************************
 void UpdatePlayerController(HWND hWnd)
 {
+	BeginDebugWindow("PlayerController");
+	if (DebugButton("BUllet"))
+	{
+		int start = RandomRange(0, 5);
+		int end = WrapAround(0, 5, start + RandomRange(1, 4));
+		FirePlayerBullet((TrailIndex)start, (TrailIndex)end);
+	}
+	DebugText("PlayerBulletCnt : %d", bulletContainer.size());
+	EndDebugWindow("PlayerController");
+
 	resetcount++;
 
 	//ボム発生用のフラグ、カウンタ
@@ -153,8 +166,15 @@ void UpdatePlayerController(HWND hWnd)
 	//コンボリセット確認
 	CheckComboReset();
 
+	//プレイヤーをアップデート
 	player.Update();
 	fsm[player.CurrentState]->OnUpdate(&player);
+
+	//プレイヤーバレットをアップデート
+	for (auto itr = bulletContainer.begin(); itr != bulletContainer.end(); itr++)
+	{
+		(*itr)->Update();
+	}
 }
 
 //*****************************************************************************
@@ -162,8 +182,34 @@ void UpdatePlayerController(HWND hWnd)
 //*****************************************************************************
 void DrawPlayerController()
 {
-	player.Draw();
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	//プレイヤー描画
+	player.Draw();
+}
+
+//*****************************************************************************
+//　プレイヤーバレット描画処理
+//*****************************************************************************
+void DrawPlayerBullet()
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	pDevice->SetRenderState(D3DRS_LIGHTING, false);
+	//pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
+
+	//プレイヤーバレット描画
+	for (auto itr = bulletContainer.begin(); itr != bulletContainer.end(); itr++)
+	{
+		(*itr)->Draw();
+	}
+
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	pDevice->SetRenderState(D3DRS_LIGHTING, true);
+	//pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
 }
 
 //*****************************************************************************
@@ -358,6 +404,14 @@ bool SetBomb() {
 }
 
 //=============================================================================
+// プレイヤーバレットコンテナ取得処理
+//=============================================================================
+vector<PlayerBullet*>* GetPlayerBulletContainer(void)
+{
+	return &bulletContainer;
+}
+
+//=============================================================================
 // Player状態遷移処理
 //=============================================================================
 void ChangeState(Player *player, PlayerState next)
@@ -365,6 +419,57 @@ void ChangeState(Player *player, PlayerState next)
 	fsm[player->CurrentState]->OnExit(player);
 	player->CurrentState = next;
 	fsm[player->CurrentState]->OnStart(player);
+}
+
+//=============================================================================
+// 移動目標座標計算処理
+//=============================================================================
+void CalcPlayerMoveTargetPos()
+{
+	//スターのスクリーン座標を取得
+	D3DXVECTOR3 starPos[5];
+	GetStarPosition(starPos);
+
+	for (int i = 0; i < STAR_MAX; i++)
+	{
+		//スターの位置でNear面とFar面を結ぶレイを計算して正規化
+		D3DXVECTOR3 nearPos, farPos;
+		CalcScreenToWorld(&nearPos, &starPos[i], 0.0f);
+		CalcScreenToWorld(&farPos, &starPos[i], 1.0f);
+
+		D3DXVECTOR3 ray = farPos - nearPos;
+		D3DXVec3Normalize(&ray, &ray);
+
+		//目標座標を計算
+		MovePos[i] = nearPos + ray * PLAYER_DISTANCE_FROM_CAMERA;
+	}
+}
+
+//=============================================================================
+//　プレイヤーバレット発射処理
+//=============================================================================
+void FirePlayerBullet(TrailIndex start, TrailIndex end)
+{
+	for (auto itr = bulletContainer.begin(); itr != bulletContainer.end(); itr++)
+	{
+		if ((*itr)->IsActive())
+			continue;
+		
+		//セットしてリターン
+		(*itr)->SetTrailIndex(start, end);
+		(*itr)->SetEdgePos(&MovePos[(int)start], &MovePos[(int)end]);
+		(*itr)->Init();
+		return;
+
+	}
+
+	//新しく生成して追加
+	PlayerBullet *bullet = new PlayerBullet();
+	bullet->SetTrailIndex(start, end);
+	bullet->SetEdgePos(&MovePos[(int)start], &MovePos[(int)end]);
+	bullet->Init();
+	bulletContainer.push_back(bullet);
+	return;
 }
 
 //=============================================================================

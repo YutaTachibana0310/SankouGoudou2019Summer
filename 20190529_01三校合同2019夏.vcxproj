@@ -137,6 +137,7 @@
     <ClInclude Include="BackGroundRoad.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="collider.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="combo.h" />
     <ClInclude Include="cursor.h" />
     <ClInclude Include="debugTimer.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="PlayerBulletParticle.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="PlayerReturn.h" />
     <ClInclude Include="PlayerWait.h" />
@@ -206,6 +208,7 @@
     <ClCompile Include="BackGuroundField.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collider.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="combo.cpp" />
     <ClCompile Include="cursor.cpp" />
     <ClCompile Include="debugTimer.cpp" />
@@ -235,6 +238,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="PlayerBulletParticle.cpp" />
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="PlayerMove.cpp" />

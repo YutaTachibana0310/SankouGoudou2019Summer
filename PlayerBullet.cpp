@@ -4,26 +4,37 @@
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-
 #include "PlayerBullet.h"
+#include "Framework\Easing.h"
+#include "PlayerBulletParticle.h"
+
 /**************************************
 マクロ定義
 ***************************************/
+#define PLAYERBULLET_TEXTURE_NAME	"data/TEXTURE/Player/PlayerBullet.png"
+#define PLAYERBULLET_LIFE_COUNT		(180)
+#define PLAYERBULLET_FADE_FRAME		(30)
+#define PLAYERBULLET_FADE_START		(PLAYERBULLET_LIFE_COUNT-PLAYERBULLET_FADE_FRAME)
+#define PLAYERBULLET_VTX_LENGTH		(15.0f)
+#define PLAYERBLLET_VTX_DELTA		(15.0f / PLAYERBULLET_FADE_FRAME)
 
 /**************************************
 構造体定義
 ***************************************/
 
 /**************************************
-プロトタイプ宣言
+staticメンバ
 ***************************************/
+int PlayerBullet::instanceCount = 0;				//インスタンスカウンタ
+LPDIRECT3DTEXTURE9 PlayerBullet::texture = NULL;	//テクスチャ
 
 /****************************************
 初期化処理
 ****************************************/
 void PlayerBullet::Init()
 {
-
+	cntFrame = 0;
+	active = true;
 }
 
 /****************************************
@@ -32,8 +43,8 @@ void PlayerBullet::Init()
 void PlayerBullet::Uninit()
 {
 
+	active = false;
 }
-
 
 /****************************************
 更新処理
@@ -46,6 +57,26 @@ void PlayerBullet::Update()
 	//移動処理
 	const float Speed = 10.0f;
 	pos.z += Speed;
+
+	cntFrame++;
+
+	//縮小処理
+	if (cntFrame > PLAYERBULLET_FADE_START)
+	{
+		VERTEX_3D *pVtx;
+		vtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+		pVtx[0].vtx -= vtxUp * PLAYERBLLET_VTX_DELTA;
+		pVtx[1].vtx -= vtxUp * PLAYERBLLET_VTX_DELTA;
+		pVtx[2].vtx += vtxUp * PLAYERBLLET_VTX_DELTA;
+		pVtx[3].vtx += vtxUp * PLAYERBLLET_VTX_DELTA;
+		vtxBuff->Unlock();
+	}
+
+	//寿命判定
+	if (cntFrame > PLAYERBULLET_LIFE_COUNT)
+	{
+		Uninit();
+	}
 }
 
 /****************************************
@@ -53,6 +84,9 @@ void PlayerBullet::Update()
 *****************************************/
 void PlayerBullet::Draw()
 {
+	if (!active)
+		return;
+
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	VERTEX_3D* p;
@@ -60,9 +94,7 @@ void PlayerBullet::Draw()
 	vtxBuff->Unlock();
 
 	pDevice->SetFVF(FVF_VERTEX_3D);
-	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	pDevice->SetRenderState(D3DRS_LIGHTING, false);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+
 	pDevice->SetTexture(0, texture);
 
 	pDevice->SetStreamSource(0, vtxBuff, 0, sizeof(VERTEX_3D));
@@ -74,10 +106,6 @@ void PlayerBullet::Draw()
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
-
-	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	pDevice->SetRenderState(D3DRS_LIGHTING, true);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 }
 
 /****************************************
@@ -85,8 +113,16 @@ void PlayerBullet::Draw()
 ****************************************/
 PlayerBullet::PlayerBullet()
 {
-	//頂点バッファ作成
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	
+	//インスタンスカウント
+	instanceCount++;
+	if (texture == NULL)
+	{
+		texture = CreateTextureFromFile((LPSTR)PLAYERBULLET_TEXTURE_NAME, pDevice);
+	}
+
+	//頂点バッファ作成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * NUM_VERTEX, D3DUSAGE_WRITEONLY, FVF_VERTEX_3D, D3DPOOL_MANAGED, &vtxBuff, 0);
 
 	//頂点座標以外の情報を埋める
@@ -112,8 +148,6 @@ PlayerBullet::PlayerBullet()
 
 	vtxBuff->Unlock();
 
-	texture = CreateTextureFromFile((LPSTR)"data/TEXTURE/Player/PlayerBullet.png", pDevice);
-
 	//TrailColliderのZ座標アドレスを設定
 	collider.SetAddressZ(&pos.z);
 }
@@ -124,45 +158,51 @@ PlayerBullet::PlayerBullet()
 PlayerBullet::~PlayerBullet()
 {
 	SAFE_RELEASE(vtxBuff);
+
+	instanceCount--;
+	if (instanceCount == 0)
+	{
+		//インスタンスが残っていなければテクスチャ解放
+		SAFE_RELEASE(texture);
+	}
 }
 
 /****************************************
-セット処理
+トレイルインデックスセット処理
 *****************************************/
-void PlayerBullet::Set(TrailIndex start, TrailIndex end)
+void PlayerBullet::SetTrailIndex(TrailIndex start, TrailIndex end)
 {
-
+	collider.SetTrailIndex(start, end);
 }
 
 /****************************************
-セット処理(テスト用)
+端点セット処理
 *****************************************/
-void PlayerBullet::Set(D3DXVECTOR3 start, D3DXVECTOR3 end)
+void PlayerBullet::SetEdgePos(const D3DXVECTOR3 *start, const D3DXVECTOR3 *end)
 {
-
-	D3DXVECTOR3 diff = end - start;
+	//始点と終点を結ぶ線分を計算し、長さを半分にする
+	D3DXVECTOR3 diff = *end - *start;
 	diff /= 2.0f;
 
-	D3DXVECTOR3 up;
-	D3DXVec3Cross(&up, &D3DXVECTOR3(0.0f, 0.0f, 1.0f), &diff);
-	D3DXVec3Normalize(&up, &up);
+	//線分に垂直なベクトルを求める
+	D3DXVec3Cross(&vtxUp, &D3DXVECTOR3(0.0f, 0.0f, 1.0f), &diff);
+	D3DXVec3Normalize(&vtxUp, &vtxUp);
 
+	//求めたベクトルから頂点座標を計算
+	const float length = 15.0f;
 	VERTEX_3D *pVtx;
 	vtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-
-	const float length = 15.0f;
-
-	pVtx[0].vtx = -diff + up * length;
-	pVtx[1].vtx = diff + up * length;
-	pVtx[2].vtx = -diff - up * length;
-	pVtx[3].vtx = diff - up * length;
-
+	pVtx[0].vtx = -diff + vtxUp * length;
+	pVtx[1].vtx = diff + vtxUp * length;
+	pVtx[2].vtx = -diff - vtxUp * length;
+	pVtx[3].vtx = diff - vtxUp * length;
 	vtxBuff->Unlock();
 
-	pos = start + diff;
+	//ワールド座標を始点と終点の真ん中に設定
+	pos = *start + diff;
 
-	active = true;
-
+	//パーティクルセット
+	SetPlayerBulletParticle(&pos, &active, start, end);
 }
 
 /****************************************

@@ -7,6 +7,7 @@
 #include "GameParticleManager.h"
 
 #include "ScoreParticle.h"
+#include "PlayerBulletParticle.h"
 
 #ifdef _DEBUG
 #include "debugWindow.h"
@@ -67,6 +68,7 @@ void InitGameParticleManager(int num)
 
 	//各パーティクル初期化
 	InitScoreParticle(0);
+	InitPlayerBulletParticle(0);
 }
 
 /**************************************
@@ -75,6 +77,7 @@ void InitGameParticleManager(int num)
 void UninitGameParticleManager(int num)
 {
 	UninitScoreParticle(0);
+	UninitPlayerBulletParticle(0);
 
 	SAFE_RELEASE(vtxDeclare);
 	SAFE_RELEASE(indexBuff);
@@ -89,7 +92,9 @@ void UpdateGameParticleManager(void)
 #ifdef _DEBUG
 	GameParticleDebugWindow();
 #endif
+
 	UpdateScoreParticle();
+	UpdatePlayerBulletParticle();
 }
 
 /**************************************
@@ -125,6 +130,7 @@ void DrawGameParticleManager(void)
 
 	//描画
 	DrawScoreParticle();
+	DrawPlayerBulletParticle();
 
 	//シェーダによる描画終了
 	effect->EndPass();
@@ -143,8 +149,17 @@ void GameParticleDebugWindow(void)
 {
 	BeginDebugWindow("GameParticle");
 	
-	if (DebugButton("ScoreParticle"))
-		SetScoreParticle(D3DXVECTOR3(0.0f, 0.0f, 50.0f));
+	{
+		if (DebugButton("ScoreParticle"))
+			SetScoreParticle(D3DXVECTOR3(0.0f, 0.0f, 50.0f));
+	}
+
+	{
+		static bool active = true;
+		static D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 150.0f);
+		if (DebugButton("PlayerBulletParticle"))
+			SetPlayerBulletParticle(&pos, &active, &D3DXVECTOR3(-100.0f, 0.0f, 0.0f), &D3DXVECTOR3(100.0f, 0.0f, 0.0f));
+	}
 
 	EndDebugWindow("GameParticle");
 }

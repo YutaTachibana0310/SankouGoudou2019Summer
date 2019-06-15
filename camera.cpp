@@ -41,7 +41,7 @@ static D3DXMATRIX saveView[TARGETPLAYER_MAX];
 //=============================================================================
 HRESULT InitCamera(void)
 {
-	camera.pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	camera.pos = D3DXVECTOR3(0.0f, 0.0f, -150.0f);
 	camera.target = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	camera.up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	camera.destPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);

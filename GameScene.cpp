@@ -26,6 +26,8 @@
 #include "player.h"
 #include "PlayerBullet.h"
 
+#include "CollisionManager.h"
+
 /**************************************
 マクロ定義
 ***************************************/
@@ -38,6 +40,7 @@
 /**************************************
 グローバル変数
 ***************************************/
+
 /**************************************
 初期化処理
 ***************************************/
@@ -100,6 +103,9 @@ void GameScene::Update(HWND hWnd)
 
 	//ポストエフェクトの更新
 	PostEffectManager::Instance()->Update();
+
+	//衝突判定
+	UpdateCollisionManager();
 }
 
 /**************************************
@@ -115,6 +121,9 @@ void GameScene::Draw()
 
 	//プレイヤーの描画
 	DrawPlayerController();
+
+	//プレイヤーバレット描画
+	DrawPlayerBullet();
 
 	//パーティクル描画
 	DrawGameParticleManager();

@@ -203,9 +203,9 @@ void GameParticleDebugWindow(void)
 			SetPlayerBulletParticle(&pos, &active, &D3DXVECTOR3(-100.0f, 0.0f, 0.0f), &D3DXVECTOR3(100.0f, 0.0f, 0.0f));
 	}
 
-	{
-		DebugDrawTexture(renderTexture, 500.0f, 200.0f);
-	}
+	//{
+	//	DebugDrawTexture(renderTexture, 500.0f, 200.0f);
+	//}
 
 	EndDebugWindow("GameParticle");
 }

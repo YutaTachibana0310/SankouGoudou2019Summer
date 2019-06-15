@@ -9,7 +9,7 @@
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
-#define CROSSFILTER_USE_DEBUG
+//#define CROSSFILTER_USE_DEBUG
 
 #ifdef CROSSFILTER_USE_DEBUG
 #include "../debugWindow.h"

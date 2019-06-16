@@ -135,7 +135,7 @@ void DrawPlayerBulletParticle(void)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	//加算合成
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	//pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
 	//頂点バッファにデータを設定
 	DWORD particleCount = EmbedPlayerBulletParticleParameter();

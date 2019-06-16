@@ -309,6 +309,12 @@
     <ClInclude Include="PlayerBulletParticle.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="PostEffect\SpeedBlurFilter.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect\SpeedBlurController.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -506,6 +512,12 @@
     <ClCompile Include="PlayerBulletParticle.cpp">
       <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="PostEffect\SpeedBlurFilter.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect\SpeedBlurController.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PostEffect\BloomFilter.fx">
@@ -536,6 +548,9 @@
       <Filter>リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="data\EFFECT\ModelInstancing.fx">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="PostEffect\SpeedBlur.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>

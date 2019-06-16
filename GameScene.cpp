@@ -125,11 +125,12 @@ void GameScene::Draw()
 	//プレイヤーバレット描画
 	DrawPlayerBullet();
 
+	//ポストエフェクト描画
+	PostEffectManager::Instance()->Draw();
+
 	//パーティクル描画
 	DrawGameParticleManager();
 
-	//ポストエフェクト描画
-	//PostEffectManager::Instance()->Draw();
 	
 	//UI描画
 	DrawUI();

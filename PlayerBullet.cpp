@@ -15,8 +15,8 @@
 #define PLAYERBULLET_LIFE_COUNT		(180)
 #define PLAYERBULLET_FADE_FRAME		(30)
 #define PLAYERBULLET_FADE_START		(PLAYERBULLET_LIFE_COUNT-PLAYERBULLET_FADE_FRAME)
-#define PLAYERBULLET_VTX_LENGTH		(15.0f)
-#define PLAYERBLLET_VTX_DELTA		(15.0f / PLAYERBULLET_FADE_FRAME)
+#define PLAYERBULLET_VTX_LENGTH		(2.0f)
+#define PLAYERBLLET_VTX_DELTA		(PLAYERBULLET_VTX_LENGTH / PLAYERBULLET_FADE_FRAME)
 
 /**************************************
 構造体定義
@@ -55,7 +55,7 @@ void PlayerBullet::Update()
 		return;
 
 	//移動処理
-	const float Speed = 10.0f;
+	const float Speed = 30.0f;
 	pos.z += Speed;
 
 	cntFrame++;
@@ -192,10 +192,10 @@ void PlayerBullet::SetEdgePos(const D3DXVECTOR3 *start, const D3DXVECTOR3 *end)
 	const float length = 15.0f;
 	VERTEX_3D *pVtx;
 	vtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-	pVtx[0].vtx = -diff + vtxUp * length;
-	pVtx[1].vtx = diff + vtxUp * length;
-	pVtx[2].vtx = -diff - vtxUp * length;
-	pVtx[3].vtx = diff - vtxUp * length;
+	pVtx[0].vtx = -diff + vtxUp * PLAYERBULLET_VTX_LENGTH;
+	pVtx[1].vtx = diff + vtxUp * PLAYERBULLET_VTX_LENGTH;
+	pVtx[2].vtx = -diff - vtxUp * PLAYERBULLET_VTX_LENGTH;
+	pVtx[3].vtx = diff - vtxUp * PLAYERBULLET_VTX_LENGTH;
 	vtxBuff->Unlock();
 
 	//ワールド座標を始点と終点の真ん中に設定

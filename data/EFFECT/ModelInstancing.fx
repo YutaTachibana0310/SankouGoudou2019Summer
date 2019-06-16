@@ -38,8 +38,8 @@ struct VS_OUT {
 ***************************************/
 VS_OUT vsMain(
 	float3 pos		: POSITION,
-	float3 normal	: NORMAL,
-	float2 uv		: TEXCOORD0,
+	float3 normal : NORMAL,
+	float2 uv : TEXCOORD0,
 	float3 worldPos : TEXCOORD1,
 	float3 worldRot : TEXCOORD2,
 	float3 worldScl : TEXCOORD3
@@ -47,27 +47,50 @@ VS_OUT vsMain(
 	VS_OUT Out;
 
 	Out.pos = float4(pos, 1.0f);
+	Out.normal = normal;
 
-	////スケール計算
-	Out.pos.x = Out.pos.x * worldScl.x;
-	Out.pos.y = Out.pos.y * worldScl.y;
-	Out.pos.z = Out.pos.z * worldScl.z;
+	//スケール変換
+	float4x4 mtx = {
+		worldScl.x, 0.0f, 0.0f, 0.0f,
+		0.0f, worldScl.y, 0.0f, 0.0f,
+		0.0f, 0.0f, worldScl.z, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f };
+	Out.pos = mul(mtx, Out.pos);
 
-	//回転計算
-	float4 tmpPos = Out.pos;
-	Out.pos.y = tmpPos.y * cos(worldRot.x) - tmpPos.z * sin(worldRot.x);
-	Out.pos.z = tmpPos.y * sin(worldRot.x) + tmpPos.z * cos(worldRot.x);
+	//X軸回転
+	mtx = float4x4(
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, cos(worldRot.x), -sin(worldRot.x), 0.0f,
+		0.0f, sin(worldRot.x), cos(worldRot.x), 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f );
+	Out.pos = mul(mtx, Out.pos);
+	Out.normal = mul(mtx, float4(Out.normal, 1.0f)).xyz;
 
-	tmpPos = Out.pos;
-	Out.pos.x = tmpPos.x * cos(worldRot.y) + tmpPos.z * sin(worldRot.y);
-	Out.pos.z = tmpPos.x * -sin(worldRot.y) + tmpPos.z * cos(worldRot.y);
+	//Y軸回転
+	mtx = float4x4(
+		cos(worldRot.y), 0.0f, sin(worldRot.y), 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		-sin(worldRot.y), 0.0f, cos(worldRot.y), 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f );
+	Out.pos = mul(mtx, Out.pos);
+	Out.normal = mul(mtx, float4(Out.normal, 1.0f)).xyz;
 
-	tmpPos = Out.pos;
-	Out.pos.x = tmpPos.x * cos(worldRot.z) - tmpPos.y * sin(worldRot.z);
-	Out.pos.y = tmpPos.x * sin(worldRot.z) + tmpPos.y * cos(worldRot.z);
+	//Z軸回転
+	mtx = float4x4(
+		cos(worldRot.z), -sin(worldRot.z), 0.0f, 0.0f,
+		sin(worldRot.z), cos(worldRot.z), 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f );
+	Out.pos = mul(mtx, Out.pos);
+	Out.normal = mul(mtx, float4(Out.normal, 1.0f)).xyz;
 
-	////移動計算
-	Out.pos = Out.pos + float4(worldPos, 0.0f);
+	//平行移動
+	mtx = float4x4(
+		1.0f, 0.0f, 0.0f, worldPos.x,
+		0.0f, 1.0f, 0.0f, worldPos.y,
+		0.0f, 0.0f, 1.0f, worldPos.z,
+		0.0f, 0.0f, 0.0f, 1.0f );
+	Out.pos = mul(mtx, Out.pos);
 
 	//ビュー変換、プロジェクション変換
 	Out.pos = mul(Out.pos, mtxView);
@@ -75,11 +98,6 @@ VS_OUT vsMain(
 
 	//UV座標格納
 	Out.uv = uv;
-
-	//法線計算
-	Out.normal = normal;
-	//Out.normal = mul(float4(Out.normal, 0.0f), mtxView).xyz;
-	//Out.normal = mul(float4(Out.normal, 0.0f), mtxProj).xyz;
 
 	return Out;
 }

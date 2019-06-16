@@ -15,7 +15,7 @@
 #include "../debugWindow.h"
 #endif
 
-#define BLOOM_THRETHOLD_DEFAULT (0.55f)
+#define BLOOM_THRETHOLD_DEFAULT (0.45f)
 
 /**************************************
 ƒNƒ‰ƒX’è‹`
@@ -143,7 +143,8 @@ BloomController::~BloomController()
 ***************************************/
 void BloomController::SampleBrightness()
 {
-	const float BloomPower[3] = { 0.56f, 0.72f, 0.95f };
+	static float BloomPower[3] = { 0.56f, 0.6f, 0.86f };
+
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	for (int i = 0; i < 3; i++)

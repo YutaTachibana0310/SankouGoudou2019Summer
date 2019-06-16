@@ -50,7 +50,7 @@ float4 PS(VS_OUTPUT In) : COLOR0
 	float4 Color[10];
 
 	//ƒuƒ‰[•ûŒü
-	float2 dir = centerTexel - In.tex;
+	float2 dir = float2(0.5f, 0.5f)-In.tex;
 
 	//‹——£‚ğŒvZ
 	float len = length(dir);

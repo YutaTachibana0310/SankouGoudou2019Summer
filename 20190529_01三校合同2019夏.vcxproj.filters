@@ -312,6 +312,9 @@
     <ClInclude Include="PostEffect\SpeedBlurFilter.h">
       <Filter>ヘッダー ファイル\PostEffect</Filter>
     </ClInclude>
+    <ClInclude Include="PostEffect\SpeedBlurController.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -510,6 +513,9 @@
       <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect\SpeedBlurFilter.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect\SpeedBlurController.cpp">
       <Filter>ソース ファイル\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>

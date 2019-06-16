@@ -10,6 +10,7 @@
 #include "PostEffect\ShockBlurController.h"
 #include "PostEffect\BloomController.h"
 #include "PostEffect\CrossFilterController.h"
+#include "PostEffect\SpeedBlurController.h"
 
 #include "debugTimer.h"
 
@@ -38,6 +39,7 @@ PostEffectManager::PostEffectManager()
 {
 	useSceneBloom = false;
 	useCrossFilter = false;
+	useSpeedBlur = true;
 }
 
 /**************************************
@@ -53,6 +55,12 @@ PostEffectManager::~PostEffectManager()
 ***************************************/
 void PostEffectManager::Update()
 {
+#ifdef POSREFFECT_USE_DEBUG
+	BeginDebugWindow("SpeedBlur");
+	DebugChechBox("Use SpeedBlur", &useSpeedBlur);
+	EndDebugWindow("SpeedBlur");
+#endif // POSREFFECT_USE_DEBUG
+
 	SpikeNoiseController::Instance()->Update();
 	ShockBlurController::Instance()->Update();
 
@@ -80,5 +88,10 @@ void PostEffectManager::Draw()
 	if (useCrossFilter)
 	{
 		CrossFilterController::Instance()->Draw();
+	}
+
+	if (useSpeedBlur)
+	{
+		SpeedBlurController::Instance()->Draw();
 	}
 }

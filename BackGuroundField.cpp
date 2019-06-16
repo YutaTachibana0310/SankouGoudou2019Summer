@@ -3,13 +3,11 @@
 // マクロ定義
 //*****************************************************************************
 #define	TEXTURE_FIELD	"data/TEXTURE/BG/road.jpg"	// 読み込むテクスチャファイル名
-#define NUM_FIELD (1)
-#define BACKGROUNDFIELD_POS_RANGE_X      (15000.0f)
-#define BACKGROUNDFIELD_POS_RANGE_Y      (-1020.0f)
-#define BACKGROUNDFIELD_POS_RANGE_Z      (10000.0f)
-#define BACKGROUNDFIELD_NUM_MAX			(100)
+#define BACKGROUNDFIELD_SIZE			(15000.0f)
+#define BACKGROUNDFIELD_POS_Y			(-2500.0f)
 
 #define BACKGROUNDFIELD_MOVE_SPEED	    (-25.0f)
+
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
@@ -20,13 +18,8 @@
 //*****************************************************************************
 LPDIRECT3DTEXTURE9		g_pD3DTextureField = NULL;	// テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pD3DVtxBuffField = NULL;	// 頂点バッファへのポインタ
-//OBJECT3D	Field[NUM_FIELD];			
 
-D3DXMATRIX				g_mtxWorldField;			// ワールドマトリックス
-D3DXVECTOR3				g_posField;					// 現在の位置
-D3DXVECTOR3				g_rotField;					// 現在の向き
-
-
+D3DXVECTOR3				posField;					// 現在の位置
 
 //=============================================================================
 // 初期化処理
@@ -37,8 +30,7 @@ HRESULT InitBackGroundField(void)
 	HRESULT hr;
 
 	// 位置、向きの初期設定
-	g_posField = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	g_rotField = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	posField = D3DXVECTOR3(0.0f, BACKGROUNDFIELD_POS_Y, 0.0f);
 
 	// テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,					// デバイスへのポインタ
@@ -94,22 +86,17 @@ void UpdateBackGroundField(void)
 void DrawBackGroundField(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	D3DXMATRIX mtxeRot, mtxeTranslate;
-
+	D3DXMATRIX mtxeTranslate, mtxWorld;
 
 	// ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&g_mtxWorldField);
-
-	// 回転を反映
-	D3DXMatrixRotationYawPitchRoll(&mtxeRot, g_rotField.y, g_rotField.x, g_rotField.z);
-	D3DXMatrixMultiply(&g_mtxWorldField, &g_mtxWorldField, &mtxeRot);
+	D3DXMatrixIdentity(&mtxWorld);
 
 	// 移動を反映
-	D3DXMatrixTranslation(&mtxeTranslate, g_posField.x, g_posField.y, g_posField.z);
-	D3DXMatrixMultiply(&g_mtxWorldField, &g_mtxWorldField, &mtxeTranslate);
+	D3DXMatrixTranslation(&mtxeTranslate, posField.x, posField.y, posField.z);
+	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxeTranslate);
 
 	// ワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &g_mtxWorldField);
+	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 	// 頂点バッファをデバイスのデータストリームにバインド
 	pDevice->SetStreamSource(0, g_pD3DVtxBuffField, 0, sizeof(VERTEX_3D));
@@ -148,10 +135,10 @@ HRESULT MakeVertexBackGroundField(LPDIRECT3DDEVICE9 pDevice)
 		g_pD3DVtxBuffField->Lock(0, 0, (void**)&pVtx, 0);
 
 		// 頂点座標の設定
-		pVtx[0].vtx = D3DXVECTOR3(-BACKGROUNDFIELD_POS_RANGE_X, BACKGROUNDFIELD_POS_RANGE_Y, BACKGROUNDFIELD_POS_RANGE_Z);//左奥
-		pVtx[1].vtx = D3DXVECTOR3(BACKGROUNDFIELD_POS_RANGE_X, BACKGROUNDFIELD_POS_RANGE_Y, BACKGROUNDFIELD_POS_RANGE_Z);//右奥
-		pVtx[2].vtx = D3DXVECTOR3(-BACKGROUNDFIELD_POS_RANGE_X, BACKGROUNDFIELD_POS_RANGE_Y, -BACKGROUNDFIELD_POS_RANGE_Z);//左手前
-		pVtx[3].vtx = D3DXVECTOR3(BACKGROUNDFIELD_POS_RANGE_X, BACKGROUNDFIELD_POS_RANGE_Y, -BACKGROUNDFIELD_POS_RANGE_Z);//右手前
+		pVtx[0].vtx = D3DXVECTOR3(-BACKGROUNDFIELD_SIZE, 0.0f, BACKGROUNDFIELD_SIZE);
+		pVtx[0].vtx = D3DXVECTOR3( BACKGROUNDFIELD_SIZE, 0.0f, BACKGROUNDFIELD_SIZE);
+		pVtx[0].vtx = D3DXVECTOR3(-BACKGROUNDFIELD_SIZE, 0.0f, -BACKGROUNDFIELD_SIZE);
+		pVtx[0].vtx = D3DXVECTOR3( BACKGROUNDFIELD_SIZE, 0.0f, -BACKGROUNDFIELD_SIZE);
 
         // 法線ベクトルの設定
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -177,8 +164,3 @@ HRESULT MakeVertexBackGroundField(LPDIRECT3DDEVICE9 pDevice)
 	}
 	return S_OK;
 }
-
-//OBJECT3D* GetField(int no)
-//{
-//	return &Field[no];
-//}

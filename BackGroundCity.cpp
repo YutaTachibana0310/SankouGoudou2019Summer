@@ -19,16 +19,21 @@ using namespace std;
 ***************************************/
 #define BACKGROUNDCITY_KIND_MAX			(3)
 
-#define BACKGROUNDCITY_Z_MAX			(24)
+#define BACKGROUNDCITY_Z_MAX			(96)
 #define BACKGROUNDCITY_X_MAX			(16)
 #define BACKGROUNDCITY_NUM_MAX			(BACKGROUNDCITY_Z_MAX*BACKGROUNDCITY_X_MAX)
 
-#define BACKGROUNDCITY_MOVE_SPEED		(-25.0f)
+#define BACKGROUNDCITY_MOVE_SPEED		(-55.0f)
 
 #define BACKGROUNDCITY_LIGHT_AMPLIFIER	(2.2f)
 
-#define BACKGROUNDCITY_OFFSET_X			(-600.0f)
-#define BACKGROUNDCITY_OFFSET_Z			(-600.0f)
+#define BACKGROUNDCITY_OFFSET_X			(-800.0f)
+#define BACKGROUNDCITY_OFFSET_Z			(-800.0f)
+
+#define BACKGROUNDCITY_INIT_SCALE_Y		(3.0f)
+#define BACKGROUNDCITY_INIT_SCALE_XZ	(2.0f)
+
+#define BACKGROUNDCITY_BORDER_Z			(-500.0f)
 
 //読み込むXファイルへのパス
 static const char* fileName[] = {
@@ -103,7 +108,7 @@ void UpdateBackGroundCity(void)
 			transformList[i][j].pos.z += BACKGROUNDCITY_MOVE_SPEED;
 
 			//一定より後ろに下がっていたら最前列へ移動
-			if (transformList[i][j].pos.z <= -100.0f)
+			if (transformList[i][j].pos.z <= BACKGROUNDCITY_BORDER_Z)
 				transformList[i][j].pos.z += -BACKGROUNDCITY_OFFSET_Z * BACKGROUNDCITY_Z_MAX;
 		}
 
@@ -179,7 +184,12 @@ void MakeCityPositionMap(void)
 		if (itr->y == (float)BACKGROUNDCITY_KIND_MAX)
 			continue;
 
-		Transform tr = { D3DXVECTOR3(itr->x, 0.0f, itr->z), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(1.0f, 1.0f, 1.0f) };
+		Transform tr = { D3DXVECTOR3(itr->x, 0.0f, itr->z), 
+			D3DXVECTOR3(0.0f, RandomRange(0, 4) * D3DXToRadian(90.0f), 0.0f),
+			D3DXVECTOR3(BACKGROUNDCITY_INIT_SCALE_XZ, BACKGROUNDCITY_INIT_SCALE_Y, BACKGROUNDCITY_INIT_SCALE_XZ)};
+
+		tr.scale.y *= RandomRangef(0.8f, 1.2f);
+
 		int type = (int)itr->y;
 		transformList[type][index[type]] = tr;
 		index[type]++;

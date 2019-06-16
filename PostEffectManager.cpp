@@ -36,7 +36,7 @@
 ***************************************/
 PostEffectManager::PostEffectManager()
 {
-	useSceneBloom = true;
+	useSceneBloom = false;
 	useCrossFilter = false;
 }
 

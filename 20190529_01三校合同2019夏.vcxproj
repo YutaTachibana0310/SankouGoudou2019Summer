@@ -188,6 +188,7 @@
     <ClInclude Include="PostEffect\ScreenObject.h" />
     <ClInclude Include="PostEffect\ShockBlur.h" />
     <ClInclude Include="PostEffect\ShockBlurController.h" />
+    <ClInclude Include="PostEffect\SpeedBlurFilter.h" />
     <ClInclude Include="PostEffect\SpikeNoise.h" />
     <ClInclude Include="PostEffect\SpikeNoiseController.h" />
     <ClInclude Include="PostEffect\StrongBlurFilter.h" />
@@ -254,6 +255,7 @@
     <ClCompile Include="PostEffect\ScreenObject.cpp" />
     <ClCompile Include="PostEffect\ShockBlur.cpp" />
     <ClCompile Include="PostEffect\ShockBlurController.cpp" />
+    <ClCompile Include="PostEffect\SpeedBlurFilter.cpp" />
     <ClCompile Include="PostEffect\SpikeNoise.cpp" />
     <ClCompile Include="PostEffect\SpikeNoiseController.cpp" />
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp" />
@@ -312,6 +314,12 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="PostEffect\ShockBlur.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="PostEffect\SpeedBlur.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>

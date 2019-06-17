@@ -48,7 +48,7 @@ void BloomController::Update()
 /**************************************
 •`‰æˆ—
 ***************************************/
-void BloomController::Draw()
+void BloomController::Draw(LPDIRECT3DTEXTURE9 texture)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -67,7 +67,7 @@ void BloomController::Draw()
 	pDevice->GetRenderTarget(0, &oldSurface);
 
 	//‹P“x’Šoˆ—
-	SampleBrightness();
+	SampleBrightness(texture);
 
 	//’Šo‚µ‚½‹P“x‚ðƒuƒ‰[ˆ—
 	ProcessBlur();
@@ -141,7 +141,7 @@ BloomController::~BloomController()
 /**************************************
 –¾“x’Šoˆ—
 ***************************************/
-void BloomController::SampleBrightness()
+void BloomController::SampleBrightness(LPDIRECT3DTEXTURE9 targetTexture)
 {
 	static float BloomPower[3] = { 0.56f, 0.6f, 0.86f };
 
@@ -163,7 +163,11 @@ void BloomController::SampleBrightness()
 		bloomFilter->Resize(SCREEN_WIDTH / reduction, SCREEN_HEIGHT / reduction);
 
 		//Œ»Ý‚Ì•`‰æî•ñ‚©‚ç‹P“x‚ð’Šo
-		pDevice->SetTexture(0, GetCurrentDrawData());
+		if (targetTexture == NULL)
+			pDevice->SetTexture(0, GetCurrentDrawData());
+		else
+			pDevice->SetTexture(0, targetTexture);
+
 		bloomFilter->DrawEffect(0);
 	}
 }

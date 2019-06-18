@@ -138,7 +138,6 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="collider.h" />
     <ClInclude Include="combo.h" />
-    <ClInclude Include="constants.h" />
     <ClInclude Include="cursor.h" />
     <ClInclude Include="debugTimer.h" />
     <ClInclude Include="debugWindow.h" />

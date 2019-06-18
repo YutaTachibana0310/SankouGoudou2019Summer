@@ -279,9 +279,6 @@
     <ClInclude Include="trail.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
-    <ClInclude Include="light.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="MyLibrary.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -289,9 +286,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="sound.h">
-      <Filter>ヘッダー ファイル\sound</Filter>
-    </ClInclude>
-    <ClInclude Include="constants.h">
       <Filter>ヘッダー ファイル\sound</Filter>
     </ClInclude>
   </ItemGroup>

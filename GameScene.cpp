@@ -85,13 +85,10 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
-	//サウンドの再生
 
-	Sound::GetInstance()->SetPlayBGM(0,true);
-	Sound::GetInstance()->CangeBGMVolume(0, 0.1f);
-	Sound::GetInstance()->SetPlaySE(0,true);
-	Sound::GetInstance()->CangeSEVolume(0, 0.1f);
-	
+	//サウンド再生(テスト）
+	InputSound();
+
 	//背景オブジェクトの更新
 	UpdateSkyBox();
 	UpdateBackGroundCity();

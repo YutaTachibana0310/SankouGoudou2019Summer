@@ -16,8 +16,8 @@ Global Settings
     Header File = ƒTƒEƒ“ƒh.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 1537296198;
-    Last Modified High = 30744988;
+    Last Modified Low = 3720407245;
+    Last Modified High = 30746036;
 
     Category
     {
@@ -218,26 +218,26 @@ Global Settings
 
 Wave Bank
 {
-    Name = Wave Bank;
-    Xbox File = Xbox\Wave Bank.xwb;
-    Windows File = Win\Wave Bank.xwb;
+    Name = BGM;
+    Xbox File = Xbox\BGM.xwb;
+    Windows File = Win\BGM.xwb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
     Seek Tables = 1;
     Compression Preset Name = <none>;
     Xbox Bank Last Modified Low = 0;
     Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 1537326078;
-    PC Bank Last Modified High = 30744988;
-    Bank Last Revised Low = 1452987434;
-    Bank Last Revised High = 30744988;
+    PC Bank Last Modified Low = 633982624;
+    PC Bank Last Modified High = 30746037;
+    Bank Last Revised Low = 582404033;
+    Bank Last Revised High = 30746037;
 
     Wave
     {
         Name = Blue_LIGHT_Techno;
-        File = Blue_LIGHT_Techno.wav;
-        Build Settings Last Modified Low = 1375278692;
-        Build Settings Last Modified High = 30744988;
+        File = BGM•ÛŠÇŒÉ\Blue_LIGHT_Techno.wav;
+        Build Settings Last Modified Low = 544892550;
+        Build Settings Last Modified High = 30746037;
 
         Cache
         {
@@ -254,13 +254,30 @@ Wave Bank
             Last Modified High = 30744813;
         }
     }
+}
+
+Wave Bank
+{
+    Name = SE;
+    Xbox File = Xbox\SE.xwb;
+    Windows File = Win\SE.xwb;
+    Xbox Bank Path Edited = 0;
+    Windows Bank Path Edited = 0;
+    Seek Tables = 1;
+    Compression Preset Name = <none>;
+    Xbox Bank Last Modified Low = 0;
+    Xbox Bank Last Modified High = 0;
+    PC Bank Last Modified Low = 635885083;
+    PC Bank Last Modified High = 30746037;
+    Bank Last Revised Low = 324605330;
+    Bank Last Revised High = 30746037;
 
     Wave
     {
         Name = Œˆ’èSE;
-        File = Œˆ’èSE.wav;
-        Build Settings Last Modified Low = 1396779876;
-        Build Settings Last Modified High = 30744988;
+        File = SE•ÛŠÇŒÉ\Œˆ’èSE.wav;
+        Build Settings Last Modified Low = 246305762;
+        Build Settings Last Modified High = 30746037;
 
         Cache
         {
@@ -277,6 +294,29 @@ Wave Bank
             Last Modified High = 30716155;
         }
     }
+
+    Wave
+    {
+        Name = ”­–C‰¹;
+        File = SE•ÛŠÇŒÉ\”­–C‰¹.wav;
+        Build Settings Last Modified Low = 263671719;
+        Build Settings Last Modified High = 30746037;
+
+        Cache
+        {
+            Format Tag = 0;
+            Channels = 2;
+            Sampling Rate = 44100;
+            Bits Per Sample = 1;
+            Play Region Offset = 78;
+            Play Region Length = 205856;
+            Loop Region Offset = 0;
+            Loop Region Length = 0;
+            File Type = 1;
+            Last Modified Low = 899997163;
+            Last Modified High = 30725474;
+        }
+    }
 }
 
 Sound Bank
@@ -286,10 +326,57 @@ Sound Bank
     Windows File = Win\Sound Bank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
-    Bank Last Modified Low = 1538275921;
-    Bank Last Modified High = 30744988;
+    Bank Last Modified Low = 635915005;
+    Bank Last Modified High = 30746037;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
+
+    Sound
+    {
+        Name = ”­–C‰¹;
+        Volume = -1200;
+        Pitch = 0;
+        Priority = 0;
+
+        Category Entry
+        {
+            Name = Default;
+        }
+
+        Track
+        {
+            Volume = 0;
+            Use Filter = 0;
+
+            Play Wave Event
+            {
+                Break Loop = 0;
+                Use Speaker Position = 0;
+                Use Center Speaker = 1;
+                New Speaker Position On Loop = 1;
+                Speaker Position Angle = 0.000000;
+                Speaker Position Arc = 0.000000;
+
+                Event Header
+                {
+                    Timestamp = 0;
+                    Relative = 0;
+                    Random Recurrence = 0;
+                    Random Offset = 0;
+                }
+
+                Wave Entry
+                {
+                    Bank Name = SE;
+                    Bank Index = 1;
+                    Entry Name = ”­–C‰¹;
+                    Entry Index = 1;
+                    Weight = 255;
+                    Weight Min = 0;
+                }
+            }
+        }
+    }
 
     Sound
     {
@@ -327,10 +414,10 @@ Sound Bank
 
                 Wave Entry
                 {
-                    Bank Name = Wave Bank;
-                    Bank Index = 0;
+                    Bank Name = SE;
+                    Bank Index = 1;
                     Entry Name = Œˆ’èSE;
-                    Entry Index = 1;
+                    Entry Index = 0;
                     Weight = 255;
                     Weight Min = 0;
                 }
@@ -374,7 +461,7 @@ Sound Bank
 
                 Wave Entry
                 {
-                    Bank Name = Wave Bank;
+                    Bank Name = BGM;
                     Bank Index = 0;
                     Entry Name = Blue_LIGHT_Techno;
                     Entry Index = 0;
@@ -382,26 +469,6 @@ Sound Bank
                     Weight Min = 0;
                 }
             }
-        }
-    }
-
-    Cue
-    {
-        Name = Blue_LIGHT_Techno;
-
-        Variation
-        {
-            Variation Type = 3;
-            Variation Table Type = 1;
-            New Variation on Loop = 0;
-        }
-
-        Sound Entry
-        {
-            Name = Blue_LIGHT_Techno;
-            Index = 1;
-            Weight Min = 0;
-            Weight Max = 255;
         }
     }
 
@@ -419,7 +486,47 @@ Sound Bank
         Sound Entry
         {
             Name = Œˆ’èSE;
+            Index = 1;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = ”­–C‰¹;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = ”­–C‰¹;
             Index = 0;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = Blue_LIGHT_Techno;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = Blue_LIGHT_Techno;
+            Index = 2;
             Weight Min = 0;
             Weight Max = 255;
         }

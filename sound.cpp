@@ -7,26 +7,30 @@
 //=============================================================================
 
 #include "sound.h"
-#include "constants.h"
 
 Sound *Sound::sound = NULL;
 
 //デフォルトコンストラクタ
 Sound::Sound()
 {
-	//Create();
 	xactEngine = NULL;
 	BGMwaveBank = NULL;
 	SEwaveBank = NULL;
 	soundBank = NULL;
 	mapWaveBank = NULL;
 	soundBankData = NULL;
+
 	for (int i = 0; i < MAXBGM; i++) {
 		BGMplayflag[i] = false;
+		maxvol_BGM[i] = 0.0f;
+		fadevolume[i] = 0.0f;
 	}
 	for (int i = 0; i < MAXSE; i++) {
 		SEplayflag[i] = false;
+
 	}
+
+	pauseflag = false;
 
 	HRESULT hr = CoInitializeEx(NULL, COINIT_MULTITHREADED);
 	if (SUCCEEDED(hr)) {
@@ -47,8 +51,7 @@ void Sound::Create() {
 //デストラクタ
 Sound::~Sound()
 {
-	delete sound;
-	sound = NULL;
+
 	//XACTをシャットダウン
 	if (xactEngine) {
 
@@ -72,12 +75,6 @@ Sound::~Sound()
 		CoUninitialize();
 	}
 }
-
-void Sound::Destroy() {
-	delete sound;
-	sound = NULL;
-}
-
 
 //初期化
 //1.xactEngine->Initializeによって呼び出されたXACTを初期化
@@ -208,28 +205,45 @@ void Sound::run()
 // 指定されたサウンドをウェイブバンクらから再生
 // 存在しない場合は、サウンドが再生されないだけで、エラーは発生しない
 //=============================================================================
-void Sound::SetPlayBGM(int n,bool b) {
+void Sound::SetPlayBGM(int wavenum,bool playflag,float vol) {
 	if (BGMwaveBank == NULL) {
 		return;
 	}
-	//再生フラグがfolseの場合に再生
-	if (!BGMplayflag[n]) {
-		BGMwaveBank->Play(n, XACT_FLAG_UNITS_MS, 0, 0, &BGMwave[n]);
+	//再生フラグがtrueの場合に再生
+	if (!BGMplayflag[wavenum] && !pauseflag) {
+		BGMwaveBank->Play(wavenum, XACT_FLAG_UNITS_MS, 0, 0, &BGMwave[wavenum]);
+		Sound::ChangeBGMVolume(wavenum, vol);
 	}
 	//再生フラグをtreuにし多重再生しないように
-	BGMplayflag[n] = b;
+	BGMplayflag[wavenum] = playflag;
+
 }
 
-void Sound::SetPlaySE(int n,bool b) {
+void Sound::SetPlaySE(int wavenum, bool playflag, float vol) {
+
 	if (SEwaveBank == NULL) {
 		return;
 	}
-	//再生フラグがfolseの場合に再生
-	if (!SEplayflag[n]) {
-		SEwaveBank->Play(n, XACT_FLAG_UNITS_MS, 0, 0, &SEwave[n]);
+	//※SEの場合はポーズ中に再生できるかのフラグ管理
+	//SE再生は基本的にtrue
+	//falseの場合はポーズ中に再生できるSE
+	SEplayflag[wavenum] = playflag;
+
+	//再生フラグがtrueの場合に再生
+	if (SEplayflag[wavenum] && !pauseflag) {
+		SEwaveBank->Play(wavenum, XACT_FLAG_UNITS_MS, 0, 0, &SEwave[wavenum]);
+		Sound::ChangeSEVolume(wavenum, vol);
+
 	}
-	//再生フラグをtreuにし多重再生しないように
-	SEplayflag[n] = b;
+	else if (!SEplayflag[wavenum] && pauseflag)
+	{
+		//playflagをtrueにした場合はポーズ中に再生できるように
+		SEwaveBank->Play(wavenum, XACT_FLAG_UNITS_MS, 0, 0, &SEwave[wavenum]);
+		Sound::ChangeSEVolume(wavenum, vol);
+	}
+
+
+
 }
 //=============================================================================
 // 指定されたサウンドをウェイブバンクで停止
@@ -258,13 +272,20 @@ void Sound::SetStopSound() {
 //=============================================================================
 // 一時停止（TRUEで停止、FALSEで再生）
 //=============================================================================
-void Sound::CangePauseSound(bool b) {
+void Sound::ChangePauseSound(bool b) {
 
+	pauseflag = b;
 	for (int i = 0; i < MAXBGM; i++) {
-		BGMwave[i]->Pause(b);
+		if (BGMplayflag[i]){
+			BGMwave[i]->Pause(b);			
+		}
+
 	}
 	for (int i = 0; i < MAXSE; i++) {
-		SEwave[i]->Pause(b);
+		if (SEplayflag[i]) {
+			SEwave[i]->Pause(b);
+		}
+
 	}
 
 
@@ -272,13 +293,46 @@ void Sound::CangePauseSound(bool b) {
 //=============================================================================
 // 音量の調整
 //=============================================================================
-void Sound::CangeBGMVolume(int n,float f) {
+void Sound::ChangeBGMVolume(int wavenum,float vol) {
 
-	BGMwave[n]->SetVolume(f);
+	BGMwave[wavenum]->SetVolume(vol);
 
 }
-void Sound::CangeSEVolume(int n, float f) {
+void Sound::ChangeSEVolume(int wavenum, float vol) {
 
-	SEwave[n]->SetVolume(f);
+	SEwave[wavenum]->SetVolume(vol);
 
+}
+
+//=============================================================================
+// フェードの調整
+//=============================================================================
+void Sound::FadeIn(int wavenum, float fadesec,float setvol,bool inflag) {
+	//60フレーム
+	//4秒と仮定 = 60フレーム * 4 = 240
+	//最大vol = 1
+	//vol1 / 4秒 = 1秒間に0.25
+	//0.25 / 60 = 1フレームに上がる音量(4秒の場合0.00416…)
+	//0.004 * 240 = 0.96(最大vol1）
+
+	if (fadevolume[wavenum] <= 1 && !pauseflag) {
+		maxvol_BGM[wavenum] = setvol;
+		fadevolume[wavenum] += (maxvol_BGM[wavenum] / fadesec) / FLAME;
+		Sound::ChangeBGMVolume(wavenum, fadevolume[wavenum]);
+	}
+
+}
+void Sound::FadeOut(int wavenum, float fadesec, float setvol, bool outflag) {
+
+
+	if (fadevolume[wavenum] >= 0 && !pauseflag) {
+		maxvol_BGM[wavenum] = setvol;
+		fadevolume[wavenum] -= (maxvol_BGM[wavenum] / fadesec) / FLAME;
+		Sound::ChangeBGMVolume(wavenum, fadevolume[wavenum]);
+	}
+}
+
+void Sound::SetPitchSE(int wavenum,int pitch) {
+	//ピッチの値は-1200～1200の間
+	SEwave[wavenum]->SetPitch(pitch);
 }

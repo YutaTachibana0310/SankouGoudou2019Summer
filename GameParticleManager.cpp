@@ -11,6 +11,7 @@
 
 #include "PostEffect\ScreenObject.h"
 #include "PostEffect\CrossFilterController.h"
+#include "PostEffect\BloomController.h"
 
 #ifdef _DEBUG
 #include "debugWindow.h"

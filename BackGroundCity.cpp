@@ -19,7 +19,7 @@ using namespace std;
 ***************************************/
 #define BACKGROUNDCITY_KIND_MAX			(3)
 
-#define BACKGROUNDCITY_Z_MAX			(96)
+#define BACKGROUNDCITY_Z_MAX			(24)
 #define BACKGROUNDCITY_X_MAX			(16)
 #define BACKGROUNDCITY_NUM_MAX			(BACKGROUNDCITY_Z_MAX*BACKGROUNDCITY_X_MAX)
 

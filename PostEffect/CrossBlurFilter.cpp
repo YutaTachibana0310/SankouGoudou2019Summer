@@ -10,7 +10,7 @@
 マクロ定義
 ***************************************/
 #define EFFECTFILE_CROSSBLUR_PATH	"PostEffect/CrossBlur.fx"
-#define CROSSBLUR_ARRAY_SIZE		(5)
+#define CROSSBLUR_ARRAY_SIZE		(2)
 
 /**************************************
 構造体定義

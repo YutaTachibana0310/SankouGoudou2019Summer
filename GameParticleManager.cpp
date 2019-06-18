@@ -11,6 +11,7 @@
 
 #include "PostEffect\ScreenObject.h"
 #include "PostEffect\CrossFilterController.h"
+#include "PostEffect\BloomController.h"
 
 #ifdef _DEBUG
 #include "debugWindow.h"
@@ -89,6 +90,9 @@ void InitGameParticleManager(int num)
 		&renderTexture,
 		0);
 	renderTexture->GetSurfaceLevel(0, &renderSurface);
+	pDevice->GetViewport(&viewPort);
+	viewPort.Width = SCREEN_WIDTH;
+	viewPort.Height = SCREEN_HEIGHT;
 	screenObj = new ScreenObject();
 
 }
@@ -130,9 +134,12 @@ void DrawGameParticleManager(void)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	//レンダーターゲット切り替え
+	D3DVIEWPORT9 oldViewport;
 	LPDIRECT3DSURFACE9 oldSuf;
+	pDevice->GetViewport(&oldViewport);
 	pDevice->GetRenderTarget(0, &oldSuf);
 	pDevice->SetRenderTarget(0, renderSurface);
+	pDevice->SetViewport(&viewPort);
 	pDevice->Clear(0, 0, D3DCLEAR_TARGET, 0, 0.0f, 0);
 
 	//レンダーステート切り替え
@@ -174,6 +181,7 @@ void DrawGameParticleManager(void)
 	pDevice->SetRenderTarget(0, oldSuf);
 	pDevice->SetTexture(0, renderTexture);
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	pDevice->SetViewport(&oldViewport);
 	screenObj->Draw();
 	SAFE_RELEASE(oldSuf);
 

@@ -270,7 +270,7 @@ void CrossFilterController::Blend()
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
 	//ƒuƒ‰[‚ð‚©‚¯‚½Œ‹‰Ê‚ð‰ÁŽZ‡¬i‚Pj
-	bloomFilter->Resize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	bloomFilter->Resize(oldViewPort.Width, oldViewPort.Height);
 
 	pDevice->SetTexture(0, blurTexture[0][cntBlur % 2]);
 	pDevice->SetTexture(1, blurTexture[1][cntBlur % 2]);

@@ -54,6 +54,7 @@ bool SetBomb();
 std::vector<PlayerBullet*>* GetPlayerBulletContainer(void);
 void ChangeState(Player *player, PlayerState next);
 void FirePlayerBullet(TrailIndex start, TrailIndex end);
+void FirePlayerBullet(D3DXVECTOR3 *rightPos, D3DXVECTOR3 *leftPos);
 
 //(à»â∫ÅAÇ®Å[ÇÕÇ‹í«ãL)
 //*****************************************************************************

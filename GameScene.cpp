@@ -23,9 +23,7 @@
 #include "SkyBox.h"
 #include "GameParticleManager.h"
 
-#include "player.h"
-#include "PlayerBullet.h"
-
+#include "sound.h"
 #include "CollisionManager.h"
 
 /**************************************
@@ -58,6 +56,7 @@ void GameScene::Init()
 
 	InitPlayerController();
 	InitCursor();
+	Sound::GetInstance()->Create();
 
 	RegisterDebugTimer(GAMESCENE_LABEL);
 }
@@ -87,7 +86,9 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
-	
+	//サウンド再生(テスト）
+	InputSound();
+
 	//背景オブジェクトの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateBG");
 	UpdateSkyBox();

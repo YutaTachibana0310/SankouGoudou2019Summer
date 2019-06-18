@@ -10,6 +10,7 @@
 マクロ定義
 ***************************************/
 #define EFEFCTFILE_SPEEDBLUR_PATH		"PostEffect/SpeedBlur.fx"
+#define PRECOMPILE_SPEEDBLUR_PATH		"data/EFFECT/SpeedBlur.cfx"
 
 /**************************************
 クラス定義
@@ -26,7 +27,11 @@ SpeedBlur::SpeedBlur()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	D3DXCreateEffectFromFile(pDevice, (LPSTR)EFEFCTFILE_SPEEDBLUR_PATH, 0, 0, 0, 0, &effect, 0);
+	HRESULT res =  D3DXCreateEffectFromFile(pDevice, (LPSTR)PRECOMPILE_SPEEDBLUR_PATH, 0, 0, D3DXSHADER_SKIPVALIDATION, 0, &effect, 0);
+	
+	if(res != S_OK)
+		D3DXCreateEffectFromFile(pDevice, (LPSTR)EFEFCTFILE_SPEEDBLUR_PATH, 0, 0, 0, 0, &effect, 0);
+
 	hPower = effect->GetParameterByName(0, "blurPower");
 	hCenter = effect->GetParameterByName(0, "centerTexel");
 	hTU = effect->GetParameterByName(0, "tU");

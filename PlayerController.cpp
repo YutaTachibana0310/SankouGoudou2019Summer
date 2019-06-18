@@ -473,6 +473,43 @@ void FirePlayerBullet(TrailIndex start, TrailIndex end)
 }
 
 //=============================================================================
+//　プレイヤーバレット発射処理
+//=============================================================================
+void FirePlayerBullet(D3DXVECTOR3 *rightPos, D3DXVECTOR3 *leftPos)
+{
+	int start = 0, end = 0;
+	for (int i = 0; i < STAR_MAX; i++)
+	{
+		if (MovePos[i] == *rightPos)
+			start = i;
+
+		if (MovePos[i] == *leftPos)
+			end = i;
+	}
+
+	for (auto itr = bulletContainer.begin(); itr != bulletContainer.end(); itr++)
+	{
+		if ((*itr)->IsActive())
+			continue;
+
+		//セットしてリターン
+		(*itr)->SetTrailIndex((TrailIndex)start, (TrailIndex)end);
+		(*itr)->SetEdgePos(&MovePos[(int)start], &MovePos[(int)end]);
+		(*itr)->Init();
+		return;
+
+	}
+
+	//新しく生成して追加
+	PlayerBullet *bullet = new PlayerBullet();
+	bullet->SetTrailIndex((TrailIndex)start, (TrailIndex)end);
+	bullet->SetEdgePos(&MovePos[(int)start], &MovePos[(int)end]);
+	bullet->Init();
+	bulletContainer.push_back(bullet);
+	return;
+}
+
+//=============================================================================
 // CCW配列取得処理 (おーはま追記)
 //=============================================================================
 void GetMove_StackCCW(int trailHistoryCCW[MOVESTACK_LENGTH]) {

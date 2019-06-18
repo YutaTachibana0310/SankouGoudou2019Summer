@@ -10,6 +10,7 @@
 マクロ定義
 ***************************************/
 #define EFFECTFILE_SHOCKBLUR_PATH	"PostEffect/ShockBlur.fx"
+#define PRECOMPILE_SHOCKBLUR_PATH	"data/EFFECT/ShockBlur.cfx"
 
 /**************************************
 グローバル変数
@@ -22,7 +23,11 @@ ShockBlur::ShockBlur()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	D3DXCreateEffectFromFile(pDevice, (LPSTR)EFFECTFILE_SHOCKBLUR_PATH, 0, 0, 0, 0, &effect, 0);
+	HRESULT res = D3DXCreateEffectFromFile(pDevice, (LPSTR)PRECOMPILE_SHOCKBLUR_PATH, 0, 0, D3DXSHADER_SKIPVALIDATION, 0, &effect, 0);
+
+	if(res != S_OK)
+		D3DXCreateEffectFromFile(pDevice, (LPSTR)EFFECTFILE_SHOCKBLUR_PATH, 0, 0, 0, 0, &effect, 0);
+
 	hndlPower = effect->GetParameterByName(0, "blurPower");
 	hndlCenter = effect->GetParameterByName(0, "centerTexel");
 	hndlTU = effect->GetParameterByName(0, "tU");

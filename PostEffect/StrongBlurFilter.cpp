@@ -9,8 +9,10 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define EFFECT_STRONGBLUR_PATH	"PostEffect/StrongBlurFilter.fx"
-#define STRONGBLUR_ARRAY_SIZE	(9)
+#define EFFECTFILE_STRONGBLUR_PATH		"PostEffect/StrongBlurFilter.fx"
+#define PRECOMPILE_STRONGBLUR_PATH	"data/EFFECT/StrongBlurFilter.cfx"
+
+#define STRONGBLUR_ARRAY_SIZE		(9)
 
 /**************************************
 クラス定義
@@ -27,7 +29,11 @@ StrongBlurFilter::StrongBlurFilter()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	D3DXCreateEffectFromFile(pDevice, (LPSTR)EFFECT_STRONGBLUR_PATH, 0, 0, 0, 0, &effect, 0);
+	HRESULT res = D3DXCreateEffectFromFile(pDevice, (LPSTR)PRECOMPILE_STRONGBLUR_PATH, 0, 0, D3DXSHADER_SKIPVALIDATION, 0, &effect, 0);
+
+	if(res != S_OK)
+		D3DXCreateEffectFromFile(pDevice, (LPSTR)EFFECTFILE_STRONGBLUR_PATH, 0, 0, 0, 0, &effect, 0);
+
 	hTexelU = effect->GetParameterByName(0, "texelU");
 	hTexelV = effect->GetParameterByName(0, "texelV");
 	effect->SetTechnique("tech");

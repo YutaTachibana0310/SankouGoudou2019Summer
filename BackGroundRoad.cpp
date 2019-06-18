@@ -3,13 +3,15 @@
 // マクロ定義
 //*****************************************************************************
 #define	TEXTURE_FIELD	"data/TEXTURE/BG/road.jpg"	// 読み込むテクスチャファイル名
-#define NUM_FIELD (1)
-#define BACKGROUNDROAD_POS_RANGE_X      (600.0f)
-#define BACKGROUNDROAD_POS_RANGE_Y      (-1000.0f)
-#define BACKGROUNDROAD_POS_RANGE_Z      (10000.0f)
-#define BACKGROUNDROAD_NUM_MAX			(100)
+#define BACKGROUNDROAD_SIZE_X			(600.0f)
+#define BACKGROUNDROAD_SIZE_Z			(15000.0f)
 
-#define BACKGROUNDROAD_MOVE_SPEED	    (-0.03f)
+#define BACKGROUNDROAD_MOVE_SPEED	    (-0.06f)
+
+#define BACKGROUNDROAD_TEXSIZE_X		(2.0f)
+#define BACKGROUNDROAD_TEXSIZE_Y		(50.0f)
+
+#define BACKGROUNDROAD_INIT_POS_Y		(-2500.0f)
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -21,13 +23,8 @@
 //*****************************************************************************
 LPDIRECT3DTEXTURE9		g_pD3DTextureRoad = NULL;	// テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pD3DVtxBuffRoad = NULL;	// 頂点バッファへのポインタ
-//OBJECT3D	Field[NUM_FIELD];			
 
-D3DXMATRIX				g_mtxWorldRoad;			// ワールドマトリックス
-D3DXVECTOR3				g_posRoad;					// 現在の位置
-D3DXVECTOR3				g_rotRoad;					// 現在の向き
-
-
+D3DXVECTOR3				posRoad;					// 現在の位置
 
 //=============================================================================
 // 初期化処理
@@ -38,8 +35,7 @@ HRESULT InitBackGroundRoad(void)
 	HRESULT hr;
 
 	// 位置、向きの初期設定
-	g_posRoad = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	g_rotRoad = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	posRoad = D3DXVECTOR3(0.0f, BACKGROUNDROAD_INIT_POS_Y, 0.0f);
 
 	// テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,					// デバイスへのポインタ
@@ -95,22 +91,17 @@ void UpdateBackGroundRoad(void)
 void DrawBackGroundRoad(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	D3DXMATRIX mtxeRot, mtxeTranslate;
-
+	D3DXMATRIX mtxeTranslate, mtxWorld;
 
 	// ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&g_mtxWorldRoad);
-
-	// 回転を反映
-	D3DXMatrixRotationYawPitchRoll(&mtxeRot, g_rotRoad.y, g_rotRoad.x, g_rotRoad.z);
-	D3DXMatrixMultiply(&g_mtxWorldRoad, &g_mtxWorldRoad, &mtxeRot);
+	D3DXMatrixIdentity(&mtxWorld);
 
 	// 移動を反映
-	D3DXMatrixTranslation(&mtxeTranslate, g_posRoad.x, g_posRoad.y, g_posRoad.z);
-	D3DXMatrixMultiply(&g_mtxWorldRoad, &g_mtxWorldRoad, &mtxeTranslate);
+	D3DXMatrixTranslation(&mtxeTranslate, posRoad.x, posRoad.y, posRoad.z);
+	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxeTranslate);
 
 	// ワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &g_mtxWorldRoad);
+	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 	// 頂点バッファをデバイスのデータストリームにバインド
 	pDevice->SetStreamSource(0, g_pD3DVtxBuffRoad, 0, sizeof(VERTEX_3D));
@@ -149,12 +140,12 @@ HRESULT MakeVertexBackGroundRoad(LPDIRECT3DDEVICE9 pDevice)
 		g_pD3DVtxBuffRoad->Lock(0, 0, (void**)&pVtx, 0);
 
 		// 頂点座標の設定
-		pVtx[0].vtx = D3DXVECTOR3(-BACKGROUNDROAD_POS_RANGE_X, BACKGROUNDROAD_POS_RANGE_Y, BACKGROUNDROAD_POS_RANGE_Z );//左奥
-		pVtx[1].vtx = D3DXVECTOR3(BACKGROUNDROAD_POS_RANGE_X, BACKGROUNDROAD_POS_RANGE_Y, BACKGROUNDROAD_POS_RANGE_Z );//右奥
-		pVtx[2].vtx = D3DXVECTOR3(-BACKGROUNDROAD_POS_RANGE_X, BACKGROUNDROAD_POS_RANGE_Y, -BACKGROUNDROAD_POS_RANGE_Z );//左手前
-		pVtx[3].vtx = D3DXVECTOR3(BACKGROUNDROAD_POS_RANGE_X, BACKGROUNDROAD_POS_RANGE_Y, -BACKGROUNDROAD_POS_RANGE_Z );//右手前
+		pVtx[0].vtx = D3DXVECTOR3(-BACKGROUNDROAD_SIZE_X, 0.0f, BACKGROUNDROAD_SIZE_Z);
+		pVtx[1].vtx = D3DXVECTOR3(BACKGROUNDROAD_SIZE_X, 0.0f, BACKGROUNDROAD_SIZE_Z);
+		pVtx[2].vtx = D3DXVECTOR3(-BACKGROUNDROAD_SIZE_X, 0.0f, -BACKGROUNDROAD_SIZE_Z);
+		pVtx[3].vtx = D3DXVECTOR3(BACKGROUNDROAD_SIZE_X, 0.0f, -BACKGROUNDROAD_SIZE_Z);
 
-																// 法線ベクトルの設定
+
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 		pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 		pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -168,9 +159,9 @@ HRESULT MakeVertexBackGroundRoad(LPDIRECT3DDEVICE9 pDevice)
 
 		// テクスチャ座標の設定
 		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-		pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
-		pVtx[2].tex = D3DXVECTOR2(0.0f, 25.0f);
-		pVtx[3].tex = D3DXVECTOR2(1.0f, 25.0f);
+		pVtx[1].tex = D3DXVECTOR2(BACKGROUNDROAD_TEXSIZE_X, 0.0f);
+		pVtx[2].tex = D3DXVECTOR2(0.0f, BACKGROUNDROAD_TEXSIZE_Y);
+		pVtx[3].tex = D3DXVECTOR2(BACKGROUNDROAD_TEXSIZE_X, BACKGROUNDROAD_TEXSIZE_Y);
 
 		// 頂点データをアンロックする
 		g_pD3DVtxBuffRoad->Unlock();
@@ -178,8 +169,3 @@ HRESULT MakeVertexBackGroundRoad(LPDIRECT3DDEVICE9 pDevice)
 	}
 	return S_OK;
 }
-
-//OBJECT3D* GetField(int no)
-//{
-//	return &Field[no];
-//}

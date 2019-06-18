@@ -1,11 +1,11 @@
 //=====================================
 //
-//バックグラウンドシティヘッダ[BackGroundCity.h]
+//コリジョンマネージャヘッダ[CollisionManager.h]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#ifndef _BACKGROUNDCITY_H_
-#define _BACKGROUNDCITY_H_
+#ifndef _COLLISIONMANAGER_H_
+#define _COLLISIONMANAGER_H_
 
 #include "main.h"
 
@@ -20,9 +20,6 @@
 /**************************************
 プロトタイプ宣言
 ***************************************/
-void InitBackGroundCity(int num);
-void UninitBackGroundCity(int num);
-void UpdateBackGroundCity(void);
-void DrawBackGroundCity(void);
+void UpdateCollisionManager(void);
 
 #endif

@@ -1,32 +1,46 @@
 //=====================================
 //
-//テンプレート処理[BackGroundCity.cpp]
+//バックグラウンドシティ処理[BackGroundCity.cpp]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
 #include "BackGroundCity.h"
-#include "Framework\MeshContainer.h"
+#include "Framework\InstancingMeshContainer.h"
 #include "SkyBox.h"
+
+#include <vector>
+#include <map>
+#include <array>
+
+using namespace std;
 
 /**************************************
 マクロ定義
 ***************************************/
-#define BACKGROUNDCITY_MODEL_FILE		"data/MODEL/City/city01.x"
-#define BACKGROUNDCITY_NUM_MAX			(100)
-#define BACKGROUNDCITY_KIND_MAX			(2)
+#define BACKGROUNDCITY_KIND_MAX			(3)
 
-#define BACKGROUNDCITY_BASEPOS_X_INNER	(300.0f)
-#define BACKGROUNDCITY_BASEPOS_X_OUTER	(500.0f)
-#define BACKGROUNDCITY_BASEPOS_Y		(0.0f)
-#define BACKGROUNDCITY_BASEPOS_Z		(0.0f)
+#define BACKGROUNDCITY_Z_MAX			(24)
+#define BACKGROUNDCITY_X_MAX			(16)
+#define BACKGROUNDCITY_NUM_MAX			(BACKGROUNDCITY_Z_MAX*BACKGROUNDCITY_X_MAX)
 
-#define BACKGROUNDCITY_POS_RANGE_X		(200.0f)
-#define BACKGROUNDCITY_POS_RANGE_Y		(100.0f)
-#define BACKGROUNDCITY_POS_RANGE_Z		(50.0f)
+#define BACKGROUNDCITY_MOVE_SPEED		(-55.0f)
 
-#define BACKGROUNDCITY_OFFSET_Z			(300.0f)
+#define BACKGROUNDCITY_LIGHT_AMPLIFIER	(2.2f)
 
-#define BACKGROUNDCITY_MOVE_SPEED		(-25.0f)
+#define BACKGROUNDCITY_OFFSET_X			(-800.0f)
+#define BACKGROUNDCITY_OFFSET_Z			(-800.0f)
+
+#define BACKGROUNDCITY_INIT_SCALE_Y		(3.0f)
+#define BACKGROUNDCITY_INIT_SCALE_XZ	(2.0f)
+
+#define BACKGROUNDCITY_BORDER_Z			(-500.0f)
+
+//読み込むXファイルへのパス
+static const char* fileName[] = {
+	"data/MODEL/City/city01.x",
+	"data/MODEL/City/city02.x",
+	"data/MODEL/City/city03.x"
+};
 
 /**************************************
 構造体定義
@@ -35,40 +49,36 @@
 /**************************************
 グローバル変数
 ***************************************/
-static D3DXVECTOR3 cityPos[BACKGROUNDCITY_NUM_MAX];
-
-static MeshContainer* meshContainer;
+static InstancingMeshContainer* meshContainer[BACKGROUNDCITY_KIND_MAX];
+static Transform* transformList[BACKGROUNDCITY_KIND_MAX];
+static int cityTypeCount[BACKGROUNDCITY_KIND_MAX];
+static LPDIRECT3DVERTEXBUFFER9 transformBuffer[BACKGROUNDCITY_KIND_MAX];
 
 /**************************************
 プロトタイプ宣言
 ***************************************/
+void MakeCityPositionMap(void);
 
 /**************************************
 初期化処理
 ***************************************/
 void InitBackGroundCity(int num)
 {
-	meshContainer = new MeshContainer();
-	meshContainer->Load(BACKGROUNDCITY_MODEL_FILE);
-
-	//Y座標、Z座標について初期化
-	for (int i = 0; i < BACKGROUNDCITY_NUM_MAX; i += BACKGROUNDCITY_KIND_MAX)
+	//インスタンシング用にメッシュをロードして初期化
+	for (int i = 0; i < BACKGROUNDCITY_KIND_MAX; i++)
 	{
-		cityPos[i].y = BACKGROUNDCITY_BASEPOS_Y + RandomRangef(-BACKGROUNDCITY_POS_RANGE_Y, BACKGROUNDCITY_POS_RANGE_Y);
-
-		for (int j = 0; j < BACKGROUNDCITY_KIND_MAX; j++)
-		{
-			cityPos[i+j].z = BACKGROUNDCITY_BASEPOS_Z + BACKGROUNDCITY_OFFSET_Z * (i / 2) + RandomRangef(-BACKGROUNDCITY_POS_RANGE_Z, BACKGROUNDCITY_POS_RANGE_Z);
-		}
+		meshContainer[i] = new InstancingMeshContainer();
+		meshContainer[i]->Load(fileName[i]);
+		meshContainer[i]->SetLightAmplifier(BACKGROUNDCITY_LIGHT_AMPLIFIER);
 	}
 
-	//X座標について初期化
-	for (int i = 0; i < BACKGROUNDCITY_NUM_MAX; i += BACKGROUNDCITY_KIND_MAX)
+	//座標マップ作成
+	MakeCityPositionMap();
+
+	//SRT情報バッファを作成
+	for (int i = 0; i < BACKGROUNDCITY_KIND_MAX; i++)
 	{
-		cityPos[i].x = BACKGROUNDCITY_BASEPOS_X_INNER + RandomRangef(0.0f, BACKGROUNDCITY_POS_RANGE_X);
-		cityPos[i + 1].x = -BACKGROUNDCITY_BASEPOS_X_INNER - RandomRangef(0.0f, BACKGROUNDCITY_POS_RANGE_X);
-		//cityPos[i + 2].x = BACKGROUNDCITY_BASEPOS_X_OUTER + RandomRangef(0.0f, BACKGROUNDCITY_POS_RANGE_X);
-		//cityPos[i + 3].x = -BACKGROUNDCITY_BASEPOS_X_OUTER - RandomRangef(0.0f, BACKGROUNDCITY_POS_RANGE_X);
+		MakeTransformBuffer(cityTypeCount[i], &transformBuffer[i]);
 	}
 }
 
@@ -77,23 +87,35 @@ void InitBackGroundCity(int num)
 ***************************************/
 void UninitBackGroundCity(int num)
 {
-	delete meshContainer;
+	for (int i = 0; i < BACKGROUNDCITY_KIND_MAX; i++)
+	{
+		SAFE_DELETE_ARRAY(transformList[i]);
+		SAFE_RELEASE(transformBuffer[i]);
+		delete meshContainer[i];
+	}
 }
-#include "input.h"
+
 /**************************************
 更新処理
 ***************************************/
 void UpdateBackGroundCity(void)
 {
-	for (int i = 0; i < BACKGROUNDCITY_NUM_MAX; i++)
+	for (int i = 0; i < BACKGROUNDCITY_KIND_MAX; i++)
 	{
-		//移動処理
-		cityPos[i].z += BACKGROUNDCITY_MOVE_SPEED;
+		for (int j = 0; j < cityTypeCount[i]; j++)
+		{
+			//移動処理
+			transformList[i][j].pos.z += BACKGROUNDCITY_MOVE_SPEED;
 
-		//一定より後ろに下がっていたら最前列へ移動
-		if (cityPos[i].z <= -100.0f)
-			cityPos[i].z += 15000.0f;
+			//一定より後ろに下がっていたら最前列へ移動
+			if (transformList[i][j].pos.z <= BACKGROUNDCITY_BORDER_Z)
+				transformList[i][j].pos.z += -BACKGROUNDCITY_OFFSET_Z * BACKGROUNDCITY_Z_MAX;
+		}
+
+		//SRT情報をバッファへセット
+		CopyVtxBuff(sizeof(Transform) * cityTypeCount[i], &transformList[i][0], transformBuffer[i]);
 	}
+
 }
 
 /**************************************
@@ -102,22 +124,74 @@ void UpdateBackGroundCity(void)
 void DrawBackGroundCity(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	D3DXMATRIX mtxWorld, mtxTranslate;
-	D3DMATERIAL9 matDef;
-
-	pDevice->GetMaterial(&matDef);
-
-	for (int i = 0; i < BACKGROUNDCITY_NUM_MAX; i++)
+	for (int i = 0; i < BACKGROUNDCITY_KIND_MAX; i++)
 	{
-		D3DXMatrixIdentity(&mtxWorld);
+		//ストリームソース設定
+		meshContainer[i]->SetStreamSource(transformBuffer[i], cityTypeCount[i]);
 
-		//Translate
-		D3DXMatrixTranslation(&mtxTranslate, cityPos[i].x, cityPos[i].y, cityPos[i].z);
-		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTranslate);
+		//描画
+		meshContainer[i]->Draw();
+	}
+}
 
-		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
-		meshContainer->Draw();
+/**************************************
+座標マップ作成処理
+***************************************/
+void MakeCityPositionMap(void)
+{
+	array<D3DXVECTOR3, BACKGROUNDCITY_NUM_MAX> posMap;
 
-		pDevice->SetMaterial(&matDef);
+	int maxX = BACKGROUNDCITY_X_MAX;
+	int maxZ = BACKGROUNDCITY_Z_MAX;
+
+	//碁盤上に座標マップ作成
+	float offsetZ = BACKGROUNDCITY_OFFSET_Z, offsetX = BACKGROUNDCITY_OFFSET_X;
+	float basePosX = -offsetX * maxX / 2;
+	float basePosZ = -offsetZ * maxZ;
+	for (int z = 0; z < maxZ; z++)
+	{
+		for (int x = 0; x < maxX; x++)
+		{
+			posMap[z * maxX + x].x = basePosX + offsetX * x;
+			posMap[z * maxX + x].z = basePosZ + offsetZ * z;
+		}
+	}
+
+	//座標マップにランダムにビルタイプを割り当て
+	ZeroMemory(cityTypeCount, sizeof(cityTypeCount));
+	for (auto itr = posMap.begin(); itr != posMap.end(); itr++)
+	{
+		//中心部分は空ける
+		if (fabsf(itr->x) < 500.0f)
+		{
+			itr->y = (float)BACKGROUNDCITY_KIND_MAX;
+			continue;
+		}
+
+		int type = RandomRange(0, BACKGROUNDCITY_KIND_MAX);
+		itr->y = (float)type;
+		cityTypeCount[type]++;
+	}
+
+	//各タイプのposListへコピー
+	for (int i = 0; i < BACKGROUNDCITY_KIND_MAX; i++)
+	{
+		transformList[i] = new Transform[cityTypeCount[i]];
+	}
+	int index[BACKGROUNDCITY_KIND_MAX] = {};
+	for (auto itr = posMap.begin(); itr != posMap.end(); itr++)
+	{
+		if (itr->y == (float)BACKGROUNDCITY_KIND_MAX)
+			continue;
+
+		Transform tr = { D3DXVECTOR3(itr->x, 0.0f, itr->z), 
+			D3DXVECTOR3(0.0f, RandomRange(0, 4) * D3DXToRadian(90.0f), 0.0f),
+			D3DXVECTOR3(BACKGROUNDCITY_INIT_SCALE_XZ, BACKGROUNDCITY_INIT_SCALE_Y, BACKGROUNDCITY_INIT_SCALE_XZ)};
+
+		tr.scale.y *= RandomRangef(0.8f, 1.2f);
+
+		int type = (int)itr->y;
+		transformList[type][index[type]] = tr;
+		index[type]++;
 	}
 }

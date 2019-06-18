@@ -79,6 +79,12 @@
     <Filter Include="ヘッダー ファイル\sound">
       <UniqueIdentifier>{5ccf4d3c-dab7-4bd6-8e3b-d897b674d55d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Collider">
+      <UniqueIdentifier>{8a05d734-25a1-44fc-b073-814e5126a090}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Collider">
+      <UniqueIdentifier>{6e5bcac6-9189-4e6c-b253-1ec550cf976a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -288,6 +294,37 @@
     <ClInclude Include="sound.h">
       <Filter>ヘッダー ファイル\sound</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\InstancingMeshContainer.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="TrailCollider.h">
+      <Filter>ヘッダー ファイル\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>ヘッダー ファイル\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBulletParticle.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect\SpeedBlurFilter.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect\SpeedBlurController.h">
+      <Filter>ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -476,6 +513,27 @@
     <ClCompile Include="sound.cpp">
       <Filter>ソース ファイル\sound</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\InstancingMeshContainer.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffectManager.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="TrailCollider.cpp">
+      <Filter>ソース ファイル\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>ソース ファイル\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBulletParticle.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect\SpeedBlurFilter.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect\SpeedBlurController.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PostEffect\BloomFilter.fx">
@@ -503,6 +561,12 @@
       <Filter>リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="PostEffect\StrongBlurFilter.fx">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="data\EFFECT\ModelInstancing.fx">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="PostEffect\SpeedBlur.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>

@@ -5,11 +5,12 @@
 //
 //=====================================
 #include "CrossFilterController.h"
+#include "../debugTimer.h"
 
 /**************************************
 マクロ定義
 ***************************************/
-#define CROSSFILTER_USE_DEBUG
+//#define CROSSFILTER_USE_DEBUG
 
 #ifdef CROSSFILTER_USE_DEBUG
 #include "../debugWindow.h"
@@ -61,20 +62,23 @@ void CrossFilterController::Draw(LPDIRECT3DTEXTURE9 targetTexture)
 	LPDIRECT3DSURFACE9 oldSuf;
 	pDevice->GetRenderTarget(0, &oldSuf);
 
-	for (int i = 0; i < 4; i++)
-	{
-		//輝度抽出処理
-		SampleBrightness(targetTexture);
+	//輝度抽出処理
+	CountDebugTimer("CrossFilter", "Sample");
+	SampleBrightness(targetTexture);
+	CountDebugTimer("CrossFilter", "Sample");
 
-		//抽出した輝度をブラー処理(
-		ProcessBlur(i);
+	//抽出した輝度をブラー処理(
+	CountDebugTimer("CrossFilter", "Blur");
+	ProcessBlur();
+	CountDebugTimer("CrossFilter", "Blur");
 
-		//レンダーターゲットを元に戻す
-		pDevice->SetRenderTarget(0, oldSuf);
+	//レンダーターゲットを元に戻す
+	CountDebugTimer("CrossFilter", "Blend");
+	pDevice->SetRenderTarget(0, oldSuf);
+	CountDebugTimer("CrossFilter", "Blend");
 
-		//クロスフィルタ合成
-		Blend();
-	}
+	//クロスフィルタ合成
+	Blend();
 
 	//レンダーターゲットの参照を解放
 	SAFE_RELEASE(oldSuf);
@@ -86,13 +90,15 @@ void CrossFilterController::Draw(LPDIRECT3DTEXTURE9 targetTexture)
 	pDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
 	pDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
 
+	DrawDebugTimer("CrossFilter");
+
 #ifdef CROSSFILTER_USE_DEBUG
 	BeginDebugWindow("CrossFilter");
-	for (int i = 0; i < 3; i++)
-	{
-		DebugDrawTexture(blurTexture[i][0], 100.0f, 50.0f);
-		DebugSameLine();
-	}
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	DebugDrawTexture(blurTexture[i][0], 100.0f, 50.0f);
+	//	DebugSameLine();
+	//}
 	EndDebugWindow("CrossFilter");
 #endif // CROSSFILTER_USE_DEBUG
 }
@@ -127,6 +133,17 @@ CrossFilterController::CrossFilterController()
 				0);
 			blurTexture[i][j]->GetSurfaceLevel(0, &blurSurface[i][j]);
 		}
+
+		//サンプリング用のテクスチャ作成
+		pDevice->CreateTexture(SCREEN_WIDTH / reduction,
+			SCREEN_HEIGHT / reduction,
+			1,
+			D3DUSAGE_RENDERTARGET,
+			D3DFMT_X8R8G8B8,
+			D3DPOOL_DEFAULT,
+			&sampleTexture[i],
+			0);
+		sampleTexture[i]->GetSurfaceLevel(0, &sampleSurface[i]);
 	}
 
 	//縮小バッファ用のビューポートを作成
@@ -140,6 +157,8 @@ CrossFilterController::CrossFilterController()
 		blurViewPort[i].X = 0;
 		blurViewPort[i].Y = 0;
 	}
+
+	RegisterDebugTimer("CrossFilter");
 }
 
 /**************************************
@@ -155,6 +174,9 @@ CrossFilterController::~CrossFilterController()
 			SAFE_RELEASE(blurTexture[i][j]);
 			SAFE_RELEASE(blurSurface[i][j]);
 		}
+
+		SAFE_RELEASE(sampleTexture[i]);
+		SAFE_RELEASE(sampleSurface[i]);
 	}
 
 	delete bloomFilter;
@@ -165,7 +187,8 @@ CrossFilterController::~CrossFilterController()
 ***************************************/
 void CrossFilterController::SampleBrightness(LPDIRECT3DTEXTURE9 targetTexture)
 {
-	const float BloomPower[3] = { 0.74f, 0.63f, 0.4f };
+	const float BloomPower[3] = { 0.5f, 0.4f, 0.2f };
+
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	for (int i = 0; i < 3; i++)
@@ -187,7 +210,7 @@ void CrossFilterController::SampleBrightness(LPDIRECT3DTEXTURE9 targetTexture)
 		bloomFilter->Resize(SCREEN_WIDTH / reduction, SCREEN_HEIGHT / reduction);
 
 		//レンダーターゲットを設定 
-		pDevice->SetRenderTarget(0, blurSurface[i][0]);
+		pDevice->SetRenderTarget(0, sampleSurface[i]);
 		pDevice->Clear(0, 0, D3DCLEAR_TARGET, 0, 0, 0);
 
 		//現在の描画情報から輝度を抽出（１）
@@ -198,18 +221,11 @@ void CrossFilterController::SampleBrightness(LPDIRECT3DTEXTURE9 targetTexture)
 /**************************************
 ブラー処理
 ***************************************/
-void CrossFilterController::ProcessBlur(UINT pass)
+void CrossFilterController::ProcessBlur()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	const int StartPass = 2, PassMax = 2;
+	const int Pass = 4;
 	const int TextureMax = 2;
-
-	//ブラー用のサーフェイスをクリア(1)
-	for (int i = 0; i < 3; i++)
-	{
-		pDevice->SetRenderTarget(0, blurSurface[i][1]);
-		pDevice->Clear(0, 0, D3DCLEAR_TARGET, 0, 0, 0);
-	}
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -219,15 +235,20 @@ void CrossFilterController::ProcessBlur(UINT pass)
 		float reduction = powf(2.0f, i + 2.0f);
 		blurFilter->SetSurfaceSize(SCREEN_WIDTH / reduction, SCREEN_HEIGHT / reduction);
 
+		//サーフェイス0番にサンプル結果を転写
+		pDevice->SetRenderTarget(0, blurSurface[i][0]);
+		pDevice->SetTexture(0, sampleTexture[i]);
+		blurFilter->DrawEffect(Pass);
+
 		cntBlur = 1;
 
 		//ブラー処理
-		const int BlurLoop = 3;
+		const int BlurLoop = 2;
 		for (int j = 0; j < BlurLoop; j++, cntBlur++)
 		{
 			pDevice->SetRenderTarget(0, blurSurface[i][cntBlur % TextureMax]);
 			pDevice->SetTexture(0, blurTexture[i][(cntBlur + 1) % TextureMax]);
-			blurFilter->DrawEffect(pass);
+			blurFilter->DrawEffect(Pass);
 		}
 	}
 
@@ -249,7 +270,7 @@ void CrossFilterController::Blend()
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
 	//ブラーをかけた結果を加算合成（１）
-	bloomFilter->Resize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	bloomFilter->Resize(oldViewPort.Width, oldViewPort.Height);
 
 	pDevice->SetTexture(0, blurTexture[0][cntBlur % 2]);
 	pDevice->SetTexture(1, blurTexture[1][cntBlur % 2]);

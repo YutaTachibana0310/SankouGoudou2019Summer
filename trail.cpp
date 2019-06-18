@@ -25,11 +25,11 @@
 // グローバル変数
 //*****************************************************************************
 OBJECT	trail[TRAILPARTS_MAX];
-int		trailHistoryCW[MAX_LENGTH];
-int		trailHistoryCCW[MAX_LENGTH];
+int		trailHistoryCW[MOVESTACK_LENGTH];
+int		trailHistoryCCW[MOVESTACK_LENGTH];
 int		historyCount = 0;
 int		deleteCount = 0;
-int		endArray = MAX_LENGTH - 1;
+int		endArray = MOVESTACK_LENGTH - 1;
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -63,7 +63,7 @@ HRESULT InitTrail(void)
 	}
 
 	// 配列を要素と関係ない値で初期化	
-	for (int i = 0; i < MAX_LENGTH; i++)
+	for (int i = 0; i < MOVESTACK_LENGTH; i++)
 	{
 		trailHistoryCW[i] = { 8 };
 		trailHistoryCCW[i] = { 8 };
@@ -90,7 +90,7 @@ void UpdateTrail(void)
 {
 	if (SetBomb() == true)
 	{
-		for (int i = 0; i < MAX_LENGTH; i++) 
+		for (int i = 0; i < MOVESTACK_LENGTH; i++) 
 		{
 			trailHistoryCW[i] = { INITIAL_ARRAY_NUMBER };
 			trailHistoryCCW[i] = { INITIAL_ARRAY_NUMBER };
@@ -149,7 +149,7 @@ bool CanDrawTrailLine(int startStar, int endStar)
 	int	 searchFailedCount = 0;
 	int	 searchSuccessCount = 0;
 
-	for (int i = 0; i < MAX_LENGTH; i++)
+	for (int i = 0; i < MOVESTACK_LENGTH; i++)
 	{
 		// もっといい書き方あったら教えてください(>_<)
 
@@ -171,13 +171,13 @@ bool CanDrawTrailLine(int startStar, int endStar)
 			searchFailedCount++;
 		}
 
-		if (searchFailedCount >= MAX_LENGTH)
+		if (searchFailedCount >= MOVESTACK_LENGTH)
 		{
 			canDraw = false;
 			searchFailedCount = 0;
 		}
 
-		if (searchSuccessCount + searchFailedCount >= MAX_LENGTH)
+		if (searchSuccessCount + searchFailedCount >= MOVESTACK_LENGTH)
 		{
 			searchSuccessCount = 0;
 			searchFailedCount = 0;

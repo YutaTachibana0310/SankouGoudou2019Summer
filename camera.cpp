@@ -41,7 +41,7 @@ static D3DXMATRIX saveView[TARGETPLAYER_MAX];
 //=============================================================================
 HRESULT InitCamera(void)
 {
-	camera.pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	camera.pos = D3DXVECTOR3(0.0f, 0.0f, -150.0f);
 	camera.target = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	camera.up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	camera.destPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -49,24 +49,24 @@ HRESULT InitCamera(void)
 	camera.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	camera.dist = CAMERA_DIST_INITVAL;
 
-	////フォグの設定
-	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	//D3DCAPS9 caps;
-	//ZeroMemory(&caps, sizeof(D3DCAPS9));
-	//pDevice->GetDeviceCaps(&caps);
+	//フォグの設定
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	D3DCAPS9 caps;
+	ZeroMemory(&caps, sizeof(D3DCAPS9));
+	pDevice->GetDeviceCaps(&caps);
 
-	//if ((caps.RasterCaps & D3DPRASTERCAPS_FOGRANGE) != 0)
-	//{
-	//	FLOAT start = 1000.0f;
-	//	FLOAT end = 5000.0f;
+	if ((caps.RasterCaps & D3DPRASTERCAPS_FOGRANGE) != 0)
+	{
+		FLOAT start = 6000.0f;
+		FLOAT end = 10000.0f;
 
-	//	pDevice->SetRenderState(D3DRS_FOGENABLE, true);
-	//	pDevice->SetRenderState(D3DRS_FOGCOLOR, 0);
-	//	pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_NONE);
-	//	pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-	//	pDevice->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
-	//	pDevice->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
-	//}
+		pDevice->SetRenderState(D3DRS_FOGENABLE, true);
+		pDevice->SetRenderState(D3DRS_FOGCOLOR, 0);
+		pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_NONE);
+		pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
+		pDevice->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
+		pDevice->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
+	}
 
 	//カメラを設定
 	SetCamera();

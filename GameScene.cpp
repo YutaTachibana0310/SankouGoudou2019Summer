@@ -24,6 +24,7 @@
 #include "GameParticleManager.h"
 
 #include "sound.h"
+#include "CollisionManager.h"
 
 /**************************************
 マクロ定義
@@ -37,8 +38,6 @@
 /**************************************
 グローバル変数
 ***************************************/
-class Player player;
-
 
 /**************************************
 初期化処理
@@ -56,9 +55,10 @@ void GameScene::Init()
 	InitUI();
 
 	InitPlayerController();
-	player.Init();
 	InitCursor();
 	Sound::GetInstance()->Create();
+
+	RegisterDebugTimer(GAMESCENE_LABEL);
 }
 
 /**************************************
@@ -74,10 +74,11 @@ void GameScene::Uninit()
 
 	UninitGameParticleManager(0);
 
-	UninitUI();
+	UninitPlayerController();
 
-	player.Uninit();
+	UninitUI();
 	UninitCursor();
+
 }
 
 /**************************************
@@ -85,29 +86,38 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
-
 	//サウンド再生(テスト）
 	InputSound();
 
 	//背景オブジェクトの更新
+	CountDebugTimer(GAMESCENE_LABEL, "UpdateBG");
 	UpdateSkyBox();
 	UpdateBackGroundCity();
 	UpdateBackGroundRoad();
 	UpdateBackGroundField();
+	CountDebugTimer(GAMESCENE_LABEL, "UpdateBG");
 
 	//プレイヤーの更新
+	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
 	UpdatePlayerController(hWnd);
-	player.Update();
+	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
 
 	//パーティクルの更新
+	CountDebugTimer(GAMESCENE_LABEL, "UpdateParticle");
 	UpdateGameParticleManager();
+	CountDebugTimer(GAMESCENE_LABEL, "UpdateParticle");
 
 	//UIの更新
+	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
 	UpdateUI(hWnd);
 	UpdateCursor(hWnd);
+	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
 
 	//ポストエフェクトの更新
 	PostEffectManager::Instance()->Update();
+
+	//衝突判定
+	UpdateCollisionManager();
 }
 
 /**************************************
@@ -116,21 +126,36 @@ void GameScene::Update(HWND hWnd)
 void GameScene::Draw()
 {
 	//背景の描画
+
+	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 	DrawSkyBox();
 	DrawBackGroundCity();
 	DrawBackGroundRoad();
 	DrawBackGroundField();
+	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 
 	//プレイヤーの描画
-	player.Draw();
 
-	//パーティクル描画
-	DrawGameParticleManager();
+	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
+	DrawPlayerController();
+
+	//プレイヤーバレット描画
+	DrawPlayerBullet();
+	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
 
 	//ポストエフェクト描画
+	CountDebugTimer(GAMESCENE_LABEL, "DrawpostEffect");
 	PostEffectManager::Instance()->Draw();
-	
+	CountDebugTimer(GAMESCENE_LABEL, "DrawpostEffect");
+
+	//パーティクル描画
+	CountDebugTimer(GAMESCENE_LABEL, "DrawParticle");
+	DrawGameParticleManager();
+	CountDebugTimer(GAMESCENE_LABEL, "DrawParticle");
+
 	//UI描画
 	DrawUI();
 	DrawCursor();
+
+	DrawDebugTimer(GAMESCENE_LABEL);
 }

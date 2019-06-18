@@ -137,6 +137,7 @@
     <ClInclude Include="BackGroundRoad.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="collider.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="combo.h" />
     <ClInclude Include="cursor.h" />
     <ClInclude Include="debugTimer.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Framework\CameraShakerPlugin.h" />
     <ClInclude Include="Framework\Easing.h" />
     <ClInclude Include="Framework\EasingVector.h" />
+    <ClInclude Include="Framework\InstancingMeshContainer.h" />
     <ClInclude Include="Framework\MeshContainer.h" />
     <ClInclude Include="Framework\MyAllocateHierarchy.h" />
     <ClInclude Include="Game.h" />
@@ -164,7 +166,10 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="InputController.h" />
     <ClInclude Include="IStateMachine.h" />
+    <ClInclude Include="light.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="PlayerBulletParticle.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="PlayerReturn.h" />
     <ClInclude Include="PlayerWait.h" />
@@ -183,6 +188,8 @@
     <ClInclude Include="PostEffect\ScreenObject.h" />
     <ClInclude Include="PostEffect\ShockBlur.h" />
     <ClInclude Include="PostEffect\ShockBlurController.h" />
+    <ClInclude Include="PostEffect\SpeedBlurController.h" />
+    <ClInclude Include="PostEffect\SpeedBlurFilter.h" />
     <ClInclude Include="PostEffect\SpikeNoise.h" />
     <ClInclude Include="PostEffect\SpikeNoiseController.h" />
     <ClInclude Include="PostEffect\StrongBlurFilter.h" />
@@ -192,6 +199,7 @@
     <ClInclude Include="sound.h" />
     <ClInclude Include="star.h" />
     <ClInclude Include="trail.h" />
+    <ClInclude Include="TrailCollider.h" />
     <ClInclude Include="UIdrawer.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="ResultScene.h" />
@@ -203,6 +211,7 @@
     <ClCompile Include="BackGuroundField.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collider.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="combo.cpp" />
     <ClCompile Include="cursor.cpp" />
     <ClCompile Include="debugTimer.cpp" />
@@ -212,6 +221,7 @@
     <ClCompile Include="Framework\CameraShakerPlugin.cpp" />
     <ClCompile Include="Framework\Easing.cpp" />
     <ClCompile Include="Framework\EasingVector.cpp" />
+    <ClCompile Include="Framework\InstancingMeshContainer.cpp" />
     <ClCompile Include="Framework\MeshContainer.cpp" />
     <ClCompile Include="Framework\MyAllocateHierarchy.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -231,6 +241,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="PlayerBulletParticle.cpp" />
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
@@ -246,6 +257,8 @@
     <ClCompile Include="PostEffect\ScreenObject.cpp" />
     <ClCompile Include="PostEffect\ShockBlur.cpp" />
     <ClCompile Include="PostEffect\ShockBlurController.cpp" />
+    <ClCompile Include="PostEffect\SpeedBlurController.cpp" />
+    <ClCompile Include="PostEffect\SpeedBlurFilter.cpp" />
     <ClCompile Include="PostEffect\SpikeNoise.cpp" />
     <ClCompile Include="PostEffect\SpikeNoiseController.cpp" />
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp" />
@@ -255,12 +268,19 @@
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="star.cpp" />
     <ClCompile Include="trail.cpp" />
+    <ClCompile Include="TrailCollider.cpp" />
     <ClCompile Include="UIdrawer.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="data\EFFECT\ModelInstancing.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="Framework\LambertLight.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
@@ -298,6 +318,12 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="PostEffect\ShockBlur.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="PostEffect\SpeedBlur.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>

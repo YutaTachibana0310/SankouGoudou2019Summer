@@ -33,6 +33,7 @@ private:
 
 	bool useSceneBloom;
 	bool useCrossFilter;
+	bool useSpeedBlur;
 };
 
 

@@ -1,11 +1,12 @@
+#pragma once
 //=====================================
 //
-//バックグラウンドシティヘッダ[BackGroundCity.h]
+//プレイヤーバレットパーティクルヘッダ[PlayerBulletParticle.h]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#ifndef _BACKGROUNDCITY_H_
-#define _BACKGROUNDCITY_H_
+#ifndef _PLAYERBULLETPARTICLE_H_
+#define _PLAYERBULLETPARTICLE_H_
 
 #include "main.h"
 
@@ -20,9 +21,10 @@
 /**************************************
 プロトタイプ宣言
 ***************************************/
-void InitBackGroundCity(int num);
-void UninitBackGroundCity(int num);
-void UpdateBackGroundCity(void);
-void DrawBackGroundCity(void);
+void InitPlayerBulletParticle(int num);
+void UninitPlayerBulletParticle(int num);
+void UpdatePlayerBulletParticle(void);
+void DrawPlayerBulletParticle(void);
+void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, const D3DXVECTOR3 *edgeRight, const D3DXVECTOR3 *edgeLeft);
 
 #endif

@@ -1,22 +1,26 @@
 //=====================================
 //
-//テンプレートヘッダ[debugTimer.h]
-//===================================
+//プレイヤーヘッダ[player.h]
+//Author:GP12B332 12 権頭
+//
+//=====================================
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
 #include "main.h"
 #include "Framework/MeshContainer.h"
 
+/**************************************
+マクロ定義
+***************************************/
+enum class PlayerState;
 
-#define PLAYER_INIT_POS		D3DXVECTOR3(0.0 ,-50.0, 150.0)
-
-#define MAX_LENGTH (6)
-
+/**************************************
+プレイヤークラス定義
+***************************************/
 class Player
 {
 public:
-	int currensState;
 	MeshContainer* meshPlayer;
 
 	D3DXVECTOR3			pos;				// 現在の位置
@@ -28,7 +32,10 @@ public:
 
 	D3DXVECTOR3			initpos;			// 移動前位置
 	D3DXVECTOR3			goalpos;			// 移動後位置
-	int			cntFrame;
+	int					cntFrame;
+
+	PlayerState			CurrentState;
+
 
 	//関数
 	void Init();
@@ -37,22 +44,9 @@ public:
 	void Draw();
 
 
-	/****************************/
-	//渡邉さん側にあったメンバ
-	/*****************************/
-	LPDIRECT3DTEXTURE9		D3DTexturePlayer = NULL;		// テクスチャへのポリゴン
-
-	VERTEX_2D				vertexWk[NUM_VERTEX];				// 頂点情報格納ワーク
-
-	D3DXVECTOR3				posPlayer;						// ポリゴンの移動量
-	D3DXVECTOR3				targetpos[MAX_LENGTH];
-
 	// 移動先確保用のナンバー
 	int goal;
 
-	HRESULT MakeVertexPlayer(void);
-	void SetVertex(void);
 };
-
 
 #endif

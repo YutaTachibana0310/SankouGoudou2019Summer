@@ -324,7 +324,6 @@
     <ClInclude Include="PostEffect\SpeedBlurController.h">
       <Filter>ヘッダー ファイル\PostEffect</Filter>
     </ClInclude>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -507,9 +506,6 @@
     <ClCompile Include="trail.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
-    <ClCompile Include="PostEffectManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="sound.cpp">
       <Filter>ソース ファイル\sound</Filter>
     </ClCompile>
@@ -532,6 +528,9 @@
       <Filter>ソース ファイル\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect\SpeedBlurController.cpp">
+      <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffectManager.cpp">
       <Filter>ソース ファイル\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>

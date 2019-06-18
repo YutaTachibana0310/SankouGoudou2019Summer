@@ -150,8 +150,10 @@ void DrawGameParticleManager(void)
 	effect->EndPass();
 	effect->End();
 
+#ifndef _DEBUG	//クロスフィルタはRelease版でのみ適用する
 	//ポストエフェクト
 	CrossFilterController::Instance()->Draw(renderTexture);
+#endif // !_DEBUG
 
 	//全ての結果を元のレンダーターゲットに描画
 	GameParticle::RestoreRenderParameter(oldSuf, oldViewport);

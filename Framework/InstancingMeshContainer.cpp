@@ -12,8 +12,8 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define EFFECTFILE_INSTANCINGMESH	"data/EFFECT/ModelInstancing.fx"
-
+#define EFFECTFILE_INSTANCINGMESH	"Framework/ModelInstancing.fx"
+#define PRECOMPILE_INSTANCINGMESH	"data/EFFECT/ModelInstancing.cfx"
 /**************************************
 構造体定義
 ***************************************/
@@ -151,7 +151,9 @@ void InstancingMeshContainer::Load(const char* filePath)
 	SAFE_RELEASE(mesh);
 
 	//fxファイル読み込み
-	D3DXCreateEffectFromFile(pDevice, EFFECTFILE_INSTANCINGMESH, 0, 0, 0, 0, &effect, 0);
+	HRESULT res = D3DXCreateEffectFromFile(pDevice, PRECOMPILE_INSTANCINGMESH, 0, 0, D3DXSHADER_SKIPVALIDATION, 0, &effect, 0);
+	if(res != S_OK)
+		D3DXCreateEffectFromFile(pDevice, EFFECTFILE_INSTANCINGMESH, 0, 0, 0, 0, &effect, 0);
 	effect->SetTechnique("tech");
 }
 

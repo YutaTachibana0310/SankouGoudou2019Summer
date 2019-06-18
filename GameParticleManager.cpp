@@ -20,7 +20,8 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define GAMEPARTICLE_EFFECT_NAME		"data/EFFECT/particle3D.fx"
+#define GAMEPARTICLE_EFFECT_NAME		"Framework/particle3D.fx"
+#define GAMEPARTICLE_PRECOMPILE_NAME	"data/EFFECT/particle3D.cfx"
 
 /**************************************
 構造体定義
@@ -80,8 +81,11 @@ void InitGameParticleManager(int num)
 	memcpy(p, index, sizeof(index));
 	indexBuff->Unlock();
 
-	//エフェクト読み込み
-	D3DXCreateEffectFromFile(pDevice, GAMEPARTICLE_EFFECT_NAME, 0, 0, 0, 0, &effect, 0);
+
+	//fxファイル読み込み
+	HRESULT res = D3DXCreateEffectFromFile(pDevice, GAMEPARTICLE_PRECOMPILE_NAME, 0, 0, D3DXSHADER_SKIPVALIDATION, 0, &effect, 0);
+	if(res != S_OK)
+		D3DXCreateEffectFromFile(pDevice, GAMEPARTICLE_EFFECT_NAME, 0, 0, 0, 0, &effect, 0);
 
 	//レンダーターゲット作成
 	GameParticle::CreateRenderTarget();

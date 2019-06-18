@@ -41,8 +41,8 @@ private:
 	LPDIRECT3DTEXTURE9 blurTexture[3][2];
 	LPDIRECT3DSURFACE9 blurSurface[3][2];
 
-	LPDIRECT3DTEXTURE9 sampleTexture[3];
-	LPDIRECT3DSURFACE9 sampleSurface[3];
+	LPDIRECT3DTEXTURE9 sampleTexture;
+	LPDIRECT3DSURFACE9 sampleSurface;
 
 	D3DVIEWPORT9 blurViewPort[3];
 	D3DVIEWPORT9 oldViewPort;

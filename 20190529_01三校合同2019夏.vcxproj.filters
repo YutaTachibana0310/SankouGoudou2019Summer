@@ -547,10 +547,10 @@
     <FxCompile Include="PostEffect\StrongBlurFilter.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="data\EFFECT\ModelInstancing.fx">
+    <FxCompile Include="PostEffect\SpeedBlur.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="PostEffect\SpeedBlur.fx">
+    <FxCompile Include="ModelInstancing.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>

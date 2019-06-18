@@ -520,37 +520,37 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="PostEffect\BloomFilter.fx">
+    <FxCompile Include="Shaders\BloomFilter.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="PostEffect\BlurFilter.fx">
+    <FxCompile Include="Shaders\BlurFilter.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="PostEffect\CrossBlur.fx">
+    <FxCompile Include="Shaders\CrossBlur.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="PostEffect\HexaCrossBlur.fx">
+    <FxCompile Include="Shaders\HexaCrossBlur.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="Framework\LambertLight.fx">
+    <FxCompile Include="Shaders\ModelInstancing.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="PostEffect\MonotoneFilter.fx">
+    <FxCompile Include="Shaders\MonotoneFilter.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="PostEffect\ShockBlur.fx">
+    <FxCompile Include="Shaders\particle3D.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="PostEffect\SpikeNoise.fx">
+    <FxCompile Include="Shaders\ShockBlur.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="PostEffect\StrongBlurFilter.fx">
+    <FxCompile Include="Shaders\SpeedBlur.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="PostEffect\SpeedBlur.fx">
+    <FxCompile Include="Shaders\SpikeNoise.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="ModelInstancing.fx">
+    <FxCompile Include="Shaders\StrongBlurFilter.fx">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>

@@ -42,7 +42,14 @@ static ScreenObject *screenObj;
 /**************************************
 プロトタイプ宣言
 ***************************************/
-void GameParticleDebugWindow(void);
+namespace GameParticle
+{
+	void DrawDebugWindow(void);					//デバッグ表示
+	void CreateRenderTarget(void);				//レンダーターゲット作成
+	void ChangeRenderParameter(void);			//レンダリング設定切り替え
+	void RestoreRenderParameter(LPDIRECT3DSURFACE9 oldSuf, _D3DVIEWPORT9 oldViewport);			//レンダリング設定復元
+}
+
 
 /**************************************
 初期化処理
@@ -73,28 +80,15 @@ void InitGameParticleManager(int num)
 	memcpy(p, index, sizeof(index));
 	indexBuff->Unlock();
 
-	//テクスチャ読み込み
+	//エフェクト読み込み
 	D3DXCreateEffectFromFile(pDevice, GAMEPARTICLE_EFFECT_NAME, 0, 0, 0, 0, &effect, 0);
+
+	//レンダーターゲット作成
+	GameParticle::CreateRenderTarget();
 
 	//各パーティクル初期化
 	InitScoreParticle(0);
 	InitPlayerBulletParticle(0);
-
-	//レンダーターゲット作成
-	pDevice->CreateTexture(SCREEN_WIDTH,
-		SCREEN_HEIGHT,
-		1,
-		D3DUSAGE_RENDERTARGET,
-		D3DFMT_X8R8G8B8,
-		D3DPOOL_DEFAULT,
-		&renderTexture,
-		0);
-	renderTexture->GetSurfaceLevel(0, &renderSurface);
-	pDevice->GetViewport(&viewPort);
-	viewPort.Width = SCREEN_WIDTH;
-	viewPort.Height = SCREEN_HEIGHT;
-	screenObj = new ScreenObject();
-
 }
 
 /**************************************
@@ -119,7 +113,7 @@ void UninitGameParticleManager(int num)
 void UpdateGameParticleManager(void)
 {
 #ifdef _DEBUG
-	GameParticleDebugWindow();
+	GameParticle::DrawDebugWindow();
 #endif
 
 	UpdateScoreParticle();
@@ -133,34 +127,16 @@ void DrawGameParticleManager(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	//レンダーターゲット切り替え
-	D3DVIEWPORT9 oldViewport;
-	LPDIRECT3DSURFACE9 oldSuf;
-	pDevice->GetViewport(&oldViewport);
-	pDevice->GetRenderTarget(0, &oldSuf);
-	pDevice->SetRenderTarget(0, renderSurface);
-	pDevice->SetViewport(&viewPort);
-	pDevice->Clear(0, 0, D3DCLEAR_TARGET, 0, 0.0f, 0);
-
 	//レンダーステート切り替え
 	pDevice->SetRenderState(D3DRS_LIGHTING, false);
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
 
-	//ビュー行列、プロジェクション行列、ビュー逆行列を取得
-	D3DXMATRIX view, projection, invView;
-	pDevice->GetTransform(D3DTS_VIEW, &view);
-	pDevice->GetTransform(D3DTS_PROJECTION, &projection);
-	D3DXMatrixInverse(&invView, NULL, &view);
-	invView._41 = invView._42 = invView._43 = 0.0f;
-
-	//シェーダに各行列を設定
-	effect->SetMatrix("mtxView", &view);
-	effect->SetMatrix("mtxProj", &projection);
-	effect->SetMatrix("mtxInvView", &invView);
-
-	//インデックスバッファと頂点宣言を設定
-	pDevice->SetIndices(indexBuff);
-	pDevice->SetVertexDeclaration(vtxDeclare);
+	//レンダリング設定切り替え
+	D3DVIEWPORT9 oldViewport;
+	LPDIRECT3DSURFACE9 oldSuf;
+	pDevice->GetViewport(&oldViewport);
+	pDevice->GetRenderTarget(0, &oldSuf);
+	GameParticle::ChangeRenderParameter();
 
 	//シェーダによる描画開始
 	effect->Begin(0, 0);
@@ -178,12 +154,8 @@ void DrawGameParticleManager(void)
 	CrossFilterController::Instance()->Draw(renderTexture);
 
 	//全ての結果を元のレンダーターゲットに描画
-	pDevice->SetRenderTarget(0, oldSuf);
-	pDevice->SetTexture(0, renderTexture);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-	pDevice->SetViewport(&oldViewport);
+	GameParticle::RestoreRenderParameter(oldSuf, oldViewport);
 	screenObj->Draw();
-	SAFE_RELEASE(oldSuf);
 
 	//レンダーステート復元
 	pDevice->SetRenderState(D3DRS_LIGHTING, true);
@@ -191,11 +163,83 @@ void DrawGameParticleManager(void)
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 }
 
+/**************************************
+レンダーターゲット作成
+***************************************/
+void GameParticle::CreateRenderTarget()
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	//レンダーターゲット作成
+	pDevice->CreateTexture(SCREEN_WIDTH,
+		SCREEN_HEIGHT,
+		1,
+		D3DUSAGE_RENDERTARGET,
+		D3DFMT_X8R8G8B8,
+		D3DPOOL_DEFAULT,
+		&renderTexture,
+		0);
+
+	//サーフェイス取得
+	renderTexture->GetSurfaceLevel(0, &renderSurface);
+
+	//ビューポート作成
+	pDevice->GetViewport(&viewPort);
+	viewPort.Width = SCREEN_WIDTH;
+	viewPort.Height = SCREEN_HEIGHT;
+
+	//描画用スクリーンオブジェクト作成
+	screenObj = new ScreenObject();
+}
+
+/**************************************
+レンダリング設定切り替え
+***************************************/
+void GameParticle::ChangeRenderParameter()
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	//レンダーターゲット切り替え
+	pDevice->SetRenderTarget(0, renderSurface);
+	pDevice->SetViewport(&viewPort);
+	pDevice->Clear(0, 0, D3DCLEAR_TARGET, 0, 0.0f, 0);
+
+	//ビュー行列、プロジェクション行列、ビュー逆行列を取得
+	D3DXMATRIX view, projection, invView;
+	pDevice->GetTransform(D3DTS_VIEW, &view);
+	pDevice->GetTransform(D3DTS_PROJECTION, &projection);
+	D3DXMatrixInverse(&invView, NULL, &view);
+	invView._41 = invView._42 = invView._43 = 0.0f;
+
+	//シェーダに各行列を設定
+	effect->SetMatrix("mtxView", &view);
+	effect->SetMatrix("mtxProj", &projection);
+	effect->SetMatrix("mtxInvView", &invView);
+
+	//インデックスバッファと頂点宣言を設定
+	pDevice->SetIndices(indexBuff);
+	pDevice->SetVertexDeclaration(vtxDeclare);
+}
+
+/**************************************
+レンダリング設定復元
+***************************************/
+void GameParticle::RestoreRenderParameter(LPDIRECT3DSURFACE9 oldSuf, _D3DVIEWPORT9 oldViewport)
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	pDevice->SetRenderTarget(0, oldSuf);
+	pDevice->SetTexture(0, renderTexture);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	pDevice->SetViewport(&oldViewport);
+	SAFE_RELEASE(oldSuf);
+}
+
 #ifdef _DEBUG
 /**************************************
 デバッグウィンドウ
 ***************************************/
-void GameParticleDebugWindow(void)
+void GameParticle::DrawDebugWindow(void)
 {
 	BeginDebugWindow("GameParticle");
 	

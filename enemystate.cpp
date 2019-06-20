@@ -1,19 +1,6 @@
 #include "enemystate.h"
 
 
-#include <iostream>
-using std::cout;
-
-//define this to output to a file
-#ifdef TEXTOUTPUT
-#include <fstream>
-extern std::ofstream os;
-#define cout os
-#endif
-
-
-
-
 
 //method
 

@@ -27,8 +27,9 @@ public:
 	
 	void Update();
 
-	//void Draw();
+	void Draw();
 
+	void Uninit();
 	void ChangeState(State* new_state);
 
 

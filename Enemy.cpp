@@ -31,4 +31,14 @@ void Enemy::Update()
 	}
 }
 
+void Enemy::Draw()
+{
 
+	
+}
+
+void Enemy::Uninit()
+{
+
+
+}

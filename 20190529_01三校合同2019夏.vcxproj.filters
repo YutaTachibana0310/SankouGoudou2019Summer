@@ -85,6 +85,12 @@
     <Filter Include="ヘッダー ファイル\Collider">
       <UniqueIdentifier>{6e5bcac6-9189-4e6c-b253-1ec550cf976a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Enemy">
+      <UniqueIdentifier>{8a4c5504-7a10-4568-b71e-60ddceb1b5f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Enemy">
+      <UniqueIdentifier>{5db6f869-6ad0-47f3-89be-225001326c0b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -309,6 +315,18 @@
     <ClInclude Include="light.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
+    <ClInclude Include="state.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseGameEntity.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemystate.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
     <ClInclude Include="TrailCollider.h">
       <Filter>ヘッダー ファイル\Collider</Filter>
     </ClInclude>
@@ -514,6 +532,15 @@
     </ClCompile>
     <ClCompile Include="PostEffectManager.cpp">
       <Filter>ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseGameEntity.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="enemystate.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="TrailCollider.cpp">
       <Filter>ソース ファイル\Collider</Filter>

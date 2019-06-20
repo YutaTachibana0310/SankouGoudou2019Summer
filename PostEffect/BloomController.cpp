@@ -15,7 +15,7 @@
 #include "../debugWindow.h"
 #endif
 
-#define BLOOM_THRETHOLD_DEFAULT (0.55f)
+#define BLOOM_THRETHOLD_DEFAULT (0.45f)
 
 /**************************************
 クラス定義
@@ -48,7 +48,7 @@ void BloomController::Update()
 /**************************************
 描画処理
 ***************************************/
-void BloomController::Draw()
+void BloomController::Draw(LPDIRECT3DTEXTURE9 texture)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -67,7 +67,7 @@ void BloomController::Draw()
 	pDevice->GetRenderTarget(0, &oldSurface);
 
 	//輝度抽出処理
-	SampleBrightness();
+	SampleBrightness(texture);
 
 	//抽出した輝度をブラー処理
 	ProcessBlur();
@@ -141,9 +141,10 @@ BloomController::~BloomController()
 /**************************************
 明度抽出処理
 ***************************************/
-void BloomController::SampleBrightness()
+void BloomController::SampleBrightness(LPDIRECT3DTEXTURE9 targetTexture)
 {
-	const float BloomPower[3] = { 0.56f, 0.72f, 0.95f };
+	static float BloomPower[3] = { 0.56f, 0.6f, 0.86f };
+
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	for (int i = 0; i < 3; i++)
@@ -162,7 +163,11 @@ void BloomController::SampleBrightness()
 		bloomFilter->Resize(SCREEN_WIDTH / reduction, SCREEN_HEIGHT / reduction);
 
 		//現在の描画情報から輝度を抽出
-		pDevice->SetTexture(0, GetCurrentDrawData());
+		if (targetTexture == NULL)
+			pDevice->SetTexture(0, GetCurrentDrawData());
+		else
+			pDevice->SetTexture(0, targetTexture);
+
 		bloomFilter->DrawEffect(0);
 	}
 }

@@ -10,6 +10,7 @@
 #include "camera.h"
 #include "debugWindow.h"
 #include "debugTimer.h"
+#include "sound.h"
 
 #include "IStateScene.h"
 #include "TitleScene.h"
@@ -63,6 +64,8 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	InitCamera();
 	InitLight();
 	InitDebugWindow(hWnd, pDevice);
+	Sound::GetInstance()->Create();
+	Sound::GetInstance()->initialize();
 
 	//ステートマシンに各シーンを追加
 	fsm[SceneTitle] = new TitleScene();
@@ -83,6 +86,7 @@ void UninitGame()
 	UninitLight();
 	UninitDebugWindow(0);
 	UninitDebugTimer();
+	Sound::GetInstance()->~Sound();
 
 	fsm[currentScene]->Uninit();
 }
@@ -92,6 +96,8 @@ void UninitGame()
 ***************************************/
 void UpdateGame(HWND hWnd)
 {
+	//念のためサウンドを最初に（渡邉）
+	Sound::GetInstance()->run();
 	UpdateDebugWindow();
 	UpdateInput();
 	UpdateLight();

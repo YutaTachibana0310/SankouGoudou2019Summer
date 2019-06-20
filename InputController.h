@@ -9,4 +9,5 @@
 #define _INPUTCONTROLLER_H_
 
 bool IsEntered(int m, HWND hWnd);
+void InputSound();
 #endif

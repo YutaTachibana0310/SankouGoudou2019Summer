@@ -9,8 +9,9 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define EFFECTFILE_BLUR_PATH	"PostEffect/BlurFilter.fx"
-#define BLURFILTER_ARRAY_SIZE	(5)
+#define EFFECTFILE_BLUR_PATH		"PostEffect/BlurFilter.fx"
+#define PRECOMPILEEFFECT_BLUR_PATH	"data/EFFECT/BlurFilter.cfx"
+#define BLURFILTER_ARRAY_SIZE		(5)
 
 /**************************************
 構造体定義
@@ -26,8 +27,11 @@
 BlurFilter::BlurFilter()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	HRESULT res = D3DXCreateEffectFromFile(pDevice, (LPSTR)PRECOMPILEEFFECT_BLUR_PATH, 0, 0, D3DXSHADER_SKIPVALIDATION, 0, &effect, 0);
 
-	D3DXCreateEffectFromFile(pDevice, (LPSTR)EFFECTFILE_BLUR_PATH, 0, 0, 0, 0, &effect, 0);
+	if(res != S_OK)
+		D3DXCreateEffectFromFile(pDevice, (LPSTR)PRECOMPILEEFFECT_BLUR_PATH, 0, 0, 0, 0, &effect, 0);
+
 	texelU = effect->GetParameterByName(0, "texelU");
 	texelV = effect->GetParameterByName(0, "texelV");
 	effect->SetTechnique("tech");

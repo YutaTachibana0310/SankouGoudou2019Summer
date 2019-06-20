@@ -7,6 +7,11 @@
 #include "GameParticleManager.h"
 
 #include "ScoreParticle.h"
+#include "PlayerBulletParticle.h"
+
+#include "PostEffect\ScreenObject.h"
+#include "PostEffect\CrossFilterController.h"
+#include "PostEffect\BloomController.h"
 
 #ifdef _DEBUG
 #include "debugWindow.h"
@@ -15,7 +20,8 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define GAMEPARTICLE_EFFECT_NAME		"data/EFFECT/particle3D.fx"
+#define GAMEPARTICLE_EFFECT_NAME		"Framework/particle3D.fx"
+#define GAMEPARTICLE_PRECOMPILE_NAME	"data/EFFECT/particle3D.cfx"
 
 /**************************************
 構造体定義
@@ -28,10 +34,23 @@ static LPDIRECT3DVERTEXDECLARATION9 vtxDeclare;
 static LPD3DXEFFECT effect;
 static LPDIRECT3DINDEXBUFFER9 indexBuff;
 
+//レンダーターゲット関連
+static LPDIRECT3DTEXTURE9 renderTexture;
+static LPDIRECT3DSURFACE9 renderSurface;
+static D3DVIEWPORT9 viewPort;
+static ScreenObject *screenObj;
+
 /**************************************
 プロトタイプ宣言
 ***************************************/
-void GameParticleDebugWindow(void);
+namespace GameParticle
+{
+	void DrawDebugWindow(void);					//デバッグ表示
+	void CreateRenderTarget(void);				//レンダーターゲット作成
+	void ChangeRenderParameter(void);			//レンダリング設定切り替え
+	void RestoreRenderParameter(LPDIRECT3DSURFACE9 oldSuf, _D3DVIEWPORT9 oldViewport);			//レンダリング設定復元
+}
+
 
 /**************************************
 初期化処理
@@ -62,11 +81,18 @@ void InitGameParticleManager(int num)
 	memcpy(p, index, sizeof(index));
 	indexBuff->Unlock();
 
-	//テクスチャ読み込み
-	D3DXCreateEffectFromFile(pDevice, GAMEPARTICLE_EFFECT_NAME, 0, 0, 0, 0, &effect, 0);
+
+	//fxファイル読み込み
+	HRESULT res = D3DXCreateEffectFromFile(pDevice, GAMEPARTICLE_PRECOMPILE_NAME, 0, 0, D3DXSHADER_SKIPVALIDATION, 0, &effect, 0);
+	if(res != S_OK)
+		D3DXCreateEffectFromFile(pDevice, GAMEPARTICLE_EFFECT_NAME, 0, 0, 0, 0, &effect, 0);
+
+	//レンダーターゲット作成
+	GameParticle::CreateRenderTarget();
 
 	//各パーティクル初期化
 	InitScoreParticle(0);
+	InitPlayerBulletParticle(0);
 }
 
 /**************************************
@@ -75,10 +101,14 @@ void InitGameParticleManager(int num)
 void UninitGameParticleManager(int num)
 {
 	UninitScoreParticle(0);
+	UninitPlayerBulletParticle(0);
 
 	SAFE_RELEASE(vtxDeclare);
 	SAFE_RELEASE(indexBuff);
 	SAFE_RELEASE(effect);
+	SAFE_RELEASE(renderSurface);
+	SAFE_RELEASE(renderTexture);
+	SAFE_DELETE(screenObj);
 }
 
 /**************************************
@@ -87,9 +117,11 @@ void UninitGameParticleManager(int num)
 void UpdateGameParticleManager(void)
 {
 #ifdef _DEBUG
-	GameParticleDebugWindow();
+	GameParticle::DrawDebugWindow();
 #endif
+
 	UpdateScoreParticle();
+	UpdatePlayerBulletParticle();
 }
 
 /**************************************
@@ -102,6 +134,81 @@ void DrawGameParticleManager(void)
 	//レンダーステート切り替え
 	pDevice->SetRenderState(D3DRS_LIGHTING, false);
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
+
+	//レンダリング設定切り替え
+	D3DVIEWPORT9 oldViewport;
+	LPDIRECT3DSURFACE9 oldSuf;
+	pDevice->GetViewport(&oldViewport);
+	pDevice->GetRenderTarget(0, &oldSuf);
+	GameParticle::ChangeRenderParameter();
+
+	//シェーダによる描画開始
+	effect->Begin(0, 0);
+	effect->BeginPass(0);
+
+	//描画
+	DrawScoreParticle();
+	DrawPlayerBulletParticle();
+
+	//シェーダによる描画終了
+	effect->EndPass();
+	effect->End();
+
+#ifndef _DEBUG	//クロスフィルタはRelease版でのみ適用する
+	//ポストエフェクト
+	CrossFilterController::Instance()->Draw(renderTexture);
+#endif // !_DEBUG
+
+	//全ての結果を元のレンダーターゲットに描画
+	GameParticle::RestoreRenderParameter(oldSuf, oldViewport);
+	screenObj->Draw();
+
+	//レンダーステート復元
+	pDevice->SetRenderState(D3DRS_LIGHTING, true);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+}
+
+/**************************************
+レンダーターゲット作成
+***************************************/
+void GameParticle::CreateRenderTarget()
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	//レンダーターゲット作成
+	pDevice->CreateTexture(SCREEN_WIDTH,
+		SCREEN_HEIGHT,
+		1,
+		D3DUSAGE_RENDERTARGET,
+		D3DFMT_X8R8G8B8,
+		D3DPOOL_DEFAULT,
+		&renderTexture,
+		0);
+
+	//サーフェイス取得
+	renderTexture->GetSurfaceLevel(0, &renderSurface);
+
+	//ビューポート作成
+	pDevice->GetViewport(&viewPort);
+	viewPort.Width = SCREEN_WIDTH;
+	viewPort.Height = SCREEN_HEIGHT;
+
+	//描画用スクリーンオブジェクト作成
+	screenObj = new ScreenObject();
+}
+
+/**************************************
+レンダリング設定切り替え
+***************************************/
+void GameParticle::ChangeRenderParameter()
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	//レンダーターゲット切り替え
+	pDevice->SetRenderTarget(0, renderSurface);
+	pDevice->SetViewport(&viewPort);
+	pDevice->Clear(0, 0, D3DCLEAR_TARGET, 0, 0.0f, 0);
 
 	//ビュー行列、プロジェクション行列、ビュー逆行列を取得
 	D3DXMATRIX view, projection, invView;
@@ -118,33 +225,45 @@ void DrawGameParticleManager(void)
 	//インデックスバッファと頂点宣言を設定
 	pDevice->SetIndices(indexBuff);
 	pDevice->SetVertexDeclaration(vtxDeclare);
+}
 
-	//シェーダによる描画開始
-	effect->Begin(0, 0);
-	effect->BeginPass(0);
+/**************************************
+レンダリング設定復元
+***************************************/
+void GameParticle::RestoreRenderParameter(LPDIRECT3DSURFACE9 oldSuf, _D3DVIEWPORT9 oldViewport)
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	//描画
-	DrawScoreParticle();
-
-	//シェーダによる描画終了
-	effect->EndPass();
-	effect->End();
-
-	//レンダーステート復元
-	pDevice->SetRenderState(D3DRS_LIGHTING, true);
-	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+	pDevice->SetRenderTarget(0, oldSuf);
+	pDevice->SetTexture(0, renderTexture);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	pDevice->SetViewport(&oldViewport);
+	SAFE_RELEASE(oldSuf);
 }
 
 #ifdef _DEBUG
 /**************************************
 デバッグウィンドウ
 ***************************************/
-void GameParticleDebugWindow(void)
+void GameParticle::DrawDebugWindow(void)
 {
 	BeginDebugWindow("GameParticle");
 	
-	if (DebugButton("ScoreParticle"))
-		SetScoreParticle(D3DXVECTOR3(0.0f, 0.0f, 50.0f));
+	{
+		if (DebugButton("ScoreParticle"))
+			SetScoreParticle(D3DXVECTOR3(0.0f, 0.0f, 50.0f));
+	}
+
+	{
+		static bool active = true;
+		static D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 150.0f);
+		if (DebugButton("PlayerBulletParticle"))
+			SetPlayerBulletParticle(&pos, &active, &D3DXVECTOR3(-100.0f, 0.0f, 0.0f), &D3DXVECTOR3(100.0f, 0.0f, 0.0f));
+	}
+
+	//{
+	//	DebugDrawTexture(renderTexture, 500.0f, 200.0f);
+	//}
 
 	EndDebugWindow("GameParticle");
 }

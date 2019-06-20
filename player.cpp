@@ -22,7 +22,6 @@
 #define TEXTURE_SAMPLE00_SIZE_X	(50) // テクスチャサイズ
 #define TEXTURE_SAMPLE00_SIZE_Y	(50) // 同上
 
-#define MAX_LENGTH (6)
 /**************************************
 構造体定義
 ***************************************/

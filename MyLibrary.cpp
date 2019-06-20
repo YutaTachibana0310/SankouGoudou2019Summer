@@ -531,3 +531,37 @@ void MakeUVBUffer(DWORD maxNum, LPDIRECT3DVERTEXBUFFER9 *buff)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	pDevice->CreateVertexBuffer(sizeof(ParticleUV) * maxNum, 0, 0, D3DPOOL_MANAGED, buff, 0);
 }
+
+/********************************************************************
+//関数名	：void CalcScreenToWorld
+//引数1		：D3DXVECTOR3 *pOut 計算結果の格納先
+//引数2		：const D3DXVECTOR3 *screenPos 変換するスクリーン座標
+//引数3		：float f Near～Farの位置指定(0.0f～1.0f）
+//戻り値	：void
+//説明		：スクリーン座標をワールド座標に変換する処理
+********************************************************************/
+void CalcScreenToWorld(D3DXVECTOR3 *pOut, const D3DXVECTOR3 *screenPos, float f)
+{
+	D3DXMATRIX view, proj, viewport, invView, invProj, invViewport;
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	//ビュー行列、プロジェクション行列取得
+	pDevice->GetTransform(D3DTS_VIEW, &view);
+	pDevice->GetTransform(D3DTS_PROJECTION, &proj);
+
+	//ビューポート行列計算
+	D3DXMatrixIdentity(&viewport);
+	viewport._11 = SCREEN_WIDTH / 2.0f;
+	viewport._22 = -SCREEN_HEIGHT / 2.0f;
+	viewport._41 = SCREEN_WIDTH / 2.0f;
+	viewport._42 = SCREEN_HEIGHT / 2.0f;
+
+	//逆行列計算
+	D3DXMatrixInverse(&invView, NULL, &view);
+	D3DXMatrixInverse(&invProj, NULL, &proj);
+	D3DXMatrixInverse(&invViewport, NULL, &viewport);
+
+	//座標を変換
+	D3DXMATRIX tmp = invViewport * invProj * invView;
+	D3DXVec3TransformCoord(pOut, &D3DXVECTOR3(screenPos->x, screenPos->y, f), &tmp);
+}

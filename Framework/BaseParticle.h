@@ -28,6 +28,7 @@ public:
 	bool IsActive();
 
 	Transform transform;
+	ParticleUV uv;
 
 protected:
 	bool active;

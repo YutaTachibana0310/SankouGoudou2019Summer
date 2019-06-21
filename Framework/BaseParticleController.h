@@ -13,6 +13,11 @@
 /**************************************
 マクロ定義
 ***************************************/
+#define PARTICLE_NUM_MAX	(4096)
+
+/**************************************
+前方宣言
+***************************************/
 class BaseParticle;
 class BaseEmitter;
 
@@ -32,20 +37,32 @@ public:
 	virtual void Draw();
 
 protected:
-	LPDIRECT3DVERTEXDECLARATION9 declare;
+	static LPDIRECT3DVERTEXDECLARATION9 declare;
+	static LPD3DXEFFECT effect;
+	static LPDIRECT3DINDEXBUFFER9 indexBuff;	
+	static LPDIRECT3DVERTEXBUFFER9 transformBuff, uvBuff;
+	static UINT instanceCount;
+	static D3DXHANDLE hMtxView, hMtxProj, hMtxInvView;
+
 	LPDIRECT3DVERTEXBUFFER9 unitBuff;
-	LPDIRECT3DVERTEXBUFFER9 transformBuff, uvBuff;
 	LPDIRECT3DTEXTURE9 texture;
 
 	std::vector<Tparticle> particleContainer;
 	std::vector<Temitter> emitterContainer;
 	
-	LPDIRECT3DINDEXBUFFER9 indexBuff;
-	LPD3DXEFFECT effect;
+	virtual void MakeUnitBuffer(D3DXVECTOR2* size, D3DXVECTOR2* texDix);
 
-	void MakeUnitBuffer(D3DXVECTOR2 *size, D3DXVECTOR2 *texDiv);
-	void MakeTransformBuffer(UINT particleNumMax);
-	void MakeUVBuffer(UINT paritlceNumMax);
+	static void MakeVertexDeclaration();
+	static void MakeTransformBuffer();
+	static void MakeUVBuffer();
+	static void MakeIndexBuffer();
+	static void LoadEffect();
+	static void BeginDraw();
+	static void EndDraw();
+
+	UINT EmbedParameterTransform();
+	UINT EmbedParameterUV();
+	void LoadTexture(const char* filePath);
 };
 
 #endif

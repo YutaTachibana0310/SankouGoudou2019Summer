@@ -8,10 +8,12 @@
 #define _BASEEMITTER_H_
 
 #include "../main.h"
+#include <vector>
 
 /**************************************
-マクロ定義
+前方宣言
 ***************************************/
+class BaseParticle;
 
 /**************************************
 クラス定義
@@ -25,7 +27,7 @@ public:
 	virtual void Init() = 0;
 	virtual void Uninit() = 0;
 	virtual void Update() = 0;
-
+	virtual void Emit(std::vector<BaseParticle>* container) = 0;
 	bool IsActive();
 
 	Transform transform;

@@ -152,6 +152,7 @@
     <ClInclude Include="Framework\BaseCameraPlugin.h" />
     <ClInclude Include="Framework\BaseEmitter.h" />
     <ClInclude Include="Framework\BaseParticle.h" />
+    <ClInclude Include="Framework\BaseParticleController.h" />
     <ClInclude Include="Framework\BaseSingleton.h" />
     <ClInclude Include="Framework\CameraShakerPlugin.h" />
     <ClInclude Include="Framework\Easing.h" />
@@ -228,6 +229,7 @@
     <ClCompile Include="Framework\BaseCameraPlugin.cpp" />
     <ClCompile Include="Framework\BaseEmitter.cpp" />
     <ClCompile Include="Framework\BaseParticle.cpp" />
+    <ClCompile Include="Framework\BaseParticleController.cpp" />
     <ClCompile Include="Framework\CameraShakerPlugin.cpp" />
     <ClCompile Include="Framework\Easing.cpp" />
     <ClCompile Include="Framework\EasingVector.cpp" />

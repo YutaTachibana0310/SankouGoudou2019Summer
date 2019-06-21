@@ -330,6 +330,9 @@
     <ClInclude Include="Framework\BaseParticle.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\BaseParticleController.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -543,6 +546,9 @@
       <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Framework\BaseEmitter.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\BaseParticleController.cpp">
       <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
   </ItemGroup>

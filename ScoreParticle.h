@@ -46,14 +46,4 @@ public:
 	void Update();
 };
 
-/**************************************
-プロトタイプ宣言
-***************************************/
-void InitScoreParticle(int num);
-void UninitScoreParticle(int num);
-void UpdateScoreParticle(void);
-void DrawScoreParticle(void);
-
-void SetScoreParticle(D3DXVECTOR3 pos);
-
 #endif

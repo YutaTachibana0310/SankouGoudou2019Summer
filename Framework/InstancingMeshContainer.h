@@ -25,7 +25,7 @@ public:
 	void Load(const char* filePath);
 	void Release();
 	void Draw();
-
+	void DrawDefault();
 	void SetStreamSource(LPDIRECT3DVERTEXBUFFER9 tranformBuffer, UINT numInstance);
 	void SetLightAmplifier(float val);
 

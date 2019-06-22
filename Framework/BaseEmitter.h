@@ -9,6 +9,7 @@
 
 #include "../main.h"
 #include <vector>
+#include <memory>
 
 /**************************************
 ‘O•ûéŒ¾
@@ -21,19 +22,18 @@ class BaseParticle;
 class BaseEmitter
 {
 public:
-	BaseEmitter();
+	BaseEmitter(D3DXVECTOR3 *pos);
+	BaseEmitter() {}
 	virtual ~BaseEmitter();
 
 	virtual void Init() = 0;
 	virtual void Uninit() = 0;
 	virtual void Update() = 0;
-	virtual void Emit(std::vector<BaseParticle>* container) = 0;
-	bool IsActive();
+	bool active;
 
 	Transform transform;
 
 protected:
-	bool active;
 	int cntFrame;
 	int duration;
 };

@@ -65,7 +65,7 @@ struct PlayerBulletParticleEmitter
 static LPDIRECT3DVERTEXBUFFER9 unitBuff, transformBuffer, uvBuffer;
 static LPDIRECT3DTEXTURE9 texture;
 
-static array<PlayerBulletParticle, PLAYERBULLETPARTCILE_NUM_MAX> particleContainer;
+static array<PlayerBulletParticle, PLAYERBULLETPARTCILE_NUM_MAX> hoge;
 static vector<PlayerBulletParticleEmitter> emitterContainer;
 
 /**************************************
@@ -115,10 +115,10 @@ void UpdatePlayerBulletParticle(void)
 		if (!itr->active)
 			continue;
 
-		itr->Update(&particleContainer);
+		itr->Update(&hoge);
 	}
 
-	for (auto itr = particleContainer.begin(); itr != particleContainer.end(); itr++)
+	for (auto itr = hoge.begin(); itr != hoge.end(); itr++)
 	{
 		if (!itr->active)
 			continue;
@@ -177,7 +177,7 @@ DWORD EmbedPlayerBulletParticleParameter(void)
 	transformBuffer->Lock(0, 0, (void**)&pTransform, 0);
 
 	//頂点バッファにデータを設定
-	for (auto itr = particleContainer.begin(); itr != particleContainer.end(); itr++)
+	for (auto itr = hoge.begin(); itr != hoge.end(); itr++)
 	{
 		if (!itr->active)
 			continue;

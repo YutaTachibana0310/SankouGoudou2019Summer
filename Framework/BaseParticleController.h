@@ -8,7 +8,10 @@
 #define _BASEPARTICLECONTROLLER_H_
 
 #include "../main.h"
+#include "BaseParticle.h"
+#include "BaseEmitter.h"
 #include <vector>
+#include <memory>
 
 /**************************************
 マクロ定義
@@ -18,23 +21,25 @@
 /**************************************
 前方宣言
 ***************************************/
-class BaseParticle;
-class BaseEmitter;
 
 /**************************************
 クラス定義
 ***************************************/
-template<class Tparticle, class Temitter>
 class BaseParticleController
 {
 public:
 	BaseParticleController();
 	virtual ~BaseParticleController();
 
-	virtual void Init();
+	virtual void Init() = 0;
+	virtual void SetEmitter(D3DXVECTOR3 *pos) = 0;
+	virtual void Emit() = 0;
+
 	virtual void Uninit();
-	virtual void Update();
-	virtual void Draw();
+	void Update();
+	void Draw();
+	static void BeginDraw();
+	static void EndDraw();
 
 protected:
 	static LPDIRECT3DVERTEXDECLARATION9 declare;
@@ -46,23 +51,20 @@ protected:
 
 	LPDIRECT3DVERTEXBUFFER9 unitBuff;
 	LPDIRECT3DTEXTURE9 texture;
+	std::vector<BaseParticle*> particleContainer;
+	std::vector<BaseEmitter*> emitterContainer;
 
-	std::vector<Tparticle> particleContainer;
-	std::vector<Temitter> emitterContainer;
-	
-	virtual void MakeUnitBuffer(D3DXVECTOR2* size, D3DXVECTOR2* texDix);
+	UINT EmbedParameterTransform();
+	UINT EmbedParameterUV();
 
+	void MakeUnitBuffer(D3DXVECTOR2* size, D3DXVECTOR2* texDix);
+	void LoadTexture(const char* filePath);
+
+	static void LoadEffect();
 	static void MakeVertexDeclaration();
 	static void MakeTransformBuffer();
 	static void MakeUVBuffer();
 	static void MakeIndexBuffer();
-	static void LoadEffect();
-	static void BeginDraw();
-	static void EndDraw();
-
-	UINT EmbedParameterTransform();
-	UINT EmbedParameterUV();
-	void LoadTexture(const char* filePath);
 };
 
 #endif

@@ -8,14 +8,46 @@
 #define _SCOREPARTICLE_H_
 
 #include "main.h"
+#include "Framework\BaseParticle.h"
+#include "Framework\BaseEmitter.h"
 
 /**************************************
 マクロ定義
 ***************************************/
 
 /**************************************
-クラス定義
+ScoreParticleクラス定義
 ***************************************/
+class ScoreParticle : public BaseParticle
+{
+public:
+	ScoreParticle() {};
+	~ScoreParticle() {};
+
+	void Init();
+	void Uninit();
+	void Update();
+	
+	void SetParameter(float speed, D3DXVECTOR3* moveDir, int lifeFrame);
+
+private:
+	D3DXVECTOR3 moveDir;
+	float speed;
+};
+
+/**************************************
+ScoreParticleEmitterクラス定義
+***************************************/
+class ScoreParticleEmitter : public BaseEmitter
+{
+public:
+	ScoreParticleEmitter(D3DXVECTOR3 *pos);
+	ScoreParticleEmitter() : BaseEmitter() {};
+
+	void Init();
+	void Uninit();
+	void Update();
+};
 
 /**************************************
 プロトタイプ宣言

@@ -7,8 +7,7 @@
 #include "ScoreParticle.h"
 #include "Framework\Easing.h"
 
-#include <vector>
-#include <array>
+#include <algorithm>
 
 using namespace std;
 
@@ -33,197 +32,32 @@ using namespace std;
 #define SCOREPARTICLE_EMIT_NUM		(10)
 
 /**************************************
-スコアパーティクル構造体
+ScoreParticle初期化処理
 ***************************************/
-struct ScoreParticle
+void ScoreParticle::Init()
 {
-public:
-	ScoreParticle()
-	{
-		transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	}
-
-	bool active;
-
-	int cntFrame;
-	int lifeFrame;
-
-	Transform transform;
-
-	D3DXVECTOR3 moveDir;
-	float speed;
-
-	void Update();
-	void GetUV(ParticleUV* pOut);
-};
-
-/**************************************
-スコアパーティクルエミッタ構造体
-***************************************/
-struct ScoreParticleEmitter
-{
-	ScoreParticleEmitter(D3DXVECTOR3 *pos)
-	{
-		active = true;
-		cntFrame = 0;
-		emitDuration = SCOREPARTICLE_DURATION;
-		this->pos = *pos;
-	}
-
-	bool active;
-
-	int cntFrame;
-	int emitDuration;
-
-	D3DXVECTOR3 pos;
-
-	void Update(array<ScoreParticle, SCOREPARTICLE_NUM_MAX>*);
-};
-
-/**************************************
-グローバル変数
-***************************************/
-static LPDIRECT3DVERTEXBUFFER9 unitBuff, worldBuff, uvBuff;
-static LPDIRECT3DTEXTURE9 texture;
-
-static array<ScoreParticle, SCOREPARTICLE_NUM_MAX> particleContainer;
-static vector<ScoreParticleEmitter> emitterContainer;
-
-/**************************************
-プロトタイプ宣言
-***************************************/
-DWORD EmbedScoreParticleParameter(void);		//頂点バッファへのデータ設定
-
-/**************************************
-初期化処理
-***************************************/
-void InitScoreParticle(int num)
-{
-	//単位頂点バッファ作成
-	MakeParticleUnitBuffer(&D3DXVECTOR2(SCOREPARTICLE_SIZE, SCOREPARTICLE_SIZE),
-		&D3DXVECTOR2(SCOREPARTICLE_TEX_DIV_X, SCOREPARTICLE_TEX_DIV_Y),
-		&unitBuff);
-
-	//SRT情報バッファ作成
-	MakeTransformBuffer(SCOREPARTICLE_NUM_MAX, &worldBuff);
-
-	//UV情報バッファ作成
-	MakeUVBUffer(SCOREPARTICLE_NUM_MAX, &uvBuff);
-
-	//テクスチャ読み込み
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	D3DXCreateTextureFromFile(pDevice, SCOREPARTICLE_TEX_NAME, &texture);
+	cntFrame = 0;
+	active = true;
 }
 
 /**************************************
-終了処理
+ScoreParticle終了処理
 ***************************************/
-void UninitScoreParticle(int num)
+void ScoreParticle::Uninit()
 {
-	SAFE_RELEASE(texture);
-	SAFE_RELEASE(unitBuff);
-	SAFE_RELEASE(worldBuff);
-	SAFE_RELEASE(uvBuff);
+	active = false;
 }
 
 /**************************************
-更新処理
-***************************************/
-void UpdateScoreParticle(void)
-{
-	//エミッター更新処理
-	for (auto itr = emitterContainer.begin(); itr != emitterContainer.end(); itr++)
-	{
-		if (!itr->active)
-			continue;
-
-		itr->Update(&particleContainer);
-	}
-
-	//パーティクル更新処理
-	for (auto itr = particleContainer.begin(); itr != particleContainer.end(); itr++)
-	{
-		if (!itr->active)
-			continue;
-
-		itr->Update();
-	}
-}
-
-/**************************************
-描画処理
-***************************************/
-void DrawScoreParticle(void)
-{
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
-	//頂点バッファにデータを設定
-	DWORD particleCount = EmbedScoreParticleParameter();
-
-	//ストリームソース周波数設定
-	pDevice->SetStreamSourceFreq(0, D3DSTREAMSOURCE_INDEXEDDATA | particleCount);
-	pDevice->SetStreamSourceFreq(1, D3DSTREAMSOURCE_INSTANCEDATA | 1);
-	pDevice->SetStreamSourceFreq(2, D3DSTREAMSOURCE_INSTANCEDATA | 1);
-
-	//テクスチャ設定
-	pDevice->SetTexture(0, texture);
-
-	//ストリームソース設定
-	pDevice->SetStreamSource(0, unitBuff, 0, sizeof(ParticleUnit));
-	pDevice->SetStreamSource(1, worldBuff, 0, sizeof(Transform));
-	pDevice->SetStreamSource(2, uvBuff, 0, sizeof(ParticleUV));
-
-	//描画
-	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, NUM_VERTEX, 0, NUM_POLYGON);
-
-	//ストリームソース周波数復元
-	pDevice->SetStreamSourceFreq(0, 1);
-	pDevice->SetStreamSourceFreq(1, 1);
-	pDevice->SetStreamSourceFreq(2, 1);
-}
-
-/**************************************
-頂点バッファへのデータ設定
-***************************************/
-DWORD EmbedScoreParticleParameter(void)
-{
-	DWORD particleCount = 0;
-
-	//頂点バッファをロック
-	Transform *pTransform;
-	worldBuff->Lock(0, 0, (void**)&pTransform, 0);
-	ParticleUV *pUV;
-	uvBuff->Lock(0, 0, (void**)&pUV, 0);
-
-	//頂点バッファにデータを設定
-	for (auto itr = particleContainer.begin(); itr != particleContainer.end(); itr++)
-	{
-		if (!itr->active)
-			continue;
-
-		*pTransform = itr->transform;
-		itr->GetUV(pUV);
-
-		pTransform++;
-		pUV++;
-
-		particleCount ++;
-	}
-
-	//頂点バッファをアンロック
-	worldBuff->Unlock();
-	uvBuff->Unlock();
-
-	return particleCount;
-}
-
-/**************************************
-パーティクル更新処理
+ScoreParticle更新処理処理
 ***************************************/
 void ScoreParticle::Update()
 {
 	const float EndSpeed = 0.2f;
 	const float InitScale = 1.0f, EndScale = 0.0f;
+
+	if (!active)
+		return;
 
 	//移動処理
 	float tSpeed = (float)cntFrame / (float)SCOREPARTICLE_SPEED_TIME;
@@ -244,73 +78,87 @@ void ScoreParticle::Update()
 }
 
 /**************************************
-UV座標決定処理
+ScoreParticleパラメータセット処理
 ***************************************/
-void ScoreParticle::GetUV(ParticleUV* pOut)
+void ScoreParticle::SetParameter(float speed, D3DXVECTOR3 *moveDir, int lifeFrame)
 {
-	static float sizeX = 1.0f / SCOREPARTICLE_TEX_DIV_X;
-
-	static float sizeY = 1.0f / SCOREPARTICLE_TEX_DIV_Y;
-
-	int x = cntFrame % SCOREPARTICLE_TEX_DIV_X;
-	int y = cntFrame / SCOREPARTICLE_TEX_DIV_X;
-	pOut->u = sizeX * x;
-	pOut->v = sizeY * y;
+	this->speed = speed;
+	this->lifeFrame = lifeFrame;
+	this->moveDir = *moveDir;
 }
 
 /**************************************
-エミッター更新処理
+ScoreParticleEmitterコンストラクタ
 ***************************************/
-void ScoreParticleEmitter::Update(array<ScoreParticle, SCOREPARTICLE_NUM_MAX>* container)
+ScoreParticleEmitter::ScoreParticleEmitter(D3DXVECTOR3 *pos) : BaseEmitter(pos)
 {
-	//放出処理
-	for (int i = 0; i < SCOREPARTICLE_EMIT_NUM; i++)
-	{
-		for (auto itr = container->begin(); itr != container->end(); itr++)
-		{
-			if (itr->active)
-				continue;
+	cntFrame = 0;
+	duration = SCOREPARTICLE_DURATION;
+	active = true;
+}
 
-			itr->moveDir.x = RandomRangef(-1.0f, 1.0f);
-			itr->moveDir.y = RandomRangef(-1.0f, 1.0f);
-			itr->moveDir.z = RandomRangef(-1.0f, 1.0f);
+/**************************************
+ScoreParticleEmitter初期化処理
+***************************************/
+void ScoreParticleEmitter::Init()
+{
+	cntFrame = 0;
+	duration = SCOREPARTICLE_DURATION;
+	active = true;
+}
 
-			itr->lifeFrame = SCOREPARTICLE_LIFEFRAME + RandomRange(-SCOREPARTICLE_LIFE_RANGE, SCOREPARTICLE_LIFE_RANGE);
-			itr->cntFrame = 0;
+/**************************************
+ScoreParticleEmitter終了処理
+***************************************/
+void ScoreParticleEmitter::Uninit()
+{
+	active = false;
+}
 
-			itr->speed = SCOREPARTICLE_SPEED_INIT + RandomRangef(-SCOREPARTICLE_SPEED_RANGE, SCOREPARTICLE_SPEED_RANGE);
-			itr->transform.pos = pos;
-
-			itr->active = true;
-			break;
-		}
-	}
+/**************************************
+ScoreParticleEmitter更新処理
+***************************************/
+void ScoreParticleEmitter::Update()
+{
+	if (!active)
+		return;
 
 	//寿命判定
 	cntFrame++;
-	if (cntFrame > emitDuration)
+	if (cntFrame > duration)
 	{
 		active = false;
 	}
 }
 
 /**************************************
-スコアパーティクル発生処理
+ScoreParticleEmitter放出処理
 ***************************************/
-void SetScoreParticle(D3DXVECTOR3 pos)
-{
-	//未使用のエミッターを検索
-	for (auto itr = emitterContainer.begin(); itr != emitterContainer.end(); itr++)
-	{
-		if (itr->active)
-			continue;
-
-		itr->pos = pos;
-		itr->cntFrame = 0;
-		itr->active = true;
-		return;
-	}
-
-	//新たにエミッターを作成してコンテナに追加
-	emitterContainer.push_back(ScoreParticleEmitter(&pos));
-}
+//void ScoreParticleEmitter::Emit(vector<BaseParticle*>* container)
+//{
+//	if (!active)
+//		return;
+//
+//	for (int i = 0; i < SCOREPARTICLE_EMIT_NUM; i++)
+//	{
+//		auto particle = find_if(container->begin(), container->end(), [](BaseParticle* particle) {return !particle->active; });
+//
+//		if (particle == container->end())
+//			break;
+//
+//		ScoreParticle* entity = static_cast<ScoreParticle*>(*particle);
+//		D3DXVECTOR3 moveDir;
+//		moveDir.x = RandomRangef(-1.0f, 1.0f);
+//		moveDir.y = RandomRangef(-1.0f, 1.0f);
+//		moveDir.z = RandomRangef(-1.0f, 1.0f);
+//
+//		int lifeFrame = SCOREPARTICLE_LIFEFRAME + RandomRange(-SCOREPARTICLE_LIFE_RANGE, SCOREPARTICLE_LIFE_RANGE);
+//		float speed = SCOREPARTICLE_SPEED_INIT + RandomRangef(-SCOREPARTICLE_SPEED_RANGE, SCOREPARTICLE_SPEED_RANGE);
+//
+//		entity->SetParameter(speed, &moveDir, lifeFrame);
+//		entity->transform.pos = transform.pos;
+//		entity->Init();
+//
+//		break;
+//	}
+//}

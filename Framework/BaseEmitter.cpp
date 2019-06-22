@@ -21,9 +21,10 @@
 /**************************************
 コンストラクタ
 ***************************************/
-BaseEmitter::BaseEmitter()
+BaseEmitter::BaseEmitter(D3DXVECTOR3 *pos)
 {
-
+	this->transform.pos = *pos;
+	active = true;
 }
 
 /**************************************
@@ -32,12 +33,4 @@ BaseEmitter::BaseEmitter()
 BaseEmitter::~BaseEmitter()
 {
 
-}
-
-/**************************************
-アクティブ判定
-***************************************/
-bool BaseEmitter::IsActive()
-{
-	return active;
 }

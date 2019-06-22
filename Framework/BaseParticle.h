@@ -22,16 +22,16 @@ public:
 	BaseParticle();
 	virtual ~BaseParticle();
 
-	virtual void Init() = 0;
-	virtual void Uninit() = 0;
-	virtual void Update() = 0;
-	bool IsActive();
+	virtual void Init() {};
+	virtual void Uninit() {};
+	virtual void Update() {};
+	void EmbedTransform(Transform *pTransform);
+	bool active;
 
 	Transform transform;
 	ParticleUV uv;
 
 protected:
-	bool active;
 	int cntFrame;
 	int lifeFrame;
 };

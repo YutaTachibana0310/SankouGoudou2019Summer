@@ -48,15 +48,18 @@ typedef BaseParticleController Base;
 ***************************************/
 void ScoreParticleController::Init()
 {
+	//テクスチャ読み込み、単位頂点バッファ作成
 	LoadTexture(SCOREPARTICLE_TEX_NAME);
 	MakeUnitBuffer(SCOREPARTICLE_SIZE, SCOREPARTICLE_TEX_DIV);
 
+	//パーティクルコンテナを準備
 	particleContainer.resize(SCOREPARTICLE_NUM_MAX);
 	for (int i = 0; i < SCOREPARTICLE_NUM_MAX; i++)
 	{
 		particleContainer[i] = new ScoreParticle();
 	}
 
+	//エミッタコンテナ準備
 	emitterContainer.resize(SCOREPARTICLE_EMITTER_MAX);
 	for (int i = 0; i < SCOREPARTICLE_EMITTER_MAX; i++)
 	{
@@ -76,23 +79,36 @@ void ScoreParticleController::Emit()
 		if (!emitter->active)
 			continue;
 
-		for (int i = 0; i < SCOREPARTICLE_EMIT_NUM; i++)
+		int emitCount = 0;
+		for (BaseParticle *p : particleContainer)
 		{
-			auto particle = find_if(particleContainer.begin(), particleContainer.end(), [](BaseParticle* p) {return !p->active; });
+			if (p->active)
+				continue;
 
-			if (particle == particleContainer.end())
-				return;
+			ScoreParticle* entity = static_cast<ScoreParticle*>(p);
 
-			ScoreParticle* entity = static_cast<ScoreParticle*>(*particle);
+			//移動方向設定
 			entity->moveDir.x = RandomRangef(-1.0f, 1.0f);
 			entity->moveDir.y = RandomRangef(-1.0f, 1.0f);
 			entity->moveDir.z = RandomRangef(-1.0f, 1.0f);
 
+			//寿命。スピード設定
 			entity->lifeFrame = SCOREPARTICLE_LIFEFRAME + RandomRange(-SCOREPARTICLE_LIFE_RANGE, SCOREPARTICLE_LIFE_RANGE);
 			entity->speed = SCOREPARTICLE_SPEED_INIT + RandomRangef(-SCOREPARTICLE_SPEED_RANGE, SCOREPARTICLE_SPEED_RANGE);
 
+			//座標設定、初期化
 			entity->transform.pos = emitter->transform.pos;
 			entity->Init();
+
+			emitCount++;
+
+			//既定数放出していればbreak
+			if (emitCount == SCOREPARTICLE_EMIT_NUM)
+				break;
 		}
+
+		//放出できるパーティクルが無いためリターン
+		if (emitCount < SCOREPARTICLE_EMIT_NUM)
+			return;
 	}
 }

@@ -20,15 +20,15 @@ using namespace std;
 /**************************************
 staticメンバ
 ***************************************/
-LPDIRECT3DVERTEXDECLARATION9 BaseParticleController::declare;
-LPD3DXEFFECT BaseParticleController::effect;
-LPDIRECT3DINDEXBUFFER9 BaseParticleController::indexBuff;
-LPDIRECT3DVERTEXBUFFER9 BaseParticleController::transformBuff;
-LPDIRECT3DVERTEXBUFFER9 BaseParticleController::uvBuff;
-UINT BaseParticleController::instanceCount;
-D3DXHANDLE BaseParticleController::hMtxView;
-D3DXHANDLE BaseParticleController::hMtxProj;
-D3DXHANDLE BaseParticleController::hMtxInvView;
+LPDIRECT3DVERTEXDECLARATION9 BaseParticleController::declare;	//頂点宣言
+LPD3DXEFFECT BaseParticleController::effect;					//エフェクト
+LPDIRECT3DINDEXBUFFER9 BaseParticleController::indexBuff;		//インデックバッファ
+LPDIRECT3DVERTEXBUFFER9 BaseParticleController::transformBuff;	//トランスフォーム頂点バッファ
+LPDIRECT3DVERTEXBUFFER9 BaseParticleController::uvBuff;			//UV情報頂点バッファ
+UINT BaseParticleController::instanceCount;						//インスタンス数
+D3DXHANDLE BaseParticleController::hMtxView;					//エフェクトのビュー行列へのハンドル
+D3DXHANDLE BaseParticleController::hMtxProj;					//エフェクトのプロジェクション行列へのハンドル
+D3DXHANDLE BaseParticleController::hMtxInvView;					//エフェクトのビュー逆行列へのハンドル
 
 /**************************************
 コンストラクタ

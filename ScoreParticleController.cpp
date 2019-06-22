@@ -67,7 +67,10 @@ void ScoreParticleController::Init()
 ***************************************/
 void ScoreParticleController::SetEmitter(D3DXVECTOR3 *pos)
 {
-	auto emitter = find_if(emitterContainer.begin(), emitterContainer.end(), [](BaseEmitter* emitter) { return emitter->active; });
+	auto emitter = find_if(emitterContainer.begin(), emitterContainer.end(), [](BaseEmitter* emitter) 
+	{
+		return !emitter->active; 
+	});
 
 	if (emitter == emitterContainer.end())
 		return;

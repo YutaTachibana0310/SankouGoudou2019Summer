@@ -23,7 +23,7 @@ class BaseEmitter
 {
 public:
 	BaseEmitter(D3DXVECTOR3 *pos);
-	BaseEmitter() {}
+	BaseEmitter();
 	virtual ~BaseEmitter();
 
 	virtual void Init() = 0;

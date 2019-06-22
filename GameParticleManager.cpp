@@ -27,9 +27,9 @@ using namespace std;
 /**************************************
 構造体定義
 ***************************************/
-enum class ControllerID
+enum ParticleController
 {
-	ScpreParticle,
+	ScoreParticle,
 	PlayerBulletParticle,
 	ControllerMax
 };
@@ -64,17 +64,18 @@ void InitGameParticleManager(int num)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	container.push_back(new ScoreParticleController());
-	container.push_back(new PlayerBulletParticleController());
+	//各コントローラを生成
+	container.resize(ControllerMax);
+	container[ScoreParticle] = new ScoreParticleController();
+	container[PlayerBulletParticle] = (new PlayerBulletParticleController());
 
 	//レンダーターゲット作成
 	GameParticle::CreateRenderTarget();
 
 	//各パーティクル初期化
-	//InitPlayerBulletParticle(0);
-	for (auto itr = container.begin(); itr != container.end(); itr++)
+	for (BaseParticleController *itr : container)
 	{
-		(*itr)->Init();
+		itr->Init();
 	}
 }
 
@@ -83,10 +84,9 @@ void InitGameParticleManager(int num)
 ***************************************/
 void UninitGameParticleManager(int num)
 {
-	//UninitPlayerBulletParticle(0);
-	for (auto itr = container.begin(); itr != container.end(); itr++)
+	for (BaseParticleController *itr : container)
 	{
-		(*itr)->Uninit();
+		itr->Uninit();
 	}
 
 	SAFE_RELEASE(renderSurface);
@@ -103,10 +103,9 @@ void UpdateGameParticleManager(void)
 	GameParticle::DrawDebugWindow();
 #endif
 
-	//UpdatePlayerBulletParticle();
-	for (auto itr = container.begin(); itr != container.end(); itr++)
+	for (BaseParticleController *itr : container)
 	{
-		(*itr)->Update();
+		itr->Update();
 	}
 }
 
@@ -118,11 +117,11 @@ void DrawGameParticleManager(void)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	////レンダリング設定切り替え
-	//D3DVIEWPORT9 oldViewport;
-	//LPDIRECT3DSURFACE9 oldSuf;
-	//pDevice->GetViewport(&oldViewport);
-	//pDevice->GetRenderTarget(0, &oldSuf);
-	//GameParticle::ChangeRenderParameter();
+	D3DVIEWPORT9 oldViewport;
+	LPDIRECT3DSURFACE9 oldSuf;
+	pDevice->GetViewport(&oldViewport);
+	pDevice->GetRenderTarget(0, &oldSuf);
+	GameParticle::ChangeRenderParameter();
 
 	BaseParticleController::BeginDraw();
 
@@ -132,8 +131,6 @@ void DrawGameParticleManager(void)
 		(*itr)->Draw();
 	}
 
-	//DrawPlayerBulletParticle();
-
 	BaseParticleController::EndDraw();
 
 #ifndef _DEBUG	//クロスフィルタはRelease版でのみ適用する
@@ -142,13 +139,13 @@ void DrawGameParticleManager(void)
 #endif // !_DEBUG
 
 	////全ての結果を元のレンダーターゲットに描画
-	//GameParticle::RestoreRenderParameter(oldSuf, oldViewport);
-	//screenObj->Draw();
+	GameParticle::RestoreRenderParameter(oldSuf, oldViewport);
+	screenObj->Draw();
 
-	////レンダーステート復元
-	//pDevice->SetRenderState(D3DRS_LIGHTING, true);
-	//pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
-	//pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	//レンダーステート復元
+	pDevice->SetRenderState(D3DRS_LIGHTING, true);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 }
 
 /**************************************
@@ -156,7 +153,7 @@ void DrawGameParticleManager(void)
 ***************************************/
 void SetScoreParticle(D3DXVECTOR3 *pos)
 {
-	container[(UINT)ControllerID::ScpreParticle]->SetEmitter(pos);
+	container[ScoreParticle]->SetEmitter(pos);
 }
 
 /**************************************
@@ -165,7 +162,7 @@ void SetScoreParticle(D3DXVECTOR3 *pos)
 void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edgeRight, D3DXVECTOR3 *edgeLeft)
 {
 	PlayerBulletParticleController *controller
-		= static_cast<PlayerBulletParticleController*>(container[(UINT)ControllerID::PlayerBulletParticle]);
+		= static_cast<PlayerBulletParticleController*>(container[PlayerBulletParticle]);
 
 	controller->SetEmitter(pPos, pActive, edgeRight, edgeLeft);
 }
@@ -233,7 +230,7 @@ void GameParticle::RestoreRenderParameter(LPDIRECT3DSURFACE9 oldSuf, _D3DVIEWPOR
 void GameParticle::DrawDebugWindow(void)
 {
 	BeginDebugWindow("GameParticle");
-	
+
 	{
 		if (DebugButton("ScoreParticle"))
 			container[0]->SetEmitter(&D3DXVECTOR3(0.0f, 0.0f, 50.0f));

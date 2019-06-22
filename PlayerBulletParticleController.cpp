@@ -66,18 +66,14 @@ void PlayerBulletParticleController::Emit()
 		const int EmitNum = 50;
 		const float InitSpeed = 2.0f;
 
-		for (int i = 0; i < EmitNum; i++)
+		int emitCount = 0;
+		for (BaseParticle *p : particleContainer)
 		{
-			auto itr = find_if(particleContainer.begin(), particleContainer.end(),
-				[](BaseParticle *p) {
-				return !p->active;
-			});
-
-			if (itr == particleContainer.end())
-				return;
+			if (p->active)
+				continue;
 
 			PlayerBulletParticleEmitter *entity = static_cast<PlayerBulletParticleEmitter*>(emitter);
-			PlayerBulletParticle *particle = static_cast<PlayerBulletParticle*>(*itr);
+			PlayerBulletParticle *particle = static_cast<PlayerBulletParticle*>(p);
 
 			particle->moveDir.x = RandomRangef(-1.0f, 1.0f);
 			particle->moveDir.y = RandomRangef(-1.0f, 1.0f);
@@ -96,7 +92,14 @@ void PlayerBulletParticleController::Emit()
 			particle->transform.scale.y += fabsf(particle->moveDir.y) * 10.0f;
 
 			particle->Init();
+			emitCount++;
+
+			if (emitCount == EmitNum)
+				break;
 		}
+
+		if (emitCount < EmitNum)
+			return;
 
 	}
 }
@@ -106,7 +109,7 @@ void PlayerBulletParticleController::Emit()
 ***************************************/
 void PlayerBulletParticleController::SetEmitter(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edgeRight, D3DXVECTOR3 *edgeLeft)
 {
-	auto itr = find_if(emitterContainer.begin(), emitterContainer.end(), 
+	auto itr = find_if(emitterContainer.begin(), emitterContainer.end(),
 		[](BaseEmitter* p)
 	{
 		return !p->active;

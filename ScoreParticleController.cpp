@@ -5,6 +5,7 @@
 //
 //=====================================
 #include "ScoreParticleController.h"
+#include "ScoreParticle.h"
 #include <algorithm>
 
 using namespace std;

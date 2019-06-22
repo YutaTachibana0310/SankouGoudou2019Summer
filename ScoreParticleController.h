@@ -8,10 +8,8 @@
 #define _SCOREPARTICLECONTROLLER_H_
 
 #include "main.h"
-#include <vector>
 
 #include "Framework\BaseParticleController.h"
-#include "ScoreParticle.h"
 
 /**************************************
 É}ÉNÉçíËã`

@@ -89,6 +89,8 @@ void UninitGameParticleManager(int num)
 		itr->Uninit();
 	}
 
+	vector<BaseParticleController*>().swap(container);
+
 	SAFE_RELEASE(renderSurface);
 	SAFE_RELEASE(renderTexture);
 	SAFE_DELETE(screenObj);
@@ -126,16 +128,18 @@ void DrawGameParticleManager(void)
 	BaseParticleController::BeginDraw();
 
 	//描画
+	bool isDrewd = false;
 	for (auto itr = container.begin(); itr != container.end(); itr++)
 	{
-		(*itr)->Draw();
+		isDrewd |= (*itr)->Draw();
 	}
 
 	BaseParticleController::EndDraw();
 
 #ifndef _DEBUG	//クロスフィルタはRelease版でのみ適用する
 	//ポストエフェクト
-	CrossFilterController::Instance()->Draw(renderTexture);
+	if(isDrewd)
+		CrossFilterController::Instance()->Draw(renderTexture);
 #endif // !_DEBUG
 
 	////全ての結果を元のレンダーターゲットに描画

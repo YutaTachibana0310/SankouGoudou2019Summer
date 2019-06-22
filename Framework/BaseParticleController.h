@@ -38,7 +38,7 @@ public:
 	virtual void SetEmitter(D3DXVECTOR3 *pos);	//エミッタセット処理
 	virtual void Uninit();						//終了処理
 	void Update();						//更新処理
-	void Draw();						//描画処理
+	bool Draw();						//描画処理
 
 	//描画開始・終了処理
 	static void BeginDraw();		

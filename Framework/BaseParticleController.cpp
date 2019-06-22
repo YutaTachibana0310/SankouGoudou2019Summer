@@ -106,7 +106,7 @@ void BaseParticleController::Update()
 /**************************************
 描画処理
 ***************************************/
-void BaseParticleController::Draw()
+bool BaseParticleController::Draw()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -116,7 +116,7 @@ void BaseParticleController::Draw()
 	EmbedParameterUV();
 
 	if (particleCount == 0)
-		return;
+		return false;
 
 	//ストリームソース設定
 	pDevice->SetStreamSource(0, unitBuff, 0, sizeof(ParticleUnit));
@@ -127,6 +127,8 @@ void BaseParticleController::Draw()
 
 	//描画
 	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, NUM_VERTEX, 0, NUM_POLYGON);
+
+	return true;
 }
 
 /**************************************

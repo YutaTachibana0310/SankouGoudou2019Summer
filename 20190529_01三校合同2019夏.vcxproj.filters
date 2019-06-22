@@ -336,6 +336,9 @@
     <ClInclude Include="ScoreParticleController.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerBulletParticleController.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -555,6 +558,9 @@
       <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
     <ClCompile Include="ScoreParticleController.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBulletParticleController.cpp">
       <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
   </ItemGroup>

@@ -28,6 +28,7 @@ using namespace std;
 
 #define SCOREPARTICLE_DURATION		(5)
 #define SCOREPARTICLE_EMIT_NUM		(10)
+
 /**************************************
 \‘¢‘Ì’è‹`
 ***************************************/
@@ -63,24 +64,6 @@ void ScoreParticleController::Init()
 }
 
 /**************************************
-”­¶ˆ—
-***************************************/
-void ScoreParticleController::SetEmitter(D3DXVECTOR3 *pos)
-{
-	auto emitter = find_if(emitterContainer.begin(), emitterContainer.end(), [](BaseEmitter* emitter) 
-	{
-		return !emitter->active; 
-	});
-
-	if (emitter == emitterContainer.end())
-		return;
-
-	(*emitter)->transform.pos = *pos;
-	(*emitter)->Init();
-
-}
-
-/**************************************
 •úoˆ—
 ***************************************/
 void ScoreParticleController::Emit()
@@ -100,15 +83,13 @@ void ScoreParticleController::Emit()
 				return;
 
 			ScoreParticle* entity = static_cast<ScoreParticle*>(*particle);
-			D3DXVECTOR3 moveDir;
-			moveDir.x = RandomRangef(-1.0f, 1.0f);
-			moveDir.y = RandomRangef(-1.0f, 1.0f);
-			moveDir.z = RandomRangef(-1.0f, 1.0f);
+			entity->moveDir.x = RandomRangef(-1.0f, 1.0f);
+			entity->moveDir.y = RandomRangef(-1.0f, 1.0f);
+			entity->moveDir.z = RandomRangef(-1.0f, 1.0f);
 
-			int lifeFrame = SCOREPARTICLE_LIFEFRAME + RandomRange(-SCOREPARTICLE_LIFE_RANGE, SCOREPARTICLE_LIFE_RANGE);
-			float speed = SCOREPARTICLE_SPEED_INIT + RandomRangef(-SCOREPARTICLE_SPEED_RANGE, SCOREPARTICLE_SPEED_RANGE);
+			entity->lifeFrame = SCOREPARTICLE_LIFEFRAME + RandomRange(-SCOREPARTICLE_LIFE_RANGE, SCOREPARTICLE_LIFE_RANGE);
+			entity->speed = SCOREPARTICLE_SPEED_INIT + RandomRangef(-SCOREPARTICLE_SPEED_RANGE, SCOREPARTICLE_SPEED_RANGE);
 
-			entity->SetParameter(speed, &moveDir, lifeFrame);
 			entity->transform.pos = emitter->transform.pos;
 			entity->Init();
 		}

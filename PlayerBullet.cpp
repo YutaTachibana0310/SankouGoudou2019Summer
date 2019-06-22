@@ -6,7 +6,7 @@
 //=====================================
 #include "PlayerBullet.h"
 #include "Framework\Easing.h"
-#include "PlayerBulletParticle.h"
+#include "GameParticleManager.h"
 
 /**************************************
 マクロ定義
@@ -178,7 +178,7 @@ void PlayerBullet::SetTrailIndex(TrailIndex start, TrailIndex end)
 /****************************************
 端点セット処理
 *****************************************/
-void PlayerBullet::SetEdgePos(const D3DXVECTOR3 *start, const D3DXVECTOR3 *end)
+void PlayerBullet::SetEdgePos(D3DXVECTOR3 *start, D3DXVECTOR3 *end)
 {
 	//始点と終点を結ぶ線分を計算し、長さを半分にする
 	D3DXVECTOR3 diff = *end - *start;

@@ -32,12 +32,13 @@ public:
 	virtual ~BaseParticleController();
 
 	virtual void Init() = 0;
-	virtual void SetEmitter(D3DXVECTOR3 *pos) = 0;
 	virtual void Emit() = 0;
 
+	virtual void SetEmitter(D3DXVECTOR3 *pos);
 	virtual void Uninit();
 	void Update();
 	void Draw();
+
 	static void BeginDraw();
 	static void EndDraw();
 

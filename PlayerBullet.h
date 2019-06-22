@@ -33,7 +33,7 @@ public:
 	void Draw();		//描画処理
 
 	void SetTrailIndex(TrailIndex start, TrailIndex end);		//トレイルインデックスセット処理
-	void SetEdgePos(const D3DXVECTOR3 *left, const D3DXVECTOR3 *right);	//端点設定処理
+	void SetEdgePos(D3DXVECTOR3 *left, D3DXVECTOR3 *right);	//端点設定処理
 	TrailCollider GetCollider();	//当たり判定取得処理
 	bool IsActive();				//アクティブ判定
 

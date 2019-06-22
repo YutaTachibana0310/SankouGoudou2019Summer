@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "ScoreParticleController.h"
-#include "PlayerBulletParticle.h"
+#include "PlayerBulletParticleController.h"
 
 #include "PostEffect\ScreenObject.h"
 #include "PostEffect\CrossFilterController.h"
@@ -23,20 +23,20 @@ using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
-#define GAMEPARTICLE_EFFECT_NAME		"Framework/particle3D.fx"
-#define GAMEPARTICLE_PRECOMPILE_NAME	"data/EFFECT/particle3D.cfx"
 
 /**************************************
 構造体定義
 ***************************************/
+enum class ControllerID
+{
+	ScpreParticle,
+	PlayerBulletParticle,
+	ControllerMax
+};
 
 /**************************************
 グローバル変数
 ***************************************/
-static LPDIRECT3DVERTEXDECLARATION9 vtxDeclare;
-static LPD3DXEFFECT effect;
-static LPDIRECT3DINDEXBUFFER9 indexBuff;
-
 //レンダーターゲット関連
 static LPDIRECT3DTEXTURE9 renderTexture;
 static LPDIRECT3DSURFACE9 renderSurface;
@@ -65,6 +65,7 @@ void InitGameParticleManager(int num)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	container.push_back(new ScoreParticleController());
+	container.push_back(new PlayerBulletParticleController());
 
 	//レンダーターゲット作成
 	GameParticle::CreateRenderTarget();
@@ -151,6 +152,25 @@ void DrawGameParticleManager(void)
 }
 
 /**************************************
+スコアパーティクル発生処理
+***************************************/
+void SetScoreParticle(D3DXVECTOR3 *pos)
+{
+	container[(UINT)ControllerID::ScpreParticle]->SetEmitter(pos);
+}
+
+/**************************************
+プレイヤーバレットセット処理
+***************************************/
+void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edgeRight, D3DXVECTOR3 *edgeLeft)
+{
+	PlayerBulletParticleController *controller
+		= static_cast<PlayerBulletParticleController*>(container[(UINT)ControllerID::PlayerBulletParticle]);
+
+	controller->SetEmitter(pPos, pActive, edgeRight, edgeLeft);
+}
+
+/**************************************
 レンダーターゲット作成
 ***************************************/
 void GameParticle::CreateRenderTarget()
@@ -190,22 +210,6 @@ void GameParticle::ChangeRenderParameter()
 	pDevice->SetRenderTarget(0, renderSurface);
 	pDevice->SetViewport(&viewPort);
 	pDevice->Clear(0, 0, D3DCLEAR_TARGET, 0, 0.0f, 0);
-
-	//ビュー行列、プロジェクション行列、ビュー逆行列を取得
-	D3DXMATRIX view, projection, invView;
-	pDevice->GetTransform(D3DTS_VIEW, &view);
-	pDevice->GetTransform(D3DTS_PROJECTION, &projection);
-	D3DXMatrixInverse(&invView, NULL, &view);
-	invView._41 = invView._42 = invView._43 = 0.0f;
-
-	//シェーダに各行列を設定
-	effect->SetMatrix("mtxView", &view);
-	effect->SetMatrix("mtxProj", &projection);
-	effect->SetMatrix("mtxInvView", &invView);
-
-	//インデックスバッファと頂点宣言を設定
-	pDevice->SetIndices(indexBuff);
-	pDevice->SetVertexDeclaration(vtxDeclare);
 }
 
 /**************************************
@@ -234,17 +238,6 @@ void GameParticle::DrawDebugWindow(void)
 		if (DebugButton("ScoreParticle"))
 			container[0]->SetEmitter(&D3DXVECTOR3(0.0f, 0.0f, 50.0f));
 	}
-
-	{
-		static bool active = true;
-		static D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 150.0f);
-		if (DebugButton("PlayerBulletParticle"))
-			SetPlayerBulletParticle(&pos, &active, &D3DXVECTOR3(-100.0f, 0.0f, 0.0f), &D3DXVECTOR3(100.0f, 0.0f, 0.0f));
-	}
-
-	//{
-	//	DebugDrawTexture(renderTexture, 500.0f, 200.0f);
-	//}
 
 	EndDebugWindow("GameParticle");
 }

@@ -30,10 +30,10 @@ public:
 
 	Transform transform;
 	ParticleUV uv;
+	int lifeFrame;
 
 protected:
 	int cntFrame;
-	int lifeFrame;
 };
 
 #endif

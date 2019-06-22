@@ -28,9 +28,6 @@ public:
 	void Uninit();
 	void Update();
 	
-	void SetParameter(float speed, D3DXVECTOR3* moveDir, int lifeFrame);
-
-private:
 	D3DXVECTOR3 moveDir;
 	float speed;
 };

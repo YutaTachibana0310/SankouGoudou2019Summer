@@ -9,22 +9,47 @@
 #define _PLAYERBULLETPARTICLE_H_
 
 #include "main.h"
+#include "Framework\BaseParticle.h"
+#include "Framework\BaseEmitter.h"
 
 /**************************************
 マクロ定義
 ***************************************/
 
 /**************************************
-クラス定義
+PlayerBulletParticleクラス定義
 ***************************************/
+class PlayerBulletParticle : public BaseParticle
+{
+public:
+	PlayerBulletParticle() {}
+	~PlayerBulletParticle() {}
+
+	void Init();
+	void Uninit();
+	void Update();
+	void SetParameter(D3DXVECTOR3 *moveDir, int lifeFrame);
+
+	D3DXVECTOR3 moveDir;
+	float speed;
+};
 
 /**************************************
-プロトタイプ宣言
+PlayerBulletParticleEmitterクラス定義
 ***************************************/
-void InitPlayerBulletParticle(int num);
-void UninitPlayerBulletParticle(int num);
-void UpdatePlayerBulletParticle(void);
-void DrawPlayerBulletParticle(void);
-void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, const D3DXVECTOR3 *edgeRight, const D3DXVECTOR3 *edgeLeft);
+class PlayerBulletParticleEmitter : public BaseEmitter
+{
+public:
+	PlayerBulletParticleEmitter() : BaseEmitter() {}
+
+	void Init();
+	void Uninit();
+	void Update();
+	void SetParameter(bool* pActive, D3DXVECTOR3 *pPos, D3DXVECTOR3 *pEdgeRight, D3DXVECTOR3 *pEdgeLeft);
+
+	bool *parentActive;
+	D3DXVECTOR3 *parentPos;
+	D3DXVECTOR3 edgeRight, edgeLeft;
+};
 
 #endif

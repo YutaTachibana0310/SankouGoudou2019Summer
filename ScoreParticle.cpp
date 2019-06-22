@@ -78,16 +78,6 @@ void ScoreParticle::Update()
 }
 
 /**************************************
-ScoreParticleパラメータセット処理
-***************************************/
-void ScoreParticle::SetParameter(float speed, D3DXVECTOR3 *moveDir, int lifeFrame)
-{
-	this->speed = speed;
-	this->lifeFrame = lifeFrame;
-	this->moveDir = *moveDir;
-}
-
-/**************************************
 ScoreParticleEmitterコンストラクタ
 ***************************************/
 ScoreParticleEmitter::ScoreParticleEmitter(D3DXVECTOR3 *pos) : BaseEmitter(pos)

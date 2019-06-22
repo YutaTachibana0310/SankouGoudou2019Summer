@@ -246,10 +246,6 @@ void InstancingMeshContainer::DrawDefault()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	pDevice->SetStreamSource(0, vtxBuff, 0, D3DXGetFVFVertexSize(fvf));
-	pDevice->SetIndices(indexuff);
-	pDevice->SetFVF(fvf);
-
 	for (UINT i = 0; i < numMaterial; i++)
 	{
 		pDevice->SetMaterial(&materials[i]);
@@ -261,6 +257,18 @@ void InstancingMeshContainer::DrawDefault()
 			attributeTable[i].FaceStart * 3,
 			attributeTable[i].FaceCount);
 	}
+}
+
+/**************************************
+ストリームソースセット処理
+***************************************/
+void InstancingMeshContainer::SetStreamSource()
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	pDevice->SetStreamSource(0, vtxBuff, 0, D3DXGetFVFVertexSize(fvf));
+	pDevice->SetIndices(indexuff);
+	pDevice->SetFVF(fvf);
 }
 
 /**************************************

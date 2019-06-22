@@ -137,6 +137,8 @@ void DrawBackGroundCity(void)
 	D3DXMATRIX mtxWorld, mtxScale, mtxRot, mtxTranslate;
 	for (int i = 0; i < BACKGROUNDCITY_KIND_MAX; i++)
 	{
+		meshContainer[i]->SetStreamSource();
+
 		for (int j = 0; j < cityTypeCount[i]; j++)
 		{
 			D3DXMatrixIdentity(&mtxWorld);

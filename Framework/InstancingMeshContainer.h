@@ -26,6 +26,7 @@ public:
 	void Release();
 	void Draw();
 	void DrawDefault();
+	void SetStreamSource();
 	void SetStreamSource(LPDIRECT3DVERTEXBUFFER9 tranformBuffer, UINT numInstance);
 	void SetLightAmplifier(float val);
 

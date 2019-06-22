@@ -154,6 +154,9 @@
     <ClInclude Include="state.h" />
     <ClInclude Include="Framework\AnimContainer.h" />
     <ClInclude Include="Framework\BaseCameraPlugin.h" />
+    <ClInclude Include="Framework\BaseEmitter.h" />
+    <ClInclude Include="Framework\BaseParticle.h" />
+    <ClInclude Include="Framework\BaseParticleController.h" />
     <ClInclude Include="Framework\BaseSingleton.h" />
     <ClInclude Include="Framework\CameraShakerPlugin.h" />
     <ClInclude Include="Framework\Easing.h" />
@@ -180,6 +183,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="PlayerBulletParticle.h" />
+    <ClInclude Include="PlayerBulletParticleController.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="PlayerReturn.h" />
     <ClInclude Include="PlayerWait.h" />
@@ -205,6 +209,7 @@
     <ClInclude Include="PostEffect\StrongBlurFilter.h" />
     <ClInclude Include="score.h" />
     <ClInclude Include="ScoreParticle.h" />
+    <ClInclude Include="ScoreParticleController.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="star.h" />
@@ -229,6 +234,9 @@
     <ClCompile Include="debugWindow.cpp" />
     <ClCompile Include="Framework\AnimContainer.cpp" />
     <ClCompile Include="Framework\BaseCameraPlugin.cpp" />
+    <ClCompile Include="Framework\BaseEmitter.cpp" />
+    <ClCompile Include="Framework\BaseParticle.cpp" />
+    <ClCompile Include="Framework\BaseParticleController.cpp" />
     <ClCompile Include="Framework\CameraShakerPlugin.cpp" />
     <ClCompile Include="Framework\Easing.cpp" />
     <ClCompile Include="Framework\EasingVector.cpp" />
@@ -254,6 +262,7 @@
     <ClCompile Include="MyLibrary.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="PlayerBulletParticle.cpp" />
+    <ClCompile Include="PlayerBulletParticleController.cpp" />
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
@@ -276,6 +285,7 @@
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp" />
     <ClCompile Include="score.cpp" />
     <ClCompile Include="ScoreParticle.cpp" />
+    <ClCompile Include="ScoreParticleController.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="star.cpp" />

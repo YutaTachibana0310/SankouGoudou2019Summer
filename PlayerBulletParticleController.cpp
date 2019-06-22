@@ -73,7 +73,7 @@ void PlayerBulletParticleController::Emit()
 				return !p->active;
 			});
 
-			if ((*itr)->active)
+			if (itr == particleContainer.end())
 				return;
 
 			PlayerBulletParticleEmitter *entity = static_cast<PlayerBulletParticleEmitter*>(emitter);

@@ -17,6 +17,7 @@
 #include "PlayerWait.h"
 #include "PlayerBullet.h"
 #include <vector>
+#include "GameParticleManager.h"
 
 using namespace std;
 
@@ -122,6 +123,10 @@ HRESULT InitPlayerController(void)
 
 	//プレイヤーをWait状態に遷移
 	player.CurrentState = PlayerState::Wait;
+	player.active = true;
+
+	//PlayerTrailParticleをセット
+	SetPlayerTrailParticle(&player.pos, &player.active);
 
 	return S_OK;
 }

@@ -134,7 +134,7 @@ bool BaseParticleController::Draw()
 /**************************************
 パーティクル単位バッファ作成処理
 ***************************************/
-void BaseParticleController::MakeUnitBuffer(D3DXVECTOR2 *size, D3DXVECTOR2 *texDiv)
+void BaseParticleController::MakeUnitBuffer(const D3DXVECTOR2 *size, const D3DXVECTOR2 *texDiv)
 {
 	if (unitBuff != NULL)
 		return;

@@ -151,6 +151,8 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="BaseGameEntity.h" />
     <ClInclude Include="enemystate.h" />
+    <ClInclude Include="PlayerTrailParticle.h" />
+    <ClInclude Include="PlayerTrailParticleController.h" />
     <ClInclude Include="state.h" />
     <ClInclude Include="Framework\AnimContainer.h" />
     <ClInclude Include="Framework\BaseCameraPlugin.h" />
@@ -267,6 +269,8 @@
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="PlayerReturn.cpp" />
+    <ClCompile Include="PlayerTrailParticle.cpp" />
+    <ClCompile Include="PlayerTrailParticleController.cpp" />
     <ClCompile Include="PlayerWait.cpp" />
     <ClCompile Include="PostEffectManager.cpp" />
     <ClCompile Include="PostEffect\BloomController.cpp" />

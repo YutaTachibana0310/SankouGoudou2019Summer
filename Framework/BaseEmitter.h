@@ -17,7 +17,8 @@
 class BaseParticle;
 
 /**************************************
-クラス定義
+BaseEmitterクラス
+※継承先でInit(), Uninit(), Update()を実装する
 ***************************************/
 class BaseEmitter
 {

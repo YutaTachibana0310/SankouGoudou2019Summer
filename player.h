@@ -35,6 +35,7 @@ public:
 	int					cntFrame;
 
 	PlayerState			CurrentState;
+	bool active;
 
 
 	//ŠÖ”

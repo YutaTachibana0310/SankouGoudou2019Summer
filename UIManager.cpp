@@ -12,6 +12,7 @@
 #include "combo.h"
 #include "line.h"
 #include "trail.h"
+#include "cursor.h"
 
 //=============================================================================
 // 初期化処理
@@ -24,6 +25,7 @@ void InitUI(void)
 	InitCombo();
 	InitLine();
 	InitTrail();
+	InitCursor();
 }
 
 //=============================================================================
@@ -37,6 +39,7 @@ void UninitUI(void)
 	UninitCombo();
 	UninitLine();
 	UninitTrail();
+	UninitCursor();
 }
 
 //=============================================================================
@@ -50,6 +53,7 @@ void UpdateUI(HWND hWnd)
 	UpdateCombo();
 	UpdateLine();
 	UpdateTrail();
+	UpdateCursor(hWnd);
 
 #ifdef _DEBUG
 	// デバッグ用コマンド
@@ -90,6 +94,8 @@ void DrawUI(void)
 	DrawLine();
 	DrawCombo();
 	DrawTrail();
+
+	DrawCursor();
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }
 

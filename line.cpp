@@ -12,10 +12,8 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-//#define SIZE_X_LINE			(780.0f)
-#define SIZE_X_LINE			(SCREEN_WIDTH/2)
-#define SIZE_Y_LINE			(170.0f)
-#define POSITION_LINE (D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_HEIGHT/10*2,0.0f))
+#define SIZE_LINE		(D3DXVECTOR3(SCREEN_WIDTH/2,170.0f,0.0f))
+#define POSITION_LINE	(D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_HEIGHT/10*2,0.0f))
 
 //*****************************************************************************
 // グローバル変数
@@ -33,9 +31,10 @@ HRESULT InitLine(void)
 	InitialTexture(&line);
 	MakeVertexObject(&line);
 
-	line.position = POSITION_LINE;
-	line.size = D3DXVECTOR3(SIZE_X_LINE, SIZE_Y_LINE, 0.0f);
-	line.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	line.position	= POSITION_LINE;
+	line.size		= SIZE_LINE;
+	line.rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
 	SetColorObject(&line, SET_COLOR_NOT_COLORED);
 
 	return S_OK;

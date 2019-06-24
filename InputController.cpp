@@ -18,7 +18,7 @@ bool IsEntered(int m, HWND hWnd) {
 	//マウスクリックの検出があるか
 	if (IsMouseLeftTriggered())
 	{
-		return IsSelected(m, hWnd);
+		return IsStarSelected(m, hWnd);
 	}
 	//マウスの入力がなくキーが押された場合
 	else if (m == TOP) {

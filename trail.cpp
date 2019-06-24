@@ -16,10 +16,9 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	TRAILPARTS_MAX			(6)
-#define SIZE_X_TRAIL			(100.0f)
-#define SIZE_Y_TRAIL			(100.0f)
-#define POSITION_TRAIL (D3DXVECTOR3(SCREEN_WIDTH/10*9,SCREEN_HEIGHT/10*5,0.0f))
+#define	TRAILPARTS_MAX	(6)
+#define SIZE_TRAIL		(D3DXVECTOR3(100.0f,100.0f,0.0f))
+#define POSITION_TRAIL	(D3DXVECTOR3(SCREEN_WIDTH/10*9,SCREEN_HEIGHT/10*5,0.0f))
 
 //*****************************************************************************
 // グローバル変数
@@ -27,9 +26,6 @@
 OBJECT	trail[TRAILPARTS_MAX];
 int		trailHistoryCW[MOVESTACK_LENGTH];
 int		trailHistoryCCW[MOVESTACK_LENGTH];
-int		historyCount = 0;
-int		deleteCount = 0;
-int		endArray = MOVESTACK_LENGTH - 1;
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -56,9 +52,10 @@ HRESULT InitTrail(void)
 		InitialTexture(&trail[i]);
 		MakeVertexObject(&trail[i]);
 
-		trail[i].position = POSITION_TRAIL;
-		trail[i].size = D3DXVECTOR3(SIZE_X_TRAIL, SIZE_Y_TRAIL, 0.0f);
-		trail[i].rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		trail[i].position	= POSITION_TRAIL;
+		trail[i].size		= SIZE_TRAIL;
+		trail[i].rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
 		SetColorObject(&trail[i], SET_COLOR_NOT_COLORED);
 	}
 
@@ -151,17 +148,11 @@ bool CanDrawTrailLine(int startStar, int endStar)
 
 	for (int i = 0; i < MOVESTACK_LENGTH; i++)
 	{
-		// もっといい書き方あったら教えてください(>_<)
-
 		// 配列の中で連続しているor配列の最後と最初で連続していたら描画 (全ての組み合わせでチェック)
 		if ((trailHistoryCW[i] == startStar && trailHistoryCW[i + 1] == endStar)
 			|| (trailHistoryCW[i] == endStar && trailHistoryCW[i + 1] == startStar)
 			|| (trailHistoryCCW[i] == startStar && trailHistoryCCW[i + 1] == endStar)
-			|| (trailHistoryCCW[i] == endStar && trailHistoryCCW[i + 1] == startStar)
-			|| (trailHistoryCW[0] == startStar && trailHistoryCW[endArray] == endStar)
-			|| (trailHistoryCW[0] == endStar && trailHistoryCW[endArray] == startStar)
-			|| (trailHistoryCCW[0] == startStar && trailHistoryCCW[endArray] == endStar)
-			|| (trailHistoryCCW[0] == endStar && trailHistoryCCW[endArray] == startStar))
+			|| (trailHistoryCCW[i] == endStar && trailHistoryCCW[i + 1] == startStar))
 		{
 			canDraw = true;
 			searchSuccessCount++;

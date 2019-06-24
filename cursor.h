@@ -12,8 +12,7 @@
 //*****************************************************************************
 #define	ADRESS_TEXTURE_CURSOR	("data/TEXTURE/UI/cursor.png")	// 読み込むテクスチャファイル名
 
-#define COLLIDERSIZE_X_CURSOR (5)
-#define COLLIDERSIZE_Y_CURSOR (5)
+#define COLLIDERSIZE_CURSOR (D3DXVECTOR3(5.0f,5.0f,0.0f))
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -22,5 +21,6 @@ HRESULT InitCursor(void);
 void	UninitCursor(void);
 void	UpdateCursor(HWND hWnd);
 void	DrawCursor(void);
+bool	IsCursorOverd(HWND hWnd, D3DXVECTOR3 pos, D3DXVECTOR3 size);
 
 #endif

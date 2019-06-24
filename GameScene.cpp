@@ -55,7 +55,6 @@ void GameScene::Init()
 	InitUI();
 
 	InitPlayerController();
-	InitCursor();
 	Sound::GetInstance()->Create();
 
 	RegisterDebugTimer(GAMESCENE_LABEL);
@@ -77,8 +76,6 @@ void GameScene::Uninit()
 	UninitPlayerController();
 
 	UninitUI();
-	UninitCursor();
-
 }
 
 /**************************************
@@ -110,7 +107,6 @@ void GameScene::Update(HWND hWnd)
 	//UIの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
 	UpdateUI(hWnd);
-	UpdateCursor(hWnd);
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
 
 	//ポストエフェクトの更新
@@ -129,9 +125,9 @@ void GameScene::Draw()
 
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 	DrawSkyBox();
-	DrawBackGroundCity();
-	DrawBackGroundRoad();
-	DrawBackGroundField();
+	//DrawBackGroundCity();
+	//DrawBackGroundRoad();
+	//DrawBackGroundField();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 
 	//プレイヤーの描画
@@ -155,7 +151,6 @@ void GameScene::Draw()
 
 	//UI描画
 	DrawUI();
-	DrawCursor();
 
 	DrawDebugTimer(GAMESCENE_LABEL);
 }

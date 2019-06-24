@@ -51,6 +51,9 @@ void PlayerTrail::Init(D3DXVECTOR3 *pPos)
 {
 	rightPos = leftPos = *pPos;
 	playerPos = pPos;
+	scale = 1.0f;
+	cntFrame = 0;
+	flgFadeout = false;
 	active = true;
 }
 
@@ -60,7 +63,7 @@ void PlayerTrail::Init(D3DXVECTOR3 *pPos)
 void PlayerTrail::Uninit()
 {
 	playerPos = NULL;
-	active = false;
+	flgFadeout = true;
 }
 
 /**************************************
@@ -71,7 +74,19 @@ void PlayerTrail::Update()
 	if (!active)
 		return;
 
-	leftPos = *playerPos;
+	if (flgFadeout)
+	{
+		const int DurationFadeout = 20;
+		cntFrame++;
+		scale = 1.0f - (float)cntFrame / DurationFadeout;
+
+		if (cntFrame == DurationFadeout)
+			active = false;
+	}
+
+	if(playerPos != NULL)
+		leftPos = *playerPos;
+
 	SetLine();
 }
 
@@ -168,10 +183,10 @@ void PlayerTrail::SetLine()
 	const float Length = 1.0f;
 	VERTEX_3D *pVtx;
 	lineBuff->Lock(0, 0, (void**)&pVtx, 0);
-	pVtx[0].vtx = leftPos + vtxUp * Length;
-	pVtx[1].vtx = rightPos + vtxUp * Length;
-	pVtx[2].vtx = leftPos - vtxUp * Length;
-	pVtx[3].vtx = rightPos - vtxUp * Length;
+	pVtx[0].vtx = leftPos + vtxUp * Length * scale;
+	pVtx[1].vtx = rightPos + vtxUp * Length * scale;
+	pVtx[2].vtx = leftPos - vtxUp * Length * scale;
+	pVtx[3].vtx = rightPos - vtxUp * Length * scale;
 	lineBuff->Unlock();
 
 

@@ -29,6 +29,10 @@ public:
 
 private:
 	bool active;
+	bool flgFadeout;
+	float scale;
+	int cntFrame;
+
 	LPDIRECT3DVERTEXBUFFER9 lineBuff;
 	LPDIRECT3DVERTEXBUFFER9 edgeBuff;
 	LPDIRECT3DTEXTURE9 texture;

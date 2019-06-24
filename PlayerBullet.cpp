@@ -189,7 +189,6 @@ void PlayerBullet::SetEdgePos(D3DXVECTOR3 *start, D3DXVECTOR3 *end)
 	D3DXVec3Normalize(&vtxUp, &vtxUp);
 
 	//求めたベクトルから頂点座標を計算
-	const float length = 15.0f;
 	VERTEX_3D *pVtx;
 	vtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 	pVtx[0].vtx = -diff + vtxUp * PLAYERBULLET_VTX_LENGTH;

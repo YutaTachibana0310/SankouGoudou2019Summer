@@ -43,5 +43,4 @@ void PlayerMove::OnExit(Player * entity)
 	//移動終了	バレット発射
 	entity->goalpos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-
 }

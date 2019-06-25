@@ -41,7 +41,7 @@ void SetPlayerTargetPosition(int *n);
 
 void CheckCW();
 void CheckCCW();
-bool SetBomb();
+//bool SetBomb();
 
 void ChangeState(Player *player, PlayerState next);
 

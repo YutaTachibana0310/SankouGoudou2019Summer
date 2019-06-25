@@ -12,6 +12,8 @@
 #include "debugWindow.h"
 #include "PlayerController.h"
 #include "player.h"
+#include "Bomb.h"
+
 
 //*****************************************************************************
 // É}ÉNÉçíËã`

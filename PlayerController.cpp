@@ -168,7 +168,6 @@ void UpdatePlayerController(HWND hWnd)
 void DrawPlayerController()
 {
 	player.Draw();
-
 }
 
 
@@ -314,13 +313,6 @@ void CheckCCW() {
 		}
 	}
 
-}
-
-bool SetBomb() {
-	if (flag == true) {
-		return true;
-	}
-	return false;
 }
 
 //=============================================================================

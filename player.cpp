@@ -9,6 +9,7 @@
 #include "main.h"
 #include "player.h"
 #include "PlayerController.h"
+#include "Bomb.h"
 
 #include "star.h"
 #include "debugWindow.h"
@@ -70,7 +71,9 @@ void Player::Uninit()
 void Player::Update()
 {
 
-	if (SetBomb() == true) {
+	if ((SetBomb() == true)&&(CurrentState == PlayerState::Wait)){
+
+		SetBomb();
 		DebugText("bomb\n");
 	}
 }

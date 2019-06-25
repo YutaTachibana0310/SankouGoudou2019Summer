@@ -53,6 +53,14 @@ BaseParticleController::~BaseParticleController()
 {
 	SAFE_RELEASE(unitBuff);
 	SAFE_RELEASE(texture);
+	for (BaseParticle *particle : particleContainer)
+	{
+		SAFE_DELETE(particle);
+	}
+	for(BaseEmitter *emitter : emitterContainer)
+	{
+		SAFE_DELETE(emitter);
+	}
 
 	instanceCount--;
 	if (instanceCount == 0)
@@ -70,9 +78,6 @@ BaseParticleController::~BaseParticleController()
 ***************************************/
 void BaseParticleController::Uninit()
 {
-	vector<BaseParticle*>().swap(particleContainer);
-
-	vector<BaseEmitter*>().swap(emitterContainer);
 
 }
 

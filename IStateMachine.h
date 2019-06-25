@@ -8,7 +8,7 @@
 #define _ISTATEMACHINE_H_
 
 #include "main.h"
-
+#include <functional>
 
 template <class T>
 class IStateMachine {
@@ -16,6 +16,8 @@ public:
 	virtual void OnUpdate(T *entity) = 0;
 	virtual void OnStart(T *entity) = 0;
 	virtual void OnExit(T *entity) = 0;
+
+	std::function<void(void)> callback;
 };
 
 #endif

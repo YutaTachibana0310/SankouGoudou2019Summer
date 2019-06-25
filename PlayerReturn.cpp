@@ -4,14 +4,13 @@
 //Author:GP12B332 12 権頭
 //
 //=====================================
-
 #include "PlayerReturn.h"
 #include "Framework/Easing.h"
-#include "PlayerController.h"
 
 /**************************************
 マクロ定義
 ***************************************/
+#define PLAYER_RETURN_DURATION		(20)
 
 /**************************************
 構造体定義
@@ -27,30 +26,31 @@
 **************************************/
 void PlayerReturn::OnUpdate(Player *entity)
 {
-	
-	float t = (float)entity->cntFrame / PLAYER_RETURN_TIME;
+	float t = (float)entity->cntFrame / PLAYER_RETURN_DURATION;
 	entity->cntFrame++;
-	entity->pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->initpos, &PLAYER_CENTER, EasingType::OutExponential);
+	entity->transform.pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->initpos, &entity->goalpos, EasingType::OutCubic);
 	
-	if (entity->cntFrame == PLAYER_RETURN_TIME)
+	if (entity->cntFrame == PLAYER_RETURN_DURATION)
 	{
-		ChangeState(entity, PlayerState::Wait);
+		OnExit(entity);
 	}
 };
 
 /*************************************
-初期化
+入場処理
 **************************************/
 void PlayerReturn::OnStart(Player * entity)
 {
 	entity->cntFrame = 0;
-	entity->initpos = entity->pos;
-
+	entity->initpos = entity->transform.pos;
+	entity->goalpos = D3DXVECTOR3(0.0f, -20.0f, 0.0f);
 };
+
 /*************************************
-終了処理
+退場処理
 **************************************/
 void PlayerReturn::OnExit(Player *entity)
 {
-
+	if (callback != NULL)
+		callback();
 };

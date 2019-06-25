@@ -10,11 +10,13 @@
 #include "main.h"
 #include "Framework/MeshContainer.h"
 #include "PlayerTrail.h"
+#include "IStateMachine.h"
+#include <functional>
 
 /**************************************
 マクロ定義
 ***************************************/
-enum class PlayerState;
+
 
 /**************************************
 プレイヤークラス定義
@@ -22,32 +24,29 @@ enum class PlayerState;
 class Player
 {
 public:
-	MeshContainer* meshPlayer;
+	Player();
+	~Player();
 
-	D3DXVECTOR3 pos;				// 現在の位置
-	D3DXVECTOR3	scl;				// モデルの大きさ(スケール)
-	D3DXVECTOR3	rot;				// 現在の向き
+	MeshContainer* mesh;
+	Transform transform;
+
+	bool active;
+	int	cntFrame;
 
 	D3DXVECTOR3	initpos;			// 移動前位置
 	D3DXVECTOR3	goalpos;			// 移動後位置
-	int	cntFrame;
 
-	PlayerState	currentState;
-	PlayerState prevState;
-	bool active;
+	IStateMachine<Player> *state;
+	std::function<void(void)> callback;
 
 	PlayerTrail *trail;
 
 	//関数
+	void ChangeState(IStateMachine<Player> *next);
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
-
-
-	// 移動先確保用のナンバー
-	int goal;
-
 };
 
 #endif

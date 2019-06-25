@@ -13,6 +13,8 @@
 #include "star.h"
 #include "debugWindow.h"
 
+using namespace std;
+
 /**************************************
 マクロ定義
 ***************************************/
@@ -31,20 +33,35 @@
 プロトタイプ宣言
 ***************************************/
 
+/**************************************
+コンストラクタ
+***************************************/
+Player::Player()
+{
+	mesh = new MeshContainer();
+	trail = new PlayerTrail();
+	
+	mesh->Load(PLAYER_MODEL);
+}
+
+/**************************************
+デストラクタ
+***************************************/
+Player::~Player()
+{
+	SAFE_DELETE(trail);
+	SAFE_DELETE(mesh);
+}
 
 /*************************************
 初期化処理
 **************************************/
 void Player::Init()
 {
-	meshPlayer = new MeshContainer();
-	meshPlayer->Load(PLAYER_MODEL);
-
-	pos = PLAYER_CENTER;
-	scl = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
-	rot = D3DXVECTOR3(0.0f, 59.7f, 0.0f);
-
-	trail = new PlayerTrail();
+	transform.pos = PLAYER_CENTER;
+	transform.scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
+	transform.rot = D3DXVECTOR3(0.0f, D3DXToRadian(180.0f), 0.0f);
+	active = true;
 
 	return;
 }
@@ -54,19 +71,19 @@ void Player::Init()
 ****************************************/
 void Player::Uninit()
 {
-	delete meshPlayer;
-	delete trail;
-
+	active = false;
 }
+
 /****************************************
 更新処理
 *****************************************/
 void Player::Update()
 {
+	if (!active)
+		return;
 
-	if (SetBomb() == true) {
-		DebugText("bomb\n");
-	}
+	if (state != NULL)
+		state->OnUpdate(this);
 
 	trail->Update();
 }
@@ -76,6 +93,8 @@ void Player::Update()
 ******************************************/
 void Player::Draw()
 {
+	if (!active)
+		return;
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, quatMatrixs, shadowMatrix, mtxWorld;
@@ -83,21 +102,30 @@ void Player::Draw()
 	D3DXMatrixIdentity(&mtxWorld);
 
 	// スケールを反映
-	D3DXMatrixScaling(&mtxScl, scl.y, scl.x, scl.z);
+	D3DXMatrixScaling(&mtxScl, transform.scale.y, transform.scale.x, transform.scale.z);
 	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScl);
 
 	// 回転を反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, rot.y, rot.x, rot.z);
+	D3DXMatrixRotationYawPitchRoll(&mtxRot, transform.rot.y, transform.rot.x, transform.rot.z);
 	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRot);
 
 	// 移動を反映
-	D3DXMatrixTranslation(&mtxTranslate, pos.x, pos.y, pos.z);
+	D3DXMatrixTranslation(&mtxTranslate, transform.pos.x, transform.pos.y, transform.pos.z);
 	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTranslate);
 
 	// ワールドマトリックスの設定
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
-	meshPlayer->Draw();
+	mesh->Draw();
 	trail->Draw();
 
+}
+
+/*****************************************
+状態遷移
+******************************************/
+void Player::ChangeState(IStateMachine<Player> *next)
+{
+	state = next;
+	state->OnStart(this);
 }

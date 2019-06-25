@@ -10,6 +10,7 @@
 
 #include "ScoreParticleController.h"
 #include "PlayerBulletParticleController.h"
+#include "PlayerTrailParticleController.h"
 
 #include "PostEffect\ScreenObject.h"
 #include "PostEffect\CrossFilterController.h"
@@ -31,6 +32,7 @@ enum ParticleController
 {
 	ScoreParticle,
 	PlayerBulletParticle,
+	PlayerTrailParticle,
 	ControllerMax
 };
 
@@ -67,7 +69,8 @@ void InitGameParticleManager(int num)
 	//各コントローラを生成
 	container.resize(ControllerMax);
 	container[ScoreParticle] = new ScoreParticleController();
-	container[PlayerBulletParticle] = (new PlayerBulletParticleController());
+	container[PlayerBulletParticle] = new PlayerBulletParticleController();
+	container[PlayerTrailParticle] = new PlayerTrailParticleController();
 
 	//レンダーターゲット作成
 	GameParticle::CreateRenderTarget();
@@ -169,6 +172,17 @@ void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edge
 		= static_cast<PlayerBulletParticleController*>(container[PlayerBulletParticle]);
 
 	controller->SetEmitter(pPos, pActive, edgeRight, edgeLeft);
+}
+
+/**************************************
+プレイヤートレイルパーティクル処理
+***************************************/
+void SetPlayerTrailParticle(D3DXVECTOR3 *pPos, bool *pActive)
+{
+	PlayerTrailParticleController *controller =
+		static_cast<PlayerTrailParticleController*>(container[PlayerTrailParticle]);
+
+	controller->SetEmitter(pPos, pActive);
 }
 
 /**************************************

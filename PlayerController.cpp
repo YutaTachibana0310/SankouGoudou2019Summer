@@ -17,6 +17,7 @@
 #include "PlayerWait.h"
 #include "PlayerBullet.h"
 #include <vector>
+#include "GameParticleManager.h"
 
 using namespace std;
 
@@ -121,7 +122,11 @@ HRESULT InitPlayerController(void)
 	flagtimer = 0;
 
 	//プレイヤーをWait状態に遷移
-	player.CurrentState = PlayerState::Wait;
+	player.currentState = PlayerState::Wait;
+	player.active = true;
+
+	//PlayerTrailParticleをセット
+	SetPlayerTrailParticle(&player.pos, &player.active);
 
 	return S_OK;
 }
@@ -147,6 +152,7 @@ void UpdatePlayerController(HWND hWnd)
 		FirePlayerBullet((TrailIndex)start, (TrailIndex)end);
 	}
 	DebugText("PlayerBulletCnt : %d", bulletContainer.size());
+	DebugText("PlayerState:%d", (int)player.currentState);
 	EndDebugWindow("PlayerController");
 
 	resetcount++;
@@ -168,7 +174,7 @@ void UpdatePlayerController(HWND hWnd)
 
 	//プレイヤーをアップデート
 	player.Update();
-	fsm[player.CurrentState]->OnUpdate(&player);
+	fsm[player.currentState]->OnUpdate(&player);
 
 	//プレイヤーバレットをアップデート
 	for (auto itr = bulletContainer.begin(); itr != bulletContainer.end(); itr++)
@@ -218,7 +224,7 @@ void DrawPlayerBullet()
 void CheckInput(HWND hWnd)
 {
 	//Wait状態以外は入力を受け付けない
-	if (player.CurrentState != PlayerState::Wait)
+	if (player.currentState != PlayerState::Wait)
 		return;
 
 	//各ボタンについて確認
@@ -416,9 +422,9 @@ vector<PlayerBullet*>* GetPlayerBulletContainer(void)
 //=============================================================================
 void ChangeState(Player *player, PlayerState next)
 {
-	fsm[player->CurrentState]->OnExit(player);
-	player->CurrentState = next;
-	fsm[player->CurrentState]->OnStart(player);
+	fsm[player->currentState]->OnExit(player);
+	player->currentState = next;
+	fsm[player->currentState]->OnStart(player);
 }
 
 //=============================================================================

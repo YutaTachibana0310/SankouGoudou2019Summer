@@ -22,7 +22,8 @@
 ***************************************/
 
 /**************************************
-クラス定義
+BasePartlceControllerクラス
+※継承先でInit(), Emit(), SetEmitter()を実装する
 ***************************************/
 class BaseParticleController
 {
@@ -50,7 +51,7 @@ protected:
 	std::vector<BaseParticle*> particleContainer;	//パーティクルコンテナ
 	std::vector<BaseEmitter*> emitterContainer;		//エミッタコンテナ
 
-	void MakeUnitBuffer(D3DXVECTOR2* size, D3DXVECTOR2* texDix);	//単位頂点バッファ作成処理
+	void MakeUnitBuffer(const D3DXVECTOR2* size, const D3DXVECTOR2* texDix);	//単位頂点バッファ作成処理
 	void LoadTexture(const char* filePath);			//テクスチャ読み込み処理
 
 private:

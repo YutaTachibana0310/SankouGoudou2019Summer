@@ -27,5 +27,6 @@ void DrawGameParticleManager(void);
 
 void SetScoreParticle(D3DXVECTOR3 *pos);
 void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edgeRight, D3DXVECTOR3 *edgeLeft);
+void SetPlayerTrailParticle(D3DXVECTOR3 *pPos, bool *pActive);
 
 #endif

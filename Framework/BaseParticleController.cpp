@@ -53,6 +53,14 @@ BaseParticleController::~BaseParticleController()
 {
 	SAFE_RELEASE(unitBuff);
 	SAFE_RELEASE(texture);
+	for (BaseParticle *particle : particleContainer)
+	{
+		SAFE_DELETE(particle);
+	}
+	for(BaseEmitter *emitter : emitterContainer)
+	{
+		SAFE_DELETE(emitter);
+	}
 
 	instanceCount--;
 	if (instanceCount == 0)
@@ -70,9 +78,6 @@ BaseParticleController::~BaseParticleController()
 ***************************************/
 void BaseParticleController::Uninit()
 {
-	vector<BaseParticle*>().swap(particleContainer);
-
-	vector<BaseEmitter*>().swap(emitterContainer);
 
 }
 
@@ -134,7 +139,7 @@ bool BaseParticleController::Draw()
 /**************************************
 パーティクル単位バッファ作成処理
 ***************************************/
-void BaseParticleController::MakeUnitBuffer(D3DXVECTOR2 *size, D3DXVECTOR2 *texDiv)
+void BaseParticleController::MakeUnitBuffer(const D3DXVECTOR2 *size, const D3DXVECTOR2 *texDiv)
 {
 	if (unitBuff != NULL)
 		return;

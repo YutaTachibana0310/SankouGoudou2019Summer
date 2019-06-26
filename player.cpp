@@ -17,10 +17,6 @@
 マクロ定義
 ***************************************/
 #define PLAYER_MODEL  "data/MODEL/airplane000.x"
-#define PLAYER_MOVE		(120.0f)
-
-#define TEXTURE_SAMPLE00_SIZE_X	(50) // テクスチャサイズ
-#define TEXTURE_SAMPLE00_SIZE_Y	(50) // 同上
 
 /**************************************
 構造体定義
@@ -30,6 +26,7 @@
 /**************************************
 グローバル変数
 ***************************************/
+
 /**************************************
 プロトタイプ宣言
 ***************************************/
@@ -44,13 +41,10 @@ void Player::Init()
 	meshPlayer->Load(PLAYER_MODEL);
 
 	pos = PLAYER_CENTER;
-	move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	scl = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
 	rot = D3DXVECTOR3(0.0f, 59.7f, 0.0f);
-	rotDest= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-
-
+	trail = new PlayerTrail();
 
 	return;
 }
@@ -61,6 +55,7 @@ void Player::Init()
 void Player::Uninit()
 {
 	delete meshPlayer;
+	delete trail;
 
 }
 /****************************************
@@ -72,6 +67,8 @@ void Player::Update()
 	if (SetBomb() == true) {
 		DebugText("bomb\n");
 	}
+
+	trail->Update();
 }
 
 /*****************************************
@@ -101,5 +98,6 @@ void Player::Draw()
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 	meshPlayer->Draw();
+	trail->Draw();
 
 }

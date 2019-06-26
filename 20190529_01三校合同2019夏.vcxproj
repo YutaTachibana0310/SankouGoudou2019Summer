@@ -151,6 +151,9 @@
     <ClInclude Include="BaseGameEntity.h" />
     <ClInclude Include="enemystate.h" />
     <ClInclude Include="startButtonUI.h" />
+    <ClInclude Include="PlayerTrail.h" />
+    <ClInclude Include="PlayerTrailParticle.h" />
+    <ClInclude Include="PlayerTrailParticleController.h" />
     <ClInclude Include="state.h" />
     <ClInclude Include="Framework\AnimContainer.h" />
     <ClInclude Include="Framework\BaseCameraPlugin.h" />
@@ -269,6 +272,8 @@
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="PlayerReturn.cpp" />
+    <ClCompile Include="PlayerTrailParticle.cpp" />
+    <ClCompile Include="PlayerTrailParticleController.cpp" />
     <ClCompile Include="PlayerWait.cpp" />
     <ClCompile Include="PostEffectManager.cpp" />
     <ClCompile Include="PostEffect\BloomController.cpp" />
@@ -292,6 +297,7 @@
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="startButtonUI.cpp" />
     <ClCompile Include="starUI.cpp" />
+    <ClCompile Include="PlayerTrail.cpp" />
     <ClCompile Include="enemystate.cpp" />
     <ClCompile Include="titleBGUI.cpp" />
     <ClCompile Include="titleLogoUI.cpp" />

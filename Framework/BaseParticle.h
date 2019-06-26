@@ -14,7 +14,8 @@
 ***************************************/
 
 /**************************************
-クラス定義
+BaseParticleクラス
+※継承先でInit(), Uninit(), Update()を実装する
 ***************************************/
 class BaseParticle
 {
@@ -22,9 +23,9 @@ public:
 	BaseParticle();
 	virtual ~BaseParticle();
 
-	virtual void Init() {};
-	virtual void Uninit() {};
-	virtual void Update() {};
+	virtual void Init() = 0;
+	virtual void Uninit() = 0;
+	virtual void Update() = 0;
 	void EmbedTransform(Transform *pTransform);
 	bool active;
 

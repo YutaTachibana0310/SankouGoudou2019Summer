@@ -23,7 +23,7 @@ void PlayerMove::OnUpdate(Player *entity)
 {
 	entity->cntFrame++;
 	float t = (float)entity->cntFrame / PLAYER_MOVE_TIME;
-	entity->pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->initpos, &entity->goalpos, EasingType::InCubic);
+	entity->pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->initpos, &entity->goalpos, EasingType::OutCubic);
 
 	if (entity->cntFrame == PLAYER_MOVE_TIME)
 	{
@@ -36,12 +36,15 @@ void PlayerMove::OnStart(Player *entity)
 	//初期化
 	entity->cntFrame = 0;
 	entity->initpos = entity->pos;
+
+	entity->trail->Init(&entity->pos);
 }
 
 void PlayerMove::OnExit(Player * entity)
 {
 	//移動終了	バレット発射
+	entity->trail->Uninit();
+	FirePlayerBullet(&entity->goalpos, &entity->initpos);
+
 	entity->goalpos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
-
 }

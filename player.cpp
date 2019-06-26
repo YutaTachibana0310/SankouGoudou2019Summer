@@ -10,7 +10,7 @@
 #include "player.h"
 #include "PlayerController.h"
 
-#include "star.h"
+#include "starUI.h"
 #include "debugWindow.h"
 
 /**************************************

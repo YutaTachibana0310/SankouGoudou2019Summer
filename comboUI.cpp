@@ -5,7 +5,7 @@
 //
 //=============================================================================
 #include "main.h"
-#include "combo.h"
+#include "comboUI.h"
 #include "UIdrawer.h"
 #include "input.h"
 

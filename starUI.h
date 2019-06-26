@@ -37,10 +37,10 @@ enum STARS
 //*****************************************************************************
 HRESULT InitStar	(void);
 void	UninitStar	(void);
-void	UpdateStar	(HWND hWnd);
+void	UpdateStar	(void);
 void	DrawStar	(void);
 void	ToggleRotateStar(int num, bool isRotated);
-bool	IsStarSelected(int num, HWND hWnd);
+bool	IsStarSelected(int num);
 void	GetStarPosition(D3DXVECTOR3 *pos);
 
 #endif

@@ -6,9 +6,9 @@
 //=============================================================================
 #include "main.h"
 #include "input.h"
-#include "trail.h"
+#include "trailUI.h"
 #include "UIdrawer.h"
-#include "star.h"
+#include "starUI.h"
 #include "debugWindow.h"
 #include "PlayerController.h"
 #include "player.h"

@@ -1,26 +1,31 @@
 //=============================================================================
 //
-// カーソル画面処理 [cursor.h]
+// スタートボタン画面処理 [startButtonUI.h]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
-#ifndef _CURSOR_H_
-#define _CURSOR_H_
+#ifndef _STARTBUTTON_H_
+#define _STARTBUTTON_H_
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	ADRESS_TEXTURE_CURSOR	("data/TEXTURE/UI/cursor.png")	// 読み込むテクスチャファイル名
+#define	ADRESS_TEXTURE_STARTBUTTON_BG	("data/TEXTURE/UI/startButtonBG.png")	// 読み込むテクスチャファイル名
+#define	ADRESS_TEXTURE_STARTBUTTON_TEXT	("data/TEXTURE/UI/startButtonText.png")	// 読み込むテクスチャファイル名
 
-#define COLLIDERSIZE_CURSOR (D3DXVECTOR3(5.0f,5.0f,0.0f))
+enum STARTBUTTON_PARTS
+{
+	BACKGROUND_STARTBUTTON,
+	TEXT_STARTBUTTON,
+};
 
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-HRESULT InitCursor(void);
-void	UninitCursor(void);
-void	UpdateCursor(HWND hWnd);
-void	DrawCursor(void);
-bool	IsCursorOverd(HWND hWnd, D3DXVECTOR3 pos, D3DXVECTOR3 size);
+HRESULT InitStartButton(void);
+void	UninitStartButton(void);
+void	UpdateStartButton(void);
+void	DrawStartButton(void);
 
 #endif
+

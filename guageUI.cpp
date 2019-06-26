@@ -6,7 +6,7 @@
 //=============================================================================
 #include "main.h"
 #include "input.h"
-#include "guage.h"
+#include "guageUI.h"
 #include "UIdrawer.h"
 #include "debugWindow.h"
 

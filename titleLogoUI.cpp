@@ -1,41 +1,41 @@
 //=============================================================================
 //
-// インターフェースライン画面処理 [line.cpp]
+// タイトルロゴ画面処理 [titleLogoUI.cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
 #include "main.h"
 #include "input.h"
-#include "line.h"
+#include "titleLogoUI.h"
 #include "UIdrawer.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define SIZE_LINE		(D3DXVECTOR3(SCREEN_WIDTH/2,170.0f,0.0f))
-#define POSITION_LINE	(D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_HEIGHT/10*2,0.0f))
+#define SIZE_TITLELOGO		(D3DXVECTOR3(SCREEN_WIDTH/4,SCREEN_HEIGHT/4,0.0f))
+#define POSITION_TITLELOGO	(D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_HEIGHT/3,0.0f))
 
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-OBJECT	line;
+OBJECT	titleLogo;
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT InitLine(void)
+HRESULT InitTitleLogo(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_LINE, &line);
-	InitialTexture(&line);
-	MakeVertexObject(&line);
+	LoadTexture(pDevice, ADRESS_TEXTURE_TITLELOGO, &titleLogo);
+	InitialTexture(&titleLogo);
+	MakeVertexObject(&titleLogo);
 
-	line.position	= POSITION_LINE;
-	line.size		= SIZE_LINE;
-	line.rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	titleLogo.position	= POSITION_TITLELOGO;
+	titleLogo.size		= SIZE_TITLELOGO;
+	titleLogo.rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	SetColorObject(&line, SET_COLOR_NOT_COLORED);
+	SetColorObject(&titleLogo, SET_COLOR_NOT_COLORED);
 
 	return S_OK;
 }
@@ -43,25 +43,25 @@ HRESULT InitLine(void)
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitLine(void)
+void UninitTitleLogo(void)
 {
-	ReleaseTexture(&line);
+	ReleaseTexture(&titleLogo);
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateLine()
+void UpdateTitleLogo(void)
 {
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawLine(void)
+void DrawTitleLogo(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	DrawObject(pDevice, line);
-	SetVertexObject(&line);
+	DrawObject(pDevice, titleLogo);
+	SetVertexObject(&titleLogo);
 }

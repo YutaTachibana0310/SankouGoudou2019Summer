@@ -1,19 +1,19 @@
 //=============================================================================
 //
-// UI管理処理 [UIMaager.h]
+// GameシーンUI管理処理 [GameSceneUIMaager.h]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
-#ifndef _UIMANAGER_H_
-#define _UIMANAGER_H_
+#ifndef _GAMESCENEUIMANAGER_H_
+#define _GAMESCENEUIMANAGER_H_
 
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-void InitUI	(void);
-void UninitUI(void);
-void UpdateUI(HWND hwnd);
-void DrawUI	(void);
+void InitGameSceneUI	(void);
+void UninitGameSceneUI(void);
+void UpdateGameSceneUI(HWND hwnd);
+void DrawGameSceneUI	(void);
 
 #endif
 

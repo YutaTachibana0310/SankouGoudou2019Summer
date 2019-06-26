@@ -6,11 +6,11 @@
 //=============================================================================
 #include "main.h"
 #include "input.h"
-#include "star.h"
+#include "starUI.h"
 #include "UIdrawer.h"
 #include "Framework/EasingVector.h"
-#include "cursor.h"
-#include "trail.h"
+#include "cursorUI.h"
+#include "trailUI.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -18,7 +18,7 @@
 #define NUMBER_ROTATION		(1)
 #define SIZE_STAR			(D3DXVECTOR3(100.0f,100.0f,0.0f))
 #define VOLUME_ZOOM			(30.0f)
-#define SPEED_ROTATION		(60.0f)
+#define DURATION_ROTATION	(60.0f)
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -80,11 +80,11 @@ void UninitStar(void)
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateStar(HWND hWnd)
+void UpdateStar(void)
 {
 	for (int i = 0; i < STAR_MAX; i++)
 	{
-			if (IsStarSelected(i,hWnd))
+			if (IsStarSelected(i))
 			{
 				if (IsMouseLeftTriggered())
 				{
@@ -125,7 +125,7 @@ void DrawStar(void)
 void RotateStar(int num)
 {
 	star[num].countFrame++;
-	float t = (float)star[num].countFrame / SPEED_ROTATION;
+	float t = (float)star[num].countFrame / DURATION_ROTATION;
 	star[num].rotation = 
 		EaseOutExponentialVector(t, star[num].easingStartRotation, star[num].easingGoalRotation);
 }
@@ -158,9 +158,9 @@ void ToggleRotateStar(int num, bool isRotated)
 //=============================================================================
 // 選択されているかの判定処理 (当たったら選択状態)
 //=============================================================================
-bool IsStarSelected(int num, HWND hWnd)
+bool IsStarSelected(int num)
 {
-	return IsCursorOverd(hWnd,star[num].position,star[num].colliderSize);
+	return IsCursorOvered(star[num].position,star[num].colliderSize);
 }
 
 //=============================================================================

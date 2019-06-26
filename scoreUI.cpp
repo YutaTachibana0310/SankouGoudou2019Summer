@@ -4,7 +4,7 @@
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
-#include "score.h"
+#include "scoreUI.h"
 #include "UIdrawer.h"
 #include "input.h"
 

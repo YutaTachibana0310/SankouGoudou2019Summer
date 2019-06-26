@@ -139,26 +139,26 @@ void DrawTrail(void)
 	}
 }
 
-void DrawTrail(void)
-{
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
-	// プレイヤーから受け取ったデータを入れる
-	std::vector <int> drawHistory;
-
-	// 先に背景を描画
-	DrawObject(pDevice, trail[TRAIL_BG]);
-	SetVertexObject(&trail[TRAIL_BG]);
-
-	// 要素数計算
-	historyMax = drawHistory.size();
-
-	for (int i = 0; i < historyMax; i++)
-	{
-		DrawObject(pDevice, trail[drawHistory[i]]);
-		SetVertexObject(&trail[drawHistory[i]]);
-	}
-}
+//void DrawTrail(void)
+//{
+//	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+//
+//	// プレイヤーから受け取ったデータを入れる
+//	std::vector <int> drawHistory;
+//
+//	// 先に背景を描画
+//	DrawObject(pDevice, trail[TRAIL_BG]);
+//	SetVertexObject(&trail[TRAIL_BG]);
+//
+//	// 要素数計算
+//	historyMax = drawHistory.size();
+//
+//	for (int i = 0; i < historyMax; i++)
+//	{
+//		DrawObject(pDevice, trail[drawHistory[i]]);
+//		SetVertexObject(&trail[drawHistory[i]]);
+//	}
+//}
 
 //=============================================================================
 // 描画可能判定処理 (可能だったらtrueを返す)

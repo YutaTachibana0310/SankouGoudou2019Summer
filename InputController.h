@@ -8,6 +8,6 @@
 #ifndef _INPUTCONTROLLER_H_
 #define _INPUTCONTROLLER_H_
 
-bool IsEntered(int m, HWND hWnd);
+bool IsEntered(int m);
 void InputSound();
 #endif

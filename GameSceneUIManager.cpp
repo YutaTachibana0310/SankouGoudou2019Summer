@@ -1,22 +1,24 @@
 //=============================================================================
 //
-// UI管理処理 [UIManager.cpp]
+// GameシーンUI管理処理 [GameSceneUIManager.cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
 #include "main.h"
 #include "input.h"
-#include "guage.h"
-#include "score.h"
-#include "star.h"
-#include "combo.h"
-#include "line.h"
-#include "trail.h"
+#include "guageUI.h"
+#include "scoreUI.h"
+#include "starUI.h"
+#include "comboUI.h"
+#include "lineUI.h"
+#include "trailUI.h"
+#include "cursorUI.h"
+#include "GameSceneUIManager.h"
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
-void InitUI(void)
+void InitGameSceneUI(void)
 {
 	InitGuageParts();
 	InitScore();
@@ -24,12 +26,13 @@ void InitUI(void)
 	InitCombo();
 	InitLine();
 	InitTrail();
+	InitCursor();
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitUI(void)
+void UninitGameSceneUI(void)
 {
 	UninitGuageParts();
 	UninitScore();
@@ -37,19 +40,21 @@ void UninitUI(void)
 	UninitCombo();
 	UninitLine();
 	UninitTrail();
+	UninitCursor();
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateUI(HWND hWnd)
+void UpdateGameSceneUI(HWND hWnd)
 {
 	UpdateGuageParts();
 	UpdateScore();
-	UpdateStar(hWnd);
+	UpdateStar();
 	UpdateCombo();
 	UpdateLine();
 	UpdateTrail();
+	UpdateCursor(hWnd);
 
 #ifdef _DEBUG
 	// デバッグ用コマンド
@@ -76,7 +81,7 @@ void UpdateUI(HWND hWnd)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawUI(void)
+void DrawGameSceneUI(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -90,6 +95,8 @@ void DrawUI(void)
 	DrawLine();
 	DrawCombo();
 	DrawTrail();
+
+	DrawCursor();
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }
 

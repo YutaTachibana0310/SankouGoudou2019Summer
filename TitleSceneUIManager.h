@@ -1,19 +1,20 @@
 //=============================================================================
 //
-// UI管理処理 [UIMaager.h]
+// TitleシーンUI管理処理 [TitleSceneUIMaager.h]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
-#ifndef _UIMANAGER_H_
-#define _UIMANAGER_H_
+#ifndef _TITLESCENEUIMANAGER_H_
+#define _TITLESCENEUIMANAGER_H_
 
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-void InitUI	(void);
-void UninitUI(void);
-void UpdateUI(HWND hwnd);
-void DrawUI	(void);
+void InitTitleSceneUI(void);
+void UninitTitleSceneUI(void);
+void UpdateTitleSceneUI(HWND hWnd);
+void DrawTitleSceneUI(void);
 
 #endif
+
 

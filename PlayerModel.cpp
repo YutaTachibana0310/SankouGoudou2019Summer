@@ -5,7 +5,7 @@
 //
 //=====================================
 #include "PlayerModel.h"
-#include "star.h"
+#include "starUI.h"
 
 using namespace std;
 

@@ -11,7 +11,7 @@
 #include "PlayerController.h"
 #include "GameParticleManager.h"
 
-#include "star.h"
+#include "starUI.h"
 #include "debugWindow.h"
 
 using namespace std;

@@ -6,21 +6,19 @@
 //=============================================================================
 #include "main.h"
 #include "input.h"
-#include "star.h"
+#include "starUI.h"
 #include "UIdrawer.h"
-#include "collider.h"
 #include "Framework/EasingVector.h"
-#include "cursor.h"
-#include "trail.h"
+#include "cursorUI.h"
+#include "trailUI.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
 #define NUMBER_ROTATION		(1)
-#define SIZE_X_STAR			(100.0f)
-#define SIZE_Y_STAR			(100.0f)
+#define SIZE_STAR			(D3DXVECTOR3(100.0f,100.0f,0.0f))
 #define VOLUME_ZOOM			(30.0f)
-#define SPEED_ROTATION		(60.0f)
+#define DURATION_ROTATION	(60.0f)
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -46,8 +44,8 @@ HRESULT InitStar(void)
 		InitialTexture(&star[i]);
 		MakeVertexRotateObject(&star[i]);
 
-		star[i].size = D3DXVECTOR3(SIZE_X_STAR, SIZE_Y_STAR, 0.0f);
-		star[i].colliderSize = D3DXVECTOR3(COLLIDERSIZE_X_STAR, COLLIDERSIZE_X_STAR, 0.0f);
+		star[i].size = SIZE_STAR;
+		star[i].colliderSize = COLLIDERSIZE_STAR;
 		star[i].rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	}
 
@@ -82,24 +80,24 @@ void UninitStar(void)
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateStar(HWND hWnd)
+void UpdateStar(void)
 {
 	for (int i = 0; i < STAR_MAX; i++)
 	{
-			if (IsSelected(i,hWnd))
+			if (IsStarSelected(i))
 			{
 				if (IsMouseLeftTriggered())
 				{
 					ToggleRotateStar(i,true);
 				}
 				// 選択されているなら拡大表示
-				star[i].size.x = SIZE_X_STAR + VOLUME_ZOOM;
-				star[i].size.y = SIZE_Y_STAR + VOLUME_ZOOM;
+				star[i].size.x = SIZE_STAR.x + VOLUME_ZOOM;
+				star[i].size.y = SIZE_STAR.y + VOLUME_ZOOM;
 			}
 			else
 			{	// 元に戻す
-				star[i].size.x = SIZE_X_STAR;
-				star[i].size.y = SIZE_Y_STAR;
+				star[i].size.x = SIZE_STAR.x;
+				star[i].size.y = SIZE_STAR.y;
 			}
 
 		CreateObjectCircle(&star[i], star[i].size.x, star[i].size.y);
@@ -127,7 +125,7 @@ void DrawStar(void)
 void RotateStar(int num)
 {
 	star[num].countFrame++;
-	float t = (float)star[num].countFrame / SPEED_ROTATION;
+	float t = (float)star[num].countFrame / DURATION_ROTATION;
 	star[num].rotation = 
 		EaseOutExponentialVector(t, star[num].easingStartRotation, star[num].easingGoalRotation);
 }
@@ -160,11 +158,9 @@ void ToggleRotateStar(int num, bool isRotated)
 //=============================================================================
 // 選択されているかの判定処理 (当たったら選択状態)
 //=============================================================================
-bool IsSelected(int num, HWND hWnd)
+bool IsStarSelected(int num)
 {
-	return IsHittedBB(GetMousePosition(hWnd),star[num].position,
-		D3DXVECTOR2(star[num].colliderSize.x,star[num].colliderSize.y), 
-		D3DXVECTOR2(COLLIDERSIZE_X_CURSOR,COLLIDERSIZE_Y_CURSOR));
+	return IsCursorOvered(star[num].position,star[num].colliderSize);
 }
 
 //=============================================================================

@@ -97,6 +97,24 @@
     <Filter Include="ヘッダー ファイル\Player\State">
       <UniqueIdentifier>{bfd5d334-3194-43eb-9e41-8bb6dd293c3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\UI\TitleSceneUI">
+      <UniqueIdentifier>{f68986be-0bbe-4c10-9ddb-9a8fc88f00db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\UI\TitleSceneUI">
+      <UniqueIdentifier>{0602e832-f8da-41f4-ac7f-b2ef853bfa80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI\GameSceneUI">
+      <UniqueIdentifier>{4d12127d-3dc3-446f-b84b-7bc2e562cc1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\UI\GameSceneUI">
+      <UniqueIdentifier>{ebd1c21e-aec6-488b-821f-1016fd64467a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI\SceneUIManager">
+      <UniqueIdentifier>{4ecda8e9-d168-41e3-b859-8ed91851fffd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\UI\SceneUIManager">
+      <UniqueIdentifier>{c987a7c9-6f82-466b-9592-74b51ed87536}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -201,25 +219,7 @@
     <ClInclude Include="PlayerBullet.h">
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
-    <ClInclude Include="guage.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="score.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="star.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
     <ClInclude Include="UIdrawer.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UIManager.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="collider.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="combo.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
     <ClInclude Include="IStateScene.h">
@@ -249,9 +249,6 @@
     <ClInclude Include="ResultScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="line.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
     <ClInclude Include="BackGroundCity.h">
       <Filter>ヘッダー ファイル\BG</Filter>
     </ClInclude>
@@ -278,12 +275,6 @@
     </ClInclude>
     <ClInclude Include="player.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="cursor.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="trail.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
     <ClInclude Include="MyLibrary.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -350,6 +341,42 @@
     </ClInclude>
     <ClInclude Include="PlayerBulletParticleController.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSceneUIManager.h">
+      <Filter>ヘッダー ファイル\UI\SceneUIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="comboUI.h">
+      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="cursorUI.h">
+      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="guageUI.h">
+      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="lineUI.h">
+      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="scoreUI.h">
+      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="starUI.h">
+      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="trailUI.h">
+      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleSceneUIManager.h">
+      <Filter>ヘッダー ファイル\UI\SceneUIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="titleLogoUI.h">
+      <Filter>ヘッダー ファイル\UI\TitleSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="startButtonUI.h">
+      <Filter>ヘッダー ファイル\UI\TitleSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="titleBGUI.h">
+      <Filter>ヘッダー ファイル\UI\TitleSceneUI</Filter>
     </ClInclude>
     <ClInclude Include="PlayerTrailParticle.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
@@ -503,6 +530,12 @@
     <ClCompile Include="combo.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerWait.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerReturn.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
     <ClCompile Include="TitleScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
@@ -511,9 +544,6 @@
     </ClCompile>
     <ClCompile Include="ResultScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="line.cpp">
-      <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
     <ClCompile Include="Framework\AnimContainer.cpp">
       <Filter>ソース ファイル\Framework</Filter>
@@ -547,12 +577,6 @@
     </ClCompile>
     <ClCompile Include="BackGuroundField.cpp">
       <Filter>ソース ファイル\BG</Filter>
-    </ClCompile>
-    <ClCompile Include="cursor.cpp">
-      <Filter>ソース ファイル\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="trail.cpp">
-      <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
     <ClCompile Include="sound.cpp">
       <Filter>ソース ファイル\sound</Filter>
@@ -604,6 +628,45 @@
     </ClCompile>
     <ClCompile Include="PlayerBulletParticleController.cpp">
       <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="UIdrawer.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSceneUIManager.cpp">
+      <Filter>ソース ファイル\UI\SceneUIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="comboUI.cpp">
+      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="cursorUI.cpp">
+      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="guageUI.cpp">
+      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="lineUI.cpp">
+      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="scoreUI.cpp">
+      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="starUI.cpp">
+      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="trailUI.cpp">
+      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleSceneUIManager.cpp">
+      <Filter>ソース ファイル\UI\SceneUIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="titleLogoUI.cpp">
+      <Filter>ソース ファイル\UI\TitleSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="startButtonUI.cpp">
+      <Filter>ソース ファイル\UI\TitleSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="titleBGUI.cpp">
+      <Filter>ソース ファイル\UI\TitleSceneUI</Filter>
     </ClCompile>
     <ClCompile Include="PlayerTrailParticle.cpp">
       <Filter>ソース ファイル\Effect</Filter>

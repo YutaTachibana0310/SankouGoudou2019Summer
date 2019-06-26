@@ -40,7 +40,6 @@ using namespace std;
 Player::Player()
 {
 	mesh = new MeshContainer();
-	trail = new PlayerTrail();
 	
 	mesh->Load(PLAYER_MODEL);
 }
@@ -50,7 +49,6 @@ Player::Player()
 ***************************************/
 Player::~Player()
 {
-	SAFE_DELETE(trail);
 	SAFE_DELETE(mesh);
 }
 
@@ -89,8 +87,6 @@ int Player::Update()
 	if (state != NULL)
 		stateResult = state->OnUpdate(this);
 
-	trail->Update();
-
 	return stateResult;
 }
 
@@ -123,8 +119,6 @@ void Player::Draw()
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 	mesh->Draw();
-	trail->Draw();
-
 }
 
 /*****************************************

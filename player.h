@@ -11,7 +11,6 @@
 #include "Framework/MeshContainer.h"
 #include "PlayerTrail.h"
 #include "IStateMachine.h"
-#include <functional>
 
 /**************************************
 マクロ定義
@@ -37,7 +36,6 @@ public:
 	D3DXVECTOR3	goalpos;			// 移動後位置
 
 	IStateMachine<Player> *state;
-	PlayerTrail *trail;
 
 	//関数
 	void ChangeState(IStateMachine<Player> *next);

@@ -11,8 +11,7 @@
 #include "debugWindow.h"
 #include "debugTimer.h"
 
-#include "UIManager.h"
-#include "cursor.h"
+#include "GameSceneUIManager.h"
 #include "player.h"
 #include "PlayerController.h"
 #include "InputController.h"
@@ -52,10 +51,9 @@ void GameScene::Init()
 
 	InitGameParticleManager(0);
 
-	InitUI();
+	InitGameSceneUI();
 
 	InitPlayerController();
-	InitCursor();
 	Sound::GetInstance()->Create();
 
 	RegisterDebugTimer(GAMESCENE_LABEL);
@@ -76,9 +74,7 @@ void GameScene::Uninit()
 
 	UninitPlayerController();
 
-	UninitUI();
-	UninitCursor();
-
+	UninitGameSceneUI();
 }
 
 /**************************************
@@ -109,8 +105,7 @@ void GameScene::Update(HWND hWnd)
 
 	//UIの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
-	UpdateUI(hWnd);
-	UpdateCursor(hWnd);
+	UpdateGameSceneUI(hWnd);
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
 
 	//ポストエフェクトの更新
@@ -154,8 +149,7 @@ void GameScene::Draw()
 	CountDebugTimer(GAMESCENE_LABEL, "DrawParticle");
 
 	//UI描画
-	DrawUI();
-	DrawCursor();
+	DrawGameSceneUI();
 
 	DrawDebugTimer(GAMESCENE_LABEL);
 }

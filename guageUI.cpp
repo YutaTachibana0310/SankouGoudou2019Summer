@@ -6,7 +6,7 @@
 //=============================================================================
 #include "main.h"
 #include "input.h"
-#include "guage.h"
+#include "guageUI.h"
 #include "UIdrawer.h"
 #include "debugWindow.h"
 
@@ -17,11 +17,10 @@
 #define WIDTH_GUAGEFLAME	(5.0f)
 #define MAX_HP				(100)
 #define DECREASESPEED_GUAGE (0.0050f)
-#define SIZE_X_GUAGE		(25.0f)
-#define SIZE_Y_GUAGE		(250.0f)
-#define POSITION_GUAGE		(D3DXVECTOR3(SCREEN_WIDTH / 10*1.0f, SCREEN_HEIGHT / 10*7.0f, 0.0f))
-#define INITIALVALUE_GUAGEPERCENTAGE (1.0f)
 #define TEXT_GUAGE_ALPHA	(0.5f)
+#define INITIALVALUE_GUAGEPERCENTAGE (1.0f)
+#define SIZE_GUAGE			(D3DXVECTOR3(25.0f,250.0f,0.0f))
+#define POSITION_GUAGE		(D3DXVECTOR3(SCREEN_WIDTH / 10*1.0f, SCREEN_HEIGHT / 10*7.0f, 0.0f))
 
 //*****************************************************************************
 // ÉOÉçÅ[ÉoÉãïœêî
@@ -37,8 +36,8 @@ HRESULT InitGuageParts(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEBAR,	&guageParts[GUAGEBAR_DAMAGE]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEBAR,	&guageParts[GUAGEBAR_TRUE]);
+	LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEBAR, &guageParts[GUAGEBAR_DAMAGE]);
+	LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEBAR, &guageParts[GUAGEBAR_TRUE]);
 	LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEFLAME, &guageParts[GUAGEFLAME]);
 	LoadTexture(pDevice, ADRESS_TEXTURE_GUAGETEXT, &guageParts[GUAGETEXT]);
 
@@ -51,7 +50,7 @@ HRESULT InitGuageParts(void)
 	{
 		guageParts[i].position = POSITION_GUAGE;
 		guageParts[i].rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		guageParts[i].size     = D3DXVECTOR3(SIZE_X_GUAGE, SIZE_Y_GUAGE, 0.0f);
+		guageParts[i].size     = SIZE_GUAGE;
 
 		InitialTexture(&guageParts[i]);
 	}

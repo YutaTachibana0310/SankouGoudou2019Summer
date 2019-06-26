@@ -6,7 +6,7 @@
 //=============================================================================
 #include "main.h"
 #include "player.h"
-#include "star.h"
+#include "starUI.h"
 #include "PlayerController.h"
 #include "InputController.h"
 #include "debugWindow.h"
@@ -230,7 +230,7 @@ void CheckInput(HWND hWnd)
 	//各ボタンについて確認
 	for (int i = 0; i < STAR_MAX; i++)
 	{
-		if (!IsEntered(i, hWnd))
+		if (!IsEntered(i))
 			continue;
 
 		movenum = i;

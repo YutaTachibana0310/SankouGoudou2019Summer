@@ -88,7 +88,7 @@ bool PlayerModel::IsExistPrecedInput(int *res)
 bool PlayerModel::CheckOneStroke()
 {
 	//一筆書きの画数に足りていなければリターン
-	if (moveQueue.size() <= PLAYERMODEL_MOVEQUEUE_LENGTH)
+	if (moveQueue.size() < PLAYERMODEL_MOVEQUEUE_LENGTH)
 		return false;
 
 	//一筆書きの開始位置のインデックスを検索
@@ -152,10 +152,11 @@ bool PlayerModel::_CheckOneStroke(size_t start)
 ***************************************/
 bool PlayerModel::GetPlayerTrail(PlayerTrailModel *pOut)
 {
-	if (moveQueue.size() < 2)
+	int queSize = moveQueue.size();
+	if (queSize < 2)
 		return false;
-
-	*pOut = PlayerTrailModel(moveQueue[1], moveQueue[0]);
+	
+	*pOut = PlayerTrailModel(moveQueue[queSize - 1], moveQueue[queSize - 2]);
 	return true;
 }
 

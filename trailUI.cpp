@@ -12,6 +12,7 @@
 #include "debugWindow.h"
 #include "PlayerController.h"
 #include "player.h"
+#include <vector>
 
 //*****************************************************************************
 // マクロ定義
@@ -26,6 +27,7 @@
 OBJECT	trail[TRAILPARTS_MAX];
 int		trailHistoryCW[MOVESTACK_LENGTH];
 int		trailHistoryCCW[MOVESTACK_LENGTH];
+int		historyMax;
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -134,6 +136,27 @@ void DrawTrail(void)
 	{
 		DrawObject(pDevice, trail[TRAIL_LINE_MIDDLELEFT_TO_MIDDLERIGHT]);
 		SetVertexObject(&trail[TRAIL_LINE_MIDDLELEFT_TO_MIDDLERIGHT]);
+	}
+}
+
+void DrawTrail(void)
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	// プレイヤーから受け取ったデータを入れる
+	std::vector <int> drawHistory;
+
+	// 先に背景を描画
+	DrawObject(pDevice, trail[TRAIL_BG]);
+	SetVertexObject(&trail[TRAIL_BG]);
+
+	// 要素数計算
+	historyMax = drawHistory.size();
+
+	for (int i = 0; i < historyMax; i++)
+	{
+		DrawObject(pDevice, trail[drawHistory[i]]);
+		SetVertexObject(&trail[drawHistory[i]]);
 	}
 }
 

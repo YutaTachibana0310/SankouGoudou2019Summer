@@ -44,6 +44,7 @@ void UpdateCollisionManager(void)
 ***************************************/
 void CheckCollisionPlayerBullet()
 {
+#if 0
 	vector<PlayerBullet*>* bulletContainer = GetPlayerBulletContainer();
 
 	//エネミーとバレットの総当たり
@@ -52,7 +53,7 @@ void CheckCollisionPlayerBullet()
 
 	}
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	//テスト用
 	static TrailCollider testCollider;
 	static int start, end;

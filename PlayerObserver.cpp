@@ -18,6 +18,7 @@ using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
+#define MOVETARGET_DEFAULT	(99)
 
 /**************************************
 構造体定義
@@ -38,6 +39,9 @@ PlayerObserver::PlayerObserver()
 
 	//移動先確保
 	targetPos.resize(5);
+
+	//moveTarget初期化
+	moveTarget = MOVETARGET_DEFAULT;
 }
 
 /**************************************
@@ -154,6 +158,10 @@ void PlayerObserver::SetPlayerBullet(PlayerTrailModel trail)
 ***************************************/
 void PlayerObserver::PushInput(int num)
 {
+	//同じところへは移動しない
+	if (num == moveTarget)
+		return;
+
 	//Wait状態であればMoveに遷移
 	if (current == PlayerState::Wait || current == PlayerState::Idle)
 	{
@@ -249,7 +257,8 @@ Waitコールバック
 void PlayerObserver::OnFinishPlayerWait()
 {
 	//TODO:初期位置に戻るので色々リセット
-
+	model->Clear();
+	moveTarget = MOVETARGET_DEFAULT;
 
 	//Return状態へ遷移し初期位置へ
 	ChangeStatePlayer(PlayerState::Return);

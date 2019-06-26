@@ -19,7 +19,7 @@
 /**************************************
 XVˆ—
 ***************************************/
-void PlayerMove::OnUpdate(Player *entity)
+int PlayerMove::OnUpdate(Player *entity)
 {
 	entity->cntFrame++;
 	float t = (float)entity->cntFrame / PLAYER_MOVE_DURATION;
@@ -28,7 +28,10 @@ void PlayerMove::OnUpdate(Player *entity)
 	if (entity->cntFrame == PLAYER_MOVE_DURATION)
 	{
 		OnExit(entity);
+		return STATE_FINISHED;
 	}
+
+	return STATE_CONTINUOUS;
 }
 
 /**************************************
@@ -48,7 +51,4 @@ void PlayerMove::OnStart(Player *entity)
 void PlayerMove::OnExit(Player * entity)
 {
 	entity->trail->Uninit();
-
-	if (callback != NULL)
-		callback();
 }

@@ -29,9 +29,9 @@ void PlayerIdle::OnStart(Player *entity)
 /**************************************
 çXêVèàóù
 ***************************************/
-void PlayerIdle::OnUpdate(Player *entity)
+int PlayerIdle::OnUpdate(Player *entity)
 {
-
+	return STATE_CONTINUOUS;
 }
 
 /**************************************
@@ -39,6 +39,5 @@ void PlayerIdle::OnUpdate(Player *entity)
 ***************************************/
 void PlayerIdle::OnExit(Player *entity)
 {
-	if (callback != NULL)
-		callback();
+
 }

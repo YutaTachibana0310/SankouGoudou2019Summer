@@ -8,16 +8,16 @@
 #define _ISTATEMACHINE_H_
 
 #include "main.h"
-#include <functional>
+
+#define STATE_CONTINUOUS	(0)		//ステートを続行する
+#define STATE_FINISHED		(1)		//ステートは終了した
 
 template <class T>
 class IStateMachine {
 public:
-	virtual void OnUpdate(T *entity) = 0;
+	virtual int OnUpdate(T *entity) = 0;
 	virtual void OnStart(T *entity) = 0;
 	virtual void OnExit(T *entity) = 0;
-
-	std::function<void(void)> callback;
 };
 
 #endif

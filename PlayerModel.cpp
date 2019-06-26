@@ -89,7 +89,7 @@ bool PlayerModel::CheckOneStroke()
 {
 	//一筆書きの画数に足りていなければリターン
 	if (moveQueue.size() <= PLAYERMODEL_MOVEQUEUE_LENGTH)
-		return;
+		return false;
 
 	//一筆書きの開始位置のインデックスを検索
 	auto itrStart = find(Judgement.begin(), Judgement.end(), moveQueue.back());
@@ -145,4 +145,36 @@ bool PlayerModel::_CheckOneStroke(size_t start)
 	moveQueue.clear();
 	moveQueue.push_back(lastMove);
 	return true;
+}
+
+/**************************************
+直近1件の軌跡の取得
+***************************************/
+bool PlayerModel::GetPlayerTrail(PlayerTrailModel *pOut)
+{
+	if (moveQueue.size() < 2)
+		return false;
+
+	*pOut = PlayerTrailModel(moveQueue[1], moveQueue[0]);
+	return true;
+}
+
+/**************************************
+全軌跡の取得
+***************************************/
+size_t PlayerModel::GetAllPlayerTrail(vector<PlayerTrailModel> *container)
+{
+	if (moveQueue.size() < 2)
+		return 0;
+
+	int modelCount = moveQueue.size() - 1;
+	container->clear();
+	container->resize(modelCount);
+
+	for (int i = 0; i < modelCount; i++)
+	{
+		container->push_back(PlayerTrailModel(moveQueue[i + 1], moveQueue[i]));
+	}
+
+	return modelCount;
 }

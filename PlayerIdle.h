@@ -22,7 +22,7 @@ class PlayerIdle : public IStateMachine<Player>
 {
 public:
 	void OnStart(Player *entity);
-	void OnUpdate(Player *entity);
+	int OnUpdate(Player *entity);
 	void OnExit(Player *entity);
 };
 

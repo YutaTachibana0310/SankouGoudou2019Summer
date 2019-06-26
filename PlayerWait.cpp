@@ -23,12 +23,17 @@
 /*************************************
 XVˆ—
 **************************************/
-void PlayerWait::OnUpdate(Player *entity)
+int PlayerWait::OnUpdate(Player *entity)
 {
 	entity->cntFrame++;
 
 	if (entity->cntFrame == PLAYERWAIT_DURATION)
+	{
 		OnExit(entity);
+		return STATE_FINISHED;
+	}
+
+	return STATE_CONTINUOUS;
 }
 
 /*************************************
@@ -44,6 +49,5 @@ void PlayerWait::OnStart(Player *entity)
 **************************************/
 void PlayerWait::OnExit(Player *entity)
 {
-	if (callback != NULL)
-		callback();
+
 }

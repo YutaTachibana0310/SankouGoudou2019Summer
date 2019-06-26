@@ -24,7 +24,7 @@
 /*************************************
 XVˆ—
 **************************************/
-void PlayerReturn::OnUpdate(Player *entity)
+int PlayerReturn::OnUpdate(Player *entity)
 {
 	float t = (float)entity->cntFrame / PLAYER_RETURN_DURATION;
 	entity->cntFrame++;
@@ -33,7 +33,10 @@ void PlayerReturn::OnUpdate(Player *entity)
 	if (entity->cntFrame == PLAYER_RETURN_DURATION)
 	{
 		OnExit(entity);
+		return STATE_FINISHED;
 	}
+
+	return STATE_CONTINUOUS;
 };
 
 /*************************************
@@ -51,6 +54,5 @@ void PlayerReturn::OnStart(Player * entity)
 **************************************/
 void PlayerReturn::OnExit(Player *entity)
 {
-	if (callback != NULL)
-		callback();
+
 };

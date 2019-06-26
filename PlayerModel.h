@@ -11,6 +11,7 @@
 #include <queue>
 #include <vector>
 #include <deque>
+#include "PlayerTrailModel.h"
 
 /**************************************
 マクロ定義
@@ -31,6 +32,9 @@ public:
 	bool IsExistPrecedInput(int *pres);		//先行入力の確認
 	bool CheckOneStroke();					//一筆書きの判定
 	void Clear();							//先行入力、移動履歴のクリア
+
+	bool GetPlayerTrail(PlayerTrailModel *pOut);						//プレイヤーの直近1件の軌跡の取得
+	size_t GetAllPlayerTrail(std::vector<PlayerTrailModel> *contaier);	//プレイヤーの全軌跡を取得
 
 private:
 	std::vector<int> Judgement;				//一筆書きの正解配列

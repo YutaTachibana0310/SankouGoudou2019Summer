@@ -42,7 +42,6 @@ void PlayerMove::OnStart(Player *entity)
 	//‰Šú‰»
 	entity->cntFrame = 0;
 	entity->initpos = entity->transform.pos;
-	entity->trail->Init(&entity->transform.pos);
 }
 
 /**************************************
@@ -50,5 +49,4 @@ void PlayerMove::OnStart(Player *entity)
 ***************************************/
 void PlayerMove::OnExit(Player * entity)
 {
-	entity->trail->Uninit();
 }

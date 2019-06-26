@@ -31,6 +31,7 @@ PlayerObserver::PlayerObserver()
 {
 	player = new Player();
 	model = new PlayerModel();
+	trailEffect = new PlayerTrail();
 
 	fsm[PlayerState::Idle] = new PlayerIdle();
 	fsm[PlayerState::Wait] = new PlayerWait();
@@ -50,6 +51,8 @@ PlayerObserver::PlayerObserver()
 PlayerObserver::~PlayerObserver()
 {
 	SAFE_DELETE(player);
+	SAFE_DELETE(model);
+	SAFE_DELETE(trailEffect);
 
 	for (PlayerBullet* bullet : bulletContainer)
 	{
@@ -96,6 +99,7 @@ void PlayerObserver::Uninit()
 void PlayerObserver::Update()
 {
 	int stateResult = player->Update();
+
 	if (stateResult != STATE_CONTINUOUS)
 		OnPlayerStateFinish();
 
@@ -103,6 +107,8 @@ void PlayerObserver::Update()
 	{
 		bullet->Update();
 	}
+
+	trailEffect->Update();
 }
 
 /**************************************
@@ -113,6 +119,8 @@ void PlayerObserver::Draw()
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	player->Draw();
+
+	trailEffect->Draw();
 
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	pDevice->SetRenderState(D3DRS_LIGHTING, false);
@@ -165,6 +173,9 @@ void PlayerObserver::PushInput(int num)
 	//Wait状態であればMoveに遷移
 	if (current == PlayerState::Wait || current == PlayerState::Idle)
 	{
+		if(current == PlayerState::Wait)
+			trailEffect->Init(&player->transform.pos);
+
 		moveTarget = num;
 		player->goalpos = targetPos[moveTarget];
 		ChangeStatePlayer(PlayerState::Move);
@@ -223,6 +234,9 @@ void PlayerObserver::OnFinishPlayerMove()
 	//移動履歴をプッシュ
 	model->PushMoveStack(moveTarget);
 
+	//トレイルを終了
+	trailEffect->Uninit();
+
 	//WaitかｒMoveからの移動であればバレット発射
 	if (prevState == PlayerState::Wait || prevState == PlayerState::Move)
 	{
@@ -242,6 +256,7 @@ void PlayerObserver::OnFinishPlayerMove()
 	if (model->IsExistPrecedInput(&moveTarget))
 	{
 		player->goalpos = targetPos[moveTarget];
+		trailEffect->Init(&player->transform.pos);
 		ChangeStatePlayer(PlayerState::Move);
 	}
 	//無ければ待機状態へ遷移

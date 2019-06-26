@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "PlayerBullet.h"
 #include "PlayerModel.h"
+#include "PlayerTrail.h"
 
 #include <map>
 #include <functional>
@@ -54,6 +55,7 @@ public:
 private:
 	Player *player;
 	std::vector<PlayerBullet*> bulletContainer;
+	PlayerTrail* trailEffect;
 
 	PlayerState current, prevState;
 	std::map<PlayerState, IStateMachine<Player>*> fsm;

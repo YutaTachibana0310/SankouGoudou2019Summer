@@ -37,15 +37,13 @@ public:
 	D3DXVECTOR3	goalpos;			// ˆÚ“®ŒãˆÊ’u
 
 	IStateMachine<Player> *state;
-	std::function<void(void)> callback;
-
 	PlayerTrail *trail;
 
 	//ŠÖ”
 	void ChangeState(IStateMachine<Player> *next);
 	void Init();
 	void Uninit();
-	void Update();
+	int Update();
 	void Draw();
 };
 

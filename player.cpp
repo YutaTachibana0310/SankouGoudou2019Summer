@@ -9,6 +9,7 @@
 #include "main.h"
 #include "player.h"
 #include "PlayerController.h"
+#include "GameParticleManager.h"
 
 #include "star.h"
 #include "debugWindow.h"
@@ -63,6 +64,7 @@ void Player::Init()
 	transform.rot = D3DXVECTOR3(0.0f, D3DXToRadian(180.0f), 0.0f);
 	active = true;
 
+	SetPlayerTrailParticle(&transform.pos, &active);
 	return;
 }
 
@@ -77,15 +79,19 @@ void Player::Uninit()
 /****************************************
 XVˆ—
 *****************************************/
-void Player::Update()
+int Player::Update()
 {
 	if (!active)
-		return;
+		return STATE_CONTINUOUS;
+
+	int stateResult = STATE_CONTINUOUS;
 
 	if (state != NULL)
-		state->OnUpdate(this);
+		stateResult = state->OnUpdate(this);
 
 	trail->Update();
+
+	return stateResult;
 }
 
 /*****************************************

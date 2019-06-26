@@ -11,7 +11,6 @@
 #include <vector>
 
 #define JUDG_LEN (5)
-#define RESETTIME (120)
 
 #define PLAYER_CENTER		D3DXVECTOR3(0.0f ,-25.0f, 0.0f)
 #define PLAYER_TOP			D3DXVECTOR3(0.0f, 25.0f, 150.0f)
@@ -25,19 +24,6 @@
 
 #define MOVESTACK_LENGTH (6)
 
-//プレイヤーの状態列挙子
-enum class PlayerState 
-{
-	Move,
-	Wait,
-	Return,
-};
-
-//前方宣言
-class Player;
-enum class TrailIndex;
-class PlayerBullet;
-
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
@@ -45,16 +31,7 @@ HRESULT InitPlayerController(void);
 void UninitPlayerController(void);
 void UpdatePlayerController(HWND hWnd);
 void DrawPlayerController();
-void DrawPlayerBullet();
-
-void CheckCW();
-void CheckCCW();
 bool SetBomb();
-
-std::vector<PlayerBullet*>* GetPlayerBulletContainer(void);
-void ChangeState(Player *player, PlayerState next);
-void FirePlayerBullet(TrailIndex start, TrailIndex end);
-void FirePlayerBullet(D3DXVECTOR3 *rightPos, D3DXVECTOR3 *leftPos);
 
 //(以下、おーはま追記)
 //*****************************************************************************

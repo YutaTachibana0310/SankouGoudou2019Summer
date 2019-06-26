@@ -1,33 +1,29 @@
 //=====================================
 //
-//プレイヤーリターンヘッダ[PlayerReturn.h]
-//Author:GP12B332 12 権頭
+//プレイヤーアイドルヘッダ[PlayerIdle.h]
+//Author:GP12B332 21 立花雄太
 //
 //=====================================
-#ifndef _PLAYERRETURN_H_
-#define _PLAYERRETURN_H_
+#ifndef _PLAYERIDLE_H_
+#define _PLAYERIDLE_H_
 
 #include "main.h"
 #include "IStateMachine.h"
-#include "player.h"
+#include "Player.h"
 
 /**************************************
 マクロ定義
 ***************************************/
 
 /**************************************
-構造体定義
-***************************************/
-
-/**************************************
 クラス定義
 ***************************************/
-class PlayerReturn :public IStateMachine<Player> {
+class PlayerIdle : public IStateMachine<Player>
+{
 public:
-	int OnUpdate(Player *entity);
 	void OnStart(Player *entity);
+	int OnUpdate(Player *entity);
 	void OnExit(Player *entity);
 };
-
 
 #endif

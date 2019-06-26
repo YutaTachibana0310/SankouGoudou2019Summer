@@ -36,9 +36,9 @@ public:
 	void SetEdgePos(D3DXVECTOR3 *left, D3DXVECTOR3 *right);	//端点設定処理
 	TrailCollider GetCollider();	//当たり判定取得処理
 	bool IsActive();				//アクティブ判定
+	bool active;
 
 private:
-	bool active;
 	D3DXVECTOR3 pos;
 	TrailCollider collider;
 	LPDIRECT3DVERTEXBUFFER9 vtxBuff;

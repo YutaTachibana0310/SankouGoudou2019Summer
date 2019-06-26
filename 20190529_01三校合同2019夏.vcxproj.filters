@@ -91,6 +91,12 @@
     <Filter Include="ヘッダー ファイル\Enemy">
       <UniqueIdentifier>{5db6f869-6ad0-47f3-89be-225001326c0b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Player\State">
+      <UniqueIdentifier>{c629b745-0461-48b9-b81e-d0ebf29ca163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Player\State">
+      <UniqueIdentifier>{bfd5d334-3194-43eb-9e41-8bb6dd293c3f}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ソース ファイル\UI\TitleSceneUI">
       <UniqueIdentifier>{f68986be-0bbe-4c10-9ddb-9a8fc88f00db}</UniqueIdentifier>
     </Filter>
@@ -209,18 +215,6 @@
     </ClInclude>
     <ClInclude Include="IStateMachine.h">
       <Filter>ヘッダー ファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerMove.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerWait.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerReturn.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerBullet.h">
       <Filter>ヘッダー ファイル\Player</Filter>
@@ -393,6 +387,30 @@
     <ClInclude Include="PlayerTrail.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerObserver.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMove.h">
+      <Filter>ヘッダー ファイル\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerReturn.h">
+      <Filter>ヘッダー ファイル\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWait.h">
+      <Filter>ヘッダー ファイル\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerIdle.h">
+      <Filter>ヘッダー ファイル\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerModel.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerTrailModel.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -488,14 +506,29 @@
     <ClCompile Include="debugWindow.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerMove.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerBullet.cpp">
       <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="guage.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="score.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="star.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIdrawer.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="collider.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="combo.cpp">
+      <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
     <ClCompile Include="PlayerWait.cpp">
       <Filter>ソース ファイル\Player</Filter>
@@ -643,6 +676,30 @@
     </ClCompile>
     <ClCompile Include="PlayerTrail.cpp">
       <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerObserver.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMove.cpp">
+      <Filter>ソース ファイル\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerReturn.cpp">
+      <Filter>ソース ファイル\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWait.cpp">
+      <Filter>ソース ファイル\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerIdle.cpp">
+      <Filter>ソース ファイル\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerModel.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerTrailModel.cpp">
+      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

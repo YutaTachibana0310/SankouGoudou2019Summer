@@ -121,7 +121,6 @@ void GameScene::Update(HWND hWnd)
 void GameScene::Draw()
 {
 	//背景の描画
-
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 	DrawSkyBox();
 	DrawBackGroundCity();
@@ -130,12 +129,8 @@ void GameScene::Draw()
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 
 	//プレイヤーの描画
-
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
 	DrawPlayerController();
-
-	//プレイヤーバレット描画
-	DrawPlayerBullet();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
 
 	//ポストエフェクト描画

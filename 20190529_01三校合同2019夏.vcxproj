@@ -203,7 +203,12 @@
     <ClInclude Include="ScoreParticle.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="sound.h" />
+    <ClInclude Include="SoundGameScene.h" />
+    <ClInclude Include="SoundResultScene.h" />
+    <ClInclude Include="SoundStateScene.h" />
+    <ClInclude Include="SoundTitleScene.h" />
     <ClInclude Include="star.h" />
+    <ClInclude Include="Stencil.h" />
     <ClInclude Include="trail.h" />
     <ClInclude Include="TrailCollider.h" />
     <ClInclude Include="UIdrawer.h" />
@@ -272,7 +277,11 @@
     <ClCompile Include="ScoreParticle.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="sound.cpp" />
+    <ClCompile Include="SoundGameScene.cpp" />
+    <ClCompile Include="SoundResultScene.cpp" />
+    <ClCompile Include="SoundTitleScene.cpp" />
     <ClCompile Include="star.cpp" />
+    <ClCompile Include="Stencil.cpp" />
     <ClCompile Include="trail.cpp" />
     <ClCompile Include="TrailCollider.cpp" />
     <ClCompile Include="UIdrawer.cpp" />

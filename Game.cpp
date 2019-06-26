@@ -16,6 +16,12 @@
 #include "TitleScene.h"
 #include "GameScene.h"
 #include "ResultScene.h"
+#include "InputController.h"
+
+#include "SoundStateScene.h"
+#include "SoundTitleScene.h"
+#include "SoundGameScene.h"
+#include "SoundResultScene.h"
 
 /**************************************
 マクロ定義
@@ -46,9 +52,12 @@ static LPDIRECT3DVERTEXBUFFER9 screenVtx;
 
 //シーン管理のステートマシン
 static IStateScene* fsm[SceneMax];
+static SoundStateScene* ssm[SceneMax];
 
 //現在のシーン
-static Scene currentScene = SceneGame;
+static Scene currentScene = SceneTitle;
+
+
 
 /**************************************
 初期化処理
@@ -64,13 +73,15 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	InitCamera();
 	InitLight();
 	InitDebugWindow(hWnd, pDevice);
-	Sound::GetInstance()->Create();
-	Sound::GetInstance()->initialize();
 
 	//ステートマシンに各シーンを追加
 	fsm[SceneTitle] = new TitleScene();
 	fsm[SceneGame] = new GameScene();
 	fsm[SceneResult] = new ResultScene();
+
+	ssm[SceneTitle] = new SoundTitleScene();
+	ssm[SceneGame] = new SoundGameScene();
+	ssm[SceneResult] = new SoundResultScene();
 
 	RegisterDebugTimer("Main");
 
@@ -86,7 +97,6 @@ void UninitGame()
 	UninitLight();
 	UninitDebugWindow(0);
 	UninitDebugTimer();
-	Sound::GetInstance()->~Sound();
 
 	fsm[currentScene]->Uninit();
 }
@@ -96,8 +106,10 @@ void UninitGame()
 ***************************************/
 void UpdateGame(HWND hWnd)
 {
+	SceneChange();
 	//念のためサウンドを最初に（渡邉）
 	Sound::GetInstance()->run();
+	ssm[currentScene]->Play();
 	UpdateDebugWindow();
 	UpdateInput();
 	UpdateLight();
@@ -222,10 +234,13 @@ void CreateRenderTarget()
 void ChangeScene(Scene next)
 {
 	fsm[currentScene]->Uninit();
+	ssm[currentScene]->Stop();
 
 	currentScene = next;
 
 	fsm[currentScene]->Init();
+	Sound::GetInstance()->Sound::Sound();
+
 }
 
 /**************************************

@@ -7,6 +7,7 @@
 #include "TitleScene.h"
 #include "debugWindow.h"
 #include "Game.h"
+#include "InputController.h"
 
 /**************************************
 É}ÉNÉçíËã`

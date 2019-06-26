@@ -7,11 +7,12 @@
 #include "input.h"
 #include "star.h"
 #include "sound.h"
+#include "Game.h"
 
-//サウンドテスト用
-bool soundtest = false;
-bool pausetest = false;
-int changepitch = 0;
+
+//シーンチェンジ用
+Scene counta = SceneTitle;
+
 
 bool IsEntered(int m, HWND hWnd) {
 
@@ -41,55 +42,29 @@ bool IsEntered(int m, HWND hWnd) {
 }
 
 void InputSound() {
-	//サウンドの再生
-	if (!soundtest) {
-		//ゲーム開始と同時に再生、フェードイン
-		Sound::GetInstance()->SetPlayBGM(GAMEBGM, true, 0.1f);
-		Sound::GetInstance()->FadeIn(GAMEBGM, 10.0f, 1.0f, true);
-	}
-	else {
-		//フェードアウトの開始
-		Sound::GetInstance()->FadeOut(GAMEBGM, 10.0f, 1.0f, true);
-	}
 
-	if (GetKeyboardTrigger(DIK_SPACE)) {
-		//よくあるショットSEみたいに再生
-		Sound::GetInstance()->SetPlaySE(TESTSE, true, 1.0f);
-		Sound::GetInstance()->ChangeSEVolume(TESTSE, 1.0f);
-	}
-	if (GetKeyboardTrigger(DIK_O)) {
 
-		soundtest = soundtest ? false : true;
-	}
-	if (GetKeyboardTrigger(DIK_P)) {
-		//trueの場合ゲーム中にSE再生
-		//falseの場合はポーズ中にSE再生
-		pausetest = pausetest ? false : true;
-		Sound::GetInstance()->SetPlaySE(ENTERSE, pausetest, 1.0f);
-		Sound::GetInstance()->SetPitchSE(ENTERSE, 0);
-		Sound::GetInstance()->ChangePauseSound(pausetest);
-	}
-	if (GetKeyboardTrigger(DIK_L)) {
-		changepitch += 100;
-		if (changepitch > 1200) {
-			changepitch = 1200;
+
+}
+
+void SceneChange() {
+
+	if (GetKeyboardTrigger(DIK_RETURN)) {
+		
+		switch (counta)
+		{
+		case SceneTitle:
+			counta = SceneGame;
+			break;
+		case SceneGame:
+			counta = SceneResult;
+			break;
+		case SceneResult:
+			counta = SceneTitle;
+			break;
 		}
-		//ポーズ中にSEが鳴らせるかテスト
-		Sound::GetInstance()->SetPlaySE(ENTERSE, false, 1.0f);
-		//ポーズ中のみピッチの変更
-		Sound::GetInstance()->SetPitchSE(ENTERSE, changepitch);
 
-	}	
-
-	if (GetKeyboardTrigger(DIK_K)) {
-
-		changepitch -= 100;
-		if (changepitch > 0) {
-			changepitch = 0;
-		}
-		//ポーズ中にSEが鳴らせるかテスト
-		Sound::GetInstance()->SetPlaySE(ENTERSE, false, 1.0f);
-		//ポーズ中のみピッチの変更
-		Sound::GetInstance()->SetPitchSE(ENTERSE, changepitch);
+		ChangeScene(counta);
 	}
+	
 }

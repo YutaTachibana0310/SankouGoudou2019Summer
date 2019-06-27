@@ -51,6 +51,7 @@ public:
 
 	void PushInput(int num);
 	void SetMoveTargetPosition(int i, D3DXVECTOR3 pos);
+	PlayerModel *model;
 
 private:
 	Player *player;
@@ -60,7 +61,6 @@ private:
 	PlayerState current, prevState;
 	std::map<PlayerState, IStateMachine<Player>*> fsm;
 
-	PlayerModel *model;
 	int moveTarget;
 	std::vector<D3DXVECTOR3> targetPos;
 

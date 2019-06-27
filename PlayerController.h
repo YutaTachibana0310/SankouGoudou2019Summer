@@ -32,6 +32,7 @@ void UninitPlayerController(void);
 void UpdatePlayerController(HWND hWnd);
 void DrawPlayerController();
 bool SetBomb();
+void GetPlayerMoveHistory(std::vector<int> *pOut);		//ˆÚ“®—š—ğæ“¾ˆ—
 
 //(ˆÈ‰ºA‚¨[‚Í‚Ü’Ç‹L)
 //*****************************************************************************

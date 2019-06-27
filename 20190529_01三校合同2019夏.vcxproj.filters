@@ -306,9 +306,6 @@
     <ClInclude Include="TrailCollider.h">
       <Filter>ヘッダー ファイル\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>ヘッダー ファイル\Collider</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerBulletParticle.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
@@ -576,9 +573,6 @@
       <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="TrailCollider.cpp">
-      <Filter>ソース ファイル\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
       <Filter>ソース ファイル\Collider</Filter>
     </ClCompile>
     <ClCompile Include="PlayerBulletParticle.cpp">

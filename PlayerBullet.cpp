@@ -34,8 +34,9 @@ LPDIRECT3DTEXTURE9 PlayerBullet::texture = NULL;	//テクスチャ
 void PlayerBullet::Init(LineTrailModel model)
 {
 	cntFrame = 0;
-	collider.SetTrailIndex(model);
+	collider->SetTrailIndex(model);
 	SetEdgePos(model);
+	collider->RegisterToCheckList();
 	active = true;
 }
 
@@ -44,7 +45,7 @@ void PlayerBullet::Init(LineTrailModel model)
 *****************************************/
 void PlayerBullet::Uninit()
 {
-
+	collider->RemoveFromCheckList();
 	active = false;
 }
 
@@ -150,8 +151,14 @@ PlayerBullet::PlayerBullet()
 
 	vtxBuff->Unlock();
 
+	//コライダーインスタンス作成
+	collider = new TrailCollider("PlayerBullet");
+
 	//TrailColliderのZ座標アドレスを設定
-	collider.SetAddressZ(&pos.z);
+	collider->SetAddressZ(&pos.z);
+
+	//コライダーの観測者に自身を追加
+	collider->AddObserver(this);
 }
 
 /****************************************
@@ -201,9 +208,9 @@ void PlayerBullet::SetEdgePos(LineTrailModel model)
 }
 
 /****************************************
-コライダー取得処理
+衝突判定通知レシーバー
 *****************************************/
-TrailCollider PlayerBullet::GetCollider()
+void PlayerBullet::OnNotified()
 {
-	return collider;
+	Uninit();
 }

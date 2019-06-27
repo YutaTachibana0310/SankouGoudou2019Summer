@@ -30,6 +30,7 @@ void CheckInput(HWND hWnd);
 // ƒOƒ[ƒoƒ‹•Ï”
 //*****************************************************************************
 PlayerObserver *observer;
+TrailCollider *testCollider;
 
 //*****************************************************************************
 // ‰Šú‰»ˆ—
@@ -38,6 +39,9 @@ HRESULT InitPlayerController(void)
 {
 	observer = new PlayerObserver();
 	observer->Init();
+
+	testCollider = new TrailCollider("Enemy");
+	testCollider->RegisterToCheckList();
 
 	return S_OK;
 }
@@ -62,6 +66,19 @@ void UpdatePlayerController(HWND hWnd)
 
 	vector<int> test;
 	GetPlayerMoveHistory(&test);
+
+	static int start, end;
+	static float posZ = 500.0f;
+	BeginDebugWindow("Collider");
+
+	DebugInputInt("Start", &start);
+	DebugInputInt("End", &end);
+	DebugSliderFloat("Z", &posZ, 0.0f, 1000.0f);
+
+	testCollider->SetAddressZ(&posZ);
+	testCollider->SetTrailIndex(LineTrailModel(start, end));
+
+	EndDebugWindow("Collider");
 }
 
 //*****************************************************************************

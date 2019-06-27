@@ -393,13 +393,7 @@
     <ClInclude Include="LineTrailModel.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="BaseObserver.h">
-      <Filter>ヘッダー ファイル\Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\BaseSingleton.h">
-      <Filter>ヘッダー ファイル\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="ObserveSubject.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Easing.h">
@@ -415,6 +409,12 @@
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Framework\BaseParticleController.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ObserveSubject.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\BaseObserver.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
   </ItemGroup>
@@ -689,7 +689,7 @@
     <ClCompile Include="TitleScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="ObserveSubject.cpp">
+    <ClCompile Include="Framework\ObserveSubject.cpp">
       <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
   </ItemGroup>

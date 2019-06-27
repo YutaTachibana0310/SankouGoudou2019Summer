@@ -339,6 +339,9 @@
     <ClInclude Include="Stencil.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
+    <ClInclude Include="masktex.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -559,6 +562,9 @@
     </ClCompile>
     <ClCompile Include="Stencil.cpp">
       <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="masktex.cpp">
+      <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

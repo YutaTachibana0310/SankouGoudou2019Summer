@@ -8,6 +8,7 @@
 #include "debugWindow.h"
 #include "Game.h"
 #include "InputController.h"
+#include "masktex.h"
 
 /**************************************
 ƒ}ƒNƒ’è‹`
@@ -27,6 +28,8 @@
 void TitleScene::Init()
 {
 
+
+	InitMask();
 }
 
 /**************************************
@@ -34,7 +37,7 @@ void TitleScene::Init()
 ***************************************/
 void TitleScene::Uninit()
 {
-
+	UninitMask();
 }
 
 /**************************************
@@ -42,7 +45,7 @@ void TitleScene::Uninit()
 ***************************************/
 void TitleScene::Update(HWND hWnd)
 {
-
+	UpdateMask();
 }
 
 /**************************************
@@ -50,5 +53,13 @@ void TitleScene::Update(HWND hWnd)
 ***************************************/
 void TitleScene::Draw()
 {
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	DrawMaskTEX();
+
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }

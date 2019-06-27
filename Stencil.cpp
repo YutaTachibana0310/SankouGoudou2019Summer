@@ -6,9 +6,10 @@
 //=============================================================================
 
 #include "Stencil.h"
+#include "main.h"
 
 namespace Clip {
-	Stencil::Stencil(IDirect3DDevice9* device):
+	Stencil::Stencil(void):
 		device_		(0),
 		mode_		(Mode_Masking),
 		writeColor_	(MaskColor_Fill),
@@ -23,31 +24,35 @@ namespace Clip {
 
 	}
 
+
+
 	//クリッピング領域作成開始
-	bool Stencil::regionBegin(IDirect3DDevice9* device, MaskColor initColor) {
-		device_ = device;
+	bool Stencil::regionBegin(MaskColor initColor) {
+
+		LPDIRECT3DDEVICE9 pDevice = GetDevice();
+		device_ = pDevice;
 
 		if (device_ == 0) {
 			return false;
 		}
 
 		//ステンシルバッファのみ初期値クリア
-		device->Clear(0, NULL, D3DCLEAR_STENCIL, 0, 1.0f, static_cast<DWORD>(initColor));
+		pDevice->Clear(0, NULL, D3DCLEAR_STENCIL, 0, 1.0f, static_cast<DWORD>(initColor));
 
 		//既存のZテストパラメータの保存
-		device->GetRenderState(D3DRS_ZENABLE, &curZTest_);
-		device->GetRenderState(D3DRS_ZFUNC, &curZFunc_);
+		pDevice->GetRenderState(D3DRS_ZENABLE, &curZTest_);
+		pDevice->GetRenderState(D3DRS_ZFUNC, &curZFunc_);
 
 		//ステンシルバッファの有効化
-		device->SetRenderState(D3DRS_ZENABLE, true);
-		device->SetRenderState(D3DRS_ZFUNC, D3DCMP_NEVER);
+		pDevice->SetRenderState(D3DRS_ZENABLE, true);
+		pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_NEVER);
 
-		device->SetRenderState(D3DRS_STENCILENABLE, true);
-		device->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_ALWAYS);
-		device->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
-		device->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_REPLACE);
-		device->SetRenderState(D3DRS_STENCILREF, writeColor_);
-		device->SetRenderState(D3DRS_STENCILMASK,0xff);
+		pDevice->SetRenderState(D3DRS_STENCILENABLE, true);
+		pDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_ALWAYS);
+		pDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
+		pDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_REPLACE);
+		pDevice->SetRenderState(D3DRS_STENCILREF, writeColor_);
+		pDevice->SetRenderState(D3DRS_STENCILMASK,0xff);
 
 		mode_ = Mode_Masking;
 
@@ -121,3 +126,4 @@ namespace Clip {
 	}
 
 }
+

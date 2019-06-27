@@ -8,12 +8,10 @@
 #define _STENCIL_H_
 
 #include <d3d9.h>
-#include "Framework/MeshContainer.h"
-
 /**************************************
 マクロ定義
 ***************************************/
-#define	MASK_MODEL			("data/TEXTURE/UI/star.png")	// 読み込むテクスチャファイル名
+
 /**************************************
 クラス定義
 ***************************************/
@@ -21,7 +19,6 @@ namespace Clip {
 	class Stencil
 	{
 	public:
-		MeshContainer* meshMask;
 
 		//マスク色
 		enum MaskColor {
@@ -36,11 +33,12 @@ namespace Clip {
 			Mode_Draw //描画モード中
 		};
 
-		Stencil(IDirect3DDevice9* device);
+		Stencil(void);
 		virtual ~Stencil();
 
+
 		//クリッピング領域作成開始
-		virtual bool regionBegin(IDirect3DDevice9* device, MaskColor clearColor = MaskColor_Trans);
+		virtual bool regionBegin(MaskColor clearColor = MaskColor_Trans);
 
 		//クリッピング領域作成終了
 		virtual bool regionEnd();
@@ -67,4 +65,5 @@ namespace Clip {
 
 	};
 }
+
 #endif

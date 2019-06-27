@@ -161,7 +161,7 @@ void GetPlayerMoveHistory(vector<int> *pOut)
 		{
 			if (model.start == MIDDLE_LEFT || model.end == MIDDLE_LEFT)
 			{
-				pOut->push_back(TRAIL_LINE_MIDDLELEFT_TO_MIDDLERIGHT);
+				pOut->push_back(TRAIL_LINE_LOWERRIGHT_TO_MIDDLELEFT);
 				continue;
 			}
 		}

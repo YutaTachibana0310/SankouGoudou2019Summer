@@ -17,7 +17,6 @@
 #define	INTERVAL_NUMBER_TEXTURE	(0.097f)	// テクスチャ内コンボ数字の表示間隔
 #define	PLACE_MAX			(2)				// コンボの桁数
 #define BASE_NUMBER			(10)			// 進数
-#define SPEED_VOLUMEUP		(0.2f)
 #define VOLUME_ZOOM			(50.0f)
 #define ROTATION_SPEED_COMBO_BACKGROUND (0.01f)
 
@@ -34,7 +33,7 @@
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-void VolumeUpEffect(void);
+static void VolumeUpEffect(void);
 void UpdateNumberColor(void);
 
 //*****************************************************************************
@@ -43,8 +42,8 @@ void UpdateNumberColor(void);
 OBJECT	comboParts[COMBOPARTS_MAX];
 int		g_combo				= 0;	// コンボ
 int		g_combo_max			= 0;			
-float	radian				= 0;
-bool	volumeUpEffectUsed  = false;
+static float radian			= 0;
+static bool	volumeUpEffectUsed  = false;
 
 //=============================================================================
 // 初期化処理
@@ -112,6 +111,16 @@ void UpdateCombo(void)
 
 	// 縦に伸びるエフェクト
 	VolumeUpEffect();
+
+	// 桁あふれ防止
+	if (g_combo < 0)
+	{
+		g_combo = 0;
+	}
+	if (g_combo >= g_combo_max)
+	{
+		g_combo = g_combo_max;
+	}
 }
 
 //=============================================================================
@@ -142,36 +151,6 @@ void DrawCombo(void)
 }
 
 //=============================================================================
-// コンボの変更
-//=============================================================================
-void ChangeCombo(int value)
-{
-	g_combo += value;
-
-	if (g_combo < 0)
-	{
-		g_combo = 0;
-	}
-	else if (g_combo >= (int)(powf(BASE_NUMBER, (float)(PLACE_MAX + 1))))
-	{
-		g_combo = (int)(powf(BASE_NUMBER, (float)(PLACE_MAX + 1))) - 1;
-	}
-
-	// 桁あふれ防止
-	if (g_combo >= g_combo_max)
-	{
-		g_combo = g_combo_max;
-	}
-
-	// スコアが加算されたら行う処理
-	if (value > 0)
-	{
-		// エフェクト有効化
-		volumeUpEffectUsed = true;
-	}
-}
-
-//=============================================================================
 // 数字ボリュームアップエフェクト処理
 //=============================================================================
 void VolumeUpEffect(void)
@@ -186,7 +165,7 @@ void VolumeUpEffect(void)
 			volumeUpEffectUsed = false;
 		}
 
-		radian += SPEED_VOLUMEUP;
+		radian += SPEED_VOLUMEUP_NUMBER;
 	}
 }
 
@@ -211,4 +190,27 @@ void UpdateNumberColor(void)
 	{
 		SetColorObject(&comboParts[NUMBER_COMBO], SET_COLOR_RED);
 	}
+}
+
+//=============================================================================
+// コンボの加算（引数で受け取った値をコンボに加算する）
+//=============================================================================
+void AddCombo(int value)
+{
+	g_combo += value;
+
+	// コンボが加算されたら行う処理
+	if (value > 0)
+	{
+		// エフェクト有効化
+		volumeUpEffectUsed = true;
+	}
+}
+
+//=============================================================================
+// コンボの代入（引数で受け取った値をコンボに代入する）
+//=============================================================================
+void SetCombo(int value)
+{
+	g_combo = value;
 }

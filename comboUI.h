@@ -14,6 +14,8 @@
 #define	ADRESS_TEXTURE_TEXT_COMBO	"data/TEXTURE/UI/combo/comboText.png"	// 読み込むテクスチャファイル名
 #define	ADRESS_TEXTURE_BACKGROUND_COMBO	"data/TEXTURE/UI/combo/circleCombo.png"	// 読み込むテクスチャファイル名
 
+#define SPEED_VOLUMEUP_NUMBER		(0.2f)
+
 enum COMBO_PARTS
 {
 	NUMBER_COMBO,
@@ -28,6 +30,7 @@ HRESULT InitCombo	(void);
 void	UninitCombo	(void);
 void	UpdateCombo	(void);
 void	DrawCombo	(void);
-void	ChangeCombo	(int value);
+void	AddCombo	(int value);
+void	SetCombo(int value);
 
 #endif

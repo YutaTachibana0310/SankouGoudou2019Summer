@@ -21,6 +21,6 @@ HRESULT InitScore	(void);
 void	UninitScore	(void);
 void	UpdateScore	(void);
 void	DrawScore	(void);
-void	ChangeScore	(int value);
+void	AddScore	(int value);
 
 #endif

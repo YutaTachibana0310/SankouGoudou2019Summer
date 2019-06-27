@@ -77,11 +77,6 @@ PlayerObserver::~PlayerObserver()
 void PlayerObserver::Init()
 {
 	player->Init();
-	for (PlayerBullet *bullet : bulletContainer)
-	{
-		bullet->Init();
-	}
-
 	ChangeStatePlayer(PlayerState::Idle);
 }
 
@@ -151,16 +146,12 @@ void PlayerObserver::SetPlayerBullet(LineTrailModel trail)
 
 	if (itr != bulletContainer.end())
 	{
-		(*itr)->SetTrailIndex((TrailIndex)trail.start, (TrailIndex)trail.end);
-		(*itr)->SetEdgePos(&targetPos[trail.start], &targetPos[trail.end]);
-		(*itr)->Init();
+		(*itr)->Init(trail);
 	}
 	else
 	{
 		PlayerBullet *bullet = new PlayerBullet();
-		bullet->SetTrailIndex((TrailIndex)trail.start, (TrailIndex)trail.end);
-		bullet->SetEdgePos(&targetPos[trail.start], &targetPos[trail.end]);
-		bullet->Init();
+		bullet->Init(trail);
 		bulletContainer.push_back(bullet);
 	}
 }

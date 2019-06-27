@@ -46,6 +46,34 @@ LineTrailModel::~LineTrailModel()
 }
 
 /**************************************
+==演算子
+***************************************/
+bool LineTrailModel::operator==(const LineTrailModel& obj) const
+{
+	if (this->start == obj.start && this->end == obj.end)
+		return true;
+
+	if (this->start == obj.end && this->end == obj.start)
+		return true;
+
+	return false;
+}
+
+/**************************************
+!=演算子
+***************************************/
+bool LineTrailModel::operator!=(const LineTrailModel& obj) const
+{
+	if (this->start == obj.start && this->end == obj.end)
+		return false;
+
+	if (this->start == obj.end && this->end == obj.start)
+		return false;
+
+	return true;
+}
+
+/**************************************
 端点座標取得処理
 ***************************************/
 void LineTrailModel::GetEdgePos(D3DXVECTOR3 *right, D3DXVECTOR3 *left)

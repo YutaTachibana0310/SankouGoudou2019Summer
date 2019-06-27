@@ -31,9 +31,11 @@ LPDIRECT3DTEXTURE9 PlayerBullet::texture = NULL;	//テクスチャ
 /****************************************
 初期化処理
 ****************************************/
-void PlayerBullet::Init()
+void PlayerBullet::Init(LineTrailModel model)
 {
 	cntFrame = 0;
+	collider.SetTrailIndex(model);
+	SetEdgePos(model);
 	active = true;
 }
 
@@ -168,20 +170,14 @@ PlayerBullet::~PlayerBullet()
 }
 
 /****************************************
-トレイルインデックスセット処理
-*****************************************/
-void PlayerBullet::SetTrailIndex(TrailIndex start, TrailIndex end)
-{
-	collider.SetTrailIndex(start, end);
-}
-
-/****************************************
 端点セット処理
 *****************************************/
-void PlayerBullet::SetEdgePos(D3DXVECTOR3 *start, D3DXVECTOR3 *end)
+void PlayerBullet::SetEdgePos(LineTrailModel model)
 {
 	//始点と終点を結ぶ線分を計算し、長さを半分にする
-	D3DXVECTOR3 diff = *end - *start;
+	D3DXVECTOR3 start, end;
+	model.GetEdgePos(&start, &end);
+	D3DXVECTOR3 diff = end- start;
 	diff /= 2.0f;
 
 	//線分に垂直なベクトルを求める
@@ -198,10 +194,10 @@ void PlayerBullet::SetEdgePos(D3DXVECTOR3 *start, D3DXVECTOR3 *end)
 	vtxBuff->Unlock();
 
 	//ワールド座標を始点と終点の真ん中に設定
-	pos = *start + diff;
+	pos = start + diff;
 
 	//パーティクルセット
-	SetPlayerBulletParticle(&pos, &active, start, end);
+	SetPlayerBulletParticle(&pos, &active, &start, &end);
 }
 
 /****************************************
@@ -210,12 +206,4 @@ void PlayerBullet::SetEdgePos(D3DXVECTOR3 *start, D3DXVECTOR3 *end)
 TrailCollider PlayerBullet::GetCollider()
 {
 	return collider;
-}
-
-/****************************************
-アクティブ判定
-*****************************************/
-bool PlayerBullet::IsActive()
-{
-	return active;
 }

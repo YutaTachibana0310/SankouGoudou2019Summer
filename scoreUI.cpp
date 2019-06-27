@@ -7,6 +7,7 @@
 #include "scoreUI.h"
 #include "UIdrawer.h"
 #include "input.h"
+#include "comboUI.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -15,9 +16,14 @@
 #define	INTERVAL_NUMBER_TEXTURE	(0.097f)	// テクスチャテクスチャ内のスコア数字の表示間隔
 #define	PLACE_MAX		(4)					// スコアの桁数
 #define BASE_NUMBER		(10)				// 進数
-#define VOLUME_ZOOM		(50.0f)
+#define VOLUME_ZOOM		(30.0f)
 #define SIZE_SCORE		(D3DXVECTOR3(20.0f,30.0f,0.0f))
 #define POSITION_SCORE	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 8.8f, SCREEN_HEIGHT / 10 * 8, 0.0f))
+
+//*****************************************************************************
+// プロトタイプ宣言
+//*****************************************************************************
+static void VolumeUpEffect(void);
 
 //*****************************************************************************
 // グローバル変数宣言
@@ -25,6 +31,8 @@
 OBJECT	score;					
 int		g_score		= 0;		// スコア
 int		g_score_max = 0;			
+static float radian = 0;
+static bool	volumeUpEffectUsed = false;
 
 //=============================================================================
 // 初期化処理
@@ -65,6 +73,17 @@ void UninitScore(void)
 //=============================================================================
 void UpdateScore(void)
 {
+	VolumeUpEffect();
+
+	// 桁あふれ防止
+	if (g_score < 0)
+	{
+		g_score = 0;
+	}
+	if (g_score >= g_score_max)
+	{
+		g_score = g_score_max;
+	}
 }
 
 //=============================================================================
@@ -87,24 +106,35 @@ void DrawScore(void)
 }
 
 //=============================================================================
-// スコアの変更
+// 数字ボリュームアップエフェクト処理
 //=============================================================================
-void ChangeScore(int value)
+void VolumeUpEffect(void)
+{
+	if (volumeUpEffectUsed == true)
+	{
+		score.size.y = SIZE_SCORE.y + VOLUME_ZOOM * sinf(radian);
+
+		if (radian >= D3DX_PI)
+		{
+			radian = 0.0f;
+			volumeUpEffectUsed = false;
+		}
+
+		radian += SPEED_VOLUMEUP_NUMBER;
+	}
+}
+
+//=============================================================================
+// スコアの加算（引数で受け取った値をスコアに加算する）
+//=============================================================================
+void AddScore(int value)
 {
 	g_score += value;
 
-	if (g_score < 0)
+	// スコアが加算されたら行う処理
+	if (value > 0)
 	{
-		g_score = 0;
-	}
-	else if (g_score >= (int)(powf(BASE_NUMBER, (float)(PLACE_MAX + 1))))
-	{
-		g_score = (int)(powf(BASE_NUMBER, (float)(PLACE_MAX + 1))) - 1;
-	}
-
-	// 桁あふれ防止
-	if (g_score >= g_score_max)
-	{
-		g_score = g_score_max;
+		// エフェクト有効化
+		volumeUpEffectUsed = true;
 	}
 }

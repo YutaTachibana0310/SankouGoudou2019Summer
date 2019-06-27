@@ -25,14 +25,7 @@
 // グローバル変数
 //*****************************************************************************
 OBJECT	trail[TRAILPARTS_MAX];
-int		trailHistoryCW[MOVESTACK_LENGTH];
-int		trailHistoryCCW[MOVESTACK_LENGTH];
 int		historyMax;
-
-//*****************************************************************************
-// プロトタイプ宣言
-//******************************************************************************
-bool CanDrawTrailLine(int startStar,int endStar);
 
 //=============================================================================
 // 初期化処理
@@ -61,13 +54,6 @@ HRESULT InitTrail(void)
 		SetColorObject(&trail[i], SET_COLOR_NOT_COLORED);
 	}
 
-	// 配列を要素と関係ない値で初期化	
-	for (int i = 0; i < MOVESTACK_LENGTH; i++)
-	{
-		trailHistoryCW[i] = { 8 };
-		trailHistoryCCW[i] = { 8 };
-	}
-
 	return S_OK;
 }
 
@@ -87,17 +73,6 @@ void UninitTrail(void)
 //=============================================================================
 void UpdateTrail(void)
 {
-	if (SetBomb() == true)
-	{
-		for (int i = 0; i < MOVESTACK_LENGTH; i++) 
-		{
-			trailHistoryCW[i] = { INITIAL_ARRAY_NUMBER };
-			trailHistoryCCW[i] = { INITIAL_ARRAY_NUMBER };
-		}
-	}
-
-	GetMove_StackCW(trailHistoryCW);
-	GetMove_StackCCW(trailHistoryCCW);
 }
 
 //=============================================================================
@@ -107,95 +82,20 @@ void DrawTrail(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	// プレイヤーから受け取ったデータを入れる
+	std::vector <int> drawHistory;
+	GetPlayerMoveHistory(&drawHistory);
+
 	// 先に背景を描画
 	DrawObject(pDevice, trail[TRAIL_BG]);
 	SetVertexObject(&trail[TRAIL_BG]);
 
-	// それぞれtrueだったらラインを描画
-	if (CanDrawTrailLine(TOP,LOWER_LEFT) == true)
-	{
-		DrawObject(pDevice, trail[TRAIL_LINE_TOP_TO_LOWERLEFT]);
-		SetVertexObject(&trail[TRAIL_LINE_TOP_TO_LOWERLEFT]);
-	}
-	if (CanDrawTrailLine(TOP, LOWER_RIGHT) == true)
-	{
-		DrawObject(pDevice, trail[TRAIL_LINE_TOP_TO_LOWERRIGHT]);
-		SetVertexObject(&trail[TRAIL_LINE_TOP_TO_LOWERRIGHT]);
-	}
-	if (CanDrawTrailLine(LOWER_LEFT, MIDDLE_RIGHT) == true)
-	{
-		DrawObject(pDevice, trail[TRAIL_LINE_LOWERLEFT_TO_MIDDLERIGHT]);
-		SetVertexObject(&trail[TRAIL_LINE_LOWERLEFT_TO_MIDDLERIGHT]);
-	}
-	if (CanDrawTrailLine(LOWER_RIGHT, MIDDLE_LEFT) == true)
-	{
-		DrawObject(pDevice, trail[TRAIL_LINE_LOWERRIGHT_TO_MIDDLELEFT]);
-		SetVertexObject(&trail[TRAIL_LINE_LOWERRIGHT_TO_MIDDLELEFT]);
-	}
-	if (CanDrawTrailLine(MIDDLE_LEFT, MIDDLE_RIGHT) == true)
-	{
-		DrawObject(pDevice, trail[TRAIL_LINE_MIDDLELEFT_TO_MIDDLERIGHT]);
-		SetVertexObject(&trail[TRAIL_LINE_MIDDLELEFT_TO_MIDDLERIGHT]);
-	}
-}
+	// 要素数計算
+	historyMax = drawHistory.size();
 
-//void DrawTrail(void)
-//{
-//	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-//
-//	// プレイヤーから受け取ったデータを入れる
-//	std::vector <int> drawHistory;
-//
-//	// 先に背景を描画
-//	DrawObject(pDevice, trail[TRAIL_BG]);
-//	SetVertexObject(&trail[TRAIL_BG]);
-//
-//	// 要素数計算
-//	historyMax = drawHistory.size();
-//
-//	for (int i = 0; i < historyMax; i++)
-//	{
-//		DrawObject(pDevice, trail[drawHistory[i]]);
-//		SetVertexObject(&trail[drawHistory[i]]);
-//	}
-//}
-
-//=============================================================================
-// 描画可能判定処理 (可能だったらtrueを返す)
-//=============================================================================
-bool CanDrawTrailLine(int startStar, int endStar)
-{
-	bool canDraw;
-	int	 searchFailedCount = 0;
-	int	 searchSuccessCount = 0;
-
-	for (int i = 0; i < MOVESTACK_LENGTH; i++)
+	for (int i = 0; i < historyMax; i++)
 	{
-		// 配列の中で連続しているor配列の最後と最初で連続していたら描画 (全ての組み合わせでチェック)
-		if ((trailHistoryCW[i] == startStar && trailHistoryCW[i + 1] == endStar)
-			|| (trailHistoryCW[i] == endStar && trailHistoryCW[i + 1] == startStar)
-			|| (trailHistoryCCW[i] == startStar && trailHistoryCCW[i + 1] == endStar)
-			|| (trailHistoryCCW[i] == endStar && trailHistoryCCW[i + 1] == startStar))
-		{
-			canDraw = true;
-			searchSuccessCount++;
-		}
-		else
-		{
-			searchFailedCount++;
-		}
-
-		if (searchFailedCount >= MOVESTACK_LENGTH)
-		{
-			canDraw = false;
-			searchFailedCount = 0;
-		}
-
-		if (searchSuccessCount + searchFailedCount >= MOVESTACK_LENGTH)
-		{
-			searchSuccessCount = 0;
-			searchFailedCount = 0;
-		}
+		DrawObject(pDevice, trail[drawHistory[i]]);
+		SetVertexObject(&trail[drawHistory[i]]);
 	}
-	return canDraw;
 }

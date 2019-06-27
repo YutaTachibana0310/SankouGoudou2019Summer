@@ -34,9 +34,11 @@ public:
 	int start, end;		//始点、終点
 	void GetEdgePos(D3DXVECTOR3 *right, D3DXVECTOR3 *left);
 
+	static void CalcEdgePosition();
+	static D3DXVECTOR3 GetEdgePos(int i);
+
 private:
 	static D3DXVECTOR3 edgePosition[TrailIndexMax];
-	static void CalcEdgePosition();
 
 };
 #endif

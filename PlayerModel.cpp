@@ -150,20 +150,20 @@ bool PlayerModel::_CheckOneStroke(size_t start)
 /**************************************
 íºãﬂ1åèÇÃãOê’ÇÃéÊìæ
 ***************************************/
-bool PlayerModel::GetPlayerTrail(PlayerTrailModel *pOut)
+bool PlayerModel::GetPlayerTrail(LineTrailModel *pOut)
 {
 	int queSize = moveQueue.size();
 	if (queSize < 2)
 		return false;
 	
-	*pOut = PlayerTrailModel(moveQueue[queSize - 1], moveQueue[queSize - 2]);
+	*pOut = LineTrailModel(moveQueue[queSize - 1], moveQueue[queSize - 2]);
 	return true;
 }
 
 /**************************************
 ëSãOê’ÇÃéÊìæ
 ***************************************/
-size_t PlayerModel::GetAllPlayerTrail(vector<PlayerTrailModel> *container)
+size_t PlayerModel::GetAllPlayerTrail(vector<LineTrailModel> *container)
 {
 	if (moveQueue.size() < 2)
 		return 0;
@@ -174,7 +174,7 @@ size_t PlayerModel::GetAllPlayerTrail(vector<PlayerTrailModel> *container)
 
 	for (int i = 0; i < modelCount; i++)
 	{
-		container->push_back(PlayerTrailModel(moveQueue[i + 1], moveQueue[i]));
+		container->push_back(LineTrailModel(moveQueue[i + 1], moveQueue[i]));
 	}
 
 	return modelCount;

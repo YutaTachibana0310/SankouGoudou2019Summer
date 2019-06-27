@@ -408,9 +408,6 @@
     <ClInclude Include="PlayerModel.h">
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerTrailModel.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
     <ClInclude Include="LineTrailModel.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
@@ -675,9 +672,6 @@
       <Filter>ソース ファイル\Player\State</Filter>
     </ClCompile>
     <ClCompile Include="PlayerModel.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerTrailModel.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
     <ClCompile Include="PlayerWait.cpp">

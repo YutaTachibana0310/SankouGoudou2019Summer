@@ -57,6 +57,14 @@ void LineTrailModel::GetEdgePos(D3DXVECTOR3 *right, D3DXVECTOR3 *left)
 }
 
 /**************************************
+端点座標取得処理
+***************************************/
+D3DXVECTOR3 LineTrailModel::GetEdgePos(int i)
+{
+	return edgePosition[i];
+}
+
+/**************************************
 端点座標設定処理
 ***************************************/
 void LineTrailModel::CalcEdgePosition()

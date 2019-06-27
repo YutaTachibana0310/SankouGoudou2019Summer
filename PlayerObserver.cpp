@@ -40,6 +40,10 @@ PlayerObserver::PlayerObserver()
 
 	//移動先確保
 	targetPos.resize(5);
+	for (UINT i = 0; i < targetPos.size(); i++)
+	{
+		targetPos[i] = LineTrailModel::GetEdgePos(i);
+	}
 
 	//moveTarget初期化
 	moveTarget = MOVETARGET_DEFAULT;
@@ -138,7 +142,7 @@ void PlayerObserver::Draw()
 /**************************************
 バレット発射処理
 ***************************************/
-void PlayerObserver::SetPlayerBullet(PlayerTrailModel trail)
+void PlayerObserver::SetPlayerBullet(LineTrailModel trail)
 {
 	auto itr = find_if(bulletContainer.begin(), bulletContainer.end(), [](PlayerBullet* bullet)
 	{
@@ -188,14 +192,6 @@ void PlayerObserver::PushInput(int num)
 }
 
 /**************************************
-移動目標設定
-***************************************/
-void PlayerObserver::SetMoveTargetPosition(int i, D3DXVECTOR3 pos)
-{
-	targetPos[i] = pos;
-}
-
-/**************************************
 Player状態遷移
 ***************************************/
 void PlayerObserver::ChangeStatePlayer(PlayerState next)
@@ -240,7 +236,7 @@ void PlayerObserver::OnFinishPlayerMove()
 	//WaitかｒMoveからの移動であればバレット発射
 	if (prevState == PlayerState::Wait || prevState == PlayerState::Move)
 	{
-		PlayerTrailModel modelTrail;
+		LineTrailModel modelTrail;
 		model->GetPlayerTrail(&modelTrail);
 		SetPlayerBullet(modelTrail);
 	}

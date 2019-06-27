@@ -7,6 +7,7 @@
 #include "GameScene.h"
 #include "debugWindow.h"
 #include "Game.h"
+#include "LineTrailModel.h"
 #include "PostEffectManager.h"
 #include "debugWindow.h"
 #include "debugTimer.h"
@@ -43,6 +44,9 @@
 ***************************************/
 void GameScene::Init()
 {
+	InitGameSceneUI();
+	LineTrailModel::CalcEdgePosition();
+
 	InitSkyBox(0);
 	InitBackGroundCity(0);
 
@@ -51,10 +55,9 @@ void GameScene::Init()
 
 	InitGameParticleManager(0);
 
-	InitGameSceneUI();
-
 	InitPlayerController();
 	Sound::GetInstance()->Create();
+
 
 	RegisterDebugTimer(GAMESCENE_LABEL);
 }

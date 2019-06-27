@@ -156,7 +156,6 @@
     <ClInclude Include="PlayerObserver.h" />
     <ClInclude Include="startButtonUI.h" />
     <ClInclude Include="PlayerTrail.h" />
-    <ClInclude Include="PlayerTrailModel.h" />
     <ClInclude Include="PlayerTrailParticle.h" />
     <ClInclude Include="PlayerTrailParticleController.h" />
     <ClInclude Include="state.h" />
@@ -281,7 +280,6 @@
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="PlayerObserver.cpp" />
     <ClCompile Include="PlayerReturn.cpp" />
-    <ClCompile Include="PlayerTrailModel.cpp" />
     <ClCompile Include="PlayerTrailParticle.cpp" />
     <ClCompile Include="PlayerTrailParticleController.cpp" />
     <ClCompile Include="PlayerWait.cpp" />

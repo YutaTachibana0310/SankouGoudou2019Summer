@@ -50,7 +50,6 @@ public:
 	void Draw();
 
 	void PushInput(int num);
-	void SetMoveTargetPosition(int i, D3DXVECTOR3 pos);
 	PlayerModel *model;
 
 private:
@@ -69,7 +68,7 @@ private:
 	void OnFinishPlayerMove();
 	void OnFinishPlayerWait();
 	void OnFinishPlayerReturn();
-	void SetPlayerBullet(PlayerTrailModel trail);
+	void SetPlayerBullet(LineTrailModel trail);
 	void OnPlayerStateFinish();
 };
 

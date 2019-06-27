@@ -118,12 +118,6 @@ void CalcPlayerMoveTargetPos()
 	}
 }
 
-//リファクタリングしたのでエラー対策に仮版
-bool SetBomb()
-{
-	return true;
-}
-
 //=============================================================================
 // MoveHistory取得処理
 //=============================================================================
@@ -176,25 +170,4 @@ void GetPlayerMoveHistory(vector<int> *pOut)
 	}
 
 	return;
-}
-
-//=============================================================================
-// CCW配列取得処理 (おーはま追記)
-// 追記（立花）：リファクタリングでデータ構造が変わったので要相談
-//=============================================================================
-void GetMove_StackCCW(int trailHistoryCCW[MOVESTACK_LENGTH]) {
-
-	for (int i = 0; i < MOVESTACK_LENGTH; i++) {
-		trailHistoryCCW[i] = INITIAL_ARRAY_NUMBER;
-	}
-}
-
-//=============================================================================
-// CW配列取得処理 (おーはま追記)
-// 追記（立花）：リファクタリングでデータ構造が変わったので要相談
-//=============================================================================
-void GetMove_StackCW(int trailHistoryCW[MOVESTACK_LENGTH]) {
-	for (int i = 0; i < MOVESTACK_LENGTH; i++) {
-		trailHistoryCW[i] = INITIAL_ARRAY_NUMBER;
-	}
 }

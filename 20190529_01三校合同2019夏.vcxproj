@@ -141,6 +141,7 @@
     <ClInclude Include="BackGroundCity.h" />
     <ClInclude Include="BackGroundField.h" />
     <ClInclude Include="BackGroundRoad.h" />
+    <ClInclude Include="BaseObserver.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="comboUI.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="BaseGameEntity.h" />
     <ClInclude Include="enemystate.h" />
     <ClInclude Include="LineTrailModel.h" />
+    <ClInclude Include="ObserveSubject.h" />
     <ClInclude Include="PlayerIdle.h" />
     <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="PlayerObserver.h" />
@@ -270,6 +272,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
+    <ClCompile Include="ObserveSubject.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBulletParticle.cpp" />
     <ClCompile Include="PlayerBulletParticleController.cpp" />

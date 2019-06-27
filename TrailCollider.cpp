@@ -24,10 +24,7 @@
 ***************************************/
 bool TrailCollider::CheckCollision(TrailCollider *other)
 {
-	bool isHit;
-
 	//始点と終点の一致判定
-
 	if(this->model != other->model)
 		return false;
 

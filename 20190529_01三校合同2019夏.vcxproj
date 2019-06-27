@@ -150,6 +150,7 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="BaseGameEntity.h" />
     <ClInclude Include="enemystate.h" />
+    <ClInclude Include="LineTrailModel.h" />
     <ClInclude Include="PlayerIdle.h" />
     <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="PlayerObserver.h" />
@@ -265,6 +266,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="light.cpp" />
+    <ClCompile Include="LineTrailModel.cpp" />
     <ClCompile Include="lineUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Enemy.cpp" />

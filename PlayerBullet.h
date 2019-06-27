@@ -9,6 +9,7 @@
 
 #include "main.h"
 #include "TrailCollider.h"
+#include "LineTrailModel.h"
 
 /**************************************
 マクロ定義
@@ -24,18 +25,15 @@
 class PlayerBullet
 {
 public:
-	PlayerBullet();		//コンストラクタ
-	~PlayerBullet();	//デストラクタ
+	PlayerBullet();							//コンストラクタ
+	~PlayerBullet();						//デストラクタ
 
-	void Init();		//初期化処理
-	void Uninit();		//終了処理
-	void Update();		//更新処理
-	void Draw();		//描画処理
+	void Init(LineTrailModel model);		//初期化処理
+	void Uninit();							//終了処理
+	void Update();							//更新処理
+	void Draw();							//描画処理
 
-	void SetTrailIndex(TrailIndex start, TrailIndex end);		//トレイルインデックスセット処理
-	void SetEdgePos(D3DXVECTOR3 *left, D3DXVECTOR3 *right);	//端点設定処理
-	TrailCollider GetCollider();	//当たり判定取得処理
-	bool IsActive();				//アクティブ判定
+	TrailCollider GetCollider();			//当たり判定取得処理
 	bool active;
 
 private:
@@ -44,6 +42,8 @@ private:
 	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
 	int cntFrame;
 	D3DXVECTOR3 vtxUp;
+
+	void SetEdgePos(LineTrailModel model);
 
 	static int instanceCount;
 	static LPDIRECT3DTEXTURE9 texture;

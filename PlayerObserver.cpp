@@ -40,6 +40,10 @@ PlayerObserver::PlayerObserver()
 
 	//移動先確保
 	targetPos.resize(5);
+	for (UINT i = 0; i < targetPos.size(); i++)
+	{
+		targetPos[i] = LineTrailModel::GetEdgePos(i);
+	}
 
 	//moveTarget初期化
 	moveTarget = MOVETARGET_DEFAULT;
@@ -73,11 +77,6 @@ PlayerObserver::~PlayerObserver()
 void PlayerObserver::Init()
 {
 	player->Init();
-	for (PlayerBullet *bullet : bulletContainer)
-	{
-		bullet->Init();
-	}
-
 	ChangeStatePlayer(PlayerState::Idle);
 }
 
@@ -138,7 +137,7 @@ void PlayerObserver::Draw()
 /**************************************
 バレット発射処理
 ***************************************/
-void PlayerObserver::SetPlayerBullet(PlayerTrailModel trail)
+void PlayerObserver::SetPlayerBullet(LineTrailModel trail)
 {
 	auto itr = find_if(bulletContainer.begin(), bulletContainer.end(), [](PlayerBullet* bullet)
 	{
@@ -147,16 +146,12 @@ void PlayerObserver::SetPlayerBullet(PlayerTrailModel trail)
 
 	if (itr != bulletContainer.end())
 	{
-		(*itr)->SetTrailIndex((TrailIndex)trail.start, (TrailIndex)trail.end);
-		(*itr)->SetEdgePos(&targetPos[trail.start], &targetPos[trail.end]);
-		(*itr)->Init();
+		(*itr)->Init(trail);
 	}
 	else
 	{
 		PlayerBullet *bullet = new PlayerBullet();
-		bullet->SetTrailIndex((TrailIndex)trail.start, (TrailIndex)trail.end);
-		bullet->SetEdgePos(&targetPos[trail.start], &targetPos[trail.end]);
-		bullet->Init();
+		bullet->Init(trail);
 		bulletContainer.push_back(bullet);
 	}
 }
@@ -185,14 +180,6 @@ void PlayerObserver::PushInput(int num)
 	{
 		model->PushInput(num);
 	}
-}
-
-/**************************************
-移動目標設定
-***************************************/
-void PlayerObserver::SetMoveTargetPosition(int i, D3DXVECTOR3 pos)
-{
-	targetPos[i] = pos;
 }
 
 /**************************************
@@ -240,7 +227,7 @@ void PlayerObserver::OnFinishPlayerMove()
 	//WaitかｒMoveからの移動であればバレット発射
 	if (prevState == PlayerState::Wait || prevState == PlayerState::Move)
 	{
-		PlayerTrailModel modelTrail;
+		LineTrailModel modelTrail;
 		model->GetPlayerTrail(&modelTrail);
 		SetPlayerBullet(modelTrail);
 	}

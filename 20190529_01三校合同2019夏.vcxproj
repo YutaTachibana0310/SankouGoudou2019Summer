@@ -150,12 +150,12 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="BaseGameEntity.h" />
     <ClInclude Include="enemystate.h" />
+    <ClInclude Include="LineTrailModel.h" />
     <ClInclude Include="PlayerIdle.h" />
     <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="PlayerObserver.h" />
     <ClInclude Include="startButtonUI.h" />
     <ClInclude Include="PlayerTrail.h" />
-    <ClInclude Include="PlayerTrailModel.h" />
     <ClInclude Include="PlayerTrailParticle.h" />
     <ClInclude Include="PlayerTrailParticleController.h" />
     <ClInclude Include="state.h" />
@@ -265,6 +265,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="light.cpp" />
+    <ClCompile Include="LineTrailModel.cpp" />
     <ClCompile Include="lineUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -279,7 +280,6 @@
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="PlayerObserver.cpp" />
     <ClCompile Include="PlayerReturn.cpp" />
-    <ClCompile Include="PlayerTrailModel.cpp" />
     <ClCompile Include="PlayerTrailParticle.cpp" />
     <ClCompile Include="PlayerTrailParticleController.cpp" />
     <ClCompile Include="PlayerWait.cpp" />

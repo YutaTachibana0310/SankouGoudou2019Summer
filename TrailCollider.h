@@ -8,6 +8,7 @@
 #define _TRAILCOLLIDER_H_
 
 #include "main.h"
+#include "LineTrailModel.h"
 
 /**************************************
 マクロ定義
@@ -16,15 +17,6 @@
 /**************************************
 始点・終点定義
 ***************************************/
-enum class TrailIndex
-{
-	Top,
-	MiddleLeft,
-	LowerLeft,
-	LowerRight,
-	MiddleRight,
-	Max
-};
 
 /**************************************
 トレイルコライダークラス
@@ -32,15 +24,17 @@ enum class TrailIndex
 class TrailCollider
 {
 public:
+	friend class TrailCollider;
+
 	TrailCollider() {};
 	~TrailCollider() {};
 
 	bool CheckCollision(TrailCollider *other);
-	void SetTrailIndex(TrailIndex start, TrailIndex end);
+	void SetTrailIndex(LineTrailModel model);
 	void SetAddressZ(float* adrPosZ);
 
 private:
-	TrailIndex start, end;
+	LineTrailModel model;
 	float *posZ;
 };
 

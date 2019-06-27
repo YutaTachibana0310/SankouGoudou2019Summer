@@ -27,9 +27,8 @@ bool TrailCollider::CheckCollision(TrailCollider *other)
 	bool isHit;
 
 	//始点と終点の一致判定
-	isHit = (start == other->start && end == other->end) || (start == other->end && end == other->start);
 
-	if (!isHit)
+	if(this->model != other->model)
 		return false;
 
 	//Z距離判定
@@ -42,10 +41,9 @@ bool TrailCollider::CheckCollision(TrailCollider *other)
 /**************************************
 トレイルインデックスセット処理
 ***************************************/
-void TrailCollider::SetTrailIndex(TrailIndex start, TrailIndex end)
+void TrailCollider::SetTrailIndex(LineTrailModel model)
 {
-	this->start = start;
-	this->end = end;
+	this->model = model;
 }
 
 /**************************************

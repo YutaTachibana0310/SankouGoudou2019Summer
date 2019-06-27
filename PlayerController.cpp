@@ -24,7 +24,6 @@ using namespace std;
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-void CalcPlayerMoveTargetPos();
 void CheckInput(HWND hWnd);
 
 //*****************************************************************************
@@ -39,9 +38,6 @@ HRESULT InitPlayerController(void)
 {
 	observer = new PlayerObserver();
 	observer->Init();
-
-	//移動目標初期化
-	CalcPlayerMoveTargetPos();
 
 	return S_OK;
 }
@@ -92,43 +88,17 @@ void CheckInput(HWND hWnd)
 	}
 }
 
-
-//=============================================================================
-// 移動目標座標計算処理
-//=============================================================================
-void CalcPlayerMoveTargetPos()
-{
-	//スターのスクリーン座標を取得
-	D3DXVECTOR3 starPos[5];
-	GetStarPosition(starPos);
-
-	for (int i = 0; i < STAR_MAX; i++)
-	{
-		//スターの位置でNear面とFar面を結ぶレイを計算して正規化
-		D3DXVECTOR3 nearPos, farPos;
-		CalcScreenToWorld(&nearPos, &starPos[i], 0.0f);
-		CalcScreenToWorld(&farPos, &starPos[i], 1.0f);
-
-		D3DXVECTOR3 ray = farPos - nearPos;
-		D3DXVec3Normalize(&ray, &ray);
-
-		//目標座標を計算
-		D3DXVECTOR3 pos = nearPos + ray * PLAYER_DISTANCE_FROM_CAMERA;
-		observer->SetMoveTargetPosition(i, pos);
-	}
-}
-
 //=============================================================================
 // MoveHistory取得処理
 //=============================================================================
 void GetPlayerMoveHistory(vector<int> *pOut)
 {
 	//移動履歴を取得
-	vector<PlayerTrailModel> moveHistory;
+	vector<LineTrailModel> moveHistory;
 	observer->model->GetAllPlayerTrail(&moveHistory);
 
 	//UI用データに変換
-	for (PlayerTrailModel model : moveHistory)
+	for (LineTrailModel model : moveHistory)
 	{
 		if (model.start == TOP || model.end == TOP)
 		{

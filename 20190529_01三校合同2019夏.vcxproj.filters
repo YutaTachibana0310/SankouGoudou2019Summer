@@ -408,8 +408,8 @@
     <ClInclude Include="PlayerModel.h">
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerTrailModel.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
+    <ClInclude Include="LineTrailModel.h">
+      <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -511,9 +511,6 @@
     </ClCompile>
     <ClCompile Include="UIdrawer.cpp">
       <Filter>ソース ファイル\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleScene.cpp">
-      <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
     <ClCompile Include="GameScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
@@ -674,14 +671,17 @@
     <ClCompile Include="PlayerModel.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerTrailModel.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerWait.cpp">
       <Filter>ソース ファイル\Player\State</Filter>
     </ClCompile>
     <ClCompile Include="PlayerReturn.cpp">
       <Filter>ソース ファイル\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="LineTrailModel.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -142,7 +142,6 @@
     <ClInclude Include="BackGroundField.h" />
     <ClInclude Include="BackGroundRoad.h" />
     <ClInclude Include="camera.h" />
-    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="comboUI.h" />
     <ClInclude Include="cursorUI.h" />
     <ClInclude Include="debugTimer.h" />
@@ -150,7 +149,10 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="BaseGameEntity.h" />
     <ClInclude Include="enemystate.h" />
+    <ClInclude Include="Framework\BaseObserver.h" />
+    <ClInclude Include="Framework\ObserveSubject.h" />
     <ClInclude Include="LineTrailModel.h" />
+    <ClInclude Include="PlayerBulletController.h" />
     <ClInclude Include="PlayerIdle.h" />
     <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="PlayerObserver.h" />
@@ -236,7 +238,6 @@
     <ClCompile Include="BackGuroundField.cpp" />
     <ClCompile Include="BaseGameEntity.cpp" />
     <ClCompile Include="camera.cpp" />
-    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="comboUI.cpp" />
     <ClCompile Include="cursorUI.cpp" />
     <ClCompile Include="debugTimer.cpp" />
@@ -252,6 +253,7 @@
     <ClCompile Include="Framework\InstancingMeshContainer.cpp" />
     <ClCompile Include="Framework\MeshContainer.cpp" />
     <ClCompile Include="Framework\MyAllocateHierarchy.cpp" />
+    <ClCompile Include="Framework\ObserveSubject.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameParticleManager.cpp" />
     <ClCompile Include="guageUI.cpp" />
@@ -271,6 +273,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerBulletController.cpp" />
     <ClCompile Include="PlayerBulletParticle.cpp" />
     <ClCompile Include="PlayerBulletParticleController.cpp" />
     <ClCompile Include="PlayerController.cpp" />

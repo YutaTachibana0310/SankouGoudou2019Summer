@@ -21,6 +21,8 @@ using namespace std;
 #define MOVETARGET_LENGTH				(6)
 #define PLAYER_DISTANCE_FROM_CAMERA		(150.0f)
 
+//#define USE_COLLIDER_TEST
+
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
@@ -31,6 +33,9 @@ void CheckInput(HWND hWnd);
 //*****************************************************************************
 PlayerObserver *observer;
 
+#ifdef USE_COLLIDER_TEST
+TrailCollider *testCollider;
+#endif
 //*****************************************************************************
 // 初期化処理
 //*****************************************************************************
@@ -39,6 +44,10 @@ HRESULT InitPlayerController(void)
 	observer = new PlayerObserver();
 	observer->Init();
 
+#ifdef USE_COLLIDER_TEST
+	testCollider = new TrailCollider("Enemy");
+	testCollider->RegisterToCheckList();
+#endif
 	return S_OK;
 }
 //*****************************************************************************
@@ -48,6 +57,11 @@ void UninitPlayerController()
 {
 	observer->Uninit();
 	delete observer;
+
+#ifdef USE_COLLIDER_TEST
+	testCollider->RemoveFromCheckList();
+	delete testCollider;
+#endif
 }
 
 //*****************************************************************************
@@ -60,8 +74,19 @@ void UpdatePlayerController(HWND hWnd)
 
 	observer->Update();
 
-	vector<int> test;
-	GetPlayerMoveHistory(&test);
+#ifdef USE_COLLIDER_TEST
+	static int start, end;
+	static float posZ = 500.0f;
+	BeginDebugWindow("Collider");
+
+	DebugInputInt("Start", &start);
+	DebugInputInt("End", &end);
+	DebugSliderFloat("Z", &posZ, 0.0f, 1000.0f);
+
+	testCollider->SetAddressZ(&posZ);
+	testCollider->SetTrailIndex(LineTrailModel(start, end));
+#endif
+	EndDebugWindow("Collider");
 }
 
 //*****************************************************************************

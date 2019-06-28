@@ -24,7 +24,7 @@
 #include "GameParticleManager.h"
 
 #include "sound.h"
-#include "CollisionManager.h"
+#include "TrailCollider.h"
 
 /**************************************
 ƒ}ƒNƒ’è‹`
@@ -115,7 +115,7 @@ void GameScene::Update(HWND hWnd)
 	PostEffectManager::Instance()->Update();
 
 	//Õ“Ë”»’è
-	UpdateCollisionManager();
+	TrailCollider::UpdateCollision();
 }
 
 /**************************************

@@ -5,6 +5,9 @@
 //
 //=====================================
 #include "TrailCollider.h"
+#include <algorithm>
+
+using namespace std;
 
 /**************************************
 マクロ定義
@@ -16,26 +19,56 @@
 ***************************************/
 
 /**************************************
-グローバル変数
+static変数
 ***************************************/
+std::map<string, std::list<TrailCollider*>> TrailCollider::checkDictionary;
 
 /**************************************
 衝突判定
 ***************************************/
 bool TrailCollider::CheckCollision(TrailCollider *other)
 {
-	bool isHit;
-
 	//始点と終点の一致判定
-
 	if(this->model != other->model)
 		return false;
 
 	//Z距離判定
 	float dist = fabsf(*posZ - *(other->posZ));
 
-	return dist < TRAILCOLLIDER_HIT_LENGTH;
+	if (dist < TRAILCOLLIDER_HIT_LENGTH)
+	{
+		//自身と相手の観測者に衝突を通知
+		ObserveSubject::NotifyObservers();
+		other->NotifyObservers();
+
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 	
+}
+
+/**************************************
+コンストラクタ
+***************************************/
+TrailCollider::TrailCollider(const char* tag)
+{
+	this->tag = string(tag);
+}
+
+/**************************************
+デストラクタ
+***************************************/
+TrailCollider::~TrailCollider()
+{
+	list<TrailCollider*> *checkList = &checkDictionary[tag];
+	auto itr = find(checkList->begin(), checkList->end(), this);
+	if (itr != checkList->end())
+	{
+		checkList->erase(itr);
+	}
 }
 
 /**************************************
@@ -52,4 +85,51 @@ Z座標ポインタセット処理
 void TrailCollider::SetAddressZ(float* adrPosZ)
 {
 	this->posZ = adrPosZ;
+}
+
+/**************************************
+衝突判定
+***************************************/
+void TrailCollider::UpdateCollision()
+{
+	//プレイヤーバレットとエネミーの衝突判定
+	for (TrailCollider* bullet : checkDictionary["PlayerBullet"])
+	{
+		for (TrailCollider *enemy : checkDictionary["Enemy"])
+		{
+			bullet->CheckCollision(enemy);
+		}
+	}
+}
+
+/**************************************
+チェックリスト登録処理
+***************************************/
+void TrailCollider::RegisterToCheckList()
+{
+	list<TrailCollider*> *checkList = &checkDictionary[tag];
+
+	//多重登録判定
+	auto itr = find(checkList->begin(), checkList->end(), this);
+	if (itr != checkList->end())
+		return;
+
+	//登録
+	checkList->push_back(this);
+}
+
+/**************************************
+チェックリスト離脱処理
+***************************************/
+void TrailCollider::RemoveFromCheckList()
+{
+	list<TrailCollider*> *checkList = &checkDictionary[tag];
+
+	//登録確認
+	auto itr = find(checkList->begin(), checkList->end(), this);
+	if (itr == checkList->end())
+		return;
+
+	//離脱
+	checkList->erase(itr);
 }

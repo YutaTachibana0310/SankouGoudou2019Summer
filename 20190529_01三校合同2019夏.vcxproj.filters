@@ -64,9 +64,6 @@
     <Filter Include="ソース ファイル\BG">
       <UniqueIdentifier>{5ed267d0-d7be-4bd2-9bcb-740e6e06be26}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\BG">
-      <UniqueIdentifier>{32c236d4-f951-4bbb-ae16-90073dd29807}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Effect">
       <UniqueIdentifier>{acc2b2b2-ccf2-4d6f-acb8-2f5dd5a9f62c}</UniqueIdentifier>
     </Filter>
@@ -115,6 +112,9 @@
     <Filter Include="ヘッダー ファイル\UI\SceneUIManager">
       <UniqueIdentifier>{c987a7c9-6f82-466b-9592-74b51ed87536}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Collider\BG">
+      <UniqueIdentifier>{32c236d4-f951-4bbb-ae16-90073dd29807}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -132,16 +132,7 @@
     <ClInclude Include="Framework\BaseCameraPlugin.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\BaseSingleton.h">
-      <Filter>ヘッダー ファイル\Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\CameraShakerPlugin.h">
-      <Filter>ヘッダー ファイル\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Easing.h">
-      <Filter>ヘッダー ファイル\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\EasingVector.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Framework\MeshContainer.h">
@@ -250,10 +241,10 @@
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="BackGroundCity.h">
-      <Filter>ヘッダー ファイル\BG</Filter>
+      <Filter>ヘッダー ファイル\Collider\BG</Filter>
     </ClInclude>
     <ClInclude Include="SkyBox.h">
-      <Filter>ヘッダー ファイル\BG</Filter>
+      <Filter>ヘッダー ファイル\Collider\BG</Filter>
     </ClInclude>
     <ClInclude Include="ScoreParticle.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
@@ -262,10 +253,10 @@
       <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
     <ClInclude Include="BackGroundRoad.h">
-      <Filter>ヘッダー ファイル\BG</Filter>
+      <Filter>ヘッダー ファイル\Collider\BG</Filter>
     </ClInclude>
     <ClInclude Include="BackGroundField.h">
-      <Filter>ヘッダー ファイル\BG</Filter>
+      <Filter>ヘッダー ファイル\Collider\BG</Filter>
     </ClInclude>
     <ClInclude Include="PostEffectManager.h">
       <Filter>ヘッダー ファイル\PostEffect</Filter>
@@ -315,9 +306,6 @@
     <ClInclude Include="TrailCollider.h">
       <Filter>ヘッダー ファイル\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>ヘッダー ファイル\Collider</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerBulletParticle.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
@@ -326,15 +314,6 @@
     </ClInclude>
     <ClInclude Include="PostEffect\SpeedBlurController.h">
       <Filter>ヘッダー ファイル\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\BaseEmitter.h">
-      <Filter>ヘッダー ファイル\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\BaseParticle.h">
-      <Filter>ヘッダー ファイル\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\BaseParticleController.h">
-      <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
     <ClInclude Include="ScoreParticleController.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
@@ -410,6 +389,33 @@
     </ClInclude>
     <ClInclude Include="LineTrailModel.h">
       <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\BaseSingleton.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Easing.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\EasingVector.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\BaseEmitter.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\BaseParticle.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\BaseParticleController.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ObserveSubject.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\BaseObserver.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBulletController.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -572,9 +578,6 @@
     <ClCompile Include="TrailCollider.cpp">
       <Filter>ソース ファイル\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
-      <Filter>ソース ファイル\Collider</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerBulletParticle.cpp">
       <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
@@ -682,6 +685,12 @@
     </ClCompile>
     <ClCompile Include="TitleScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\ObserveSubject.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBulletController.cpp">
+      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

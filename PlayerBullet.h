@@ -8,6 +8,7 @@
 #define _PLAYERBULLET_H_
 
 #include "main.h"
+#include "Framework\BaseObserver.h"
 #include "TrailCollider.h"
 #include "LineTrailModel.h"
 
@@ -22,7 +23,7 @@
 /**************************************
 プロトタイプ宣言
 ***************************************/
-class PlayerBullet
+class PlayerBullet : public BaseObserver
 {
 public:
 	PlayerBullet();							//コンストラクタ
@@ -33,20 +34,18 @@ public:
 	void Update();							//更新処理
 	void Draw();							//描画処理
 
-	TrailCollider GetCollider();			//当たり判定取得処理
+	void OnNotified();
 	bool active;
+	bool isDestroyed;
 
 private:
 	D3DXVECTOR3 pos;
-	TrailCollider collider;
+	TrailCollider *collider;
 	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
 	int cntFrame;
 	D3DXVECTOR3 vtxUp;
 
 	void SetEdgePos(LineTrailModel model);
-
-	static int instanceCount;
-	static LPDIRECT3DTEXTURE9 texture;
 };
 
 #endif

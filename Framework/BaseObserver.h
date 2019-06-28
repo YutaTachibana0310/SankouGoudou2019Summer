@@ -1,13 +1,11 @@
 //=====================================
 //
-//コリジョンマネージャヘッダ[CollisionManager.h]
+//ベースオブザーバーヘッダ[BaseObserver.h]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#ifndef _COLLISIONMANAGER_H_
-#define _COLLISIONMANAGER_H_
-
-#include "main.h"
+#ifndef _BASEOBSERVER_H_
+#define _BASEOBSERVER_H_
 
 /**************************************
 マクロ定義
@@ -18,8 +16,13 @@
 ***************************************/
 
 /**************************************
-プロトタイプ宣言
+BaseObserverクラス
+継承先でvoid OnNotified()を定義する
 ***************************************/
-void UpdateCollisionManager(void);
+class BaseObserver
+{
+public:
+	virtual void OnNotified() = 0;
+};
 
 #endif

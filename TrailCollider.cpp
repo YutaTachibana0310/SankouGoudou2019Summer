@@ -5,6 +5,7 @@
 //
 //=====================================
 #include "TrailCollider.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -62,11 +63,11 @@ TrailCollider::TrailCollider(const char* tag)
 ***************************************/
 TrailCollider::~TrailCollider()
 {
-	list<TrailCollider*> checkList = checkDictionary[tag];
-	auto itr = find(checkList.begin(), checkList.end(), this);
-	if (itr != checkList.end())
+	list<TrailCollider*> *checkList = &checkDictionary[tag];
+	auto itr = find(checkList->begin(), checkList->end(), this);
+	if (itr != checkList->end())
 	{
-		checkList.erase(itr);
+		checkList->erase(itr);
 	}
 }
 

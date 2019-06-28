@@ -32,6 +32,7 @@ PlayerObserver::PlayerObserver()
 	player = new Player();
 	model = new PlayerModel();
 	trailEffect = new PlayerTrail();
+	bulletController = new PlayerBulletController();
 
 	fsm[PlayerState::Idle] = new PlayerIdle();
 	fsm[PlayerState::Wait] = new PlayerWait();
@@ -58,11 +59,7 @@ PlayerObserver::~PlayerObserver()
 	SAFE_DELETE(model);
 	SAFE_DELETE(trailEffect);
 
-	for (PlayerBullet* bullet : bulletContainer)
-	{
-		SAFE_DELETE(bullet);
-	}
-	bulletContainer.clear();
+	SAFE_DELETE(bulletController);
 
 	for (auto stateMachine : fsm)
 	{
@@ -86,10 +83,7 @@ void PlayerObserver::Init()
 void PlayerObserver::Uninit()
 {
 	player->Uninit();
-	for (PlayerBullet *bullet : bulletContainer)
-	{
-		bullet->Uninit();
-	}
+	bulletController->Uninit();
 }
 
 /**************************************
@@ -102,10 +96,7 @@ void PlayerObserver::Update()
 	if (stateResult != STATE_CONTINUOUS)
 		OnPlayerStateFinish();
 
-	for (PlayerBullet *bullet : bulletContainer)
-	{
-		bullet->Update();
-	}
+	bulletController->Update();
 
 	trailEffect->Update();
 }
@@ -121,39 +112,7 @@ void PlayerObserver::Draw()
 
 	trailEffect->Draw();
 
-	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	pDevice->SetRenderState(D3DRS_LIGHTING, false);
-	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
-
-	for (PlayerBullet *bullet : bulletContainer)
-	{
-		bullet->Draw();
-	}
-	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	pDevice->SetRenderState(D3DRS_LIGHTING, true);
-	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
-}
-
-/**************************************
-ƒoƒŒƒbƒg”­Ëˆ—
-***************************************/
-void PlayerObserver::SetPlayerBullet(LineTrailModel trail)
-{
-	auto itr = find_if(bulletContainer.begin(), bulletContainer.end(), [](PlayerBullet* bullet)
-	{
-		return !bullet->active;
-	});
-
-	if (itr != bulletContainer.end())
-	{
-		(*itr)->Init(trail);
-	}
-	else
-	{
-		PlayerBullet *bullet = new PlayerBullet();
-		bullet->Init(trail);
-		bulletContainer.push_back(bullet);
-	}
+	bulletController->Draw();
 }
 
 /**************************************
@@ -229,7 +188,7 @@ void PlayerObserver::OnFinishPlayerMove()
 	{
 		LineTrailModel modelTrail;
 		model->GetPlayerTrail(&modelTrail);
-		SetPlayerBullet(modelTrail);
+		bulletController->SetPlayerBullet(modelTrail);
 	}
 
 	//ˆê•M‘‚«”»’è

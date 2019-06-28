@@ -11,7 +11,7 @@
 
 #include "IStateMachine.h"
 #include "Player.h"
-#include "PlayerBullet.h"
+#include "PlayerBulletController.h"
 #include "PlayerModel.h"
 #include "PlayerTrail.h"
 
@@ -54,8 +54,8 @@ public:
 
 private:
 	Player *player;
-	std::vector<PlayerBullet*> bulletContainer;
-	PlayerTrail* trailEffect;
+	PlayerBulletController *bulletController;
+	PlayerTrail *trailEffect;
 
 	PlayerState current, prevState;
 	std::map<PlayerState, IStateMachine<Player>*> fsm;
@@ -68,7 +68,6 @@ private:
 	void OnFinishPlayerMove();
 	void OnFinishPlayerWait();
 	void OnFinishPlayerReturn();
-	void SetPlayerBullet(LineTrailModel trail);
 	void OnPlayerStateFinish();
 };
 

@@ -36,6 +36,7 @@ public:
 
 	void OnNotified();
 	bool active;
+	bool isDestroyed;
 
 private:
 	D3DXVECTOR3 pos;
@@ -45,9 +46,6 @@ private:
 	D3DXVECTOR3 vtxUp;
 
 	void SetEdgePos(LineTrailModel model);
-
-	static int instanceCount;
-	static LPDIRECT3DTEXTURE9 texture;
 };
 
 #endif

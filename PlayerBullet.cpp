@@ -11,7 +11,6 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define PLAYERBULLET_TEXTURE_NAME	"data/TEXTURE/Player/PlayerBullet.png"
 #define PLAYERBULLET_LIFE_COUNT		(180)
 #define PLAYERBULLET_FADE_FRAME		(30)
 #define PLAYERBULLET_FADE_START		(PLAYERBULLET_LIFE_COUNT-PLAYERBULLET_FADE_FRAME)
@@ -25,8 +24,6 @@
 /**************************************
 staticメンバ
 ***************************************/
-int PlayerBullet::instanceCount = 0;				//インスタンスカウンタ
-LPDIRECT3DTEXTURE9 PlayerBullet::texture = NULL;	//テクスチャ
 
 /****************************************
 初期化処理
@@ -46,6 +43,7 @@ void PlayerBullet::Init(LineTrailModel model)
 void PlayerBullet::Uninit()
 {
 	collider->RemoveFromCheckList();
+	isDestroyed = false;
 	active = false;
 }
 
@@ -92,14 +90,6 @@ void PlayerBullet::Draw()
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	VERTEX_3D* p;
-	vtxBuff->Lock(0, 0, (void**)&p, 0);
-	vtxBuff->Unlock();
-
-	pDevice->SetFVF(FVF_VERTEX_3D);
-
-	pDevice->SetTexture(0, texture);
-
 	pDevice->SetStreamSource(0, vtxBuff, 0, sizeof(VERTEX_3D));
 
 	D3DXMATRIX mtxWorld;
@@ -118,13 +108,6 @@ PlayerBullet::PlayerBullet()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	
-	//インスタンスカウント
-	instanceCount++;
-	if (texture == NULL)
-	{
-		texture = CreateTextureFromFile((LPSTR)PLAYERBULLET_TEXTURE_NAME, pDevice);
-	}
-
 	//頂点バッファ作成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * NUM_VERTEX, D3DUSAGE_WRITEONLY, FVF_VERTEX_3D, D3DPOOL_MANAGED, &vtxBuff, 0);
 
@@ -167,13 +150,6 @@ PlayerBullet::PlayerBullet()
 PlayerBullet::~PlayerBullet()
 {
 	SAFE_RELEASE(vtxBuff);
-
-	instanceCount--;
-	if (instanceCount == 0)
-	{
-		//インスタンスが残っていなければテクスチャ解放
-		SAFE_RELEASE(texture);
-	}
 }
 
 /****************************************
@@ -212,5 +188,5 @@ void PlayerBullet::SetEdgePos(LineTrailModel model)
 *****************************************/
 void PlayerBullet::OnNotified()
 {
-	Uninit();
+	isDestroyed = true;
 }

@@ -152,6 +152,7 @@
     <ClInclude Include="Framework\BaseObserver.h" />
     <ClInclude Include="Framework\ObserveSubject.h" />
     <ClInclude Include="LineTrailModel.h" />
+    <ClInclude Include="PlayerBulletController.h" />
     <ClInclude Include="PlayerIdle.h" />
     <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="PlayerObserver.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerBulletController.cpp" />
     <ClCompile Include="PlayerBulletParticle.cpp" />
     <ClCompile Include="PlayerBulletParticleController.cpp" />
     <ClCompile Include="PlayerController.cpp" />

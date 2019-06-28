@@ -15,9 +15,14 @@
 #include <string>
 
 /**************************************
-マクロ定義
+TrailColliderTag列挙子
 ***************************************/
-
+enum class TrailColliderTag
+{
+	PlayerBullet,
+	Enemy,
+	Max
+};
 /**************************************
 始点・終点定義
 ***************************************/
@@ -30,7 +35,7 @@ class TrailCollider : public ObserveSubject
 public:
 	friend class TrailCollider;
 
-	TrailCollider(const char* tag);
+	TrailCollider(TrailColliderTag tag);
 	~TrailCollider();
 
 	bool CheckCollision(TrailCollider *other);
@@ -47,9 +52,9 @@ private:
 
 	LineTrailModel model;
 	float *posZ;
-	std::string tag;
+	TrailColliderTag tag;
 
-	static std::map<std::string, std::list<TrailCollider*>> checkDictionary;
+	static std::map<TrailColliderTag, std::list<TrailCollider*>> checkDictionary;
 };
 
 

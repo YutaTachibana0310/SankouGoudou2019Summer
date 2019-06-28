@@ -21,7 +21,7 @@ using namespace std;
 #define MOVETARGET_LENGTH				(6)
 #define PLAYER_DISTANCE_FROM_CAMERA		(150.0f)
 
-//#define USE_COLLIDER_TEST
+#define USE_COLLIDER_TEST
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -45,7 +45,7 @@ HRESULT InitPlayerController(void)
 	observer->Init();
 
 #ifdef USE_COLLIDER_TEST
-	testCollider = new TrailCollider("Enemy");
+	testCollider = new TrailCollider(TrailColliderTag::Enemy);
 	testCollider->RegisterToCheckList();
 #endif
 	return S_OK;

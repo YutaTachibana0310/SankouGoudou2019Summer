@@ -135,7 +135,7 @@ PlayerBullet::PlayerBullet()
 	vtxBuff->Unlock();
 
 	//コライダーインスタンス作成
-	collider = new TrailCollider("PlayerBullet");
+	collider = new TrailCollider(TrailColliderTag::PlayerBullet);
 
 	//TrailColliderのZ座標アドレスを設定
 	collider->SetAddressZ(&pos.z);

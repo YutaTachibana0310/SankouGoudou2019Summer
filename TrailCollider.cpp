@@ -21,7 +21,7 @@ using namespace std;
 /**************************************
 static変数
 ***************************************/
-std::map<string, std::list<TrailCollider*>> TrailCollider::checkDictionary;
+map<TrailColliderTag, list<TrailCollider*>> TrailCollider::checkDictionary;
 
 /**************************************
 衝突判定
@@ -53,9 +53,9 @@ bool TrailCollider::CheckCollision(TrailCollider *other)
 /**************************************
 コンストラクタ
 ***************************************/
-TrailCollider::TrailCollider(const char* tag)
+TrailCollider::TrailCollider(TrailColliderTag tag)
 {
-	this->tag = string(tag);
+	this->tag = tag;
 }
 
 /**************************************
@@ -93,9 +93,9 @@ void TrailCollider::SetAddressZ(float* adrPosZ)
 void TrailCollider::UpdateCollision()
 {
 	//プレイヤーバレットとエネミーの衝突判定
-	for (TrailCollider* bullet : checkDictionary["PlayerBullet"])
+	for (TrailCollider* bullet : checkDictionary[TrailColliderTag::PlayerBullet])
 	{
-		for (TrailCollider *enemy : checkDictionary["Enemy"])
+		for (TrailCollider *enemy : checkDictionary[TrailColliderTag::Enemy])
 		{
 			bullet->CheckCollision(enemy);
 		}

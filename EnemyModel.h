@@ -42,10 +42,10 @@ public:
 
 	int cntFrame;
 	bool active;
+	TrailCollider *collider;
 
 protected:
 	LineTrailModel model;
-	TrailCollider *collider;
 	D3DXVECTOR3 pos;
 	IStateMachine<EnemyModel> *state;
 };

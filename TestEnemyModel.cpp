@@ -24,7 +24,7 @@
 ***************************************/
 void TestEnemyModel::OnStart(EnemyModel *entity)
 {
-
+	entity->cntFrame = 0;
 }
 
 /**************************************
@@ -42,21 +42,27 @@ int TestEnemyModel::OnUpdate(EnemyModel *entity)
 {
 	entity->cntFrame++;
 
-	if (entity->cntFrame < 60)
+	//Õ“Ë”»’èƒŠƒXƒg‚É“o˜^
+	if(entity->cntFrame == 60)
 	{
-		DebugLog("EnemyModel is stand by");
-	}
-	else if (entity->cntFrame < 120)
-	{
-		DebugLog("EnemyModel is Attack");
-	}
-	else
-	{
-		DebugLog("EnemyModel is Escape");
+		entity->collider->RegisterToCheckList();
+		return StateContinuous;
 	}
 
+	//UŒ‚
+	if (entity->cntFrame == 120)
+	{
+
+		return AttackTiming;
+	}
+
+	//Õ“Ë”»’èƒŠƒXƒg‚©‚ç—£’E
 	if (entity->cntFrame == 180)
+	{
+		entity->collider->RemoveFromCheckList();
 		entity->cntFrame = 0;
+		return StateContinuous;
+	}
 
-	return StateContinuous;
+	DebugLog("cnt:%d", entity->cntFrame);
 }

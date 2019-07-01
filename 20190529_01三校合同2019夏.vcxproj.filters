@@ -417,6 +417,12 @@
     <ClInclude Include="PlayerBulletController.h">
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyController.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseEnemyModel.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -691,6 +697,12 @@
     </ClCompile>
     <ClCompile Include="PlayerBulletController.cpp">
       <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyController.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseEnemyModel.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

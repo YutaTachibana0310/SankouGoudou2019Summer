@@ -8,11 +8,10 @@
 #define _BASEENEMYMODEL_H_
 
 #include "main.h"
-#include "IStateMachine.h"
 #include "LineTrailModel.h"
 #include "Framework\BaseObserver.h"
-#include "Framework\ObserveSubject.h"
 #include "TrailCollider.h"
+#include "IStateMachine.h"
 
 /**************************************
 マクロ定義
@@ -28,28 +27,27 @@ enum EnemyModelResult
 /**************************************
 クラス定義
 ***************************************/
-class BaseEnemyModel : BaseObserver, ObserveSubject
+class EnemyModel :public BaseObserver
 {
 public:
-	BaseEnemyModel();
-	~BaseEnemyModel();
+	EnemyModel();
+	virtual ~EnemyModel();
 
 	void Init(LineTrailModel model);
 	void Uninit();
 	int Update();
 	void Draw();
-	void ChangeState(IStateMachine<BaseEnemyModel> *next);
 	void OnNotified(ObserveSubject *notifier);
+	void ChangeState(IStateMachine<EnemyModel> *next);
 
 	int cntFrame;
 	bool active;
 
-private:
+protected:
 	LineTrailModel model;
 	TrailCollider *collider;
-	IStateMachine<BaseEnemyModel> *state;
 	D3DXVECTOR3 pos;
-
+	IStateMachine<EnemyModel> *state;
 };
 
 #endif

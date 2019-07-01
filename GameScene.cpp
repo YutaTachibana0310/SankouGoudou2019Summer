@@ -26,6 +26,8 @@
 #include "sound.h"
 #include "TrailCollider.h"
 
+#include "EnemyController.h"
+
 /**************************************
 マクロ定義
 ***************************************/
@@ -38,12 +40,15 @@
 /**************************************
 グローバル変数
 ***************************************/
+static EnemyController *enemyController;
 
 /**************************************
 初期化処理
 ***************************************/
 void GameScene::Init()
 {
+	enemyController = new EnemyController();
+
 	InitGameSceneUI();
 	LineTrailModel::CalcEdgePosition();
 
@@ -58,6 +63,7 @@ void GameScene::Init()
 	InitPlayerController();
 	Sound::GetInstance()->Create();
 
+	enemyController->Init();
 
 	RegisterDebugTimer(GAMESCENE_LABEL);
 }
@@ -76,6 +82,8 @@ void GameScene::Uninit()
 	UninitGameParticleManager(0);
 
 	UninitPlayerController();
+
+	enemyController->Uninit();
 
 	UninitGameSceneUI();
 }
@@ -100,6 +108,9 @@ void GameScene::Update(HWND hWnd)
 	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
 	UpdatePlayerController(hWnd);
 	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
+
+	//エネミーの更新
+	enemyController->Update();
 
 	//パーティクルの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateParticle");
@@ -135,6 +146,9 @@ void GameScene::Draw()
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
 	DrawPlayerController();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
+
+	//エネミーの描画
+	enemyController->Draw();
 
 	//ポストエフェクト描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawpostEffect");

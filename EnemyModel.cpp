@@ -1,10 +1,10 @@
 //=====================================
 //
-//ベースエネミーモデル処理[BaseEnemyModel.cpp]
+//ベースエネミーモデル処理[EnemyModel.cpp]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#include "BaseEnemyModel.h"
+#include "EnemyModel.h"
 
 /**************************************
 マクロ定義
@@ -17,7 +17,7 @@
 /**************************************
 コンストラクタ
 ***************************************/
-BaseEnemyModel::BaseEnemyModel()
+EnemyModel::EnemyModel()
 {
 	collider = new TrailCollider(TrailColliderTag::Enemy);
 	collider->AddObserver(this);
@@ -29,7 +29,7 @@ BaseEnemyModel::BaseEnemyModel()
 /**************************************
 デストラクタ
 ***************************************/
-BaseEnemyModel::~BaseEnemyModel()
+EnemyModel::~EnemyModel()
 {
 	SAFE_DELETE(collider);
 }
@@ -37,7 +37,7 @@ BaseEnemyModel::~BaseEnemyModel()
 /**************************************
 初期化処理
 ***************************************/
-void BaseEnemyModel::Init(LineTrailModel model)
+void EnemyModel::Init(LineTrailModel model)
 {
 	this->model = model;
 	collider->SetTrailIndex(model);
@@ -48,7 +48,7 @@ void BaseEnemyModel::Init(LineTrailModel model)
 /**************************************
 終了処理
 ***************************************/
-void BaseEnemyModel::Uninit()
+void EnemyModel::Uninit()
 {
 	collider->RemoveFromCheckList();
 	active = false;
@@ -57,7 +57,7 @@ void BaseEnemyModel::Uninit()
 /**************************************
 更新処理
 ***************************************/
-int BaseEnemyModel::Update()
+int EnemyModel::Update()
 {
 	return state->OnUpdate(this);
 }
@@ -65,7 +65,7 @@ int BaseEnemyModel::Update()
 /**************************************
 描画処理
 ***************************************/
-void BaseEnemyModel::Draw()
+void EnemyModel::Draw()
 {
 
 }
@@ -73,15 +73,15 @@ void BaseEnemyModel::Draw()
 /**************************************
 衝突判定通知レシーバー
 ***************************************/
-void BaseEnemyModel::OnNotified(ObserveSubject *notifier)
+void EnemyModel::OnNotified(ObserveSubject *notifier)
 {
 
 }
 
 /**************************************
-状態遷移
+状態遷移処理
 ***************************************/
-void BaseEnemyModel::ChangeState(IStateMachine<BaseEnemyModel> *next)
+void EnemyModel::ChangeState(IStateMachine<EnemyModel> *next)
 {
 	state = next;
 	state->OnStart(this);

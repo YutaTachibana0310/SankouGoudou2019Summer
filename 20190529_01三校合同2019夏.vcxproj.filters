@@ -115,6 +115,12 @@
     <Filter Include="ヘッダー ファイル\Collider\BG">
       <UniqueIdentifier>{32c236d4-f951-4bbb-ae16-90073dd29807}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Enemy\Model">
+      <UniqueIdentifier>{40296833-e7bf-47f8-a773-7eff874b2531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Enemy\Model">
+      <UniqueIdentifier>{1b54fa04-28aa-4755-983c-c44af28dd54d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -420,8 +426,11 @@
     <ClInclude Include="EnemyController.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="BaseEnemyModel.h">
-      <Filter>ヘッダー ファイル\Enemy</Filter>
+    <ClInclude Include="TestEnemyModel.h">
+      <Filter>ヘッダー ファイル\Enemy\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyModel.h">
+      <Filter>ヘッダー ファイル\Enemy\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -701,8 +710,11 @@
     <ClCompile Include="EnemyController.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="BaseEnemyModel.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
+    <ClCompile Include="TestEnemyModel.cpp">
+      <Filter>ソース ファイル\Enemy\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyModel.cpp">
+      <Filter>ソース ファイル\Enemy\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

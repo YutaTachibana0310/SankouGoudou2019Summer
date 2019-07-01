@@ -11,8 +11,9 @@
 #include "IStateScene.h"
 
 /**************************************
-マクロ定義
+前方宣言
 ***************************************/
+class EnemyController;
 
 /**************************************
 クラス定義
@@ -27,6 +28,9 @@ public:
 
 	GameScene() {};
 	~GameScene() {};
+
+private:
+	EnemyController *enemyController;
 };
 
 #endif

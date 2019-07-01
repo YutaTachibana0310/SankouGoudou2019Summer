@@ -52,6 +52,6 @@ void ObserveSubject::NotifyObservers()
 {
 	for (BaseObserver *observer : observers)
 	{
-		observer->OnNotified();
+		observer->OnNotified(this);
 	}
 }

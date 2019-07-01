@@ -1,36 +1,29 @@
 //=====================================
 //
-//ゲームシーンヘッダ[GameScene.h]
+//テストエネミーモデルヘッダ[TestEnemyModel.h]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#ifndef _GAMESCENE_H_
-#define _GAMESCENE_H_
+#ifndef _TESTENEMYMODEL_H_
+#define _TESTENEMYMODEL_H_
 
 #include "main.h"
-#include "IStateScene.h"
+#include "IStateMachine.h"
+#include "EnemyModel.h"
 
 /**************************************
-前方宣言
+マクロ定義
 ***************************************/
-class EnemyController;
 
 /**************************************
 クラス定義
 ***************************************/
-class GameScene : public IStateScene
+class TestEnemyModel : public IStateMachine<EnemyModel>
 {
 public:
-	void Init();
-	void Uninit();
-	void Update(HWND hWnd);
-	void Draw();
-
-	GameScene() {};
-	~GameScene() {};
-
-private:
-	EnemyController *enemyController;
+	void OnStart(EnemyModel *entity);
+	int OnUpdate(EnemyModel *entity);
+	void OnExit(EnemyModel *entity);
 };
 
 #endif

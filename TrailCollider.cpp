@@ -23,6 +23,11 @@ static•Ï”
 ***************************************/
 map<TrailColliderTag, list<TrailCollider*>> TrailCollider::checkDictionary;
 
+#ifdef _DEBUG
+LineRenderer* TrailCollider::renderer;
+UINT TrailCollider::instanceCount;
+#endif
+
 /**************************************
 Õ“Ë”»’è
 ***************************************/
@@ -56,6 +61,13 @@ bool TrailCollider::CheckCollision(TrailCollider *other)
 TrailCollider::TrailCollider(TrailColliderTag tag)
 {
 	this->tag = tag;
+
+#ifdef _DEBUG
+	instanceCount++;
+	if (renderer == NULL)
+		renderer = new LineRenderer();
+	renderer->SetColor(D3DXCOLOR(1.0f, 0.4f, 0.4f, 0.5f));
+#endif
 }
 
 /**************************************
@@ -69,6 +81,12 @@ TrailCollider::~TrailCollider()
 	{
 		checkList->erase(itr);
 	}
+
+#ifdef _DEBUG
+	instanceCount--;
+	if (instanceCount == 0)
+		SAFE_DELETE(renderer);
+#endif
 }
 
 /**************************************
@@ -132,4 +150,27 @@ void TrailCollider::RemoveFromCheckList()
 
 	//—£’E
 	checkList->erase(itr);
+}
+
+/**************************************
+Collider•`‰æˆ—
+***************************************/
+void TrailCollider::DrawCollider(TrailCollider *collider)
+{
+#ifdef _DEBUG
+	D3DXVECTOR3 right, left, center;
+	collider->model.GetEdgePos(&right, &left);
+	center = (right - left) / 2.0f + left;
+	center.z = *collider->posZ;
+
+	renderer->Init(&right, &left, 5.0f);
+
+	D3DXMATRIX mtxWorld;
+	D3DXMatrixTranslation(&mtxWorld, center.x, center.y, center.z);
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+	pDevice->SetTexture(0, NULL);
+
+	renderer->Draw();
+#endif
 }

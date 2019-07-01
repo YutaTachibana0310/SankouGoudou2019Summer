@@ -14,6 +14,10 @@
 #include <map>
 #include <string>
 
+#ifdef _DEBUG
+#include "LineRenderer.h"
+#endif
+
 /**************************************
 TrailColliderTag—ñ‹“Žq
 ***************************************/
@@ -47,6 +51,7 @@ public:
 	void RemoveFromCheckList();
 
 	static void UpdateCollision();
+	static void DrawCollider(TrailCollider *collider);
 
 private:
 	TrailCollider() {}
@@ -56,6 +61,11 @@ private:
 	TrailColliderTag tag;
 
 	static std::map<TrailColliderTag, std::list<TrailCollider*>> checkDictionary;
+	
+#ifdef _DEBUG
+	static LineRenderer *renderer;
+	static UINT instanceCount;
+#endif
 };
 
 

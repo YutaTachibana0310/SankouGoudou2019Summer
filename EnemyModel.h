@@ -12,6 +12,7 @@
 #include "Framework\BaseObserver.h"
 #include "TrailCollider.h"
 #include "IStateMachine.h"
+#include "LineRenderer.h"
 
 /**************************************
 ƒ}ƒNƒ’è‹`

@@ -65,4 +65,6 @@ int TestEnemyModel::OnUpdate(EnemyModel *entity)
 	}
 
 	DebugLog("cnt:%d", entity->cntFrame);
+
+	return StateContinuous;
 }

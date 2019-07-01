@@ -12,8 +12,9 @@
 ***************************************/
 
 /**************************************
-クラス定義
+前方宣言
 ***************************************/
+class ObserveSubject;
 
 /**************************************
 BaseObserverクラス
@@ -22,7 +23,7 @@ BaseObserverクラス
 class BaseObserver
 {
 public:
-	virtual void OnNotified() = 0;
+	virtual void OnNotified(ObserveSubject *notifier) = 0;
 };
 
 #endif

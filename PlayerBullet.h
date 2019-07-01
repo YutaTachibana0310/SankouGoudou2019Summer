@@ -34,7 +34,7 @@ public:
 	void Update();							//XVˆ—
 	void Draw();							//•`‰æˆ—
 
-	void OnNotified();
+	void OnNotified(ObserveSubject *notifier);
 	bool active;
 	bool isDestroyed;
 

@@ -186,7 +186,7 @@ void PlayerBullet::SetEdgePos(LineTrailModel model)
 /****************************************
 衝突判定通知レシーバー
 *****************************************/
-void PlayerBullet::OnNotified()
+void PlayerBullet::OnNotified(ObserveSubject *notifier)
 {
 	isDestroyed = true;
 }

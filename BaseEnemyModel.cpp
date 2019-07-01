@@ -21,6 +21,7 @@ BaseEnemyModel::BaseEnemyModel()
 {
 	collider = new TrailCollider(TrailColliderTag::Enemy);
 	collider->AddObserver(this);
+	pos.z = 500.0f;
 	collider->SetAddressZ(&pos.z);
 	active = false;
 }
@@ -58,7 +59,7 @@ void BaseEnemyModel::Uninit()
 ***************************************/
 int BaseEnemyModel::Update()
 {
-
+	return state->OnUpdate(this);
 }
 
 /**************************************
@@ -72,7 +73,16 @@ void BaseEnemyModel::Draw()
 /**************************************
 衝突判定通知レシーバー
 ***************************************/
-void BaseEnemyModel::OnNotified()
+void BaseEnemyModel::OnNotified(ObserveSubject *notifier)
 {
 
+}
+
+/**************************************
+状態遷移
+***************************************/
+void BaseEnemyModel::ChangeState(IStateMachine<BaseEnemyModel> *next)
+{
+	state = next;
+	state->OnStart(this);
 }

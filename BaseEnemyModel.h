@@ -11,6 +11,7 @@
 #include "IStateMachine.h"
 #include "LineTrailModel.h"
 #include "Framework\BaseObserver.h"
+#include "Framework\ObserveSubject.h"
 #include "TrailCollider.h"
 
 /**************************************
@@ -27,11 +28,9 @@ enum EnemyModelResult
 /**************************************
 ƒNƒ‰ƒX’è‹`
 ***************************************/
-class BaseEnemyModel : BaseObserver
+class BaseEnemyModel : BaseObserver, ObserveSubject
 {
 public:
-	friend class IStateMachine<BaseEnemyModel>;
-
 	BaseEnemyModel();
 	~BaseEnemyModel();
 
@@ -39,7 +38,10 @@ public:
 	void Uninit();
 	int Update();
 	void Draw();
+	void ChangeState(IStateMachine<BaseEnemyModel> *next);
+	void OnNotified(ObserveSubject *notifier);
 
+	int cntFrame;
 	bool active;
 
 private:
@@ -47,9 +49,7 @@ private:
 	TrailCollider *collider;
 	IStateMachine<BaseEnemyModel> *state;
 	D3DXVECTOR3 pos;
-	int cntFrame;
 
-	void OnNotified();
 };
 
 #endif

@@ -67,6 +67,7 @@ int EnemyModel::Update()
 ***************************************/
 void EnemyModel::Draw()
 {
+
 	TrailCollider::DrawCollider(collider);
 }
 

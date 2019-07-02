@@ -1,42 +1,89 @@
-#ifndef MINER_H
-#define MINER_H
+//=============================================================================
+//
+//敵の処理 [Enemy.h]
+// 
+//Author:馬　前程
+//=============================================================================
+#ifndef _ENEMY_H_
+#define _ENEMY_H_
 
-#include <string>
-#include <cassert>
+#include "main.h"
+#include "Framework/MeshContainer.h"
+//*****************************************************************************
+// マクロ定義
+//*****************************************************************************
 
-#include "BaseGameEntity.h"
+#define MAX_ENEMY (100)
 
 
 
-class State;
+//*****************************************************************************
+// 種類
+//*****************************************************************************
 
 
-class Enemy : public BaseGameEntity
+//*****************************************************************************
+// クラス定義
+//*****************************************************************************
+//抽象クラス　さまざまな派生クラスのオブジェクトを一括管理のため
+class Enemy
 {
-private:
-
-	State*                m_pCurrentState;
-
-
-	//エネミーの属性
-
 public:
-
-	Enemy(int id);
+	bool bUse;
 
 	
-	void Update();
+	MeshContainer* meshPlayer;
 
-	void Draw();
+	/*Enemy();
+	virtual ~Enemy();*/
+	D3DXVECTOR3			pos;				// 現在の位置
+	D3DXVECTOR3			move;				// 移動量
+	D3DXVECTOR3			scl;				// モデルの大きさ(スケール)
+	D3DXVECTOR3			rot;				// 現在の向き
+	D3DXVECTOR3			rotDest;			// 目的の向き
 
-	void Uninit();
-	void ChangeState(State* new_state);
-
-
-
+	int					cntFrame;			//フレームカウント
+	//純粋仮想関数
+	virtual HRESULT  Init(void) = 0;
+	virtual void Uninit(void) = 0;
+	virtual void Update(void) = 0;
+	virtual void Draw(void) = 0;
+	virtual void Set(D3DXVECTOR3 pos) = 0;	//セット処理
 };
 
 
+class EnemyStraight : public Enemy
+{
+public:
+
+	EnemyStraight();
+	~EnemyStraight();
+	HRESULT  Init(void);
+	void Uninit(void);
+	void Update(void);
+	void Draw(void);
+
+	void Set(D3DXVECTOR3 pos);
+	
+};
+
+class EnemyChange :public Enemy
+{
+public:
+
+	EnemyChange();
+	~EnemyChange();
+	HRESULT  Init(void);
+	void Uninit(void);
+	void Update(void);
+	void Draw(void);
+
+	void Set(D3DXVECTOR3 pos);
+};
+
+//*****************************************************************************
+// プロトタイプ宣言
+//*****************************************************************************
 
 
 #endif

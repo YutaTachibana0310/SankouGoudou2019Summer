@@ -148,10 +148,7 @@
     <ClInclude Include="cursor.h" />
     <ClInclude Include="debugTimer.h" />
     <ClInclude Include="debugWindow.h" />
-    <ClInclude Include="enemy.h" />
-    <ClInclude Include="BaseGameEntity.h" />
-    <ClInclude Include="enemystate.h" />
-    <ClInclude Include="state.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Framework\AnimContainer.h" />
     <ClInclude Include="Framework\BaseCameraPlugin.h" />
     <ClInclude Include="Framework\BaseSingleton.h" />
@@ -219,7 +216,6 @@
     <ClCompile Include="BackGroundCity.cpp" />
     <ClCompile Include="BackGroundRoad.cpp" />
     <ClCompile Include="BackGuroundField.cpp" />
-    <ClCompile Include="BaseGameEntity.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
@@ -227,6 +223,7 @@
     <ClCompile Include="cursor.cpp" />
     <ClCompile Include="debugTimer.cpp" />
     <ClCompile Include="debugWindow.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Framework\AnimContainer.cpp" />
     <ClCompile Include="Framework\BaseCameraPlugin.cpp" />
     <ClCompile Include="Framework\CameraShakerPlugin.cpp" />
@@ -250,7 +247,6 @@
     <ClCompile Include="light.cpp" />
     <ClCompile Include="line.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="PlayerBulletParticle.cpp" />
@@ -279,7 +275,6 @@
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="star.cpp" />
-    <ClCompile Include="enemystate.cpp" />
     <ClCompile Include="trail.cpp" />
     <ClCompile Include="TrailCollider.cpp" />
     <ClCompile Include="UIdrawer.cpp" />

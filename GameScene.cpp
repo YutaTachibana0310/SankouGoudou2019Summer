@@ -26,6 +26,11 @@
 #include "sound.h"
 #include "CollisionManager.h"
 
+#include "Enemy.h"
+
+
+
+//#include "enemycontroller.h"
 /**************************************
 マクロ定義
 ***************************************/
@@ -38,6 +43,8 @@
 /**************************************
 グローバル変数
 ***************************************/
+
+Enemy *enemy[100];	//test用
 
 /**************************************
 初期化処理
@@ -57,8 +64,30 @@ void GameScene::Init()
 	InitPlayerController();
 	InitCursor();
 	Sound::GetInstance()->Create();
+	//エネミーtest
+	for (int i = 0; i < 50; i++)//50
+	{
+		enemy[i] = new EnemyStraight;
+		enemy[i]->Init();
+	}
+
+	for (int i = 50; i < 100; i++)
+	{
+		enemy[i] = new EnemyChange;
+		enemy[i]->Init();
+	}
+
+	for (int nCntEnemy = 0, i = 0; nCntEnemy < 50, i < 4; nCntEnemy++, i++)
+	{
+		if (!enemy[nCntEnemy]->bUse)
+		{		
+			enemy[nCntEnemy]->Set(D3DXVECTOR3(0.0f + 10.f*i, 50.0f, 15.0f));
+			//enemy[nCntEnemy]->pos.x += 10.0f;
+		}
+	}
 
 	RegisterDebugTimer(GAMESCENE_LABEL);
+
 }
 
 /**************************************
@@ -78,7 +107,12 @@ void GameScene::Uninit()
 
 	UninitUI();
 	UninitCursor();
-
+	
+	//エネミーtest
+	for (int i = 0; i < 100; i++)
+	{
+		enemy[i]->Uninit();
+	}
 }
 
 /**************************************
@@ -101,6 +135,12 @@ void GameScene::Update(HWND hWnd)
 	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
 	UpdatePlayerController(hWnd);
 	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
+
+	//エネミーの更新
+	for (int i = 0; i < 100; i++)
+	{
+		enemy[i]->Update();
+	}
 
 	//パーティクルの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateParticle");
@@ -139,6 +179,12 @@ void GameScene::Draw()
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
 	DrawPlayerController();
 
+	//エネミーtest
+	for (int i = 0; i < 100; i++)
+	{
+		enemy[i]->Draw();
+	}
+
 	//プレイヤーバレット描画
 	DrawPlayerBullet();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
@@ -153,9 +199,15 @@ void GameScene::Draw()
 	DrawGameParticleManager();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawParticle");
 
+
 	//UI描画
 	DrawUI();
 	DrawCursor();
 
 	DrawDebugTimer(GAMESCENE_LABEL);
+
+
+	
+	
+
 }

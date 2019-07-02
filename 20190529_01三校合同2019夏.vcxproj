@@ -225,6 +225,7 @@
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="starUI.h" />
+    <ClInclude Include="StopEnemyModel.h" />
     <ClInclude Include="TestEnemyModel.h" />
     <ClInclude Include="titleBGUI.h" />
     <ClInclude Include="titleLogoUI.h" />
@@ -317,6 +318,7 @@
     <ClCompile Include="starUI.cpp" />
     <ClCompile Include="PlayerTrail.cpp" />
     <ClCompile Include="enemystate.cpp" />
+    <ClCompile Include="StopEnemyModel.cpp" />
     <ClCompile Include="TestEnemyModel.cpp" />
     <ClCompile Include="titleBGUI.cpp" />
     <ClCompile Include="titleLogoUI.cpp" />

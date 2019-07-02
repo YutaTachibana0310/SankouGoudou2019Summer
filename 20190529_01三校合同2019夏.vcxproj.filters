@@ -435,6 +435,9 @@
     <ClInclude Include="LineRenderer.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
+    <ClInclude Include="StopEnemyModel.h">
+      <Filter>ヘッダー ファイル\Enemy\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -721,6 +724,9 @@
     </ClCompile>
     <ClCompile Include="LineRenderer.cpp">
       <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="StopEnemyModel.cpp">
+      <Filter>ソース ファイル\Enemy\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

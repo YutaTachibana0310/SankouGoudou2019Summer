@@ -14,7 +14,7 @@
 #include <map>
 #include <string>
 
-//#define TRAILCOLLIDER_USE_DEBUG
+#define TRAILCOLLIDER_USE_DEBUG
 
 #ifdef TRAILCOLLIDER_USE_DEBUG
 #include "LineRenderer.h"

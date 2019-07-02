@@ -66,7 +66,7 @@ void PlayerBulletParticleController::Emit()
 		if (!emitter->active)
 			continue;
 
-		const int EmitNum = 50;			//1フレームの放出するパーティクル数
+		const int EmitNum = 10;			//1フレームの放出するパーティクル数
 		const float InitSpeed = 2.0f;	//パーティクルの初期スピード
 
 		int emitCount = 0;

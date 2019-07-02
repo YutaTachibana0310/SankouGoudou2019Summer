@@ -21,7 +21,7 @@ EnemyModel::EnemyModel()
 {
 	collider = new TrailCollider(TrailColliderTag::Enemy);
 	collider->AddObserver(this);
-	pos.z = 500.0f;
+	pos.z = 250.0f;
 	collider->SetAddressZ(&pos.z);
 	active = false;
 }
@@ -50,7 +50,7 @@ void EnemyModel::Init(LineTrailModel model)
 ***************************************/
 void EnemyModel::Uninit()
 {
-	collider->RemoveFromCheckList();
+	collider->active = false;
 	active = false;
 }
 
@@ -67,7 +67,7 @@ int EnemyModel::Update()
 ***************************************/
 void EnemyModel::Draw()
 {
-
+	TrailCollider::DrawCollider(collider);
 }
 
 /**************************************

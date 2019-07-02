@@ -33,7 +33,7 @@ void PlayerBullet::Init(LineTrailModel model)
 	cntFrame = 0;
 	collider->SetTrailIndex(model);
 	SetEdgePos(model);
-	collider->RegisterToCheckList();
+	collider->active = true;
 	active = true;
 }
 
@@ -42,7 +42,7 @@ void PlayerBullet::Init(LineTrailModel model)
 *****************************************/
 void PlayerBullet::Uninit()
 {
-	collider->RemoveFromCheckList();
+	collider->active = false;
 	isDestroyed = false;
 	active = false;
 }

@@ -23,6 +23,11 @@ static変数
 ***************************************/
 map<TrailColliderTag, list<TrailCollider*>> TrailCollider::checkDictionary;
 
+#ifdef _DEBUG
+LineRenderer* TrailCollider::renderer;
+UINT TrailCollider::instanceCount;
+#endif
+
 /**************************************
 衝突判定
 ***************************************/
@@ -56,6 +61,15 @@ bool TrailCollider::CheckCollision(TrailCollider *other)
 TrailCollider::TrailCollider(TrailColliderTag tag)
 {
 	this->tag = tag;
+	active = true;
+	RegisterToCheckList();
+
+#ifdef _DEBUG
+	instanceCount++;
+	if (renderer == NULL)
+		renderer = new LineRenderer();
+	renderer->SetColor(D3DXCOLOR(1.0f, 0.4f, 0.4f, 0.5f));
+#endif
 }
 
 /**************************************
@@ -63,12 +77,13 @@ TrailCollider::TrailCollider(TrailColliderTag tag)
 ***************************************/
 TrailCollider::~TrailCollider()
 {
-	list<TrailCollider*> *checkList = &checkDictionary[tag];
-	auto itr = find(checkList->begin(), checkList->end(), this);
-	if (itr != checkList->end())
-	{
-		checkList->erase(itr);
-	}
+	RemoveFromCheckList();
+
+#ifdef _DEBUG
+	instanceCount--;
+	if (instanceCount == 0)
+		SAFE_DELETE(renderer);
+#endif
 }
 
 /**************************************
@@ -95,8 +110,14 @@ void TrailCollider::UpdateCollision()
 	//プレイヤーバレットとエネミーの衝突判定
 	for (TrailCollider* bullet : checkDictionary[TrailColliderTag::PlayerBullet])
 	{
+		if (!bullet->active)
+			continue;
+
 		for (TrailCollider *enemy : checkDictionary[TrailColliderTag::Enemy])
 		{
+			if (!enemy->active)
+				continue;
+
 			bullet->CheckCollision(enemy);
 		}
 	}
@@ -132,4 +153,30 @@ void TrailCollider::RemoveFromCheckList()
 
 	//離脱
 	checkList->erase(itr);
+}
+
+/**************************************
+Collider描画処理
+***************************************/
+void TrailCollider::DrawCollider(TrailCollider *collider)
+{
+#ifdef _DEBUG
+	if (!collider->active)
+		return;
+
+	D3DXVECTOR3 right, left, center;
+	collider->model.GetEdgePos(&right, &left);
+	center = (right - left) / 2.0f + left;
+	center.z = *collider->posZ;
+
+	renderer->Init(&right, &left, 5.0f);
+
+	D3DXMATRIX mtxWorld;
+	D3DXMatrixTranslation(&mtxWorld, center.x, center.y, center.z);
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+	pDevice->SetTexture(0, NULL);
+
+	renderer->Draw();
+#endif
 }

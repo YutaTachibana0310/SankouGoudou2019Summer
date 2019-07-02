@@ -153,6 +153,7 @@
     <ClInclude Include="enemystate.h" />
     <ClInclude Include="Framework\BaseObserver.h" />
     <ClInclude Include="Framework\ObserveSubject.h" />
+    <ClInclude Include="LineRenderer.h" />
     <ClInclude Include="LineTrailModel.h" />
     <ClInclude Include="PlayerBulletController.h" />
     <ClInclude Include="PlayerIdle.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="light.cpp" />
+    <ClCompile Include="LineRenderer.cpp" />
     <ClCompile Include="LineTrailModel.cpp" />
     <ClCompile Include="lineUI.cpp" />
     <ClCompile Include="main.cpp" />

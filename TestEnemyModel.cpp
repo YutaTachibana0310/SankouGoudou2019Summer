@@ -25,6 +25,7 @@
 void TestEnemyModel::OnStart(EnemyModel *entity)
 {
 	entity->cntFrame = 0;
+	entity->collider->active = false;
 }
 
 /**************************************
@@ -45,7 +46,7 @@ int TestEnemyModel::OnUpdate(EnemyModel *entity)
 	//Õ“Ë”»’èƒŠƒXƒg‚É“o˜^
 	if(entity->cntFrame == 60)
 	{
-		entity->collider->RegisterToCheckList();
+		entity->collider->active = true;
 		return StateContinuous;
 	}
 
@@ -59,10 +60,12 @@ int TestEnemyModel::OnUpdate(EnemyModel *entity)
 	//Õ“Ë”»’èƒŠƒXƒg‚©‚ç—£’E
 	if (entity->cntFrame == 180)
 	{
-		entity->collider->RemoveFromCheckList();
+		entity->collider->active = false;
 		entity->cntFrame = 0;
 		return StateContinuous;
 	}
 
 	DebugLog("cnt:%d", entity->cntFrame);
+
+	return StateContinuous;
 }

@@ -46,7 +46,6 @@ HRESULT InitPlayerController(void)
 
 #ifdef USE_COLLIDER_TEST
 	testCollider = new TrailCollider(TrailColliderTag::Enemy);
-	testCollider->RegisterToCheckList();
 #endif
 	return S_OK;
 }
@@ -59,7 +58,6 @@ void UninitPlayerController()
 	delete observer;
 
 #ifdef USE_COLLIDER_TEST
-	testCollider->RemoveFromCheckList();
 	delete testCollider;
 #endif
 }

@@ -14,7 +14,7 @@
 #include <map>
 #include <string>
 
-#define TRAILCOLLIDER_USE_DEBUG
+//#define TRAILCOLLIDER_USE_DEBUG
 
 #ifdef TRAILCOLLIDER_USE_DEBUG
 #include "LineRenderer.h"
@@ -52,7 +52,10 @@ public:
 	bool active;
 
 	static void UpdateCollision();
+
+#ifdef TRAILCOLLIDER_USE_DEBUG
 	static void DrawCollider(TrailCollider *collider);
+#endif
 
 private:
 	TrailCollider() {}

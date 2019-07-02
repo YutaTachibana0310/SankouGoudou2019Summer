@@ -438,6 +438,9 @@
     <ClInclude Include="StopEnemyModel.h">
       <Filter>ヘッダー ファイル\Enemy\Model</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\BoxCollider3D.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -727,6 +730,9 @@
     </ClCompile>
     <ClCompile Include="StopEnemyModel.cpp">
       <Filter>ソース ファイル\Enemy\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\BoxCollider3D.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -19,7 +19,8 @@
 ***************************************/
 enum class EnemyType
 {
-	Test,
+	Test,		//テスト用
+	Stop,		//画面外から現れて一時停止して、その後逃げるタイプ
 	Max
 };
 
@@ -37,9 +38,14 @@ public:
 	void Update();
 	void Draw();
 
+	//エネミー生成処理
+	void SetEnemy(EnemyType type, LineTrailModel trailModel);
+
 private:
 	std::vector<EnemyModel*> modelContainer;
 	std::map<EnemyType, IStateMachine<EnemyModel>*> fsm;
+
+	int cntFrame;
 };
 
 #endif

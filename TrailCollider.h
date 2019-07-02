@@ -14,7 +14,9 @@
 #include <map>
 #include <string>
 
-#ifdef _DEBUG
+#define TRAILCOLLIDER_USE_DEBUG
+
+#ifdef TRAILCOLLIDER_USE_DEBUG
 #include "LineRenderer.h"
 #endif
 
@@ -64,7 +66,7 @@ private:
 	void RegisterToCheckList();
 	void RemoveFromCheckList();
 	
-#ifdef _DEBUG
+#ifdef TRAILCOLLIDER_USE_DEBUG
 	static LineRenderer *renderer;
 	static UINT instanceCount;
 #endif

@@ -23,7 +23,7 @@ static•Ï”
 ***************************************/
 map<TrailColliderTag, list<TrailCollider*>> TrailCollider::checkDictionary;
 
-#ifdef _DEBUG
+#ifdef TRAILCOLLIDER_USE_DEBUG
 LineRenderer* TrailCollider::renderer;
 UINT TrailCollider::instanceCount;
 #endif
@@ -64,7 +64,7 @@ TrailCollider::TrailCollider(TrailColliderTag tag)
 	active = true;
 	RegisterToCheckList();
 
-#ifdef _DEBUG
+#ifdef TRAILCOLLIDER_USE_DEBUG
 	instanceCount++;
 	if (renderer == NULL)
 		renderer = new LineRenderer();
@@ -79,7 +79,7 @@ TrailCollider::~TrailCollider()
 {
 	RemoveFromCheckList();
 
-#ifdef _DEBUG
+#ifdef TRAILCOLLIDER_USE_DEBUG
 	instanceCount--;
 	if (instanceCount == 0)
 		SAFE_DELETE(renderer);
@@ -160,7 +160,7 @@ Collider•`‰æˆ—
 ***************************************/
 void TrailCollider::DrawCollider(TrailCollider *collider)
 {
-#ifdef _DEBUG
+#ifdef TRAILCOLLIDER_USE_DEBUG
 	if (!collider->active)
 		return;
 

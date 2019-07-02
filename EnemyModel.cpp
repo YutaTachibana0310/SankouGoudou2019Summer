@@ -67,6 +67,7 @@ int EnemyModel::Update()
 ***************************************/
 void EnemyModel::Draw()
 {
+
 	TrailCollider::DrawCollider(collider);
 }
 
@@ -75,7 +76,10 @@ void EnemyModel::Draw()
 ***************************************/
 void EnemyModel::OnNotified(ObserveSubject *notifier)
 {
+	//所属するすべてのエネミーにダメージ処理
 
+	//非アクティブに
+	Uninit();
 }
 
 /**************************************

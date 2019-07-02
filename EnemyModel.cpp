@@ -50,7 +50,7 @@ void EnemyModel::Init(LineTrailModel model)
 ***************************************/
 void EnemyModel::Uninit()
 {
-	collider->RemoveFromCheckList();
+	collider->active = false;
 	active = false;
 }
 

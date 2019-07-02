@@ -61,6 +61,8 @@ bool TrailCollider::CheckCollision(TrailCollider *other)
 TrailCollider::TrailCollider(TrailColliderTag tag)
 {
 	this->tag = tag;
+	active = true;
+	RegisterToCheckList();
 
 #ifdef _DEBUG
 	instanceCount++;
@@ -75,12 +77,7 @@ TrailCollider::TrailCollider(TrailColliderTag tag)
 ***************************************/
 TrailCollider::~TrailCollider()
 {
-	list<TrailCollider*> *checkList = &checkDictionary[tag];
-	auto itr = find(checkList->begin(), checkList->end(), this);
-	if (itr != checkList->end())
-	{
-		checkList->erase(itr);
-	}
+	RemoveFromCheckList();
 
 #ifdef _DEBUG
 	instanceCount--;
@@ -113,8 +110,14 @@ void TrailCollider::UpdateCollision()
 	//プレイヤーバレットとエネミーの衝突判定
 	for (TrailCollider* bullet : checkDictionary[TrailColliderTag::PlayerBullet])
 	{
+		if (!bullet->active)
+			continue;
+
 		for (TrailCollider *enemy : checkDictionary[TrailColliderTag::Enemy])
 		{
+			if (!enemy->active)
+				continue;
+
 			bullet->CheckCollision(enemy);
 		}
 	}
@@ -158,6 +161,9 @@ Collider描画処理
 void TrailCollider::DrawCollider(TrailCollider *collider)
 {
 #ifdef _DEBUG
+	if (!collider->active)
+		return;
+
 	D3DXVECTOR3 right, left, center;
 	collider->model.GetEdgePos(&right, &left);
 	center = (right - left) / 2.0f + left;

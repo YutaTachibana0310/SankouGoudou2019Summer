@@ -76,7 +76,10 @@ void EnemyModel::Draw()
 ***************************************/
 void EnemyModel::OnNotified(ObserveSubject *notifier)
 {
+	//所属するすべてのエネミーにダメージ処理
 
+	//非アクティブに
+	Uninit();
 }
 
 /**************************************

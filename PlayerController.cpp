@@ -21,7 +21,7 @@ using namespace std;
 #define MOVETARGET_LENGTH				(6)
 #define PLAYER_DISTANCE_FROM_CAMERA		(150.0f)
 
-#define USE_COLLIDER_TEST
+//#define USE_COLLIDER_TEST
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -83,8 +83,8 @@ void UpdatePlayerController(HWND hWnd)
 
 	testCollider->SetAddressZ(&posZ);
 	testCollider->SetTrailIndex(LineTrailModel(start, end));
-#endif
 	EndDebugWindow("Collider");
+#endif
 }
 
 //*****************************************************************************

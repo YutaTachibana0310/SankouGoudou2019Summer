@@ -67,9 +67,10 @@ void SceneChange() {
 		}
 		scenechange = true;
 
+		SceneChangeFlag(true);
 	}
 
-	SceneChangeFlag(true);
+	
 
 	if (scenechange) {
 

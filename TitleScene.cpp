@@ -28,8 +28,7 @@
 void TitleScene::Init()
 {
 
-
-	InitMask();
+	InitMask(MASK_SIZE, MASK_SIZE,0);
 }
 
 /**************************************
@@ -45,7 +44,7 @@ void TitleScene::Uninit()
 ***************************************/
 void TitleScene::Update(HWND hWnd)
 {
-	UpdateMask();
+	MaskFadeOut();
 }
 
 /**************************************
@@ -53,13 +52,12 @@ void TitleScene::Update(HWND hWnd)
 ***************************************/
 void TitleScene::Draw()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	//マスクセット
+	DrawMaskTexSet();
 
-	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, true);
-	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
-	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	//この間にタイトル描画
 
-	DrawMaskTEX();
+	//マスク終了
+	DrawMaskTexEnd();
 
-	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }

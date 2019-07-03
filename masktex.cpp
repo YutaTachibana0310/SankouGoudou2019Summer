@@ -14,32 +14,19 @@ OBJECT	masktex;
 OBJECT	testtitle;
 
 bool sizechange = false;
-int counta = 0;
-float alpha = 0;
+
 //テクスチャ初期化
-HRESULT InitMask(void)
+HRESULT InitMask(float size_x, float size_y, float size_z)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	LoadTexture(pDevice, MASK_TEXTURE, &masktex);
 	InitialTexture(&masktex);
 	MakeVertexObject(&masktex);
 
-	masktex.size = D3DXVECTOR3(100, 100, 0.0f);
+	masktex.size = D3DXVECTOR3(size_x, size_y, size_z);
 	masktex.position = D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT/2, 0.0f);
 	masktex.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	SetColorObject(&masktex, SET_COLOR_NOT_COLORED);
-
-
-	LoadTexture(pDevice, TEST_TEXTURE, &testtitle);
-	InitialTexture(&testtitle);
-	MakeVertexObject(&testtitle);
-
-	testtitle.size = D3DXVECTOR3(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 0.0f);
-	testtitle.position = D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f);
-	testtitle.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	SetColorObject(&testtitle, SET_COLOR_NOT_COLORED);
-
-
 
 	return S_OK;
 }
@@ -48,48 +35,72 @@ HRESULT InitMask(void)
 void UninitMask(void)
 {
 	ReleaseTexture(&masktex);
-	ReleaseTexture(&testtitle);
+
 }
 
 //マスク用テクスチャ更新処理
-void UpdateMask(void) {
+void MaskFadeOut(void) {
 
-	//masktex.position. += 1.0f;
-	//if (masktex.size.x == testtitle.size.x) {
-	//	sizechange = false;
-	//}
-	//else if (masktex.size.x == 0.0f) {
-	//	sizechange = true;
-	//}
 
-	//if (sizechange) {
-	//	masktex.size += D3DXVECTOR3(1.0f, 1.0f, 0.0f);
-	//}
-	//else {
-	//	masktex.size -= D3DXVECTOR3(1.0f, 1.0f, 0.0f);
-	//}
+	if (masktex.size.x <= 0) {
+		SceneChangeFlag(false);
+	}
+
+	if (sizechange) {
+		masktex.size -= D3DXVECTOR3(10.0f, 10.0f, 0.0f);
+
+	}
+
+}
+
+void MaskFadeIn(void) {
+
+	if (masktex.size.x >= MASK_SIZE) {
+		SceneChangeFlag(false);
+	}
+	if (sizechange) {
+		masktex.size += D3DXVECTOR3(10.0f, 10.0f, 0.0f);
+
+	}
 }
 
 //マスク用テクスチャ描画
-void DrawMaskTEX(void) {
+void DrawMaskTexSet(void) {
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
 	//マスク部分
-	clip.setWriteMaskColor(Clip::Stencil::MaskColor_Fill);
-	clip.regionBegin(Clip::Stencil::MaskColor_Trans);
+	clip.setWriteMaskColor(Clip::Stencil::MaskColor_Trans);
+	clip.regionBegin(Clip::Stencil::MaskColor_Fill);
 
 	DrawObject(pDevice, masktex);
 	SetVertexObject(&masktex);
 
 	clip.regionEnd();
 
-	//背景描画
 	clip.setRefMaskColor(Clip::Stencil::MaskColor_Fill);
 	clip.drawBegin();
 
-	DrawObject(pDevice, testtitle);
-	SetVertexObject(&testtitle);
+}
+
+void DrawMaskTexEnd(void) {
+
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	clip.drawEnd();
 
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+
+}
+
+void SceneChangeFlag(bool fadeflag) {
+
+	if (fadeflag) {
+		sizechange = true;
+	}
+	
 }

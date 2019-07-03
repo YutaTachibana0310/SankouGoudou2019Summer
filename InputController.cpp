@@ -8,11 +8,13 @@
 #include "star.h"
 #include "sound.h"
 #include "Game.h"
+#include "masktex.h"
 
 
 //シーンチェンジ用
 Scene counta = SceneTitle;
-
+bool scenechange = false;
+int changecounta = 0;
 
 bool IsEntered(int m, HWND hWnd) {
 
@@ -63,8 +65,25 @@ void SceneChange() {
 			counta = SceneTitle;
 			break;
 		}
+		scenechange = true;
 
-		ChangeScene(counta);
 	}
+
+	SceneChangeFlag(true);
+
+	if (scenechange) {
+
+		changecounta++;
+
+		if(changecounta >= 60){
+
+			ChangeScene(counta);
+			scenechange = false;
+			changecounta = 0;
+
+		}
+
+	}
+	
 	
 }

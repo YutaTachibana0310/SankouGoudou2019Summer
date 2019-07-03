@@ -52,7 +52,10 @@ public:
 	bool active;
 
 	static void UpdateCollision();
+
+#ifdef TRAILCOLLIDER_USE_DEBUG
 	static void DrawCollider(TrailCollider *collider);
+#endif
 
 private:
 	TrailCollider() {}

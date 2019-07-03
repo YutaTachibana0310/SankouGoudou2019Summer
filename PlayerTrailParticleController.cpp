@@ -27,8 +27,8 @@ PlayerTrailParticleController初期化処理
 void PlayerTrailParticleController::Init()
 {
 	const D3DXVECTOR2 Size = D3DXVECTOR2(2.0f, 2.0f);
-	const D3DXVECTOR2 TexDiv = D3DXVECTOR2(1.0f, 1.0f);
-	const char* TextureName = "data/TEXTURE/Effect/PlayerBulletParticle.png";
+	const D3DXVECTOR2 TexDiv = D3DXVECTOR2(2.0f, 2.0f);
+	const char* TextureName = "data/TEXTURE/Effect/PlayerTrailParticle.png";
 
 	MakeUnitBuffer(&Size, &TexDiv);
 	LoadTexture(TextureName);
@@ -65,8 +65,9 @@ void PlayerTrailParticleController:: Emit()
 	if (!emitter->active)
 		return;
 
-	const int EmitNum = 15;
-	const float PosRange = 12.0f;
+	const int EmitNum = 5;
+	const float PosRangeXZ = 12.0f;
+	const float PosRangeY = 2.0f;
 
 	int emitCount = 0;
 	for (BaseParticle *particle : particleContainer)
@@ -78,9 +79,9 @@ void PlayerTrailParticleController:: Emit()
 
 		//初期座標設定
 		entity->transform.pos = emitter->transform.pos;
-		entity->transform.pos.x += RandomRangef(-PosRange, PosRange);
-		entity->transform.pos.y += RandomRangef(-PosRange, PosRange);
-		entity->transform.pos.z += RandomRangef(-PosRange, PosRange);
+		entity->transform.pos.x += RandomRangef(-PosRangeXZ, PosRangeXZ);
+		entity->transform.pos.y += RandomRangef(-PosRangeXZ, PosRangeXZ);
+		entity->transform.pos.z += RandomRangef(-PosRangeXZ, PosRangeXZ);
 
 		//初期化してカウント
 		entity->Init();

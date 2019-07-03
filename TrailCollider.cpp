@@ -155,12 +155,12 @@ void TrailCollider::RemoveFromCheckList()
 	checkList->erase(itr);
 }
 
+#ifdef TRAILCOLLIDER_USE_DEBUG
 /**************************************
 Collider•`‰æˆ—
 ***************************************/
 void TrailCollider::DrawCollider(TrailCollider *collider)
 {
-#ifdef TRAILCOLLIDER_USE_DEBUG
 	if (!collider->active)
 		return;
 
@@ -178,5 +178,5 @@ void TrailCollider::DrawCollider(TrailCollider *collider)
 	pDevice->SetTexture(0, NULL);
 
 	renderer->Draw();
-#endif
 }
+#endif

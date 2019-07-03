@@ -152,6 +152,7 @@
     <ClInclude Include="EnemyController.h" />
     <ClInclude Include="enemystate.h" />
     <ClInclude Include="Framework\BaseObserver.h" />
+    <ClInclude Include="Framework\BoxCollider3D.h" />
     <ClInclude Include="Framework\ObserveSubject.h" />
     <ClInclude Include="LineRenderer.h" />
     <ClInclude Include="LineTrailModel.h" />
@@ -254,6 +255,7 @@
     <ClCompile Include="Framework\BaseEmitter.cpp" />
     <ClCompile Include="Framework\BaseParticle.cpp" />
     <ClCompile Include="Framework\BaseParticleController.cpp" />
+    <ClCompile Include="Framework\BoxCollider3D.cpp" />
     <ClCompile Include="Framework\CameraShakerPlugin.cpp" />
     <ClCompile Include="Framework\Easing.cpp" />
     <ClCompile Include="Framework\EasingVector.cpp" />

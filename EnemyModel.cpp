@@ -68,7 +68,9 @@ int EnemyModel::Update()
 void EnemyModel::Draw()
 {
 
+#ifdef TRAILCOLLIDER_USE_DEBUG
 	TrailCollider::DrawCollider(collider);
+#endif
 }
 
 /**************************************

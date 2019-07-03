@@ -27,11 +27,18 @@ void PlayerTrailParticle::Init()
 	const int InitLife = 11;
 	const float InitSpeed = 5.0f;
 	const float SpeedRange = 3.0f;
+	const int TexPatternMax = 2;
 
 	lifeFrame = InitLife + RandomRange(-LifeRange, LifeRange);
 	cntFrame = 0;
 	moveDir = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 	speed = InitSpeed + RandomRangef(-SpeedRange, SpeedRange);
+
+	int patternX = RandomRange(0, TexPatternMax);
+	int patternY = RandomRange(0, TexPatternMax);
+	uv.u = 0.5f * patternX;
+	uv.v = 0.5f * patternY;
+
 	active = true;
 }
 

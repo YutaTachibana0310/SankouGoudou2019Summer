@@ -31,7 +31,7 @@ class Enemy
 public:
 	bool bUse;
 
-	
+
 	MeshContainer* meshPlayer;
 
 	/*Enemy();
@@ -42,13 +42,18 @@ public:
 	D3DXVECTOR3			rot;				// 現在の向き
 	D3DXVECTOR3			rotDest;			// 目的の向き
 
+	D3DXVECTOR3         dir;
+	D3DXVECTOR3         posDest;
+
 	int					cntFrame;			//フレームカウント
+	int					frameDest;
 	//純粋仮想関数
 	virtual HRESULT  Init(void) = 0;
 	virtual void Uninit(void) = 0;
 	virtual void Update(void) = 0;
 	virtual void Draw(void) = 0;
-	virtual void Set(D3DXVECTOR3 pos) = 0;	//セット処理
+	virtual void Set(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame) = 0;	//セット処理
+	virtual void SetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int time, D3DXVECTOR3 vec) {};
 };
 
 
@@ -63,13 +68,16 @@ public:
 	void Update(void);
 	void Draw(void);
 
-	void Set(D3DXVECTOR3 pos);
+	void Set(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame);
 	
 };
 
 class EnemyChange :public Enemy
 {
 public:
+
+	int m_waitTime;
+	D3DXVECTOR3 vecChange;	//停止して以降のベクトル
 
 	EnemyChange();
 	~EnemyChange();
@@ -78,7 +86,9 @@ public:
 	void Update(void);
 	void Draw(void);
 
-	void Set(D3DXVECTOR3 pos);
+	void Set(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame);
+	void SetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame,int waitTime, D3DXVECTOR3 vec);
+	//void SetTime(int waitTime);
 };
 
 //*****************************************************************************

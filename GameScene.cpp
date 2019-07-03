@@ -81,8 +81,20 @@ void GameScene::Init()
 	{
 		if (!enemy[nCntEnemy]->bUse)
 		{		
-			enemy[nCntEnemy]->Set(D3DXVECTOR3(0.0f + 10.f*i, 50.0f, 15.0f));
+			enemy[nCntEnemy]->Set(D3DXVECTOR3(0.0f + 20.f*i, 50.0f, 15.0f), D3DXVECTOR3(0.0f + 20.f*i, 0.0f, 0.0f),200);
 			//enemy[nCntEnemy]->pos.x += 10.0f;
+		}
+	}
+
+	for (int nCntEnemy = 51, i = 0; nCntEnemy < 99, i < 4; nCntEnemy++, i++)
+	{
+		if (!enemy[nCntEnemy]->bUse)
+		{
+			//enemy[nCntEnemy]->Set(D3DXVECTOR3(0.0f + 20.f*i, 50.0f, 15.0f), D3DXVECTOR3(0.0f + 20.f*i, 20.0f, 0.0f), 200);
+			/*enemy[nCntEnemy]->SetTime(50);*/
+			
+			enemy[nCntEnemy]->SetVec(D3DXVECTOR3(0.0f + 20.f*i, 50.0f, 15.0f), D3DXVECTOR3(0.0f + 20.f*i, 20.0f, 0.0f), 200,50, D3DXVECTOR3 (3.0f,0.0f,-5.0f));
+			
 		}
 	}
 

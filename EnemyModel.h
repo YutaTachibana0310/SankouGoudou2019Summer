@@ -13,6 +13,9 @@
 #include "TrailCollider.h"
 #include "IStateMachine.h"
 #include "LineRenderer.h"
+#include "enemy.h"
+
+#include <vector>
 
 /**************************************
 É}ÉNÉçíËã`
@@ -40,15 +43,18 @@ public:
 	void Draw();
 	void OnNotified(ObserveSubject *notifier);
 	void ChangeState(IStateMachine<EnemyModel> *next);
+	void AddEnemy(Enemy* enemy);
 
 	int cntFrame;
 	bool active;
 	TrailCollider *collider;
+	LineTrailModel model;
+	std::vector<Enemy*> enemyList;
 
 protected:
-	LineTrailModel model;
 	D3DXVECTOR3 pos;
 	IStateMachine<EnemyModel> *state;
+
 };
 
 #endif

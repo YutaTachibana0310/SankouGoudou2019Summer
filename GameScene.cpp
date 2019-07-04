@@ -29,6 +29,8 @@
 #include "EnemyController.h"
 
 
+#include "Enemy.h"
+
 /**************************************
 マクロ定義
 ***************************************/
@@ -41,6 +43,8 @@
 /**************************************
 グローバル変数
 ***************************************/
+
+Enemy *enemy[100];	//test用
 
 /**************************************
 初期化処理
@@ -70,12 +74,46 @@ void GameScene::Init()
 
 	//サウンド初期化
 	Sound::GetInstance()->Create();
+#if 0
+	//エネミーtest
+	for (int i = 0; i < 50; i++)
+	{
+		enemy[i] = new EnemyStraight;
+		enemy[i]->Init();
+	}
+
+	for (int i = 50; i < 100; i++)
+	{
+		enemy[i] = new EnemyChange;
+		enemy[i]->Init();
+	}
+
+	for (int nCntEnemy = 0, i = 0; nCntEnemy < 50, i < 4; nCntEnemy++, i++)
+	{
+		if (!enemy[nCntEnemy]->active)
+		{		
+			enemy[nCntEnemy]->Set(D3DXVECTOR3(0.0f + 20.f*i, 50.0f, 15.0f), D3DXVECTOR3(0.0f + 20.f*i, 0.0f, 0.0f),200);
+			
+		}
+	}
+
+	for (int nCntEnemy = 50, i = 0; nCntEnemy < 100, i < 4; nCntEnemy++, i++)
+	{
+		if (!enemy[nCntEnemy]->active)
+		{
+			
+			enemy[nCntEnemy]->SetVec(D3DXVECTOR3(0.0f + 20.f*i, 50.0f, 15.0f), D3DXVECTOR3(0.0f + 20.f*i, 20.0f, 0.0f), 200,50, D3DXVECTOR3 (3.0f,0.0f,-5.0f));
+			
+		}
+	}
+#endif
 
 	//エネミー初期化
 	enemyController->Init();
 
 	//プロファイラにGameSceneを登録
 	RegisterDebugTimer(GAMESCENE_LABEL);
+
 }
 
 /**************************************
@@ -94,6 +132,14 @@ void GameScene::Uninit()
 
 	//プレイヤー終了
 	UninitPlayerController();
+
+#if 0
+	//エネミーtest
+	for (int i = 0; i < 100; i++)
+	{
+		enemy[i]->Uninit();
+	}
+#endif
 
 	//エネミー終了
 	enemyController->Uninit();
@@ -127,7 +173,14 @@ void GameScene::Update(HWND hWnd)
 	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
 
 	//エネミーの更新
+#if 0
+	for (int i = 0; i < 100; i++)
+	{
+		enemy[i]->Update();
+	}
+#endif
 	enemyController->Update();
+
 
 	//パーティクルの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateParticle");
@@ -163,6 +216,15 @@ void GameScene::Draw()
 	//プレイヤーの描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
 	DrawPlayerController();
+#if 0
+	//エネミーtest
+	for (int i = 0; i < 100; i++)
+	{
+		enemy[i]->Draw();
+	}
+
+#endif
+
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
 
 	//エネミーの描画
@@ -178,9 +240,9 @@ void GameScene::Draw()
 	DrawGameParticleManager();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawParticle");
 
+
 	//UI描画
 	DrawGameSceneUI();
 
 	DrawDebugTimer(GAMESCENE_LABEL);
-
 }

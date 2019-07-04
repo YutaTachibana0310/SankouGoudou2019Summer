@@ -11,6 +11,7 @@
 #include "ScoreParticleController.h"
 #include "PlayerBulletParticleController.h"
 #include "PlayerTrailParticleController.h"
+#include "EnemyExplosionController.h"
 
 #include "PostEffect\ScreenObject.h"
 #include "PostEffect\CrossFilterController.h"
@@ -33,6 +34,7 @@ enum ParticleController
 	ScoreParticle,
 	PlayerBulletParticle,
 	PlayerTrailParticle,
+	EnemyExplosion,
 	ControllerMax
 };
 
@@ -71,6 +73,7 @@ void InitGameParticleManager(int num)
 	container[ScoreParticle] = new ScoreParticleController();
 	container[PlayerBulletParticle] = new PlayerBulletParticleController();
 	container[PlayerTrailParticle] = new PlayerTrailParticleController();
+	container[EnemyExplosion] = new EnemyExplosionController();
 
 	//レンダーターゲット作成
 	GameParticle::CreateRenderTarget();
@@ -164,6 +167,10 @@ void SetScoreParticle(D3DXVECTOR3 *pos)
 }
 
 /**************************************
+スコアパーティクル発生処理
+***************************************/
+
+/**************************************
 プレイヤーバレットセット処理
 ***************************************/
 void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edgeRight, D3DXVECTOR3 *edgeLeft)
@@ -183,6 +190,17 @@ void SetPlayerTrailParticle(D3DXVECTOR3 *pPos, bool *pActive)
 		static_cast<PlayerTrailParticleController*>(container[PlayerTrailParticle]);
 
 	controller->SetEmitter(pPos, pActive);
+}
+
+/**************************************
+エネミーエクスプロージョン処理
+***************************************/
+void SetEnemyExplosion(D3DXVECTOR3 *pos)
+{
+	EnemyExplosionController *controller =
+		static_cast<EnemyExplosionController*>(container[EnemyExplosion]);
+
+	controller->SetEmitter(pos);
 }
 
 /**************************************
@@ -254,6 +272,10 @@ void GameParticle::DrawDebugWindow(void)
 			container[0]->SetEmitter(&D3DXVECTOR3(0.0f, 0.0f, 50.0f));
 	}
 
+	{
+		if (DebugButton("EnemyExplosion"))
+			container[EnemyExplosion]->SetEmitter(&D3DXVECTOR3(0.0f, 0.0f, 100.0f));
+	}
 	EndDebugWindow("GameParticle");
 }
 #endif

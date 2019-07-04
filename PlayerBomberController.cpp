@@ -65,10 +65,9 @@ void PlayerBomberController::Init()
 **********************************************************/
 void PlayerBomberController::Uninit()
 {
-	for (auto &bomber : bomberContainer)
+	for (auto& bomber : bomberContainer)
 	{
-		if (bomber->CalcBomber)
-			bomber->Uninit();
+		bomber->Uninit();
 
 	}
 }
@@ -78,13 +77,6 @@ void PlayerBomberController::Uninit()
 **********************************************************/
 void PlayerBomberController::Update()
 {
-	//ボムの破壊確認
-	for (auto &bomber : bomberContainer)
-	{
-		if (bomber->isDestroyed)
-			bomber->Uninit();
-	}
-
 	//更新
 	for (auto &bomber : bomberContainer)
 	{
@@ -133,7 +125,7 @@ void PlayerBomberController::SetPlayerBomber(vector<D3DXVECTOR3*>targetList, D3D
 		if (itr != bomberContainer.end())
 		{
 			(*itr)->Init();
-			(*itr)->Set(target , initpos);
+			(*itr)->Set(target, initpos);
 		}
 		else
 		{

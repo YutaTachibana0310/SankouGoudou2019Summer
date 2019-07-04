@@ -33,8 +33,8 @@ public:
 	void SetPlayerBomber(std::vector<D3DXVECTOR3*>targetList, D3DXVECTOR3 initpos);
 
 	//‰Â•Ï’·”z—ñ
-	static std::vector<PlayerBomber*> bomberContainer;
-	static LPDIRECT3DTEXTURE9 texture;
+	std::vector<PlayerBomber*> bomberContainer;
+	LPDIRECT3DTEXTURE9 texture;
 
 };
 

@@ -35,7 +35,6 @@ public:
 	D3DXVECTOR3	initpos;			// 移動前位置
 	D3DXVECTOR3	goalpos;			// 移動後位置
 
-	D3DXVECTOR3	bompos= D3DXVECTOR3(0.0f,0.0f,360.0f);			// Bomber目標位置
 
 	IStateMachine<Player> *state;
 

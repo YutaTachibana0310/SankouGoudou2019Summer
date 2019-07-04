@@ -65,7 +65,7 @@ void GameScene::Init()
 	InitCursor();
 	Sound::GetInstance()->Create();
 	//エネミーtest
-	for (int i = 0; i < 50; i++)//50
+	for (int i = 0; i < 50; i++)
 	{
 		enemy[i] = new EnemyStraight;
 		enemy[i]->Init();
@@ -79,19 +79,17 @@ void GameScene::Init()
 
 	for (int nCntEnemy = 0, i = 0; nCntEnemy < 50, i < 4; nCntEnemy++, i++)
 	{
-		if (!enemy[nCntEnemy]->bUse)
+		if (!enemy[nCntEnemy]->active)
 		{		
 			enemy[nCntEnemy]->Set(D3DXVECTOR3(0.0f + 20.f*i, 50.0f, 15.0f), D3DXVECTOR3(0.0f + 20.f*i, 0.0f, 0.0f),200);
-			//enemy[nCntEnemy]->pos.x += 10.0f;
+			
 		}
 	}
 
-	for (int nCntEnemy = 51, i = 0; nCntEnemy < 99, i < 4; nCntEnemy++, i++)
+	for (int nCntEnemy = 50, i = 0; nCntEnemy < 100, i < 4; nCntEnemy++, i++)
 	{
-		if (!enemy[nCntEnemy]->bUse)
+		if (!enemy[nCntEnemy]->active)
 		{
-			//enemy[nCntEnemy]->Set(D3DXVECTOR3(0.0f + 20.f*i, 50.0f, 15.0f), D3DXVECTOR3(0.0f + 20.f*i, 20.0f, 0.0f), 200);
-			/*enemy[nCntEnemy]->SetTime(50);*/
 			
 			enemy[nCntEnemy]->SetVec(D3DXVECTOR3(0.0f + 20.f*i, 50.0f, 15.0f), D3DXVECTOR3(0.0f + 20.f*i, 20.0f, 0.0f), 200,50, D3DXVECTOR3 (3.0f,0.0f,-5.0f));
 			

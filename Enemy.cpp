@@ -17,24 +17,24 @@
 //#define ENEMY_NUM (4) //1グループのキューブ(エネミー)の量
 #define ENEMY_MODEL  "data/MODEL/airplane000.x"
 
-
+#define ENEMY_FALSE (300)	//falseの時間(方向が変えってから)
 
 //Enemy
 /****************************************
 コンストラクタ
 ****************************************/
-//Enemy::Enemy()
-//{
-//
-//}
+Enemy::Enemy()
+{
+
+}
 
 /****************************************
 デストラクタ
 ****************************************/
-//Enemy::~Enemy()
-//{
-//
-//}
+Enemy::~Enemy()
+{
+
+}
 
 //EnemyStraight
 /****************************************
@@ -50,7 +50,8 @@ EnemyStraight::EnemyStraight()
 ****************************************/
 EnemyStraight::~EnemyStraight()
 {
-	//終了処理のコードはデストラクタに入れる？
+
+	SAFE_DELETE(meshPlayer);
 }
 
 /****************************************
@@ -58,7 +59,7 @@ EnemyStraight::~EnemyStraight()
 ****************************************/
 HRESULT  EnemyStraight::Init(void)
 {
-	bUse = false;
+	active = false;
 	meshPlayer = new MeshContainer();
 	meshPlayer->Load(ENEMY_MODEL);
 
@@ -80,26 +81,16 @@ HRESULT  EnemyStraight::Init(void)
 *****************************************/
 void EnemyStraight::Uninit(void)
 {
-	//SAFE_RELEASE?
-	SAFE_DELETE(meshPlayer);
+	
+	
 }
 /****************************************
 更新処理
 *****************************************/
 void EnemyStraight::Update(void)
 {
-	if (bUse)	
+	if (active)	
 	{
-		//move.y = -1.0f;
-		//pos += move;
-		
-		//((fabsf(pos.x - posDest.x) < 1e-6f) || (fabsf(pos.y - posDest.y) < 1e-6f) || (fabsf(pos.z - posDest.z) < 1e-6f))
-		/*double x = D3DXVec3Length(&D3DXVECTOR3(pos - posDest));
-		if (!(x< ( (1e-6f))))
-		{
-			pos += move;
-		}*/
-
 		if (cntFrame < frameDest)
 		{
 			pos += move;
@@ -108,7 +99,7 @@ void EnemyStraight::Update(void)
 		//countする.
 		cntFrame++;
 	}
-	BeginDebugWindow("posUpdate");
+	BeginDebugWindow("posEnemyStraight");
 	DebugText("POS:%f,%f,%f",pos.x,pos.y,pos.z);
 	DebugText("MOVE:%f,%f,%f", move.x, move.y, move.z);
 	EndDebugWindow("pos");
@@ -122,7 +113,7 @@ void EnemyStraight::Draw(void)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, mtxWorld;
 	
-	if (bUse)
+	if (active)
 	{
 		// ワールドマトリックスの初期化
 		D3DXMatrixIdentity(&mtxWorld);
@@ -133,7 +124,6 @@ void EnemyStraight::Draw(void)
 
 		// 回転を反映
 		D3DXMatrixRotationYawPitchRoll(&mtxRot, rot.y, rot.x, rot.z);
-
 		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRot);
 
 		// 移動を反映
@@ -153,22 +143,14 @@ void EnemyStraight::Draw(void)
 
 void EnemyStraight::Set(D3DXVECTOR3 start, D3DXVECTOR3 end,int frame)
 {
-		//if (!bUse)
-		//{
-			frameDest = frame;
-	        posDest = end;
-			pos = start;
-			dir = end - start;			
-			move = dir /frame;
+		
+	frameDest = frame;
+	posDest = end;
+	pos = start;
+	dir = end - start;
+	move = dir / frame;
 
-			bUse = true;
-			//pos.x += 10.0f;
-
-		//}
-
-
-
-
+	active = true;
 }
 
 
@@ -187,6 +169,7 @@ EnemyChange::EnemyChange()
 ****************************************/
 EnemyChange::~EnemyChange()
 {
+	SAFE_DELETE(meshPlayer);
 
 }
 /****************************************
@@ -194,7 +177,7 @@ EnemyChange::~EnemyChange()
 ****************************************/
 HRESULT EnemyChange::Init(void)
 {
-	bUse = false;
+	active = false;
 	meshPlayer = new MeshContainer();
 	meshPlayer->Load(ENEMY_MODEL);
 
@@ -216,39 +199,46 @@ HRESULT EnemyChange::Init(void)
 *****************************************/
 void EnemyChange::Uninit()
 {
-	//SAFE_RELEASE?
-	SAFE_DELETE(meshPlayer);
+	
+	
 }
 /****************************************
 更新処理
 *****************************************/
 void EnemyChange::Update()
 {
-	if (bUse)
+	if (active)
 	{
+
+		if (cntFrame > frameDest + m_waitTime + ENEMY_FALSE)
+		{
+			active = false;
+		}
+
 		if (cntFrame > frameDest && cntFrame <= frameDest + m_waitTime)
 		{
 			
 		}
 		else if (cntFrame > frameDest +m_waitTime)
 		{
-			//move.z = -1.0f;
+		
 			move = vecChange;
 			pos += move;
 		}
 		else if (cntFrame < frameDest)
 		{
-			//move.z = 1.0f;
-			
 			pos += move;
+
 		}
-		BeginDebugWindow("posEnemyChange");
-		DebugText("POS:%f,%f,%f", pos.x, pos.y, pos.z);
-		DebugText("MOVE:%f,%f,%f", move.x, move.y, move.z);
-		EndDebugWindow("pos");
 		//countする
 		cntFrame++;
 	}
+
+	BeginDebugWindow("posEnemyChange");
+	DebugText("POS:%f,%f,%f", pos.x, pos.y, pos.z);
+	DebugText("MOVE:%f,%f,%f", move.x, move.y, move.z);
+	DebugText("ACTIVE:%d", active);
+	EndDebugWindow("pos");
 	
 }
 /****************************************
@@ -259,7 +249,7 @@ void EnemyChange::Draw()
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, mtxWorld;
 
-	if (bUse)
+	if (active)
 	{
 		// ワールドマトリックスの初期化
 		D3DXMatrixIdentity(&mtxWorld);
@@ -270,7 +260,6 @@ void EnemyChange::Draw()
 
 		// 回転を反映
 		D3DXMatrixRotationYawPitchRoll(&mtxRot, rot.y, rot.x, rot.z);
-
 		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRot);
 
 		// 移動を反映
@@ -289,14 +278,7 @@ void EnemyChange::Draw()
 *****************************************/
 void EnemyChange::Set(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame)
 {
-	//m_waitTime = waitTime;
-	/*frameDest = frame;
-	posDest = end;
-	pos = start;
-	dir = end - start;
-	move = dir / frame;
-
-	bUse = true;*/
+	//空
 }
 
 void EnemyChange::SetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame,  int waitTime,D3DXVECTOR3 vec)
@@ -309,17 +291,6 @@ void EnemyChange::SetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame,  int wai
 	dir = end - start;
 	move = dir / frame;
 
-	bUse = true;
+	active = true;
 }
 
-//void EnemyChange::SetTime(int waitTime)
-//{
-//	
-//	if (bUse)
-//	{
-//
-//		m_waitTime = waitTime;
-//	}
-//	
-//
-//}

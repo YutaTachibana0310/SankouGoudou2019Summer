@@ -29,21 +29,22 @@
 class Enemy
 {
 public:
-	bool bUse;
-
-
 	MeshContainer* meshPlayer;
 
-	/*Enemy();
-	virtual ~Enemy();*/
-	D3DXVECTOR3			pos;				// 現在の位置
-	D3DXVECTOR3			move;				// 移動量
-	D3DXVECTOR3			scl;				// モデルの大きさ(スケール)
-	D3DXVECTOR3			rot;				// 現在の向き
-	D3DXVECTOR3			rotDest;			// 目的の向き
+	//いる?
+	Enemy();
+	virtual ~Enemy();
 
-	D3DXVECTOR3         dir;
-	D3DXVECTOR3         posDest;
+	bool				active;				//アクティブ
+
+	D3DXVECTOR3			pos;				//現在の位置
+	D3DXVECTOR3			move;				//移動量
+	D3DXVECTOR3			scl;				//モデルの大きさ(スケール)
+	D3DXVECTOR3			rot;				//現在の向き
+	D3DXVECTOR3			rotDest;			//目的の向き
+
+	D3DXVECTOR3         dir;				//移動の方向
+	D3DXVECTOR3         posDest;			//移動先
 
 	int					cntFrame;			//フレームカウント
 	int					frameDest;
@@ -76,7 +77,7 @@ class EnemyChange :public Enemy
 {
 public:
 
-	int m_waitTime;
+	int m_waitTime;			//停止の時間
 	D3DXVECTOR3 vecChange;	//停止して以降のベクトル
 
 	EnemyChange();
@@ -88,7 +89,7 @@ public:
 
 	void Set(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame);
 	void SetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame,int waitTime, D3DXVECTOR3 vec);
-	//void SetTime(int waitTime);
+
 };
 
 //*****************************************************************************

@@ -162,7 +162,8 @@ void EnemyStraight::Set(D3DXVECTOR3 start, D3DXVECTOR3 end,int frame)
 ****************************************/
 EnemyChange::EnemyChange()
 {
-
+	meshPlayer = new MeshContainer();
+	meshPlayer->Load(ENEMY_MODEL);
 }
 /****************************************
 デストラクタ
@@ -178,8 +179,7 @@ EnemyChange::~EnemyChange()
 HRESULT EnemyChange::Init(void)
 {
 	active = false;
-	meshPlayer = new MeshContainer();
-	meshPlayer->Load(ENEMY_MODEL);
+	
 
 	pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
 	move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);

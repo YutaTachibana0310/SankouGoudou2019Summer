@@ -5,19 +5,19 @@
 //
 //=============================================================================
 #include "input.h"
-#include "star.h"
+#include "starUI.h"
 #include "sound.h"
 #include "Game.h"
 #include "masktex.h"
 
 
 
-bool IsEntered(int m, HWND hWnd) {
+bool IsEntered(int m) {
 
 	//マウスクリックの検出があるか
 	if (IsMouseLeftTriggered())
 	{
-		return IsSelected(m, hWnd);
+		return IsStarSelected(m);
 	}
 	//マウスの入力がなくキーが押された場合
 	else if (m == TOP) {

@@ -8,40 +8,71 @@
 #define _TRAILCOLLIDER_H_
 
 #include "main.h"
+#include "Framework\ObserveSubject.h"
+#include "LineTrailModel.h"
+#include <list>
+#include <map>
+#include <string>
+
+#define TRAILCOLLIDER_USE_DEBUG
+
+#ifdef TRAILCOLLIDER_USE_DEBUG
+#include "LineRenderer.h"
+#endif
 
 /**************************************
-マクロ定義
+TrailColliderTag列挙子
 ***************************************/
-
-/**************************************
-始点・終点定義
-***************************************/
-enum class TrailIndex
+enum class TrailColliderTag
 {
-	Top,
-	MiddleLeft,
-	LowerLeft,
-	LowerRight,
-	MiddleRight,
+	PlayerBullet,
+	Enemy,
 	Max
 };
 
 /**************************************
+始点・終点定義
+***************************************/
+
+/**************************************
 トレイルコライダークラス
 ***************************************/
-class TrailCollider
+class TrailCollider : public ObserveSubject
 {
 public:
-	TrailCollider() {};
-	~TrailCollider() {};
+	friend class TrailCollider;
+
+	TrailCollider(TrailColliderTag tag);
+	~TrailCollider();
 
 	bool CheckCollision(TrailCollider *other);
-	void SetTrailIndex(TrailIndex start, TrailIndex end);
+	void SetTrailIndex(LineTrailModel model);
 	void SetAddressZ(float* adrPosZ);
 
+	bool active;
+
+	static void UpdateCollision();
+
+#ifdef TRAILCOLLIDER_USE_DEBUG
+	static void DrawCollider(TrailCollider *collider);
+#endif
+
 private:
-	TrailIndex start, end;
+	TrailCollider() {}
+
+	LineTrailModel model;
 	float *posZ;
+	TrailColliderTag tag;
+
+	static std::map<TrailColliderTag, std::list<TrailCollider*>> checkDictionary;
+
+	void RegisterToCheckList();
+	void RemoveFromCheckList();
+	
+#ifdef TRAILCOLLIDER_USE_DEBUG
+	static LineRenderer *renderer;
+	static UINT instanceCount;
+#endif
 };
 
 

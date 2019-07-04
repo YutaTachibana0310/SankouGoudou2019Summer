@@ -11,7 +11,7 @@
 #define BACKGROUNDROAD_TEXSIZE_X		(2.0f)
 #define BACKGROUNDROAD_TEXSIZE_Y		(50.0f)
 
-#define BACKGROUNDROAD_INIT_POS_Y		(-2500.0f)
+#define BACKGROUNDROAD_INIT_POS_Y		(-3500.0f)
 
 //*****************************************************************************
 // プロトタイプ宣言
@@ -152,10 +152,10 @@ HRESULT MakeVertexBackGroundRoad(LPDIRECT3DDEVICE9 pDevice)
 		pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
 		// 反射光の設定
-		pVtx[0].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-		pVtx[1].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-		pVtx[2].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-		pVtx[3].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		pVtx[0].diffuse = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
+		pVtx[1].diffuse = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
+		pVtx[2].diffuse = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
+		pVtx[3].diffuse = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
 
 		// テクスチャ座標の設定
 		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);

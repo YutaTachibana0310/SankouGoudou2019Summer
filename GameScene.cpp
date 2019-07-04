@@ -7,12 +7,12 @@
 #include "GameScene.h"
 #include "debugWindow.h"
 #include "Game.h"
+#include "LineTrailModel.h"
 #include "PostEffectManager.h"
 #include "debugWindow.h"
 #include "debugTimer.h"
 
-#include "UIManager.h"
-#include "cursor.h"
+#include "GameSceneUIManager.h"
 #include "player.h"
 #include "PlayerController.h"
 #include "InputController.h"
@@ -24,7 +24,9 @@
 #include "GameParticleManager.h"
 
 #include "sound.h"
-#include "CollisionManager.h"
+#include "TrailCollider.h"
+
+#include "EnemyController.h"
 
 
 /**************************************
@@ -45,21 +47,34 @@
 ***************************************/
 void GameScene::Init()
 {
+	//インスタンス生成
+	enemyController = new EnemyController();
 
+	//UI初期化
+	InitGameSceneUI();
+
+	//☆ボタンの位置からワールド座標を計算
+	LineTrailModel::CalcEdgePosition();
+
+	//背景初期化
 	InitSkyBox(0);
 	InitBackGroundCity(0);
-
 	InitBackGroundRoad();
 	InitBackGroundField();
 
+	//パーティクル初期化
 	InitGameParticleManager(0);
 
-	InitUI();
-
+	//プレイヤー初期化
 	InitPlayerController();
-	InitCursor();
+
+	//サウンド初期化
 	Sound::GetInstance()->Create();
 
+	//エネミー初期化
+	enemyController->Init();
+
+	//プロファイラにGameSceneを登録
 	RegisterDebugTimer(GAMESCENE_LABEL);
 }
 
@@ -68,19 +83,26 @@ void GameScene::Init()
 ***************************************/
 void GameScene::Uninit()
 {
+	//背景終了
 	UninitSkyBox(0);
 	UninitBackGroundCity(0);
-
 	UninitBackGroundRoad();
 	UninitBackGroundField();
 
+	//パーティクル終了
 	UninitGameParticleManager(0);
 
+	//プレイヤー終了
 	UninitPlayerController();
 
-	UninitUI();
-	UninitCursor();
+	//エネミー終了
+	enemyController->Uninit();
 
+	//UI終了
+	UninitGameSceneUI();
+
+	//インスタンス削除
+	SAFE_DELETE(enemyController);
 }
 
 /**************************************
@@ -104,6 +126,9 @@ void GameScene::Update(HWND hWnd)
 	UpdatePlayerController(hWnd);
 	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
 
+	//エネミーの更新
+	enemyController->Update();
+
 	//パーティクルの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateParticle");
 	UpdateGameParticleManager();
@@ -111,15 +136,14 @@ void GameScene::Update(HWND hWnd)
 
 	//UIの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
-	UpdateUI(hWnd);
-	UpdateCursor(hWnd);
+	UpdateGameSceneUI(hWnd);
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
 
 	//ポストエフェクトの更新
 	PostEffectManager::Instance()->Update();
 
 	//衝突判定
-	UpdateCollisionManager();
+	TrailCollider::UpdateCollision();
 }
 
 /**************************************
@@ -129,7 +153,6 @@ void GameScene::Draw()
 {
 
 	//背景の描画
-
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 	DrawSkyBox();
 	DrawBackGroundCity();
@@ -138,13 +161,12 @@ void GameScene::Draw()
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 
 	//プレイヤーの描画
-
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
 	DrawPlayerController();
-
-	//プレイヤーバレット描画
-	DrawPlayerBullet();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
+
+	//エネミーの描画
+	enemyController->Draw();
 
 	//ポストエフェクト描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawpostEffect");
@@ -157,8 +179,7 @@ void GameScene::Draw()
 	CountDebugTimer(GAMESCENE_LABEL, "DrawParticle");
 
 	//UI描画
-	DrawUI();
-	DrawCursor();
+	DrawGameSceneUI();
 
 	DrawDebugTimer(GAMESCENE_LABEL);
 

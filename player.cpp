@@ -9,18 +9,17 @@
 #include "main.h"
 #include "player.h"
 #include "PlayerController.h"
+#include "GameParticleManager.h"
 
-#include "star.h"
+#include "starUI.h"
 #include "debugWindow.h"
+
+using namespace std;
 
 /**************************************
 マクロ定義
 ***************************************/
 #define PLAYER_MODEL  "data/MODEL/airplane000.x"
-#define PLAYER_MOVE		(120.0f)
-
-#define TEXTURE_SAMPLE00_SIZE_X	(50) // テクスチャサイズ
-#define TEXTURE_SAMPLE00_SIZE_Y	(50) // 同上
 
 /**************************************
 構造体定義
@@ -30,28 +29,40 @@
 /**************************************
 グローバル変数
 ***************************************/
+
 /**************************************
 プロトタイプ宣言
 ***************************************/
 
+/**************************************
+コンストラクタ
+***************************************/
+Player::Player()
+{
+	mesh = new MeshContainer();
+	
+	mesh->Load(PLAYER_MODEL);
+}
+
+/**************************************
+デストラクタ
+***************************************/
+Player::~Player()
+{
+	SAFE_DELETE(mesh);
+}
 
 /*************************************
 初期化処理
 **************************************/
 void Player::Init()
 {
-	meshPlayer = new MeshContainer();
-	meshPlayer->Load(PLAYER_MODEL);
+	transform.pos = PLAYER_CENTER;
+	transform.scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
+	transform.rot = D3DXVECTOR3(0.0f, D3DXToRadian(180.0f), 0.0f);
+	active = true;
 
-	pos = PLAYER_CENTER;
-	move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	scl = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
-	rot = D3DXVECTOR3(0.0f, 59.7f, 0.0f);
-	rotDest= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
-
-
-
+	SetPlayerTrailParticle(&transform.pos, &active);
 	return;
 }
 
@@ -60,18 +71,23 @@ void Player::Init()
 ****************************************/
 void Player::Uninit()
 {
-	delete meshPlayer;
-
+	active = false;
 }
+
 /****************************************
 更新処理
 *****************************************/
-void Player::Update()
+int Player::Update()
 {
+	if (!active)
+		return STATE_CONTINUOUS;
 
-	if (SetBomb() == true) {
-		DebugText("bomb\n");
-	}
+	int stateResult = STATE_CONTINUOUS;
+
+	if (state != NULL)
+		stateResult = state->OnUpdate(this);
+
+	return stateResult;
 }
 
 /*****************************************
@@ -79,6 +95,8 @@ void Player::Update()
 ******************************************/
 void Player::Draw()
 {
+	if (!active)
+		return;
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, quatMatrixs, shadowMatrix, mtxWorld;
@@ -86,20 +104,28 @@ void Player::Draw()
 	D3DXMatrixIdentity(&mtxWorld);
 
 	// スケールを反映
-	D3DXMatrixScaling(&mtxScl, scl.y, scl.x, scl.z);
+	D3DXMatrixScaling(&mtxScl, transform.scale.y, transform.scale.x, transform.scale.z);
 	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScl);
 
 	// 回転を反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, rot.y, rot.x, rot.z);
+	D3DXMatrixRotationYawPitchRoll(&mtxRot, transform.rot.y, transform.rot.x, transform.rot.z);
 	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRot);
 
 	// 移動を反映
-	D3DXMatrixTranslation(&mtxTranslate, pos.x, pos.y, pos.z);
+	D3DXMatrixTranslation(&mtxTranslate, transform.pos.x, transform.pos.y, transform.pos.z);
 	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTranslate);
 
 	// ワールドマトリックスの設定
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
-	meshPlayer->Draw();
+	mesh->Draw();
+}
 
+/*****************************************
+状態遷移
+******************************************/
+void Player::ChangeState(IStateMachine<Player> *next)
+{
+	state = next;
+	state->OnStart(this);
 }

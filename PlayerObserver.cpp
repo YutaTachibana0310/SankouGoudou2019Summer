@@ -10,6 +10,7 @@
 #include "PlayerWait.h"
 #include "PlayerReturn.h"
 #include "PlayerIdle.h"
+#include "PlayerBomber.h"
 
 #include <algorithm>
 
@@ -24,6 +25,9 @@ using namespace std;
 構造体定義
 ***************************************/
 
+
+PlayerBomber *bomber;
+
 /**************************************
 コンストラクタ
 ***************************************/
@@ -32,6 +36,7 @@ PlayerObserver::PlayerObserver()
 	player = new Player();
 	model = new PlayerModel();
 	trailEffect = new PlayerTrail();
+	bomber = new PlayerBomber();
 
 	fsm[PlayerState::Idle] = new PlayerIdle();
 	fsm[PlayerState::Wait] = new PlayerWait();
@@ -76,7 +81,9 @@ void PlayerObserver::Init()
 	for (PlayerBullet *bullet : bulletContainer)
 	{
 		bullet->Init();
+
 	}
+
 
 	ChangeStatePlayer(PlayerState::Idle);
 }
@@ -91,6 +98,9 @@ void PlayerObserver::Uninit()
 	{
 		bullet->Uninit();
 	}
+	
+	bomber->Uninit();
+	
 }
 
 /**************************************
@@ -108,6 +118,10 @@ void PlayerObserver::Update()
 		bullet->Update();
 	}
 
+	if (bomber->active)
+	{
+		bomber->Update();
+	}
 	trailEffect->Update();
 }
 
@@ -133,6 +147,9 @@ void PlayerObserver::Draw()
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+	
+	bomber->Draw();
+	
 }
 
 /**************************************
@@ -243,13 +260,14 @@ void PlayerObserver::OnFinishPlayerMove()
 		PlayerTrailModel modelTrail;
 		model->GetPlayerTrail(&modelTrail);
 		SetPlayerBullet(modelTrail);
+
 	}
 
 	//一筆書き判定
 	if (model->CheckOneStroke())
 	{
 		//ボム発射
-
+		bomber->SetBomber(&player->bompos,player->transform.pos);
 	}
 
 	//先行入力確認

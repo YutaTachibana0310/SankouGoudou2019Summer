@@ -150,6 +150,8 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="BaseGameEntity.h" />
     <ClInclude Include="enemystate.h" />
+    <ClInclude Include="PlayerBomber.h" />
+    <ClInclude Include="PlayerBomberController.h" />
     <ClInclude Include="PlayerIdle.h" />
     <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="PlayerObserver.h" />
@@ -270,6 +272,8 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerBomber.cpp" />
+    <ClCompile Include="PlayerBomberController.cpp" />
     <ClCompile Include="PlayerBulletParticle.cpp" />
     <ClCompile Include="PlayerBulletParticleController.cpp" />
     <ClCompile Include="PlayerController.cpp" />

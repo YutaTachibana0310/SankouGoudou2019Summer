@@ -411,6 +411,12 @@
     <ClInclude Include="PlayerTrailModel.h">
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerBomber.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBomberController.h">
+      <Filter>ヘッダー ファイル\Player\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -682,6 +688,12 @@
     </ClCompile>
     <ClCompile Include="PlayerReturn.cpp">
       <Filter>ソース ファイル\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBomber.cpp">
+      <Filter>ソース ファイル\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBomberController.cpp">
+      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

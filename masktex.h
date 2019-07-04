@@ -12,7 +12,7 @@
 
 #define	MASK_SIZE (2000.0f)
 
-#define	MASK_TEXTURE			("data/TEXTURE/UI/名称未設定-1.png")	// 読み込むテクスチャファイル名
+#define	MASK_TEXTURE			("data/TEXTURE/UI/mask_star.png")	// 読み込むテクスチャファイル名
 
 //テクスチャ初期化
 HRESULT InitMask(float size_x, float size_y, float size_z);

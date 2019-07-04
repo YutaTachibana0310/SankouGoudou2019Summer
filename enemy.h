@@ -29,11 +29,13 @@
 class Enemy
 {
 public:
-	MeshContainer* meshPlayer;
+	
 
 	//いる?
 	Enemy();
 	virtual ~Enemy();
+
+	MeshContainer* meshPlayer;
 
 	bool				active;				//アクティブ
 

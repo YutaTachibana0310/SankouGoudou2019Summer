@@ -42,7 +42,8 @@ Enemy::~Enemy()
 ****************************************/
 EnemyStraight::EnemyStraight()
 {
-	//初期化のコードはコンストラクタに入れる？
+	meshPlayer = new MeshContainer();
+	meshPlayer->Load(ENEMY_MODEL);
 }
 
 /****************************************
@@ -60,8 +61,7 @@ EnemyStraight::~EnemyStraight()
 HRESULT  EnemyStraight::Init(void)
 {
 	active = false;
-	meshPlayer = new MeshContainer();
-	meshPlayer->Load(ENEMY_MODEL);
+	
 
 	pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
 	move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);

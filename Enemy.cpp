@@ -19,13 +19,23 @@
 
 #define ENEMY_FALSE (300)	//falseの時間(方向が変えってから)
 
-//Enemy
+/****************************************
+static変数
+****************************************/
+MeshContainer* Enemy::mesh;
+UINT Enemy::instanceCount;
+
 /****************************************
 コンストラクタ
 ****************************************/
 Enemy::Enemy()
 {
-
+	instanceCount++;
+	if (mesh == NULL)
+	{
+		mesh = new MeshContainer();
+		mesh->Load(ENEMY_MODEL);
+	}
 }
 
 /****************************************
@@ -33,7 +43,11 @@ Enemy::Enemy()
 ****************************************/
 Enemy::~Enemy()
 {
-
+	instanceCount--;
+	if (instanceCount == 0)
+	{
+		SAFE_DELETE(mesh);
+	}
 }
 
 //EnemyStraight
@@ -42,8 +56,7 @@ Enemy::~Enemy()
 ****************************************/
 EnemyStraight::EnemyStraight()
 {
-	meshPlayer = new MeshContainer();
-	meshPlayer->Load(ENEMY_MODEL);
+
 }
 
 /****************************************
@@ -52,7 +65,6 @@ EnemyStraight::EnemyStraight()
 EnemyStraight::~EnemyStraight()
 {
 
-	SAFE_DELETE(meshPlayer);
 }
 
 /****************************************
@@ -133,7 +145,7 @@ void EnemyStraight::Draw(void)
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
-		meshPlayer->Draw();
+		mesh->Draw();
 	}
 				
 }
@@ -162,17 +174,17 @@ void EnemyStraight::Set(D3DXVECTOR3 start, D3DXVECTOR3 end,int frame)
 ****************************************/
 EnemyChange::EnemyChange()
 {
-	meshPlayer = new MeshContainer();
-	meshPlayer->Load(ENEMY_MODEL);
+
 }
+
 /****************************************
 デストラクタ
 ****************************************/
 EnemyChange::~EnemyChange()
 {
-	SAFE_DELETE(meshPlayer);
 
 }
+
 /****************************************
 初期化処理
 ****************************************/
@@ -269,7 +281,7 @@ void EnemyChange::Draw()
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
-		meshPlayer->Draw();
+		mesh->Draw();
 	}
 }
 

@@ -28,7 +28,7 @@ void SoundGameScene::Play() {
 	if (GetKeyboardTrigger(DIK_SPACE)) {
 		//‚æ‚­‚ ‚éƒVƒ‡ƒbƒgSE‚Ý‚½‚¢‚ÉÄ¶
 		Sound::GetInstance()->SetPlaySE(TESTSE, true, 1.0f);
-		Sound::GetInstance()->ChangeSEVolume(TESTSE, 1.0f);
+		//Sound::GetInstance()->ChangeSEVolume(TESTSE, 1.0f);
 	}
 	if (GetKeyboardTrigger(DIK_O)) {
 

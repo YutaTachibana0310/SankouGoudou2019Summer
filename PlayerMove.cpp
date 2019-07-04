@@ -4,44 +4,49 @@
 //Author:GP12B332 12 権頭
 //
 //=====================================
-
 #include "PlayerMove.h"
 #include "Framework/Easing.h"
-#include "PlayerController.h"
+
 /**************************************
 マクロ定義
 ***************************************/
+#define PLAYER_MOVE_DURATION	(20)
 
 /**************************************
 構造体定義
 ***************************************/
 
 /**************************************
-プロトタイプ宣言
+更新処理
 ***************************************/
-void PlayerMove::OnUpdate(Player *entity)
+int PlayerMove::OnUpdate(Player *entity)
 {
 	entity->cntFrame++;
-	float t = (float)entity->cntFrame / PLAYER_MOVE_TIME;
-	entity->pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->initpos, &entity->goalpos, EasingType::InCubic);
+	float t = (float)entity->cntFrame / PLAYER_MOVE_DURATION;
+	entity->transform.pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->initpos, &entity->goalpos, EasingType::OutCubic);
 
-	if (entity->cntFrame == PLAYER_MOVE_TIME)
+	if (entity->cntFrame == PLAYER_MOVE_DURATION)
 	{
-		ChangeState(entity, PlayerState::Wait);
+		OnExit(entity);
+		return STATE_FINISHED;
 	}
+
+	return STATE_CONTINUOUS;
 }
 
+/**************************************
+入場処理
+***************************************/
 void PlayerMove::OnStart(Player *entity)
 {
 	//初期化
 	entity->cntFrame = 0;
-	entity->initpos = entity->pos;
+	entity->initpos = entity->transform.pos;
 }
 
+/**************************************
+退場処理
+***************************************/
 void PlayerMove::OnExit(Player * entity)
 {
-	//移動終了	バレット発射
-	entity->goalpos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
-
 }

@@ -13,12 +13,6 @@ Sound *Sound::sound = NULL;
 //デフォルトコンストラクタ
 Sound::Sound()
 {
-	xactEngine = NULL;
-	BGMwaveBank = NULL;
-	SEwaveBank = NULL;
-	soundBank = NULL;
-	mapWaveBank = NULL;
-	soundBankData = NULL;
 
 	for (int i = 0; i < MAXBGM; i++) {
 		BGMplayflag[i] = false;
@@ -31,14 +25,11 @@ Sound::Sound()
 	}
 
 	pauseflag = false;
+	playsound = false;
+	pause = false;
+	changepitch = 0;
 
-	HRESULT hr = CoInitializeEx(NULL, COINIT_MULTITHREADED);
-	if (SUCCEEDED(hr)) {
-		coInitialized = true;
-	}
-	else {
-		coInitialized = false;
-	}
+
 
 }
 
@@ -84,11 +75,27 @@ Sound::~Sound()
 
 HRESULT Sound::initialize() {
 
+	xactEngine = NULL;
+	BGMwaveBank = NULL;
+	SEwaveBank = NULL;
+	soundBank = NULL;
+	mapWaveBank = NULL;
+	soundBankData = NULL;
+
+
 	HRESULT result = E_FAIL;
 	HANDLE hFile;
 	DWORD fileSize;
 	DWORD bytesRead;
 	HANDLE hMapFile;
+
+	HRESULT hr = CoInitializeEx(NULL, COINIT_MULTITHREADED);
+	if (SUCCEEDED(hr)) {
+		coInitialized = true;
+	}
+	else {
+		coInitialized = false;
+	}
 
 	if (coInitialized == false) {
 		return E_FAIL;
@@ -209,7 +216,7 @@ void Sound::SetPlayBGM(int wavenum,bool playflag,float vol) {
 	if (BGMwaveBank == NULL) {
 		return;
 	}
-	//再生フラグがtrueの場合に再生
+	//再生フラグがfalseの場合に再生
 	if (!BGMplayflag[wavenum] && !pauseflag) {
 		BGMwaveBank->Play(wavenum, XACT_FLAG_UNITS_MS, 0, 0, &BGMwave[wavenum]);
 		Sound::ChangeBGMVolume(wavenum, vol);
@@ -229,7 +236,7 @@ void Sound::SetPlaySE(int wavenum, bool playflag, float vol) {
 	//falseの場合はポーズ中に再生できるSE
 	SEplayflag[wavenum] = playflag;
 
-	//再生フラグがtrueの場合に再生
+	//再生フラグがtrueかつポーズフラグもfalseの場合に再生
 	if (SEplayflag[wavenum] && !pauseflag) {
 		SEwaveBank->Play(wavenum, XACT_FLAG_UNITS_MS, 0, 0, &SEwave[wavenum]);
 		Sound::ChangeSEVolume(wavenum, vol);
@@ -250,6 +257,7 @@ void Sound::SetPlaySE(int wavenum, bool playflag, float vol) {
 // サウンドが存在しない場合、エラーは発生しない
 //=============================================================================
 void Sound::SetStopSound() {
+
 	if (BGMwaveBank == NULL)
 	{
 		return;
@@ -332,7 +340,10 @@ void Sound::FadeOut(int wavenum, float fadesec, float setvol, bool outflag) {
 	}
 }
 
-void Sound::SetPitchSE(int wavenum,int pitch) {
+void Sound::SetPitchSE(int wavenum, int pitch) {
 	//ピッチの値は-1200～1200の間
-	SEwave[wavenum]->SetPitch(pitch);
+	if (SEwave[wavenum] != NULL) {
+		SEwave[wavenum]->SetPitch(pitch);
+	}
 }
+

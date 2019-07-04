@@ -8,6 +8,8 @@
 #include <time.h>
 #include "Game.h"
 #include "debugWindow.h"
+#include "sound.h"
+#include "Stencil.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -217,7 +219,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;					// 映像信号に同期してフリップする
 	d3dpp.Windowed = bWindow;									// ウィンドウモード
 	d3dpp.EnableAutoDepthStencil = TRUE;						// デプスバッファ（Ｚバッファ）とステンシルバッファを作成
-	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;					// デプスバッファとして16bitを使う
+	d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;					// デプスバッファとして16bitを使う
 
 	if (bWindow)
 	{// ウィンドウモード
@@ -302,6 +304,10 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	//zMapTexture->GetSurfaceLevel(0, &zMapSurface);
 	//g_pD3DDevice->SetRenderTarget(1, zMapSurface);
 
+	//サウンドシステムの初期化
+	Sound::GetInstance()->Create();
+	Sound::GetInstance()->initialize();
+
 	InitGame(hInstance, hWnd);
 
 	return S_OK;
@@ -323,6 +329,9 @@ void Uninit(void)
 		g_pD3D->Release();
 		g_pD3D = NULL;
 	}
+
+	//サウンドシステムのシャットダウン
+	Sound::GetInstance()->~Sound();
 
 	UninitGame();
 }

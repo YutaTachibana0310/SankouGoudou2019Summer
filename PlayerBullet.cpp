@@ -6,12 +6,11 @@
 //=====================================
 #include "PlayerBullet.h"
 #include "Framework\Easing.h"
-#include "PlayerBulletParticle.h"
+#include "GameParticleManager.h"
 
 /**************************************
 マクロ定義
 ***************************************/
-#define PLAYERBULLET_TEXTURE_NAME	"data/TEXTURE/Player/PlayerBullet.png"
 #define PLAYERBULLET_LIFE_COUNT		(180)
 #define PLAYERBULLET_FADE_FRAME		(30)
 #define PLAYERBULLET_FADE_START		(PLAYERBULLET_LIFE_COUNT-PLAYERBULLET_FADE_FRAME)
@@ -25,15 +24,16 @@
 /**************************************
 staticメンバ
 ***************************************/
-int PlayerBullet::instanceCount = 0;				//インスタンスカウンタ
-LPDIRECT3DTEXTURE9 PlayerBullet::texture = NULL;	//テクスチャ
 
 /****************************************
 初期化処理
 ****************************************/
-void PlayerBullet::Init()
+void PlayerBullet::Init(LineTrailModel model)
 {
 	cntFrame = 0;
+	collider->SetTrailIndex(model);
+	SetEdgePos(model);
+	collider->active = true;
 	active = true;
 }
 
@@ -42,7 +42,8 @@ void PlayerBullet::Init()
 *****************************************/
 void PlayerBullet::Uninit()
 {
-
+	collider->active = false;
+	isDestroyed = false;
 	active = false;
 }
 
@@ -89,14 +90,6 @@ void PlayerBullet::Draw()
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	VERTEX_3D* p;
-	vtxBuff->Lock(0, 0, (void**)&p, 0);
-	vtxBuff->Unlock();
-
-	pDevice->SetFVF(FVF_VERTEX_3D);
-
-	pDevice->SetTexture(0, texture);
-
 	pDevice->SetStreamSource(0, vtxBuff, 0, sizeof(VERTEX_3D));
 
 	D3DXMATRIX mtxWorld;
@@ -115,13 +108,6 @@ PlayerBullet::PlayerBullet()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	
-	//インスタンスカウント
-	instanceCount++;
-	if (texture == NULL)
-	{
-		texture = CreateTextureFromFile((LPSTR)PLAYERBULLET_TEXTURE_NAME, pDevice);
-	}
-
 	//頂点バッファ作成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * NUM_VERTEX, D3DUSAGE_WRITEONLY, FVF_VERTEX_3D, D3DPOOL_MANAGED, &vtxBuff, 0);
 
@@ -148,8 +134,14 @@ PlayerBullet::PlayerBullet()
 
 	vtxBuff->Unlock();
 
+	//コライダーインスタンス作成
+	collider = new TrailCollider(TrailColliderTag::PlayerBullet);
+
 	//TrailColliderのZ座標アドレスを設定
-	collider.SetAddressZ(&pos.z);
+	collider->SetAddressZ(&pos.z);
+
+	//コライダーの観測者に自身を追加
+	collider->AddObserver(this);
 }
 
 /****************************************
@@ -158,30 +150,17 @@ PlayerBullet::PlayerBullet()
 PlayerBullet::~PlayerBullet()
 {
 	SAFE_RELEASE(vtxBuff);
-
-	instanceCount--;
-	if (instanceCount == 0)
-	{
-		//インスタンスが残っていなければテクスチャ解放
-		SAFE_RELEASE(texture);
-	}
-}
-
-/****************************************
-トレイルインデックスセット処理
-*****************************************/
-void PlayerBullet::SetTrailIndex(TrailIndex start, TrailIndex end)
-{
-	collider.SetTrailIndex(start, end);
 }
 
 /****************************************
 端点セット処理
 *****************************************/
-void PlayerBullet::SetEdgePos(const D3DXVECTOR3 *start, const D3DXVECTOR3 *end)
+void PlayerBullet::SetEdgePos(LineTrailModel model)
 {
 	//始点と終点を結ぶ線分を計算し、長さを半分にする
-	D3DXVECTOR3 diff = *end - *start;
+	D3DXVECTOR3 start, end;
+	model.GetEdgePos(&start, &end);
+	D3DXVECTOR3 diff = end- start;
 	diff /= 2.0f;
 
 	//線分に垂直なベクトルを求める
@@ -189,7 +168,6 @@ void PlayerBullet::SetEdgePos(const D3DXVECTOR3 *start, const D3DXVECTOR3 *end)
 	D3DXVec3Normalize(&vtxUp, &vtxUp);
 
 	//求めたベクトルから頂点座標を計算
-	const float length = 15.0f;
 	VERTEX_3D *pVtx;
 	vtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 	pVtx[0].vtx = -diff + vtxUp * PLAYERBULLET_VTX_LENGTH;
@@ -199,24 +177,16 @@ void PlayerBullet::SetEdgePos(const D3DXVECTOR3 *start, const D3DXVECTOR3 *end)
 	vtxBuff->Unlock();
 
 	//ワールド座標を始点と終点の真ん中に設定
-	pos = *start + diff;
+	pos = start + diff;
 
 	//パーティクルセット
-	SetPlayerBulletParticle(&pos, &active, start, end);
+	SetPlayerBulletParticle(&pos, &active, &start, &end);
 }
 
 /****************************************
-コライダー取得処理
+衝突判定通知レシーバー
 *****************************************/
-TrailCollider PlayerBullet::GetCollider()
+void PlayerBullet::OnNotified(ObserveSubject *notifier)
 {
-	return collider;
-}
-
-/****************************************
-アクティブ判定
-*****************************************/
-bool PlayerBullet::IsActive()
-{
-	return active;
+	isDestroyed = true;
 }

@@ -8,6 +8,8 @@
 #ifndef _MASKTEX_H_
 #define _MASKTEX_H_
 
+#include "Game.h"
+
 #define	MASK_SIZE (2000.0f)
 
 #define	MASK_TEXTURE			("data/TEXTURE/UI/名称未設定-1.png")	// 読み込むテクスチャファイル名
@@ -18,6 +20,8 @@ HRESULT InitMask(float size_x, float size_y, float size_z);
 //テクスチャの終了処理
 void UninitMask(void);
 
+void UpdateMask(void);
+
 //マスク用テクスチャ更新処理
 void MaskFadeOut(void);
 void MaskFadeIn(void);
@@ -26,5 +30,5 @@ void MaskFadeIn(void);
 void DrawMaskTexSet(void);
 void DrawMaskTexEnd(void);
 
-void SceneChangeFlag(bool fadeflag);
+void SceneChangeFlag(bool fadeflag,Scene next);
 #endif

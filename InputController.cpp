@@ -11,10 +11,6 @@
 #include "masktex.h"
 
 
-//シーンチェンジ用
-Scene counta = SceneTitle;
-bool scenechange = false;
-int changecounta = 0;
 
 bool IsEntered(int m, HWND hWnd) {
 
@@ -49,42 +45,3 @@ void InputSound() {
 
 }
 
-void SceneChange() {
-
-	if (GetKeyboardTrigger(DIK_RETURN)) {
-		
-		switch (counta)
-		{
-		case SceneTitle:
-			counta = SceneGame;
-			break;
-		case SceneGame:
-			counta = SceneResult;
-			break;
-		case SceneResult:
-			counta = SceneTitle;
-			break;
-		}
-		scenechange = true;
-
-		SceneChangeFlag(true);
-	}
-
-	
-
-	if (scenechange) {
-
-		changecounta++;
-
-		if(changecounta >= 60){
-
-			ChangeScene(counta);
-			scenechange = false;
-			changecounta = 0;
-
-		}
-
-	}
-	
-	
-}

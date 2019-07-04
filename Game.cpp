@@ -11,6 +11,7 @@
 #include "debugWindow.h"
 #include "debugTimer.h"
 #include "sound.h"
+#include "masktex.h"
 
 #include "IStateScene.h"
 #include "TitleScene.h"
@@ -58,6 +59,9 @@ static SoundStateScene* ssm[SceneMax];
 static Scene currentScene = SceneTitle;
 
 
+//シーンチェンジ用
+bool scenechange = false;
+int changecounta = 0;
 
 /**************************************
 初期化処理
@@ -73,6 +77,7 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	InitCamera();
 	InitLight();
 	InitDebugWindow(hWnd, pDevice);
+	InitMask(MASK_SIZE, MASK_SIZE, 0);
 
 	//ステートマシンに各シーンを追加
 	fsm[SceneTitle] = new TitleScene();
@@ -97,6 +102,7 @@ void UninitGame()
 	UninitLight();
 	UninitDebugWindow(0);
 	UninitDebugTimer();
+	UninitMask();
 
 	fsm[currentScene]->Uninit();
 }
@@ -106,7 +112,10 @@ void UninitGame()
 ***************************************/
 void UpdateGame(HWND hWnd)
 {
-	SceneChange();
+	//testのため毎回ゲームシーンを呼び出す
+	MaskRun(SceneGame);
+	UpdateMask();
+
 	//念のためサウンドを最初に（渡邉）
 	Sound::GetInstance()->run();
 	ssm[currentScene]->Play();
@@ -135,10 +144,16 @@ void DrawGame()
 	pDevice->SetRenderTarget(0, renderSurface);
 	pDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0, 1.0f, 0);
 
+	//マスクセット
+	DrawMaskTexSet();
+
 	//オブジェクトを描画
 	SetCamera();
 
 	fsm[currentScene]->Draw();
+
+	//マスク終了
+	DrawMaskTexEnd();
 
 	//結果をバックバッファへと描画
 	pDevice->SetViewport(&oldVirwPort);
@@ -227,7 +242,21 @@ void CreateRenderTarget()
 	viewPort.X = 0;
 	viewPort.Y = 0;
 }
+/*************************************************************************
+シーン変更処理(渡邉マスク用）
+シーン切り替え時はMaskRunの引数に次のシーンを指定
+ChangeSceneへはMaskRunを実行すると呼び出されます
+**************************************************************************/
+void MaskRun(Scene next) {
 
+	//現在テスト用でエンターキーで切り替え
+	if (GetKeyboardTrigger(DIK_RETURN)) {
+
+		SceneChangeFlag(true, next);
+
+	}
+
+}
 /**************************************
 シーン変更処理
 ***************************************/
@@ -250,3 +279,4 @@ LPDIRECT3DTEXTURE9 GetDrawDataTemp()
 {
 	return renderTexture;
 }
+

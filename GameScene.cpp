@@ -26,7 +26,6 @@
 #include "sound.h"
 #include "CollisionManager.h"
 
-#include "masktex.h"
 
 /**************************************
 マクロ定義
@@ -46,7 +45,7 @@
 ***************************************/
 void GameScene::Init()
 {
-	InitMask(0, 0, 0);
+
 	InitSkyBox(0);
 	InitBackGroundCity(0);
 
@@ -81,7 +80,7 @@ void GameScene::Uninit()
 
 	UninitUI();
 	UninitCursor();
-	UninitMask();
+
 }
 
 /**************************************
@@ -91,8 +90,6 @@ void GameScene::Update(HWND hWnd)
 {
 	//サウンド再生(テスト）
 	InputSound();
-
-	MaskFadeIn();
 
 	//背景オブジェクトの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateBG");
@@ -130,8 +127,6 @@ void GameScene::Update(HWND hWnd)
 ***************************************/
 void GameScene::Draw()
 {
-	//マスクセット
-	DrawMaskTexSet();
 
 	//背景の描画
 
@@ -167,6 +162,4 @@ void GameScene::Draw()
 
 	DrawDebugTimer(GAMESCENE_LABEL);
 
-	//マスク終了
-	DrawMaskTexEnd();
 }

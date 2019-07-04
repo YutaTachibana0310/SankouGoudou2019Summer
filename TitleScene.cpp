@@ -8,7 +8,7 @@
 #include "debugWindow.h"
 #include "Game.h"
 #include "InputController.h"
-#include "masktex.h"
+
 
 /**************************************
 マクロ定義
@@ -28,7 +28,7 @@
 void TitleScene::Init()
 {
 
-	InitMask(MASK_SIZE, MASK_SIZE,0);
+	
 }
 
 /**************************************
@@ -36,7 +36,7 @@ void TitleScene::Init()
 ***************************************/
 void TitleScene::Uninit()
 {
-	UninitMask();
+
 }
 
 /**************************************
@@ -44,7 +44,8 @@ void TitleScene::Uninit()
 ***************************************/
 void TitleScene::Update(HWND hWnd)
 {
-	MaskFadeOut();
+
+
 }
 
 /**************************************
@@ -52,12 +53,5 @@ void TitleScene::Update(HWND hWnd)
 ***************************************/
 void TitleScene::Draw()
 {
-	//マスクセット
-	DrawMaskTexSet();
-
-	//この間にタイトル描画
-
-	//マスク終了
-	DrawMaskTexEnd();
 
 }

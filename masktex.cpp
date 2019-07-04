@@ -8,12 +8,22 @@
 #include "masktex.h"
 #include "UIdrawer.h"
 #include "Stencil.h"
+#include "Game.h"
 
 Clip::Stencil clip;
 OBJECT	masktex;
 OBJECT	testtitle;
 
-bool sizechange = false;
+//拡大縮小が始まるフラグ
+bool sizechange;
+//フェードイン、アウトのどちらかを判定するフラグ
+bool isFadeIn;
+//フェード実行中か判定
+bool active;
+//シーン切り替えの為のウェイトタイム
+int wait;
+
+Scene nextscene;
 
 //テクスチャ初期化
 HRESULT InitMask(float size_x, float size_y, float size_z)
@@ -28,6 +38,11 @@ HRESULT InitMask(float size_x, float size_y, float size_z)
 	masktex.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	SetColorObject(&masktex, SET_COLOR_NOT_COLORED);
 
+	active = false;
+	sizechange = false;
+	isFadeIn = false;
+	wait = 0;
+
 	return S_OK;
 }
 
@@ -38,12 +53,40 @@ void UninitMask(void)
 
 }
 
+void UpdateMask(void) {
+
+	if (active) {
+		//isFadeInがtrueの場合にフェードイン
+		if (isFadeIn) {
+			MaskFadeIn();
+		}
+		else {
+			MaskFadeOut();
+		}
+	}
+
+}
+
 //マスク用テクスチャ更新処理
 void MaskFadeOut(void) {
 
-
+	//サイズ小さくなるにつれ画面が黒くなる
 	if (masktex.size.x <= 0) {
-		SceneChangeFlag(false);
+		masktex.size = D3DXVECTOR3(0,0,0);
+		SceneChangeFlag(true, nextscene);
+
+		//サイズ0以下でシーン切り替え
+		wait++;
+
+		if (wait > 60) {
+
+			ChangeScene(nextscene);
+			isFadeIn = true;
+			//active = false;
+			wait = 0;
+
+		}
+
 	}
 
 	if (sizechange) {
@@ -55,13 +98,19 @@ void MaskFadeOut(void) {
 
 void MaskFadeIn(void) {
 
+	//サイズが大きくなるにつれゲーム画面表示
 	if (masktex.size.x >= MASK_SIZE) {
-		SceneChangeFlag(false);
+
+		SceneChangeFlag(false,nextscene);
+		active = false;
 	}
+
 	if (sizechange) {
 		masktex.size += D3DXVECTOR3(10.0f, 10.0f, 0.0f);
 
 	}
+	
+
 }
 
 //マスク用テクスチャ描画
@@ -97,13 +146,17 @@ void DrawMaskTexEnd(void) {
 
 }
 
-void SceneChangeFlag(bool fadeflag) {
+void SceneChangeFlag(bool fadeflag,Scene next) {
 
 	if (fadeflag) {
 		sizechange = true;
+		nextscene = next;
+		active = true;
+		isFadeIn = false;
 	}
 	else {
 		sizechange = false;
+		active = false;
 	}
 	
 }

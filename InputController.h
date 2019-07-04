@@ -10,4 +10,5 @@
 
 bool IsEntered(int m);
 void InputSound();
+
 #endif

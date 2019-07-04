@@ -28,6 +28,7 @@
 
 #include "EnemyController.h"
 
+
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
@@ -150,6 +151,7 @@ void GameScene::Update(HWND hWnd)
 ***************************************/
 void GameScene::Draw()
 {
+
 	//îwåiÇÃï`âÊ
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 	DrawSkyBox();
@@ -180,4 +182,5 @@ void GameScene::Draw()
 	DrawGameSceneUI();
 
 	DrawDebugTimer(GAMESCENE_LABEL);
+
 }

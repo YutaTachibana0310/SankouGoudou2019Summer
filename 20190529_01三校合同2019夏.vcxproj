@@ -194,6 +194,7 @@
     <ClInclude Include="IStateMachine.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="masktex.h" />
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="PlayerBulletParticle.h" />
     <ClInclude Include="PlayerBulletParticleController.h" />
@@ -225,6 +226,11 @@
     <ClInclude Include="ScoreParticleController.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="sound.h" />
+    <ClInclude Include="SoundGameScene.h" />
+    <ClInclude Include="SoundResultScene.h" />
+    <ClInclude Include="SoundStateScene.h" />
+    <ClInclude Include="SoundTitleScene.h" />
+    <ClInclude Include="Stencil.h" />
     <ClInclude Include="starUI.h" />
     <ClInclude Include="StopEnemyModel.h" />
     <ClInclude Include="TestEnemyModel.h" />
@@ -280,6 +286,7 @@
     <ClCompile Include="LineTrailModel.cpp" />
     <ClCompile Include="lineUI.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="masktex.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -316,6 +323,10 @@
     <ClCompile Include="ScoreParticleController.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="sound.cpp" />
+    <ClCompile Include="SoundGameScene.cpp" />
+    <ClCompile Include="SoundResultScene.cpp" />
+    <ClCompile Include="SoundTitleScene.cpp" />
+    <ClCompile Include="Stencil.cpp" />
     <ClCompile Include="startButtonUI.cpp" />
     <ClCompile Include="starUI.cpp" />
     <ClCompile Include="PlayerTrail.cpp" />

@@ -11,16 +11,26 @@
 #include "Framework\BaseObserver.h"
 #include "EnemyModel.h"
 #include "IStateMachine.h"
+#include "enemy.h"
 #include <vector>
 #include <map>
 
 /**************************************
 列挙子定義
 ***************************************/
-enum class EnemyType
+//エネミーモデルタイプ
+enum class EnemyModelType
 {
 	Test,		//テスト用
 	Stop,		//画面外から現れて一時停止して、その後逃げるタイプ
+	Max
+};
+
+//エネミータイプ
+enum class EnemyType
+{
+	Straight,
+	Change,
 	Max
 };
 
@@ -39,13 +49,15 @@ public:
 	void Draw();
 
 	//エネミー生成処理
-	void SetEnemy(EnemyType type, LineTrailModel trailModel);
+	void SetEnemy(EnemyModelType type, LineTrailModel trailModel);
 
 private:
 	std::vector<EnemyModel*> modelContainer;
-	std::map<EnemyType, IStateMachine<EnemyModel>*> fsm;
-
+	std::map<EnemyModelType, IStateMachine<EnemyModel>*> fsm;
+	std::map<EnemyType, std::vector<Enemy*>> enemyContainer;
 	int cntFrame;
+
+	void _SetEnemyChange(EnemyModel* model);
 };
 
 #endif

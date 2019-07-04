@@ -35,8 +35,6 @@ public:
 	Enemy();
 	virtual ~Enemy();
 
-	MeshContainer* meshPlayer;
-
 	bool				active;				//アクティブ
 
 	D3DXVECTOR3			pos;				//現在の位置
@@ -57,6 +55,10 @@ public:
 	virtual void Draw(void) = 0;
 	virtual void Set(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame) = 0;	//セット処理
 	virtual void SetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int time, D3DXVECTOR3 vec) {};
+
+	//staticメンバ
+	static MeshContainer *mesh;
+	static UINT instanceCount;
 };
 
 

@@ -96,6 +96,8 @@ void LineRenderer::Draw()
 
 	pDevice->SetStreamSource(0, vtxBuff, 0, sizeof(VERTEX_3D));
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
+
+	pDevice->SetRenderState(D3DRS_LIGHTING, true);
 }
 
 /**************************************

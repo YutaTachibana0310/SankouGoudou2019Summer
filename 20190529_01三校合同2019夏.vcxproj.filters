@@ -474,7 +474,7 @@
     <ClInclude Include="Framework\SceneParticleManager.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Singleton.h">
+    <ClInclude Include="Framework\Singleton.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
   </ItemGroup>
@@ -791,7 +791,7 @@
     <ClCompile Include="Framework\SceneParticleManager.cpp">
       <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Singleton.cpp">
+    <ClCompile Include="Framework\Singleton.cpp">
       <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
   </ItemGroup>

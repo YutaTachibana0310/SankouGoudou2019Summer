@@ -7,7 +7,7 @@
 #ifndef _SINGLETON_H_
 #define _SINGLETON_H_
 
-#include "main.h"
+#include "../main.h"
 #include <mutex>
 
 /**************************************
@@ -30,21 +30,21 @@ public:
 Singletonテンプレートクラス
 ***************************************/
 template <typename T>
-class singleton final
+class Singleton final
 {
 public:
-	static T& GetInstance()
+	static T* GetInstance()
 	{
-		std::call_once(initFlag, create);
-		asset(instance);
-		return *instance;
+		std::call_once(initFlag, Create);
+		assert(instance);
+		return instance;
 	}
 
 private:
 	static void Create()
 	{
 		instance = new T;
-		SingletonFinalizer::AddFinalizer(&singleton<T>::Destroy);
+		SingletonFinalizer::AddFinalizer(&Singleton<T>::Destroy);
 	}
 
 	static void Destroy()
@@ -57,6 +57,6 @@ private:
 	static T* instance;
 };
 
-template <typename T> std::once_flag singleton<T>::initFlag;
-template <typename T> T* singleton<T>::instance = nullptr;
+template <typename T> std::once_flag Singleton<T>::initFlag;
+template <typename T> T* Singleton<T>::instance = nullptr;
 #endif

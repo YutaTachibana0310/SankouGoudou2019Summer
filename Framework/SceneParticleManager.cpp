@@ -32,6 +32,7 @@ SceneParticleManager::~SceneParticleManager()
 	{
 		SAFE_DELETE(controller);
 	}
+	controllers.clear();
 }
 
 /**************************************

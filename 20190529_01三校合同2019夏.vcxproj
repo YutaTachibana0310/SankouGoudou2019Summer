@@ -155,12 +155,14 @@
     <ClInclude Include="Framework\BoxCollider3D.h" />
     <ClInclude Include="Framework\ObserveSubject.h" />
     <ClInclude Include="EnemyExplosionParticle.h" />
+    <ClInclude Include="Framework\SceneParticleManager.h" />
     <ClInclude Include="LineRenderer.h" />
     <ClInclude Include="LineTrailModel.h" />
     <ClInclude Include="PlayerBulletController.h" />
     <ClInclude Include="PlayerIdle.h" />
     <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="PlayerObserver.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="startButtonUI.h" />
     <ClInclude Include="PlayerTrail.h" />
     <ClInclude Include="PlayerTrailParticle.h" />
@@ -272,6 +274,7 @@
     <ClCompile Include="Framework\MeshContainer.cpp" />
     <ClCompile Include="Framework\MyAllocateHierarchy.cpp" />
     <ClCompile Include="Framework\ObserveSubject.cpp" />
+    <ClCompile Include="Framework\SceneParticleManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameParticleManager.cpp" />
     <ClCompile Include="guageUI.cpp" />
@@ -323,6 +326,7 @@
     <ClCompile Include="scoreUI.cpp" />
     <ClCompile Include="ScoreParticle.cpp" />
     <ClCompile Include="ScoreParticleController.cpp" />
+    <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="SoundGameScene.cpp" />

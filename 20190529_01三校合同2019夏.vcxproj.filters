@@ -471,6 +471,12 @@
     <ClInclude Include="EnemyExplosionParticle.h">
       <Filter>ヘッダー ファイル\Effect\Particle</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\SceneParticleManager.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -781,6 +787,12 @@
     </ClCompile>
     <ClCompile Include="EnemyExplosionController.cpp">
       <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\SceneParticleManager.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Singleton.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

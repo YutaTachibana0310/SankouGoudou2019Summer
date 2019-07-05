@@ -20,6 +20,7 @@
 #include "MyLibrary.h"
 #include <tchar.h>
 #include <stdio.h>
+#include <assert.h>
 
 //*****************************************************************************
 // ƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒŠƒ“ƒN

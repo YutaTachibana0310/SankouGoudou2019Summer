@@ -16,8 +16,10 @@
 #define ENEMYEXPLOSION_NUM_MAX			(512)
 #define ENEMYEXPLOSION_EMITTER_MAX		(64)
 
-#define ENEMYEXPLOSION_SIZE				(&D3DXVECTOR2(26.0f, 26.0f))
+#define ENEMYEXPLOSION_SIZE				(&D3DXVECTOR2(15.0f, 15.0f))
 #define ENEMYEXPLOSION_TEX_DIV			(&D3DXVECTOR2(8.0f, 8.0f))
+
+#define ENEMYEXPLOSION_EMIT_NUM			(3)
 
 typedef BaseParticleController Base;
 
@@ -56,7 +58,7 @@ void EnemyExplosionController::Emit()
 		if (!emitter->active)
 			continue;
 
-		const int EmitNum = 10;
+		const int EmitNum = ENEMYEXPLOSION_EMIT_NUM;
 
 		int emitCount = 0;
 		for (auto& particle : particleContainer)

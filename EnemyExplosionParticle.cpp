@@ -10,13 +10,12 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define ENEMYEXPLOSION_SPEED_MAX	(3.0f)
-#define ENEMYEXPLOSION_SPEED_MIN	(0.5f)
-
 #define ENEMYEXPLOSION_MOVEDIR_END	(D3DXVECTOR3(0.0f, -1.0f, 0.0f))
 
-#define ENEMYEXPLOSION_LIFE_MAX		(60)
+#define ENEMYEXPLOSION_LIFE_MAX		(50)
 #define ENEMYEXPLOSION_LIFE_MIN		(20)
+
+#define ENEMYEXPLOSIONEMITTER_DURATION	(5)
 
 /**************************************
 EnemyExplosionParticle初期化処理
@@ -26,17 +25,20 @@ void EnemyExplosionParticle::Init()
 	cntFrame = 0;
 	active = true;
 
-	//移動方向初期化
-	initMoveDir.x = RandomRangef(-1.0f, 1.0f);
-	initMoveDir.y = RandomRangef(-1.0f, 1.0f);
-	initMoveDir.z = RandomRangef(-1.0f, 1.0f);
-	D3DXVec3Normalize(&initMoveDir, &initMoveDir);
-
-	//スピード決定
-	speed = RandomRangef(ENEMYEXPLOSION_SPEED_MIN, ENEMYEXPLOSION_SPEED_MAX);
+	//座標をずらす
+	const float PosRange = 5.0f;
+	transform.pos.x += RandomRangef(-PosRange, PosRange);
+	transform.pos.y += RandomRangef(-PosRange, PosRange);
+	transform.pos.z += RandomRangef(-PosRange, PosRange);
 
 	//寿命決定
-	lifeFrame = RandomRange(ENEMYEXPLOSION_LIFE_MIN, ENEMYEXPLOSION_SPEED_MAX);
+	lifeFrame = RandomRange(ENEMYEXPLOSION_LIFE_MIN, ENEMYEXPLOSION_LIFE_MAX);
+
+	//回転
+	transform.Rotate(0.0f, 0.0f, RandomRangef(0.0f, 360.0f));
+
+	//スケール
+	transform.scale.x = transform.scale.y = transform.scale.z = RandomRangef(1.0f, 1.5f);
 }
 
 /**************************************
@@ -58,10 +60,6 @@ void EnemyExplosionParticle::Update()
 	float t = (float)cntFrame / (float)lifeFrame;
 	Animation(t);
 
-	//移動方向に重力っぽい力をかけて移動
-	D3DXVECTOR3 moveDir = Easing<D3DXVECTOR3>::GetEasingValue(t, &initMoveDir, &ENEMYEXPLOSION_MOVEDIR_END, EasingType::InCubic);
-	transform.pos += moveDir * speed;
-
 	//寿命判定
 	if (cntFrame == lifeFrame)
 	{
@@ -77,7 +75,7 @@ void EnemyExplosionEmitter::Init()
 {
 	active = true;
 	cntFrame = 0;
-	duration = 5;
+	duration = ENEMYEXPLOSIONEMITTER_DURATION;
 }
 
 /**************************************

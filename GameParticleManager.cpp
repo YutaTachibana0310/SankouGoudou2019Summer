@@ -16,15 +16,16 @@
 #include "PostEffect\ScreenObject.h"
 #include "PostEffect\CrossFilterController.h"
 
-#ifdef _DEBUG
-#include "debugWindow.h"
-#endif
-
 using namespace std;
 
 /**************************************
 マクロ定義
 ***************************************/
+#define GAMEPARTICLE_USE_DEBUG
+
+#ifdef GAMEPARTICLE_USE_DEBUG
+#include "debugWindow.h"
+#endif
 
 /**************************************
 構造体定義
@@ -107,7 +108,7 @@ void UninitGameParticleManager(int num)
 ***************************************/
 void UpdateGameParticleManager(void)
 {
-#ifdef _DEBUG
+#ifdef GAMEPARTICLE_USE_DEBUG
 	GameParticle::DrawDebugWindow();
 #endif
 
@@ -259,7 +260,7 @@ void GameParticle::RestoreRenderParameter(LPDIRECT3DSURFACE9 oldSuf, _D3DVIEWPOR
 	SAFE_RELEASE(oldSuf);
 }
 
-#ifdef _DEBUG
+#ifdef GAMEPARTICLE_USE_DEBUG
 /**************************************
 デバッグウィンドウ
 ***************************************/

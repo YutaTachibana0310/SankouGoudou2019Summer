@@ -24,9 +24,6 @@ public:
 	void Init();
 	void Uninit();
 	void Update();
-
-	D3DXVECTOR3 initMoveDir;
-	float speed;
 };
 
 /**************************************

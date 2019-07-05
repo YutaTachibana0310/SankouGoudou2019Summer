@@ -6,10 +6,12 @@
 //=====================================
 #include "SceneParticleManager.h"
 #include "../PostEffect/CrossFilterController.h"
+#include "../debugTimer.h"
 
 /**************************************
 マクロ定義
 ***************************************/
+#define SCENEMPARTICLEMANAGER_LABEL		"ParticleManager"
 
 /**************************************
 コンストラクタ
@@ -17,6 +19,7 @@
 SceneParticleManager::SceneParticleManager()
 {
 	CreateRenderTarget();
+	RegisterDebugTimer(SCENEMPARTICLEMANAGER_LABEL);
 }
 
 /**************************************
@@ -51,10 +54,12 @@ void SceneParticleManager::Uninit()
 ***************************************/
 void SceneParticleManager::Update()
 {
+	CountDebugTimer(SCENEMPARTICLEMANAGER_LABEL, "Update");
 	for (auto& controller : controllers)
 	{
 		controller->Update();
 	}
+	CountDebugTimer(SCENEMPARTICLEMANAGER_LABEL, "Update");
 }
 
 /**************************************
@@ -69,30 +74,38 @@ void SceneParticleManager::Draw()
 	BaseParticleController::BeginDraw();
 
 	//描画
+	CountDebugTimer(SCENEMPARTICLEMANAGER_LABEL, "Draw");
 	bool isDrewd = false;
 	for (auto& controller : controllers)
 	{
 		isDrewd |= controller->Draw();
 	}
+	CountDebugTimer(SCENEMPARTICLEMANAGER_LABEL, "Draw");
 
 	//インスタンシング描画終了
 	BaseParticleController::EndDraw();
 
 	//リリース版のみクロスフィルタを適用する
 #ifndef _DEBUG	
+	CountDebugTimer(SCENEMPARTICLEMANAGER_LABEL, "PostEffect");
 	if (isDrewd)
 		CrossFilterController::Instance()->Draw(renderTexture);
+	CountDebugTimer(SCENEMPARTICLEMANAGER_LABEL, "PostEffect");
 #endif
 
 	//すべての結果を元のレンダーターゲットに描画
+	CountDebugTimer(SCENEMPARTICLEMANAGER_LABEL, "Render");
 	RestoreRenderParameter();
 	screenObj->Draw();
+	CountDebugTimer(SCENEMPARTICLEMANAGER_LABEL, "Render");
 
 	//レンダーステート復元
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	DrawDebugTimer(SCENEMPARTICLEMANAGER_LABEL);
 
 }
 

@@ -13,7 +13,7 @@
 É}ÉNÉçíËã`
 ***************************************/
 #define ENEMYEXPLOSION_TEXTURE_NAME		"data/TEXTURE/Effect/EnemyExplosion.png"
-#define ENEMYEXPLOSION_NUM_MAX			(512)
+#define ENEMYEXPLOSION_NUM_MAX			(256)
 #define ENEMYEXPLOSION_EMITTER_MAX		(64)
 
 #define ENEMYEXPLOSION_SIZE				(&D3DXVECTOR2(15.0f, 15.0f))

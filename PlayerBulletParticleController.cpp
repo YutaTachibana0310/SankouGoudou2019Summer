@@ -14,7 +14,7 @@
 É}ÉNÉçíËã`
 ***************************************/
 #define PLAYERBULLETPARTICLE_TEXTURE_NAME	"data/TEXTURE/Effect/PlayerBulletParticle.png"
-#define PLAYERBULLETPARTCILE_NUM_MAX		(2048)
+#define PLAYERBULLETPARTCILE_NUM_MAX		(1024)
 #define PLAYERBULLETPARTICLE_EMITTER_MAX	(8)
 
 #define PLAYERBULLETPARTICLE_SIZE			(&D3DXVECTOR2(2.0f, 2.0f))

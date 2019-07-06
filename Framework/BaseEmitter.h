@@ -18,7 +18,7 @@ class BaseParticle;
 
 /**************************************
 BaseEmitterƒNƒ‰ƒX
-¦Œp³æ‚ÅInit(), Uninit(), Update()‚ğÀ‘•‚·‚é
+¦Œp³æ‚ÅInit(), Update()‚ğÀ‘•‚·‚é
 ***************************************/
 class BaseEmitter
 {
@@ -28,7 +28,7 @@ public:
 	virtual ~BaseEmitter();
 
 	virtual void Init() = 0;
-	virtual void Uninit() = 0;
+	virtual void Uninit();
 	virtual void Update() = 0;
 	bool active;
 

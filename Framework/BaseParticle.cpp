@@ -39,6 +39,14 @@ BaseParticle::~BaseParticle()
 }
 
 /**************************************
+終了処理
+***************************************/
+void BaseParticle::Uninit()
+{
+	active = false;
+}
+
+/**************************************
 トランスフォーム情報埋め込み処理
 ***************************************/
 void BaseParticle::EmbedTransform(Transform *pTransform)

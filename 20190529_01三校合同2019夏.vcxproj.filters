@@ -121,6 +121,18 @@
     <Filter Include="ソース ファイル\Enemy\Model">
       <UniqueIdentifier>{1b54fa04-28aa-4755-983c-c44af28dd54d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Effect\Controller">
+      <UniqueIdentifier>{660e251e-3220-43df-9cd6-831b843dca70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Effect\Particle">
+      <UniqueIdentifier>{722aeb19-a89f-4a75-921a-5203f90b4371}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Effect\Controller">
+      <UniqueIdentifier>{cf3bb14f-7645-4496-8292-06a792693a62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Effect\Particle">
+      <UniqueIdentifier>{f2eb28fd-064b-40a0-bdd4-701126510746}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -252,9 +264,6 @@
     <ClInclude Include="SkyBox.h">
       <Filter>ヘッダー ファイル\Collider\BG</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreParticle.h">
-      <Filter>ヘッダー ファイル\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="GameParticleManager.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
@@ -300,9 +309,6 @@
     <ClInclude Include="TrailCollider.h">
       <Filter>ヘッダー ファイル\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBulletParticle.h">
-      <Filter>ヘッダー ファイル\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="PostEffect\SpeedBlurFilter.h">
       <Filter>ヘッダー ファイル\PostEffect</Filter>
     </ClInclude>
@@ -326,12 +332,6 @@
     </ClInclude>
     <ClInclude Include="masktex.h">
       <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreParticleController.h">
-      <Filter>ヘッダー ファイル\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerBulletParticleController.h">
-      <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
     <ClInclude Include="GameSceneUIManager.h">
       <Filter>ヘッダー ファイル\UI\SceneUIManager</Filter>
@@ -368,12 +368,6 @@
     </ClInclude>
     <ClInclude Include="titleBGUI.h">
       <Filter>ヘッダー ファイル\UI\TitleSceneUI</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerTrailParticle.h">
-      <Filter>ヘッダー ファイル\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerTrailParticleController.h">
-      <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
     <ClInclude Include="PlayerTrail.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
@@ -449,6 +443,45 @@
     </ClInclude>
     <ClInclude Include="enemy.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\AnimationParticle.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBulletParticle.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBulletParticleController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerTrailParticle.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerTrailParticleController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreParticle.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreParticleController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyExplosionController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyExplosionParticle.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\SceneParticleManager.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Singleton.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyExplosionFlare.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyExplosionFlareController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -578,9 +611,6 @@
     <ClCompile Include="SkyBox.cpp">
       <Filter>ソース ファイル\BG</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreParticle.cpp">
-      <Filter>ソース ファイル\Effect</Filter>
-    </ClCompile>
     <ClCompile Include="GameParticleManager.cpp">
       <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
@@ -601,9 +631,6 @@
     </ClCompile>
     <ClCompile Include="TrailCollider.cpp">
       <Filter>ソース ファイル\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerBulletParticle.cpp">
-      <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect\SpeedBlurFilter.cpp">
       <Filter>ソース ファイル\PostEffect</Filter>
@@ -637,12 +664,6 @@
     </ClCompile>
     <ClCompile Include="Framework\BaseParticleController.cpp">
       <Filter>ソース ファイル\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreParticleController.cpp">
-      <Filter>ソース ファイル\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerBulletParticleController.cpp">
-      <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
     <ClCompile Include="UIdrawer.cpp">
       <Filter>ソース ファイル\UI</Filter>
@@ -682,12 +703,6 @@
     </ClCompile>
     <ClCompile Include="titleBGUI.cpp">
       <Filter>ソース ファイル\UI\TitleSceneUI</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerTrailParticle.cpp">
-      <Filter>ソース ファイル\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerTrailParticleController.cpp">
-      <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
     <ClCompile Include="PlayerTrail.cpp">
       <Filter>ソース ファイル\Effect</Filter>
@@ -751,6 +766,45 @@
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\AnimationParticle.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyExplosionParticle.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBulletParticle.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBulletParticleController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerTrailParticle.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerTrailParticleController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreParticle.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreParticleController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyExplosionController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\SceneParticleManager.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Singleton.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyExplosionFlare.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyExplosionFlareController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -42,3 +42,11 @@ BaseEmitter::~BaseEmitter()
 {
 
 }
+
+/**************************************
+I—¹ˆ—
+***************************************/
+void BaseEmitter::Uninit()
+{
+	active = false;
+}

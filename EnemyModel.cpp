@@ -5,6 +5,7 @@
 //
 //=====================================
 #include "EnemyModel.h"
+#include "GameParticleManager.h"
 
 using namespace std;
 
@@ -87,6 +88,7 @@ void EnemyModel::OnNotified(ObserveSubject *notifier)
 	for (auto& enemy : enemyList)
 	{
 		enemy->Uninit();
+		Singleton<GameParticleManager>::GetInstance()->SetEnemyExplosion(&enemy->pos);
 	}
 
 	//非アクティブに

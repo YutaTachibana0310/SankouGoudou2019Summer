@@ -180,7 +180,7 @@ void PlayerBullet::SetEdgePos(LineTrailModel model)
 	pos = start + diff;
 
 	//パーティクルセット
-	SetPlayerBulletParticle(&pos, &active, &start, &end);
+	Singleton<GameParticleManager>::GetInstance()->SetPlayerBulletParticle(&pos, &active, &start, &end);
 }
 
 /****************************************

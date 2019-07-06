@@ -28,6 +28,7 @@
 
 #include "EnemyController.h"
 
+#include "Framework/Singleton.h"
 
 #include "Enemy.h"
 
@@ -51,6 +52,7 @@ void GameScene::Init()
 {
 	//インスタンス生成
 	enemyController = new EnemyController();
+	particleManager = Singleton<GameParticleManager>::GetInstance();
 
 	//UI初期化
 	InitGameSceneUI();
@@ -65,7 +67,7 @@ void GameScene::Init()
 	InitBackGroundField();
 
 	//パーティクル初期化
-	InitGameParticleManager(0);
+	particleManager->Init();
 
 	//プレイヤー初期化
 	InitPlayerController();
@@ -93,7 +95,7 @@ void GameScene::Uninit()
 	UninitBackGroundField();
 
 	//パーティクル終了
-	UninitGameParticleManager(0);
+	particleManager->Uninit();
 
 	//プレイヤー終了
 	UninitPlayerController();
@@ -106,6 +108,7 @@ void GameScene::Uninit()
 
 	//インスタンス削除
 	SAFE_DELETE(enemyController);
+	SingletonFinalizer::Finalize();
 }
 
 /**************************************
@@ -135,7 +138,7 @@ void GameScene::Update(HWND hWnd)
 
 	//パーティクルの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateParticle");
-	UpdateGameParticleManager();
+	particleManager->Update();
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateParticle");
 
 	//UIの更新
@@ -179,9 +182,8 @@ void GameScene::Draw()
 
 	//パーティクル描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawParticle");
-	DrawGameParticleManager();
+	particleManager->Draw();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawParticle");
-
 
 	//UI描画
 	DrawGameSceneUI();

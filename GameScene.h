@@ -14,6 +14,7 @@
 前方宣言
 ***************************************/
 class EnemyController;
+class GameParticleManager;
 
 /**************************************
 クラス定義
@@ -31,6 +32,7 @@ public:
 
 private:
 	EnemyController *enemyController;
+	GameParticleManager* particleManager;
 };
 
 #endif

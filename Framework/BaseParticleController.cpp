@@ -5,6 +5,7 @@
 //
 //=====================================
 #include "BaseParticleController.h"
+#include "../debugWindow.h"
 #include <algorithm>
 
 using namespace std;
@@ -119,6 +120,10 @@ bool BaseParticleController::Draw()
 	UINT particleCount = 0;
 	particleCount = EmbedParameterTransform();
 	EmbedParameterUV();
+
+#ifdef _DEBUG
+	DebugLog("Particle:%d", particleCount);
+#endif
 
 	if (particleCount == 0)
 		return false;
@@ -339,6 +344,7 @@ UINT BaseParticleController::EmbedParameterTransform()
 		pTr++;
 		count++;
 	}
+	transformBuff->Unlock();
 
 	return count;
 }
@@ -363,6 +369,7 @@ UINT BaseParticleController::EmbedParameterUV()
 		pUV++;
 		count++;
 	}
+	transformBuff->Unlock();
 
 	return count;
 }

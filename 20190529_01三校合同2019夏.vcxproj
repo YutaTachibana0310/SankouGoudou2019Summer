@@ -158,6 +158,7 @@
     <ClInclude Include="Framework\ObserveSubject.h" />
     <ClInclude Include="EnemyExplosionParticle.h" />
     <ClInclude Include="Framework\SceneParticleManager.h" />
+    <ClInclude Include="GameStart.h" />
     <ClInclude Include="LineRenderer.h" />
     <ClInclude Include="LineTrailModel.h" />
     <ClInclude Include="PlayerBulletController.h" />
@@ -280,6 +281,7 @@
     <ClCompile Include="Framework\SceneParticleManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameParticleManager.cpp" />
+    <ClCompile Include="GameStart.cpp" />
     <ClCompile Include="guageUI.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />

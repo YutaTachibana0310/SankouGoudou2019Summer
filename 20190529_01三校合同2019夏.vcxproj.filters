@@ -133,6 +133,12 @@
     <Filter Include="ヘッダー ファイル\Effect\Particle">
       <UniqueIdentifier>{f2eb28fd-064b-40a0-bdd4-701126510746}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\GameController">
+      <UniqueIdentifier>{6130b87e-76c7-454b-82f0-da4bf1a0dcaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameController">
+      <UniqueIdentifier>{8a8c568f-4f22-431d-8aba-9b24e028e899}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -480,6 +486,9 @@
     <ClInclude Include="EnemyExplosionFlareController.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="GameStart.h">
+      <Filter>ヘッダー ファイル\GameController</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -799,6 +808,9 @@
     </ClCompile>
     <ClCompile Include="EnemyExplosionFlareController.cpp">
       <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStart.cpp">
+      <Filter>ソース ファイル\GameController</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

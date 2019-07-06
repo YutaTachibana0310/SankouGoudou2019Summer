@@ -15,7 +15,7 @@
 
 /**************************************
 BaseParticleƒNƒ‰ƒX
-¦Œp³æ‚ÅInit(), Uninit(), Update()‚ğÀ‘•‚·‚é
+¦Œp³æ‚ÅInit(), Update()‚ğÀ‘•‚·‚é
 ***************************************/
 class BaseParticle
 {
@@ -24,7 +24,7 @@ public:
 	virtual ~BaseParticle();
 
 	virtual void Init() = 0;
-	virtual void Uninit() = 0;
+	virtual void Uninit();
 	virtual void Update() = 0;
 	void EmbedTransform(Transform *pTransform);
 	bool active;

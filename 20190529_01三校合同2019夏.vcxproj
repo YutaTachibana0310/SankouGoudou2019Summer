@@ -143,6 +143,8 @@
     <ClInclude Include="BackGroundRoad.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="EnemyExplosionController.h" />
+    <ClInclude Include="EnemyExplosionFlare.h" />
+    <ClInclude Include="EnemyExplosionFlareController.h" />
     <ClInclude Include="EnemyModel.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="comboUI.h" />
@@ -252,6 +254,8 @@
     <ClCompile Include="BackGuroundField.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyExplosionController.cpp" />
+    <ClCompile Include="EnemyExplosionFlare.cpp" />
+    <ClCompile Include="EnemyExplosionFlareController.cpp" />
     <ClCompile Include="EnemyExplosionParticle.cpp" />
     <ClCompile Include="EnemyModel.cpp" />
     <ClCompile Include="camera.cpp" />

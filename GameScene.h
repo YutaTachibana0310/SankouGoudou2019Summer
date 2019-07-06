@@ -33,10 +33,10 @@ public:
 	~GameScene() {};
 
 	int cntFrame;
-
-private:
 	EnemyController *enemyController;
 	GameParticleManager* particleManager;
+
+private:
 	
 	enum class State
 	{
@@ -47,6 +47,10 @@ private:
 	};
 
 	std::map<State, IStateMachine<GameScene>*> fsm;
+	IStateMachine<GameScene> *state;
+	State currentState;
+
+	void ChangeState(int resultUpdate);
 };
 
 #endif

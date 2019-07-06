@@ -96,17 +96,6 @@ void EnemyController::Uninit()
 ***************************************/
 void EnemyController::Update()
 {
-	//エネミー生成処理
-	//今は一旦、乱数で2秒おきにStopタイプを生成
-	cntFrame++;
-	if (cntFrame % 120 == 0)
-	{
-		int start, end;
-		start = RandomRange(0, 5);
-		end = WrapAround(0, 5, start + RandomRange(1, 5));
-		SetEnemy(EnemyModelType::Stop, LineTrailModel(start, end));
-	}
-
 	//モデル更新処理
 	for (auto &model : modelContainer)
 	{
@@ -145,9 +134,25 @@ void EnemyController::Draw()
 }
 
 /**************************************
+エネミー生成インターフェース
+***************************************/
+void EnemyController::SetEnemy()
+{
+	//今は一旦、乱数で2秒おきにStopタイプを生成
+	cntFrame++;
+	if (cntFrame % 120 == 0)
+	{
+		int start, end;
+		start = RandomRange(0, 5);
+		end = WrapAround(0, 5, start + RandomRange(1, 5));
+		_SetEnemy(EnemyModelType::Stop, LineTrailModel(start, end));
+	}
+}
+
+/**************************************
 エネミー生成処理（モデル版）
 ***************************************/
-void EnemyController::SetEnemy(EnemyModelType type, LineTrailModel trailModel)
+void EnemyController::_SetEnemy(EnemyModelType type, LineTrailModel trailModel)
 {
 	//未使用のEnemyModelを検索
 	auto itr = find_if(modelContainer.begin(), modelContainer.end(), [](EnemyModel *model)

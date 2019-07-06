@@ -1,35 +1,40 @@
 //=====================================
 //
-//ゲームスタート処理[GameStart.cpp]
+//ゲームバトル処理[GameBattle.cpp]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#include "GameStart.h"
+#include "GameBattle.h"
+#include "TrailCollider.h"
+#include "EnemyController.h"
 
 /**************************************
 マクロ定義
 ***************************************/
-#define GAMESTART_DURATION		(60)
+#define GAMEBATTLE_DURATION		(60*60)	//とりあえずバトルを1分間だけ行う（α版用）
 
 /**************************************
 入場処理
 ***************************************/
-void GameStart::OnStart(GameScene *entity)
+void GameBattle::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
-
-	//TODO:ここでゲームスタートのテロップを再生する
-
 }
 
 /**************************************
 更新処理
 ***************************************/
-int GameStart::OnUpdate(GameScene *entity)
+int GameBattle::OnUpdate(GameScene *entity)
 {
 	entity->cntFrame++;
-	
-	if (entity->cntFrame == GAMESTART_DURATION)
+
+	//エネミー生成処理
+	entity->enemyController->SetEnemy();
+
+	//衝突判定
+	TrailCollider::UpdateCollision();
+
+	if (entity->cntFrame == GAMEBATTLE_DURATION)
 		return STATE_FINISHED;
 	else
 		return STATE_CONTINUOUS;

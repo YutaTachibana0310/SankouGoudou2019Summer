@@ -489,6 +489,12 @@
     <ClInclude Include="GameStart.h">
       <Filter>ヘッダー ファイル\GameController</Filter>
     </ClInclude>
+    <ClInclude Include="GameBattle.h">
+      <Filter>ヘッダー ファイル\GameController</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnd.h">
+      <Filter>ヘッダー ファイル\GameController</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -810,6 +816,12 @@
       <Filter>ソース ファイル\Effect\Controller</Filter>
     </ClCompile>
     <ClCompile Include="GameStart.cpp">
+      <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="GameBattle.cpp">
+      <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnd.cpp">
       <Filter>ソース ファイル\GameController</Filter>
     </ClCompile>
   </ItemGroup>

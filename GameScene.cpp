@@ -28,10 +28,6 @@
 
 #include "EnemyController.h"
 
-#include "Framework/Singleton.h"
-
-#include "Enemy.h"
-
 /**************************************
 マクロ定義
 ***************************************/
@@ -52,7 +48,7 @@ void GameScene::Init()
 {
 	//インスタンス生成
 	enemyController = new EnemyController();
-	particleManager = Singleton<GameParticleManager>::GetInstance();
+	particleManager = GameParticleManager::Instance();
 
 	//UI初期化
 	InitGameSceneUI();
@@ -108,7 +104,6 @@ void GameScene::Uninit()
 
 	//インスタンス削除
 	SAFE_DELETE(enemyController);
-	SingletonFinalizer::Finalize();
 }
 
 /**************************************

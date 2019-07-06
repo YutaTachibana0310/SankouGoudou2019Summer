@@ -5,7 +5,6 @@
 //
 //=============================================================================
 #include "main.h"
-#include "Game.h"
 #include "input.h"
 #include "startButtonUI.h"
 #include "cursorUI.h"

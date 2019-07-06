@@ -9,7 +9,9 @@
 
 #include "main.h"
 #include "IStateScene.h"
+#include "IStateMachine.h"
 
+#include  <map>
 /**************************************
 ‘O•ûéŒ¾
 ***************************************/
@@ -30,9 +32,21 @@ public:
 	GameScene() {};
 	~GameScene() {};
 
+	int cntFrame;
+
 private:
 	EnemyController *enemyController;
 	GameParticleManager* particleManager;
+	
+	enum class State
+	{
+		Idle,
+		Start,
+		Battle,
+		End,
+	};
+
+	std::map<State, IStateMachine<GameScene>*> fsm;
 };
 
 #endif

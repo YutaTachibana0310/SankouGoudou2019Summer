@@ -18,7 +18,6 @@
 ***************************************/
 SceneParticleManager::SceneParticleManager()
 {
-	CreateRenderTarget();
 	RegisterDebugTimer(SCENEMPARTICLEMANAGER_LABEL);
 }
 
@@ -27,15 +26,20 @@ SceneParticleManager::SceneParticleManager()
 ***************************************/
 SceneParticleManager::~SceneParticleManager()
 {
-	SAFE_RELEASE(renderSurface);
-	SAFE_RELEASE(renderTexture);
-	SAFE_DELETE(screenObj);
 
-	for (auto& controller : controllers)
+}
+
+/**************************************
+初期化処理
+***************************************/
+void SceneParticleManager::Init()
+{
+	//シングルトン化のため、ここでリソースを作成
+	if (!initialized)
 	{
-		SAFE_DELETE(controller);
+		CreateRenderTarget();
+		initialized = true;
 	}
-	controllers.clear();
 }
 
 /**************************************
@@ -47,6 +51,19 @@ void SceneParticleManager::Uninit()
 	{
 		controller->Uninit();
 	}
+
+	//シングルトンのためここでリソース解放
+	SAFE_RELEASE(renderSurface);
+	SAFE_RELEASE(renderTexture);
+	SAFE_DELETE(screenObj);
+
+	for (auto& controller : controllers)
+	{
+		SAFE_DELETE(controller);
+	}
+	controllers.clear();
+
+	initialized = false;
 }
 
 /**************************************

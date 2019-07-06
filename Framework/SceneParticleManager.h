@@ -22,13 +22,15 @@
 class SceneParticleManager
 {
 public:
+	//コンストラクタ、デストラクタ
 	SceneParticleManager();
 	virtual ~SceneParticleManager();
 
-	virtual void Init() = 0;
-	void Uninit();
+	//初期化、終了、更新、描画処理
+	virtual void Init();
+	virtual void Uninit();
 	virtual void Update();
-	void Draw();
+	virtual void Draw();
 
 protected:
 	//レンダーターゲット関連
@@ -48,5 +50,8 @@ protected:
 	void CreateRenderTarget(void);
 	void ChangeRenderParameter(void);
 	void RestoreRenderParameter(void);
+
+private:
+	bool initialized;
 };
 #endif

@@ -88,7 +88,7 @@ void EnemyModel::OnNotified(ObserveSubject *notifier)
 	for (auto& enemy : enemyList)
 	{
 		enemy->Uninit();
-		Singleton<GameParticleManager>::GetInstance()->SetEnemyExplosion(&enemy->pos);
+		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->pos);
 	}
 
 	//非アクティブに

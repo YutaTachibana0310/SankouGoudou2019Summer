@@ -23,6 +23,8 @@ using namespace std;
 #include "debugWindow.h"
 #endif
 
+typedef SceneParticleManager Base;
+
 /**************************************
 構造体定義
 ***************************************/
@@ -41,6 +43,8 @@ enum ParticleController
 ***************************************/
 void GameParticleManager::Init()
 {
+	Base::Init();
+
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	//各コントローラを生成
@@ -67,7 +71,7 @@ void GameParticleManager::Update(void)
 	DrawDebugWindow();
 #endif
 
-	SceneParticleManager::Update();
+	Base::Update();
 }
 
 /**************************************

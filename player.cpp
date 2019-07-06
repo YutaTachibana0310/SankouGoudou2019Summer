@@ -62,7 +62,7 @@ void Player::Init()
 	transform.rot = D3DXVECTOR3(0.0f, D3DXToRadian(180.0f), 0.0f);
 	active = true;
 
-	Singleton<GameParticleManager>::GetInstance()->SetPlayerTrailParticle(&transform.pos, &active);
+	GameParticleManager::Instance()->SetPlayerTrailParticle(&transform.pos, &active);
 	return;
 }
 

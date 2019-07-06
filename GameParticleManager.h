@@ -9,7 +9,7 @@
 
 #include "main.h"
 #include "Framework\SceneParticleManager.h"
-#include "Framework\Singleton.h"
+#include "Framework\BaseSingleton.h"
 
 /**************************************
 マクロ定義
@@ -19,11 +19,15 @@
 /**************************************
 クラス定義
 ***************************************/
-class GameParticleManager : public SceneParticleManager
+class GameParticleManager :
+	public SceneParticleManager, 
+	public BaseSingleton<GameParticleManager>
 {
 public:
-	void Init();
-	void Update();
+	friend class BaseSingleton<GameParticleManager>;
+
+	void Init() override;
+	void Update() override;
 
 	void SetScoreParticle(D3DXVECTOR3 *pos);
 	void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edgeRight, D3DXVECTOR3 *edgeLeft);
@@ -31,6 +35,8 @@ public:
 	void SetEnemyExplosion(D3DXVECTOR3 *pPos);
 
 private:
+	GameParticleManager() {}
+	~GameParticleManager() {}
 
 #ifdef GAMEPARTICLE_USE_DEBUG
 	void DrawDebugWindow();

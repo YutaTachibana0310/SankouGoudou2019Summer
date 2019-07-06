@@ -70,6 +70,10 @@ void UpdateMask(void) {
 //マスク用テクスチャ更新処理
 void MaskFadeOut(void) {
 
+	if (sizechange) {
+		masktex.size -= D3DXVECTOR3(10.0f, 10.0f, 0.0f);
+
+	}
 	//サイズ小さくなるにつれ画面が黒くなる
 	if (masktex.size.x <= 0) {
 		masktex.size = D3DXVECTOR3(0,0,0);
@@ -89,14 +93,14 @@ void MaskFadeOut(void) {
 
 	}
 
-	if (sizechange) {
-		masktex.size -= D3DXVECTOR3(10.0f, 10.0f, 0.0f);
-
-	}
-
 }
 
 void MaskFadeIn(void) {
+
+	if (sizechange) {
+		masktex.size += D3DXVECTOR3(10.0f, 10.0f, 0.0f);
+
+	}
 
 	//サイズが大きくなるにつれゲーム画面表示
 	if (masktex.size.x >= MASK_SIZE) {
@@ -105,10 +109,7 @@ void MaskFadeIn(void) {
 		active = false;
 	}
 
-	if (sizechange) {
-		masktex.size += D3DXVECTOR3(10.0f, 10.0f, 0.0f);
 
-	}
 	
 
 }

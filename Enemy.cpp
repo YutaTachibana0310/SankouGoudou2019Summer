@@ -221,6 +221,9 @@ HRESULT EnemyChange::Init(void)
 	posDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	m_start = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+	m_waitTime = 0.0f;
+    vecChange = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	return S_OK;
 }
 /****************************************

@@ -74,7 +74,7 @@ void GameScene::Init()
 
 	//サウンド初期化
 	Sound::GetInstance()->Create();
-#if 0
+#if 1
 	//エネミーtest
 	for (int i = 0; i < 50; i++)
 	{
@@ -133,7 +133,7 @@ void GameScene::Uninit()
 	//プレイヤー終了
 	UninitPlayerController();
 
-#if 0
+#if 1
 	//エネミーtest
 	for (int i = 0; i < 100; i++)
 	{
@@ -173,7 +173,7 @@ void GameScene::Update(HWND hWnd)
 	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
 
 	//エネミーの更新
-#if 0
+#if 1
 	for (int i = 0; i < 100; i++)
 	{
 		enemy[i]->Update();
@@ -216,7 +216,7 @@ void GameScene::Draw()
 	//プレイヤーの描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
 	DrawPlayerController();
-#if 0
+#if 1
 	//エネミーtest
 	for (int i = 0; i < 100; i++)
 	{

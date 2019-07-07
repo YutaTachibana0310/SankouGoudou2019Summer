@@ -49,7 +49,7 @@ public:
 	void Draw();
 
 	//エネミー生成処理
-	void SetEnemy(EnemyModelType type, LineTrailModel trailModel);
+	void SetEnemy();
 
 private:
 	std::vector<EnemyModel*> modelContainer;
@@ -57,6 +57,8 @@ private:
 	std::map<EnemyType, std::vector<Enemy*>> enemyContainer;
 	int cntFrame;
 
+	//エネミー生成処理(内部処理)
+	void _SetEnemy(EnemyModelType type, LineTrailModel trailModel);
 	void _SetEnemyChange(EnemyModel* model);
 };
 

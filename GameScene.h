@@ -9,12 +9,15 @@
 
 #include "main.h"
 #include "IStateScene.h"
+#include "IStateMachine.h"
 
+#include  <map>
 /**************************************
 前方宣言
 ***************************************/
 class EnemyController;
 class GameParticleManager;
+class PlayerObserver;
 
 /**************************************
 クラス定義
@@ -30,9 +33,26 @@ public:
 	GameScene() {};
 	~GameScene() {};
 
-private:
+	int cntFrame;
 	EnemyController *enemyController;
 	GameParticleManager* particleManager;
+	PlayerObserver* playerObserver;
+
+private:
+	
+	enum class State
+	{
+		Idle,
+		Start,
+		Battle,
+		End,
+	};
+
+	std::map<State, IStateMachine<GameScene>*> fsm;
+	IStateMachine<GameScene> *state;
+	State currentState;
+
+	void ChangeState(int resultUpdate);
 };
 
 #endif

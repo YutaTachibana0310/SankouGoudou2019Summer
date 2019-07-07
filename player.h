@@ -31,6 +31,7 @@ public:
 
 	bool active;
 	int	cntFrame;
+	int inputInterval;
 
 	D3DXVECTOR3	initpos;			// ˆÚ“®‘OˆÊ’u
 	D3DXVECTOR3	goalpos;			// ˆÚ“®ŒãˆÊ’u

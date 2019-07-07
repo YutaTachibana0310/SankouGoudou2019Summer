@@ -25,15 +25,10 @@
 **************************************/
 int PlayerWait::OnUpdate(Player *entity)
 {
-	entity->cntFrame++;
-
-	if (entity->cntFrame == PLAYERWAIT_DURATION)
-	{
-		OnExit(entity);
+	if (entity->inputInterval == PLAYERWAIT_DURATION)
 		return STATE_FINISHED;
-	}
-
-	return STATE_CONTINUOUS;
+	else
+		return STATE_CONTINUOUS;
 }
 
 /*************************************
@@ -42,6 +37,7 @@ int PlayerWait::OnUpdate(Player *entity)
 void PlayerWait::OnStart(Player *entity)
 {
 	entity->cntFrame = 0;
+	entity->inputInterval = 0;
 }
 
 /*************************************

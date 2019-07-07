@@ -49,6 +49,7 @@ public:
 	void Update();
 	void Draw();
 
+	void CheckInput();
 	void PushInput(int num);
 	PlayerModel *model;
 

@@ -13,6 +13,7 @@
 #include "debugTimer.h"
 #include "GameSceneUIManager.h"
 #include "PlayerController.h"
+#include "PlayerObserver.h"
 #include "InputController.h"
 #include "BackGroundCity.h"
 #include "BackGroundRoad.h"
@@ -52,15 +53,18 @@ void GameScene::Init()
 	fsm[State::Battle] = new GameBattle();
 	fsm[State::End] = new GameEnd();
 
-	//インスタンス生成
-	enemyController = new EnemyController();
-	particleManager = GameParticleManager::Instance();
-
 	//UI初期化
 	InitGameSceneUI();
 
 	//☆ボタンの位置からワールド座標を計算
 	LineTrailModel::CalcEdgePosition();
+
+	//インスタンス生成
+	enemyController = new EnemyController();
+	particleManager = GameParticleManager::Instance();
+	playerObserver = new PlayerObserver();
+
+	SetPlayerObserverAdr(playerObserver);
 
 	//背景初期化
 	InitSkyBox(0);
@@ -72,7 +76,7 @@ void GameScene::Init()
 	particleManager->Init();
 
 	//プレイヤー初期化
-	InitPlayerController();
+	playerObserver->Init();
 
 	//サウンド初期化
 	Sound::GetInstance()->Create();
@@ -105,7 +109,7 @@ void GameScene::Uninit()
 	particleManager->Uninit();
 
 	//プレイヤー終了
-	UninitPlayerController();
+	playerObserver->Uninit();
 
 	//エネミー終了
 	enemyController->Uninit();
@@ -115,6 +119,7 @@ void GameScene::Uninit()
 
 	//インスタンス削除
 	SAFE_DELETE(enemyController);
+	SAFE_DELETE(playerObserver);
 
 	//ステートマシン削除
 	for (auto& pair : fsm)
@@ -145,7 +150,7 @@ void GameScene::Update(HWND hWnd)
 
 	//プレイヤーの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
-	UpdatePlayerController(hWnd);
+	playerObserver->Update();
 	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
 
 	//エネミーの更新
@@ -185,7 +190,7 @@ void GameScene::Draw()
 
 	//プレイヤーの描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
-	DrawPlayerController();
+	playerObserver->Draw();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
 
 	//エネミーの描画

@@ -7,6 +7,8 @@
 #include "GameBattle.h"
 #include "TrailCollider.h"
 #include "EnemyController.h"
+#include "InputController.h"
+#include "PlayerObserver.h"
 
 /**************************************
 マクロ定義
@@ -27,6 +29,9 @@ void GameBattle::OnStart(GameScene *entity)
 int GameBattle::OnUpdate(GameScene *entity)
 {
 	entity->cntFrame++;
+
+	//入力確認
+	entity->playerObserver->CheckInput();
 
 	//エネミー生成処理
 	entity->enemyController->SetEnemy();

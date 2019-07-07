@@ -17,6 +17,7 @@
 ***************************************/
 class EnemyController;
 class GameParticleManager;
+class PlayerObserver;
 
 /**************************************
 ƒNƒ‰ƒX’è‹`
@@ -35,6 +36,7 @@ public:
 	int cntFrame;
 	EnemyController *enemyController;
 	GameParticleManager* particleManager;
+	PlayerObserver* playerObserver;
 
 private:
 	

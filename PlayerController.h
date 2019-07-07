@@ -16,13 +16,11 @@
 
 #define MOVESTACK_LENGTH (6)
 
+class PlayerObserver;
+
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-HRESULT InitPlayerController(void);
-void UninitPlayerController(void);
-void UpdatePlayerController(HWND hWnd);
-void DrawPlayerController();
 void GetPlayerMoveHistory(std::vector<int> *pOut);		//移動履歴取得処理
-
+void SetPlayerObserverAdr(PlayerObserver *ptr);
 #endif

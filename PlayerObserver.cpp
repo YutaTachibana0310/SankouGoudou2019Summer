@@ -5,6 +5,7 @@
 //
 //=====================================
 #include "PlayerObserver.h"
+#include "InputController.h"
 
 #include "PlayerMove.h"
 #include "PlayerWait.h"
@@ -116,6 +117,24 @@ void PlayerObserver::Draw()
 }
 
 /**************************************
+入力確認処理
+***************************************/
+void PlayerObserver::CheckInput()
+{
+	//入力間隔をカウント
+	player->inputInterval++;
+
+	//入力を確認
+	for (int i = 0; i < INPUTBUTTON_MAX; i++)
+	{
+		if (!IsEntered(i))
+			continue;
+
+		PushInput(i);
+	}
+}
+
+/**************************************
 入力処理
 ***************************************/
 void PlayerObserver::PushInput(int num)
@@ -123,6 +142,9 @@ void PlayerObserver::PushInput(int num)
 	//同じところへは移動しない
 	if (num == moveTarget)
 		return;
+
+	//プレイヤーの入力間隔をリセット
+	player->inputInterval = 0;
 
 	//Wait状態であればMoveに遷移
 	if (current == PlayerState::Wait || current == PlayerState::Idle)

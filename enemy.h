@@ -47,6 +47,9 @@ public:
 	D3DXVECTOR3         posDest;			//移動先
 
 	int					cntFrame;			//フレームカウント
+
+	D3DXVECTOR3         m_start;			//移動の元
+
 	int					frameDest;
 	//純粋仮想関数
 	virtual HRESULT  Init(void) = 0;

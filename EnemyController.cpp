@@ -30,7 +30,7 @@ using namespace std;
 EnemyController::EnemyController()
 {
 	//ステートマシン作成
-	fsm[EnemyType::Stop] = new StopEnemyModel();
+	fsm[EnemyModelType::Stop] = new StopEnemyModel();
 }
 
 /**************************************
@@ -51,6 +51,17 @@ EnemyController::~EnemyController()
 		SAFE_DELETE(state.second);
 	}
 	fsm.clear();
+
+	//エネミーコンテナクリア
+	for (auto& enemyList : enemyContainer)
+	{
+		for (auto& enemy : enemyList.second)
+		{
+			SAFE_DELETE(enemy);
+		}
+		enemyList.second.clear();
+	}
+	enemyContainer.clear();
 }
 
 /**************************************
@@ -70,6 +81,14 @@ void EnemyController::Uninit()
 	{
 		model->Uninit();
 	}
+
+	for (auto& enemyList : enemyContainer)
+	{
+		for (auto& enemy : enemyList.second)
+		{
+			enemy->Uninit();
+		}
+	}
 }
 
 /**************************************
@@ -77,21 +96,19 @@ void EnemyController::Uninit()
 ***************************************/
 void EnemyController::Update()
 {
-	//エネミー生成処理
-	//今は一旦、乱数で2秒おきにStopタイプを生成
-	cntFrame++;
-	if (cntFrame % 120 == 0)
-	{
-		int start, end;
-		start = RandomRange(0, 5);
-		end = WrapAround(0, 5, start + RandomRange(1, 5));
-		SetEnemy(EnemyType::Stop, LineTrailModel(start, end));
-	}
-
 	//モデル更新処理
 	for (auto &model : modelContainer)
 	{
 		model->Update();
+	}
+
+	//エネミー更新処理
+	for (auto &enemyList : enemyContainer)
+	{
+		for (auto& enemy : enemyList.second)
+		{
+			enemy->Update();
+		}
 	}
 }
 
@@ -100,16 +117,42 @@ void EnemyController::Update()
 ***************************************/
 void EnemyController::Draw()
 {
+	//エネミーモデル描画
 	for (auto &model : modelContainer)
 	{
 		model->Draw();
 	}
+
+	//エネミー描画
+	for (auto& enemyList : enemyContainer)
+	{
+		for (auto& enemy : enemyList.second)
+		{
+			enemy->Draw();
+		}
+	}
 }
 
 /**************************************
-エネミー生成処理
+エネミー生成インターフェース
 ***************************************/
-void EnemyController::SetEnemy(EnemyType type, LineTrailModel trailModel)
+void EnemyController::SetEnemy()
+{
+	//今は一旦、乱数で2秒おきにStopタイプを生成
+	cntFrame++;
+	if (cntFrame % 120 == 0)
+	{
+		int start, end;
+		start = RandomRange(0, 5);
+		end = WrapAround(0, 5, start + RandomRange(1, 5));
+		_SetEnemy(EnemyModelType::Stop, LineTrailModel(start, end));
+	}
+}
+
+/**************************************
+エネミー生成処理（モデル版）
+***************************************/
+void EnemyController::_SetEnemy(EnemyModelType type, LineTrailModel trailModel)
 {
 	//未使用のEnemyModelを検索
 	auto itr = find_if(modelContainer.begin(), modelContainer.end(), [](EnemyModel *model)
@@ -118,18 +161,67 @@ void EnemyController::SetEnemy(EnemyType type, LineTrailModel trailModel)
 	});
 
 	//見つかったならソイツを使用
+	EnemyModel *model = NULL;
 	if (itr != modelContainer.end())
 	{
-		(*itr)->Init(trailModel);
-		(*itr)->ChangeState(fsm[type]);
+		model = (*itr);
 	}
 	//見つからなかったので新規作成
 	else
 	{
-		EnemyModel *model = new EnemyModel();
-		model->Init(trailModel);
-		model->ChangeState(fsm[type]);
+		model = new EnemyModel();
 		modelContainer.push_back(model);
 	}
+
+	//エネミーの実体を生成
+	switch (type)
+	{
+	case EnemyModelType::Stop:
+		_SetEnemyChange(model);
+		break;
+	}
 	
+	//初期化
+	model->Init(trailModel);
+	model->ChangeState(fsm[type]);
+}
+
+/**************************************
+エネミー生成処理(実体版)
+***************************************/
+void EnemyController::_SetEnemyChange(EnemyModel* model)
+{
+	//TODO:セット数切り替えられるようにする
+	UINT setNum = 5;
+	UINT setCount = 0;
+	const EnemyType Type = EnemyType::Change;
+
+	//コンテナの中で未使用のエネミーを使用
+	for (UINT i = 0; i < setNum; i++)
+	{
+		//未使用のエネミーを検索
+		auto itr = find_if(enemyContainer[Type].begin(), enemyContainer[Type].end(), [](Enemy* enemy)
+		{
+			return !enemy->active;
+		});
+
+		//いなかったのでbreak
+		if (itr == enemyContainer[Type].end())
+			break;
+
+		//EnemyModelに追加
+		model->AddEnemy((*itr));
+		(*itr)->active = true;
+		setCount++;
+	}
+
+	//足りなかった分を新規作成
+	for (UINT i = setCount; i < setNum; i++)
+	{
+		Enemy* newEnemy = new EnemyChange();
+
+		//Enemyモデルに追加してコンテナ登録
+		model->AddEnemy(newEnemy);
+		enemyContainer[Type].push_back(newEnemy);
+	}
 }

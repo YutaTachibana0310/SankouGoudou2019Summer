@@ -17,20 +17,29 @@
 /**************************************
 マクロ定義
 ***************************************/
-//#define ENEMY_NUM (4) //1グループのキューブ(エネミー)の量
 #define ENEMY_MODEL  "data/MODEL/airplane000.x"
 
 #define ENEMY_FALSE (300)				//falseの時間(方向が変えってから)
 
 #define	ENEMY_ATTENUATION (0.98f)		//減衰係数 
 
-//Enemy
+/****************************************
+static変数
+****************************************/
+MeshContainer* Enemy::mesh;
+UINT Enemy::instanceCount;
+
 /****************************************
 コンストラクタ
 ****************************************/
 Enemy::Enemy()
 {
-
+	instanceCount++;
+	if (mesh == NULL)
+	{
+		mesh = new MeshContainer();
+		mesh->Load(ENEMY_MODEL);
+	}
 }
 
 /****************************************
@@ -38,7 +47,11 @@ Enemy::Enemy()
 ****************************************/
 Enemy::~Enemy()
 {
-
+	instanceCount--;
+	if (instanceCount == 0)
+	{
+		SAFE_DELETE(mesh);
+	}
 }
 
 //EnemyStraight
@@ -47,8 +60,7 @@ Enemy::~Enemy()
 ****************************************/
 EnemyStraight::EnemyStraight()
 {
-	meshPlayer = new MeshContainer();
-	meshPlayer->Load(ENEMY_MODEL);
+
 }
 
 /****************************************
@@ -57,7 +69,6 @@ EnemyStraight::EnemyStraight()
 EnemyStraight::~EnemyStraight()
 {
 
-	SAFE_DELETE(meshPlayer);
 }
 
 /****************************************
@@ -125,11 +136,6 @@ void EnemyStraight::Update(void)
 		//countする.
 		cntFrame++;
 	}
-	BeginDebugWindow("posEnemyStraight");
-	DebugText("cntFrame:%d", cntFrame);
-	DebugText("POS:%f,%f,%f", pos.x, pos.y, pos.z);
-	DebugText("MOVE:%f,%f,%f", move.x, move.y, move.z);
-	EndDebugWindow("pos");
 }
 
 /****************************************
@@ -160,7 +166,7 @@ void EnemyStraight::Draw(void)
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
-		meshPlayer->Draw();
+		mesh->Draw();
 	}
 
 }
@@ -190,17 +196,17 @@ void EnemyStraight::Set(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame)
 ****************************************/
 EnemyChange::EnemyChange()
 {
-	meshPlayer = new MeshContainer();
-	meshPlayer->Load(ENEMY_MODEL);
+
 }
+
 /****************************************
 デストラクタ
 ****************************************/
 EnemyChange::~EnemyChange()
 {
-	SAFE_DELETE(meshPlayer);
 
 }
+
 /****************************************
 初期化処理
 ****************************************/
@@ -212,7 +218,7 @@ HRESULT EnemyChange::Init(void)
 	pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
 	move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	scl = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
-	rot = D3DXVECTOR3(0.0f, 59.7f, 0.0f);
+	rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	cntFrame = 0;
 
@@ -231,9 +237,9 @@ HRESULT EnemyChange::Init(void)
 *****************************************/
 void EnemyChange::Uninit()
 {
-
-
+	active = false;
 }
+
 /****************************************
 更新処理
 *****************************************/
@@ -275,15 +281,8 @@ void EnemyChange::Update()
 		//countする
 		cntFrame++;
 	}
-
-	BeginDebugWindow("posEnemyChange");
-	DebugText("cntFrame:%d", cntFrame);
-	DebugText("POS:%f,%f,%f", pos.x, pos.y, pos.z);
-	DebugText("MOVE:%f,%f,%f", move.x, move.y, move.z);
-	DebugText("ACTIVE:%d", active);
-	EndDebugWindow("pos");
-
 }
+
 /****************************************
 描画処理
 *****************************************/
@@ -312,7 +311,7 @@ void EnemyChange::Draw()
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
-		meshPlayer->Draw();
+		mesh->Draw();
 	}
 }
 

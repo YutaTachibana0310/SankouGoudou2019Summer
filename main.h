@@ -20,6 +20,7 @@
 #include "MyLibrary.h"
 #include <tchar.h>
 #include <stdio.h>
+#include <assert.h>
 
 //*****************************************************************************
 // ライブラリのリンク
@@ -87,11 +88,35 @@ typedef struct
 } ParticleUnit;
 
 //SRT情報
-typedef struct
+typedef struct _Transform
 {
 	D3DXVECTOR3 pos;	//座標
 	D3DXVECTOR3 rot;	//回転
 	D3DXVECTOR3 scale;	//スケール
+
+	//コンストラクタ
+	_Transform()
+	{
+		pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	}
+
+	_Transform(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 scale)
+	{
+		this->pos = pos;
+		this->rot = rot;
+		this->scale = scale;
+	}
+
+	//回転処理
+	void Rotate(float degX, float degY, float degZ)
+	{
+		rot.x = D3DXToRadian(degX);
+		rot.y = D3DXToRadian(degY);
+		rot.z = D3DXToRadian(degZ);
+	}
+
 }Transform;
 
 //パーティクルのUV情報

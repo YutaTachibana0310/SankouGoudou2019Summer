@@ -21,7 +21,7 @@ class IStateMachine {
 public:
 	virtual int OnUpdate(T *entity) = 0;
 	virtual void OnStart(T *entity) = 0;
-	virtual void OnExit(T *entity) = 0;
+	//virtual void OnExit(T *entity) = 0;
 };
 
 #endif

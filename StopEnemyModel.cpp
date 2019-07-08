@@ -32,8 +32,23 @@
 void StopEnemyModel::OnStart(EnemyModel *entity)
 {
 	entity->cntFrame = 0;
+	entity->collider->active = false;
 
 	//EnemyModelに属するEnemyに移動指示を出す
+	//TODO:初期位置を変更できるようにする
+	D3DXVECTOR3 InitPos = D3DXVECTOR3(0.0f, 500.0f, 250.0f);
+	D3DXVECTOR3 edgeL, edgeR;
+	entity->model.GetEdgePos(&edgeR, &edgeL);
+	edgeL.z = edgeR.z = 250.0f;
+	D3DXVECTOR3 offset = (edgeL - edgeR) / ((float)entity->enemyList.size() - 1);
+
+	for (auto& enemy : entity->enemyList)
+	{
+		enemy->Init();
+		enemy->SetVec(InitPos, edgeR, STOPENEMY_TIME_COLLIDER_ACTIVATE, 300, D3DXVECTOR3(0.0f, 15.0f, 0.0));
+		edgeR += offset;
+	}
+
 }
 
 /**************************************

@@ -7,109 +7,15 @@
 #include "main.h"
 #include "starUI.h"
 #include "PlayerController.h"
-#include "InputController.h"
-#include "debugWindow.h"
-#include "GameParticleManager.h"
 #include "PlayerObserver.h"
 #include "trailUI.h"
 
 using namespace std;
 
 //*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-#define MOVETARGET_LENGTH				(6)
-#define PLAYER_DISTANCE_FROM_CAMERA		(150.0f)
-
-//#define USE_COLLIDER_TEST
-
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-void CheckInput(HWND hWnd);
-
-//*****************************************************************************
 // グローバル変数
 //*****************************************************************************
 PlayerObserver *observer;
-
-#ifdef USE_COLLIDER_TEST
-TrailCollider *testCollider;
-#endif
-//*****************************************************************************
-// 初期化処理
-//*****************************************************************************
-HRESULT InitPlayerController(void)
-{
-	observer = new PlayerObserver();
-	observer->Init();
-
-#ifdef USE_COLLIDER_TEST
-	testCollider = new TrailCollider(TrailColliderTag::Enemy);
-#endif
-	return S_OK;
-}
-//*****************************************************************************
-// 終了処理
-//*****************************************************************************
-void UninitPlayerController()
-{
-	observer->Uninit();
-	delete observer;
-
-#ifdef USE_COLLIDER_TEST
-	delete testCollider;
-#endif
-}
-
-//*****************************************************************************
-// 更新処理
-//*****************************************************************************
-void UpdatePlayerController(HWND hWnd)
-{
-	//移動の入力確認
-	CheckInput(hWnd);
-
-	observer->Update();
-
-#ifdef USE_COLLIDER_TEST
-	static int start, end;
-	static float posZ = 500.0f;
-	BeginDebugWindow("Collider");
-
-	DebugInputInt("Start", &start);
-	DebugInputInt("End", &end);
-	DebugSliderFloat("Z", &posZ, 0.0f, 1000.0f);
-
-	testCollider->SetAddressZ(&posZ);
-	testCollider->SetTrailIndex(LineTrailModel(start, end));
-	EndDebugWindow("Collider");
-#endif
-}
-
-//*****************************************************************************
-// 描画処理
-//*****************************************************************************
-void DrawPlayerController()
-{
-	observer->Draw();
-}
-
-//*****************************************************************************
-// 入力確認
-//*****************************************************************************
-void CheckInput(HWND hWnd)
-{
-	//各ボタンについて確認
-	for (int i = 0; i < STAR_MAX; i++)
-	{
-		if (!IsEntered(i))
-			continue;
-
-		observer->PushInput(i);
-		return;
-	}
-}
 
 //=============================================================================
 // MoveHistory取得処理
@@ -163,4 +69,12 @@ void GetPlayerMoveHistory(vector<int> *pOut)
 	}
 
 	return;
+}
+
+//*****************************************************************************
+// PlayerObserverセット処理
+//*****************************************************************************
+void SetPlayerObserverAdr(PlayerObserver *adr)
+{
+	observer = adr;
 }

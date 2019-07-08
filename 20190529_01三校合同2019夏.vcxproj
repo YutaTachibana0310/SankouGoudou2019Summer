@@ -142,6 +142,9 @@
     <ClInclude Include="BackGroundField.h" />
     <ClInclude Include="BackGroundRoad.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="EnemyExplosionController.h" />
+    <ClInclude Include="EnemyExplosionFlare.h" />
+    <ClInclude Include="EnemyExplosionFlareController.h" />
     <ClInclude Include="EnemyModel.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="comboUI.h" />
@@ -149,9 +152,15 @@
     <ClInclude Include="debugTimer.h" />
     <ClInclude Include="debugWindow.h" />
     <ClInclude Include="EnemyController.h" />
+    <ClInclude Include="Framework\AnimationParticle.h" />
     <ClInclude Include="Framework\BaseObserver.h" />
     <ClInclude Include="Framework\BoxCollider3D.h" />
     <ClInclude Include="Framework\ObserveSubject.h" />
+    <ClInclude Include="EnemyExplosionParticle.h" />
+    <ClInclude Include="Framework\SceneParticleManager.h" />
+    <ClInclude Include="GameBattle.h" />
+    <ClInclude Include="GameEnd.h" />
+    <ClInclude Include="GameStart.h" />
     <ClInclude Include="LineRenderer.h" />
     <ClInclude Include="LineTrailModel.h" />
     <ClInclude Include="PlayerBulletController.h" />
@@ -246,6 +255,10 @@
     <ClCompile Include="BackGroundRoad.cpp" />
     <ClCompile Include="BackGuroundField.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyExplosionController.cpp" />
+    <ClCompile Include="EnemyExplosionFlare.cpp" />
+    <ClCompile Include="EnemyExplosionFlareController.cpp" />
+    <ClCompile Include="EnemyExplosionParticle.cpp" />
     <ClCompile Include="EnemyModel.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="comboUI.cpp" />
@@ -253,6 +266,7 @@
     <ClCompile Include="debugTimer.cpp" />
     <ClCompile Include="debugWindow.cpp" />
     <ClCompile Include="EnemyController.cpp" />
+    <ClCompile Include="Framework\AnimationParticle.cpp" />
     <ClCompile Include="Framework\AnimContainer.cpp" />
     <ClCompile Include="Framework\BaseCameraPlugin.cpp" />
     <ClCompile Include="Framework\BaseEmitter.cpp" />
@@ -266,8 +280,12 @@
     <ClCompile Include="Framework\MeshContainer.cpp" />
     <ClCompile Include="Framework\MyAllocateHierarchy.cpp" />
     <ClCompile Include="Framework\ObserveSubject.cpp" />
+    <ClCompile Include="Framework\SceneParticleManager.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameBattle.cpp" />
+    <ClCompile Include="GameEnd.cpp" />
     <ClCompile Include="GameParticleManager.cpp" />
+    <ClCompile Include="GameStart.cpp" />
     <ClCompile Include="guageUI.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />

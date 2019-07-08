@@ -5,6 +5,9 @@
 //
 //=====================================
 #include "EnemyModel.h"
+#include "GameParticleManager.h"
+
+using namespace std;
 
 /**************************************
 マクロ定義
@@ -50,6 +53,9 @@ void EnemyModel::Init(LineTrailModel model)
 ***************************************/
 void EnemyModel::Uninit()
 {
+	//エネミーリストクリア
+	enemyList.clear();
+
 	collider->active = false;
 	active = false;
 }
@@ -79,6 +85,11 @@ void EnemyModel::Draw()
 void EnemyModel::OnNotified(ObserveSubject *notifier)
 {
 	//所属するすべてのエネミーにダメージ処理
+	for (auto& enemy : enemyList)
+	{
+		enemy->Uninit();
+		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->pos);
+	}
 
 	//非アクティブに
 	Uninit();
@@ -91,4 +102,12 @@ void EnemyModel::ChangeState(IStateMachine<EnemyModel> *next)
 {
 	state = next;
 	state->OnStart(this);
+}
+
+/**************************************
+エネミー追加処理
+***************************************/
+void EnemyModel::AddEnemy(Enemy* enemy)
+{
+	enemyList.push_back(enemy);
 }

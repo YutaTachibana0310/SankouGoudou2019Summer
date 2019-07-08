@@ -170,11 +170,10 @@ void PlayerModel::Clear()
 ***************************************/
 bool PlayerModel::GetPlayerTrail(LineTrailModel *pOut)
 {
-	int queSize = inputHistory.size();
-	if (queSize < 2)
+	if (moveHistory.size() == 0)
 		return false;
 	
-	*pOut = LineTrailModel(inputHistory[queSize - 1], inputHistory[queSize - 2]);
+	*pOut = moveHistory.back();
 	return true;
 }
 
@@ -183,17 +182,16 @@ bool PlayerModel::GetPlayerTrail(LineTrailModel *pOut)
 ***************************************/
 size_t PlayerModel::GetAllPlayerTrail(vector<LineTrailModel> *container)
 {
-	if (inputHistory.size() < 2)
+	if (moveHistory.size() == 0)
 		return 0;
 
-	int modelCount = inputHistory.size() - 1;
 	container->clear();
-	container->resize(modelCount);
+	container->resize(moveHistory.size());
 
-	for (int i = 0; i < modelCount; i++)
+	for (auto& model : moveHistory)
 	{
-		container->push_back(LineTrailModel(inputHistory[i + 1], inputHistory[i]));
+		container->push_back(model);
 	}
 
-	return modelCount;
+	return moveHistory.size();
 }

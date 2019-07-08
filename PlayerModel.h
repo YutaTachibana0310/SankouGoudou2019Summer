@@ -12,6 +12,7 @@
 #include <queue>
 #include <vector>
 #include <deque>
+#include <map>
 
 /**************************************
 マクロ定義
@@ -37,12 +38,14 @@ public:
 	size_t GetAllPlayerTrail(std::vector<LineTrailModel> *contaier);	//プレイヤーの全軌跡を取得
 
 private:
-	std::vector<int> Judgement;				//一筆書きの正解配列
-	std::queue<int> inputQueue;				//先行入力を保存するキュー
-	std::deque<int> moveQueue;				//移動履歴
+	std::queue<int> inputQueue;						//先行入力を保存するキュー
+	std::deque<int> inputHistory;					//入力履歴
+	std::deque<LineTrailModel> moveHistory;			//移動履歴
 
-	bool _CheckOneStroke(size_t start);		//内部での一筆書き判定
+	void UpdateMoveHistory();						//移動履歴の更新
+
+	static const LineTrailModel OneStrokePatrs[];	//一筆書きを構成するラインの集合
+
 };
-
 
 #endif

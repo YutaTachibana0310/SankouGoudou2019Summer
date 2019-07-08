@@ -13,7 +13,7 @@ using namespace std;
 マクロ定義
 ***************************************/
 #define PLAYERMODEL_JUDGSTACK_LENGTH	(5)
-#define PLAYERMODEL_MOVEQUEUE_LENGTH	(6)
+#define PLAYERMODEL_MOVEQUEUE_LENGTH	(6)		//移動履歴の最大保存件数
 
 /**************************************
 構造体定義
@@ -35,7 +35,6 @@ PlayerModel::PlayerModel()
 	Judgement[2] = MIDDLE_RIGHT;
 	Judgement[3] = MIDDLE_LEFT;
 	Judgement[4] = LOWER_RIGHT;
-
 }
 
 /**************************************
@@ -44,7 +43,7 @@ PlayerModel::PlayerModel()
 PlayerModel::~PlayerModel()
 {
 	Judgement.clear();
-	moveQueue.clear();
+	inputHistory.clear();
 	queue<int>().swap(inputQueue);
 }
 
@@ -62,11 +61,11 @@ void PlayerModel::PushInput(int num)
 void PlayerModel::PushMoveStack(int num)
 {
 	//最大数であれば一番古い履歴を削除
-	if (moveQueue.size() == PLAYERMODEL_MOVEQUEUE_LENGTH)
-		moveQueue.pop_front();
+	if (inputHistory.size() == PLAYERMODEL_MOVEQUEUE_LENGTH)
+		inputHistory.pop_front();
 
 	//プッシュ
-	moveQueue.push_back(num);
+	inputHistory.push_back(num);
 }
 
 /**************************************
@@ -88,11 +87,11 @@ bool PlayerModel::IsExistPrecedInput(int *res)
 bool PlayerModel::CheckOneStroke()
 {
 	//一筆書きの画数に足りていなければリターン
-	if (moveQueue.size() < PLAYERMODEL_MOVEQUEUE_LENGTH)
+	if (inputHistory.size() < PLAYERMODEL_MOVEQUEUE_LENGTH)
 		return false;
 
 	//一筆書きの開始位置のインデックスを検索
-	auto itrStart = find(Judgement.begin(), Judgement.end(), moveQueue.back());
+	auto itrStart = find(Judgement.begin(), Judgement.end(), inputHistory.back());
 	size_t startIndex = distance(Judgement.begin(), itrStart);
 
 	//反時計回りで検索
@@ -104,7 +103,7 @@ bool PlayerModel::CheckOneStroke()
 
 	//判定用配列を逆転させ開始位置を検索
 	reverse(Judgement.begin(), Judgement.end());
-	itrStart = find(Judgement.begin(), Judgement.end(), moveQueue.back());
+	itrStart = find(Judgement.begin(), Judgement.end(), inputHistory.back());
 	startIndex = distance(Judgement.begin(), itrStart);
 
 	//時計回りで検索
@@ -120,7 +119,7 @@ bool PlayerModel::CheckOneStroke()
 ***************************************/
 void PlayerModel::Clear()
 {
-	moveQueue.clear();
+	inputHistory.clear();
 	queue<int>().swap(inputQueue);
 }
 
@@ -135,15 +134,15 @@ bool PlayerModel::_CheckOneStroke(size_t start)
 		int checkIndex = WrapAround(0, PLAYERMODEL_JUDGSTACK_LENGTH, start + i);
 
 		//判定用配列と移動履歴がちがっていればreturn false
-		if (Judgement[checkIndex] != moveQueue[i])
+		if (Judgement[checkIndex] != inputHistory[i])
 			return false;
 	}
 
 	//一筆書きと一致するので履歴をクリアしてreturn true
 	//次の判定用に最後の履歴はプッシュしておく
-	int lastMove = moveQueue.back();
-	moveQueue.clear();
-	moveQueue.push_back(lastMove);
+	int lastMove = inputHistory.back();
+	inputHistory.clear();
+	inputHistory.push_back(lastMove);
 	return true;
 }
 
@@ -152,11 +151,11 @@ bool PlayerModel::_CheckOneStroke(size_t start)
 ***************************************/
 bool PlayerModel::GetPlayerTrail(LineTrailModel *pOut)
 {
-	int queSize = moveQueue.size();
+	int queSize = inputHistory.size();
 	if (queSize < 2)
 		return false;
 	
-	*pOut = LineTrailModel(moveQueue[queSize - 1], moveQueue[queSize - 2]);
+	*pOut = LineTrailModel(inputHistory[queSize - 1], inputHistory[queSize - 2]);
 	return true;
 }
 
@@ -165,16 +164,16 @@ bool PlayerModel::GetPlayerTrail(LineTrailModel *pOut)
 ***************************************/
 size_t PlayerModel::GetAllPlayerTrail(vector<LineTrailModel> *container)
 {
-	if (moveQueue.size() < 2)
+	if (inputHistory.size() < 2)
 		return 0;
 
-	int modelCount = moveQueue.size() - 1;
+	int modelCount = inputHistory.size() - 1;
 	container->clear();
 	container->resize(modelCount);
 
 	for (int i = 0; i < modelCount; i++)
 	{
-		container->push_back(LineTrailModel(moveQueue[i + 1], moveQueue[i]));
+		container->push_back(LineTrailModel(inputHistory[i + 1], inputHistory[i]));
 	}
 
 	return modelCount;

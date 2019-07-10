@@ -139,6 +139,12 @@
     <Filter Include="ヘッダー ファイル\GameController">
       <UniqueIdentifier>{8a8c568f-4f22-431d-8aba-9b24e028e899}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Stage">
+      <UniqueIdentifier>{01486906-f323-4787-a90e-75b766ee4f26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Stage">
+      <UniqueIdentifier>{c0fb288c-52af-4639-848c-1671affcd45f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -494,6 +500,12 @@
     </ClInclude>
     <ClInclude Include="GameEnd.h">
       <Filter>ヘッダー ファイル\GameController</Filter>
+    </ClInclude>
+    <ClInclude Include="picojson\picojson.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="StageModel.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

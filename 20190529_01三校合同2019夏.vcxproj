@@ -163,10 +163,12 @@
     <ClInclude Include="GameStart.h" />
     <ClInclude Include="LineRenderer.h" />
     <ClInclude Include="LineTrailModel.h" />
+    <ClInclude Include="picojson\picojson.h" />
     <ClInclude Include="PlayerBulletController.h" />
     <ClInclude Include="PlayerIdle.h" />
     <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="PlayerObserver.h" />
+    <ClInclude Include="StageModel.h" />
     <ClInclude Include="startButtonUI.h" />
     <ClInclude Include="PlayerTrail.h" />
     <ClInclude Include="PlayerTrailParticle.h" />

@@ -25,7 +25,8 @@ using namespace std;
 構造体定義
 ***************************************/
 
-
+//test用ターゲット
+static vector<D3DXVECTOR3*> testTarget;
 
 /**************************************
 コンストラクタ
@@ -50,6 +51,12 @@ PlayerObserver::PlayerObserver()
 		targetPos[i] = LineTrailModel::GetEdgePos(i);
 	}
 
+	testTarget.resize(5);
+	for (auto& target : testTarget)
+	{
+		target = new D3DXVECTOR3(RandomRangef(-200.0f, 200.0f), RandomRangef(-200.0f, 200.0f), 250.0f);
+	}
+
 	//moveTarget初期化
 	moveTarget = MOVETARGET_DEFAULT;
 }
@@ -71,6 +78,12 @@ PlayerObserver::~PlayerObserver()
 		SAFE_DELETE(stateMachine.second);
 	}
 	fsm.clear();
+
+	for (auto& target : testTarget)
+	{
+		SAFE_DELETE(target);
+	}
+	testTarget.clear();
 }
 
 /**************************************
@@ -225,8 +238,8 @@ void PlayerObserver::OnFinishPlayerMove()
 	//一筆書き判定
 	if (model->CheckOneStroke())
 	{
-
 		//ボム発射
+		bomberController->SetPlayerBomber(testTarget, player->transform.pos);
 	}
 
 	//先行入力確認

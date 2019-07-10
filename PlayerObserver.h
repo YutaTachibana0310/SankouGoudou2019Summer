@@ -12,6 +12,7 @@
 #include "IStateMachine.h"
 #include "Player.h"
 #include "PlayerBullet.h"
+#include "PlayerBomberController.h"
 #include "PlayerModel.h"
 #include "PlayerTrail.h"
 
@@ -55,6 +56,7 @@ public:
 private:
 	Player *player;
 	std::vector<PlayerBullet*> bulletContainer;
+	PlayerBomberController *bomberController;
 	PlayerTrail* trailEffect;
 
 	PlayerState current, prevState;

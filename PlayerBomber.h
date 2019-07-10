@@ -8,7 +8,6 @@
 #define _PLAYERBOMBER_H_
 
 #include "main.h"
-#include "Framework/MeshContainer.h"
 
 /**************************************
 É}ÉNÉçíËã`
@@ -36,7 +35,6 @@ public:
 	void Set(D3DXVECTOR3 *pos,D3DXVECTOR3 initpos);
 	void CalcBomber(void);
 
-	MeshContainer* mesh;
 
 	Transform transform;
 	D3DXVECTOR3 *targetPos;
@@ -44,11 +42,8 @@ public:
 	bool active;
 	int cntFrame;
 	int reachFrame;
-	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
-	D3DXVECTOR3 vtxUp;
 
 	static int instanceCount;
-	static LPDIRECT3DTEXTURE9 texture;
 
 };
 

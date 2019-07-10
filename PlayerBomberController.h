@@ -32,6 +32,7 @@ public:
 
 	void SetPlayerBomber(std::vector<D3DXVECTOR3*>targetList, D3DXVECTOR3 initpos);
 
+	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
 	//‰Â•Ï’·”z—ñ
 	std::vector<PlayerBomber*> bomberContainer;
 	LPDIRECT3DTEXTURE9 texture;

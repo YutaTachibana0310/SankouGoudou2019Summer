@@ -13,7 +13,7 @@ using namespace std;
 /*********************************************************
 マクロ定義
 **********************************************************/
-
+#define BOMBER_SIZE		(20.0f)
 /********************************************************
 構造体定義
 *********************************************************/
@@ -21,8 +21,6 @@ using namespace std;
 /*********************************************************
 グローバル変数
 **********************************************************/
-
-
 
 
 /*********************************************************
@@ -35,6 +33,38 @@ PlayerBomberController::PlayerBomberController()
 	const char* TextureName = "data/TEXTURE/Player/PlayerBullet.png";
 
 	texture = CreateTextureFromFile((LPSTR)TextureName, pDevice);
+
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D)* NUM_VERTEX, D3DUSAGE_WRITEONLY, FVF_VERTEX_3D, D3DPOOL_MANAGED, &vtxBuff, 0);
+	
+	VERTEX_3D *pVtx;
+	vtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+	//頂点座標の設定
+	pVtx[0].vtx = D3DXVECTOR3(-BOMBER_SIZE / 2.0f, BOMBER_SIZE / 2.0f, 0.0f);
+	pVtx[1].vtx = D3DXVECTOR3(BOMBER_SIZE / 2.0f, BOMBER_SIZE / 2.0f, 0.0f);
+	pVtx[2].vtx = D3DXVECTOR3(-BOMBER_SIZE / 2.0f, -BOMBER_SIZE / 2.0f, 0.0f);
+	pVtx[3].vtx = D3DXVECTOR3(BOMBER_SIZE / 2.0f, -BOMBER_SIZE / 2.0f, 0.0f);
+
+	//反射光の設定
+	pVtx[0].diffuse =
+		pVtx[1].diffuse =
+		pVtx[2].diffuse =
+		pVtx[3].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	//
+	pVtx[0].nor =
+		pVtx[1].nor =
+		pVtx[2].nor =
+		pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	//テクスチャ座標の設定
+
+	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+
+	vtxBuff->Unlock();
+
+
 }
 /*********************************************************
 デストラクタ
@@ -48,7 +78,7 @@ PlayerBomberController::~PlayerBomberController()
 	bomberContainer.clear();
 
 	SAFE_RELEASE(texture);
-
+	SAFE_RELEASE(vtxBuff);
 }
 
 /*********************************************************
@@ -90,6 +120,9 @@ void PlayerBomberController::Update()
 void PlayerBomberController::Draw()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	//vtxbuffをセット
+
+	pDevice->SetStreamSource(0, vtxBuff, 0, sizeof(VERTEX_3D));
 
 	pDevice->SetFVF(FVF_VERTEX_3D);
 
@@ -135,8 +168,6 @@ void PlayerBomberController::SetPlayerBomber(vector<D3DXVECTOR3*>targetList, D3D
 		}
 	}
 }
-
-
 
 
 

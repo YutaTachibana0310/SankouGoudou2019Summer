@@ -34,6 +34,7 @@ PlayerObserver::PlayerObserver()
 	player = new Player();
 	model = new PlayerModel();
 	trailEffect = new PlayerTrail();
+	bomberController = new PlayerBomberController();
 
 	fsm[PlayerState::Idle] = new PlayerIdle();
 	fsm[PlayerState::Wait] = new PlayerWait();
@@ -55,6 +56,8 @@ PlayerObserver::~PlayerObserver()
 	SAFE_DELETE(player);
 	SAFE_DELETE(model);
 	SAFE_DELETE(trailEffect);
+
+	SAFE_DELETE(bomberController);
 
 	for (PlayerBullet* bullet : bulletContainer)
 	{
@@ -96,7 +99,7 @@ void PlayerObserver::Uninit()
 		bullet->Uninit();
 	}
 	
-	
+	bomberController->Uninit();
 }
 
 /**************************************
@@ -115,6 +118,8 @@ void PlayerObserver::Update()
 	}
 
 	trailEffect->Update();
+
+	bomberController->Update();
 }
 
 /**************************************
@@ -140,7 +145,7 @@ void PlayerObserver::Draw()
 	pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 	
-	
+	bomberController->Draw();
 }
 
 /**************************************
@@ -257,6 +262,7 @@ void PlayerObserver::OnFinishPlayerMove()
 	//ˆê•M‘‚«”»’è
 	if (model->CheckOneStroke())
 	{
+
 		//ƒ{ƒ€”­ŽË
 	}
 

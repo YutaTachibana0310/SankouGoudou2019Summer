@@ -510,6 +510,12 @@
     <ClInclude Include="EditorScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="EditorBG.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="StageEditor.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -841,6 +847,12 @@
     </ClCompile>
     <ClCompile Include="EditorScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorBG.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="StageEditor.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

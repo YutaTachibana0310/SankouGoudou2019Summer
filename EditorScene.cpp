@@ -5,6 +5,7 @@
 //
 //=====================================
 #include "EditorScene.h"
+#include "EditorBG.h"
 
 /**************************************
 マクロ定義
@@ -23,7 +24,8 @@
 ***************************************/
 void EditorScene::Init()
 {
-
+	//インスタンス作成
+	bg = new EditorBG();
 }
 
 /**************************************
@@ -32,6 +34,8 @@ void EditorScene::Init()
 void EditorScene::Uninit()
 {
 
+	//インスタンス破棄
+	SAFE_DELETE(bg);
 }
 
 /**************************************
@@ -39,7 +43,7 @@ void EditorScene::Uninit()
 ***************************************/
 void EditorScene::Update(HWND hWnd)
 {
-
+	bg->Update();
 }
 
 /**************************************
@@ -47,5 +51,5 @@ void EditorScene::Update(HWND hWnd)
 ***************************************/
 void EditorScene::Draw()
 {
-
+	bg->Draw();
 }

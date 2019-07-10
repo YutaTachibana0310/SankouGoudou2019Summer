@@ -1,36 +1,34 @@
 //=====================================
 //
-//エディタシーンヘッダ[EditorScene.h]
+//ステージエディタヘッダ[StageEditor.h]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#ifndef _EDITORSCENE_H_
-#define _EDITORSCENE_H_
+#ifndef _STAGEEDITOR_H_
+#define _STAGEEDITOR_H_
 
 #include "main.h"
-#include "IStateScene.h"
+#include <vector>
 
 /**************************************
-前方宣言
+マクロ定義
 ***************************************/
-class EditorBG;
 
 /**************************************
 クラス定義
 ***************************************/
-class EditorScene : public IStateScene
+class StageEditor
 {
 public:
+	StageEditor();
+	~StageEditor();
+
 	void Init();
 	void Uninit();
-	void Update(HWND hWnd);
+	void Update();
 	void Draw();
 
-	EditorScene() {}
-	~EditorScene() {}
-
 private:
-	EditorBG * bg;
-
 };
+
 #endif

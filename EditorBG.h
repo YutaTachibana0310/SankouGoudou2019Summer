@@ -1,36 +1,34 @@
 //=====================================
 //
-//エディタシーンヘッダ[EditorScene.h]
+//エディタBGヘッダ[EditorBG.h]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#ifndef _EDITORSCENE_H_
-#define _EDITORSCENE_H_
+#ifndef _EDITORBG_H_
+#define _EDITORBG_H_
 
 #include "main.h"
-#include "IStateScene.h"
 
 /**************************************
-前方宣言
+マクロ定義
 ***************************************/
-class EditorBG;
 
 /**************************************
 クラス定義
 ***************************************/
-class EditorScene : public IStateScene
+class EditorBG
 {
 public:
+	EditorBG();
+	~EditorBG();
+
 	void Init();
 	void Uninit();
-	void Update(HWND hWnd);
+	void Update();
 	void Draw();
 
-	EditorScene() {}
-	~EditorScene() {}
-
-private:
-	EditorBG * bg;
-
+	LPDIRECT3DTEXTURE9 texture;
+	VERTEX_2D vtxWk[NUM_VERTEX];
 };
+
 #endif

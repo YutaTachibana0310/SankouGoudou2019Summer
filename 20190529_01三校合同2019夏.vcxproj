@@ -141,6 +141,7 @@
     <ClInclude Include="BackGroundCity.h" />
     <ClInclude Include="BackGroundField.h" />
     <ClInclude Include="BackGroundRoad.h" />
+    <ClInclude Include="EditorBG.h" />
     <ClInclude Include="EditorScene.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="EnemyExplosionController.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="PlayerIdle.h" />
     <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="PlayerObserver.h" />
+    <ClInclude Include="StageEditor.h" />
     <ClInclude Include="StageModel.h" />
     <ClInclude Include="startButtonUI.h" />
     <ClInclude Include="PlayerTrail.h" />
@@ -344,6 +346,8 @@
     <ClCompile Include="SoundGameScene.cpp" />
     <ClCompile Include="SoundResultScene.cpp" />
     <ClCompile Include="SoundTitleScene.cpp" />
+    <ClCompile Include="EditorBG.cpp" />
+    <ClCompile Include="StageEditor.cpp" />
     <ClCompile Include="Stencil.cpp" />
     <ClCompile Include="startButtonUI.cpp" />
     <ClCompile Include="starUI.cpp" />

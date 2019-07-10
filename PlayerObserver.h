@@ -11,8 +11,8 @@
 
 #include "IStateMachine.h"
 #include "Player.h"
-#include "PlayerBullet.h"
 #include "PlayerBomberController.h"
+#include "PlayerBulletController.h"
 #include "PlayerModel.h"
 #include "PlayerTrail.h"
 
@@ -50,19 +50,19 @@ public:
 	void Update();
 	void Draw();
 
+	void CheckInput();
 	void PushInput(int num);
-	void SetMoveTargetPosition(int i, D3DXVECTOR3 pos);
+	PlayerModel *model;
 
 private:
 	Player *player;
-	std::vector<PlayerBullet*> bulletContainer;
 	PlayerBomberController *bomberController;
-	PlayerTrail* trailEffect;
+	PlayerBulletController *bulletController;
+	PlayerTrail *trailEffect;
 
 	PlayerState current, prevState;
 	std::map<PlayerState, IStateMachine<Player>*> fsm;
 
-	PlayerModel *model;
 	int moveTarget;
 	std::vector<D3DXVECTOR3> targetPos;
 
@@ -71,7 +71,6 @@ private:
 	void OnFinishPlayerMove();
 	void OnFinishPlayerWait();
 	void OnFinishPlayerReturn();
-	void SetPlayerBullet(PlayerTrailModel trail);
 	void OnPlayerStateFinish();
 };
 

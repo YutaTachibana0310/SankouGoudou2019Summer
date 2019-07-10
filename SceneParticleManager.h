@@ -1,28 +1,28 @@
 //=====================================
 //
-//プレイヤートレイルモデル処理[PlayerTrailModel.cpp]
+//テンプレートヘッダ[SceneParticleManager.h]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#include "PlayerTrailModel.h"
+#ifndef _SCENEPARTICLEMANAGER_H_
+#define _SCENEPARTICLEMANAGER_H_
+
+#include "main.h"
 
 /**************************************
 マクロ定義
 ***************************************/
 
 /**************************************
-構造体定義
+クラス定義
 ***************************************/
 
 /**************************************
-グローバル変数
+プロトタイプ宣言
 ***************************************/
+void InitSceneParticleManager(int num);
+void UninitSceneParticleManager(int num);
+void UpdateSceneParticleManager(void);
+void DrawSceneParticleManager(void);
 
-/**************************************
-コンストラクタ
-***************************************/
-PlayerTrailModel::PlayerTrailModel(int start, int end)
-{
-	this->start = start;
-	this->end = end;
-}
+#endif

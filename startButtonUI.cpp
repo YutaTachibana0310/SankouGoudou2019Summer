@@ -5,10 +5,10 @@
 //
 //=============================================================================
 #include "main.h"
-#include "Game.h"
 #include "input.h"
 #include "startButtonUI.h"
 #include "cursorUI.h"
+#include "masktex.h"
 #include "UIdrawer.h"
 
 //*****************************************************************************
@@ -82,7 +82,7 @@ void UpdateStartButton(void)
 		// ボタンを押したらゲームシーンへ
 		if (IsMouseLeftTriggered())
 		{
-			ChangeScene(SceneGame);
+			SceneChangeFlag(true, SceneGame);
 		}
 
 		for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)

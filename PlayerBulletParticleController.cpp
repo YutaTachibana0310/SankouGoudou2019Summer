@@ -14,7 +14,7 @@
 マクロ定義
 ***************************************/
 #define PLAYERBULLETPARTICLE_TEXTURE_NAME	"data/TEXTURE/Effect/PlayerBulletParticle.png"
-#define PLAYERBULLETPARTCILE_NUM_MAX		(4096)
+#define PLAYERBULLETPARTCILE_NUM_MAX		(1024)
 #define PLAYERBULLETPARTICLE_EMITTER_MAX	(8)
 
 #define PLAYERBULLETPARTICLE_SIZE			(&D3DXVECTOR2(2.0f, 2.0f))
@@ -66,7 +66,7 @@ void PlayerBulletParticleController::Emit()
 		if (!emitter->active)
 			continue;
 
-		const int EmitNum = 50;			//1フレームの放出するパーティクル数
+		const int EmitNum = 10;			//1フレームの放出するパーティクル数
 		const float InitSpeed = 2.0f;	//パーティクルの初期スピード
 
 		int emitCount = 0;

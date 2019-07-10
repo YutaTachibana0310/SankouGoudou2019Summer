@@ -9,6 +9,7 @@
 
 #include<xact3.h>
 #include <windows.h>
+#include "IStateScene.h"
 
 #define WIN32_LEAN_AND_MEAN
 #define FLAME (float(60))
@@ -39,7 +40,7 @@ enum SENAME
 	TESTSE,
 	MAXSE
 };
-class Sound{
+class Sound {
 private:
 //ポインタ宣言
 IXACT3Engine* xactEngine;
@@ -62,6 +63,11 @@ float maxvol_BGM[MAXBGM];
 float fadevolume[MAXBGM];
 
 public:
+
+	//サウンドテスト用
+	bool playsound;
+	bool pause;
+	int changepitch;
 
 	static Sound *GetInstance() {
 		return sound;
@@ -100,6 +106,7 @@ public:
 	void FadeOut(int wavenum, float fadesec, float setvol, bool outflag);
 
 	void SetPitchSE(int wavenum, int pitch);
+
 
 protected:
 	static Sound *sound;

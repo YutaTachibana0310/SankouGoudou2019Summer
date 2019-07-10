@@ -7,136 +7,74 @@
 #include "main.h"
 #include "starUI.h"
 #include "PlayerController.h"
-#include "InputController.h"
-#include "debugWindow.h"
-#include "GameParticleManager.h"
 #include "PlayerObserver.h"
+#include "trailUI.h"
 
 using namespace std;
-
-//*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-#define MOVETARGET_LENGTH				(6)
-#define PLAYER_DISTANCE_FROM_CAMERA		(150.0f)
-
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-void CalcPlayerMoveTargetPos();
-void CheckInput(HWND hWnd);
 
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
 PlayerObserver *observer;
 
-//*****************************************************************************
-// 初期化処理
-//*****************************************************************************
-HRESULT InitPlayerController(void)
+//=============================================================================
+// MoveHistory取得処理
+//=============================================================================
+void GetPlayerMoveHistory(vector<int> *pOut)
 {
-	observer = new PlayerObserver();
-	observer->Init();
+	//移動履歴を取得
+	vector<LineTrailModel> moveHistory;
+	observer->model->GetAllPlayerTrail(&moveHistory);
 
-	//移動目標初期化
-	CalcPlayerMoveTargetPos();
-
-	return S_OK;
-}
-//*****************************************************************************
-// 終了処理
-//*****************************************************************************
-void UninitPlayerController()
-{
-	observer->Uninit();
-	delete observer;
-}
-
-//*****************************************************************************
-// 更新処理
-//*****************************************************************************
-void UpdatePlayerController(HWND hWnd)
-{
-	//移動の入力確認
-	CheckInput(hWnd);
-
-	observer->Update();
-}
-
-//*****************************************************************************
-// 描画処理
-//*****************************************************************************
-void DrawPlayerController()
-{
-	observer->Draw();
-}
-
-//*****************************************************************************
-// 入力確認
-//*****************************************************************************
-void CheckInput(HWND hWnd)
-{
-	//各ボタンについて確認
-	for (int i = 0; i < STAR_MAX; i++)
+	//UI用データに変換
+	for (LineTrailModel model : moveHistory)
 	{
-		if (!IsEntered(i))
-			continue;
-
-		observer->PushInput(i);
-		return;
+		if (model.start == TOP || model.end == TOP)
+		{
+			if (model.start == LOWER_RIGHT || model.end == LOWER_RIGHT)
+			{
+				pOut->push_back(TRAIL_LINE_TOP_TO_LOWERRIGHT);
+				continue;
+			}
+			if (model.start == LOWER_LEFT || model.end == LOWER_LEFT)
+			{
+				pOut->push_back(TRAIL_LINE_TOP_TO_LOWERLEFT);
+				continue;
+			}
+		}
+		else if (model.start == LOWER_LEFT || model.end == LOWER_LEFT)
+		{
+			if (model.start == MIDDLE_RIGHT || model.end == MIDDLE_RIGHT)
+			{
+				pOut->push_back(TRAIL_LINE_LOWERLEFT_TO_MIDDLERIGHT);
+				continue;
+			}
+		}
+		else if (model.start == LOWER_RIGHT || model.end == LOWER_RIGHT)
+		{
+			if (model.start == MIDDLE_LEFT || model.end == MIDDLE_LEFT)
+			{
+				pOut->push_back(TRAIL_LINE_LOWERRIGHT_TO_MIDDLELEFT);
+				continue;
+			}
+		}
+		else if (model.start == MIDDLE_LEFT || model.end == MIDDLE_LEFT)
+		{
+			if (model.start == MIDDLE_RIGHT || model.end == MIDDLE_RIGHT)
+			{
+				pOut->push_back(TRAIL_LINE_MIDDLELEFT_TO_MIDDLERIGHT);
+				continue;
+			}
+		}
 	}
+
+	return;
 }
 
-
-//=============================================================================
-// 移動目標座標計算処理
-//=============================================================================
-void CalcPlayerMoveTargetPos()
+//*****************************************************************************
+// PlayerObserverセット処理
+//*****************************************************************************
+void SetPlayerObserverAdr(PlayerObserver *adr)
 {
-	//スターのスクリーン座標を取得
-	D3DXVECTOR3 starPos[5];
-	GetStarPosition(starPos);
-
-	for (int i = 0; i < STAR_MAX; i++)
-	{
-		//スターの位置でNear面とFar面を結ぶレイを計算して正規化
-		D3DXVECTOR3 nearPos, farPos;
-		CalcScreenToWorld(&nearPos, &starPos[i], 0.0f);
-		CalcScreenToWorld(&farPos, &starPos[i], 1.0f);
-
-		D3DXVECTOR3 ray = farPos - nearPos;
-		D3DXVec3Normalize(&ray, &ray);
-
-		//目標座標を計算
-		D3DXVECTOR3 pos = nearPos + ray * PLAYER_DISTANCE_FROM_CAMERA;
-		observer->SetMoveTargetPosition(i, pos);
-	}
-}
-
-//リファクタリングしたのでエラー対策に仮版
-bool SetBomb()
-{
-	return true;
-}
-
-//=============================================================================
-// CCW配列取得処理 (おーはま追記)
-// 追記（立花）：リファクタリングでデータ構造が変わったので要相談
-//=============================================================================
-void GetMove_StackCCW(int trailHistoryCCW[MOVESTACK_LENGTH]) {
-
-	for (int i = 0; i < MOVESTACK_LENGTH; i++) {
-		trailHistoryCCW[i] = INITIAL_ARRAY_NUMBER;
-	}
-}
-
-//=============================================================================
-// CW配列取得処理 (おーはま追記)
-// 追記（立花）：リファクタリングでデータ構造が変わったので要相談
-//=============================================================================
-void GetMove_StackCW(int trailHistoryCW[MOVESTACK_LENGTH]) {
-	for (int i = 0; i < MOVESTACK_LENGTH; i++) {
-		trailHistoryCW[i] = INITIAL_ARRAY_NUMBER;
-	}
+	observer = adr;
 }

@@ -5,6 +5,7 @@
 //
 //=====================================
 #include "PlayerObserver.h"
+#include "InputController.h"
 
 #include "PlayerMove.h"
 #include "PlayerWait.h"
@@ -35,6 +36,7 @@ PlayerObserver::PlayerObserver()
 	model = new PlayerModel();
 	trailEffect = new PlayerTrail();
 	bomberController = new PlayerBomberController();
+	bulletController = new PlayerBulletController();
 
 	fsm[PlayerState::Idle] = new PlayerIdle();
 	fsm[PlayerState::Wait] = new PlayerWait();
@@ -43,6 +45,10 @@ PlayerObserver::PlayerObserver()
 
 	//移動先確保
 	targetPos.resize(5);
+	for (UINT i = 0; i < targetPos.size(); i++)
+	{
+		targetPos[i] = LineTrailModel::GetEdgePos(i);
+	}
 
 	//moveTarget初期化
 	moveTarget = MOVETARGET_DEFAULT;
@@ -58,12 +64,7 @@ PlayerObserver::~PlayerObserver()
 	SAFE_DELETE(trailEffect);
 
 	SAFE_DELETE(bomberController);
-
-	for (PlayerBullet* bullet : bulletContainer)
-	{
-		SAFE_DELETE(bullet);
-	}
-	bulletContainer.clear();
+	SAFE_DELETE(bulletController);
 
 	for (auto stateMachine : fsm)
 	{
@@ -78,13 +79,6 @@ PlayerObserver::~PlayerObserver()
 void PlayerObserver::Init()
 {
 	player->Init();
-	for (PlayerBullet *bullet : bulletContainer)
-	{
-		bullet->Init();
-
-	}
-
-
 	ChangeStatePlayer(PlayerState::Idle);
 }
 
@@ -94,12 +88,9 @@ void PlayerObserver::Init()
 void PlayerObserver::Uninit()
 {
 	player->Uninit();
-	for (PlayerBullet *bullet : bulletContainer)
-	{
-		bullet->Uninit();
-	}
-	
+
 	bomberController->Uninit();
+	bulletController->Uninit();
 }
 
 /**************************************
@@ -112,10 +103,7 @@ void PlayerObserver::Update()
 	if (stateResult != STATE_CONTINUOUS)
 		OnPlayerStateFinish();
 
-	for (PlayerBullet *bullet : bulletContainer)
-	{
-		bullet->Update();
-	}
+	bulletController->Update();
 
 	trailEffect->Update();
 
@@ -132,45 +120,26 @@ void PlayerObserver::Draw()
 	player->Draw();
 
 	trailEffect->Draw();
-
-	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	pDevice->SetRenderState(D3DRS_LIGHTING, false);
-	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
-
-	for (PlayerBullet *bullet : bulletContainer)
-	{
-		bullet->Draw();
-	}
-	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	pDevice->SetRenderState(D3DRS_LIGHTING, true);
-	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 	
 	bomberController->Draw();
+	bulletController->Draw();
 }
 
 /**************************************
-バレット発射処理
+入力確認処理
 ***************************************/
-void PlayerObserver::SetPlayerBullet(PlayerTrailModel trail)
+void PlayerObserver::CheckInput()
 {
-	auto itr = find_if(bulletContainer.begin(), bulletContainer.end(), [](PlayerBullet* bullet)
-	{
-		return !bullet->active;
-	});
+	//入力間隔をカウント
+	player->inputInterval++;
 
-	if (itr != bulletContainer.end())
+	//入力を確認
+	for (int i = 0; i < INPUTBUTTON_MAX; i++)
 	{
-		(*itr)->SetTrailIndex((TrailIndex)trail.start, (TrailIndex)trail.end);
-		(*itr)->SetEdgePos(&targetPos[trail.start], &targetPos[trail.end]);
-		(*itr)->Init();
-	}
-	else
-	{
-		PlayerBullet *bullet = new PlayerBullet();
-		bullet->SetTrailIndex((TrailIndex)trail.start, (TrailIndex)trail.end);
-		bullet->SetEdgePos(&targetPos[trail.start], &targetPos[trail.end]);
-		bullet->Init();
-		bulletContainer.push_back(bullet);
+		if (!IsEntered(i))
+			continue;
+
+		PushInput(i);
 	}
 }
 
@@ -182,6 +151,9 @@ void PlayerObserver::PushInput(int num)
 	//同じところへは移動しない
 	if (num == moveTarget)
 		return;
+
+	//プレイヤーの入力間隔をリセット
+	player->inputInterval = 0;
 
 	//Wait状態であればMoveに遷移
 	if (current == PlayerState::Wait || current == PlayerState::Idle)
@@ -198,14 +170,6 @@ void PlayerObserver::PushInput(int num)
 	{
 		model->PushInput(num);
 	}
-}
-
-/**************************************
-移動目標設定
-***************************************/
-void PlayerObserver::SetMoveTargetPosition(int i, D3DXVECTOR3 pos)
-{
-	targetPos[i] = pos;
 }
 
 /**************************************
@@ -253,10 +217,9 @@ void PlayerObserver::OnFinishPlayerMove()
 	//WaitかｒMoveからの移動であればバレット発射
 	if (prevState == PlayerState::Wait || prevState == PlayerState::Move)
 	{
-		PlayerTrailModel modelTrail;
+		LineTrailModel modelTrail;
 		model->GetPlayerTrail(&modelTrail);
-		SetPlayerBullet(modelTrail);
-
+		bulletController->SetPlayerBullet(modelTrail);
 	}
 
 	//一筆書き判定

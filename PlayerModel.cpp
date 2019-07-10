@@ -12,29 +12,41 @@ using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
-#define PLAYERMODEL_JUDGSTACK_LENGTH	(5)
-#define PLAYERMODEL_MOVEQUEUE_LENGTH	(6)
+#define PLAYERMODEL_INPUTHISTORY_MAX	(15)		//入力履歴の最大保存件数
+#define PLAYERMODEL_MOVEHISTORY_MAX		(PLAYERMODEL_INPUTHISTORY_MAX-1)	//移動履歴の最大保存件数
+
+//一筆書きのパーツを表す列挙子
+enum OneStrokeParts
+{
+	TopToLowerleft,
+	LowerleftToMiddleright,
+	MiddlerightToMiddleleft,
+	MiddleleftToLowerright,
+	LowerrightToTop,
+	PartsMax
+};
 
 /**************************************
 構造体定義
 ***************************************/
 
 /**************************************
-グローバル変数
+static変数
 ***************************************/
+//一筆書きを構成するラインの集合
+const LineTrailModel PlayerModel::OneStrokePatrs[OneStrokeParts::PartsMax] = {
+	LineTrailModel(TOP, LOWER_LEFT),
+	LineTrailModel(LOWER_LEFT, MIDDLE_RIGHT),
+	LineTrailModel(MIDDLE_RIGHT, MIDDLE_LEFT),
+	LineTrailModel(MIDDLE_LEFT, LOWER_RIGHT),
+	LineTrailModel(LOWER_RIGHT, TOP)
+};
 
 /**************************************
 コンストラクタ
 ***************************************/
 PlayerModel::PlayerModel()
 {
-	//一筆書きの正解を設定
-	Judgement.resize(PLAYERMODEL_JUDGSTACK_LENGTH);
-	Judgement[0] = TOP;
-	Judgement[1] = LOWER_LEFT;
-	Judgement[2] = MIDDLE_RIGHT;
-	Judgement[3] = MIDDLE_LEFT;
-	Judgement[4] = LOWER_RIGHT;
 
 }
 
@@ -43,8 +55,7 @@ PlayerModel::PlayerModel()
 ***************************************/
 PlayerModel::~PlayerModel()
 {
-	Judgement.clear();
-	moveQueue.clear();
+	inputHistory.clear();
 	queue<int>().swap(inputQueue);
 }
 
@@ -57,16 +68,39 @@ void PlayerModel::PushInput(int num)
 }
 
 /**************************************
-移動履歴のプッシュ
+入力履歴のプッシュ
 ***************************************/
 void PlayerModel::PushMoveStack(int num)
 {
 	//最大数であれば一番古い履歴を削除
-	if (moveQueue.size() == PLAYERMODEL_MOVEQUEUE_LENGTH)
-		moveQueue.pop_front();
+	if (inputHistory.size() == PLAYERMODEL_INPUTHISTORY_MAX)
+		inputHistory.pop_front();
 
 	//プッシュ
-	moveQueue.push_back(num);
+	inputHistory.push_back(num);
+
+	//移動履歴の更新
+	UpdateMoveHistory();
+}
+
+/**************************************
+移動履歴の確認
+***************************************/
+void PlayerModel::UpdateMoveHistory()
+{
+	//入力履歴が2件以上無いと移動履歴を構築できないためリターン
+	if (inputHistory.size() < 2)
+		return;
+	
+	//最大保存件数であれば一番古い履歴を削除
+	if (moveHistory.size() == PLAYERMODEL_MOVEHISTORY_MAX)
+		moveHistory.pop_front();
+
+	//新しい移動履歴をプッシュ
+	auto lastHistory = inputHistory.end() - 1;
+	int current = *lastHistory;
+	int prev = *(lastHistory - 1);
+	moveHistory.push_back(LineTrailModel(current, prev));
 }
 
 /**************************************
@@ -87,32 +121,39 @@ bool PlayerModel::IsExistPrecedInput(int *res)
 ***************************************/
 bool PlayerModel::CheckOneStroke()
 {
-	//一筆書きの画数に足りていなければリターン
-	if (moveQueue.size() < PLAYERMODEL_MOVEQUEUE_LENGTH)
-		return false;
+	//判定用ワーク
+	int checkWork[OneStrokeParts::PartsMax];
+	ZeroMemory(checkWork, sizeof(checkWork));
 
-	//一筆書きの開始位置のインデックスを検索
-	auto itrStart = find(Judgement.begin(), Judgement.end(), moveQueue.back());
-	size_t startIndex = distance(Judgement.begin(), itrStart);
+	//移動履歴すべてに対して一筆書きを構成するパーツかどうか判定
+	for (auto& model : moveHistory)
+	{
+		for (int i = 0; i < OneStrokeParts::PartsMax; i++)
+		{
+			//一筆書きを構成するパーツであればカウントしてbreak
+			if (model == OneStrokePatrs[i])
+			{
+				checkWork[i]++;
+				break;
+			}
 
-	//反時計回りで検索
-	bool res = _CheckOneStroke(startIndex);
+		}
+	}
 
-	//成立していたらリターン
-	if (res)
-		return true;
+	//一筆書きを構成するパーツが一つでも欠けていればreturn false
+	for (int i = 0; i < OneStrokeParts::PartsMax; i++)
+	{
+		if (checkWork[i] == 0)
+			return false;
+	}
 
-	//判定用配列を逆転させ開始位置を検索
-	reverse(Judgement.begin(), Judgement.end());
-	itrStart = find(Judgement.begin(), Judgement.end(), moveQueue.back());
-	startIndex = distance(Judgement.begin(), itrStart);
-
-	//時計回りで検索
-	res = _CheckOneStroke(startIndex);
-
-	//判定用配列を元に戻してリターン	
-	reverse(Judgement.begin(), Judgement.end());
-	return res;
+	//一筆書きが成立しているので履歴をクリアしてreturn true
+	//最新の履歴だけはプッシュしておく
+	int lastInput = inputHistory.back();
+	inputHistory.clear();
+	moveHistory.clear();
+	inputHistory.push_back(lastInput);
+	return true;
 }
 
 /**************************************
@@ -120,62 +161,37 @@ bool PlayerModel::CheckOneStroke()
 ***************************************/
 void PlayerModel::Clear()
 {
-	moveQueue.clear();
+	inputHistory.clear();
 	queue<int>().swap(inputQueue);
-}
-
-/**************************************
-一筆書き判定（内部）
-***************************************/
-bool PlayerModel::_CheckOneStroke(size_t start)
-{
-	for (int i = 0; i < PLAYERMODEL_MOVEQUEUE_LENGTH; i++)
-	{
-		//対象のインデックスを計算
-		int checkIndex = WrapAround(0, PLAYERMODEL_JUDGSTACK_LENGTH, start + i);
-
-		//判定用配列と移動履歴がちがっていればreturn false
-		if (Judgement[checkIndex] != moveQueue[i])
-			return false;
-	}
-
-	//一筆書きと一致するので履歴をクリアしてreturn true
-	//次の判定用に最後の履歴はプッシュしておく
-	int lastMove = moveQueue.back();
-	moveQueue.clear();
-	moveQueue.push_back(lastMove);
-	return true;
 }
 
 /**************************************
 直近1件の軌跡の取得
 ***************************************/
-bool PlayerModel::GetPlayerTrail(PlayerTrailModel *pOut)
+bool PlayerModel::GetPlayerTrail(LineTrailModel *pOut)
 {
-	int queSize = moveQueue.size();
-	if (queSize < 2)
+	if (moveHistory.size() == 0)
 		return false;
 	
-	*pOut = PlayerTrailModel(moveQueue[queSize - 1], moveQueue[queSize - 2]);
+	*pOut = moveHistory.back();
 	return true;
 }
 
 /**************************************
 全軌跡の取得
 ***************************************/
-size_t PlayerModel::GetAllPlayerTrail(vector<PlayerTrailModel> *container)
+size_t PlayerModel::GetAllPlayerTrail(vector<LineTrailModel> *container)
 {
-	if (moveQueue.size() < 2)
+	if (moveHistory.size() == 0)
 		return 0;
 
-	int modelCount = moveQueue.size() - 1;
 	container->clear();
-	container->resize(modelCount);
+	container->resize(moveHistory.size());
 
-	for (int i = 0; i < modelCount; i++)
+	for (auto& model : moveHistory)
 	{
-		container->push_back(PlayerTrailModel(moveQueue[i + 1], moveQueue[i]));
+		container->push_back(model);
 	}
 
-	return modelCount;
+	return moveHistory.size();
 }

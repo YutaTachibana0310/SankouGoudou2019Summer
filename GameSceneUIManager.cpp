@@ -68,14 +68,17 @@ void UpdateGameSceneUI(HWND hWnd)
 	}
 	if (GetKeyboardTrigger(DIK_3))
 	{
-		ChangeCombo(1);
+		AddCombo(1);
 	}
 	if (GetKeyboardTrigger(DIK_4))
 	{
-		ChangeScore(1000);
+		AddScore(1000);
+	}
+	if (GetKeyboardTrigger(DIK_5))
+	{
+		SetCombo(0);
 	}
 #endif
-
 }
 
 //=============================================================================

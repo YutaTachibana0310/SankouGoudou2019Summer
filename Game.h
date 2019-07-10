@@ -34,5 +34,6 @@ void UpdateGame(HWND hWnd);
 void DrawGame(void);
 
 void ChangeScene(Scene next);
+void MaskRun(Scene next);
 LPDIRECT3DTEXTURE9 GetDrawDataTemp();
 #endif

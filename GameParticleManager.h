@@ -8,25 +8,41 @@
 #define _GameParticleManager_H_
 
 #include "main.h"
+#include "Framework\SceneParticleManager.h"
+#include "Framework\BaseSingleton.h"
 
 /**************************************
 マクロ定義
 ***************************************/
+#define GAMEPARTICLE_USE_DEBUG
 
 /**************************************
 クラス定義
 ***************************************/
+class GameParticleManager :
+	public SceneParticleManager, 
+	public BaseSingleton<GameParticleManager>
+{
+public:
+	friend class BaseSingleton<GameParticleManager>;
 
-/**************************************
-プロトタイプ宣言
-***************************************/
-void InitGameParticleManager(int num);
-void UninitGameParticleManager(int num);
-void UpdateGameParticleManager(void);
-void DrawGameParticleManager(void);
+	void Init() override;
+	void Update() override;
 
-void SetScoreParticle(D3DXVECTOR3 *pos);
-void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edgeRight, D3DXVECTOR3 *edgeLeft);
-void SetPlayerTrailParticle(D3DXVECTOR3 *pPos, bool *pActive);
+	void SetScoreParticle(D3DXVECTOR3 *pos);
+	void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edgeRight, D3DXVECTOR3 *edgeLeft);
+	void SetPlayerTrailParticle(D3DXVECTOR3 *pPos, bool *pActive);
+	void SetEnemyExplosion(D3DXVECTOR3 *pPos);
+
+private:
+	GameParticleManager() {}
+	~GameParticleManager() {}
+
+#ifdef GAMEPARTICLE_USE_DEBUG
+	void DrawDebugWindow();
+#endif
+
+};
+
 
 #endif

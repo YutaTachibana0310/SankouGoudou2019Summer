@@ -6,6 +6,7 @@
 //=====================================
 #include "PlayerModel.h"
 #include "starUI.h"
+#include "ScoreManager.h"
 
 using namespace std;
 
@@ -163,6 +164,7 @@ void PlayerModel::Clear()
 {
 	inputHistory.clear();
 	queue<int>().swap(inputQueue);
+	ClearCombo();
 }
 
 /**************************************

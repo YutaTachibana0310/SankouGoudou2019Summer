@@ -6,6 +6,7 @@
 //=====================================
 #include "EnemyModel.h"
 #include "GameParticleManager.h"
+#include "ScoreManager.h"
 
 using namespace std;
 
@@ -89,7 +90,11 @@ void EnemyModel::OnNotified(ObserveSubject *notifier)
 	{
 		enemy->Uninit();
 		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->pos);
+		//スコア加算
+		SetAddScore(100);
 	}
+
+	SetAddCombo(1);
 
 	//非アクティブに
 	Uninit();

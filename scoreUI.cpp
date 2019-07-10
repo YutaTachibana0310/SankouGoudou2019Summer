@@ -29,10 +29,10 @@ static void VolumeUpEffect(void);
 // グローバル変数宣言
 //*****************************************************************************
 OBJECT	score;					
-int		g_score		= 0;		// スコア
-int		g_score_max = 0;			
-static float radian = 0;
-static bool	volumeUpEffectUsed = false;
+int		g_score;		// スコア
+int		g_score_max;			
+static float radian;
+static bool	volumeUpEffectUsed;
 
 //=============================================================================
 // 初期化処理
@@ -56,6 +56,10 @@ HRESULT InitScore(void)
 	{
 		g_score_max += (BASE_NUMBER -1)* (int)powf(BASE_NUMBER, (float)nCntPlace);
 	}
+
+	g_score = 0;
+	radian = 0;
+	volumeUpEffectUsed = false;
 
 	return S_OK;
 }

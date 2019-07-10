@@ -429,6 +429,12 @@
     <ClInclude Include="PlayerBulletController.h">
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerBomber.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBomberController.h">
+      <Filter>ヘッダー ファイル\Player\State</Filter>
+    </ClInclude>
     <ClInclude Include="EnemyController.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
@@ -745,6 +751,12 @@
     </ClCompile>
     <ClCompile Include="PlayerReturn.cpp">
       <Filter>ソース ファイル\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBomber.cpp">
+      <Filter>ソース ファイル\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBomberController.cpp">
+      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
     <ClCompile Include="LineTrailModel.cpp">
       <Filter>ソース ファイル\System</Filter>

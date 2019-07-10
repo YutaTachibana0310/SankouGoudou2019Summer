@@ -11,6 +11,7 @@
 
 #include "IStateMachine.h"
 #include "Player.h"
+#include "PlayerBomberController.h"
 #include "PlayerBulletController.h"
 #include "PlayerModel.h"
 #include "PlayerTrail.h"
@@ -55,6 +56,7 @@ public:
 
 private:
 	Player *player;
+	PlayerBomberController *bomberController;
 	PlayerBulletController *bulletController;
 	PlayerTrail *trailEffect;
 

@@ -11,7 +11,7 @@
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
-#define PLAYERBULLET_TEXTURE_NAME	"data/TEXTURE/Effect/PlayerBullet.png"
+#define PLAYERBULLET_TEXTURE_NAME	"data/TEXTURE/Player/PlayerBullet.png"
 #define PLAYERBULLET_LIFE_COUNT		(180)
 #define PLAYERBULLET_FADE_FRAME		(30)
 #define PLAYERBULLET_FADE_START		(PLAYERBULLET_LIFE_COUNT-PLAYERBULLET_FADE_FRAME)

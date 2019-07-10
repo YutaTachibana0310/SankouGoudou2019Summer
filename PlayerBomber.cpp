@@ -69,7 +69,7 @@ void PlayerBomber::Update(void)
 		return;
 	
 	CalcBomber();
-	transform.pos += velocity /60.0f;
+	transform.pos += velocity;
 	
 	if (cntFrame == 0)
 		Uninit();
@@ -168,13 +168,13 @@ void PlayerBomber::CalcBomber(void)
 		return;
 	}
 
-	float time = cntFrame/60.0f;
+	float time = cntFrame;
 
 	D3DXVECTOR3 diff = *targetPos - transform.pos;
 
 	D3DXVECTOR3 acceleration = (diff - velocity * time) * 2.0f / (time * time);
 
-	velocity += acceleration/60.0f;
+	velocity += acceleration;
 
 	cntFrame--;
 }

@@ -507,6 +507,9 @@
     <ClInclude Include="StageModel.h">
       <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="EditorScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -835,6 +838,9 @@
     </ClCompile>
     <ClCompile Include="GameEnd.cpp">
       <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

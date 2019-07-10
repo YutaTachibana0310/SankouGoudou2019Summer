@@ -22,6 +22,7 @@ enum Scene{
 	SceneTitle,
 	SceneGame,
 	SceneResult,
+	SceneEditor,
 	SceneMax
 };
 

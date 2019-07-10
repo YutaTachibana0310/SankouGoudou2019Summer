@@ -17,6 +17,7 @@
 #include "TitleScene.h"
 #include "GameScene.h"
 #include "ResultScene.h"
+#include "EditorScene.h"
 #include "InputController.h"
 
 #include "SoundStateScene.h"
@@ -56,12 +57,7 @@ static IStateScene* fsm[SceneMax];
 static SoundStateScene* ssm[SceneMax];
 
 //現在のシーン
-static Scene currentScene = SceneTitle;
-
-
-//シーンチェンジ用
-bool scenechange = false;
-int changecounta = 0;
+static Scene currentScene = SceneEditor;
 
 /**************************************
 初期化処理
@@ -83,6 +79,7 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	fsm[SceneTitle] = new TitleScene();
 	fsm[SceneGame] = new GameScene();
 	fsm[SceneResult] = new ResultScene();
+	fsm[SceneEditor] = new EditorScene();
 
 	ssm[SceneTitle] = new SoundTitleScene();
 	ssm[SceneGame] = new SoundGameScene();
@@ -117,8 +114,12 @@ void UpdateGame(HWND hWnd)
 	UpdateMask();
 
 	//念のためサウンドを最初に（渡邉）
-	Sound::GetInstance()->run();
-	ssm[currentScene]->Play();
+	if (ssm[currentScene] != nullptr)
+	{
+		Sound::GetInstance()->run();
+		ssm[currentScene]->Play();
+	}
+
 	UpdateDebugWindow();
 	UpdateInput();
 	UpdateLight();

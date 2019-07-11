@@ -28,6 +28,8 @@
 #include "GameBattle.h"
 #include "GameEnd.h"
 
+#include "RebarOb.h"
+
 using namespace std;
 
 /**************************************
@@ -84,6 +86,9 @@ void GameScene::Init()
 	//エネミー初期化
 	enemyController->Init();
 
+	//障害物初期化
+	InitRebarOb();
+
 	//プロファイラにGameSceneを登録
 	RegisterDebugTimer(GAMESCENE_LABEL);
 
@@ -91,6 +96,8 @@ void GameScene::Init()
 	currentState = State::Start;
 	state = fsm[currentState];
 	state->OnStart(this);
+
+
 
 }
 
@@ -116,6 +123,9 @@ void GameScene::Uninit()
 
 	//UI終了
 	UninitGameSceneUI();
+
+	//障害物終了
+	UninitRebarOb();
 
 	//インスタンス削除
 	SAFE_DELETE(enemyController);
@@ -156,6 +166,7 @@ void GameScene::Update(HWND hWnd)
 	//エネミーの更新
 	enemyController->Update();
 
+
 	//パーティクルの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateParticle");
 	particleManager->Update();
@@ -168,6 +179,10 @@ void GameScene::Update(HWND hWnd)
 
 	//ポストエフェクトの更新
 	PostEffectManager::Instance()->Update();
+
+
+	//障害物の更新
+	UpdateRebarOb();
 
 	//遷移処理
 	if (result != STATE_CONTINUOUS)
@@ -187,6 +202,9 @@ void GameScene::Draw()
 	DrawBackGroundRoad();
 	DrawBackGroundField();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
+
+	//障害物の描画
+	DrawRebarOb();
 
 	//プレイヤーの描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");

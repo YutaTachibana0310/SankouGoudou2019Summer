@@ -25,6 +25,8 @@ using namespace std;
 構造体定義
 ***************************************/
 
+
+
 /**************************************
 コンストラクタ
 ***************************************/
@@ -33,6 +35,7 @@ PlayerObserver::PlayerObserver()
 	player = new Player();
 	model = new PlayerModel();
 	trailEffect = new PlayerTrail();
+	bomberController = new PlayerBomberController();
 	bulletController = new PlayerBulletController();
 
 	fsm[PlayerState::Idle] = new PlayerIdle();
@@ -60,6 +63,7 @@ PlayerObserver::~PlayerObserver()
 	SAFE_DELETE(model);
 	SAFE_DELETE(trailEffect);
 
+	SAFE_DELETE(bomberController);
 	SAFE_DELETE(bulletController);
 
 	for (auto stateMachine : fsm)
@@ -84,6 +88,8 @@ void PlayerObserver::Init()
 void PlayerObserver::Uninit()
 {
 	player->Uninit();
+
+	bomberController->Uninit();
 	bulletController->Uninit();
 }
 
@@ -100,6 +106,8 @@ void PlayerObserver::Update()
 	bulletController->Update();
 
 	trailEffect->Update();
+
+	bomberController->Update();
 }
 
 /**************************************
@@ -112,7 +120,8 @@ void PlayerObserver::Draw()
 	player->Draw();
 
 	trailEffect->Draw();
-
+	
+	bomberController->Draw();
 	bulletController->Draw();
 }
 
@@ -216,8 +225,8 @@ void PlayerObserver::OnFinishPlayerMove()
 	//一筆書き判定
 	if (model->CheckOneStroke())
 	{
-		//ボム発射
 
+		//ボム発射
 	}
 
 	//先行入力確認

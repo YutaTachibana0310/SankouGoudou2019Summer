@@ -36,6 +36,7 @@ public:
 	D3DXVECTOR3	initpos;			// ˆÚ“®‘OˆÊ’u
 	D3DXVECTOR3	goalpos;			// ˆÚ“®ŒãˆÊ’u
 
+
 	IStateMachine<Player> *state;
 
 	//ŠÖ”

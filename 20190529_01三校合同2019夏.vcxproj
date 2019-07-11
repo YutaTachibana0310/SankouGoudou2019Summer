@@ -147,6 +147,7 @@
     <ClInclude Include="EditorBG.h" />
     <ClInclude Include="EditorScene.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="RebarOb.h" />
     <ClInclude Include="EnemyExplosionController.h" />
     <ClInclude Include="EnemyExplosionFlare.h" />
     <ClInclude Include="EnemyExplosionFlareController.h" />
@@ -156,6 +157,8 @@
     <ClInclude Include="cursorUI.h" />
     <ClInclude Include="debugTimer.h" />
     <ClInclude Include="debugWindow.h" />
+    <ClInclude Include="PlayerBomber.h" />
+    <ClInclude Include="PlayerBomberController.h" />
     <ClInclude Include="EnemyController.h" />
     <ClInclude Include="Framework\AnimationParticle.h" />
     <ClInclude Include="Framework\BaseObserver.h" />
@@ -265,6 +268,7 @@
     <ClCompile Include="BaseEditWindow.cpp" />
     <ClCompile Include="ChangeEditWindow.cpp" />
     <ClCompile Include="EditorScene.cpp" />
+    <ClCompile Include="RebarOb.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyExplosionController.cpp" />
     <ClCompile Include="EnemyExplosionFlare.cpp" />
@@ -315,6 +319,8 @@
     <ClCompile Include="masktex.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerBomber.cpp" />
+    <ClCompile Include="PlayerBomberController.cpp" />
     <ClCompile Include="PlayerBulletController.cpp" />
     <ClCompile Include="PlayerBulletParticle.cpp" />
     <ClCompile Include="PlayerBulletParticleController.cpp" />

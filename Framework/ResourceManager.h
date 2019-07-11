@@ -28,7 +28,7 @@ public:
 	void ReleaseMesh(const char* tag);
 
 	//リソース参照処理
-	bool GetMesh(const char* tag, MeshContainer* pOut);
+	bool GetMesh(const char* tag, MeshContainer** pOut);
 
 	//全リソース解放処理
 	void AllRelease();

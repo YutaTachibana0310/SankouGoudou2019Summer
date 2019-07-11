@@ -48,7 +48,7 @@ void ResourceManager::ReleaseMesh(const char* tag)
 /**************************************
 メッシュ取得処理
 ***************************************/
-bool ResourceManager::GetMesh(const char* tag, MeshContainer* pOut)
+bool ResourceManager::GetMesh(const char* tag, MeshContainer** pOut)
 {
 	string tagStr = string(tag);
 
@@ -57,7 +57,7 @@ bool ResourceManager::GetMesh(const char* tag, MeshContainer* pOut)
 		return false;
 
 	//メッシュへの参照を格納
-	pOut = meshPool[tagStr];
+	*pOut = meshPool[tagStr];
 	return true;
 }
 

@@ -60,7 +60,7 @@ public:
 	virtual void SetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int time, D3DXVECTOR3 vec) {};
 
 	//staticƒƒ“ƒo
-	static MeshContainer *mesh;
+	MeshContainer *mesh;
 	static UINT instanceCount;
 };
 

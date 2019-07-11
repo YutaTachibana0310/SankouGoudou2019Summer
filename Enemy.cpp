@@ -12,7 +12,7 @@
 
 #include "Framework\Easing.h"
 
-
+#include "Framework\ResourceManager.h"
 
 /**************************************
 ƒ}ƒNƒ’è‹`
@@ -26,7 +26,6 @@
 /****************************************
 static•Ï”
 ****************************************/
-MeshContainer* Enemy::mesh;
 UINT Enemy::instanceCount;
 
 /****************************************
@@ -35,11 +34,7 @@ UINT Enemy::instanceCount;
 Enemy::Enemy()
 {
 	instanceCount++;
-	if (mesh == NULL)
-	{
-		mesh = new MeshContainer();
-		mesh->Load(ENEMY_MODEL);
-	}
+	ResourceManager::Instance()->GetMesh("Enemy", &mesh);
 }
 
 /****************************************
@@ -48,10 +43,6 @@ Enemy::Enemy()
 Enemy::~Enemy()
 {
 	instanceCount--;
-	if (instanceCount == 0)
-	{
-		SAFE_DELETE(mesh);
-	}
 }
 
 //EnemyStraight

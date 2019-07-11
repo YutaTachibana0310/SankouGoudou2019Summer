@@ -14,6 +14,7 @@
 前方宣言
 ***************************************/
 class EditorBG;
+class StageEditor;
 
 /**************************************
 クラス定義
@@ -31,6 +32,6 @@ public:
 
 private:
 	EditorBG * bg;
-
+	StageEditor *editor;
 };
 #endif

@@ -52,17 +52,19 @@ BaseEditWindow::~BaseEditWindow()
 void BaseEditWindow::Draw()
 {
 	string windowName = to_string(id);
-	BeginDebugWindow(windowName.c_str());
+	//BeginDebugWindow(windowName.c_str());
 
 	DebugInputInt("frame", &frame);
-	DebugInputText("type", &type);
+
+	string typeName = string("type") + to_string(id);
+	DebugInputText(typeName.c_str(), &type);
 
 	if (dataWindow.count(type) != 0)
 	{
 		dataWindow[type]->Draw();
 	}
 
-	EndDebugWindow(windowName.c_str());
+	//EndDebugWindow(windowName.c_str());
 }
 
 /**************************************

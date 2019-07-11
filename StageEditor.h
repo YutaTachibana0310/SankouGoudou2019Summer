@@ -9,6 +9,7 @@
 
 #include "main.h"
 #include <vector>
+#include "BaseEditWindow.h"
 
 /**************************************
 É}ÉNÉçíËã`
@@ -29,6 +30,8 @@ public:
 	void Draw();
 
 private:
+	std::vector<BaseEditWindow*> windowContainer;
+
 };
 
 #endif

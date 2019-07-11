@@ -147,6 +147,7 @@
     <ClInclude Include="EditorBG.h" />
     <ClInclude Include="EditorScene.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="Framework\ResourceManager.h" />
     <ClInclude Include="RebarOb.h" />
     <ClInclude Include="EnemyExplosionController.h" />
     <ClInclude Include="EnemyExplosionFlare.h" />
@@ -268,6 +269,7 @@
     <ClCompile Include="BaseEditWindow.cpp" />
     <ClCompile Include="ChangeEditWindow.cpp" />
     <ClCompile Include="EditorScene.cpp" />
+    <ClCompile Include="Framework\ResourceManager.cpp" />
     <ClCompile Include="RebarOb.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyExplosionController.cpp" />

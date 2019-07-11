@@ -148,14 +148,14 @@
     <Filter Include="ソース ファイル\Stage">
       <UniqueIdentifier>{01486906-f323-4787-a90e-75b766ee4f26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Stage\EditWindow">
+      <UniqueIdentifier>{b262d1c9-3f13-4053-b868-e787df812ce1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ヘッダー ファイル\Stage">
       <UniqueIdentifier>{c0fb288c-52af-4639-848c-1671affcd45f}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Stage\EditWindow">
       <UniqueIdentifier>{67a63066-4cb7-44e5-a76b-581e1b40540e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Stage\EditWindow">
-      <UniqueIdentifier>{b262d1c9-3f13-4053-b868-e787df812ce1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -441,9 +441,6 @@
     <ClInclude Include="Framework\BaseParticleController.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\ObserveSubject.h">
-      <Filter>ヘッダー ファイル\Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\BaseObserver.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
@@ -545,6 +542,12 @@
     </ClInclude>
     <ClInclude Include="DataEditWindow.h">
       <Filter>ヘッダー ファイル\Stage\EditWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ResourceManager.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ObserveSubject.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -898,6 +901,9 @@
     </ClCompile>
     <ClCompile Include="BaseEditWindow.cpp">
       <Filter>ソース ファイル\Stage\EditWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\ResourceManager.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

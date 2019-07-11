@@ -23,6 +23,8 @@
 #include "SkyBox.h"
 #include "GameParticleManager.h"
 
+#include "RebarOb.h"
+
 #include "player.h"
 
 /**************************************
@@ -38,6 +40,8 @@
 グローバル変数
 ***************************************/
 class Player player;
+
+
 /**************************************
 初期化処理
 ***************************************/
@@ -56,6 +60,8 @@ void GameScene::Init()
 	InitPlayerController();
 	player.Init();
 	InitCursor();
+
+	InitRebarOb();
 }
 
 /**************************************
@@ -75,6 +81,8 @@ void GameScene::Uninit()
 
 	player.Uninit();
 	UninitCursor();
+
+	UninitRebarOb();
 }
 
 /**************************************
@@ -92,6 +100,7 @@ void GameScene::Update(HWND hWnd)
 	UpdatePlayerController(hWnd);
 	player.Update();
 
+
 	//パーティクルの更新
 	UpdateGameParticleManager();
 
@@ -101,6 +110,9 @@ void GameScene::Update(HWND hWnd)
 
 	//ポストエフェクトの更新
 	PostEffectManager::Instance()->Update();
+
+	//障害物の更新
+	UpdateRebarOb();
 }
 
 /**************************************
@@ -115,7 +127,10 @@ void GameScene::Draw()
 	DrawBackGroundField();
 
 	//プレイヤーの描画
-	player.Draw();
+	//player.Draw();
+
+	//障害物の描画
+	DrawRebarOb();
 
 	//パーティクル描画
 	DrawGameParticleManager();
@@ -126,4 +141,5 @@ void GameScene::Draw()
 	//UI描画
 	DrawUI();
 	DrawCursor();
+
 }

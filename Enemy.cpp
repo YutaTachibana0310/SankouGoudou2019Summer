@@ -5,16 +5,12 @@
 //Author:馬　前程
 //=====================================
 #include "Enemy.h"
-
 #include "debugWindow.h"
 
 #include  <math.h>
-
 #include "Framework\Easing.h"
 
 using namespace std;
-
-
 /**************************************
 マクロ定義
 ***************************************/
@@ -346,11 +342,11 @@ HRESULT EnemySnake::VInit()
 {
 	m_Active = false;
 
-	m_currentIndex = 0;
+	m_CurrentIndex = 0;
 
 	for (int i = 0; i < 5; i++)
 	{
-		m_posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+		m_PosDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 		m_FrameDestList.push_back(0.0f);
 	}
 	
@@ -384,26 +380,37 @@ void EnemySnake::VUninit()
 *****************************************/
 void EnemySnake::VUpdate()
 {
+	//前の点を通過するのにの時間
+	int framePassed = 0;
+
 	if (m_Active)
 	{
-		//if (m_CntFrame > m_FrameDest)
-
-		static int	i = 0;
-			
-		m_Pos = Easing<D3DXVECTOR3>::GetEasingValue((m_CntFrame / m_FrameDestList[i]),
-			&m_posDestList[i], &m_posDestList[i + 1], EasingType::OutCubic);
-		if (m_CntFrame == m_FrameDestList[i]&&i<4)
+		if (m_CntFrame > m_FrameDestList[m_FrameDestList.size() - 1])
 		{
-			i++;
+			m_Active = false;
 		}
-				
-			
-		//m_Pos = Easing<D3DXVECTOR3>::GetEasingValue((m_CntFrame / m_FrameDestList[1]),
-		//&m_posDestList[1], &m_posDestList[2], EasingType::OutCubic);
 
+		if (m_CntFrame > (framePassed) && m_CntFrame < framePassed + m_WaitTime)
+		{
+
+		}//m_WaitTime * (m_CurrentIndex)
+		else if ((m_CntFrame == (m_FrameDestList[m_CurrentIndex] + framePassed))
+			&& m_CurrentIndex < m_FrameDestList.size())
+		{
+			//indexを次の点に指定
+			m_CurrentIndex++;
+			//今までの所要時間
+			framePassed = m_CntFrame;
+		}
+		else //if(m_CurrentIndex < 6)
+		{
+			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue(((m_CntFrame - framePassed) / m_FrameDestList[m_CurrentIndex]),
+				&m_PosDestList[m_CurrentIndex], &m_PosDestList[m_CurrentIndex + 1], EasingType::OutCubic);
+		}
 
 		//countする
 		m_CntFrame++;
+	
 	}
 }
 
@@ -439,15 +446,19 @@ void EnemySnake::VDraw()
 	}
 }
 
+/****************************************
+セット処理
+*****************************************/
 void EnemySnake::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end1, int frame)
 {
 	//空
 }
 
-void EnemySnake::Set(vector<D3DXVECTOR3> posDestList, vector<float> FrameDestList)
+void EnemySnake::Set(vector<D3DXVECTOR3> posDestList, vector<float> frameDestList,int waitTime)
 {
-	m_posDestList = posDestList;
-	m_FrameDestList = FrameDestList;
-
+	
+	m_PosDestList = posDestList;
+	m_FrameDestList = frameDestList;
+	m_WaitTime = waitTime;
 	m_Active = true;
 }

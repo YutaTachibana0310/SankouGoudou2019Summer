@@ -15,15 +15,11 @@ using namespace std;
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-
 #define MAX_ENEMY (100)
-
-
 
 //*****************************************************************************
 // 種類
 //*****************************************************************************
-
 
 //*****************************************************************************
 // クラス定義
@@ -53,7 +49,7 @@ public:
 
 	D3DXVECTOR3         m_Start;			//移動の元
 
-	float					m_FrameDest;
+	float					m_FrameDest;	//移動がいるフレーム数
 	//純粋仮想関数
 	virtual HRESULT  VInit(void) = 0;
 	virtual void VUninit(void) = 0;
@@ -66,7 +62,6 @@ public:
 	static MeshContainer *m_pMesh;
 	static UINT m_InstanceCount;
 };
-
 
 class EnemyStraight : public Enemy
 {
@@ -102,13 +97,14 @@ public:
 
 };
 
-
 class EnemySnake :public Enemy
 {
 public:
-	int m_currentIndex;
-	vector<D3DXVECTOR3> m_posDestList;
-	vector<float> m_FrameDestList;
+	
+	vector<D3DXVECTOR3> m_PosDestList;  //移動先
+	vector<float> m_FrameDestList;		//移動がいるフレーム数
+	int m_WaitTime;						//停止の時間
+	int m_CurrentIndex;					//現在、posDestListの何番へ向かっているかを入れる変数
 
 	EnemySnake();
 	~EnemySnake();
@@ -119,9 +115,12 @@ public:
 	void VDraw(void);
 
 	void VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame);
-	void Set(vector<D3DXVECTOR3> posDestList, vector<float> m_FrameDestList);
+
+	//スタートの所(posDestList[0])/移動先ごとに設定、posDestListの何番の移動がいるフレーム数に設定、停止の時間
+	void Set(vector<D3DXVECTOR3> posDestList, vector<float> m_frameDestList,int m_waitTime);
 	
 };
+
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************

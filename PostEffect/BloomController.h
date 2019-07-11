@@ -25,13 +25,13 @@ public:
 	friend class BaseSingleton<BloomController>;
 
 	void Update();
-	void Draw();
+	void Draw(LPDIRECT3DTEXTURE9 targetTexture = NULL);
 
 private:
 	BloomController();
 	~BloomController();
 
-	void SampleBrightness();
+	void SampleBrightness(LPDIRECT3DTEXTURE9 targetTexture);
 	void ProcessBlur();
 	void BlendBloom();
 

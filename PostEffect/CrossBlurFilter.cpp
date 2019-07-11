@@ -10,7 +10,8 @@
 マクロ定義
 ***************************************/
 #define EFFECTFILE_CROSSBLUR_PATH	"PostEffect/CrossBlur.fx"
-#define CROSSBLUR_ARRAY_SIZE		(5)
+#define PRECOMPILE_CROSSBLUR_PATH	"data/EFFECT/CrossBlur.cfx"
+#define CROSSBLUR_ARRAY_SIZE		(2)
 
 /**************************************
 構造体定義
@@ -27,7 +28,11 @@ CrossBlurFilter::CrossBlurFilter()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	D3DXCreateEffectFromFile(pDevice, (LPSTR)EFFECTFILE_CROSSBLUR_PATH, 0, 0, 0, 0, &effect, 0);
+	HRESULT res = D3DXCreateEffectFromFile(pDevice, (LPSTR)PRECOMPILE_CROSSBLUR_PATH, 0, 0, D3DXSHADER_SKIPVALIDATION, 0, &effect, 0);
+
+	if(res != S_OK)
+		D3DXCreateEffectFromFile(pDevice, (LPSTR)EFFECTFILE_CROSSBLUR_PATH, 0, 0, 0, 0, &effect, 0);
+
 	hTexelU = effect->GetParameterByName(0, "texelU");
 	hTexelV = effect->GetParameterByName(0, "texelV");
 	effect->SetTechnique("tech");

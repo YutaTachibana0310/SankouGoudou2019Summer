@@ -9,7 +9,8 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define EFFECT_SPIKENOISE_PATH	"PostEffect/SpikeNoise.fx"
+#define EFFECTFILE_SPIKENOISE_PATH		"PostEffect/SpikeNoise.fx"
+#define PRECOMPILE_SPIKENOISE_PATH		"data/EFFECT/SpikeNoise.cfx"
 
 /**************************************
 構造体定義
@@ -26,7 +27,11 @@ SpikeNoise::SpikeNoise()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	D3DXCreateEffectFromFile(pDevice, (LPSTR)EFFECT_SPIKENOISE_PATH, 0, 0, 0, 0, &effect, 0);
+	HRESULT res = D3DXCreateEffectFromFile(pDevice, (LPSTR)PRECOMPILE_SPIKENOISE_PATH, 0, 0, D3DXSHADER_SKIPVALIDATION, 0, &effect, 0);
+
+	if(res != S_OK)
+		D3DXCreateEffectFromFile(pDevice, (LPSTR)EFFECTFILE_SPIKENOISE_PATH, 0, 0, 0, 0, &effect, 0);
+
 	hndlLength = effect->GetParameterByName(0, "length");
 }
 

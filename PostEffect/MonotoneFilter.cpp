@@ -10,6 +10,7 @@
 ƒ}ƒNƒ’è‹`
 ***************************************/
 #define EFFECTFILE_MONOTONE_PATH	"PostEffect/MonotoneFilter.fx"
+#define PRECOMPILE_MONOTONE_PATH	"data/EFFECT/MonotoneFilter.cfx"
 
 #define MONOTONE_USE_DEBUG
 
@@ -48,7 +49,11 @@ MonotoneFilter::MonotoneFilter()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	D3DXCreateEffectFromFile(pDevice, (LPSTR)EFFECTFILE_MONOTONE_PATH, 0, 0, 0, 0, &effect, 0);
+	HRESULT res = D3DXCreateEffectFromFile(pDevice, (LPSTR)PRECOMPILE_MONOTONE_PATH, 0, 0, D3DXSHADER_SKIPVALIDATION, 0, &effect, 0);
+
+	if(!res)
+		D3DXCreateEffectFromFile(pDevice, (LPSTR)EFFECTFILE_MONOTONE_PATH, 0, 0, 0, 0, &effect, 0);
+
 	effect->SetTechnique("tech");
 	hndlPower = effect->GetParameterByName(0, "power");
 }

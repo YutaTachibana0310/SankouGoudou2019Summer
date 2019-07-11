@@ -20,11 +20,11 @@
 ***************************************/
 
 /**************************************
-プロトタイプ宣言
+クラス定義
 ***************************************/
-class PlayerReturn :IStateMachine<Player> {
+class PlayerReturn :public IStateMachine<Player> {
 public:
-	void OnUpdate(Player *entity);
+	int OnUpdate(Player *entity);
 	void OnStart(Player *entity);
 	void OnExit(Player *entity);
 };

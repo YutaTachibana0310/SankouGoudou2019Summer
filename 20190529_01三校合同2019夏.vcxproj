@@ -93,6 +93,9 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
+    <PreBuildEvent>
+      <Command>for %%1 in ($(InputDir)Shaders/*.fx) do fxc.exe $(InputDir)Shaders/%%~n1.fx /T fx_2_0 /Fo $(InputDir)data/EFFECT/%%~n1.cfx</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -110,12 +113,15 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PreBuildEvent>
+      <Command>for %%1 in ($(InputDir)Shaders/*.fx) do fxc.exe $(InputDir)Shaders/%%~n1.fx /T fx_2_0 /Fo $(InputDir)data/EFFECT/%%~n1.cfx</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -136,14 +142,42 @@
     <ClInclude Include="BackGroundField.h" />
     <ClInclude Include="BackGroundRoad.h" />
     <ClInclude Include="RebarOb.h" />
+    <ClInclude Include="EnemyExplosionController.h" />
+    <ClInclude Include="EnemyExplosionFlare.h" />
+    <ClInclude Include="EnemyExplosionFlareController.h" />
+    <ClInclude Include="EnemyModel.h" />
     <ClInclude Include="camera.h" />
-    <ClInclude Include="collider.h" />
-    <ClInclude Include="combo.h" />
-    <ClInclude Include="cursor.h" />
+    <ClInclude Include="comboUI.h" />
+    <ClInclude Include="cursorUI.h" />
     <ClInclude Include="debugTimer.h" />
     <ClInclude Include="debugWindow.h" />
+    <ClInclude Include="PlayerBomber.h" />
+    <ClInclude Include="PlayerBomberController.h" />
+    <ClInclude Include="EnemyController.h" />
+    <ClInclude Include="Framework\AnimationParticle.h" />
+    <ClInclude Include="Framework\BaseObserver.h" />
+    <ClInclude Include="Framework\BoxCollider3D.h" />
+    <ClInclude Include="Framework\ObserveSubject.h" />
+    <ClInclude Include="EnemyExplosionParticle.h" />
+    <ClInclude Include="Framework\SceneParticleManager.h" />
+    <ClInclude Include="GameBattle.h" />
+    <ClInclude Include="GameEnd.h" />
+    <ClInclude Include="GameStart.h" />
+    <ClInclude Include="LineRenderer.h" />
+    <ClInclude Include="LineTrailModel.h" />
+    <ClInclude Include="PlayerBulletController.h" />
+    <ClInclude Include="PlayerIdle.h" />
+    <ClInclude Include="PlayerModel.h" />
+    <ClInclude Include="PlayerObserver.h" />
+    <ClInclude Include="startButtonUI.h" />
+    <ClInclude Include="PlayerTrail.h" />
+    <ClInclude Include="PlayerTrailParticle.h" />
+    <ClInclude Include="PlayerTrailParticleController.h" />
     <ClInclude Include="Framework\AnimContainer.h" />
     <ClInclude Include="Framework\BaseCameraPlugin.h" />
+    <ClInclude Include="Framework\BaseEmitter.h" />
+    <ClInclude Include="Framework\BaseParticle.h" />
+    <ClInclude Include="Framework\BaseParticleController.h" />
     <ClInclude Include="Framework\BaseSingleton.h" />
     <ClInclude Include="Framework\CameraShakerPlugin.h" />
     <ClInclude Include="Framework\Easing.h" />
@@ -153,7 +187,7 @@
     <ClInclude Include="Framework\MyAllocateHierarchy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameParticleManager.h" />
-    <ClInclude Include="guage.h" />
+    <ClInclude Include="guageUI.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
@@ -168,14 +202,17 @@
     <ClInclude Include="IStateMachine.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="masktex.h" />
     <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="PlayerBulletParticle.h" />
+    <ClInclude Include="PlayerBulletParticleController.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="PlayerReturn.h" />
     <ClInclude Include="PlayerWait.h" />
     <ClInclude Include="IStateScene.h" />
-    <ClInclude Include="line.h" />
+    <ClInclude Include="lineUI.h" />
     <ClInclude Include="MyLibrary.h" />
-    <ClInclude Include="player.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="PostEffectManager.h" />
     <ClInclude Include="PostEffect\BloomController.h" />
@@ -187,16 +224,31 @@
     <ClInclude Include="PostEffect\ScreenObject.h" />
     <ClInclude Include="PostEffect\ShockBlur.h" />
     <ClInclude Include="PostEffect\ShockBlurController.h" />
+    <ClInclude Include="PostEffect\SpeedBlurController.h" />
+    <ClInclude Include="PostEffect\SpeedBlurFilter.h" />
     <ClInclude Include="PostEffect\SpikeNoise.h" />
     <ClInclude Include="PostEffect\SpikeNoiseController.h" />
     <ClInclude Include="PostEffect\StrongBlurFilter.h" />
-    <ClInclude Include="score.h" />
+    <ClInclude Include="scoreUI.h" />
     <ClInclude Include="ScoreParticle.h" />
+    <ClInclude Include="ScoreParticleController.h" />
     <ClInclude Include="SkyBox.h" />
-    <ClInclude Include="star.h" />
-    <ClInclude Include="trail.h" />
+    <ClInclude Include="sound.h" />
+    <ClInclude Include="SoundGameScene.h" />
+    <ClInclude Include="SoundResultScene.h" />
+    <ClInclude Include="SoundStateScene.h" />
+    <ClInclude Include="SoundTitleScene.h" />
+    <ClInclude Include="Stencil.h" />
+    <ClInclude Include="starUI.h" />
+    <ClInclude Include="StopEnemyModel.h" />
+    <ClInclude Include="TestEnemyModel.h" />
+    <ClInclude Include="titleBGUI.h" />
+    <ClInclude Include="titleLogoUI.h" />
+    <ClInclude Include="TitleSceneUIManager.h" />
+    <ClInclude Include="trailUI.h" />
+    <ClInclude Include="TrailCollider.h" />
     <ClInclude Include="UIdrawer.h" />
-    <ClInclude Include="UIManager.h" />
+    <ClInclude Include="GameSceneUIManager.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>
@@ -205,23 +257,39 @@
     <ClCompile Include="BackGroundRoad.cpp" />
     <ClCompile Include="BackGuroundField.cpp" />
     <ClCompile Include="RebarOb.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyExplosionController.cpp" />
+    <ClCompile Include="EnemyExplosionFlare.cpp" />
+    <ClCompile Include="EnemyExplosionFlareController.cpp" />
+    <ClCompile Include="EnemyExplosionParticle.cpp" />
+    <ClCompile Include="EnemyModel.cpp" />
     <ClCompile Include="camera.cpp" />
-    <ClCompile Include="collider.cpp" />
-    <ClCompile Include="combo.cpp" />
-    <ClCompile Include="cursor.cpp" />
+    <ClCompile Include="comboUI.cpp" />
+    <ClCompile Include="cursorUI.cpp" />
     <ClCompile Include="debugTimer.cpp" />
     <ClCompile Include="debugWindow.cpp" />
+    <ClCompile Include="EnemyController.cpp" />
+    <ClCompile Include="Framework\AnimationParticle.cpp" />
     <ClCompile Include="Framework\AnimContainer.cpp" />
     <ClCompile Include="Framework\BaseCameraPlugin.cpp" />
+    <ClCompile Include="Framework\BaseEmitter.cpp" />
+    <ClCompile Include="Framework\BaseParticle.cpp" />
+    <ClCompile Include="Framework\BaseParticleController.cpp" />
+    <ClCompile Include="Framework\BoxCollider3D.cpp" />
     <ClCompile Include="Framework\CameraShakerPlugin.cpp" />
     <ClCompile Include="Framework\Easing.cpp" />
     <ClCompile Include="Framework\EasingVector.cpp" />
     <ClCompile Include="Framework\InstancingMeshContainer.cpp" />
     <ClCompile Include="Framework\MeshContainer.cpp" />
     <ClCompile Include="Framework\MyAllocateHierarchy.cpp" />
+    <ClCompile Include="Framework\ObserveSubject.cpp" />
+    <ClCompile Include="Framework\SceneParticleManager.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameBattle.cpp" />
+    <ClCompile Include="GameEnd.cpp" />
     <ClCompile Include="GameParticleManager.cpp" />
-    <ClCompile Include="guage.cpp" />
+    <ClCompile Include="GameStart.cpp" />
+    <ClCompile Include="guageUI.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -232,14 +300,27 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="light.cpp" />
-    <ClCompile Include="line.cpp" />
+    <ClCompile Include="LineRenderer.cpp" />
+    <ClCompile Include="LineTrailModel.cpp" />
+    <ClCompile Include="lineUI.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="masktex.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
-    <ClCompile Include="player.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerBomber.cpp" />
+    <ClCompile Include="PlayerBomberController.cpp" />
+    <ClCompile Include="PlayerBulletController.cpp" />
+    <ClCompile Include="PlayerBulletParticle.cpp" />
+    <ClCompile Include="PlayerBulletParticleController.cpp" />
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
+    <ClCompile Include="PlayerIdle.cpp" />
+    <ClCompile Include="PlayerModel.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
+    <ClCompile Include="PlayerObserver.cpp" />
     <ClCompile Include="PlayerReturn.cpp" />
+    <ClCompile Include="PlayerTrailParticle.cpp" />
+    <ClCompile Include="PlayerTrailParticleController.cpp" />
     <ClCompile Include="PlayerWait.cpp" />
     <ClCompile Include="PostEffectManager.cpp" />
     <ClCompile Include="PostEffect\BloomController.cpp" />
@@ -251,73 +332,97 @@
     <ClCompile Include="PostEffect\ScreenObject.cpp" />
     <ClCompile Include="PostEffect\ShockBlur.cpp" />
     <ClCompile Include="PostEffect\ShockBlurController.cpp" />
+    <ClCompile Include="PostEffect\SpeedBlurController.cpp" />
+    <ClCompile Include="PostEffect\SpeedBlurFilter.cpp" />
     <ClCompile Include="PostEffect\SpikeNoise.cpp" />
     <ClCompile Include="PostEffect\SpikeNoiseController.cpp" />
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp" />
-    <ClCompile Include="score.cpp" />
+    <ClCompile Include="scoreUI.cpp" />
     <ClCompile Include="ScoreParticle.cpp" />
+    <ClCompile Include="ScoreParticleController.cpp" />
     <ClCompile Include="SkyBox.cpp" />
-    <ClCompile Include="star.cpp" />
-    <ClCompile Include="trail.cpp" />
+    <ClCompile Include="sound.cpp" />
+    <ClCompile Include="SoundGameScene.cpp" />
+    <ClCompile Include="SoundResultScene.cpp" />
+    <ClCompile Include="SoundTitleScene.cpp" />
+    <ClCompile Include="Stencil.cpp" />
+    <ClCompile Include="startButtonUI.cpp" />
+    <ClCompile Include="starUI.cpp" />
+    <ClCompile Include="PlayerTrail.cpp" />
+    <ClCompile Include="StopEnemyModel.cpp" />
+    <ClCompile Include="TestEnemyModel.cpp" />
+    <ClCompile Include="titleBGUI.cpp" />
+    <ClCompile Include="titleLogoUI.cpp" />
+    <ClCompile Include="TitleSceneUIManager.cpp" />
+    <ClCompile Include="trailUI.cpp" />
+    <ClCompile Include="TrailCollider.cpp" />
     <ClCompile Include="UIdrawer.cpp" />
-    <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="GameSceneUIManager.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="data\EFFECT\ModelInstancing.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="Framework\LambertLight.fx">
+    <FxCompile Include="Shaders\BloomFilter.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="PostEffect\BloomFilter.fx">
+    <FxCompile Include="Shaders\BlurFilter.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="PostEffect\BlurFilter.fx">
+    <FxCompile Include="Shaders\CrossBlur.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="PostEffect\CrossBlur.fx">
+    <FxCompile Include="Shaders\HexaCrossBlur.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="PostEffect\HexaCrossBlur.fx">
+    <FxCompile Include="Shaders\ModelInstancing.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="PostEffect\MonotoneFilter.fx">
+    <FxCompile Include="Shaders\MonotoneFilter.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="PostEffect\ShockBlur.fx">
+    <FxCompile Include="Shaders\particle3D.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="PostEffect\SpikeNoise.fx">
+    <FxCompile Include="Shaders\ShockBlur.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="PostEffect\StrongBlurFilter.fx">
+    <FxCompile Include="Shaders\SpeedBlur.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Shaders\SpikeNoise.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Shaders\StrongBlurFilter.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>

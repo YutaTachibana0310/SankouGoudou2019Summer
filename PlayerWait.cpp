@@ -4,11 +4,12 @@
 //Author:GP12B332 12 権頭
 //
 //=====================================
-
 #include "PlayerWait.h"
+
 /**************************************
 マクロ定義
 ***************************************/
+#define PLAYERWAIT_DURATION		(180)
 
 /**************************************
 構造体定義
@@ -22,20 +23,25 @@
 /*************************************
 更新処理
 **************************************/
-void PlayerWait::OnUpdate(Player *entity)
+int PlayerWait::OnUpdate(Player *entity)
 {
-	entity->cntFrame++;
+	if (entity->inputInterval == PLAYERWAIT_DURATION)
+		return STATE_FINISHED;
+	else
+		return STATE_CONTINUOUS;
 }
 
 /*************************************
-初期化処理
+入場処理
 **************************************/
 void PlayerWait::OnStart(Player *entity)
 {
 	entity->cntFrame = 0;
+	entity->inputInterval = 0;
 }
+
 /*************************************
-終了処理
+退場処理
 **************************************/
 void PlayerWait::OnExit(Player *entity)
 {

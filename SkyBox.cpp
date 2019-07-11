@@ -113,7 +113,7 @@ void MakeVertexBufferSkyBox(void)
 {
 	const float Bottom = -750.0f;
 	const float BoxSize = 5000.0f;
-	const float TexLoop = 1.0f;
+	const float TexLoop = 3.0f;
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 

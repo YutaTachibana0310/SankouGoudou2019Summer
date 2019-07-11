@@ -7,6 +7,9 @@
 #include "TitleScene.h"
 #include "debugWindow.h"
 #include "Game.h"
+#include "InputController.h"
+#include "TitleSceneUIManager.h"
+
 
 /**************************************
 É}ÉNÉçíËã`
@@ -25,7 +28,7 @@
 ***************************************/
 void TitleScene::Init()
 {
-
+	InitTitleSceneUI();
 }
 
 /**************************************
@@ -33,7 +36,7 @@ void TitleScene::Init()
 ***************************************/
 void TitleScene::Uninit()
 {
-
+	UninitTitleSceneUI();
 }
 
 /**************************************
@@ -41,7 +44,7 @@ void TitleScene::Uninit()
 ***************************************/
 void TitleScene::Update(HWND hWnd)
 {
-
+	UpdateTitleSceneUI(hWnd);
 }
 
 /**************************************
@@ -49,5 +52,5 @@ void TitleScene::Update(HWND hWnd)
 ***************************************/
 void TitleScene::Draw()
 {
-
+	DrawTitleSceneUI();
 }

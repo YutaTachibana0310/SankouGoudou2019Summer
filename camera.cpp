@@ -41,7 +41,7 @@ static D3DXMATRIX saveView[TARGETPLAYER_MAX];
 //=============================================================================
 HRESULT InitCamera(void)
 {
-	camera.pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	camera.pos = D3DXVECTOR3(0.0f, 0.0f, -150.0f);
 	camera.target = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	camera.up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	camera.destPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -57,8 +57,8 @@ HRESULT InitCamera(void)
 
 	if ((caps.RasterCaps & D3DPRASTERCAPS_FOGRANGE) != 0)
 	{
-		FLOAT start = 3000.0f;
-		FLOAT end = 9000.0f;
+		FLOAT start = 6000.0f;
+		FLOAT end = 10000.0f;
 
 		pDevice->SetRenderState(D3DRS_FOGENABLE, true);
 		pDevice->SetRenderState(D3DRS_FOGCOLOR, 0);

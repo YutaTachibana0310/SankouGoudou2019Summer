@@ -4,12 +4,13 @@
 //Author:GP12B332 12 権頭
 //
 //=====================================
-
 #include "PlayerReturn.h"
 #include "Framework/Easing.h"
+
 /**************************************
 マクロ定義
 ***************************************/
+#define PLAYER_RETURN_DURATION		(20)
 
 /**************************************
 構造体定義
@@ -23,22 +24,33 @@
 /*************************************
 更新処理
 **************************************/
-void PlayerReturn::OnUpdate(Player *entity)
+int PlayerReturn::OnUpdate(Player *entity)
 {
-	float t = (float)entity->cntFrame / 120;
-	entity->pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->initpos, &PLAYER_INIT_POS, EasingType::OutExponential);
+	float t = (float)entity->cntFrame / PLAYER_RETURN_DURATION;
+	entity->cntFrame++;
+	entity->transform.pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->initpos, &entity->goalpos, EasingType::OutCubic);
+	
+	if (entity->cntFrame == PLAYER_RETURN_DURATION)
+	{
+		OnExit(entity);
+		return STATE_FINISHED;
+	}
 
+	return STATE_CONTINUOUS;
 };
 
 /*************************************
-初期化
+入場処理
 **************************************/
 void PlayerReturn::OnStart(Player * entity)
 {
 	entity->cntFrame = 0;
+	entity->initpos = entity->transform.pos;
+	entity->goalpos = D3DXVECTOR3(0.0f, -20.0f, 0.0f);
 };
+
 /*************************************
-終了処理
+退場処理
 **************************************/
 void PlayerReturn::OnExit(Player *entity)
 {

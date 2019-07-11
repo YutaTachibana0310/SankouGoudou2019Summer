@@ -12,8 +12,8 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define EFFECTFILE_INSTANCINGMESH	"data/EFFECT/ModelInstancing.fx"
-
+#define EFFECTFILE_INSTANCINGMESH	"Framework/ModelInstancing.fx"
+#define PRECOMPILE_INSTANCINGMESH	"data/EFFECT/ModelInstancing.cfx"
 /**************************************
 構造体定義
 ***************************************/
@@ -151,7 +151,9 @@ void InstancingMeshContainer::Load(const char* filePath)
 	SAFE_RELEASE(mesh);
 
 	//fxファイル読み込み
-	D3DXCreateEffectFromFile(pDevice, EFFECTFILE_INSTANCINGMESH, 0, 0, 0, 0, &effect, 0);
+	HRESULT res = D3DXCreateEffectFromFile(pDevice, PRECOMPILE_INSTANCINGMESH, 0, 0, D3DXSHADER_SKIPVALIDATION, 0, &effect, 0);
+	if(res != S_OK)
+		D3DXCreateEffectFromFile(pDevice, EFFECTFILE_INSTANCINGMESH, 0, 0, 0, 0, &effect, 0);
 	effect->SetTechnique("tech");
 }
 
@@ -235,6 +237,38 @@ void InstancingMeshContainer::Draw()
 
 	pDevice->SetStreamSourceFreq(0, 1);
 	pDevice->SetStreamSourceFreq(1, 1);
+}
+
+/**************************************
+描画処理(通常版)
+***************************************/
+void InstancingMeshContainer::DrawDefault()
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	for (UINT i = 0; i < numMaterial; i++)
+	{
+		pDevice->SetMaterial(&materials[i]);
+		pDevice->SetTexture(0, textures[i]);
+		pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST,
+			0,
+			attributeTable[i].VertexStart,
+			attributeTable[i].VertexCount,
+			attributeTable[i].FaceStart * 3,
+			attributeTable[i].FaceCount);
+	}
+}
+
+/**************************************
+ストリームソースセット処理
+***************************************/
+void InstancingMeshContainer::SetStreamSource()
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	pDevice->SetStreamSource(0, vtxBuff, 0, D3DXGetFVFVertexSize(fvf));
+	pDevice->SetIndices(indexuff);
+	pDevice->SetFVF(fvf);
 }
 
 /**************************************

@@ -141,6 +141,7 @@
     <ClInclude Include="BackGroundCity.h" />
     <ClInclude Include="BackGroundField.h" />
     <ClInclude Include="BackGroundRoad.h" />
+    <ClInclude Include="battleStartTelop.h" />
     <ClInclude Include="EnemyExplosionController.h" />
     <ClInclude Include="EnemyExplosionFlare.h" />
     <ClInclude Include="EnemyExplosionFlareController.h" />
@@ -240,6 +241,7 @@
     <ClInclude Include="Stencil.h" />
     <ClInclude Include="starUI.h" />
     <ClInclude Include="StopEnemyModel.h" />
+    <ClInclude Include="telopBG.h" />
     <ClInclude Include="TestEnemyModel.h" />
     <ClInclude Include="titleBGUI.h" />
     <ClInclude Include="titleLogoUI.h" />
@@ -255,6 +257,7 @@
     <ClCompile Include="BackGroundCity.cpp" />
     <ClCompile Include="BackGroundRoad.cpp" />
     <ClCompile Include="BackGuroundField.cpp" />
+    <ClCompile Include="battleStartTelop.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyExplosionController.cpp" />
     <ClCompile Include="EnemyExplosionFlare.cpp" />
@@ -348,6 +351,7 @@
     <ClCompile Include="starUI.cpp" />
     <ClCompile Include="PlayerTrail.cpp" />
     <ClCompile Include="StopEnemyModel.cpp" />
+    <ClCompile Include="telopBG.cpp" />
     <ClCompile Include="TestEnemyModel.cpp" />
     <ClCompile Include="titleBGUI.cpp" />
     <ClCompile Include="titleLogoUI.cpp" />

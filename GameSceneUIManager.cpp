@@ -13,6 +13,8 @@
 #include "lineUI.h"
 #include "trailUI.h"
 #include "cursorUI.h"
+#include "battleStartTelop.h"
+#include "telopBG.h"
 #include "GameSceneUIManager.h"
 
 //=============================================================================
@@ -27,6 +29,9 @@ void InitGameSceneUI(void)
 	InitLine();
 	InitTrail();
 	InitCursor();
+	InitTelopBG();
+
+	InitBattleStartTelop();
 }
 
 //=============================================================================
@@ -41,6 +46,9 @@ void UninitGameSceneUI(void)
 	UninitLine();
 	UninitTrail();
 	UninitCursor();
+	UninitTelopBG();
+
+	UninitBattleStartTelop();
 }
 
 //=============================================================================
@@ -55,6 +63,9 @@ void UpdateGameSceneUI(HWND hWnd)
 	UpdateLine();
 	UpdateTrail();
 	UpdateCursor(hWnd);
+	UpdateTelopBG();
+
+	UpdateBattleStartTelop();
 
 #ifdef _DEBUG
 	// デバッグ用コマンド
@@ -100,6 +111,9 @@ void DrawGameSceneUI(void)
 	DrawTrail();
 
 	DrawCursor();
+	DrawTelopBG();
+
+	DrawBattleStartTelop();
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }
 

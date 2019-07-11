@@ -183,9 +183,9 @@ void GameScene::Draw()
 	//îwåiÇÃï`âÊ
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 	DrawSkyBox();
-	DrawBackGroundCity();
-	DrawBackGroundRoad();
-	DrawBackGroundField();
+	//DrawBackGroundCity();
+	//DrawBackGroundRoad();
+	//DrawBackGroundField();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 
 	//ÉvÉåÉCÉÑÅ[ÇÃï`âÊ

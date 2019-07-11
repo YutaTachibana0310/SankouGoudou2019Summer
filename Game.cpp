@@ -12,6 +12,7 @@
 #include "debugTimer.h"
 #include "sound.h"
 #include "masktex.h"
+#include "Framework\ResourceManager.h"
 
 #include "IStateScene.h"
 #include "TitleScene.h"
@@ -264,6 +265,7 @@ void MaskRun(Scene next) {
 void ChangeScene(Scene next)
 {
 	fsm[currentScene]->Uninit();
+	ResourceManager::Instance()->AllRelease();
 
 	if (ssm[currentScene] != NULL)
 		ssm[currentScene]->Stop();

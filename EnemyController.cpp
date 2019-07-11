@@ -9,6 +9,7 @@
 #include "StopEnemyModel.h"
 
 #include <algorithm>
+#include "Framework\ResourceManager.h"
 
 using namespace std;
 
@@ -31,6 +32,10 @@ EnemyController::EnemyController()
 {
 	//ステートマシン作成
 	fsm[EnemyModelType::Stop] = new StopEnemyModel();
+
+	//リソース読み込み
+	//解放はシーン終了時にGame.cppで一括して開放する
+	ResourceManager::Instance()->LoadMesh("Enemy", "data/MODEL/airplane000.x");
 }
 
 /**************************************

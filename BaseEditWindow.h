@@ -23,6 +23,7 @@ class BaseEditWindow
 {
 public:
 	BaseEditWindow();
+	BaseEditWindow(int id, int frame, std::string type, picojson::object data);
 	~BaseEditWindow();
 
 	void Draw();
@@ -33,6 +34,8 @@ private:
 	int frame;
 	std::string type;
 	std::map<std::string, DataEditWindow*> dataWindow;
+
+	void CreateEditWindow();
 
 	static UINT instanceCount;
 };

@@ -43,3 +43,12 @@ picojson::value ChangeEditWindow::Serialize()
 
 	return picojson::value(obj);
 }
+
+/**************************************
+デシリアライズ処理
+***************************************/
+void ChangeEditWindow::Deserialize(picojson::object data)
+{
+	this->start = static_cast<int>(data["start"].get<double>());
+	this->end = static_cast<int>(data["end"].get<double>());
+}

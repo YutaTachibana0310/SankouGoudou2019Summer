@@ -32,8 +32,22 @@ BaseEditWindow::BaseEditWindow()
 {
 	id = instanceCount++;
 	frame = 0;
-	
-	dataWindow["Change"] = new ChangeEditWindow();
+	CreateEditWindow();
+}
+
+/**************************************
+コンストラクタ
+***************************************/
+BaseEditWindow::BaseEditWindow(int id, int frame, std::string type, picojson::object data)
+{
+	this->id = id;
+	this->frame = frame;
+	this->type = type;
+
+	CreateEditWindow();
+	dataWindow[type]->Deserialize(data);
+
+	instanceCount++;
 }
 
 /**************************************
@@ -78,6 +92,7 @@ picojson::value BaseEditWindow::Serialize()
 
 	obj.emplace(make_pair("id", picojson::value((double)id)));
 	obj.emplace(make_pair("frame", picojson::value((double)frame)));
+	obj.emplace(make_pair("type", picojson::value(type)));
 
 	if (dataWindow.count(type) != 0)
 	{
@@ -85,4 +100,12 @@ picojson::value BaseEditWindow::Serialize()
 	}
 
 	return picojson::value(obj);
+}
+
+/**************************************
+エディットウィンドウ作成処理
+***************************************/
+void BaseEditWindow::CreateEditWindow()
+{
+	dataWindow["Change"] = new ChangeEditWindow();
 }

@@ -26,6 +26,7 @@ public:
 
 	virtual void Draw(UINT id) = 0;
 	virtual picojson::value Serialize() = 0;
+	virtual void Deserialize(picojson::object data) = 0;
 };
 
 #endif

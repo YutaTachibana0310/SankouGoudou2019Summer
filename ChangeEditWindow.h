@@ -22,6 +22,7 @@ class ChangeEditWindow : public DataEditWindow
 public:
 	void Draw(UINT id);
 	picojson::value Serialize();
+	void Deserialize(picojson::object data);
 
 	ChangeEditWindow() {}
 	~ChangeEditWindow() {}

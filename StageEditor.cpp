@@ -86,7 +86,7 @@ void StageEditor::Draw()
 
 			MenuItem("Load", [&]()
 			{
-
+				Load();
 			});
 
 			EndMenuItem();
@@ -122,4 +122,37 @@ void StageEditor::Save()
 	ofs.open("data/JSON/test.json", std::ios::out);
 	ofs << serializedData << std::endl;
 	ofs.close();
+}
+
+/**************************************
+ƒ[ƒhˆ—
+***************************************/
+void StageEditor::Load()
+{
+	for (auto& node : windowContainer)
+	{
+		SAFE_DELETE(node);
+	}
+	windowContainer.clear();
+
+	std::ifstream ifs;
+	ifs.open("data/JSON/test.json", std::ios::binary);
+
+	picojson::value val;
+	ifs >> val;
+	ifs.close();
+
+	picojson::array& stageData = val.get<picojson::object>()["StageData"].get<picojson::array>();
+	windowContainer.resize(stageData.size());
+	for (int i = 0; i < stageData.size(); i++)
+	{
+		picojson::object data = stageData[i].get<picojson::object>();
+		
+		int id = static_cast<int>(data["id"].get<double>());
+		int frame = static_cast<int>(data["frame"].get<double>());
+		std::string type = data["type"].get<std::string>();
+		picojson::object obj = data["data"].get<picojson::object>();
+
+		windowContainer[i] = new BaseEditWindow(id, frame, type, obj);
+	}
 }

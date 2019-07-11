@@ -5,6 +5,10 @@
 //
 //=====================================
 #include "BaseEditWindow.h"
+#include "debugWindow.h"
+#include <algorithm>
+
+using namespace std;
 
 /**************************************
 マクロ定義
@@ -45,7 +49,36 @@ BaseEditWindow::~BaseEditWindow()
 /**************************************
 描画処理
 ***************************************/
+void BaseEditWindow::Draw()
+{
+	string windowName = to_string(id);
+	BeginDebugWindow(windowName.c_str());
+
+	DebugInputInt("frame", &frame);
+	DebugInputText("type", &type);
+
+	if (dataWindow.count(type) != 0)
+	{
+		dataWindow[type]->Draw();
+	}
+
+	EndDebugWindow(windowName.c_str());
+}
 
 /**************************************
 シリアライズ処理
 ***************************************/
+picojson::value BaseEditWindow::Serialize()
+{
+	picojson::object obj;
+
+	obj.emplace(make_pair("id", picojson::value((double)id)));
+	obj.emplace(make_pair("frame", picojson::value((double)frame)));
+
+	if (dataWindow.count(type) != 0)
+	{
+		obj.emplace(make_pair("data", dataWindow[type]->Serialize()));
+	}
+
+	return picojson::value(obj);
+}

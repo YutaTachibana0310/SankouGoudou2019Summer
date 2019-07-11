@@ -20,6 +20,10 @@ using namespace std;
 
 #define	ENEMY_ATTENUATION (0.98f)		//減衰係数 
 
+#define POSDEST_MAX (6)
+
+#define FRAMEDEST_MAX (5)
+
 /****************************************
 static変数
 ****************************************/
@@ -344,13 +348,19 @@ HRESULT EnemySnake::VInit()
 
 	m_CurrentIndex = 0;
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < POSDEST_MAX; i++)
 	{
+		//仕様書のイメージ図と違う、Eはm_PosDestList[0]
 		m_PosDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-		m_FrameDestList.push_back(0.0f);
+		
 	}
 	
+	for (int i = 0; i < FRAMEDEST_MAX; i++)
+	{
+		//m_FrameDestList[0]-->m_PosDestList[1]
+		m_FrameDestList.push_back(0.0f);
 
+	}
 	m_Pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
 	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scl = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
@@ -385,21 +395,21 @@ void EnemySnake::VUpdate()
 
 	if (m_Active)
 	{
-		if (m_CntFrame > m_FrameDestList[m_FrameDestList.size() - 1])
+		if (m_CntFrame == (framePassed + m_FrameDestList[FRAMEDEST_MAX]))
 		{
 			m_Active = false;
 		}
 
-		if (m_CntFrame > (framePassed) && m_CntFrame < framePassed + m_WaitTime)
+		if (m_CntFrame > framePassed && m_CntFrame < framePassed + m_WaitTime)
 		{
 
 		}//m_WaitTime * (m_CurrentIndex)
-		else if ((m_CntFrame == (m_FrameDestList[m_CurrentIndex] + framePassed))
-			&& m_CurrentIndex < m_FrameDestList.size())
+		else if ((m_CntFrame == (framePassed + m_FrameDestList[m_CurrentIndex] ))
+			&& m_CurrentIndex < FRAMEDEST_MAX)
 		{
 			//indexを次の点に指定
 			m_CurrentIndex++;
-			//今までの所要時間
+			//今までの所要時間を記録
 			framePassed = m_CntFrame;
 		}
 		else //if(m_CurrentIndex < 6)

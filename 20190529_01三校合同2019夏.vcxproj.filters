@@ -70,6 +70,12 @@
     <Filter Include="ヘッダー ファイル\Effect">
       <UniqueIdentifier>{064cc5a3-a7c3-4bc9-b945-9421833d739f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Obstacles">
+      <UniqueIdentifier>{997bcc58-c47d-4cf9-a243-5da0836594f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Obstacles">
+      <UniqueIdentifier>{592e6a2e-ad7f-401b-be58-5ed059673182}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ソース ファイル\sound">
       <UniqueIdentifier>{bd396638-24f7-4925-a129-2875448ed866}</UniqueIdentifier>
     </Filter>
@@ -308,6 +314,9 @@
     </ClInclude>
     <ClInclude Include="light.h">
       <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="RebarOb.h">
+      <Filter>ヘッダー ファイル\Obstacles</Filter>
     </ClInclude>
     <ClInclude Include="light.h">
       <Filter>ヘッダー ファイル\System</Filter>
@@ -793,6 +802,9 @@
     </ClCompile>
     <ClCompile Include="Framework\AnimationParticle.cpp">
       <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="RebarOb.cpp">
+      <Filter>ソース ファイル\Obstacles</Filter>
     </ClCompile>
     <ClCompile Include="EnemyExplosionParticle.cpp">
       <Filter>ソース ファイル\Effect\Particle</Filter>

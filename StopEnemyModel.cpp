@@ -44,8 +44,8 @@ void StopEnemyModel::OnStart(EnemyModel *entity)
 
 	for (auto& enemy : entity->enemyList)
 	{
-		enemy->Init();
-		enemy->SetVec(InitPos, edgeR, STOPENEMY_TIME_COLLIDER_ACTIVATE, 300, D3DXVECTOR3(0.0f, 15.0f, 0.0));
+		enemy->VInit();
+		enemy->VSetVec(InitPos, edgeR, STOPENEMY_TIME_COLLIDER_ACTIVATE, 300, D3DXVECTOR3(0.0f, 15.0f, 0.0));
 		edgeR += offset;
 	}
 

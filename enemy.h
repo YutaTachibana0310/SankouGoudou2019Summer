@@ -9,6 +9,9 @@
 
 #include "main.h"
 #include "Framework/MeshContainer.h"
+#include <vector>
+
+using namespace std;
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -31,37 +34,37 @@ class Enemy
 public:
 	
 
-	//いる?
+	
 	Enemy();
 	virtual ~Enemy();
 
-	bool				active;				//アクティブ
+	bool				m_Active;				//アクティブ
 
-	D3DXVECTOR3			pos;				//現在の位置
-	D3DXVECTOR3			move;				//移動量
-	D3DXVECTOR3			scl;				//モデルの大きさ(スケール)
-	D3DXVECTOR3			rot;				//現在の向き
-	D3DXVECTOR3			rotDest;			//目的の向き
+	D3DXVECTOR3			m_Pos;				//現在の位置
+	D3DXVECTOR3			m_Move;				//移動量
+	D3DXVECTOR3			m_Scl;				//モデルの大きさ(スケール)
+	D3DXVECTOR3			m_Rot;				//現在の向き
+	D3DXVECTOR3			m_RotDest;			//目的の向き
 
-	D3DXVECTOR3         dir;				//移動の方向
-	D3DXVECTOR3         posDest;			//移動先
+	D3DXVECTOR3         m_Dir;				//移動の方向
+	D3DXVECTOR3         m_PosDest;			//移動先
 
-	int					cntFrame;			//フレームカウント
+	float				m_CntFrame;			//フレームカウント
 
-	D3DXVECTOR3         m_start;			//移動の元
+	D3DXVECTOR3         m_Start;			//移動の元
 
-	int					frameDest;
+	float					m_FrameDest;
 	//純粋仮想関数
-	virtual HRESULT  Init(void) = 0;
-	virtual void Uninit(void) = 0;
-	virtual void Update(void) = 0;
-	virtual void Draw(void) = 0;
-	virtual void Set(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame) = 0;	//セット処理
-	virtual void SetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int time, D3DXVECTOR3 vec) {};
+	virtual HRESULT  VInit(void) = 0;
+	virtual void VUninit(void) = 0;
+	virtual void VUpdate(void) = 0;
+	virtual void VDraw(void) = 0;
+	virtual void VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame) = 0;	//セット処理
+	virtual void VSetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int time, D3DXVECTOR3 vec) {};
 
 	//staticメンバ
-	static MeshContainer *mesh;
-	static UINT instanceCount;
+	static MeshContainer *m_pMesh;
+	static UINT m_InstanceCount;
 };
 
 
@@ -71,12 +74,12 @@ public:
 
 	EnemyStraight();
 	~EnemyStraight();
-	HRESULT  Init(void);
-	void Uninit(void);
-	void Update(void);
-	void Draw(void);
+	HRESULT  VInit(void);
+	void VUninit(void);
+	void VUpdate(void);
+	void VDraw(void);
 
-	void Set(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame);
+	void VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame);
 	
 };
 
@@ -84,21 +87,41 @@ class EnemyChange :public Enemy
 {
 public:
 
-	int m_waitTime;			//停止の時間
-	D3DXVECTOR3 vecChange;	//停止して以降のベクトル
+	int m_waitTime;				//停止の時間
+	D3DXVECTOR3 m_VecChange;	//停止して以降のベクトル
 
 	EnemyChange();
 	~EnemyChange();
-	HRESULT  Init(void);
-	void Uninit(void);
-	void Update(void);
-	void Draw(void);
+	HRESULT  VInit(void);
+	void VUninit(void);
+	void VUpdate(void);
+	void VDraw(void);
 
-	void Set(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame);
-	void SetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame,int waitTime, D3DXVECTOR3 vec);
+	void VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame);
+	void VSetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame,int waitTime, D3DXVECTOR3 vec);
 
 };
 
+
+class EnemySnake :public Enemy
+{
+public:
+	int m_currentIndex;
+	vector<D3DXVECTOR3> m_posDestList;
+	vector<float> m_FrameDestList;
+
+	EnemySnake();
+	~EnemySnake();
+
+	HRESULT VInit(void);
+	void VUninit(void);
+	void VUpdate(void);
+	void VDraw(void);
+
+	void VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame);
+	void Set(vector<D3DXVECTOR3> posDestList, vector<float> m_FrameDestList);
+	
+};
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************

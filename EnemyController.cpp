@@ -86,7 +86,7 @@ void EnemyController::Uninit()
 	{
 		for (auto& enemy : enemyList.second)
 		{
-			enemy->Uninit();
+			enemy->VUninit();
 		}
 	}
 }
@@ -107,7 +107,7 @@ void EnemyController::Update()
 	{
 		for (auto& enemy : enemyList.second)
 		{
-			enemy->Update();
+			enemy->VUpdate();
 		}
 	}
 }
@@ -128,7 +128,7 @@ void EnemyController::Draw()
 	{
 		for (auto& enemy : enemyList.second)
 		{
-			enemy->Draw();
+			enemy->VDraw();
 		}
 	}
 }
@@ -202,7 +202,7 @@ void EnemyController::_SetEnemyChange(EnemyModel* model)
 		//未使用のエネミーを検索
 		auto itr = find_if(enemyContainer[Type].begin(), enemyContainer[Type].end(), [](Enemy* enemy)
 		{
-			return !enemy->active;
+			return !enemy->m_Active;
 		});
 
 		//いなかったのでbreak
@@ -211,7 +211,7 @@ void EnemyController::_SetEnemyChange(EnemyModel* model)
 
 		//EnemyModelに追加
 		model->AddEnemy((*itr));
-		(*itr)->active = true;
+		(*itr)->m_Active = true;
 		setCount++;
 	}
 

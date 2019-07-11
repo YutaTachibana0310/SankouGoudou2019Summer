@@ -139,6 +139,12 @@
     <Filter Include="ヘッダー ファイル\GameController">
       <UniqueIdentifier>{8a8c568f-4f22-431d-8aba-9b24e028e899}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\System\Score">
+      <UniqueIdentifier>{0178d064-3574-4ac9-9d54-23e54448d163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System\Score">
+      <UniqueIdentifier>{63dccca2-2b4c-440c-9469-ab5ee1917389}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -496,7 +502,13 @@
       <Filter>ヘッダー ファイル\GameController</Filter>
     </ClInclude>
     <ClInclude Include="ScoreManager.h">
-      <Filter>ヘッダー ファイル\System</Filter>
+      <Filter>ヘッダー ファイル\System\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="rank.h">
+      <Filter>ヘッダー ファイル\System\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="savefile.h">
+      <Filter>ヘッダー ファイル\System\Score</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -828,7 +840,13 @@
       <Filter>ソース ファイル\GameController</Filter>
     </ClCompile>
     <ClCompile Include="ScoreManager.cpp">
-      <Filter>ソース ファイル\System</Filter>
+      <Filter>ソース ファイル\System\Score</Filter>
+    </ClCompile>
+    <ClCompile Include="rank.cpp">
+      <Filter>ソース ファイル\System\Score</Filter>
+    </ClCompile>
+    <ClCompile Include="savefile.cpp">
+      <Filter>ソース ファイル\System\Score</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

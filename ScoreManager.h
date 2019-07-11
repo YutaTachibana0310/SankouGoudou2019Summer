@@ -7,14 +7,12 @@
 #ifndef _SCOREMANAGER_H
 #define _SCOREMANAGER_H
 
-void InitScoreManager(void);
-
-void UpdateScoreManager(void);
-
 void SetAddScore(int n);
 
 void SetAddCombo(int n);
 
 void ClearCombo(void);
+
+int GetHiScore(void);
 
 #endif

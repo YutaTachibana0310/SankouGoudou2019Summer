@@ -167,6 +167,8 @@
     <ClInclude Include="PlayerIdle.h" />
     <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="PlayerObserver.h" />
+    <ClInclude Include="rank.h" />
+    <ClInclude Include="savefile.h" />
     <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="startButtonUI.h" />
     <ClInclude Include="PlayerTrail.h" />
@@ -333,6 +335,8 @@
     <ClCompile Include="PostEffect\SpikeNoise.cpp" />
     <ClCompile Include="PostEffect\SpikeNoiseController.cpp" />
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp" />
+    <ClCompile Include="rank.cpp" />
+    <ClCompile Include="savefile.cpp" />
     <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="scoreUI.cpp" />
     <ClCompile Include="ScoreParticle.cpp" />

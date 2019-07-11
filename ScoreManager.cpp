@@ -4,22 +4,14 @@
 // Author : “nç³—Ç‘¥
 //
 //=============================================================================
+
 #include "ScoreManager.h"
 #include "scoreUI.h"
 #include "comboUI.h"
 
-void InitScoreManager(void) {
-
-}
-
-void UpdateScoreManager(void) {
-
-}
-
 void SetAddScore(int n) {
 
 	AddScore(n);
-
 
 }
 
@@ -34,3 +26,7 @@ void ClearCombo(void) {
 
 }
 
+int GetHiScore(void) {
+
+	return SetScore();
+}

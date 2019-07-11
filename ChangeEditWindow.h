@@ -1,14 +1,13 @@
 //=====================================
 //
-//ステージエディタヘッダ[StageEditor.h]
+//Change型エディットウィンドウヘッダ[ChangeEditWindow.h]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#ifndef _STAGEEDITOR_H_
-#define _STAGEEDITOR_H_
+#ifndef _CHANGEEDITWINDOW_H_
+#define _CHANGEEDITWINDOW_H_
 
 #include "main.h"
-#include <vector>
 #include "BaseEditWindow.h"
 
 /**************************************
@@ -18,23 +17,18 @@
 /**************************************
 クラス定義
 ***************************************/
-class StageEditor
+class ChangeEditWindow : public DataEditWindow
 {
 public:
-	StageEditor();
-	~StageEditor();
+	void Draw(UINT id);
+	picojson::value Serialize();
 
-	void Init();
-	void Uninit();
-	void Update();
-	void Draw();
-
-	void Save();
-	void Load();
+	ChangeEditWindow() {}
+	~ChangeEditWindow() {}
 
 private:
-	std::vector<BaseEditWindow*> windowContainer;
-
+	int start;
+	int end;
 };
 
 #endif

@@ -6,6 +6,8 @@
 //=====================================
 #include "BaseEditWindow.h"
 #include "debugWindow.h"
+#include "ChangeEditWindow.h"
+
 #include <algorithm>
 
 using namespace std;
@@ -31,6 +33,7 @@ BaseEditWindow::BaseEditWindow()
 	id = instanceCount++;
 	frame = 0;
 	
+	dataWindow["Change"] = new ChangeEditWindow();
 }
 
 /**************************************
@@ -52,19 +55,18 @@ BaseEditWindow::~BaseEditWindow()
 void BaseEditWindow::Draw()
 {
 	string windowName = to_string(id);
-	//BeginDebugWindow(windowName.c_str());
 
-	DebugInputInt("frame", &frame);
+	string frameLabel = string("frame") + to_string(id);
+	DebugInputInt(frameLabel.c_str(), &frame);
 
 	string typeName = string("type") + to_string(id);
 	DebugInputText(typeName.c_str(), &type);
 
 	if (dataWindow.count(type) != 0)
 	{
-		dataWindow[type]->Draw();
+		dataWindow[type]->Draw(id);
 	}
 
-	//EndDebugWindow(windowName.c_str());
 }
 
 /**************************************

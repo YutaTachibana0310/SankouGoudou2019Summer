@@ -250,12 +250,12 @@ ChangeSceneへはMaskRunを実行すると呼び出されます
 **************************************************************************/
 void MaskRun(Scene next) {
 
-	//現在テスト用でエンターキーで切り替え
-	if (GetKeyboardTrigger(DIK_RETURN)) {
+	////現在テスト用でエンターキーで切り替え
+	//if (GetKeyboardTrigger(DIK_RETURN)) {
 
-		SceneChangeFlag(true, next);
+	//	SceneChangeFlag(true, next);
 
-	}
+	//}
 
 }
 /**************************************
@@ -264,7 +264,9 @@ void MaskRun(Scene next) {
 void ChangeScene(Scene next)
 {
 	fsm[currentScene]->Uninit();
-	ssm[currentScene]->Stop();
+
+	if (ssm[currentScene] != NULL)
+		ssm[currentScene]->Stop();
 
 	currentScene = next;
 

@@ -15,7 +15,8 @@
 ***************************************/
 
 /**************************************
-クラス定義
+DataEditWindowクラス
+継承先でDraw(), Serialize()を実装する
 ***************************************/
 class DataEditWindow
 {
@@ -23,7 +24,7 @@ public:
 	DataEditWindow() {}
 	virtual ~DataEditWindow() {}
 
-	virtual void Draw() = 0;
+	virtual void Draw(UINT id) = 0;
 	virtual picojson::value Serialize() = 0;
 };
 

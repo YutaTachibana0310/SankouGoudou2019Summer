@@ -33,6 +33,7 @@ private:
 	int id;
 	int frame;
 	std::string type;
+
 	std::map<std::string, DataEditWindow*> dataWindow;
 
 	void CreateEditWindow();

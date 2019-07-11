@@ -68,19 +68,24 @@ BaseEditWindow::~BaseEditWindow()
 ***************************************/
 void BaseEditWindow::Draw()
 {
-	string windowName = to_string(id);
-
-	string frameLabel = string("frame") + to_string(id);
-	DebugInputInt(frameLabel.c_str(), &frame);
-
-	string typeName = string("type") + to_string(id);
-	DebugInputText(typeName.c_str(), &type);
-
-	if (dataWindow.count(type) != 0)
+	DebugTreeExpansion(true);
+	if (DebugTreePush(to_string(id).c_str()))
 	{
-		dataWindow[type]->Draw(id);
-	}
+		string windowName = to_string(id);
 
+		string frameLabel = string("frame");
+		DebugInputInt(frameLabel.c_str(), &frame);
+
+		string typeName = string("type");
+		DebugInputText(typeName.c_str(), &type);
+
+		if (dataWindow.count(type) != 0)
+		{
+			dataWindow[type]->Draw(id);
+		}
+
+		DebugTreePop();
+	}
 }
 
 /**************************************

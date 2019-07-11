@@ -97,7 +97,6 @@ void StageEditor::Draw()
 	for (auto& window : windowContainer)
 	{
 		window->Draw();
-		DebugNewLine();
 	}
 	EndDebugWindow("SageEditor");
 }

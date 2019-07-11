@@ -22,14 +22,14 @@ using namespace std;
 ***************************************/
 void ChangeEditWindow::Draw(UINT id)
 {
-	string startLabel = string("start") + to_string(id);
+	string startLabel = string("start");
 	DebugInputInt(startLabel.c_str(), &start);
 
-	string endLabel = string("end") + to_string(id);
+	string endLabel = string("end");
 	DebugInputInt(endLabel.c_str(), &end);
 
-	start = Clamp(0, 5, start);
-	end = Clamp(0, 5, end);
+	start = Clamp(0, 4, start);
+	end = Clamp(0, 4, end);
 }
 
 /**************************************

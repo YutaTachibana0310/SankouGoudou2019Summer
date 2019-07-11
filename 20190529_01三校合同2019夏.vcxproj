@@ -141,6 +141,8 @@
     <ClInclude Include="BackGroundCity.h" />
     <ClInclude Include="BackGroundField.h" />
     <ClInclude Include="BackGroundRoad.h" />
+    <ClInclude Include="BaseEditWindow.h" />
+    <ClInclude Include="DataEditWindow.h" />
     <ClInclude Include="EditorBG.h" />
     <ClInclude Include="EditorScene.h" />
     <ClInclude Include="enemy.h" />
@@ -259,6 +261,7 @@
     <ClCompile Include="BackGroundCity.cpp" />
     <ClCompile Include="BackGroundRoad.cpp" />
     <ClCompile Include="BackGuroundField.cpp" />
+    <ClCompile Include="BaseEditWindow.cpp" />
     <ClCompile Include="EditorScene.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyExplosionController.cpp" />

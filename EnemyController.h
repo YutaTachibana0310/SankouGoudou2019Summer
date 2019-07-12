@@ -12,8 +12,10 @@
 #include "EnemyModel.h"
 #include "IStateMachine.h"
 #include "enemy.h"
+#include "StageModel.h"
+
 #include <list>
-#include <map>
+#include <vector>
 
 /**************************************
 列挙子定義
@@ -55,8 +57,14 @@ private:
 	std::list<EnemyModel*> modelList;
 	int cntFrame;
 
+	std::vector<StageModel> stageModelList;
+	int currentIndex;
+
 	//エネミー生成処理(内部処理)
 	void _SetEnemy(std::string type, LineTrailModel trailModel);
+
+	//ステージデータ読み込み処理
+	bool LoadStageData();
 };
 
 #endif

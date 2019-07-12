@@ -31,6 +31,11 @@ public:
 		this->data = data;
 	}
 
+	StageModel()
+	{
+
+	}
+
 	~StageModel()
 	{
 

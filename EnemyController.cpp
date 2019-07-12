@@ -8,8 +8,11 @@
 #include "TestEnemyModel.h"
 #include "ChangeEnemyModel.h"
 
-#include <algorithm>
 #include "Framework\ResourceManager.h"
+#include "picojson\picojson.h"
+
+#include <algorithm>
+#include <fstream>
 
 using namespace std;
 
@@ -33,6 +36,9 @@ EnemyController::EnemyController()
 	//リソース読み込み
 	//解放はシーン終了時にGame.cppで一括して開放する
 	ResourceManager::Instance()->LoadMesh("Enemy", "data/MODEL/airplane000.x");
+
+	//ステージデータ読み込み
+	LoadStageData();
 }
 
 /**************************************
@@ -46,6 +52,9 @@ EnemyController::~EnemyController()
 		SAFE_DELETE(model);
 	}
 	modelList.clear();
+
+	//ステージデータクリア
+	stageModelList.clear();
 }
 
 /**************************************
@@ -111,12 +120,17 @@ void EnemyController::SetEnemy()
 {
 	//今は一旦、乱数で2秒おきにStopタイプを生成
 	cntFrame++;
-	if (cntFrame % 120 == 0)
+
+	for (UINT i = currentIndex; i < stageModelList.size(); i++)
 	{
-		int start, end;
-		start = RandomRange(0, 5);
-		end = WrapAround(0, 5, start + RandomRange(1, 5));
-		_SetEnemy(string("Change"), LineTrailModel(start, end));
+		if (cntFrame < stageModelList[i].frame)
+			break;
+
+		int start = (int)stageModelList[i].data["start"].get<double>();
+		int end = (int)stageModelList[i].data["end"].get<double>();
+
+		_SetEnemy(stageModelList[i].type, LineTrailModel(start, end));
+		currentIndex++;
 	}
 }
 
@@ -136,4 +150,42 @@ void EnemyController::_SetEnemy(string type, LineTrailModel trailModel)
 	model->Init(trailModel);
 
 	modelList.push_back(model);
+}
+
+/**************************************
+ステージデータ読み込み処理
+***************************************/
+bool EnemyController::LoadStageData()
+{
+	//JSONファイルを開く
+	ifstream ifs;
+	ifs.open("data/JSON/test.json", std::ios::binary);
+
+	//成功確認
+	if (!ifs.is_open())
+		return false;
+
+	//JSONデータを読み込み
+	picojson::value val;
+	ifs >> val;
+	ifs.close();
+
+	//データ配列をパースする
+	picojson::array& dataList = val.get<picojson::object>()["StageData"].get<picojson::array>();
+
+	//データを1個1個パースしてStageModelを作成する
+	stageModelList.resize(dataList.size());
+	for (UINT i = 0; i < dataList.size(); i++)
+	{
+		int frame = static_cast<int>(dataList[i].get<picojson::object>()["frame"].get<double>());
+		string type = dataList[i].get<picojson::object>()["type"].get<string>();
+		picojson::object data = dataList[i].get<picojson::object>()["data"].get<picojson::object>();
+
+		stageModelList[i] = StageModel(frame, type, data);
+	}
+
+	//インデックス初期化
+	currentIndex = 0;
+
+	return true;
 }

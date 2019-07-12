@@ -35,7 +35,11 @@ public:
 
 private:
 	std::list<BaseEditWindow*> windowList;
+	
+	int selectedID;
 	decltype(windowList)::iterator selectedData;
+
+	LPDIRECT3DTEXTURE9 selectLine;
 };
 
 #endif

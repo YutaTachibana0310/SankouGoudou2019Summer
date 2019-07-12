@@ -55,7 +55,6 @@ BaseEditWindow::BaseEditWindow(int id, int frame, std::string type, picojson::ob
 ***************************************/
 BaseEditWindow::~BaseEditWindow()
 {
-	instanceCount--;
 	for (auto pair : dataWindow)
 	{
 		SAFE_DELETE(pair.second);

@@ -7,6 +7,8 @@
 #include "StageEditor.h"
 #include "debugWindow.h"
 
+#include "imgui\imgui.h"
+
 #include <fstream>
 #include <algorithm>
 
@@ -27,7 +29,11 @@
 ***************************************/
 StageEditor::StageEditor()
 {
+	selectedID = 0;
 	selectedData = windowList.end();
+
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	D3DXCreateTextureFromFile(pDevice, "data/TEXTURE/Editor/selectLine.png", &selectLine);
 }
 
 /**************************************
@@ -40,6 +46,8 @@ StageEditor::~StageEditor()
 		SAFE_DELETE(window)
 	}
 	windowList.clear();
+
+	SAFE_RELEASE(selectLine);
 }
 
 /**************************************
@@ -96,6 +104,8 @@ void StageEditor::Draw()
 	}
 
 	if (DebugButton("Add")) windowList.push_back(new BaseEditWindow());
+
+	DebugSameLine();
 	if (DebugButton("Remove") && selectedData != windowList.end())
 	{
 		SAFE_DELETE(*selectedData);
@@ -103,12 +113,23 @@ void StageEditor::Draw()
 		selectedData = windowList.begin();
 	}
 
+	DebugInputInt("Select ID", &selectedID);
+
+	ImGui::BeginChild("##EditorChild", ImVec2(300, 850), ImGuiWindowFlags_NoTitleBar);
 	for (auto itr = windowList.begin(); itr != windowList.end(); itr++)
 	{
+
+		if (selectedData == itr)
+			DebugDrawTexture(selectLine, 300.0f, 2.0f);
+
 		bool selected = (*itr)->Draw();
 		if (selected)
 			selectedData = itr;
+
+		if ((*itr)->id == selectedID)
+			selectedData = itr;
 	}
+	ImGui::EndChild();
 
 	EndDebugWindow("SageEditor");
 }
@@ -157,12 +178,11 @@ void StageEditor::Load()
 	for (UINT i = 0; i < stageData.size(); i++)
 	{
 		picojson::object data = stageData[i].get<picojson::object>();
-		
-		int id = static_cast<int>(data["id"].get<double>());
+
 		int frame = static_cast<int>(data["frame"].get<double>());
 		std::string type = data["type"].get<std::string>();
 		picojson::object obj = data["data"].get<picojson::object>();
 
-		windowList.push_back(new BaseEditWindow(id, frame, type, obj));
+		windowList.push_back(new BaseEditWindow(i, frame, type, obj));
 	}
 }

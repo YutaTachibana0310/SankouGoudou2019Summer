@@ -250,7 +250,7 @@
     <ClInclude Include="SoundTitleScene.h" />
     <ClInclude Include="Stencil.h" />
     <ClInclude Include="starUI.h" />
-    <ClInclude Include="StopEnemyModel.h" />
+    <ClInclude Include="ChangeEnemyModel.h" />
     <ClInclude Include="TestEnemyModel.h" />
     <ClInclude Include="titleBGUI.h" />
     <ClInclude Include="titleLogoUI.h" />
@@ -365,7 +365,7 @@
     <ClCompile Include="startButtonUI.cpp" />
     <ClCompile Include="starUI.cpp" />
     <ClCompile Include="PlayerTrail.cpp" />
-    <ClCompile Include="StopEnemyModel.cpp" />
+    <ClCompile Include="ChangeEnemyModel.cpp" />
     <ClCompile Include="TestEnemyModel.cpp" />
     <ClCompile Include="titleBGUI.cpp" />
     <ClCompile Include="titleLogoUI.cpp" />

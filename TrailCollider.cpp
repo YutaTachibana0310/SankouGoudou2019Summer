@@ -176,6 +176,7 @@ void TrailCollider::DrawCollider(TrailCollider *collider)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 	pDevice->SetTexture(0, NULL);
+	pDevice->SetFVF(FVF_VERTEX_3D);
 
 	renderer->Draw();
 }

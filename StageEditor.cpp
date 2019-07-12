@@ -6,7 +6,9 @@
 //=====================================
 #include "StageEditor.h"
 #include "debugWindow.h"
+
 #include <fstream>
+#include <algorithm>
 
 /**************************************
 ƒ}ƒNƒ’è‹`
@@ -25,8 +27,8 @@
 ***************************************/
 StageEditor::StageEditor()
 {
-	windowContainer.resize(5);
-	for (auto& window : windowContainer)
+	windowList.resize(5);
+	for (auto& window : windowList)
 	{
 		window = new BaseEditWindow();
 	}
@@ -37,11 +39,11 @@ StageEditor::StageEditor()
 ***************************************/
 StageEditor::~StageEditor()
 {
-	for (auto& window : windowContainer)
+	for (auto& window : windowList)
 	{
 		SAFE_DELETE(window)
 	}
-	windowContainer.clear();
+	windowList.clear();
 }
 
 /**************************************
@@ -65,7 +67,10 @@ void StageEditor::Uninit()
 ***************************************/
 void StageEditor::Update()
 {
-
+	windowList.sort([](BaseEditWindow* a, BaseEditWindow *b)
+	{
+		return a->frame < b->frame;
+	});
 }
 
 /**************************************
@@ -94,7 +99,7 @@ void StageEditor::Draw()
 		EndMenuBar();
 	}
 
-	for (auto& window : windowContainer)
+	for (auto& window : windowList)
 	{
 		window->Draw();
 	}
@@ -109,7 +114,7 @@ void StageEditor::Save()
 	picojson::object stageData;
 	picojson::array dataList;
 
-	for (auto& node : windowContainer)
+	for (auto& node : windowList)
 	{
 		dataList.push_back(node->Serialize());
 	}
@@ -128,11 +133,11 @@ void StageEditor::Save()
 ***************************************/
 void StageEditor::Load()
 {
-	for (auto& node : windowContainer)
+	for (auto& node : windowList)
 	{
 		SAFE_DELETE(node);
 	}
-	windowContainer.clear();
+	windowList.clear();
 
 	std::ifstream ifs;
 	ifs.open("data/JSON/test.json", std::ios::binary);
@@ -142,8 +147,7 @@ void StageEditor::Load()
 	ifs.close();
 
 	picojson::array& stageData = val.get<picojson::object>()["StageData"].get<picojson::array>();
-	windowContainer.resize(stageData.size());
-	for (int i = 0; i < stageData.size(); i++)
+	for (UINT i = 0; i < stageData.size(); i++)
 	{
 		picojson::object data = stageData[i].get<picojson::object>();
 		
@@ -152,6 +156,6 @@ void StageEditor::Load()
 		std::string type = data["type"].get<std::string>();
 		picojson::object obj = data["data"].get<picojson::object>();
 
-		windowContainer[i] = new BaseEditWindow(id, frame, type, obj);
+		windowList.push_back(new BaseEditWindow(id, frame, type, obj));
 	}
 }

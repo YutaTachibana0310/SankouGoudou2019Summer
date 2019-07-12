@@ -69,7 +69,7 @@ BaseEditWindow::~BaseEditWindow()
 void BaseEditWindow::Draw()
 {
 	DebugTreeExpansion(true);
-	if (DebugTreePush(to_string(id).c_str()))
+	if (DebugTreePush((string("id") + to_string(id)).c_str()))
 	{
 		string windowName = to_string(id);
 

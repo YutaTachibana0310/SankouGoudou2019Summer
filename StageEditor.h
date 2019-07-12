@@ -8,7 +8,7 @@
 #define _STAGEEDITOR_H_
 
 #include "main.h"
-#include <vector>
+#include <list>
 #include "BaseEditWindow.h"
 
 /**************************************
@@ -33,7 +33,7 @@ public:
 	void Load();
 
 private:
-	std::vector<BaseEditWindow*> windowContainer;
+	std::list<BaseEditWindow*> windowList;
 
 };
 

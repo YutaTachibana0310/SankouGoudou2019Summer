@@ -29,10 +29,11 @@ public:
 	void Draw();
 	picojson::value Serialize();
 
-private:
 	int id;
 	int frame;
 	std::string type;
+
+private:
 
 	std::map<std::string, DataEditWindow*> dataWindow;
 

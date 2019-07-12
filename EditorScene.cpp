@@ -47,6 +47,7 @@ void EditorScene::Uninit()
 void EditorScene::Update(HWND hWnd)
 {
 	bg->Update();
+	editor->Update();
 }
 
 /**************************************

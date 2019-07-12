@@ -167,10 +167,19 @@ void DrawGame()
 	pDevice->SetFVF(FVF_VERTEX_2D);
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
 
-	//FPS表示
+	//デバッグ表示
 #ifdef _DEBUG
 	DebugLog("FPS:%d", GetCurrentFPS());
+
+	BeginDebugWindow("Scene");
+	if (DebugRadioButton("Title", (int*)&currentScene, SceneTitle)) ChangeScene(SceneTitle);
+	if (DebugRadioButton("Game", (int*)&currentScene, SceneGame)) ChangeScene(SceneGame);
+	if (DebugRadioButton("Result", (int*)&currentScene, SceneResult)) ChangeScene(SceneResult);
+	if (DebugRadioButton("Editor", (int*)&currentScene, SceneEditor)) ChangeScene(SceneEditor);
+	EndDebugWindow("Scene");
 #endif
+
+
 
 	DrawDebugWindow();
 }

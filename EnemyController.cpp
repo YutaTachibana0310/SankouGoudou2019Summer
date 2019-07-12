@@ -118,18 +118,18 @@ void EnemyController::Draw()
 ***************************************/
 void EnemyController::SetEnemy()
 {
-	//今は一旦、乱数で2秒おきにStopタイプを生成
 	cntFrame++;
 
+	//現在のインデックスからステージデータを確認していく
 	for (UINT i = currentIndex; i < stageModelList.size(); i++)
 	{
+		//生成タイミング前であればbreak
 		if (cntFrame < stageModelList[i].frame)
 			break;
 
-		int start = (int)stageModelList[i].data["start"].get<double>();
-		int end = (int)stageModelList[i].data["end"].get<double>();
+		if(stageModelList[i].type == "Change")
+			_SetEnemyChange(stageModelList[i].data);
 
-		_SetEnemy(stageModelList[i].type, LineTrailModel(start, end));
 		currentIndex++;
 	}
 }
@@ -137,17 +137,17 @@ void EnemyController::SetEnemy()
 /**************************************
 エネミー生成処理（モデル版）
 ***************************************/
-void EnemyController::_SetEnemy(string type, LineTrailModel trailModel)
+void EnemyController::_SetEnemyChange(picojson::object& data)
 {
-	EnemyModel *model = nullptr;
-	if (type == "Change")
-		model = new ChangeEnemyModel();
+	//インスタンス生成
+	EnemyModel *model = new ChangeEnemyModel();
 
-	if (model == nullptr)
-		return;
+	//データをパース
+	int start = static_cast<int>(data["start"].get<double>());
+	int end = static_cast<int>(data["end"].get<double>());
 
 	//初期化
-	model->Init(trailModel);
+	model->Init(LineTrailModel(start, end));
 
 	modelList.push_back(model);
 }

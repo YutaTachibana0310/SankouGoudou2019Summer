@@ -8,11 +8,13 @@
 #define _ENEMYCONTROLLER_H_
 
 #include "main.h"
-#include "Framework\BaseObserver.h"
 #include "EnemyModel.h"
 #include "IStateMachine.h"
 #include "enemy.h"
 #include "StageModel.h"
+
+#include "Framework\BaseObserver.h"
+#include "picojson\picojson.h"
 
 #include <list>
 #include <vector>
@@ -61,7 +63,7 @@ private:
 	int currentIndex;
 
 	//エネミー生成処理(内部処理)
-	void _SetEnemy(std::string type, LineTrailModel trailModel);
+	void _SetEnemyChange(picojson::object& data);
 
 	//ステージデータ読み込み処理
 	bool LoadStageData();

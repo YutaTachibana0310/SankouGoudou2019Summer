@@ -12,7 +12,7 @@
 #include "EnemyModel.h"
 #include "IStateMachine.h"
 #include "enemy.h"
-#include <vector>
+#include <list>
 #include <map>
 
 /**************************************
@@ -52,13 +52,11 @@ public:
 	void SetEnemy();
 
 private:
-	std::vector<EnemyModel*> modelContainer;
-	std::map<EnemyType, std::vector<Enemy*>> enemyContainer;
+	std::list<EnemyModel*> modelList;
 	int cntFrame;
 
 	//エネミー生成処理(内部処理)
 	void _SetEnemy(std::string type, LineTrailModel trailModel);
-	void _SetEnemyChange(EnemyModel* model);
 };
 
 #endif

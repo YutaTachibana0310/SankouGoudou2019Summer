@@ -41,22 +41,11 @@ EnemyController::EnemyController()
 EnemyController::~EnemyController()
 {
 	//モデルコンテナクリア
-	for (auto &model : modelContainer)
+	for (auto &model : modelList)
 	{
 		SAFE_DELETE(model);
 	}
-	modelContainer.clear();
-
-	//エネミーコンテナクリア
-	for (auto& enemyList : enemyContainer)
-	{
-		for (auto& enemy : enemyList.second)
-		{
-			SAFE_DELETE(enemy);
-		}
-		enemyList.second.clear();
-	}
-	enemyContainer.clear();
+	modelList.clear();
 }
 
 /**************************************
@@ -72,17 +61,9 @@ void EnemyController::Init()
 ***************************************/
 void EnemyController::Uninit()
 {
-	for (auto &model : modelContainer)
+	for (auto &model : modelList)
 	{
 		model->Uninit();
-	}
-
-	for (auto& enemyList : enemyContainer)
-	{
-		for (auto& enemy : enemyList.second)
-		{
-			enemy->Uninit();
-		}
 	}
 }
 
@@ -92,19 +73,23 @@ void EnemyController::Uninit()
 void EnemyController::Update()
 {
 	//モデル更新処理
-	for (auto &model : modelContainer)
+	for (auto &model : modelList)
 	{
 		model->Update();
 	}
 
-	//エネミー更新処理
-	for (auto &enemyList : enemyContainer)
+	//終了したモデルを削除する
+	for (auto& model : modelList)
 	{
-		for (auto& enemy : enemyList.second)
-		{
-			enemy->Update();
-		}
+		if (!model->active)
+			SAFE_DELETE(model);
 	}
+
+	//削除したモデルをリストから削除
+	modelList.remove_if([](EnemyModel* model)
+	{
+		return model == nullptr;
+	});
 }
 
 /**************************************
@@ -113,19 +98,10 @@ void EnemyController::Update()
 void EnemyController::Draw()
 {
 	//エネミーモデル描画
-	for (auto &model : modelContainer)
+	for (auto &model : modelList)
 	{
 		model->Draw();
 	}
-
-	//エネミー描画
-	//for (auto& enemyList : enemyContainer)
-	//{
-	//	for (auto& enemy : enemyList.second)
-	//	{
-	//		enemy->Draw();
-	//	}
-	//}
 }
 
 /**************************************
@@ -159,13 +135,5 @@ void EnemyController::_SetEnemy(string type, LineTrailModel trailModel)
 	//初期化
 	model->Init(trailModel);
 
-	modelContainer.push_back(model);
-}
-
-/**************************************
-エネミー生成処理(実体版)
-***************************************/
-void EnemyController::_SetEnemyChange(EnemyModel* model)
-{
-
+	modelList.push_back(model);
 }

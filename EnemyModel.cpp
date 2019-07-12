@@ -59,9 +59,6 @@ void EnemyModel::Init(LineTrailModel model)
 ***************************************/
 void EnemyModel::Uninit()
 {
-	//エネミーリストクリア
-	enemyList.clear();
-
 	collider->active = false;
 	active = false;
 }

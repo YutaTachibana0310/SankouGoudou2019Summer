@@ -21,6 +21,9 @@
 class ChangeEnemyModel : public EnemyModel
 {
 public:
+	ChangeEnemyModel();
+	~ChangeEnemyModel();
+
 	void Init(LineTrailModel model);
 	int Update();
 };

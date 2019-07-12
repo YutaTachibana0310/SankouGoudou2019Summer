@@ -26,7 +26,7 @@ public:
 	BaseEditWindow(int id, int frame, std::string type, picojson::object data);
 	~BaseEditWindow();
 
-	void Draw();
+	bool Draw();
 	picojson::value Serialize();
 
 	int id;

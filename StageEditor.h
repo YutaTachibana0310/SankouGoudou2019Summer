@@ -9,6 +9,7 @@
 
 #include "main.h"
 #include <list>
+#include <iterator>
 #include "BaseEditWindow.h"
 
 /**************************************
@@ -34,7 +35,7 @@ public:
 
 private:
 	std::list<BaseEditWindow*> windowList;
-
+	decltype(windowList)::iterator selectedData;
 };
 
 #endif

@@ -27,11 +27,7 @@
 ***************************************/
 StageEditor::StageEditor()
 {
-	windowList.resize(5);
-	for (auto& window : windowList)
-	{
-		window = new BaseEditWindow();
-	}
+	selectedData = windowList.end();
 }
 
 /**************************************
@@ -99,10 +95,21 @@ void StageEditor::Draw()
 		EndMenuBar();
 	}
 
-	for (auto& window : windowList)
+	if (DebugButton("Add")) windowList.push_back(new BaseEditWindow());
+	if (DebugButton("Remove") && selectedData != windowList.end())
 	{
-		window->Draw();
+		SAFE_DELETE(*selectedData);
+		windowList.erase(selectedData);
+		selectedData = windowList.begin();
 	}
+
+	for (auto itr = windowList.begin(); itr != windowList.end(); itr++)
+	{
+		bool selected = (*itr)->Draw();
+		if (selected)
+			selectedData = itr;
+	}
+
 	EndDebugWindow("SageEditor");
 }
 

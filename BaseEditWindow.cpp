@@ -66,26 +66,30 @@ BaseEditWindow::~BaseEditWindow()
 /**************************************
 •`‰æˆ—
 ***************************************/
-void BaseEditWindow::Draw()
+bool BaseEditWindow::Draw()
 {
+	bool selected = false;
+
 	DebugTreeExpansion(true);
 	if (DebugTreePush((string("id") + to_string(id)).c_str()))
 	{
 		string windowName = to_string(id);
 
 		string frameLabel = string("frame");
-		DebugInputInt(frameLabel.c_str(), &frame);
+		selected |= DebugInputInt(frameLabel.c_str(), &frame);
 
 		string typeName = string("type");
-		DebugInputText(typeName.c_str(), &type);
+		selected |= DebugInputText(typeName.c_str(), &type);
 
 		if (dataWindow.count(type) != 0)
 		{
-			dataWindow[type]->Draw(id);
+			selected |= dataWindow[type]->Draw();
 		}
 
 		DebugTreePop();
 	}
+
+	return selected;
 }
 
 /**************************************

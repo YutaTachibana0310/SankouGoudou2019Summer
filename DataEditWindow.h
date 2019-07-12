@@ -24,7 +24,7 @@ public:
 	DataEditWindow() {}
 	virtual ~DataEditWindow() {}
 
-	virtual void Draw(UINT id) = 0;
+	virtual bool Draw() = 0;
 	virtual picojson::value Serialize() = 0;
 	virtual void Deserialize(picojson::object data) = 0;
 };

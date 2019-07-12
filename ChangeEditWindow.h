@@ -20,7 +20,7 @@
 class ChangeEditWindow : public DataEditWindow
 {
 public:
-	void Draw(UINT id);
+	bool Draw();
 	picojson::value Serialize();
 	void Deserialize(picojson::object data);
 

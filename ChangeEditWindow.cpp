@@ -20,16 +20,20 @@ using namespace std;
 /**************************************
 •`‰æˆ—
 ***************************************/
-void ChangeEditWindow::Draw(UINT id)
+bool ChangeEditWindow::Draw()
 {
+	bool selected = false;
+
 	string startLabel = string("start");
-	DebugInputInt(startLabel.c_str(), &start);
+	selected |= DebugInputInt(startLabel.c_str(), &start);
 
 	string endLabel = string("end");
-	DebugInputInt(endLabel.c_str(), &end);
+	selected |= DebugInputInt(endLabel.c_str(), &end);
 
 	start = Clamp(0, 4, start);
 	end = Clamp(0, 4, end);
+
+	return selected;
 }
 
 /**************************************

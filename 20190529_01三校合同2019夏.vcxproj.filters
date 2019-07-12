@@ -465,9 +465,6 @@
     <ClInclude Include="LineRenderer.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="StopEnemyModel.h">
-      <Filter>ヘッダー ファイル\Enemy\Model</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\BoxCollider3D.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
@@ -548,6 +545,9 @@
     </ClInclude>
     <ClInclude Include="Framework\ObserveSubject.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangeEnemyModel.h">
+      <Filter>ヘッダー ファイル\Enemy\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -830,9 +830,6 @@
     <ClCompile Include="LineRenderer.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="StopEnemyModel.cpp">
-      <Filter>ソース ファイル\Enemy\Model</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\BoxCollider3D.cpp">
       <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
@@ -904,6 +901,9 @@
     </ClCompile>
     <ClCompile Include="Framework\ResourceManager.cpp">
       <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="ChangeEnemyModel.cpp">
+      <Filter>ソース ファイル\Enemy\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

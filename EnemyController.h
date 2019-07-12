@@ -53,12 +53,11 @@ public:
 
 private:
 	std::vector<EnemyModel*> modelContainer;
-	std::map<EnemyModelType, IStateMachine<EnemyModel>*> fsm;
 	std::map<EnemyType, std::vector<Enemy*>> enemyContainer;
 	int cntFrame;
 
 	//エネミー生成処理(内部処理)
-	void _SetEnemy(EnemyModelType type, LineTrailModel trailModel);
+	void _SetEnemy(std::string type, LineTrailModel trailModel);
 	void _SetEnemyChange(EnemyModel* model);
 };
 

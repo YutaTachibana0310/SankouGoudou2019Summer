@@ -35,6 +35,12 @@ EnemyModel::EnemyModel()
 EnemyModel::~EnemyModel()
 {
 	SAFE_DELETE(collider);
+	
+	for (auto& enemy : enemyList)
+	{
+		SAFE_DELETE(enemy);
+	}
+	enemyList.clear();
 }
 
 /**************************************
@@ -61,18 +67,14 @@ void EnemyModel::Uninit()
 }
 
 /**************************************
-更新処理
-***************************************/
-int EnemyModel::Update()
-{
-	return state->OnUpdate(this);
-}
-
-/**************************************
 描画処理
 ***************************************/
 void EnemyModel::Draw()
 {
+	for (auto& enemy : enemyList)
+	{
+		enemy->Draw();
+	}
 
 #ifdef TRAILCOLLIDER_USE_DEBUG
 	TrailCollider::DrawCollider(collider);
@@ -93,21 +95,4 @@ void EnemyModel::OnNotified(ObserveSubject *notifier)
 
 	//非アクティブに
 	Uninit();
-}
-
-/**************************************
-状態遷移処理
-***************************************/
-void EnemyModel::ChangeState(IStateMachine<EnemyModel> *next)
-{
-	state = next;
-	state->OnStart(this);
-}
-
-/**************************************
-エネミー追加処理
-***************************************/
-void EnemyModel::AddEnemy(Enemy* enemy)
-{
-	enemyList.push_back(enemy);
 }

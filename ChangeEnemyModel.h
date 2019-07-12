@@ -5,8 +5,8 @@
 //Author:GP12B332 21 —§‰Ô—Y‘¾
 //
 //=====================================
-#ifndef _STOPENEMYMODEL_H_
-#define _STOPENEMYMODEL_H_
+#ifndef _CHANGEENEMYMODEL_H_
+#define _CHANGEENEMYMODEL_H_
 
 #include "main.h"
 #include "EnemyModel.h"
@@ -18,12 +18,11 @@
 /**************************************
 ƒNƒ‰ƒX’è‹`
 ***************************************/
-class StopEnemyModel : public IStateMachine<EnemyModel>
+class ChangeEnemyModel : public EnemyModel
 {
 public:
-	void OnStart(EnemyModel *entity);
-	int OnUpdate(EnemyModel *entity);
-	void OnExit(EnemyModel *entity);
+	void Init(LineTrailModel model);
+	int Update();
 };
 
 #endif

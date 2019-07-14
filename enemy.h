@@ -104,7 +104,7 @@ public:
 	int m_CurrentIndex;					//現在、posDestListの何番へ向かっているかを入れる変数
 	int m_posDestMax;					//m_FrameDestListの要素数
 
-	vector<D3DXVECTOR3> m_PosDestList;  //移動先、仕様書のイメージ図と違う、m_PosDestList[0]はEからカウント
+	vector<D3DXVECTOR3> m_PosDestList;  //移動先、m_PosDestList[0]はEからカウント
 	vector<float> m_FrameDestList;		//移動がいるフレーム数　m_PosDestList[1]にいる時、 m_FrameDestList[0]
 
 	EnemySnake();

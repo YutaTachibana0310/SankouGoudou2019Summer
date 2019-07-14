@@ -72,18 +72,20 @@ void EnemyController::Init()
 	cntFrame = 0;
 
 	//test
-	//EnemySnake snake;
 	test = new EnemySnake;
 	std::vector<D3DXVECTOR3> posDestList;
 	posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	posDestList.push_back(D3DXVECTOR3(50.0f, 0.0f, 0.0f));
 	posDestList.push_back(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
 	posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 50.0f));
+	posDestList.push_back(D3DXVECTOR3(50.0f, 0.0f, 0.0f));
+	posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	vector<float> frameDestList;
+	frameDestList.push_back(50.0f);
+	frameDestList.push_back(100.0f);
 	frameDestList.push_back(200.0f);
-	frameDestList.push_back(200.0f);
-	frameDestList.push_back(200.0f);
-	frameDestList.push_back(200.0f);
+	frameDestList.push_back(300.0f);
+	frameDestList.push_back(400.0f);
 	test->VInit();
 	test->Set(posDestList, frameDestList,50.0f);
 }
@@ -132,17 +134,15 @@ void EnemyController::Update()
 			
 		}
 	}
+
 	//test
 	for (auto &enemyList : enemyContainer)
 	{
 		for (auto& enemy : enemyList.second)
 		{
 			test->VUpdate();
-			
-
 		}
 	}
-
 	
 }
 
@@ -173,12 +173,9 @@ void EnemyController::Draw()
 	{
 		for (auto& enemy : enemyList.second)
 		{
-			test->VDraw();
-			
-
+			test->VDraw();		
 		}
 	}
-
 	
 }
 

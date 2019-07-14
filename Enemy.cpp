@@ -17,12 +17,15 @@ using namespace std;
 #define ENEMY_MODEL  "data/MODEL/airplane000.x"
 
 #define ENEMY_FALSE (300)				//falseの時間(方向が変えってから)
+#define ENEMY_FALSE_SNAKE	(900)
 
 #define	ENEMY_ATTENUATION (0.98f)		//減衰係数 
 
 #define POSDEST_MAX (6)
 
 #define FRAMEDEST_MAX (5)
+
+#define ENEMY_FRAME_SNAKE (200)
 
 /****************************************
 static変数
@@ -396,39 +399,42 @@ void EnemySnake::VUpdate()
 {
 	//前の点を通過するのにの時間
 	static int framePassed = 0;
-	//
+	//停止状態のフレームをカウント
 	static int waitcount = 0;
-	/*int posDestMax = m_FrameDestList.size();*/
+
+	//最後の点のフレーム
+	int last = framePassed + m_FrameDestList[m_posDestMax - 2];
 
 	if (m_Active)
 	{
-		if (m_CntFrame == (framePassed + m_FrameDestList[m_posDestMax-1])&& m_CurrentIndex == m_posDestMax-2)
+		if (m_CntFrame == last && m_CurrentIndex == m_posDestMax-2)
 		{
-			m_Active = false;
-		}
-
-		/*if (m_CntFrame > framePassed && m_CntFrame < framePassed + m_WaitTime && m_CurrentIndex > 0 
-			&& m_CurrentIndex <= 2)
-		{
+			//そのまま進む
+			m_Move =(m_PosDestList[m_posDestMax - 1] - m_PosDestList[m_posDestMax - 2])/ ENEMY_FRAME_SNAKE;
 			
-		}	
-		else if ((m_CntFrame == framePassed + m_WaitTime)/* && m_CurrentIndex > 0 && m_CurrentIndex <= 2)
+		}
+		else if (m_CntFrame >= last && m_CurrentIndex == m_posDestMax - 2)
 		{
-			framePassed = m_CntFrame;
-		}*/
-
-		if ((m_CntFrame > (framePassed + m_FrameDestList[m_CurrentIndex])) && m_CurrentIndex <= m_posDestMax - 2)
+			//処理が終わったら
+			if (m_CntFrame >= last + ENEMY_FALSE_SNAKE)
+			{
+				m_Active = false;
+			}
+			m_Pos += m_Move;
+		}//停止
+		else if ((m_CntFrame > (framePassed + m_FrameDestList[m_CurrentIndex])) && m_CurrentIndex <= m_posDestMax - 2)
 		{
 			//停止中のフレームを一時保存する
 			waitcount++;
 			//停止の時間が過ぎたら
 			if (waitcount == m_WaitTime)
 			{
+				//停止の時間をカウンターに入れる
 				framePassed = m_CntFrame;
 				waitcount = 0;
 			}
-		}
-		else if ((m_CntFrame == (framePassed + m_FrameDestList[m_CurrentIndex])) && m_CurrentIndex <= 1)
+		}//次の点に着いたら
+		else if ((m_CntFrame == (framePassed + m_FrameDestList[m_CurrentIndex])) && m_CurrentIndex <= m_posDestMax - 2)
 		{
 			//indexを次の点に指定
 			m_CurrentIndex++;

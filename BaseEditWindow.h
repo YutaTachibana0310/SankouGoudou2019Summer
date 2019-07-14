@@ -24,15 +24,17 @@ class BaseEditWindow
 public:
 	BaseEditWindow();
 	BaseEditWindow(int id, int frame, std::string type, picojson::object data);
+	BaseEditWindow(BaseEditWindow* src);
 	~BaseEditWindow();
 
-	void Draw();
+	bool Draw();
 	picojson::value Serialize();
 
-private:
 	int id;
 	int frame;
 	std::string type;
+
+private:
 
 	std::map<std::string, DataEditWindow*> dataWindow;
 

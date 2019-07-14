@@ -8,7 +8,8 @@
 #define _STAGEEDITOR_H_
 
 #include "main.h"
-#include <vector>
+#include <list>
+#include <iterator>
 #include "BaseEditWindow.h"
 
 /**************************************
@@ -33,8 +34,12 @@ public:
 	void Load();
 
 private:
-	std::vector<BaseEditWindow*> windowContainer;
+	std::list<BaseEditWindow*> windowList;
+	
+	int selectedID;
+	decltype(windowList)::iterator selectedData;
 
+	LPDIRECT3DTEXTURE9 selectLine;
 };
 
 #endif

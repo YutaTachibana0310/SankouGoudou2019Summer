@@ -51,11 +51,22 @@ BaseEditWindow::BaseEditWindow(int id, int frame, std::string type, picojson::ob
 }
 
 /**************************************
+コンストラクタ
+***************************************/
+BaseEditWindow::BaseEditWindow(BaseEditWindow *src)
+{
+	id = instanceCount++;
+	frame = src->frame;
+	type = src->type;
+
+	CreateEditWindow();
+}
+
+/**************************************
 デストラクタ
 ***************************************/
 BaseEditWindow::~BaseEditWindow()
 {
-	instanceCount--;
 	for (auto pair : dataWindow)
 	{
 		SAFE_DELETE(pair.second);
@@ -66,26 +77,30 @@ BaseEditWindow::~BaseEditWindow()
 /**************************************
 描画処理
 ***************************************/
-void BaseEditWindow::Draw()
+bool BaseEditWindow::Draw()
 {
+	bool selected = false;
+
 	DebugTreeExpansion(true);
-	if (DebugTreePush(to_string(id).c_str()))
+	if (DebugTreePush((string("id") + to_string(id)).c_str()))
 	{
 		string windowName = to_string(id);
 
 		string frameLabel = string("frame");
-		DebugInputInt(frameLabel.c_str(), &frame);
+		selected |= DebugInputInt(frameLabel.c_str(), &frame);
 
 		string typeName = string("type");
-		DebugInputText(typeName.c_str(), &type);
+		selected |= DebugInputText(typeName.c_str(), &type);
 
 		if (dataWindow.count(type) != 0)
 		{
-			dataWindow[type]->Draw(id);
+			selected |= dataWindow[type]->Draw();
 		}
 
 		DebugTreePop();
 	}
+
+	return selected;
 }
 
 /**************************************

@@ -58,7 +58,7 @@ static IStateScene* fsm[SceneMax];
 static SoundStateScene* ssm[SceneMax];
 
 //åªç›ÇÃÉVÅ[Éì
-static Scene currentScene = SceneGame;
+static Scene currentScene = SceneEditor;
 
 /**************************************
 èâä˙âªèàóù
@@ -171,11 +171,12 @@ void DrawGame()
 #ifdef _DEBUG
 	DebugLog("FPS:%d", GetCurrentFPS());
 
+	static int debugCurrentScene = currentScene;
 	BeginDebugWindow("Scene");
-	if (DebugRadioButton("Title", (int*)&currentScene, SceneTitle)) ChangeScene(SceneTitle);
-	if (DebugRadioButton("Game", (int*)&currentScene, SceneGame)) ChangeScene(SceneGame);
-	if (DebugRadioButton("Result", (int*)&currentScene, SceneResult)) ChangeScene(SceneResult);
-	if (DebugRadioButton("Editor", (int*)&currentScene, SceneEditor)) ChangeScene(SceneEditor);
+	if (DebugRadioButton("Title", (int*)&debugCurrentScene, SceneTitle)) ChangeScene(SceneTitle);
+	if (DebugRadioButton("Game", (int*)&debugCurrentScene, SceneGame)) ChangeScene(SceneGame);
+	if (DebugRadioButton("Result", (int*)&debugCurrentScene, SceneResult)) ChangeScene(SceneResult);
+	if (DebugRadioButton("Editor", (int*)&debugCurrentScene, SceneEditor)) ChangeScene(SceneEditor);
 	EndDebugWindow("Scene");
 #endif
 

@@ -19,6 +19,7 @@ using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
+#define USE_DEBUG_TESTENEMY (0)
 
 /**************************************
 構造体定義
@@ -55,6 +56,9 @@ EnemyController::~EnemyController()
 
 	//ステージデータクリア
 	stageModelList.clear();
+
+	//テスト用エネミーをdeleteする
+	SAFE_DELETE(test);
 }
 
 /**************************************
@@ -63,6 +67,27 @@ EnemyController::~EnemyController()
 void EnemyController::Init()
 {
 	cntFrame = 0;
+
+	//新しく作るEnemyの初期化テストはここに書く
+#if USE_DEBUG_TESTENEMY
+	//test
+	test = new EnemySnake;
+	std::vector<D3DXVECTOR3> posDestList;
+	posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	posDestList.push_back(D3DXVECTOR3(50.0f, 0.0f, 0.0f));
+	posDestList.push_back(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
+	posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 50.0f));
+	posDestList.push_back(D3DXVECTOR3(50.0f, 0.0f, 0.0f));
+	posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	vector<float> frameDestList;
+	frameDestList.push_back(50.0f);
+	frameDestList.push_back(100.0f);
+	frameDestList.push_back(200.0f);
+	frameDestList.push_back(300.0f);
+	frameDestList.push_back(400.0f);
+	test->VInit();
+	test->Set(posDestList, frameDestList, 50.0f);
+#endif
 }
 
 /**************************************
@@ -74,6 +99,11 @@ void EnemyController::Uninit()
 	{
 		model->Uninit();
 	}
+
+	//新しく作るEnemyの終了テストはここに書く
+#if USE_DEBUG_TESTENEMY
+	test->VUninit();
+#endif
 }
 
 /**************************************
@@ -81,6 +111,11 @@ void EnemyController::Uninit()
 ***************************************/
 void EnemyController::Update()
 {
+	//新しく作るEnemyの更新テストはここに書く
+#if USE_DEBUG_TESTENEMY
+	test->VUpdate();
+#endif
+
 	//モデル更新処理
 	for (auto &model : modelList)
 	{
@@ -111,6 +146,11 @@ void EnemyController::Draw()
 	{
 		model->Draw();
 	}
+
+	//新しく作るEnemyの描画テストはここに書く
+#if USE_DEBUG_TESTENEMY
+	test->VDraw();
+#endif
 }
 
 /**************************************
@@ -127,7 +167,7 @@ void EnemyController::SetEnemy()
 		if (cntFrame < stageModelList[i].frame)
 			break;
 
-		if(stageModelList[i].type == "Change")
+		if (stageModelList[i].type == "Change")
 			_SetEnemyChange(stageModelList[i].data);
 
 		currentIndex++;

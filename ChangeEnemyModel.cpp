@@ -67,8 +67,8 @@ void ChangeEnemyModel::Init(LineTrailModel model)
 
 	for (auto& enemy : enemyList)
 	{
-		enemy->Init();
-		enemy->SetVec(InitPos, edgeR, STOPENEMY_TIME_COLLIDER_ACTIVATE, 300, D3DXVECTOR3(0.0f, 15.0f, 0.0));
+		enemy->VInit();
+		enemy->VSetVec(InitPos, edgeR, STOPENEMY_TIME_COLLIDER_ACTIVATE, 300, D3DXVECTOR3(0.0f, 15.0f, 0.0));
 		edgeR += offset;
 	}
 }
@@ -94,7 +94,7 @@ int ChangeEnemyModel::Update()
 
 	for (auto& enemy : enemyList)
 	{
-		enemy->Update();
+		enemy->VUpdate();
 	}
 
 	return StateContinuous;

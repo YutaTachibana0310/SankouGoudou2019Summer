@@ -70,7 +70,7 @@ void EnemyModel::Draw()
 {
 	for (auto& enemy : enemyList)
 	{
-		enemy->Draw();
+		enemy->VDraw();
 	}
 
 #ifdef TRAILCOLLIDER_USE_DEBUG
@@ -86,8 +86,8 @@ void EnemyModel::OnNotified(ObserveSubject *notifier)
 	//所属するすべてのエネミーにダメージ処理
 	for (auto& enemy : enemyList)
 	{
-		enemy->Uninit();
-		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->pos);
+		enemy->VUninit();
+		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
 	}
 
 	//非アクティブに

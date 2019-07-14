@@ -100,11 +100,12 @@ public:
 class EnemySnake :public Enemy
 {
 public:
-	
-	vector<D3DXVECTOR3> m_PosDestList;  //移動先
-	vector<float> m_FrameDestList;		//移動がいるフレーム数
 	int m_WaitTime;						//停止の時間
 	int m_CurrentIndex;					//現在、posDestListの何番へ向かっているかを入れる変数
+	int m_posDestMax;					//m_FrameDestListの要素数
+
+	vector<D3DXVECTOR3> m_PosDestList;  //移動先、仕様書のイメージ図と違う、m_PosDestList[0]はEからカウント
+	vector<float> m_FrameDestList;		//移動がいるフレーム数　m_PosDestList[1]にいる時、 m_FrameDestList[0]
 
 	EnemySnake();
 	~EnemySnake();
@@ -116,7 +117,8 @@ public:
 
 	void VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame);
 
-	//スタートの所(posDestList[0])/移動先ごとに設定、posDestListの何番の移動がいるフレーム数に設定、停止の時間
+	//スタートの所(posDestList[0])　
+	//[1]移動先ごとに設定、[2]posDestListの何番の移動がいるフレーム数に設定、[3]停止の時間
 	void Set(vector<D3DXVECTOR3> posDestList, vector<float> m_frameDestList,int m_waitTime);
 	
 };

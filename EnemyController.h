@@ -60,6 +60,8 @@ private:
 	//エネミー生成処理(内部処理)
 	void _SetEnemy(EnemyModelType type, LineTrailModel trailModel);
 	void _SetEnemyChange(EnemyModel* model);
+	
+	EnemySnake *test;
 };
 
 #endif

@@ -70,6 +70,22 @@ EnemyController::~EnemyController()
 void EnemyController::Init()
 {
 	cntFrame = 0;
+
+	//test
+	//EnemySnake snake;
+	test = new EnemySnake;
+	std::vector<D3DXVECTOR3> posDestList;
+	posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	posDestList.push_back(D3DXVECTOR3(50.0f, 0.0f, 0.0f));
+	posDestList.push_back(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
+	posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 50.0f));
+	vector<float> frameDestList;
+	frameDestList.push_back(200.0f);
+	frameDestList.push_back(200.0f);
+	frameDestList.push_back(200.0f);
+	frameDestList.push_back(200.0f);
+	test->VInit();
+	test->Set(posDestList, frameDestList,50.0f);
 }
 
 /**************************************
@@ -87,8 +103,12 @@ void EnemyController::Uninit()
 		for (auto& enemy : enemyList.second)
 		{
 			enemy->VUninit();
+			//test
+			test->VUninit();
 		}
 	}
+
+	
 }
 
 /**************************************
@@ -108,8 +128,22 @@ void EnemyController::Update()
 		for (auto& enemy : enemyList.second)
 		{
 			enemy->VUpdate();
+			
+			
 		}
 	}
+	//test
+	for (auto &enemyList : enemyContainer)
+	{
+		for (auto& enemy : enemyList.second)
+		{
+			test->VUpdate();
+			
+
+		}
+	}
+
+	
 }
 
 /**************************************
@@ -129,8 +163,23 @@ void EnemyController::Draw()
 		for (auto& enemy : enemyList.second)
 		{
 			enemy->VDraw();
+			//
+			
 		}
 	}
+
+	//test
+	for (auto& enemyList : enemyContainer)
+	{
+		for (auto& enemy : enemyList.second)
+		{
+			test->VDraw();
+			
+
+		}
+	}
+
+	
 }
 
 /**************************************

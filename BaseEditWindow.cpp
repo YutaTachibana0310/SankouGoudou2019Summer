@@ -51,6 +51,18 @@ BaseEditWindow::BaseEditWindow(int id, int frame, std::string type, picojson::ob
 }
 
 /**************************************
+コンストラクタ
+***************************************/
+BaseEditWindow::BaseEditWindow(BaseEditWindow *src)
+{
+	id = instanceCount++;
+	frame = src->frame;
+	type = src->type;
+
+	CreateEditWindow();
+}
+
+/**************************************
 デストラクタ
 ***************************************/
 BaseEditWindow::~BaseEditWindow()

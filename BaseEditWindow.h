@@ -24,6 +24,7 @@ class BaseEditWindow
 public:
 	BaseEditWindow();
 	BaseEditWindow(int id, int frame, std::string type, picojson::object data);
+	BaseEditWindow(BaseEditWindow* src);
 	~BaseEditWindow();
 
 	bool Draw();

@@ -1,0 +1,49 @@
+{
+  "StageData": [
+    {
+      "data": {
+        "end": 1,
+        "start": 0
+      },
+      "frame": 30,
+      "id": 0,
+      "type": "Change"
+    },
+    {
+      "data": {
+        "end": 2,
+        "start": 1
+      },
+      "frame": 60,
+      "id": 1,
+      "type": "Change"
+    },
+    {
+      "data": {
+        "end": 3,
+        "start": 2
+      },
+      "frame": 90,
+      "id": 2,
+      "type": "Change"
+    },
+    {
+      "data": {
+        "end": 4,
+        "start": 3
+      },
+      "frame": 120,
+      "id": 3,
+      "type": "Change"
+    },
+    {
+      "data": {
+        "end": 0,
+        "start": 4
+      },
+      "frame": 150,
+      "id": 4,
+      "type": "Change"
+    }
+  ]
+}

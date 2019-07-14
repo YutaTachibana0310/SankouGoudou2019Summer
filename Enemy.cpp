@@ -9,8 +9,10 @@
 
 #include  <math.h>
 #include "Framework\Easing.h"
+#include "Framework\ResourceManager.h"
 
 using namespace std;
+
 /**************************************
 ƒ}ƒNƒ’è‹`
 ***************************************/
@@ -30,7 +32,6 @@ using namespace std;
 /****************************************
 static•Ï”
 ****************************************/
-MeshContainer* Enemy::m_pMesh;
 UINT Enemy::m_InstanceCount;
 
 /****************************************
@@ -39,11 +40,7 @@ UINT Enemy::m_InstanceCount;
 Enemy::Enemy()
 {
 	m_InstanceCount++;
-	if (m_pMesh == NULL)
-	{
-		m_pMesh = new MeshContainer();
-		m_pMesh->Load(ENEMY_MODEL);
-	}
+	ResourceManager::Instance()->GetMesh("Enemy", &m_pMesh);
 }
 
 /****************************************
@@ -52,10 +49,6 @@ Enemy::Enemy()
 Enemy::~Enemy()
 {
 	m_InstanceCount--;
-	if (m_InstanceCount == 0)
-	{
-		SAFE_DELETE(m_pMesh);
-	}
 }
 
 //EnemyStraight

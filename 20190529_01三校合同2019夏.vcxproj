@@ -147,6 +147,8 @@
     <ClInclude Include="EditorBG.h" />
     <ClInclude Include="EditorScene.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="EnemyWarpHole.h" />
+    <ClInclude Include="EnemyWarpHoleController.h" />
     <ClInclude Include="Framework\ResourceManager.h" />
     <ClInclude Include="RebarOb.h" />
     <ClInclude Include="EnemyExplosionController.h" />
@@ -251,6 +253,7 @@
     <ClInclude Include="Stencil.h" />
     <ClInclude Include="starUI.h" />
     <ClInclude Include="ChangeEnemyModel.h" />
+    <ClInclude Include="StraightEnemyModel.h" />
     <ClInclude Include="TestEnemyModel.h" />
     <ClInclude Include="titleBGUI.h" />
     <ClInclude Include="titleLogoUI.h" />
@@ -269,6 +272,8 @@
     <ClCompile Include="BaseEditWindow.cpp" />
     <ClCompile Include="ChangeEditWindow.cpp" />
     <ClCompile Include="EditorScene.cpp" />
+    <ClCompile Include="EnemyWarpHole.cpp" />
+    <ClCompile Include="EnemyWarpHoleController.cpp" />
     <ClCompile Include="Framework\ResourceManager.cpp" />
     <ClCompile Include="RebarOb.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -365,6 +370,7 @@
     <ClCompile Include="starUI.cpp" />
     <ClCompile Include="PlayerTrail.cpp" />
     <ClCompile Include="ChangeEnemyModel.cpp" />
+    <ClCompile Include="StraightEnemyModel.cpp" />
     <ClCompile Include="TestEnemyModel.cpp" />
     <ClCompile Include="titleBGUI.cpp" />
     <ClCompile Include="titleLogoUI.cpp" />

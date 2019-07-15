@@ -75,15 +75,8 @@ HRESULT  EnemyStraight::VInit(void)
 {
 	m_Active = false;
 
-
-	m_Pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
-	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_Scl = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
-	m_Rot = D3DXVECTOR3(0.0f, 59.7f, 0.0f);
-	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
-
 	m_FrameDest = 0.0f;
+	m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	m_Dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_PosDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_CntFrame = 0.0f;
@@ -110,7 +103,7 @@ void EnemyStraight::VUpdate(void)
 		{
 			//ÉuÉåÅ[ÉLÇÃéËêGÇË
 			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue((m_CntFrame/m_FrameDest), &m_Start, 
-				&m_PosDest, EasingType::OutCubic);
+				&m_PosDest, EasingType::InCubic);
 			
 		}
 
@@ -162,7 +155,8 @@ void EnemyStraight::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame)
 	m_FrameDest = frame;
 	m_PosDest = end;
 	
-	m_Start = start;
+	m_Start = m_Pos = start;
+	m_CntFrame = 0.0f;
 	
 	m_Active = true;
 }

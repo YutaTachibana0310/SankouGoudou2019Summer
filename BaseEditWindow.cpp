@@ -128,4 +128,5 @@ picojson::value BaseEditWindow::Serialize()
 void BaseEditWindow::CreateEditWindow()
 {
 	dataWindow["Change"] = new ChangeEditWindow();
+	dataWindow["Straight"] = new ChangeEditWindow();
 }

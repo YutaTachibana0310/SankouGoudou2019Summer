@@ -549,6 +549,15 @@
     <ClInclude Include="ChangeEnemyModel.h">
       <Filter>ヘッダー ファイル\Enemy\Model</Filter>
     </ClInclude>
+    <ClInclude Include="StraightEnemyModel.h">
+      <Filter>ヘッダー ファイル\Enemy\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyWarpHoleController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyWarpHole.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -901,6 +910,15 @@
     </ClCompile>
     <ClCompile Include="ChangeEnemyModel.cpp">
       <Filter>ソース ファイル\Enemy\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="StraightEnemyModel.cpp">
+      <Filter>ソース ファイル\Enemy\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyWarpHoleController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyWarpHole.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

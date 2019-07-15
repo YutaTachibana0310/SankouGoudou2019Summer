@@ -7,6 +7,7 @@
 #include "EnemyController.h"
 #include "TestEnemyModel.h"
 #include "ChangeEnemyModel.h"
+#include "StraightEnemyModel.h"
 
 #include "Framework\ResourceManager.h"
 #include "picojson\picojson.h"
@@ -167,20 +168,42 @@ void EnemyController::SetEnemy()
 		if (cntFrame < stageModelList[i].frame)
 			break;
 
+		//typeに応じて生成処理をディスパッチ
 		if (stageModelList[i].type == "Change")
 			_SetEnemyChange(stageModelList[i].data);
+		
+		else if (stageModelList[i].type == "Straight")
+			_SetEnemyStraight(stageModelList[i].data);
 
 		currentIndex++;
 	}
 }
 
 /**************************************
-エネミー生成処理（モデル版）
+エネミー生成処理（Changeタイプ）
 ***************************************/
 void EnemyController::_SetEnemyChange(picojson::object& data)
 {
 	//インスタンス生成
 	EnemyModel *model = new ChangeEnemyModel();
+
+	//データをパース
+	int start = static_cast<int>(data["start"].get<double>());
+	int end = static_cast<int>(data["end"].get<double>());
+
+	//初期化
+	model->Init(LineTrailModel(start, end));
+
+	modelList.push_back(model);
+}
+
+/**************************************
+エネミー生成処理（Straightタイプ）
+***************************************/
+void EnemyController::_SetEnemyStraight(picojson::object& data)
+{
+	//インスタンス生成
+	EnemyModel *model = new StraightEnemyModel();
 
 	//データをパース
 	int start = static_cast<int>(data["start"].get<double>());

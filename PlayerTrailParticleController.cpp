@@ -49,39 +49,13 @@ void PlayerTrailParticleController::Init()
 /**************************************
 PlayerTrailParticleController更新処理
 ***************************************/
-void PlayerTrailParticleController:: Emit()
+void PlayerTrailParticleController::Emit()
 {
-	PlayerTrailEmitter *emitter = static_cast<PlayerTrailEmitter*>(emitterContainer[0]);
-
-	if (!emitter->active)
-		return;
-
-	const int EmitNum = 5;
-	const float PosRangeXZ = 12.0f;
-	const float PosRangeY = 2.0f;
-
-	int emitCount = 0;
-	for (BaseParticle *particle : particleContainer)
-	{
-		if (particle->active)
-			continue;
-
-		PlayerTrailParticle *entity = static_cast<PlayerTrailParticle*>(particle);
-
-		//初期座標設定
-		entity->transform.pos = emitter->transform.pos;
-		entity->transform.pos.x += RandomRangef(-PosRangeXZ, PosRangeXZ);
-		entity->transform.pos.y += RandomRangef(-PosRangeXZ, PosRangeXZ);
-		entity->transform.pos.z += RandomRangef(-PosRangeXZ, PosRangeXZ);
-
-		//初期化してカウント
-		entity->Init();
-		
-		emitCount++;
-
-		if (emitCount == EmitNum)
-			return;
-	}
+	const UINT EmitNum = 5;
+	ForEachEmitter(EmitNum, [](BaseEmitter *emitter, BaseParticle *particle) {
+		particle->transform.pos = emitter->transform.pos;
+		particle->Init();
+	});
 }
 
 /**************************************

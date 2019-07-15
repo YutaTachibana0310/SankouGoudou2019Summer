@@ -395,3 +395,38 @@ void BaseParticleController::SetEmitter(D3DXVECTOR3 *pos)
 	(*emitter)->Init();
 
 }
+
+/**************************************
+全エミッタへの放出処理
+***************************************/
+void BaseParticleController::ForEachEmitter(UINT emitNum, function<void(BaseEmitter *emitter, BaseParticle *particle)> func)
+{
+	//全エミッタに対して放出処理
+	for (BaseEmitter* emitter : emitterContainer)
+	{
+		//非アクティブなエミッタについては実行しない
+		if (!emitter->active)
+			continue;
+
+		//引数で指定された数だけパーティクル放出
+		UINT emitCount = 0;
+		for (BaseParticle *particle : particleContainer)
+		{
+			//アクティブなパーティクルに対してはcontinue
+			if (particle->active)
+				continue;
+
+			//放出処理
+			func(emitter, particle);
+
+			//カウントして、指定された数だけ放出していたらbreak
+			emitCount++;
+			if (emitCount == emitNum)
+				break;
+		}
+
+		//放出できるパーティクルが無いためリターン
+		if (emitCount != emitNum)
+			return;
+	}
+}

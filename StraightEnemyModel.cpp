@@ -7,6 +7,7 @@
 #include "StraightEnemyModel.h"
 #include "enemy.h"
 #include "Framework\Easing.h"
+#include "GameParticleManager.h"
 
 /**************************************
 マクロ定義
@@ -63,6 +64,13 @@ void StraightEnemyModel::Init(LineTrailModel model)
 		enemy->VSet(edgeR, dest, STRAIGHTENEMY_REACH_FRAME);
 		edgeR += offset;
 		dest += offset;
+	}
+
+	//ワープエフェクトセット
+	for (auto& enemy : enemyList)
+	{
+		D3DXVECTOR3 setPos = enemy->m_Pos + D3DXVECTOR3(0.0f, 0.0f, -50.0f);
+		GameParticleManager::Instance()->SetEnemyWarpHole(&setPos);
 	}
 
 }

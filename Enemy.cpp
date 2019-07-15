@@ -155,7 +155,7 @@ void EnemyStraight::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame)
 	m_FrameDest = frame;
 	m_PosDest = end;
 	
-	m_Start = start;
+	m_Start = m_Pos = start;
 	m_CntFrame = 0.0f;
 	
 	m_Active = true;

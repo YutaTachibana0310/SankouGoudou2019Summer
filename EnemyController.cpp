@@ -7,6 +7,7 @@
 #include "EnemyController.h"
 #include "TestEnemyModel.h"
 #include "ChangeEnemyModel.h"
+#include "StraightEnemyModel.h"
 
 #include "Framework\ResourceManager.h"
 #include "picojson\picojson.h"
@@ -180,7 +181,7 @@ void EnemyController::SetEnemy()
 void EnemyController::_SetEnemyChange(picojson::object& data)
 {
 	//インスタンス生成
-	EnemyModel *model = new ChangeEnemyModel();
+	EnemyModel *model = new StraightEnemyModel();
 
 	//データをパース
 	int start = static_cast<int>(data["start"].get<double>());

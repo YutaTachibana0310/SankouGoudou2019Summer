@@ -251,6 +251,7 @@
     <ClInclude Include="Stencil.h" />
     <ClInclude Include="starUI.h" />
     <ClInclude Include="ChangeEnemyModel.h" />
+    <ClInclude Include="StraightEnemyModel.h" />
     <ClInclude Include="TestEnemyModel.h" />
     <ClInclude Include="titleBGUI.h" />
     <ClInclude Include="titleLogoUI.h" />
@@ -365,6 +366,7 @@
     <ClCompile Include="starUI.cpp" />
     <ClCompile Include="PlayerTrail.cpp" />
     <ClCompile Include="ChangeEnemyModel.cpp" />
+    <ClCompile Include="StraightEnemyModel.cpp" />
     <ClCompile Include="TestEnemyModel.cpp" />
     <ClCompile Include="titleBGUI.cpp" />
     <ClCompile Include="titleLogoUI.cpp" />

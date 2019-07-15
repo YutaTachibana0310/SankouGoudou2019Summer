@@ -71,10 +71,7 @@ void StageEditor::Uninit()
 ***************************************/
 void StageEditor::Update()
 {
-	windowList.sort([](BaseEditWindow* a, BaseEditWindow *b)
-	{
-		return a->frame < b->frame;
-	});
+
 }
 
 /**************************************
@@ -139,6 +136,17 @@ void StageEditor::Draw()
 		}
 		windowList.clear();
 	}
+
+	//ソート機能
+	if (DebugButton("Sort"))
+	{
+		windowList.sort([](BaseEditWindow* a, BaseEditWindow *b)
+		{
+			return a->frame < b->frame;
+		});
+	}
+
+	DebugSameLine();
 
 	//データ選択機能
 	DebugInputInt("Select ID", &selectedID);

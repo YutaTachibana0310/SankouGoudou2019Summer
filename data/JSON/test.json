@@ -44,6 +44,51 @@
       "frame": 150,
       "id": 4,
       "type": "Change"
+    },
+    {
+      "data": {
+        "end": 2,
+        "start": 0
+      },
+      "frame": 270,
+      "id": 5,
+      "type": "Straight"
+    },
+    {
+      "data": {
+        "end": 4,
+        "start": 2
+      },
+      "frame": 330,
+      "id": 6,
+      "type": "Straight"
+    },
+    {
+      "data": {
+        "end": 1,
+        "start": 4
+      },
+      "frame": 390,
+      "id": 7,
+      "type": "Straight"
+    },
+    {
+      "data": {
+        "end": 3,
+        "start": 1
+      },
+      "frame": 450,
+      "id": 8,
+      "type": "Straight"
+    },
+    {
+      "data": {
+        "end": 0,
+        "start": 3
+      },
+      "frame": 510,
+      "id": 9,
+      "type": "Straight"
     }
   ]
 }

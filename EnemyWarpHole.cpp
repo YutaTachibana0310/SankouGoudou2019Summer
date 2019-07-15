@@ -32,7 +32,7 @@ EnemyWarpHole‰Šú‰»ˆ—
 void EnemyWarpHole::Init()
 {
 	cntFrame = 0;
-	lifeFrame = RandomRange(30, 100);
+	lifeFrame = RandomRange(10, 30);
 	active = true;
 
 	const float PosRange = 5.0f;

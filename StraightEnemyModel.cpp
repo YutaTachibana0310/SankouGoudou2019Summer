@@ -15,7 +15,7 @@
 typedef EnemyModel Base;
 
 #define STRAIGHTENEMY_REACH_FRAME		(180)
-#define STRAIGHTENEMY_ACTIVATE_FRAME	(90)
+#define STRAIGHTENEMY_ACTIVATE_FRAME	(30)
 
 /**************************************
 コンストラクタ

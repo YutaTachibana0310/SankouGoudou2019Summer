@@ -83,7 +83,15 @@ BaseParticleController::~BaseParticleController()
 ***************************************/
 void BaseParticleController::Uninit()
 {
+	for (auto& particle : particleContainer)
+	{
+		particle->Uninit();
+	}
 
+	for (auto& emitter : emitterContainer)
+	{
+		emitter->Uninit();
+	}
 }
 
 /**************************************

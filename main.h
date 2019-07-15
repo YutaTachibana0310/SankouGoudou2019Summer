@@ -112,9 +112,9 @@ typedef struct _Transform
 	//‰ñ“]ˆ—
 	void Rotate(float degX, float degY, float degZ)
 	{
-		rot.x = D3DXToRadian(degX);
-		rot.y = D3DXToRadian(degY);
-		rot.z = D3DXToRadian(degZ);
+		rot.x += D3DXToRadian(degX);
+		rot.y += D3DXToRadian(degY);
+		rot.z += D3DXToRadian(degZ);
 	}
 
 }Transform;

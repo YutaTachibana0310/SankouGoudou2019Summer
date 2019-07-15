@@ -15,11 +15,12 @@
 typedef EnemyModel Base;
 
 #define STRAIGHTENEMY_REACH_FRAME		(180)
+#define STRAIGHTENEMY_ACTIVATE_FRAME	(90)
 
 /**************************************
 コンストラクタ
 ***************************************/
-StraightEnemyModel::StraightEnemyModel() : StartPosZ(400.0f), DestPosZ(-200.0f)
+StraightEnemyModel::StraightEnemyModel() : StartPosZ(300.0f), DestPosZ(-200.0f)
 {
 
 }
@@ -40,7 +41,7 @@ void StraightEnemyModel::Init(LineTrailModel model)
 	Base::Init(model);
 
 	cntFrame = 0;
-	collider->active = true;
+	collider->active = false;
 
 	//エネミー生成
 	for (int i = 0; i < 5; i++)
@@ -62,6 +63,7 @@ void StraightEnemyModel::Init(LineTrailModel model)
 	{
 		enemy->VInit();
 		enemy->VSet(edgeR, dest, STRAIGHTENEMY_REACH_FRAME);
+		enemy->m_Active = false;
 		edgeR += offset;
 		dest += offset;
 	}
@@ -81,15 +83,31 @@ void StraightEnemyModel::Init(LineTrailModel model)
 int StraightEnemyModel::Update()
 {
 	cntFrame++;
-	float t = (float)cntFrame / (float)STRAIGHTENEMY_REACH_FRAME;
 
-	pos.z = Easing<float>::GetEasingValue(t, &StartPosZ, &DestPosZ, EasingType::InCubic);
+	//エネミーのアクティベイト
+	if (cntFrame == STRAIGHTENEMY_ACTIVATE_FRAME)
+	{
+		for (auto& enemy : enemyList)
+		{
+			enemy->m_Active = true;
+		}
+		collider->active = true;
+	}
 
-	if (cntFrame == STRAIGHTENEMY_REACH_FRAME)
+	//当たり判定の移動処理
+	if (cntFrame >= STRAIGHTENEMY_ACTIVATE_FRAME)
+	{
+		float t = (float)(cntFrame - STRAIGHTENEMY_ACTIVATE_FRAME) / (float)STRAIGHTENEMY_REACH_FRAME;
+		pos.z = Easing<float>::GetEasingValue(t, &StartPosZ, &DestPosZ, EasingType::InCubic);
+	}
+
+	//終了判定
+	if (cntFrame == STRAIGHTENEMY_REACH_FRAME + STRAIGHTENEMY_ACTIVATE_FRAME)
 	{
 		Uninit();
 	}
 
+	//所属するエネミーを更新
 	for (auto& enemy : enemyList)
 	{
 		enemy->VUpdate();

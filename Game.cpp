@@ -58,7 +58,7 @@ static IStateScene* fsm[SceneMax];
 static SoundStateScene* ssm[SceneMax];
 
 //Œ»İ‚ÌƒV[ƒ“
-static Scene currentScene = SceneEditor;
+static Scene currentScene = SceneGame;
 
 /**************************************
 ‰Šú‰»ˆ—

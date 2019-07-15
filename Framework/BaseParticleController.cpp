@@ -54,14 +54,18 @@ BaseParticleController::~BaseParticleController()
 {
 	SAFE_RELEASE(unitBuff);
 	SAFE_RELEASE(texture);
+
 	for (BaseParticle *particle : particleContainer)
 	{
 		SAFE_DELETE(particle);
 	}
+	particleContainer.clear();
+
 	for(BaseEmitter *emitter : emitterContainer)
 	{
 		SAFE_DELETE(emitter);
 	}
+	emitterContainer.clear();
 
 	instanceCount--;
 	if (instanceCount == 0)

@@ -47,15 +47,6 @@ void PlayerTrailParticleController::Init()
 }
 
 /**************************************
-PlayerTrailParticleControllerI—¹ˆ—
-***************************************/
-void PlayerTrailParticleController::Uninit()
-{
-	vector<BaseParticle*>().swap(particleContainer);
-	vector<BaseEmitter*>().swap(emitterContainer);
-}
-
-/**************************************
 PlayerTrailParticleControllerXVˆ—
 ***************************************/
 void PlayerTrailParticleController:: Emit()

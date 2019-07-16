@@ -102,6 +102,7 @@ class EnemySnake :public Enemy
 public:
 	int m_WaitTime;						//停止の時間
 	int m_CurrentIndex;					//現在、posDestListの何番へ向かっているかを入れる変数
+	int m_PrevIndex;					//1フレーム前はposDestListの何番へ向かっていたか
 	int m_posDestMax;					//m_FrameDestListの要素数
 
 	vector<D3DXVECTOR3> m_PosDestList;  //移動先、m_PosDestList[0]はEからカウント

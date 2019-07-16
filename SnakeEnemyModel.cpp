@@ -6,6 +6,7 @@
 //=====================================
 #include "SnakeEnemyModel.h"
 #include "enemy.h"
+#include "GameParticleManager.h"
 
 using namespace std;
 
@@ -14,8 +15,11 @@ using namespace std;
 ***************************************/
 typedef EnemyModel Base;
 
-#define SNAKEENEMY_START_OFFSET		(400.0f)
-#define SNAKEENEMY_MOVE_DURATION	(30.0f)
+#define SNAKEENEMY_START_OFFSET			(400.0f)		//エネミーの初期座標のオフセット
+#define SNAKEENEMY_MOVE_DURATION		(120.0f)		//エネミーが移動にかける時間
+#define SNAKEENMY_GENERATE_NUM			(20)			//生成するエネミーの数
+#define SNAKEENEMY_GENERATE_INTERVAL	(10)			//生成インターバル
+#define SNAKEENEMY_GENERATE_DURATION	(SNAKEENMY_GENERATE_NUM*SNAKEENEMY_GENERATE_INTERVAL)
 
 /**************************************
 初期化処理
@@ -41,10 +45,10 @@ void SnakeEnemyModel::Init(vector<int> destList)
 		colliderList[i]->SetTrailIndex(modelList[i]);
 		colliderList[i]->SetAddressZ(&pos.z);
 		colliderList[i]->AddObserver(this);
+		colliderList[i]->active = false;
 	}
 
 	//移動座標リストを作成
-	vector<D3DXVECTOR3> moveTargetList;
 	moveTargetList.resize(destList.size() + 2);
 
 	//destListから座標を取得して設定
@@ -70,19 +74,18 @@ void SnakeEnemyModel::Init(vector<int> destList)
 		target.z = pos.z;
 	}
 
-	//移動時間リスト
-	vector<float> timeList;
+	//移動時間リスト作成
 	timeList.resize(moveTargetList.size());
 	for (auto& time : timeList)
 	{
 		time = SNAKEENEMY_MOVE_DURATION;
 	}
 
-	//エネミーを作成
-	EnemySnake *snake = new EnemySnake;
-	snake->VInit();
-	snake->Set(moveTargetList, timeList, 60.0f);
-	enemyList.push_back(snake);
+	//最初のエネミーを生成
+	EnemySnake *enemy = new EnemySnake();
+	enemy->VInit();
+	enemy->Set(moveTargetList, timeList, 60.0f);
+	enemyList.push_back(enemy);
 }
 
 /**************************************
@@ -90,6 +93,19 @@ void SnakeEnemyModel::Init(vector<int> destList)
 ***************************************/
 int SnakeEnemyModel::Update()
 {
+	//エネミーの生成
+	if (++cntFrame < SNAKEENEMY_GENERATE_DURATION)
+	{
+		//インターバルおきに作成
+		if (cntFrame % SNAKEENEMY_GENERATE_INTERVAL == 0)
+		{
+			EnemySnake *enemy = new EnemySnake();
+			enemy->VInit();
+			enemy->Set(moveTargetList, timeList, 60.0f);
+			enemyList.push_back(enemy);
+		}
+	}
+
 	//エネミーの更新
 	for (auto& enemy : enemyList)
 	{
@@ -97,7 +113,21 @@ int SnakeEnemyModel::Update()
 	}
 
 	//当たり判定の更新
+	for (auto& enemy : enemyList)
+	{
+		EnemySnake* snake = static_cast<EnemySnake*>(enemy);
 
+		UINT next = snake->m_CurrentIndex - 1;
+		UINT current = snake->m_PrevIndex - 1;
+
+		TrailCollider *nextCollider = next < colliderList.size() ? colliderList[next] : NULL;
+		TrailCollider *currentCollider = current < colliderList.size() ? colliderList[current] : NULL;
+		SwapInColliderMap(currentCollider, nextCollider, snake);
+	}
+
+	//終了判定
+	if (cntFrame > SNAKEENEMY_GENERATE_DURATION && enemyList.size() == 0)
+		Uninit();
 
 	return 0;
 }
@@ -121,3 +151,46 @@ void SnakeEnemyModel::Draw()
 /**************************************
 衝突判定
 ***************************************/
+void SnakeEnemyModel::OnNotified(ObserveSubject *notifier)
+{
+	TrailCollider *entity = static_cast<TrailCollider*>(notifier);
+
+	//当たり判定に属するエネミーすべてにダメージ処理
+	for (auto& enemy : colliderMap[entity])
+	{
+		enemy->VUninit();
+		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
+	}
+
+	entity->active = false;
+}
+
+/**************************************
+当たり判定内入れ替え処理
+***************************************/
+void SnakeEnemyModel::SwapInColliderMap(TrailCollider* current, TrailCollider* next, EnemySnake* enemy)
+{
+	if (current == next)
+		return;
+
+	if (current != NULL)
+	{
+		auto itr = find(colliderMap[current].begin(), colliderMap[current].end(), enemy);
+
+		if (itr != colliderMap[current].end())
+		{
+			colliderMap[current].erase(itr);
+
+			if (colliderMap[current].size() == 0)
+				current->active = false;
+		}
+	}
+
+	if (next == NULL)
+		return;
+
+	colliderMap[next].push_back(enemy);
+
+	if (!next->active)
+		next->active = true;
+}

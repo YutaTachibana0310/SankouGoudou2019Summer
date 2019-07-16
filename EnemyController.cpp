@@ -153,7 +153,7 @@ void EnemyController::Draw()
 void EnemyController::SetEnemy()
 {
 	cntFrame++;
-
+	return;
 	//現在のインデックスからステージデータを確認していく
 	for (UINT i = currentIndex; i < stageModelList.size(); i++)
 	{

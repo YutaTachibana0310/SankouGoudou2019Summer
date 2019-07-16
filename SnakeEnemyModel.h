@@ -10,6 +10,8 @@
 #include "main.h"
 #include "EnemyModel.h"
 
+#include <map>
+
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
@@ -26,12 +28,15 @@ public:
 	void Init(std::vector<int> destList);
 	int Update();
 	void Draw();
-	//void OnNotified(ObserveSubject *notifier);
+	void OnNotified(ObserveSubject *notifier);
 
 private:
 	std::vector<TrailCollider*> colliderList;
 	std::vector<D3DXVECTOR3> moveTargetList;
-	
+	std::vector<float> timeList;
+	std::map<TrailCollider*, std::list<EnemySnake*>> colliderMap;
+
+	void SwapInColliderMap(TrailCollider* current, TrailCollider *next, EnemySnake* enemy);
 };
 
 #endif

@@ -387,6 +387,9 @@ void EnemySnake::VUpdate()
 	static int framePassed = 0;
 	//停止状態のフレームをカウント
 	static int waitcount = 0;
+	
+	//更新前のm_CurrentIndexを保存
+	m_PrevIndex = m_CurrentIndex;
 
 	//最後の点のフレーム
 	int last = framePassed + m_FrameDestList[m_posDestMax - 2];

@@ -8,6 +8,7 @@
 #include "TestEnemyModel.h"
 #include "ChangeEnemyModel.h"
 #include "StraightEnemyModel.h"
+#include "SnakeEnemyModel.h"
 
 #include "Framework\ResourceManager.h"
 #include "picojson\picojson.h"
@@ -20,7 +21,7 @@ using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
-#define USE_DEBUG_TESTENEMY (0)
+#define USE_DEBUG_TESTENEMY (1)
 
 /**************************************
 構造体定義
@@ -29,6 +30,7 @@ using namespace std;
 /**************************************
 グローバル変数
 ***************************************/
+static SnakeEnemyModel *snakeModel;
 
 /**************************************
 コンストラクタ
@@ -60,6 +62,7 @@ EnemyController::~EnemyController()
 
 	//テスト用エネミーをdeleteする
 	SAFE_DELETE(test);
+	SAFE_DELETE(snakeModel);
 }
 
 /**************************************
@@ -71,23 +74,13 @@ void EnemyController::Init()
 
 	//新しく作るEnemyの初期化テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	//test
-	test = new EnemySnake;
-	std::vector<D3DXVECTOR3> posDestList;
-	posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	posDestList.push_back(D3DXVECTOR3(50.0f, 0.0f, 0.0f));
-	posDestList.push_back(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
-	posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 50.0f));
-	posDestList.push_back(D3DXVECTOR3(50.0f, 0.0f, 0.0f));
-	posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	vector<float> frameDestList;
-	frameDestList.push_back(50.0f);
-	frameDestList.push_back(100.0f);
-	frameDestList.push_back(200.0f);
-	frameDestList.push_back(300.0f);
-	frameDestList.push_back(400.0f);
-	test->VInit();
-	test->Set(posDestList, frameDestList, 50.0f);
+	snakeModel = new SnakeEnemyModel();
+	vector<int> testList;
+	testList.push_back(3);
+	testList.push_back(2);
+	testList.push_back(4);
+	testList.push_back(1);
+	snakeModel->Init(testList);
 #endif
 }
 
@@ -103,7 +96,7 @@ void EnemyController::Uninit()
 
 	//新しく作るEnemyの終了テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	test->VUninit();
+	snakeModel->Uninit();
 #endif
 }
 
@@ -114,7 +107,7 @@ void EnemyController::Update()
 {
 	//新しく作るEnemyの更新テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	test->VUpdate();
+	snakeModel->Update();
 #endif
 
 	//モデル更新処理
@@ -150,7 +143,7 @@ void EnemyController::Draw()
 
 	//新しく作るEnemyの描画テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	test->VDraw();
+	snakeModel->Draw();
 #endif
 }
 

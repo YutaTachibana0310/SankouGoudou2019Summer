@@ -191,7 +191,7 @@ HRESULT EnemyChange::VInit(void)
 
 	m_Pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
 	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_Scl = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
+	m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_CntFrame = 0.0f;
@@ -356,8 +356,7 @@ HRESULT EnemySnake::VInit()
 
 	m_Pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
 	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_Scl = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
-	m_Rot = D3DXVECTOR3(0.0f, 59.7f, 0.0f);
+	m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 

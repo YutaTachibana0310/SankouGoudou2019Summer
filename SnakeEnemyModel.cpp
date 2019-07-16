@@ -90,16 +90,20 @@ void SnakeEnemyModel::Init(vector<int> destList)
 ***************************************/
 int SnakeEnemyModel::Update()
 {
+	//エネミーの更新
 	for (auto& enemy : enemyList)
 	{
 		enemy->VUpdate();
 	}
 
+	//当たり判定の更新
+
+
 	return 0;
 }
 
 /**************************************
-更新処理
+描画処理
 ***************************************/
 void SnakeEnemyModel::Draw()
 {

@@ -39,7 +39,7 @@ EnemyController::EnemyController()
 {
 	//リソース読み込み
 	//解放はシーン終了時にGame.cppで一括して開放する
-	ResourceManager::Instance()->LoadMesh("Enemy", "data/MODEL/airplane000.x");
+	ResourceManager::Instance()->LoadMesh("Enemy", "data/MODEL/Enemy/drone.x");
 
 	//ステージデータ読み込み
 	LoadStageData();

@@ -126,8 +126,19 @@ int SnakeEnemyModel::Update()
 	}
 
 	//終了判定
-	if (cntFrame > SNAKEENEMY_GENERATE_DURATION && enemyList.size() == 0)
-		Uninit();
+	if (cntFrame > SNAKEENEMY_GENERATE_DURATION)
+	{
+		//アクティブなエネミーが残っているか確認
+		bool isActive = false;
+		for (auto& enemy : enemyList)
+		{
+			isActive |= enemy->m_Active;
+		}
+
+		//残っていなければ終了
+		if (!isActive)
+			Uninit();
+	}
 
 	return 0;
 }
@@ -162,6 +173,10 @@ void SnakeEnemyModel::OnNotified(ObserveSubject *notifier)
 		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
 	}
 
+	//所属エネミーリストをクリア
+	colliderMap[entity].clear();
+
+	//衝突した当たり判定を非アクティブに
 	entity->active = false;
 }
 
@@ -170,27 +185,30 @@ void SnakeEnemyModel::OnNotified(ObserveSubject *notifier)
 ***************************************/
 void SnakeEnemyModel::SwapInColliderMap(TrailCollider* current, TrailCollider* next, EnemySnake* enemy)
 {
+	//同じ判定へ入れ替えようとしていたら早期リターン
 	if (current == next)
 		return;
 
+	//入れ替え元がNULLでなければ
 	if (current != NULL)
 	{
+		//所属判定のエネミーリストの中から該当するエネミーを検索
 		auto itr = find(colliderMap[current].begin(), colliderMap[current].end(), enemy);
 
-		if (itr != colliderMap[current].end())
-		{
-			colliderMap[current].erase(itr);
+		//リストから離脱
+		colliderMap[current].erase(itr);
 
-			if (colliderMap[current].size() == 0)
-				current->active = false;
-		}
+		//所属するエネミーがいなくなっていたら判定を非アクティブに
+		if (colliderMap[current].size() == 0)
+			current->active = false;
 	}
 
+	//入れ替え先がNULLであればreturn
 	if (next == NULL)
 		return;
 
+	//入れ替え先のエネミーリストへプッシュ
 	colliderMap[next].push_back(enemy);
 
-	if (!next->active)
-		next->active = true;
+	next->active = true;
 }

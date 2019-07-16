@@ -103,6 +103,8 @@ public:
 	int m_WaitTime;						//停止の時間
 	int m_CurrentIndex;					//現在、posDestListの何番へ向かっているかを入れる変数
 	int m_posDestMax;					//m_FrameDestListの要素数
+	int m_framePassed;					//前の点を通過するのにの時間
+	int m_waitcount;					//停止状態のフレームをカウント
 
 	vector<D3DXVECTOR3> m_PosDestList;  //移動先、m_PosDestList[0]はEからカウント
 	vector<float> m_FrameDestList;		//移動がいるフレーム数　m_PosDestList[1]にいる時、 m_FrameDestList[0]

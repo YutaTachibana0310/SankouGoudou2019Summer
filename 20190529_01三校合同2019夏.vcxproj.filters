@@ -561,6 +561,9 @@
     <ClInclude Include="SnakeEnemyModel.h">
       <Filter>ヘッダー ファイル\Enemy\Model</Filter>
     </ClInclude>
+    <ClInclude Include="SnakeEditWindow.h">
+      <Filter>ヘッダー ファイル\Stage\EditWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -925,6 +928,9 @@
     </ClCompile>
     <ClCompile Include="SnakeEnemyModel.cpp">
       <Filter>ソース ファイル\Enemy\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="SnakeEditWindow.cpp">
+      <Filter>ソース ファイル\Stage\EditWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

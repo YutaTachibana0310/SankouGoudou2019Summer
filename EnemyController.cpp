@@ -8,6 +8,7 @@
 #include "TestEnemyModel.h"
 #include "ChangeEnemyModel.h"
 #include "StraightEnemyModel.h"
+#include "SnakeEnemyModel.h"
 
 #include "Framework\ResourceManager.h"
 #include "picojson\picojson.h"
@@ -20,7 +21,7 @@ using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
-#define USE_DEBUG_TESTENEMY (0)
+#define USE_DEBUG_TESTENEMY (1)
 
 /**************************************
 構造体定義
@@ -37,7 +38,7 @@ EnemyController::EnemyController()
 {
 	//リソース読み込み
 	//解放はシーン終了時にGame.cppで一括して開放する
-	ResourceManager::Instance()->LoadMesh("Enemy", "data/MODEL/airplane000.x");
+	ResourceManager::Instance()->LoadMesh("Enemy", "data/MODEL/Enemy/drone.x");
 
 	//ステージデータ読み込み
 	LoadStageData();
@@ -71,23 +72,7 @@ void EnemyController::Init()
 
 	//新しく作るEnemyの初期化テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	//test
-	test = new EnemySnake;
-	std::vector<D3DXVECTOR3> posDestList;
-	posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	posDestList.push_back(D3DXVECTOR3(50.0f, 0.0f, 0.0f));
-	posDestList.push_back(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
-	posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 50.0f));
-	posDestList.push_back(D3DXVECTOR3(50.0f, 0.0f, 0.0f));
-	posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	vector<float> frameDestList;
-	frameDestList.push_back(50.0f);
-	frameDestList.push_back(100.0f);
-	frameDestList.push_back(200.0f);
-	frameDestList.push_back(300.0f);
-	frameDestList.push_back(400.0f);
-	test->VInit();
-	test->Set(posDestList, frameDestList, 50.0f);
+
 #endif
 }
 
@@ -103,7 +88,7 @@ void EnemyController::Uninit()
 
 	//新しく作るEnemyの終了テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	test->VUninit();
+
 #endif
 }
 
@@ -114,7 +99,7 @@ void EnemyController::Update()
 {
 	//新しく作るEnemyの更新テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	test->VUpdate();
+
 #endif
 
 	//モデル更新処理
@@ -150,7 +135,7 @@ void EnemyController::Draw()
 
 	//新しく作るEnemyの描画テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	test->VDraw();
+
 #endif
 }
 
@@ -171,9 +156,12 @@ void EnemyController::SetEnemy()
 		//typeに応じて生成処理をディスパッチ
 		if (stageModelList[i].type == "Change")
 			_SetEnemyChange(stageModelList[i].data);
-		
+
 		else if (stageModelList[i].type == "Straight")
 			_SetEnemyStraight(stageModelList[i].data);
+
+		else if (stageModelList[i].type == "Snake")
+			_SetEnemySnake(stageModelList[i].data);
 
 		currentIndex++;
 	}
@@ -213,6 +201,32 @@ void EnemyController::_SetEnemyStraight(picojson::object& data)
 	model->Init(LineTrailModel(start, end));
 
 	modelList.push_back(model);
+}
+
+/**************************************
+エネミー生成処理（Snakeタイプ）
+***************************************/
+void EnemyController::_SetEnemySnake(picojson::object& data)
+{
+	//インスタンス生成
+	SnakeEnemyModel *model = new SnakeEnemyModel();
+
+	//配列データをパース
+	picojson::array dataList = data["destList"].get<picojson::array>();
+
+	//各データをそれぞれパース
+	vector<int> destList;
+	destList.resize(dataList.size());
+	for (UINT i = 0; i < dataList.size(); i++)
+	{
+		destList[i] = static_cast<int>(dataList[i].get<picojson::object>()["dest"].get<double>());
+	}
+
+	//初期化
+	model->Init(destList);
+
+	modelList.push_back(model);
+
 }
 
 /**************************************

@@ -28,7 +28,9 @@ enum EnemyModelResult
 };
 
 /**************************************
-クラス定義
+EnemyModelクラス
+継承先で必ずint Update()を実装する
+必要であればInit(LineTrailModel)をoverrideする
 ***************************************/
 class EnemyModel :public BaseObserver
 {

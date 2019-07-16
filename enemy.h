@@ -102,6 +102,7 @@ class EnemySnake :public Enemy
 public:
 	int m_WaitTime;						//停止の時間
 	int m_CurrentIndex;					//現在、posDestListの何番へ向かっているかを入れる変数
+	int m_PrevIndex;					//1フレーム前はposDestListの何番へ向かっていたか
 	int m_posDestMax;					//m_FrameDestListの要素数
 	int m_framePassed;					//前の点を通過するのにの時間
 	int m_waitcount;					//停止状態のフレームをカウント

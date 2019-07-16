@@ -179,6 +179,8 @@
     <ClInclude Include="PlayerIdle.h" />
     <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="PlayerObserver.h" />
+    <ClInclude Include="SnakeEditWindow.h" />
+    <ClInclude Include="SnakeEnemyModel.h" />
     <ClInclude Include="StageEditor.h" />
     <ClInclude Include="StageModel.h" />
     <ClInclude Include="startButtonUI.h" />
@@ -359,6 +361,8 @@
     <ClCompile Include="ScoreParticle.cpp" />
     <ClCompile Include="ScoreParticleController.cpp" />
     <ClCompile Include="SkyBox.cpp" />
+    <ClCompile Include="SnakeEditWindow.cpp" />
+    <ClCompile Include="SnakeEnemyModel.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="SoundGameScene.cpp" />
     <ClCompile Include="SoundResultScene.cpp" />

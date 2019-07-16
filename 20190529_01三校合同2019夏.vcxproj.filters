@@ -118,9 +118,6 @@
     <Filter Include="ヘッダー ファイル\UI\SceneUIManager">
       <UniqueIdentifier>{c987a7c9-6f82-466b-9592-74b51ed87536}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Collider\BG">
-      <UniqueIdentifier>{32c236d4-f951-4bbb-ae16-90073dd29807}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Enemy\Model">
       <UniqueIdentifier>{40296833-e7bf-47f8-a773-7eff874b2531}</UniqueIdentifier>
     </Filter>
@@ -156,6 +153,9 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Stage\EditWindow">
       <UniqueIdentifier>{67a63066-4cb7-44e5-a76b-581e1b40540e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\BG">
+      <UniqueIdentifier>{32c236d4-f951-4bbb-ae16-90073dd29807}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -283,19 +283,19 @@
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="BackGroundCity.h">
-      <Filter>ヘッダー ファイル\Collider\BG</Filter>
+      <Filter>ヘッダー ファイル\BG</Filter>
     </ClInclude>
     <ClInclude Include="SkyBox.h">
-      <Filter>ヘッダー ファイル\Collider\BG</Filter>
+      <Filter>ヘッダー ファイル\BG</Filter>
     </ClInclude>
     <ClInclude Include="GameParticleManager.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
     <ClInclude Include="BackGroundRoad.h">
-      <Filter>ヘッダー ファイル\Collider\BG</Filter>
+      <Filter>ヘッダー ファイル\BG</Filter>
     </ClInclude>
     <ClInclude Include="BackGroundField.h">
-      <Filter>ヘッダー ファイル\Collider\BG</Filter>
+      <Filter>ヘッダー ファイル\BG</Filter>
     </ClInclude>
     <ClInclude Include="PostEffectManager.h">
       <Filter>ヘッダー ファイル\PostEffect</Filter>
@@ -557,6 +557,12 @@
     </ClInclude>
     <ClInclude Include="EnemyWarpHole.h">
       <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="SnakeEnemyModel.h">
+      <Filter>ヘッダー ファイル\Enemy\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="SnakeEditWindow.h">
+      <Filter>ヘッダー ファイル\Stage\EditWindow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -919,6 +925,12 @@
     </ClCompile>
     <ClCompile Include="EnemyWarpHole.cpp">
       <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="SnakeEnemyModel.cpp">
+      <Filter>ソース ファイル\Enemy\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="SnakeEditWindow.cpp">
+      <Filter>ソース ファイル\Stage\EditWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

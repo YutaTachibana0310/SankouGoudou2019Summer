@@ -7,6 +7,7 @@
 #include "BaseEditWindow.h"
 #include "debugWindow.h"
 #include "ChangeEditWindow.h"
+#include "SnakeEditWindow.h"
 
 #include <algorithm>
 
@@ -129,4 +130,5 @@ void BaseEditWindow::CreateEditWindow()
 {
 	dataWindow["Change"] = new ChangeEditWindow();
 	dataWindow["Straight"] = new ChangeEditWindow();
+	dataWindow["Snake"] = new SnakeEditWindow();
 }

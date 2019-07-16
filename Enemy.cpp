@@ -339,20 +339,9 @@ HRESULT EnemySnake::VInit()
 	m_WaitTime = 0;
 	m_CurrentIndex = 0;
 	m_posDestMax = 0;
+	m_framePassed = 0;
+	m_waitcount = 0;
 
-	//for (int i = 0; i < POSDEST_MAX; i++)
-	//{
-	//	//仕様書のイメージ図と違う、Eはm_PosDestList[0]
-	//	m_PosDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	//	
-	//}
-	
-	//for (int i = 0; i < FRAMEDEST_MAX; i++)
-	//{
-	//	//m_FrameDestList[0]-->m_PosDestList[1]
-	//	m_FrameDestList.push_back(0.0f);
-
-	//}
 
 	m_Pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
 	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -382,17 +371,12 @@ void EnemySnake::VUninit()
 更新処理
 *****************************************/
 void EnemySnake::VUpdate()
-{
-	//前の点を通過するのにの時間
-	static int framePassed = 0;
-	//停止状態のフレームをカウント
-	static int waitcount = 0;
-	
+{	
 	//更新前のm_CurrentIndexを保存
 	m_PrevIndex = m_CurrentIndex;
 
 	//最後の点のフレーム
-	int last = framePassed + m_FrameDestList[m_posDestMax - 2];
+	int last = m_framePassed + m_FrameDestList[m_posDestMax - 2];
 
 	if (m_Active)
 	{
@@ -411,28 +395,28 @@ void EnemySnake::VUpdate()
 			}
 			m_Pos += m_Move;
 		}//停止
-		else if ((m_CntFrame > (framePassed + m_FrameDestList[m_CurrentIndex])) && m_CurrentIndex <= m_posDestMax - 2)
+		else if ((m_CntFrame > (m_framePassed + m_FrameDestList[m_CurrentIndex])) && m_CurrentIndex <= m_posDestMax - 2)
 		{
 			//停止中のフレームを一時保存する
-			waitcount++;
+			m_waitcount++;
 			//停止の時間が過ぎたら
-			if (waitcount == m_WaitTime)
+			if (m_waitcount == m_WaitTime)
 			{
 				//停止の時間をカウンターに入れる
-				framePassed = m_CntFrame;
-				waitcount = 0;
+				m_framePassed = m_CntFrame;
+				m_waitcount = 0;
 			}
 		}//次の点に着いたら
-		else if ((m_CntFrame == (framePassed + m_FrameDestList[m_CurrentIndex])) && m_CurrentIndex <= m_posDestMax - 2)
+		else if ((m_CntFrame == (m_framePassed + m_FrameDestList[m_CurrentIndex])) && m_CurrentIndex <= m_posDestMax - 2)
 		{
 			//indexを次の点に指定
 			m_CurrentIndex++;
 			//今までの所要時間を記録
-			framePassed = m_CntFrame;
+			m_framePassed = m_CntFrame;
 		}
 		else if (m_CurrentIndex <= m_posDestMax - 2)
 		{
-			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue(((m_CntFrame - framePassed) / m_FrameDestList[m_CurrentIndex]),
+			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue(((m_CntFrame - m_framePassed) / m_FrameDestList[m_CurrentIndex]),
 				&m_PosDestList[m_CurrentIndex], &m_PosDestList[m_CurrentIndex + 1], EasingType::OutCubic);
 		}
 

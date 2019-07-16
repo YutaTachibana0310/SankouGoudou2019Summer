@@ -66,6 +66,7 @@ private:
 	EnemySnake *test;
 	void _SetEnemyChange(picojson::object& data);
 	void _SetEnemyStraight(picojson::object& data);
+	void _SetEnemySnake(picojson::object& data);
 
 	//ステージデータ読み込み処理
 	bool LoadStageData();

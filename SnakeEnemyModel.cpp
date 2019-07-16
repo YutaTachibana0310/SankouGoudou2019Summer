@@ -26,7 +26,8 @@ typedef EnemyModel Base;
 ***************************************/
 void SnakeEnemyModel::Init(vector<int> destList)
 {
-
+	active = true;
+	cntFrame = 0;
 	collider->active = false;
 	pos.z = 250.0f;
 

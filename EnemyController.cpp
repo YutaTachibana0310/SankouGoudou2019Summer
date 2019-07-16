@@ -30,7 +30,6 @@ using namespace std;
 /**************************************
 グローバル変数
 ***************************************/
-static SnakeEnemyModel *snakeModel;
 
 /**************************************
 コンストラクタ
@@ -62,7 +61,6 @@ EnemyController::~EnemyController()
 
 	//テスト用エネミーをdeleteする
 	SAFE_DELETE(test);
-	SAFE_DELETE(snakeModel);
 }
 
 /**************************************
@@ -74,13 +72,7 @@ void EnemyController::Init()
 
 	//新しく作るEnemyの初期化テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	snakeModel = new SnakeEnemyModel();
-	vector<int> testList;
-	testList.push_back(3);
-	testList.push_back(2);
-	testList.push_back(4);
-	testList.push_back(1);
-	snakeModel->Init(testList);
+
 #endif
 }
 
@@ -96,7 +88,7 @@ void EnemyController::Uninit()
 
 	//新しく作るEnemyの終了テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	snakeModel->Uninit();
+
 #endif
 }
 
@@ -107,7 +99,7 @@ void EnemyController::Update()
 {
 	//新しく作るEnemyの更新テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	snakeModel->Update();
+
 #endif
 
 	//モデル更新処理
@@ -143,7 +135,7 @@ void EnemyController::Draw()
 
 	//新しく作るEnemyの描画テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	snakeModel->Draw();
+
 #endif
 }
 
@@ -153,7 +145,7 @@ void EnemyController::Draw()
 void EnemyController::SetEnemy()
 {
 	cntFrame++;
-	return;
+
 	//現在のインデックスからステージデータを確認していく
 	for (UINT i = currentIndex; i < stageModelList.size(); i++)
 	{
@@ -164,9 +156,12 @@ void EnemyController::SetEnemy()
 		//typeに応じて生成処理をディスパッチ
 		if (stageModelList[i].type == "Change")
 			_SetEnemyChange(stageModelList[i].data);
-		
+
 		else if (stageModelList[i].type == "Straight")
 			_SetEnemyStraight(stageModelList[i].data);
+
+		else if (stageModelList[i].type == "Snake")
+			_SetEnemySnake(stageModelList[i].data);
 
 		currentIndex++;
 	}
@@ -206,6 +201,32 @@ void EnemyController::_SetEnemyStraight(picojson::object& data)
 	model->Init(LineTrailModel(start, end));
 
 	modelList.push_back(model);
+}
+
+/**************************************
+エネミー生成処理（Snakeタイプ）
+***************************************/
+void EnemyController::_SetEnemySnake(picojson::object& data)
+{
+	//インスタンス生成
+	SnakeEnemyModel *model = new SnakeEnemyModel();
+
+	//配列データをパース
+	picojson::array dataList = data["destList"].get<picojson::array>();
+
+	//各データをそれぞれパース
+	vector<int> destList;
+	destList.resize(dataList.size());
+	for (UINT i = 0; i < dataList.size(); i++)
+	{
+		destList[i] = static_cast<int>(dataList[i].get<picojson::object>()["dest"].get<double>());
+	}
+
+	//初期化
+	model->Init(destList);
+
+	modelList.push_back(model);
+
 }
 
 /**************************************

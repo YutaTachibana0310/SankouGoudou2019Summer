@@ -54,7 +54,8 @@ void StraightEnemyModel::Init(LineTrailModel model)
 	model.GetEdgePos(&edgeR, &edgeL);
 	edgeL.z = edgeR.z = StartPosZ;
 	
-	D3DXVECTOR3 offset = (edgeL - edgeR) / ((float)enemyList.size() - 1);
+	D3DXVECTOR3 offset = (edgeL - edgeR) / ((float)enemyList.size() + 1);
+	edgeR += offset;
 	
 	D3DXVECTOR3 dest = edgeR;
 	dest.z = DestPosZ;

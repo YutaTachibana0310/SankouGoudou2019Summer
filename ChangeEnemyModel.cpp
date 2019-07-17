@@ -63,7 +63,8 @@ void ChangeEnemyModel::Init(LineTrailModel model)
 	D3DXVECTOR3 edgeL, edgeR;
 	model.GetEdgePos(&edgeR, &edgeL);
 	edgeL.z = edgeR.z = 250.0f;
-	D3DXVECTOR3 offset = (edgeL - edgeR) / ((float)enemyList.size() - 1);
+	D3DXVECTOR3 offset = (edgeL - edgeR) / ((float)enemyList.size() + 1);
+	edgeR += offset;
 
 	for (auto& enemy : enemyList)
 	{

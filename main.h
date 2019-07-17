@@ -42,12 +42,12 @@
 // ３Ｄポリゴン頂点フォーマット( 頂点座標[3D] / 法線 / 反射光 / テクスチャ座標 )
 #define	FVF_VERTEX_3D	(D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1)
 
-//#define SCREEN_WIDTH	(1800)
-//#define SCREEN_HEIGHT	(1000)
+#define SCREEN_WIDTH	(1800)
+#define SCREEN_HEIGHT	(1000)
 
 //WQHD用
-#define SCREEN_WIDTH	(1500)
-#define SCREEN_HEIGHT	(900)
+//#define SCREEN_WIDTH	(1500)
+//#define SCREEN_HEIGHT	(900)
 
 #define SCREEN_CENTER_X	(SCREEN_WIDTH / 2)
 #define SCREEN_CENTER_Y	(SCREEN_HEIGHT / 2)

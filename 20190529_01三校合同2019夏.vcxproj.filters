@@ -145,6 +145,12 @@
     <Filter Include="ヘッダー ファイル\System\Score">
       <UniqueIdentifier>{63dccca2-2b4c-440c-9469-ab5ee1917389}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\UI\ResultSceneUI">
+      <UniqueIdentifier>{5e22c4ca-9a77-484e-99e0-3899f863d911}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\UI\ResultSceneUI">
+      <UniqueIdentifier>{a1c65f35-2dfd-4740-958e-e68c8b8ebe26}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -510,6 +516,12 @@
     <ClInclude Include="savefile.h">
       <Filter>ヘッダー ファイル\System\Score</Filter>
     </ClInclude>
+    <ClInclude Include="ResultSceneUIManager.h">
+      <Filter>ヘッダー ファイル\UI\SceneUIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="resultBGUI.h">
+      <Filter>ヘッダー ファイル\UI\ResultSceneUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -847,6 +859,12 @@
     </ClCompile>
     <ClCompile Include="savefile.cpp">
       <Filter>ソース ファイル\System\Score</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultSceneUIManager.cpp">
+      <Filter>ソース ファイル\UI\SceneUIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="resultBGUI.cpp">
+      <Filter>ソース ファイル\UI\ResultSceneUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

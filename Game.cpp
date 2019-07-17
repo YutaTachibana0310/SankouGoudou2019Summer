@@ -56,7 +56,7 @@ static IStateScene* fsm[SceneMax];
 static SoundStateScene* ssm[SceneMax];
 
 //現在のシーン
-static Scene currentScene = SceneTitle;
+static Scene currentScene = SceneResult;
 
 
 //シーンチェンジ用

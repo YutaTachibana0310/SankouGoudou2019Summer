@@ -13,7 +13,7 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define GAMEBATTLE_DURATION		(60*60)	//とりあえずバトルを1分間だけ行う（α版用）
+#define GAMEBATTLE_DURATION		(60*10)	//とりあえずバトルを1分間だけ行う（α版用）
 
 /**************************************
 入場処理
@@ -39,8 +39,9 @@ int GameBattle::OnUpdate(GameScene *entity)
 	//衝突判定
 	TrailCollider::UpdateCollision();
 
-	if (entity->cntFrame == GAMEBATTLE_DURATION)
+	if (entity->cntFrame == GAMEBATTLE_DURATION) 
 		return STATE_FINISHED;
-	else
+	else 
 		return STATE_CONTINUOUS;
+	
 }

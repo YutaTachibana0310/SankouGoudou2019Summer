@@ -17,7 +17,7 @@
 typedef struct// セーブデータの構造体
 {
 	// ランキングデータを保存
-	OBJECT rank[RANK_MAX];
+	SCORERANK scorerank[ARRAY_MAX];
 
 } SAVEDATA;
 

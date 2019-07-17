@@ -22,7 +22,7 @@ void SoundGameScene::Play() {
 	}
 	else {
 		//フェードアウトの開始
-		Sound::GetInstance()->FadeOut(GAMEBGM, 10.0f, 1.0f, true);
+		Sound::GetInstance()->FadeOut(GAMEBGM, 4.5f, 1.0f, true);
 	}
 
 	if (GetKeyboardTrigger(DIK_SPACE)) {

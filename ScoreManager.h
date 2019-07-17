@@ -13,6 +13,4 @@ void SetAddCombo(int n);
 
 void ClearCombo(void);
 
-int GetHiScore(void);
-
 #endif

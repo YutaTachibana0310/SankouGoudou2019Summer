@@ -50,12 +50,14 @@ HRESULT InitStar(void)
 	}
 
 	// ç¿ïWê›íË
-	const float Radius = 400.0f;								//ê≥å‹äpå`ÇÃîºåa
+	const float Radius = 420.0f;								//ê≥å‹äpå`ÇÃîºåa
 	const float BaseAngle = D3DXToRadian(360.0f) / STAR_MAX;	//ê≥å‹äpå`ÇÃì‡äp
+	const float CenterX = (float)SCREEN_CENTER_X;
+	const float CenterY = (float)SCREEN_CENTER_Y + 40.0f;
 	for (int i = 0; i < STAR_MAX; i++)
 	{
-		star[i].position.x = sinf(i * BaseAngle) * -Radius + SCREEN_CENTER_X;
-		star[i].position.y = cosf(i * BaseAngle) * -Radius + SCREEN_CENTER_Y;
+		star[i].position.x = sinf(i * BaseAngle) * -Radius + CenterX;
+		star[i].position.y = cosf(i * BaseAngle) * -Radius + CenterY;
 	}
 
 	//Å@êFê›íË

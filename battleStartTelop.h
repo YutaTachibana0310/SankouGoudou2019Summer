@@ -19,8 +19,8 @@ HRESULT InitBattleStartTelop(void);
 void UninitBattleStartTelop(void);
 void UpdateBattleStartTelop(void);
 void DrawBattleStartTelop(void);
-bool TelopTextAnimFinished(void);
 
+//テロップセット関数
 void SetBattleStartTelop(void);
 
 #endif

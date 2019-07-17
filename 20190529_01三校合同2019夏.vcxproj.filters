@@ -510,6 +510,9 @@
     <ClInclude Include="telopBG.h">
       <Filter>ヘッダー ファイル\UI\Telop</Filter>
     </ClInclude>
+    <ClInclude Include="stageClearTelop.h">
+      <Filter>ヘッダー ファイル\UI\Telop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -849,6 +852,9 @@
       <Filter>ソース ファイル\UI\Telop</Filter>
     </ClCompile>
     <ClCompile Include="telopBG.cpp">
+      <Filter>ソース ファイル\UI\Telop</Filter>
+    </ClCompile>
+    <ClCompile Include="stageClearTelop.cpp">
       <Filter>ソース ファイル\UI\Telop</Filter>
     </ClCompile>
   </ItemGroup>

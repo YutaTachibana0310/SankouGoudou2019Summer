@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// バトルスタートテロップ処理 [battleStartTelop.cpp]
+// ステージクリアテロップ処理 [stageClearTelop.cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
@@ -8,14 +8,14 @@
 #include "input.h"
 #include "telopBG.h"
 #include "Framework/Easing.h"
-#include "battleStartTelop.h"
+#include "stageClearTelop.h"
 #include "UIdrawer.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define SIZE_BATTLE_START_TELOP				(D3DXVECTOR3(SCREEN_WIDTH/4,50.0f,0.0f))
-#define INIT_POSITION_BATTLE_START_TELOP	(D3DXVECTOR3(SCREEN_WIDTH*1.5,SCREEN_HEIGHT/10*8,0.0f))
+#define SIZE_STAGE_CLEAR_TELOP				(D3DXVECTOR3(SCREEN_WIDTH/4,50.0f,0.0f))
+#define INIT_POSITION_STAGE_CLEAR_TELOP	(D3DXVECTOR3(SCREEN_WIDTH*1.5,SCREEN_HEIGHT/10*8,0.0f))
 #define ANIMATION_MAX (5)
 
 static const float EasingStartPositionX[ANIMATION_MAX] = {
@@ -53,27 +53,27 @@ static const float AnimationDuration[ANIMATION_MAX] = {
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-OBJECT	battleStartTelop;
-Easing<float> eBattleStartTelop;
-bool isBattleStartTelopActivated = false;
+OBJECT	stageClearTelop;
+Easing<float> eStageClearTelop;
+bool isStageClearTelopActivated = false;
 static int currentAnimation = 0;
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT InitBattleStartTelop(void)
+HRESULT InitStageClearTelop(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_BATTLE_START_TELOP, &battleStartTelop);
-	InitialTexture(&battleStartTelop);
-	MakeVertexObject(&battleStartTelop);
+	LoadTexture(pDevice, ADRESS_TEXTURE_STAGE_CLEAR_TELOP, &stageClearTelop);
+	InitialTexture(&stageClearTelop);
+	MakeVertexObject(&stageClearTelop);
 
-	battleStartTelop.position = INIT_POSITION_BATTLE_START_TELOP;
-	battleStartTelop.size = SIZE_BATTLE_START_TELOP;
-	battleStartTelop.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	stageClearTelop.position = INIT_POSITION_STAGE_CLEAR_TELOP;
+	stageClearTelop.size = SIZE_STAGE_CLEAR_TELOP;
+	stageClearTelop.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	SetColorObject(&battleStartTelop, SET_COLOR_NOT_COLORED);
+	SetColorObject(&stageClearTelop, SET_COLOR_NOT_COLORED);
 
 	return S_OK;
 }
@@ -81,17 +81,17 @@ HRESULT InitBattleStartTelop(void)
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitBattleStartTelop(void)
+void UninitStageClearTelop(void)
 {
-	ReleaseTexture(&battleStartTelop);
+	ReleaseTexture(&stageClearTelop);
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateBattleStartTelop()
-{	
-	if (isBattleStartTelopActivated)
+void UpdateStageClearTelop()
+{
+	if (isStageClearTelopActivated)
 	{
 		if (currentAnimation == WAIT_BG_OPEN && GetTelopBGOpenActive() == false)
 		{
@@ -102,25 +102,25 @@ void UpdateBattleStartTelop()
 			AvctivateTelopBGClose();
 		}
 
-		battleStartTelop.countFrame++;
+		stageClearTelop.countFrame++;
 
-		battleStartTelop.position.x = eBattleStartTelop.GetEasingValue(GetCountObject(
-			&battleStartTelop, AnimationDuration[currentAnimation]),
+		stageClearTelop.position.x = eStageClearTelop.GetEasingValue(GetCountObject(
+			&stageClearTelop, AnimationDuration[currentAnimation]),
 			&EasingStartPositionX[currentAnimation],
 			&EasingEndPositionX[currentAnimation],
 			AnimationType[currentAnimation]);
 
-		if (battleStartTelop.countFrame == AnimationDuration[currentAnimation])
+		if (stageClearTelop.countFrame == AnimationDuration[currentAnimation])
 		{
-			battleStartTelop.countFrame = 0;
+			stageClearTelop.countFrame = 0;
 			currentAnimation++;
 		}
 		if (currentAnimation == ANIMATION_MAX)
 		{
-			battleStartTelop.countFrame = 0;
+			stageClearTelop.countFrame = 0;
 			currentAnimation = 0;
-			battleStartTelop.position = INIT_POSITION_BATTLE_START_TELOP;
-			isBattleStartTelopActivated = false;
+			stageClearTelop.position = INIT_POSITION_STAGE_CLEAR_TELOP;
+			isStageClearTelopActivated = false;
 		}
 	}
 }
@@ -128,18 +128,18 @@ void UpdateBattleStartTelop()
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawBattleStartTelop(void)
+void DrawStageClearTelop(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	DrawObject(pDevice, battleStartTelop);
-	SetVertexObject(&battleStartTelop);
+	DrawObject(pDevice, stageClearTelop);
+	SetVertexObject(&stageClearTelop);
 }
 
 //=============================================================================
-// バトルスタートテロップセット処理
+// ステージクリアテロップセット処理
 //=============================================================================
-void SetBattleStartTelop(void)
+void SetStageClearTelop(void)
 {
-	isBattleStartTelopActivated = true;
+	isStageClearTelopActivated = true;
 }

@@ -169,6 +169,7 @@
     <ClInclude Include="PlayerIdle.h" />
     <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="PlayerObserver.h" />
+    <ClInclude Include="stageClearTelop.h" />
     <ClInclude Include="startButtonUI.h" />
     <ClInclude Include="PlayerTrail.h" />
     <ClInclude Include="PlayerTrailParticle.h" />
@@ -346,6 +347,7 @@
     <ClCompile Include="SoundGameScene.cpp" />
     <ClCompile Include="SoundResultScene.cpp" />
     <ClCompile Include="SoundTitleScene.cpp" />
+    <ClCompile Include="stageClearTelop.cpp" />
     <ClCompile Include="Stencil.cpp" />
     <ClCompile Include="startButtonUI.cpp" />
     <ClCompile Include="starUI.cpp" />

@@ -33,7 +33,7 @@ void SetEasingValueTelopBGClose(void);
 //*****************************************************************************
 OBJECT	telopBG;
 Easing<float> eTelopBG;
-float	percentage;
+static float	percentage;
 
 bool telopBGOpenActivated = false;
 bool telopBGCloseActivated = false;
@@ -74,22 +74,13 @@ void UninitTelopBG(void)
 void UpdateTelopBG(void)
 {
 	//　あふれ防止
-	if (percentage <= 0)
+	if (percentage < 0)
 	{
 		percentage = 0;
 	}
-	if (percentage >= 1.0f)
+	if (percentage > 1.0f)
 	{
 		percentage = 1.0f;
-	}
-
-	if (GetKeyboardTrigger(DIK_8))
-	{
-		telopBGOpenActivated = true;
-	}
-	if (GetKeyboardTrigger(DIK_9))
-	{
-		telopBGCloseActivated = true;
 	}
 
 	if (telopBGOpenActivated)
@@ -97,13 +88,10 @@ void UpdateTelopBG(void)
 		OpenTelopBG();
 	}
 
-	if (telopBGCloseActivated && TelopTextAnimFinished() == true)
+	if (telopBGCloseActivated)
 	{
 		CloseTelopBG();
 	}
-
-	//DebugLog("telopBGOpenActivated:%d\n", telopBGOpenActivated);
-	//DebugLog("telopBGCloseActivated:%d\n", telopBGCloseActivated);
 }
 
 //=============================================================================
@@ -181,4 +169,20 @@ void AvctivateTelopBGOpen(void)
 void AvctivateTelopBGClose(void)
 {
 	telopBGCloseActivated = true;
+}
+
+//=============================================================================
+// テロップ背景開始アクティブ状態取得処理
+//=============================================================================
+bool GetTelopBGOpenActive(void)
+{
+	return telopBGOpenActivated;
+}
+
+//=============================================================================
+// テロップ背景終了アクティブ状態取得処理
+//=============================================================================
+bool GetTelopBGCloseActive(void)
+{
+	return telopBGCloseActivated;
 }

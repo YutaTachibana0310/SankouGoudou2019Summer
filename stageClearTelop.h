@@ -1,29 +1,26 @@
 //=============================================================================
 //
-// テロップ背景処理 [telopBG.h]
+// ステージクリアテロップ処理 [stageClearTelop.h]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
-#ifndef _TELOP_BG_H_
-#define _TELOP_BG_H_
+#ifndef _STAGE_CLEAR_TELOP_H_
+#define _STAGE_CLEAR_TELOP_H_
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	ADRESS_TEXTURE_TELOP_BG	("data/TEXTURE/UI/telop/telopBG.png")	// 読み込むテクスチャファイル名
+#define	ADRESS_TEXTURE_STAGE_CLEAR_TELOP	("data/TEXTURE/UI/telop/stageClearTelop.png")	// 読み込むテクスチャファイル名
 
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-HRESULT InitTelopBG(void);
-void UninitTelopBG(void);
-void UpdateTelopBG(void);
-void DrawTelopBG(void);
+HRESULT InitStageClearTelop(void);
+void UninitStageClearTelop(void);
+void UpdateStageClearTelop(void);
+void DrawStageClearTelop(void);
 
-void AvctivateTelopBGOpen(void);
-void AvctivateTelopBGClose(void);
-
-bool GetTelopBGOpenActive(void);
-bool GetTelopBGCloseActive(void);
+//テロップセット関数
+void SetStageClearTelop(void);
 
 #endif

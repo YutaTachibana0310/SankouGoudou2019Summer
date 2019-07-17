@@ -16,8 +16,11 @@
 // プロトタイプ宣言
 //*****************************************************************************
 HRESULT InitBattleStartTelop(void);
-void	UninitBattleStartTelop(void);
-void	UpdateBattleStartTelop(void);
-void	DrawBattleStartTelop(void);
+void UninitBattleStartTelop(void);
+void UpdateBattleStartTelop(void);
+void DrawBattleStartTelop(void);
+bool TelopTextAnimFinished(void);
+
+void SetBattleStartTelop(void);
 
 #endif

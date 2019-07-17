@@ -332,3 +332,13 @@ void SetColorObject(OBJECT *object, D3DXCOLOR color)
 		object->vertexWk[3].diffuse = color;
 }
 
+//=============================================================================
+// オブジェクトカウント取得処理
+//=============================================================================
+float GetCountObject(OBJECT *object, float duration)
+{
+	object->countFrame++;
+	float t = (float)object->countFrame / duration;
+
+	return t;
+}

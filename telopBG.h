@@ -16,8 +16,13 @@
 // プロトタイプ宣言
 //*****************************************************************************
 HRESULT InitTelopBG(void);
-void	UninitTelopBG(void);
-void	UpdateTelopBG(void);
-void	DrawTelopBG(void);
+void UninitTelopBG(void);
+void UpdateTelopBG(void);
+void DrawTelopBG(void);
+
+void AvctivateTelopBGOpen(void);
+void AvctivateTelopBGClose(void);
+
+bool TelopTextAnimFinished(void);
 
 #endif

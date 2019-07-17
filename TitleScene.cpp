@@ -28,7 +28,7 @@
 ***************************************/
 void TitleScene::Init()
 {
-	InitTitleSceneUI();
+	//InitTitleSceneUI();
 }
 
 /**************************************
@@ -36,7 +36,7 @@ void TitleScene::Init()
 ***************************************/
 void TitleScene::Uninit()
 {
-	UninitTitleSceneUI();
+	//UninitTitleSceneUI();
 }
 
 /**************************************
@@ -44,7 +44,7 @@ void TitleScene::Uninit()
 ***************************************/
 void TitleScene::Update(HWND hWnd)
 {
-	UpdateTitleSceneUI(hWnd);
+	//UpdateTitleSceneUI(hWnd);
 }
 
 /**************************************
@@ -52,5 +52,5 @@ void TitleScene::Update(HWND hWnd)
 ***************************************/
 void TitleScene::Draw()
 {
-	DrawTitleSceneUI();
+	//DrawTitleSceneUI();
 }

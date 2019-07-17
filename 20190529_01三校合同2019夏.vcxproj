@@ -141,6 +141,7 @@
     <ClInclude Include="BackGroundCity.h" />
     <ClInclude Include="BackGroundField.h" />
     <ClInclude Include="BackGroundRoad.h" />
+    <ClInclude Include="battleStartTelop.h" />
     <ClInclude Include="BaseEditWindow.h" />
     <ClInclude Include="ChangeEditWindow.h" />
     <ClInclude Include="DataEditWindow.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="PlayerIdle.h" />
     <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="PlayerObserver.h" />
+    <ClInclude Include="stageClearTelop.h" />
     <ClInclude Include="SnakeEditWindow.h" />
     <ClInclude Include="SnakeEnemyModel.h" />
     <ClInclude Include="StageEditor.h" />
@@ -254,6 +256,7 @@
     <ClInclude Include="SoundTitleScene.h" />
     <ClInclude Include="Stencil.h" />
     <ClInclude Include="starUI.h" />
+    <ClInclude Include="telopBG.h" />
     <ClInclude Include="ChangeEnemyModel.h" />
     <ClInclude Include="StraightEnemyModel.h" />
     <ClInclude Include="TestEnemyModel.h" />
@@ -271,6 +274,7 @@
     <ClCompile Include="BackGroundCity.cpp" />
     <ClCompile Include="BackGroundRoad.cpp" />
     <ClCompile Include="BackGuroundField.cpp" />
+    <ClCompile Include="battleStartTelop.cpp" />
     <ClCompile Include="BaseEditWindow.cpp" />
     <ClCompile Include="ChangeEditWindow.cpp" />
     <ClCompile Include="EditorScene.cpp" />
@@ -367,12 +371,14 @@
     <ClCompile Include="SoundGameScene.cpp" />
     <ClCompile Include="SoundResultScene.cpp" />
     <ClCompile Include="SoundTitleScene.cpp" />
+    <ClCompile Include="stageClearTelop.cpp" />
     <ClCompile Include="EditorBG.cpp" />
     <ClCompile Include="StageEditor.cpp" />
     <ClCompile Include="Stencil.cpp" />
     <ClCompile Include="startButtonUI.cpp" />
     <ClCompile Include="starUI.cpp" />
     <ClCompile Include="PlayerTrail.cpp" />
+    <ClCompile Include="telopBG.cpp" />
     <ClCompile Include="ChangeEnemyModel.cpp" />
     <ClCompile Include="StraightEnemyModel.cpp" />
     <ClCompile Include="TestEnemyModel.cpp" />

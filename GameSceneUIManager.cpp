@@ -13,6 +13,9 @@
 #include "lineUI.h"
 #include "trailUI.h"
 #include "cursorUI.h"
+#include "battleStartTelop.h"
+#include "stageClearTelop.h"
+#include "telopBG.h"
 #include "GameSceneUIManager.h"
 
 //=============================================================================
@@ -27,6 +30,10 @@ void InitGameSceneUI(void)
 	InitLine();
 	InitTrail();
 	InitCursor();
+	InitTelopBG();
+
+	InitBattleStartTelop();
+	InitStageClearTelop();
 }
 
 //=============================================================================
@@ -41,6 +48,10 @@ void UninitGameSceneUI(void)
 	UninitLine();
 	UninitTrail();
 	UninitCursor();
+	UninitTelopBG();
+
+	UninitBattleStartTelop();
+	UninitStageClearTelop();
 }
 
 //=============================================================================
@@ -55,6 +66,10 @@ void UpdateGameSceneUI(HWND hWnd)
 	UpdateLine();
 	UpdateTrail();
 	UpdateCursor(hWnd);
+	UpdateTelopBG();
+
+	UpdateBattleStartTelop();
+	UpdateStageClearTelop();
 
 #ifdef _DEBUG
 	// デバッグ用コマンド
@@ -78,6 +93,14 @@ void UpdateGameSceneUI(HWND hWnd)
 	{
 		SetCombo(0);
 	}
+	if (GetKeyboardTrigger(DIK_6))
+	{
+		SetBattleStartTelop();
+	}
+	if (GetKeyboardTrigger(DIK_7))
+	{
+		SetStageClearTelop();
+	}
 #endif
 }
 
@@ -100,6 +123,10 @@ void DrawGameSceneUI(void)
 	DrawTrail();
 
 	DrawCursor();
+	DrawTelopBG();
+
+	DrawBattleStartTelop();
+	DrawStageClearTelop();
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }
 

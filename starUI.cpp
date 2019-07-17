@@ -50,11 +50,13 @@ HRESULT InitStar(void)
 	}
 
 	// ç¿ïWê›íË
-	star[TOP].position			= POSITION_STAR_TOP;
-	star[MIDDLE_LEFT].position	= POSITION_STAR_MIDDLE_LEFT;
-	star[LOWER_LEFT].position	= POSITION_STAR_LOWER_LEFT;
-	star[LOWER_RIGHT].position	= POSITION_STAR_LOWER_RIGHT;
-	star[MIDDLE_RIGHT].position = POSITION_STAR_MIDDLE_RIGHT;
+	const float Radius = 400.0f;								//ê≥å‹äpå`ÇÃîºåa
+	const float BaseAngle = D3DXToRadian(360.0f) / STAR_MAX;	//ê≥å‹äpå`ÇÃì‡äp
+	for (int i = 0; i < STAR_MAX; i++)
+	{
+		star[i].position.x = sinf(i * BaseAngle) * -Radius + SCREEN_CENTER_X;
+		star[i].position.y = cosf(i * BaseAngle) * -Radius + SCREEN_CENTER_Y;
+	}
 
 	//Å@êFê›íË
 	SetColorObject(&star[TOP],			SET_COLOR_NOT_COLORED);

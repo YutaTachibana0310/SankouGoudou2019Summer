@@ -10,6 +10,7 @@
 #include "main.h"
 
 #include <string>
+#include <functional>
 
 /**************************************
 マクロ定義
@@ -28,7 +29,7 @@ void DebugLog(const char *str, ...);	//汎用デバッグログ出力関数
 /**************************************/
 //ImGUIラッパー関数
 /***************************************/
-void BeginDebugWindow(const char *label);	//デバッグ出力の最初に呼ぶ関数
+void BeginDebugWindow(const char *label, bool menuBar = false);	//デバッグ出力の最初に呼ぶ関数
 void EndDebugWindow(const char* label);		//デバッグ出力の最後に呼ぶ関数
 
 //テキスト出力機能
@@ -73,6 +74,17 @@ void DebugSameLine(void);
 void DebugTreeExpansion(bool isOpen);
 bool DebugTreePush(const char *label);
 void DebugTreePop(void);
+
+//メニューバー関連
+bool BeginMenuBar();
+void EndMenuBar();
+bool BeginMenuItem(const char* label);
+void EndMenuItem();
+void MenuItem(const char* label, std::function<void(void)> func);
+
+//部品関連
+bool BeginChild(const char* id);
+void EndChild();
 
 //プロシージャ
 LRESULT DebugWindPrcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

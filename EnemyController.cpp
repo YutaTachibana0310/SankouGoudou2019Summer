@@ -6,15 +6,22 @@
 //=====================================
 #include "EnemyController.h"
 #include "TestEnemyModel.h"
-#include "StopEnemyModel.h"
+#include "ChangeEnemyModel.h"
+#include "StraightEnemyModel.h"
+#include "SnakeEnemyModel.h"
+
+#include "Framework\ResourceManager.h"
+#include "picojson\picojson.h"
 
 #include <algorithm>
+#include <fstream>
 
 using namespace std;
 
 /**************************************
 マクロ定義
 ***************************************/
+#define USE_DEBUG_TESTENEMY (1)
 
 /**************************************
 構造体定義
@@ -29,8 +36,12 @@ using namespace std;
 ***************************************/
 EnemyController::EnemyController()
 {
-	//ステートマシン作成
-	fsm[EnemyModelType::Stop] = new StopEnemyModel();
+	//リソース読み込み
+	//解放はシーン終了時にGame.cppで一括して開放する
+	ResourceManager::Instance()->LoadMesh("Enemy", "data/MODEL/Enemy/drone.x");
+
+	//ステージデータ読み込み
+	LoadStageData();
 }
 
 /**************************************
@@ -39,29 +50,17 @@ EnemyController::EnemyController()
 EnemyController::~EnemyController()
 {
 	//モデルコンテナクリア
-	for (auto &model : modelContainer)
+	for (auto &model : modelList)
 	{
 		SAFE_DELETE(model);
 	}
-	modelContainer.clear();
+	modelList.clear();
 
-	//ステートマシンクリア
-	for (auto &state : fsm)
-	{
-		SAFE_DELETE(state.second);
-	}
-	fsm.clear();
+	//ステージデータクリア
+	stageModelList.clear();
 
-	//エネミーコンテナクリア
-	for (auto& enemyList : enemyContainer)
-	{
-		for (auto& enemy : enemyList.second)
-		{
-			SAFE_DELETE(enemy);
-		}
-		enemyList.second.clear();
-	}
-	enemyContainer.clear();
+	//テスト用エネミーをdeleteする
+	SAFE_DELETE(test);
 }
 
 /**************************************
@@ -70,6 +69,11 @@ EnemyController::~EnemyController()
 void EnemyController::Init()
 {
 	cntFrame = 0;
+
+	//新しく作るEnemyの初期化テストはここに書く
+#if USE_DEBUG_TESTENEMY
+
+#endif
 }
 
 /**************************************
@@ -77,18 +81,15 @@ void EnemyController::Init()
 ***************************************/
 void EnemyController::Uninit()
 {
-	for (auto &model : modelContainer)
+	for (auto &model : modelList)
 	{
 		model->Uninit();
 	}
 
-	for (auto& enemyList : enemyContainer)
-	{
-		for (auto& enemy : enemyList.second)
-		{
-			enemy->Uninit();
-		}
-	}
+	//新しく作るEnemyの終了テストはここに書く
+#if USE_DEBUG_TESTENEMY
+
+#endif
 }
 
 /**************************************
@@ -96,20 +97,29 @@ void EnemyController::Uninit()
 ***************************************/
 void EnemyController::Update()
 {
+	//新しく作るEnemyの更新テストはここに書く
+#if USE_DEBUG_TESTENEMY
+
+#endif
+
 	//モデル更新処理
-	for (auto &model : modelContainer)
+	for (auto &model : modelList)
 	{
 		model->Update();
 	}
 
-	//エネミー更新処理
-	for (auto &enemyList : enemyContainer)
+	//終了したモデルを削除する
+	for (auto& model : modelList)
 	{
-		for (auto& enemy : enemyList.second)
-		{
-			enemy->Update();
-		}
+		if (!model->active)
+			SAFE_DELETE(model);
 	}
+
+	//削除したモデルをリストから削除
+	modelList.remove_if([](EnemyModel* model)
+	{
+		return model == nullptr;
+	});
 }
 
 /**************************************
@@ -118,19 +128,15 @@ void EnemyController::Update()
 void EnemyController::Draw()
 {
 	//エネミーモデル描画
-	for (auto &model : modelContainer)
+	for (auto &model : modelList)
 	{
 		model->Draw();
 	}
 
-	//エネミー描画
-	for (auto& enemyList : enemyContainer)
-	{
-		for (auto& enemy : enemyList.second)
-		{
-			enemy->Draw();
-		}
-	}
+	//新しく作るEnemyの描画テストはここに書く
+#if USE_DEBUG_TESTENEMY
+
+#endif
 }
 
 /**************************************
@@ -138,90 +144,125 @@ void EnemyController::Draw()
 ***************************************/
 void EnemyController::SetEnemy()
 {
-	//今は一旦、乱数で2秒おきにStopタイプを生成
 	cntFrame++;
-	if (cntFrame % 120 == 0)
-	{
-		int start, end;
-		start = RandomRange(0, 5);
-		end = WrapAround(0, 5, start + RandomRange(1, 5));
-		_SetEnemy(EnemyModelType::Stop, LineTrailModel(start, end));
-	}
-}
 
-/**************************************
-エネミー生成処理（モデル版）
-***************************************/
-void EnemyController::_SetEnemy(EnemyModelType type, LineTrailModel trailModel)
-{
-	//未使用のEnemyModelを検索
-	auto itr = find_if(modelContainer.begin(), modelContainer.end(), [](EnemyModel *model)
+	//現在のインデックスからステージデータを確認していく
+	for (UINT i = currentIndex; i < stageModelList.size(); i++)
 	{
-		return !model->active;
-	});
-
-	//見つかったならソイツを使用
-	EnemyModel *model = NULL;
-	if (itr != modelContainer.end())
-	{
-		model = (*itr);
-	}
-	//見つからなかったので新規作成
-	else
-	{
-		model = new EnemyModel();
-		modelContainer.push_back(model);
-	}
-
-	//エネミーの実体を生成
-	switch (type)
-	{
-	case EnemyModelType::Stop:
-		_SetEnemyChange(model);
-		break;
-	}
-	
-	//初期化
-	model->Init(trailModel);
-	model->ChangeState(fsm[type]);
-}
-
-/**************************************
-エネミー生成処理(実体版)
-***************************************/
-void EnemyController::_SetEnemyChange(EnemyModel* model)
-{
-	//TODO:セット数切り替えられるようにする
-	UINT setNum = 5;
-	UINT setCount = 0;
-	const EnemyType Type = EnemyType::Change;
-
-	//コンテナの中で未使用のエネミーを使用
-	for (UINT i = 0; i < setNum; i++)
-	{
-		//未使用のエネミーを検索
-		auto itr = find_if(enemyContainer[Type].begin(), enemyContainer[Type].end(), [](Enemy* enemy)
-		{
-			return !enemy->active;
-		});
-
-		//いなかったのでbreak
-		if (itr == enemyContainer[Type].end())
+		//生成タイミング前であればbreak
+		if (cntFrame < stageModelList[i].frame)
 			break;
 
-		//EnemyModelに追加
-		model->AddEnemy((*itr));
-		(*itr)->active = true;
-		setCount++;
-	}
+		//typeに応じて生成処理をディスパッチ
+		if (stageModelList[i].type == "Change")
+			_SetEnemyChange(stageModelList[i].data);
 
-	//足りなかった分を新規作成
-	for (UINT i = setCount; i < setNum; i++)
+		else if (stageModelList[i].type == "Straight")
+			_SetEnemyStraight(stageModelList[i].data);
+
+		else if (stageModelList[i].type == "Snake")
+			_SetEnemySnake(stageModelList[i].data);
+
+		currentIndex++;
+	}
+}
+
+/**************************************
+エネミー生成処理（Changeタイプ）
+***************************************/
+void EnemyController::_SetEnemyChange(picojson::object& data)
+{
+	//インスタンス生成
+	EnemyModel *model = new ChangeEnemyModel();
+
+	//データをパース
+	int start = static_cast<int>(data["start"].get<double>());
+	int end = static_cast<int>(data["end"].get<double>());
+
+	//初期化
+	model->Init(LineTrailModel(start, end));
+
+	modelList.push_back(model);
+}
+
+/**************************************
+エネミー生成処理（Straightタイプ）
+***************************************/
+void EnemyController::_SetEnemyStraight(picojson::object& data)
+{
+	//インスタンス生成
+	EnemyModel *model = new StraightEnemyModel();
+
+	//データをパース
+	int start = static_cast<int>(data["start"].get<double>());
+	int end = static_cast<int>(data["end"].get<double>());
+
+	//初期化
+	model->Init(LineTrailModel(start, end));
+
+	modelList.push_back(model);
+}
+
+/**************************************
+エネミー生成処理（Snakeタイプ）
+***************************************/
+void EnemyController::_SetEnemySnake(picojson::object& data)
+{
+	//インスタンス生成
+	SnakeEnemyModel *model = new SnakeEnemyModel();
+
+	//配列データをパース
+	picojson::array dataList = data["destList"].get<picojson::array>();
+
+	//各データをそれぞれパース
+	vector<int> destList;
+	destList.resize(dataList.size());
+	for (UINT i = 0; i < dataList.size(); i++)
 	{
-		Enemy* newEnemy = new EnemyChange();
-
-		//Enemyモデルに追加してコンテナ登録
-		model->AddEnemy(newEnemy);
-		enemyContainer[Type].push_back(newEnemy);
+		destList[i] = static_cast<int>(dataList[i].get<picojson::object>()["dest"].get<double>());
 	}
+
+	//初期化
+	model->Init(destList);
+
+	modelList.push_back(model);
+
+}
+
+/**************************************
+ステージデータ読み込み処理
+***************************************/
+bool EnemyController::LoadStageData()
+{
+	//JSONファイルを開く
+	ifstream ifs;
+	ifs.open("data/JSON/test.json", std::ios::binary);
+
+	//成功確認
+	if (!ifs.is_open())
+		return false;
+
+	//JSONデータを読み込み
+	picojson::value val;
+	ifs >> val;
+	ifs.close();
+
+	//データ配列をパースする
+	picojson::array& dataList = val.get<picojson::object>()["StageData"].get<picojson::array>();
+
+	//データを1個1個パースしてStageModelを作成する
+	stageModelList.resize(dataList.size());
+	for (UINT i = 0; i < dataList.size(); i++)
+	{
+		int frame = static_cast<int>(dataList[i].get<picojson::object>()["frame"].get<double>());
+		string type = dataList[i].get<picojson::object>()["type"].get<string>();
+		picojson::object data = dataList[i].get<picojson::object>()["data"].get<picojson::object>();
+
+		stageModelList[i] = StageModel(frame, type, data);
+	}
+
+	//インデックス初期化
+	currentIndex = 0;
+
+	return true;
 }

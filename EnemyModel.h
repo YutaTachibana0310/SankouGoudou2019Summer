@@ -11,7 +11,6 @@
 #include "LineTrailModel.h"
 #include "Framework\BaseObserver.h"
 #include "TrailCollider.h"
-#include "IStateMachine.h"
 #include "LineRenderer.h"
 #include "enemy.h"
 
@@ -29,7 +28,9 @@ enum EnemyModelResult
 };
 
 /**************************************
-クラス定義
+EnemyModelクラス
+継承先で必ずint Update()を実装する
+必要であればInit(LineTrailModel)をoverrideする
 ***************************************/
 class EnemyModel :public BaseObserver
 {
@@ -37,13 +38,12 @@ public:
 	EnemyModel();
 	virtual ~EnemyModel();
 
-	void Init(LineTrailModel model);
-	void Uninit();
-	int Update();
-	void Draw();
-	void OnNotified(ObserveSubject *notifier);
-	void ChangeState(IStateMachine<EnemyModel> *next);
-	void AddEnemy(Enemy* enemy);
+	virtual void Init(LineTrailModel model);
+	virtual void Uninit();
+	virtual int Update() = 0;
+	virtual void Draw();
+
+	virtual void OnNotified(ObserveSubject *notifier);
 
 	int cntFrame;
 	bool active;
@@ -53,7 +53,6 @@ public:
 
 protected:
 	D3DXVECTOR3 pos;
-	IStateMachine<EnemyModel> *state;
 
 };
 

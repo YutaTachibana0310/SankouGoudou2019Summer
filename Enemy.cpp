@@ -5,14 +5,13 @@
 //Author:馬　前程
 //=====================================
 #include "Enemy.h"
-
 #include "debugWindow.h"
 
 #include  <math.h>
-
 #include "Framework\Easing.h"
+#include "Framework\ResourceManager.h"
 
-
+using namespace std;
 
 /**************************************
 マクロ定義
@@ -20,26 +19,28 @@
 #define ENEMY_MODEL  "data/MODEL/airplane000.x"
 
 #define ENEMY_FALSE (300)				//falseの時間(方向が変えってから)
+#define ENEMY_FALSE_SNAKE	(900)
 
 #define	ENEMY_ATTENUATION (0.98f)		//減衰係数 
+
+#define POSDEST_MAX (6)
+
+#define FRAMEDEST_MAX (5)
+
+#define ENEMY_FRAME_SNAKE (200)
 
 /****************************************
 static変数
 ****************************************/
-MeshContainer* Enemy::mesh;
-UINT Enemy::instanceCount;
+UINT Enemy::m_InstanceCount;
 
 /****************************************
 コンストラクタ
 ****************************************/
 Enemy::Enemy()
 {
-	instanceCount++;
-	if (mesh == NULL)
-	{
-		mesh = new MeshContainer();
-		mesh->Load(ENEMY_MODEL);
-	}
+	m_InstanceCount++;
+	ResourceManager::Instance()->GetMesh("Enemy", &m_pMesh);
 }
 
 /****************************************
@@ -47,11 +48,7 @@ Enemy::Enemy()
 ****************************************/
 Enemy::~Enemy()
 {
-	instanceCount--;
-	if (instanceCount == 0)
-	{
-		SAFE_DELETE(mesh);
-	}
+	m_InstanceCount--;
 }
 
 //EnemyStraight
@@ -74,99 +71,77 @@ EnemyStraight::~EnemyStraight()
 /****************************************
 初期化処理
 ****************************************/
-HRESULT  EnemyStraight::Init(void)
+HRESULT  EnemyStraight::VInit(void)
 {
-	active = false;
+	m_Active = false;
 
-
-	pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
-	move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	scl = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
-	rot = D3DXVECTOR3(0.0f, 59.7f, 0.0f);
-	rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
-
-	frameDest = 0;
-	dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	posDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	cntFrame = 0;
+	m_FrameDest = 0.0f;
+	m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	m_Dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_PosDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_CntFrame = 0.0f;
 	
-	m_start =  D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Start =  D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	return S_OK;
 }
 /****************************************
 終了処理
 *****************************************/
-void EnemyStraight::Uninit(void)
+void EnemyStraight::VUninit(void)
 {
-
+	m_Active = false;
 
 }
 /****************************************
 更新処理
 *****************************************/
-void EnemyStraight::Update(void)
+void EnemyStraight::VUpdate(void)
 {
-	if (active)
+	if (m_Active)
 	{
-		if (cntFrame <= frameDest )
+		if (m_CntFrame <= m_FrameDest )
 		{
 			//ブレーキの手触り
-			pos = Easing<D3DXVECTOR3>::GetEasingValue(((float)cntFrame/(float)frameDest), &m_start, 
-				&posDest, EasingType::OutCubic);
-			//pos += move;
+			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue((m_CntFrame/m_FrameDest), &m_Start, 
+				&m_PosDest, EasingType::InCubic);
+			
 		}
 
-		//if (cntFrame < frameDest-20)
-		//{
-		//	
-
-		//	pos += move;
-		//}
-		//else if (cntFrame >= frameDest - 20 && cntFrame <= frameDest )
-		//{
-		//	//// 移動量に慣性をかける
-		//	//move.x = (0.0f + move.x) * RATE_MOVE_PLAYER;
-		//	////move.x *= RATE_MOVE_PLAYER;
-		//	//move.y = (0.0f + move.z) * RATE_MOVE_PLAYER;
-		//	//move.z = (0.0f + move.z) * RATE_MOVE_PLAYER;
-		//	pos += move;
-		//}
-
+		
 		//countする.
-		cntFrame++;
+		m_CntFrame++;
 	}
 }
 
 /****************************************
 描画処理
 *****************************************/
-void EnemyStraight::Draw(void)
+void EnemyStraight::VDraw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, mtxWorld;
 
-	if (active)
+	if (m_Active)
 	{
 		// ワールドマトリックスの初期化
 		D3DXMatrixIdentity(&mtxWorld);
 
 		// スケールを反映
-		D3DXMatrixScaling(&mtxScl, scl.y, scl.x, scl.z);
+		D3DXMatrixScaling(&mtxScl, m_Scl.y, m_Scl.x, m_Scl.z);
 		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScl);
 
 		// 回転を反映
-		D3DXMatrixRotationYawPitchRoll(&mtxRot, rot.y, rot.x, rot.z);
+		D3DXMatrixRotationYawPitchRoll(&mtxRot, m_Rot.y, m_Rot.x, m_Rot.z);
 		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRot);
 
 		// 移動を反映
-		D3DXMatrixTranslation(&mtxTranslate, pos.x, pos.y, pos.z);
+		D3DXMatrixTranslation(&mtxTranslate, m_Pos.x, m_Pos.y, m_Pos.z);
 		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTranslate);
 
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
-		mesh->Draw();
+		m_pMesh->Draw();
 	}
 
 }
@@ -174,17 +149,16 @@ void EnemyStraight::Draw(void)
 セット処理
 *****************************************/
 
-void EnemyStraight::Set(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame)
+void EnemyStraight::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame)
 {
 
-	frameDest = frame;
-	posDest = end;
-	//pos = start;
-	m_start = start;
-	//dir = end - start;
-	//move = dir / frame;
-
-	active = true;
+	m_FrameDest = frame;
+	m_PosDest = end;
+	
+	m_Start = m_Pos = start;
+	m_CntFrame = 0.0f;
+	
+	m_Active = true;
 }
 
 
@@ -210,130 +184,296 @@ EnemyChange::~EnemyChange()
 /****************************************
 初期化処理
 ****************************************/
-HRESULT EnemyChange::Init(void)
+HRESULT EnemyChange::VInit(void)
 {
-	active = false;
+	m_Active = false;
 
 
-	pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
-	move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	scl = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
-	rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	cntFrame = 0;
+	m_Pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
+	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_CntFrame = 0.0f;
 
-	frameDest = 0;
-	dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	posDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_FrameDest = 0.0f;
+	m_Dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_PosDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	m_start = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Start = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	m_waitTime = 0.0f;
-    vecChange = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+    m_VecChange = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	return S_OK;
 }
 /****************************************
 終了処理
 *****************************************/
-void EnemyChange::Uninit()
+void EnemyChange::VUninit()
 {
-	active = false;
+	m_Active = false;
 }
 
 /****************************************
 更新処理
 *****************************************/
-void EnemyChange::Update()
+void EnemyChange::VUpdate()
 {
-	if (active)
+	if (m_Active)
 	{
 
-		if (cntFrame > frameDest + m_waitTime + ENEMY_FALSE)
+		if (m_CntFrame > m_FrameDest + m_waitTime + ENEMY_FALSE)
 		{
-			active = false;
+			m_Active = false;
 		}
 
-		if (cntFrame > frameDest && cntFrame < frameDest + m_waitTime)
+		if (m_CntFrame > m_FrameDest && m_CntFrame < m_FrameDest + m_waitTime)
 		{
 
 		}
-		else if (cntFrame == frameDest + m_waitTime)
+		else if (m_CntFrame == m_FrameDest + m_waitTime)
 		{
-			move = vecChange;
+			m_Move = m_VecChange;
 			
 		}
-		else if (cntFrame > frameDest + m_waitTime)
+		else if (m_CntFrame > m_FrameDest + m_waitTime)
 		{
 
 			//move = vecChange;
 
 			//クオリティアップする?
-			move *= ENEMY_ATTENUATION;
-			pos += move;
+			m_Move *= ENEMY_ATTENUATION;
+			m_Pos += m_Move;
 		}
-		else if (cntFrame < frameDest)
+		else if (m_CntFrame < m_FrameDest)
 		{
 			//ブレーキの手触り
-			pos = Easing<D3DXVECTOR3>::GetEasingValue(((float)cntFrame / (float)frameDest), &m_start,
-				&posDest, EasingType::OutCubic);
-			//pos += move;
+			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue((m_CntFrame / m_FrameDest), &m_Start,
+				&m_PosDest, EasingType::OutCubic);
+			
 		}
 		//countする
-		cntFrame++;
+		m_CntFrame++;
 	}
 }
 
 /****************************************
 描画処理
 *****************************************/
-void EnemyChange::Draw()
+void EnemyChange::VDraw()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, mtxWorld;
 
-	if (active)
+	if (m_Active)
 	{
 		// ワールドマトリックスの初期化
 		D3DXMatrixIdentity(&mtxWorld);
 
 		// スケールを反映
-		D3DXMatrixScaling(&mtxScl, scl.y, scl.x, scl.z);
+		D3DXMatrixScaling(&mtxScl, m_Scl.y, m_Scl.x, m_Scl.z);
 		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScl);
 
 		// 回転を反映
-		D3DXMatrixRotationYawPitchRoll(&mtxRot, rot.y, rot.x, rot.z);
+		D3DXMatrixRotationYawPitchRoll(&mtxRot, m_Rot.y, m_Rot.x, m_Rot.z);
 		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRot);
 
 		// 移動を反映
-		D3DXMatrixTranslation(&mtxTranslate, pos.x, pos.y, pos.z);
+		D3DXMatrixTranslation(&mtxTranslate, m_Pos.x, m_Pos.y, m_Pos.z);
 		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTranslate);
 
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
-		mesh->Draw();
+		m_pMesh->Draw();
 	}
 }
 
 /****************************************
 セット処理
 *****************************************/
-void EnemyChange::Set(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame)
+void EnemyChange::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame)
 {
 	//空
 }
 
-void EnemyChange::SetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int waitTime, D3DXVECTOR3 vec)
+void EnemyChange::VSetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int waitTime, D3DXVECTOR3 vec)
 {
-	vecChange = vec;
+	m_VecChange = vec;
 	m_waitTime = waitTime;
-	frameDest = frame;
-	posDest = end;
-	//pos = start;
-	m_start = start;
-	//dir = end - start;
-	//move = dir / frame;
+	m_FrameDest = frame;
+	m_PosDest = end;
+	
+	m_Start = start;
+	
 
-	active = true;
+	m_Active = true;
 }
 
+
+
+//EnemySnake
+/****************************************
+コンストラクタ
+****************************************/
+EnemySnake::EnemySnake()
+{
+	
+}
+
+/****************************************
+デストラクタ
+****************************************/
+EnemySnake::~EnemySnake()
+{
+
+}
+
+/****************************************
+初期化処理
+****************************************/
+HRESULT EnemySnake::VInit()
+{
+	m_Active = false;
+
+	m_WaitTime = 0;
+	m_CurrentIndex = 0;
+	m_posDestMax = 0;
+	m_framePassed = 0;
+	m_waitcount = 0;
+
+
+	m_Pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
+	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+
+	m_FrameDest = 0.0f;
+	m_Dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_PosDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_CntFrame = 0.0f;
+
+	m_Start = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+	return S_OK;
+}
+
+/****************************************
+終了処理
+*****************************************/
+void EnemySnake::VUninit()
+{
+	m_Active = false;
+}
+
+/****************************************
+更新処理
+*****************************************/
+void EnemySnake::VUpdate()
+{	
+	//更新前のm_CurrentIndexを保存
+	m_PrevIndex = m_CurrentIndex;
+
+	//最後の点のフレーム
+	int last = m_framePassed + m_FrameDestList[m_posDestMax - 2];
+
+	if (m_Active)
+	{
+		if (m_CntFrame == last && m_CurrentIndex == m_posDestMax-2)
+		{
+			//そのまま進む
+			m_Move =(m_PosDestList[m_posDestMax - 1] - m_PosDestList[m_posDestMax - 2])/ ENEMY_FRAME_SNAKE;
+			
+		}
+		else if (m_CntFrame >= last && m_CurrentIndex == m_posDestMax - 2)
+		{
+			//処理が終わったら
+			if (m_CntFrame >= last + ENEMY_FALSE_SNAKE)
+			{
+				m_Active = false;
+			}
+			m_Pos += m_Move;
+		}//停止
+		else if ((m_CntFrame > (m_framePassed + m_FrameDestList[m_CurrentIndex])) && m_CurrentIndex <= m_posDestMax - 2)
+		{
+			//停止中のフレームを一時保存する
+			m_waitcount++;
+			//停止の時間が過ぎたら
+			if (m_waitcount == m_WaitTime)
+			{
+				//停止の時間をカウンターに入れる
+				m_framePassed = m_CntFrame;
+				m_waitcount = 0;
+			}
+		}//次の点に着いたら
+		else if ((m_CntFrame == (m_framePassed + m_FrameDestList[m_CurrentIndex])) && m_CurrentIndex <= m_posDestMax - 2)
+		{
+			//indexを次の点に指定
+			m_CurrentIndex++;
+			//今までの所要時間を記録
+			m_framePassed = m_CntFrame;
+		}
+		else if (m_CurrentIndex <= m_posDestMax - 2)
+		{
+			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue(((m_CntFrame - m_framePassed) / m_FrameDestList[m_CurrentIndex]),
+				&m_PosDestList[m_CurrentIndex], &m_PosDestList[m_CurrentIndex + 1], EasingType::OutCubic);
+		}
+
+		//countする
+		m_CntFrame++;
+
+	}
+}
+
+/****************************************
+描画処理
+*****************************************/
+void EnemySnake::VDraw()
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, mtxWorld;
+
+	if (m_Active)
+	{
+		// ワールドマトリックスの初期化
+		D3DXMatrixIdentity(&mtxWorld);
+
+		// スケールを反映
+		D3DXMatrixScaling(&mtxScl, m_Scl.y, m_Scl.x, m_Scl.z);
+		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScl);
+
+		// 回転を反映
+		D3DXMatrixRotationYawPitchRoll(&mtxRot, m_Rot.y, m_Rot.x, m_Rot.z);
+		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRot);
+
+		// 移動を反映
+		D3DXMatrixTranslation(&mtxTranslate, m_Pos.x, m_Pos.y, m_Pos.z);
+		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTranslate);
+
+		// ワールドマトリックスの設定
+		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+
+		m_pMesh->Draw();
+	}
+}
+
+/****************************************
+セット処理
+*****************************************/
+void EnemySnake::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end1, int frame)
+{
+	//空
+}
+
+void EnemySnake::Set(vector<D3DXVECTOR3> posDestList, vector<float> frameDestList,int waitTime)
+{
+	
+	m_PosDestList = posDestList;
+	m_FrameDestList = frameDestList;
+	m_WaitTime = waitTime;
+
+	m_posDestMax = m_PosDestList.size();
+
+	m_Active = true;
+}

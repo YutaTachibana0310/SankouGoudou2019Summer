@@ -184,10 +184,14 @@ void SetActiveDebugWindow(bool state)
 /*************************************
 デバッグウィンドウ開始処理
 ***************************************/
-void BeginDebugWindow(const char *label)
+void BeginDebugWindow(const char *label, bool menuBar)
 {
 #ifdef USE_DEBUGFUNC
-	ImGui::Begin(label);
+	ImGuiWindowFlags flag = 0;
+
+	if (menuBar) flag |= ImGuiWindowFlags_MenuBar;
+
+	ImGui::Begin(label, nullptr, flag);
 #endif
 }
 
@@ -476,5 +480,85 @@ void DebugLog(const char *str, ...)
 	//ImGui::Text(str, ap);
 	va_end(ap);
 	EndDebugWindow("Console");
+#endif
+}
+
+/*************************************
+メニューバー設定開始処理
+***************************************/
+bool BeginMenuBar()
+{
+#ifdef USE_DEBUGFUNC
+	return ImGui::BeginMenuBar();
+#else
+	return false;
+#endif
+}
+
+/*************************************
+メニューバー設定終了処理
+***************************************/
+void EndMenuBar()
+{
+#ifdef USE_DEBUGFUNC
+	ImGui::EndMenuBar();
+#endif
+}
+
+/*************************************
+メニュー設定終了処理
+***************************************/
+bool BeginMenuItem(const char* label)
+{
+#ifdef USE_DEBUGFUNC
+	return ImGui::BeginMenu(label);
+#else
+	return false;
+#endif
+}
+
+/*************************************
+メニュー設定終了処理
+***************************************/
+void EndMenuItem()
+{
+#ifdef  USE_DEBUGFUNC
+	ImGui::EndMenu();
+#endif //  USE_DEBUGFUNC
+
+}
+
+/*************************************
+メニューアイテム設定処理
+***************************************/
+void MenuItem(const char* label, std::function<void(void)> func)
+{
+#ifdef USE_DEBUGFUNC
+	if (ImGui::MenuItem(label))
+	{
+		func();
+	}
+#endif
+}
+
+/*************************************
+子供開始処理
+***************************************/
+bool BeginChild(const char* id)
+{
+#ifdef USE_DEBUGFUNC
+	return ImGui::BeginChild(ImGui::GetID((void*)0));
+#else
+	return false;
+#endif
+}
+
+/*************************************
+子供終了処理
+***************************************/
+void EndChild()
+{
+#ifdef USE_DEBUGFUNC
+	ImGui::EndChild();
 #endif
 }

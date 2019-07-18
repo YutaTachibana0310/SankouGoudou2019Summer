@@ -11,13 +11,16 @@
 マクロ定義
 ***************************************/
 //初期化されてから当たり判定がアクティブになるタイミング
-#define STOPENEMY_TIME_COLLIDER_ACTIVATE	(60)
+#define CHANGEENEMY_TIME_COLLIDER_ACTIVATE	(60)
 
 //当たり判定が無効になるタイミング
-#define STOPENEMT_TIME_ESCAPE				(300 + STOPENEMY_TIME_COLLIDER_ACTIVATE)
+#define CHANGEENEMY_TIME_ESCAPE				(300 + CHANGEENEMY_TIME_COLLIDER_ACTIVATE)
 
 //終了タイミング
-#define STOPENEMY_TIME_UNINIT				(60 + STOPENEMT_TIME_ESCAPE)
+#define CHANGEENEMY_TIME_UNINIT				(60 + CHANGEENEMY_TIME_ESCAPE)
+
+#define CHANGEENEMY_GENERATE_NUM			(4)			//エネミーの生成数	
+#define CHANGEENEMY_INIT_OFFSET				(400.0f)	//目標座標から初期座標への距離
 
 typedef EnemyModel Base;
 
@@ -51,26 +54,35 @@ void ChangeEnemyModel::Init(LineTrailModel model)
 	cntFrame = 0;
 	collider->active = false;
 
-	//とりあえずEnemyを5体生成
-	for (int i = 0; i < 5; i++)
+	//Enemyを生成
+	for (int i = 0; i < CHANGEENEMY_GENERATE_NUM; i++)
 	{
 		enemyList.push_back(new EnemyChange());
 	}
 
-	//EnemyModelに属するEnemyに移動指示を出す
-	//TODO:初期位置を変更できるようにする
-	D3DXVECTOR3 InitPos = D3DXVECTOR3(0.0f, 500.0f, 250.0f);
+	//ラインの端点を求める
 	D3DXVECTOR3 edgeL, edgeR;
 	model.GetEdgePos(&edgeR, &edgeL);
 	edgeL.z = edgeR.z = 250.0f;
-	D3DXVECTOR3 offset = (edgeL - edgeR) / ((float)enemyList.size() + 1);
-	edgeR += offset;
 
+	//エネミー同士の距離を求める
+	D3DXVECTOR3 enemyLength = (edgeL - edgeR) / ((float)enemyList.size() + 1);
+	edgeR += enemyLength;
+
+	//ラインに対して垂直なベクトルを求める
+	D3DXVECTOR3 cross;
+	D3DXVec3Cross(&cross, &(edgeL - edgeR), &D3DXVECTOR3(0.0f, 0.0f, 1.0f));
+	D3DXVec3Normalize(&cross, &cross);
+	
+	//初期座標を計算
+	D3DXVECTOR3 initOffset = cross * CHANGEENEMY_INIT_OFFSET;
+
+	//エネミーをセット
 	for (auto& enemy : enemyList)
 	{
 		enemy->VInit();
-		enemy->VSetVec(InitPos, edgeR, STOPENEMY_TIME_COLLIDER_ACTIVATE, 300, D3DXVECTOR3(0.0f, 15.0f, 0.0));
-		edgeR += offset;
+		enemy->VSetVec(edgeR + initOffset, edgeR, CHANGEENEMY_TIME_COLLIDER_ACTIVATE, CHANGEENEMY_TIME_ESCAPE - CHANGEENEMY_TIME_COLLIDER_ACTIVATE, D3DXVECTOR3(0.0f, 15.0f, 0.0));
+		edgeR += enemyLength;
 	}
 }
 
@@ -82,15 +94,15 @@ int ChangeEnemyModel::Update()
 	cntFrame++;
 
 	//60フレーム目で当たり判定をアクティブにする
-	if (cntFrame == STOPENEMY_TIME_COLLIDER_ACTIVATE)
+	if (cntFrame == CHANGEENEMY_TIME_COLLIDER_ACTIVATE)
 		collider->active = true;
 
 	//アクティブになってから300フレームで離脱する
-	if (cntFrame == STOPENEMT_TIME_ESCAPE)
+	if (cntFrame == CHANGEENEMY_TIME_ESCAPE)
 		collider->active = false;
 
 	//離脱開始してから60フレームで終了する
-	if (cntFrame == STOPENEMY_TIME_UNINIT)
+	if (cntFrame == CHANGEENEMY_TIME_UNINIT)
 		Uninit();
 
 	for (auto& enemy : enemyList)

@@ -47,7 +47,7 @@ ChangeEnemyModel::~ChangeEnemyModel()
 /**************************************
 ‰Šú‰»ˆ—
 ***************************************/
-void ChangeEnemyModel::Init(LineTrailModel model)
+void ChangeEnemyModel::Init(LineTrailModel model, int enemyNum)
 {
 	Base::Init(model);
 
@@ -55,7 +55,7 @@ void ChangeEnemyModel::Init(LineTrailModel model)
 	collider->active = false;
 
 	//Enemy‚ğ¶¬
-	for (int i = 0; i < CHANGEENEMY_GENERATE_NUM; i++)
+	for (int i = 0; i < enemyNum; i++)
 	{
 		enemyList.push_back(new EnemyChange());
 	}

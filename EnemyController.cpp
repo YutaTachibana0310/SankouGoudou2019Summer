@@ -23,6 +23,9 @@ using namespace std;
 ***************************************/
 #define USE_DEBUG_TESTENEMY (1)
 
+#define ENEMY_NUM_OUTERLINE		(3)		//五角形の外周に生成するエネミーの数
+#define ENEMY_NUM_INNNERLINE	(5)		//五角形の内側に生成するエネミーの数
+
 /**************************************
 構造体定義
 ***************************************/
@@ -30,6 +33,14 @@ using namespace std;
 /**************************************
 グローバル変数
 ***************************************/
+//五角形の外周を構成するLineModel
+const vector<LineTrailModel> EnemyController::OuterLineModel = {
+	LineTrailModel(0, 1),
+	LineTrailModel(1, 2),
+	LineTrailModel(2, 3),
+	LineTrailModel(3, 4),
+	LineTrailModel(4, 0)
+};
 
 /**************************************
 コンストラクタ
@@ -173,14 +184,19 @@ void EnemyController::SetEnemy()
 void EnemyController::_SetEnemyChange(picojson::object& data)
 {
 	//インスタンス生成
-	EnemyModel *model = new ChangeEnemyModel();
+	ChangeEnemyModel *model = new ChangeEnemyModel();
 
 	//データをパース
 	int start = static_cast<int>(data["start"].get<double>());
 	int end = static_cast<int>(data["end"].get<double>());
+	LineTrailModel lineModel = LineTrailModel(start, end);
+
+	//生成するエネミーの数を決定(五角形の外周なら3体、それ以外は5体)
+	auto itr = find(OuterLineModel.begin(), OuterLineModel.end(), lineModel);
+	int enemyNum = itr != OuterLineModel.end() ? ENEMY_NUM_OUTERLINE : ENEMY_NUM_INNNERLINE;
 
 	//初期化
-	model->Init(LineTrailModel(start, end));
+	model->Init(lineModel, enemyNum);
 
 	modelList.push_back(model);
 }
@@ -191,14 +207,19 @@ void EnemyController::_SetEnemyChange(picojson::object& data)
 void EnemyController::_SetEnemyStraight(picojson::object& data)
 {
 	//インスタンス生成
-	EnemyModel *model = new StraightEnemyModel();
+	StraightEnemyModel *model = new StraightEnemyModel();
 
 	//データをパース
 	int start = static_cast<int>(data["start"].get<double>());
 	int end = static_cast<int>(data["end"].get<double>());
+	LineTrailModel lineModel = LineTrailModel(start, end);
+
+	//生成するエネミーの数を決定(五角形の外周なら3体、それ以外は5体)
+	auto itr = find(OuterLineModel.begin(), OuterLineModel.end(), lineModel);
+	int enemyNum = itr != OuterLineModel.end() ? ENEMY_NUM_OUTERLINE : ENEMY_NUM_INNNERLINE;
 
 	//初期化
-	model->Init(LineTrailModel(start, end));
+	model->Init(lineModel, enemyNum);
 
 	modelList.push_back(model);
 }

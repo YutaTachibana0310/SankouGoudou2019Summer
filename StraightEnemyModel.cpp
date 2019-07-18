@@ -36,7 +36,7 @@ StraightEnemyModel::~StraightEnemyModel()
 /**************************************
 初期化処理
 ***************************************/
-void StraightEnemyModel::Init(LineTrailModel model)
+void StraightEnemyModel::Init(LineTrailModel model, int enemyNum)
 {
 	Base::Init(model);
 
@@ -44,7 +44,7 @@ void StraightEnemyModel::Init(LineTrailModel model)
 	collider->active = false;
 
 	//エネミー生成
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < enemyNum; i++)
 	{
 		enemyList.push_back(new EnemyStraight());
 	}

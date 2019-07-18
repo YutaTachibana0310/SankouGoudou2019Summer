@@ -19,7 +19,7 @@
 //終了タイミング
 #define CHANGEENEMY_TIME_UNINIT				(60 + CHANGEENEMY_TIME_ESCAPE)
 
-#define CHANGEENEMY_GENERATE_NUM			(4)			//エネミーの生成数	
+#define CHANGEENEMY_GENERATE_NUM			(3)			//エネミーの生成数	
 #define CHANGEENEMY_INIT_OFFSET				(400.0f)	//目標座標から初期座標への距離
 
 typedef EnemyModel Base;

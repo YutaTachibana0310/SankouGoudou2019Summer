@@ -66,7 +66,7 @@ public:
 class EnemyStraight : public Enemy
 {
 public:
-
+	float f;								//アニメーションの時間
 	EnemyStraight();
 	~EnemyStraight();
 	HRESULT  VInit(void);

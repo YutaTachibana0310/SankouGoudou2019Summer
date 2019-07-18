@@ -29,6 +29,12 @@ using namespace std;
 
 #define ENEMY_FRAME_SNAKE (200)
 
+//#define GET_RANDOM(a, b)		((a) + rand() / (RAND_MAX / ((b) - (a) + 1) + 1))
+
+#define STRAIGHT_SCL_EASE_MAX (D3DXVECTOR3(1.0f, 1.0f, 1.0f))
+#define STRAIGHT_SCL_EASE_MIN (D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+#define STRAIGHT_SCL_EXPANSION (0.08f)
+
 /****************************************
 static変数
 ****************************************/
@@ -75,13 +81,22 @@ HRESULT  EnemyStraight::VInit(void)
 {
 	m_Active = false;
 
-	m_FrameDest = 0.0f;
-	m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	f = 0.0f;
+
+	m_Pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Scl = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
 	m_Dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_PosDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
 	m_CntFrame = 0.0f;
 	
 	m_Start =  D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_FrameDest = 0.0f;
+
 	return S_OK;
 }
 /****************************************
@@ -92,6 +107,7 @@ void EnemyStraight::VUninit(void)
 	m_Active = false;
 
 }
+
 /****************************************
 更新処理
 *****************************************/
@@ -104,6 +120,44 @@ void EnemyStraight::VUpdate(void)
 			//ブレーキの手触り
 			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue((m_CntFrame/m_FrameDest), &m_Start, 
 				&m_PosDest, EasingType::InCubic);
+			//m_Scl = D3DXVECTOR3(GET_RANDOM(1.0f, 2.0f), GET_RANDOM(1.0f, 2.0f), GET_RANDOM(1.0f, 2.0f)); 
+			//D3DXVECTOR3 max = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+			//D3DXVECTOR3 min = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+
+			if (f <= 1.0f)
+			{
+				m_Scl = Easing<D3DXVECTOR3>::GetEasingValue(f, &STRAIGHT_SCL_EASE_MIN,
+					&STRAIGHT_SCL_EASE_MAX, EasingType::OutExponential);
+				f += STRAIGHT_SCL_EXPANSION;
+			}
+
+			/*if (f < 1.0f)
+			{
+				m_Scl = Easing<D3DXVECTOR3>::GetEasingValue(f, &STRAIGHT_SCL_EASE_MIN,
+					&STRAIGHT_SCL_EASE_MAX, EasingType::OutExponential);
+				f += 0.1f;
+			}*/
+			/*else if(f >= 1.0f)
+			{
+				if (f == 1.0f)
+				{
+					f = 1.0f;
+				}
+				m_Scl = Easing<D3DXVECTOR3>::GetEasingValue(f, &min,
+					&max, EasingType::InExponential);
+				f -= 0.001f;
+				if (f <= 0.0f)
+				{
+					f = 0.0f;
+				}
+
+			}*/
+
+
+			
+			
+			
 			
 		}
 

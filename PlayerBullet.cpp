@@ -11,7 +11,7 @@
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
-#define PLAYERBULLET_LIFE_COUNT		(180)
+#define PLAYERBULLET_LIFE_COUNT		(60)
 #define PLAYERBULLET_FADE_FRAME		(30)
 #define PLAYERBULLET_FADE_START		(PLAYERBULLET_LIFE_COUNT-PLAYERBULLET_FADE_FRAME)
 #define PLAYERBULLET_VTX_LENGTH		(2.0f)

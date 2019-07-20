@@ -24,8 +24,9 @@
 /**************************************
 グローバル変数
 ***************************************/
-float BackGroundCity::moveSpeed = 55.0f;
-int BackGroundCity::frameFadein = 30;
+float BackGroundCity::moveSpeed = 75.0f;
+int BackGroundCity::frameFadein = 300;
+float BackGroundCity::depthMaxZ = 0.0f;
 
 /**************************************
 コンストラクタ
@@ -82,8 +83,7 @@ void BackGroundCity::Update()
 	//移動
 	if (transform.pos.z < BACKGROUNDCITY_BORDER_Z)
 	{
-		//TODO:マジックナンバー消す
-		transform.pos.z += 28800.0f;
+		transform.pos.z += depthMaxZ;
 		Init();
 	}
 
@@ -103,6 +103,6 @@ void BackGroundCity::Draw()
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 	//描画
-	mesh->SetMaterialAlpha(alpha);
+	//mesh->SetMaterialAlpha(alpha);
 	mesh->Draw();
 }

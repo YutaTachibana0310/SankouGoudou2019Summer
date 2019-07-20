@@ -74,9 +74,6 @@ void DrawSkyBox(void)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	D3DXMATRIX mtxWorld;
 
-	//フォグをオフ
-	pDevice->SetRenderState(D3DRS_FOGENABLE, false);
-
 	//ワールド変換行列設定
 	D3DXMatrixIdentity(&mtxWorld);
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
@@ -101,9 +98,6 @@ void DrawSkyBox(void)
 	//レンダーステート復元
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 	pDevice->SetRenderState(D3DRS_LIGHTING, true);
-
-	//フォグをオン
-	pDevice->SetRenderState(D3DRS_FOGENABLE, true);
 }
 
 /**************************************

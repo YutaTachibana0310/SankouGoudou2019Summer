@@ -110,7 +110,7 @@ void BackGroundController::CreateCityContainer()
 {
 	const float BasePosX = 1000.0f;
 	const float OffsetX = 1200.0f;
-	const float OffsetZ = -1800.0f;
+	const float OffsetZ = 3000.0f;
 
 	//”wŒi‚ÌCity‚ğì¬
 	cityContainer.resize(BACKGROUND_CITY_NUMMAX_X * BACKGROUND_CITY_NUMMAX_Z);
@@ -142,4 +142,7 @@ void BackGroundController::CreateCityContainer()
 			cityIndex++;
 		}
 	}
+
+	//City‚Ì‰œs‚«Å‘å’l‚ğİ’è
+	BackGroundCity::depthMaxZ = BACKGROUND_CITY_NUMMAX_Z * OffsetZ;
 }

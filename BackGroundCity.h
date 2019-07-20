@@ -30,6 +30,8 @@ public:
 
 	Transform transform;
 
+	static float depthMaxZ;
+
 private:
 	MeshContainer* mesh;
 	int cntFrame;
@@ -38,12 +40,5 @@ private:
 	static float moveSpeed;
 	static int frameFadein;
 };
-/**************************************
-プロトタイプ宣言
-***************************************/
-void InitBackGroundCity(int num);
-void UninitBackGroundCity(int num);
-void UpdateBackGroundCity(void);
-void DrawBackGroundCity(void);
 
 #endif

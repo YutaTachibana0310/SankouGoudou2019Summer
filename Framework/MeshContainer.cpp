@@ -188,3 +188,25 @@ DWORD MeshContainer::GetMaterialNum()
 {
 	return materialNum;
 }
+
+/**************************************
+マテリアルカラー設定処理
+***************************************/
+void MeshContainer::SetMaterialColor(D3DXCOLOR& color)
+{
+	for (int i = 0; i < materialNum; i++)
+	{
+		materials[i].Diffuse = color;
+	}
+}
+
+/**************************************
+マテリアルアルファ設定処理
+***************************************/
+void MeshContainer::SetMaterialAlpha(float alpha)
+{
+	for (int i = 0; i < materialNum; i++)
+	{
+		materials[i].Diffuse.a = alpha;
+	}
+}

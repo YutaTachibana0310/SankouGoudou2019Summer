@@ -20,12 +20,12 @@ void SetAddCombo(int n) {
 
 	AddCombo(n);
 
-	Sound::GetInstance()->SetPlaySE(ENTERSE, true, 1.0f);
+	Sound::GetInstance()->SetPlaySE(COMBOSE, true, 1.0f);
 	Sound::GetInstance()->changepitch += n * 100;
 	if (Sound::GetInstance()->changepitch > 1200) {
 		Sound::GetInstance()->changepitch = 1200;
 	}
-	Sound::GetInstance()->SetPitchSE(ENTERSE, Sound::GetInstance()->changepitch);
+	Sound::GetInstance()->SetPitchSE(COMBOSE, Sound::GetInstance()->changepitch);
 }
 
 void ClearCombo(void) {

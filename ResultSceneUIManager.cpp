@@ -31,7 +31,7 @@ void UninitResultSceneUI(void) {
 //=============================================================================
 void UpdateResultSceneUI(HWND hwnd) {
 	UpdateResultBG();
-
+	UpdateRank();
 }
 
 //=============================================================================

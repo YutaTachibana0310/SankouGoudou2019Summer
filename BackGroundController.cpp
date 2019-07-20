@@ -50,6 +50,9 @@ BackGroundController::BackGroundController()
 	//スカイボックス作成
 	skyBoxies.push_back(new SkyBox(D3DXVECTOR3(10000.0f, 10000.0f, 10000.0f), D3DXVECTOR2(6.0f, 6.0f)));
 	skyBoxies[0]->LoadTexture("data/TEXTURE/BG/img_post152_07.jpg");
+
+	//Transform初期化
+	transform.Rotate(3.0f, 0.0f, 0.0f);
 }
 
 /**************************************
@@ -118,9 +121,11 @@ void BackGroundController::Draw()
 		box->Draw();
 	}
 
+	D3DXMATRIX mtxWorld;
+	transform.CalcWorldMtx(&mtxWorld);
 	for (auto& city : cityContainer)
 	{
-		city->Draw();
+		city->Draw(mtxWorld);
 	}
 }
 

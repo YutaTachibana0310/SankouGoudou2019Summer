@@ -94,23 +94,25 @@ void BackGroundCity::Update()
 		transform.pos.z += depthMaxZ;
 		Init();
 	}
-
-
 }
 
 /**************************************
 描画処理
 ***************************************/
-void BackGroundCity::Draw()
+void BackGroundCity::Draw(D3DXMATRIX mtxParent)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	D3DXMATRIX mtxWorld;
 
-	//ワールド行列設定
+	//自身のワールド行列設定
 	transform.CalcWorldMtx(&mtxWorld);
+
+	//親のワールド行列を反映
+	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxParent);
+
+	//ワールド行列設定
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 	//描画
-	//mesh->SetMaterialAlpha(alpha);
 	mesh->Draw();
 }

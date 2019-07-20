@@ -32,6 +32,8 @@ public:
 	void Update();
 	void Draw();
 
+	Transform transform;
+
 private:
 	std::vector<BackGroundCity*> cityContainer;
 	std::vector<SkyBox*> skyBoxies;

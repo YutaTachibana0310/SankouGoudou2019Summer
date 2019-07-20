@@ -6,6 +6,7 @@
 //=====================================
 #include "BackGroundController.h"
 #include "BackGroundCity.h"
+#include "SkyBox.h"
 
 #include "Framework\ResourceManager.h"
 
@@ -45,6 +46,10 @@ BackGroundController::BackGroundController()
 
 	//CityContainer作成
 	CreateCityContainer();
+
+	//スカイボックス作成
+	skyBoxies.push_back(new SkyBox(D3DXVECTOR3(10000.0f, 10000.0f, 10000.0f), D3DXVECTOR2(6.0f, 6.0f)));
+	skyBoxies[0]->LoadTexture("data/TEXTURE/BG/img_post152_07.jpg");
 }
 
 /**************************************
@@ -57,6 +62,12 @@ BackGroundController::~BackGroundController()
 		SAFE_DELETE(city);
 	}
 	cityContainer.clear();
+
+	for (auto& skybox : skyBoxies)
+	{
+		SAFE_DELETE(skybox);
+	}
+	skyBoxies.clear();
 }
 
 /**************************************
@@ -90,6 +101,11 @@ void BackGroundController::Update()
 	{
 		city->Update();
 	}
+
+	for (auto &box : skyBoxies)
+	{
+		box->Update();
+	}
 }
 
 /**************************************
@@ -97,6 +113,11 @@ void BackGroundController::Update()
 ***************************************/
 void BackGroundController::Draw()
 {
+	for (auto& box : skyBoxies)
+	{
+		box->Draw();
+	}
+
 	for (auto& city : cityContainer)
 	{
 		city->Draw();

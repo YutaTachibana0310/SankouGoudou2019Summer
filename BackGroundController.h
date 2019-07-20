@@ -16,6 +16,7 @@
 前方宣言
 ***************************************/
 class BackGroundCity;
+class SkyBox;
 
 /**************************************
 クラス定義
@@ -33,6 +34,7 @@ public:
 
 private:
 	std::vector<BackGroundCity*> cityContainer;
+	std::vector<SkyBox*> skyBoxies;
 
 	void CreateCityContainer();
 

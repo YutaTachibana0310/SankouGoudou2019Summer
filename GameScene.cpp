@@ -18,7 +18,6 @@
 #include "BackGroundController.h"
 #include "BackGroundRoad.h"
 #include "BackGroundField.h"
-#include "SkyBox.h"
 #include "GameParticleManager.h"
 #include "sound.h"
 #include "EnemyController.h"
@@ -70,7 +69,6 @@ void GameScene::Init()
 	SetPlayerObserverAdr(playerObserver);
 
 	//”wŒi‰Šú‰»
-	InitSkyBox(0);
 	InitBackGroundRoad();
 	InitBackGroundField();
 	bgController->Init();
@@ -108,7 +106,6 @@ void GameScene::Init()
 void GameScene::Uninit()
 {
 	//”wŒiI—¹
-	UninitSkyBox(0);
 	UninitBackGroundRoad();
 	UninitBackGroundField();
 	bgController->Uninit();
@@ -154,7 +151,6 @@ void GameScene::Update(HWND hWnd)
 
 	//”wŒiƒIƒuƒWƒFƒNƒg‚ÌXV
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateBG");
-	UpdateSkyBox();
 	UpdateBackGroundRoad();
 	UpdateBackGroundField();
 	bgController->Update();
@@ -199,7 +195,6 @@ void GameScene::Draw()
 
 	//”wŒi‚Ì•`‰æ
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
-	DrawSkyBox();
 	//DrawBackGroundRoad();
 	//DrawBackGroundField();
 	bgController->Draw();

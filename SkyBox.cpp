@@ -19,8 +19,6 @@
 SkyBox::SkyBox(D3DXVECTOR3 vtxSize, D3DXVECTOR2 texSize)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_BILLBOARD) * NUM_VERTEX * SKYBOX_FIELD_NUM,
 		D3DUSAGE_WRITEONLY,
@@ -131,6 +129,19 @@ void SkyBox::Draw()
 	D3DXMATRIX mtxWorld;
 	transform.CalcWorldMtx(&mtxWorld);
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
+	pDevice->SetRenderState(D3DRS_LIGHTING, false);
+
+	pDevice->SetTexture(0, texture);
+
+	pDevice->SetStreamSource(0, vtxBuff, 0, sizeof(VERTEX_BILLBOARD));
+
+	for (int i = 0; i < SKYBOX_FIELD_NUM; i++)
+		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, NUM_VERTEX * i, NUM_POLYGON);
+
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+	pDevice->SetRenderState(D3DRS_LIGHTING, true);
 }
 
 /**************************************

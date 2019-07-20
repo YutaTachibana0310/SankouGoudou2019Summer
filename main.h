@@ -14,6 +14,7 @@
 //*****************************************************************************
 #include <windows.h>
 #include "d3dx9.h"
+#include "Framework\Transform.h"
 
 #define DIRECTINPUT_VERSION (0x0800)	// 警告対策
 #include "dinput.h"
@@ -86,38 +87,6 @@ typedef struct
 	D3DXVECTOR3 vtx;	//頂点座標
 	D3DXVECTOR2 tex;	//UV座標
 } ParticleUnit;
-
-//SRT情報
-typedef struct _Transform
-{
-	D3DXVECTOR3 pos;	//座標
-	D3DXVECTOR3 rot;	//回転
-	D3DXVECTOR3 scale;	//スケール
-
-	//コンストラクタ
-	_Transform()
-	{
-		pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	}
-
-	_Transform(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 scale)
-	{
-		this->pos = pos;
-		this->rot = rot;
-		this->scale = scale;
-	}
-
-	//回転処理
-	void Rotate(float degX, float degY, float degZ)
-	{
-		rot.x += D3DXToRadian(degX);
-		rot.y += D3DXToRadian(degY);
-		rot.z += D3DXToRadian(degZ);
-	}
-
-}Transform;
 
 //パーティクルのUV情報
 typedef struct

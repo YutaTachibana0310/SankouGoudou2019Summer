@@ -114,7 +114,16 @@ SkyBox::~SkyBox()
 ***************************************/
 void SkyBox::Update()
 {
+	VERTEX_BILLBOARD *pVtx;
+	vtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
+	for (int i = 0; i < NUM_VERTEX * SKYBOX_FIELD_NUM; i++)
+	{
+		pVtx[i].tex.x += SKYBOX_SCROLL_SPEED;
+		pVtx[i].tex.y += SKYBOX_SCROLL_SPEED;
+	}
+
+	vtxBuff->Unlock();
 }
 
 /**************************************

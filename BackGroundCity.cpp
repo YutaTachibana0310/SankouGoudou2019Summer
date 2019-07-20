@@ -12,10 +12,14 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define BACKGROUNDCITY_INIT_SCALE_Y		(6.0f)
-#define BACKGROUNDCITY_INIT_SCALE_XZ	(3.0f)
+#define BACKGROUNDCITY_INIT_SCALE_Y		(15.0f)
+#define BACKGROUNDCITY_INIT_SCALE_XZ	(5.5f)
 
 #define BACKGROUNDCITY_BORDER_Z			(-500.0f)
+
+#define BACKGROUNDCITY_POSY_MIN			(-15)
+#define BACKGROUNDCITY_POSY_MAX			(-10)
+#define BACKGROUNDCITY_POSY_MAGNI		(200.0f);
 
 /**************************************
 構造体定義
@@ -56,6 +60,10 @@ BackGroundCity::~BackGroundCity()
 void BackGroundCity::Init()
 {
 	cntFrame = 0;
+
+	transform.Rotate(0.0f, 45.0f * RandomRange(0, 8), 0.0f);
+
+	transform.pos.y = RandomRange(BACKGROUNDCITY_POSY_MIN, BACKGROUNDCITY_POSY_MAX) * BACKGROUNDCITY_POSY_MAGNI;
 }
 
 /**************************************

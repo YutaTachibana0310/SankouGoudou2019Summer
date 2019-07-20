@@ -200,8 +200,8 @@ void GameScene::Draw()
 	//”wŒi‚Ì•`‰æ
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 	DrawSkyBox();
-	DrawBackGroundRoad();
-	DrawBackGroundField();
+	//DrawBackGroundRoad();
+	//DrawBackGroundField();
 	bgController->Draw();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 

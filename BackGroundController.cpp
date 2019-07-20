@@ -108,8 +108,8 @@ void BackGroundController::Draw()
 ***************************************/
 void BackGroundController::CreateCityContainer()
 {
-	const float BasePosX = 1000.0f;
-	const float OffsetX = 1200.0f;
+	const float BasePosX = 2000.0f;
+	const float OffsetX = 3000.0f;
 	const float OffsetZ = 3000.0f;
 
 	//”wŒi‚ÌCity‚ğì¬

@@ -10,13 +10,34 @@
 #include "main.h"
 
 /**************************************
-マクロ定義
+前方宣言
 ***************************************/
+class MeshContainer;
 
 /**************************************
 クラス定義
 ***************************************/
+class BackGroundCity
+{
+public:
+	BackGroundCity(const char* meshTag);
+	~BackGroundCity();
 
+	void Init();
+	void Uninit();
+	void Update();
+	void Draw();
+
+	Transform transform;
+
+private:
+	MeshContainer* mesh;
+	int cntFrame;
+	float alpha;
+
+	static float moveSpeed;
+	static int frameFadein;
+};
 /**************************************
 プロトタイプ宣言
 ***************************************/

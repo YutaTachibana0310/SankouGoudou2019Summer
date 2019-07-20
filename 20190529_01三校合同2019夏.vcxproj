@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BackGroundCity.h" />
+    <ClInclude Include="BackGroundController.h" />
     <ClInclude Include="BackGroundField.h" />
     <ClInclude Include="BackGroundRoad.h" />
     <ClInclude Include="battleStartTelop.h" />
@@ -273,6 +274,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BackGroundCity.cpp" />
+    <ClCompile Include="BackGroundController.cpp" />
     <ClCompile Include="BackGroundRoad.cpp" />
     <ClCompile Include="BackGuroundField.cpp" />
     <ClCompile Include="battleStartTelop.cpp" />

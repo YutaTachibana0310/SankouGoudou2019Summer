@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BackGroundCity.h" />
+    <ClInclude Include="BackGroundController.h" />
     <ClInclude Include="BackGroundField.h" />
     <ClInclude Include="BackGroundRoad.h" />
     <ClInclude Include="battleStartTelop.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="EnemyWarpHole.h" />
     <ClInclude Include="EnemyWarpHoleController.h" />
     <ClInclude Include="Framework\ResourceManager.h" />
+    <ClInclude Include="Framework\Transform.h" />
     <ClInclude Include="RebarOb.h" />
     <ClInclude Include="EnemyExplosionController.h" />
     <ClInclude Include="EnemyExplosionFlare.h" />
@@ -272,6 +274,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BackGroundCity.cpp" />
+    <ClCompile Include="BackGroundController.cpp" />
     <ClCompile Include="BackGroundRoad.cpp" />
     <ClCompile Include="BackGuroundField.cpp" />
     <ClCompile Include="battleStartTelop.cpp" />
@@ -281,6 +284,7 @@
     <ClCompile Include="EnemyWarpHole.cpp" />
     <ClCompile Include="EnemyWarpHoleController.cpp" />
     <ClCompile Include="Framework\ResourceManager.cpp" />
+    <ClCompile Include="Framework\Transform.cpp" />
     <ClCompile Include="RebarOb.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyExplosionController.cpp" />

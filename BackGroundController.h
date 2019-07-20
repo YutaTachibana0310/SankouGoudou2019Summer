@@ -1,44 +1,45 @@
 //=====================================
 //
-//バックグラウンドシティヘッダ[BackGroundCity.h]
+//バックグラウンドコントローラヘッダ[BackGroundController.h]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#ifndef _BACKGROUNDCITY_H_
-#define _BACKGROUNDCITY_H_
+#ifndef _BACKGROUNDCONTROLLER_H_
+#define _BACKGROUNDCONTROLLER_H_
 
 #include "main.h"
+
+
+#include <vector>
 
 /**************************************
 前方宣言
 ***************************************/
-class MeshContainer;
+class BackGroundCity;
+class SkyBox;
 
 /**************************************
 クラス定義
 ***************************************/
-class BackGroundCity
+class BackGroundController
 {
 public:
-	BackGroundCity(const char* meshTag);
-	~BackGroundCity();
+	BackGroundController();
+	~BackGroundController();
 
 	void Init();
 	void Uninit();
 	void Update();
-	void Draw(D3DXMATRIX mtxParent);
+	void Draw();
 
 	Transform transform;
 
-	static float depthMaxZ;
-
 private:
-	MeshContainer* mesh;
-	int cntFrame;
-	float alpha;
+	std::vector<BackGroundCity*> cityContainer;
+	std::vector<SkyBox*> skyBoxies;
 
-	static float moveSpeed;
-	static int frameFadein;
+	void CreateCityContainer();
+
 };
 
 #endif

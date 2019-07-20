@@ -14,7 +14,7 @@
 #define	VIEW_ANGLE					(D3DXToRadian(60.0f))	// 視野角
 #define	VIEW_ASPECT					((float)SCREEN_WIDTH / (float)SCREEN_HEIGHT)	// ビュー平面のアスペクト比
 #define	VIEW_NEAR_Z					(10.0f)					// ビュー平面のNearZ値
-#define	VIEW_FAR_Z					(10000.0f)				// ビュー平面のFarZ値
+#define	VIEW_FAR_Z					(50000.0f)				// ビュー平面のFarZ値
 #define	VALUE_MOVE_CAMERA			(20.0f)					// カメラの移動量
 #define	VALUE_ROTATE_CAMERA			(D3DX_PI * 0.01f)		// カメラの回転量
 
@@ -55,6 +55,7 @@ HRESULT InitCamera(void)
 	ZeroMemory(&caps, sizeof(D3DCAPS9));
 	pDevice->GetDeviceCaps(&caps);
 
+#if 0
 	if ((caps.RasterCaps & D3DPRASTERCAPS_FOGRANGE) != 0)
 	{
 		FLOAT start = 6000.0f;
@@ -67,6 +68,7 @@ HRESULT InitCamera(void)
 		pDevice->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
 		pDevice->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
 	}
+#endif
 
 	//カメラを設定
 	SetCamera();

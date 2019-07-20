@@ -14,47 +14,107 @@
 #define SKYBOX_SCROLL_SPEED		(0.0002f)
 
 /**************************************
-構造体定義
+コンストラクタ
 ***************************************/
-
-/**************************************
-グローバル変数
-***************************************/
-static LPDIRECT3DVERTEXBUFFER9 vtxBuff;
-static LPDIRECT3DTEXTURE9 texture;
-
-/**************************************
-プロトタイプ宣言
-***************************************/
-void MakeVertexBufferSkyBox(void);
-
-/**************************************
-初期化処理
-***************************************/
-void InitSkyBox(int num)
+SkyBox::SkyBox(D3DXVECTOR3 vtxSize, D3DXVECTOR2 texSize)
 {
-	MakeVertexBufferSkyBox();
-
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	texture = CreateTextureFromFile((LPSTR)SKYBOX_TEXTURE_NAME, pDevice);
+
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_BILLBOARD) * NUM_VERTEX * SKYBOX_FIELD_NUM,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_BILLBOARD,
+		D3DPOOL_MANAGED,
+		&vtxBuff,
+		0);
+
+	VERTEX_BILLBOARD *pVtx;
+	vtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	//左面
+	pVtx[0].vtx = D3DXVECTOR3(-vtxSize.x, vtxSize.y, -vtxSize.z);
+	pVtx[1].vtx = D3DXVECTOR3(-vtxSize.x, vtxSize.y, vtxSize.z);
+	pVtx[2].vtx = D3DXVECTOR3(-vtxSize.x, -vtxSize.y, -vtxSize.z);
+	pVtx[3].vtx = D3DXVECTOR3(-vtxSize.x, -vtxSize.y, vtxSize.z);
+
+	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	pVtx[1].tex = D3DXVECTOR2(texSize.x, 0.0f);
+	pVtx[2].tex = D3DXVECTOR2(0.0f, texSize.y);
+	pVtx[3].tex = D3DXVECTOR2(texSize.x, texSize.y);
+
+	pVtx[0].diffuse =
+		pVtx[1].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	pVtx[2].diffuse =
+		pVtx[3].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+
+	//右面
+	pVtx += 4;
+	pVtx[0].vtx = D3DXVECTOR3(vtxSize.x, vtxSize.y, vtxSize.x);
+	pVtx[1].vtx = D3DXVECTOR3(vtxSize.x, vtxSize.y, -vtxSize.x);
+	pVtx[2].vtx = D3DXVECTOR3(vtxSize.x, -vtxSize.y, vtxSize.x);
+	pVtx[3].vtx = D3DXVECTOR3(vtxSize.x, -vtxSize.y, -vtxSize.x);
+
+	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	pVtx[1].tex = D3DXVECTOR2(texSize.x, 0.0f);
+	pVtx[2].tex = D3DXVECTOR2(0.0f, texSize.y);
+	pVtx[3].tex = D3DXVECTOR2(texSize.x, texSize.y);
+
+	pVtx[0].diffuse =
+		pVtx[1].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	pVtx[2].diffuse =
+		pVtx[3].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+
+	//前面
+	pVtx += 4;
+	pVtx[0].vtx = D3DXVECTOR3(-vtxSize.x, vtxSize.y, vtxSize.z);
+	pVtx[1].vtx = D3DXVECTOR3(vtxSize.x, vtxSize.y, vtxSize.z);
+	pVtx[2].vtx = D3DXVECTOR3(-vtxSize.x, -vtxSize.y, vtxSize.z);
+	pVtx[3].vtx = D3DXVECTOR3(vtxSize.x, -vtxSize.y, vtxSize.z);
+
+	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	pVtx[1].tex = D3DXVECTOR2(texSize.x, 0.0f);
+	pVtx[2].tex = D3DXVECTOR2(0.0f, texSize.y);
+	pVtx[3].tex = D3DXVECTOR2(texSize.x, texSize.y);
+
+	pVtx[0].diffuse =
+		pVtx[1].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	pVtx[2].diffuse =
+		pVtx[3].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+
+	//後面
+	pVtx += 4;
+	pVtx[0].vtx = D3DXVECTOR3(vtxSize.x, vtxSize.y, -vtxSize.z);
+	pVtx[1].vtx = D3DXVECTOR3(-vtxSize.x, vtxSize.y, -vtxSize.z);
+	pVtx[2].vtx = D3DXVECTOR3(vtxSize.x, -vtxSize.y, -vtxSize.z);
+	pVtx[3].vtx = D3DXVECTOR3(-vtxSize.x, -vtxSize.y, -vtxSize.z);
+
+	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	pVtx[1].tex = D3DXVECTOR2(texSize.x, 0.0f);
+	pVtx[2].tex = D3DXVECTOR2(0.0f, texSize.y);
+	pVtx[3].tex = D3DXVECTOR2(texSize.x, texSize.y);
+
+	pVtx[0].diffuse =
+		pVtx[1].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	pVtx[2].diffuse =
+		pVtx[3].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+
+	vtxBuff->Unlock();
 }
 
 /**************************************
-終了処理
+デストラクタ
 ***************************************/
-void UninitSkyBox(int num)
+SkyBox::~SkyBox()
 {
-	SAFE_RELEASE(texture);
 	SAFE_RELEASE(vtxBuff);
+	SAFE_RELEASE(texture);
 }
 
 /**************************************
 更新処理
 ***************************************/
-void UpdateSkyBox(void)
+void SkyBox::Update()
 {
-	//スカイボックスをスクロール
-	VERTEX_3D *pVtx;
+	VERTEX_BILLBOARD *pVtx;
 	vtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	for (int i = 0; i < NUM_VERTEX * SKYBOX_FIELD_NUM; i++)
@@ -69,130 +129,38 @@ void UpdateSkyBox(void)
 /**************************************
 描画処理
 ***************************************/
-void DrawSkyBox(void)
+void SkyBox::Draw()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	pDevice->SetFVF(FVF_VERTEX_BILLBOARD);
+
 	D3DXMATRIX mtxWorld;
-
-	//フォグをオフ
-	pDevice->SetRenderState(D3DRS_FOGENABLE, false);
-
-	//ワールド変換行列設定
-	D3DXMatrixIdentity(&mtxWorld);
+	transform.CalcWorldMtx(&mtxWorld);
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
-	//レンダーステート設定
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
 	pDevice->SetRenderState(D3DRS_LIGHTING, false);
 
-	//FVF設定
-	pDevice->SetFVF(FVF_VERTEX_3D);
-
-	//テクスチャ設定
 	pDevice->SetTexture(0, texture);
 
-	//ストリームソース設定
-	pDevice->SetStreamSource(0, vtxBuff, 0, sizeof(VERTEX_3D));
+	pDevice->SetStreamSource(0, vtxBuff, 0, sizeof(VERTEX_BILLBOARD));
 
-	//描画
 	for (int i = 0; i < SKYBOX_FIELD_NUM; i++)
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, NUM_VERTEX * i, NUM_POLYGON);
 
-	//レンダーステート復元
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 	pDevice->SetRenderState(D3DRS_LIGHTING, true);
-
-	//フォグをオン
-	pDevice->SetRenderState(D3DRS_FOGENABLE, true);
 }
 
 /**************************************
-頂点バッファ作成処理
+テクスチャ読み込み設定
 ***************************************/
-void MakeVertexBufferSkyBox(void)
+void SkyBox::LoadTexture(const char* fileName)
 {
-	const float Bottom = -750.0f;
-	const float BoxSize = 5000.0f;
-	const float TexLoop = 3.0f;
+	SAFE_RELEASE(texture);
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * NUM_VERTEX * SKYBOX_FIELD_NUM,
-		D3DUSAGE_WRITEONLY,
-		FVF_VERTEX_3D,
-		D3DPOOL_MANAGED,
-		&vtxBuff,
-		0);
-
-	VERTEX_3D *pVtx;
-	vtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-
-	//左面
-	pVtx[0].vtx = D3DXVECTOR3(-BoxSize, BoxSize * 2, -BoxSize);
-	pVtx[1].vtx = D3DXVECTOR3(-BoxSize, BoxSize * 2, BoxSize);
-	pVtx[2].vtx = D3DXVECTOR3(-BoxSize, Bottom, -BoxSize);
-	pVtx[3].vtx = D3DXVECTOR3(-BoxSize, Bottom, BoxSize);
-
-	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2(TexLoop, 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(0.0f, TexLoop * 2);
-	pVtx[3].tex = D3DXVECTOR2(TexLoop, TexLoop * 2);
-
-	pVtx[0].diffuse =
-		pVtx[1].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	pVtx[2].diffuse =
-		pVtx[3].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-
-	//右面
-	pVtx += 4;
-	pVtx[0].vtx = D3DXVECTOR3(BoxSize, BoxSize * 2, BoxSize);
-	pVtx[1].vtx = D3DXVECTOR3(BoxSize, BoxSize * 2, -BoxSize);
-	pVtx[2].vtx = D3DXVECTOR3(BoxSize, Bottom, BoxSize);
-	pVtx[3].vtx = D3DXVECTOR3(BoxSize, Bottom, -BoxSize);
-
-	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2(TexLoop, 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(0.0f, TexLoop * 2);
-	pVtx[3].tex = D3DXVECTOR2(TexLoop, TexLoop * 2);
-
-	pVtx[0].diffuse =
-		pVtx[1].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	pVtx[2].diffuse =
-		pVtx[3].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-
-	//前面
-	pVtx += 4;
-	pVtx[0].vtx = D3DXVECTOR3(-BoxSize, BoxSize * 2, BoxSize);
-	pVtx[1].vtx = D3DXVECTOR3(BoxSize, BoxSize * 2, BoxSize);
-	pVtx[2].vtx = D3DXVECTOR3(-BoxSize, Bottom, BoxSize);
-	pVtx[3].vtx = D3DXVECTOR3(BoxSize, Bottom, BoxSize);
-
-	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2(TexLoop, 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(0.0f, TexLoop * 2);
-	pVtx[3].tex = D3DXVECTOR2(TexLoop, TexLoop * 2);
-
-	pVtx[0].diffuse =
-		pVtx[1].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	pVtx[2].diffuse =
-		pVtx[3].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-
-	//後面
-	pVtx += 4;
-	pVtx[0].vtx = D3DXVECTOR3(BoxSize, BoxSize * 2, -BoxSize);
-	pVtx[1].vtx = D3DXVECTOR3(-BoxSize, BoxSize * 2, -BoxSize);
-	pVtx[2].vtx = D3DXVECTOR3(BoxSize, Bottom, -BoxSize);
-	pVtx[3].vtx = D3DXVECTOR3(-BoxSize, Bottom, -BoxSize);
-
-	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2(TexLoop, 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(0.0f, TexLoop * 2);
-	pVtx[3].tex = D3DXVECTOR2(TexLoop, TexLoop * 2);
-
-	pVtx[0].diffuse =
-		pVtx[1].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	pVtx[2].diffuse =
-		pVtx[3].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-
-	vtxBuff->Unlock();
+	D3DXCreateTextureFromFile(pDevice, fileName, &texture);
 }

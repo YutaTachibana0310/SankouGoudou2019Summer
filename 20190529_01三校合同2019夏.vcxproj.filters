@@ -579,6 +579,12 @@
     <ClInclude Include="enemy.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Transform.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGroundController.h">
+      <Filter>ヘッダー ファイル\BG</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -955,6 +961,12 @@
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Transform.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGroundController.cpp">
+      <Filter>ソース ファイル\BG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

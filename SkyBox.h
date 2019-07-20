@@ -16,13 +16,22 @@
 /**************************************
 クラス定義
 ***************************************/
+class SkyBox
+{
+public:
+	SkyBox(D3DXVECTOR3 vtxSize, D3DXVECTOR2 texSize);
+	~SkyBox();
 
-/**************************************
-プロトタイプ宣言
-***************************************/
-void InitSkyBox(int num);
-void UninitSkyBox(int num);
-void UpdateSkyBox(void);
-void DrawSkyBox(void);
+	void Update();
+	void Draw();
+
+	void LoadTexture(const char* path);
+
+	Transform transform;
+
+private:
+	LPDIRECT3DTEXTURE9 texture;
+	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
+};
 
 #endif

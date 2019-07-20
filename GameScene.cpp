@@ -15,10 +15,9 @@
 #include "PlayerController.h"
 #include "PlayerObserver.h"
 #include "InputController.h"
-#include "BackGroundCity.h"
+#include "BackGroundController.h"
 #include "BackGroundRoad.h"
 #include "BackGroundField.h"
-#include "SkyBox.h"
 #include "GameParticleManager.h"
 #include "sound.h"
 #include "EnemyController.h"
@@ -65,14 +64,14 @@ void GameScene::Init()
 	enemyController = new EnemyController();
 	particleManager = GameParticleManager::Instance();
 	playerObserver = new PlayerObserver();
+	bgController = new BackGroundController();
 
 	SetPlayerObserverAdr(playerObserver);
 
 	//背景初期化
-	InitSkyBox(0);
-	InitBackGroundCity(0);
 	InitBackGroundRoad();
 	InitBackGroundField();
+	bgController->Init();
 
 	//パーティクル初期化
 	particleManager->Init();
@@ -107,10 +106,9 @@ void GameScene::Init()
 void GameScene::Uninit()
 {
 	//背景終了
-	UninitSkyBox(0);
-	UninitBackGroundCity(0);
 	UninitBackGroundRoad();
 	UninitBackGroundField();
+	bgController->Uninit();
 
 	//パーティクル終了
 	particleManager->Uninit();
@@ -130,6 +128,7 @@ void GameScene::Uninit()
 	//インスタンス削除
 	SAFE_DELETE(enemyController);
 	SAFE_DELETE(playerObserver);
+	SAFE_DELETE(bgController);
 
 	//ステートマシン削除
 	for (auto& pair : fsm)
@@ -152,10 +151,9 @@ void GameScene::Update(HWND hWnd)
 
 	//背景オブジェクトの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateBG");
-	UpdateSkyBox();
-	UpdateBackGroundCity();
 	UpdateBackGroundRoad();
 	UpdateBackGroundField();
+	bgController->Update();
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateBG");
 
 	//プレイヤーの更新
@@ -197,10 +195,9 @@ void GameScene::Draw()
 
 	//背景の描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
-	DrawSkyBox();
-	DrawBackGroundCity();
-	DrawBackGroundRoad();
-	DrawBackGroundField();
+	//DrawBackGroundRoad();
+	//DrawBackGroundField();
+	bgController->Draw();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 
 	//障害物の描画

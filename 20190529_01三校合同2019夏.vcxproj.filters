@@ -612,6 +612,15 @@
     <ClInclude Include="enemy.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Keyboard.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Mouse.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Gamepad.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1009,6 +1018,15 @@
     </ClCompile>
     <ClCompile Include="BackGroundController.cpp">
       <Filter>ソース ファイル\BG</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Keyboard.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Mouse.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Gamepad.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -151,6 +151,9 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="EnemyWarpHole.h" />
     <ClInclude Include="EnemyWarpHoleController.h" />
+    <ClInclude Include="Framework\Gamepad.h" />
+    <ClInclude Include="Framework\Keyboard.h" />
+    <ClInclude Include="Framework\Mouse.h" />
     <ClInclude Include="Framework\ResourceManager.h" />
     <ClInclude Include="Framework\Transform.h" />
     <ClInclude Include="RebarOb.h" />
@@ -288,6 +291,9 @@
     <ClCompile Include="EditorScene.cpp" />
     <ClCompile Include="EnemyWarpHole.cpp" />
     <ClCompile Include="EnemyWarpHoleController.cpp" />
+    <ClCompile Include="Framework\Gamepad.cpp" />
+    <ClCompile Include="Framework\Keyboard.cpp" />
+    <ClCompile Include="Framework\Mouse.cpp" />
     <ClCompile Include="Framework\ResourceManager.cpp" />
     <ClCompile Include="Framework\Transform.cpp" />
     <ClCompile Include="RebarOb.cpp" />

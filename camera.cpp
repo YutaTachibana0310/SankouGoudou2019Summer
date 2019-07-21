@@ -90,14 +90,7 @@ void UninitCamera(void)
 //=============================================================================
 void UpdateCamera(void)
 {
-	int x = GetHorizontalInputPress(0);
-	int y = GetVerticalInputPress(0);
 
-	camera.rot.y += D3DXToRadian(CAMERA_ROTVALUE_Y * x);
-	camera.target.y += y * CAMERA_DIST_MOVEVAL;
-
-	camera.target.x = sinf(camera.rot.y) * camera.dist;
-	camera.target.z = cosf(camera.rot.y) * camera.dist;
 }
 
 //=============================================================================

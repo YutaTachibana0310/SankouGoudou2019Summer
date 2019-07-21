@@ -28,6 +28,7 @@ void PlayerTrailParticle::Init()
 	const float InitSpeed = 5.0f;
 	const float SpeedRange = 3.0f;
 	const int TexPatternMax = 2;
+	const float PosRange = 12.0f;
 
 	lifeFrame = InitLife + RandomRange(-LifeRange, LifeRange);
 	cntFrame = 0;
@@ -38,6 +39,10 @@ void PlayerTrailParticle::Init()
 	int patternY = RandomRange(0, TexPatternMax);
 	uv.u = 0.5f * patternX;
 	uv.v = 0.5f * patternY;
+
+	transform.pos.x += RandomRangef(-PosRange, PosRange);
+	transform.pos.y += RandomRangef(-PosRange, PosRange);
+	transform.pos.z += RandomRangef(-PosRange, PosRange);
 
 	active = true;
 }

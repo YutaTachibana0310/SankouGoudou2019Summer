@@ -8,12 +8,16 @@
 #define _ENEMYCONTROLLER_H_
 
 #include "main.h"
-#include "Framework\BaseObserver.h"
 #include "EnemyModel.h"
 #include "IStateMachine.h"
 #include "enemy.h"
+#include "StageModel.h"
+
+#include "Framework\BaseObserver.h"
+#include "picojson\picojson.h"
+
+#include <list>
 #include <vector>
-#include <map>
 
 /**************************************
 列挙子定義
@@ -52,14 +56,23 @@ public:
 	void SetEnemy();
 
 private:
-	std::vector<EnemyModel*> modelContainer;
-	std::map<EnemyModelType, IStateMachine<EnemyModel>*> fsm;
-	std::map<EnemyType, std::vector<Enemy*>> enemyContainer;
+	std::list<EnemyModel*> modelList;
 	int cntFrame;
 
+	std::vector<StageModel> stageModelList;
+	int currentIndex;
+
 	//エネミー生成処理(内部処理)
-	void _SetEnemy(EnemyModelType type, LineTrailModel trailModel);
-	void _SetEnemyChange(EnemyModel* model);
+	EnemySnake *test;
+	void _SetEnemyChange(picojson::object& data);
+	void _SetEnemyStraight(picojson::object& data);
+	void _SetEnemySnake(picojson::object& data);
+
+	//ステージデータ読み込み処理
+	bool LoadStageData();
+
+	//五角形の外周を構成するLineModel
+	static const std::vector<LineTrailModel> OuterLineModel;
 };
 
 #endif

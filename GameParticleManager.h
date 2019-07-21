@@ -33,6 +33,7 @@ public:
 	void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edgeRight, D3DXVECTOR3 *edgeLeft);
 	void SetPlayerTrailParticle(D3DXVECTOR3 *pPos, bool *pActive);
 	void SetEnemyExplosion(D3DXVECTOR3 *pPos);
+	void SetEnemyWarpHole(D3DXVECTOR3 *pPos);
 
 private:
 	GameParticleManager() {}

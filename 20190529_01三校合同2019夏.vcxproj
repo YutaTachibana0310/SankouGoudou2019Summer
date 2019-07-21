@@ -139,9 +139,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BackGroundCity.h" />
+    <ClInclude Include="BackGroundController.h" />
     <ClInclude Include="BackGroundField.h" />
     <ClInclude Include="BackGroundRoad.h" />
+    <ClInclude Include="battleStartTelop.h" />
+    <ClInclude Include="BaseEditWindow.h" />
+    <ClInclude Include="ChangeEditWindow.h" />
+    <ClInclude Include="DataEditWindow.h" />
+    <ClInclude Include="EditorBG.h" />
+    <ClInclude Include="EditorScene.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="EnemyWarpHole.h" />
+    <ClInclude Include="EnemyWarpHoleController.h" />
+    <ClInclude Include="Framework\ResourceManager.h" />
+    <ClInclude Include="Framework\Transform.h" />
+    <ClInclude Include="RebarOb.h" />
     <ClInclude Include="EnemyExplosionController.h" />
     <ClInclude Include="EnemyExplosionFlare.h" />
     <ClInclude Include="EnemyExplosionFlareController.h" />
@@ -151,6 +163,8 @@
     <ClInclude Include="cursorUI.h" />
     <ClInclude Include="debugTimer.h" />
     <ClInclude Include="debugWindow.h" />
+    <ClInclude Include="PlayerBomber.h" />
+    <ClInclude Include="PlayerBomberController.h" />
     <ClInclude Include="EnemyController.h" />
     <ClInclude Include="Framework\AnimationParticle.h" />
     <ClInclude Include="Framework\BaseObserver.h" />
@@ -163,6 +177,7 @@
     <ClInclude Include="GameStart.h" />
     <ClInclude Include="LineRenderer.h" />
     <ClInclude Include="LineTrailModel.h" />
+    <ClInclude Include="picojson\picojson.h" />
     <ClInclude Include="PlayerBulletController.h" />
     <ClInclude Include="PlayerIdle.h" />
     <ClInclude Include="PlayerModel.h" />
@@ -172,6 +187,11 @@
     <ClInclude Include="ResultSceneUIManager.h" />
     <ClInclude Include="savefile.h" />
     <ClInclude Include="ScoreManager.h" />
+    <ClInclude Include="stageClearTelop.h" />
+    <ClInclude Include="SnakeEditWindow.h" />
+    <ClInclude Include="SnakeEnemyModel.h" />
+    <ClInclude Include="StageEditor.h" />
+    <ClInclude Include="StageModel.h" />
     <ClInclude Include="startButtonUI.h" />
     <ClInclude Include="PlayerTrail.h" />
     <ClInclude Include="PlayerTrailParticle.h" />
@@ -243,7 +263,9 @@
     <ClInclude Include="SoundTitleScene.h" />
     <ClInclude Include="Stencil.h" />
     <ClInclude Include="starUI.h" />
-    <ClInclude Include="StopEnemyModel.h" />
+    <ClInclude Include="telopBG.h" />
+    <ClInclude Include="ChangeEnemyModel.h" />
+    <ClInclude Include="StraightEnemyModel.h" />
     <ClInclude Include="TestEnemyModel.h" />
     <ClInclude Include="titleBGUI.h" />
     <ClInclude Include="titleLogoUI.h" />
@@ -257,8 +279,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BackGroundCity.cpp" />
+    <ClCompile Include="BackGroundController.cpp" />
     <ClCompile Include="BackGroundRoad.cpp" />
     <ClCompile Include="BackGuroundField.cpp" />
+    <ClCompile Include="battleStartTelop.cpp" />
+    <ClCompile Include="BaseEditWindow.cpp" />
+    <ClCompile Include="ChangeEditWindow.cpp" />
+    <ClCompile Include="EditorScene.cpp" />
+    <ClCompile Include="EnemyWarpHole.cpp" />
+    <ClCompile Include="EnemyWarpHoleController.cpp" />
+    <ClCompile Include="Framework\ResourceManager.cpp" />
+    <ClCompile Include="Framework\Transform.cpp" />
+    <ClCompile Include="RebarOb.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyExplosionController.cpp" />
     <ClCompile Include="EnemyExplosionFlare.cpp" />
@@ -279,7 +311,6 @@
     <ClCompile Include="Framework\BaseParticleController.cpp" />
     <ClCompile Include="Framework\BoxCollider3D.cpp" />
     <ClCompile Include="Framework\CameraShakerPlugin.cpp" />
-    <ClCompile Include="Framework\Easing.cpp" />
     <ClCompile Include="Framework\EasingVector.cpp" />
     <ClCompile Include="Framework\InstancingMeshContainer.cpp" />
     <ClCompile Include="Framework\MeshContainer.cpp" />
@@ -309,6 +340,8 @@
     <ClCompile Include="masktex.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerBomber.cpp" />
+    <ClCompile Include="PlayerBomberController.cpp" />
     <ClCompile Include="PlayerBulletController.cpp" />
     <ClCompile Include="PlayerBulletParticle.cpp" />
     <ClCompile Include="PlayerBulletParticleController.cpp" />
@@ -346,15 +379,22 @@
     <ClCompile Include="ScoreParticle.cpp" />
     <ClCompile Include="ScoreParticleController.cpp" />
     <ClCompile Include="SkyBox.cpp" />
+    <ClCompile Include="SnakeEditWindow.cpp" />
+    <ClCompile Include="SnakeEnemyModel.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="SoundGameScene.cpp" />
     <ClCompile Include="SoundResultScene.cpp" />
     <ClCompile Include="SoundTitleScene.cpp" />
+    <ClCompile Include="stageClearTelop.cpp" />
+    <ClCompile Include="EditorBG.cpp" />
+    <ClCompile Include="StageEditor.cpp" />
     <ClCompile Include="Stencil.cpp" />
     <ClCompile Include="startButtonUI.cpp" />
     <ClCompile Include="starUI.cpp" />
     <ClCompile Include="PlayerTrail.cpp" />
-    <ClCompile Include="StopEnemyModel.cpp" />
+    <ClCompile Include="telopBG.cpp" />
+    <ClCompile Include="ChangeEnemyModel.cpp" />
+    <ClCompile Include="StraightEnemyModel.cpp" />
     <ClCompile Include="TestEnemyModel.cpp" />
     <ClCompile Include="titleBGUI.cpp" />
     <ClCompile Include="titleLogoUI.cpp" />

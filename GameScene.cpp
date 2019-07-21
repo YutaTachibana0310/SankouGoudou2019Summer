@@ -15,10 +15,9 @@
 #include "PlayerController.h"
 #include "PlayerObserver.h"
 #include "InputController.h"
-#include "BackGroundCity.h"
+#include "BackGroundController.h"
 #include "BackGroundRoad.h"
 #include "BackGroundField.h"
-#include "SkyBox.h"
 #include "GameParticleManager.h"
 #include "sound.h"
 #include "EnemyController.h"
@@ -27,6 +26,8 @@
 #include "GameStart.h"
 #include "GameBattle.h"
 #include "GameEnd.h"
+
+#include "RebarOb.h"
 
 using namespace std;
 
@@ -63,14 +64,14 @@ void GameScene::Init()
 	enemyController = new EnemyController();
 	particleManager = GameParticleManager::Instance();
 	playerObserver = new PlayerObserver();
+	bgController = new BackGroundController();
 
 	SetPlayerObserverAdr(playerObserver);
 
 	//背景初期化
-	InitSkyBox(0);
-	InitBackGroundCity(0);
 	InitBackGroundRoad();
 	InitBackGroundField();
+	bgController->Init();
 
 	//パーティクル初期化
 	particleManager->Init();
@@ -84,6 +85,9 @@ void GameScene::Init()
 	//エネミー初期化
 	enemyController->Init();
 
+	//障害物初期化
+	InitRebarOb();
+
 	//プロファイラにGameSceneを登録
 	RegisterDebugTimer(GAMESCENE_LABEL);
 
@@ -91,6 +95,8 @@ void GameScene::Init()
 	currentState = State::Start;
 	state = fsm[currentState];
 	state->OnStart(this);
+
+
 
 }
 
@@ -100,10 +106,9 @@ void GameScene::Init()
 void GameScene::Uninit()
 {
 	//背景終了
-	UninitSkyBox(0);
-	UninitBackGroundCity(0);
 	UninitBackGroundRoad();
 	UninitBackGroundField();
+	bgController->Uninit();
 
 	//パーティクル終了
 	particleManager->Uninit();
@@ -117,9 +122,13 @@ void GameScene::Uninit()
 	//UI終了
 	UninitGameSceneUI();
 
+	//障害物終了
+	UninitRebarOb();
+
 	//インスタンス削除
 	SAFE_DELETE(enemyController);
 	SAFE_DELETE(playerObserver);
+	SAFE_DELETE(bgController);
 
 	//ステートマシン削除
 	for (auto& pair : fsm)
@@ -142,10 +151,9 @@ void GameScene::Update(HWND hWnd)
 
 	//背景オブジェクトの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateBG");
-	UpdateSkyBox();
-	UpdateBackGroundCity();
 	UpdateBackGroundRoad();
 	UpdateBackGroundField();
+	bgController->Update();
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateBG");
 
 	//プレイヤーの更新
@@ -155,6 +163,7 @@ void GameScene::Update(HWND hWnd)
 
 	//エネミーの更新
 	enemyController->Update();
+
 
 	//パーティクルの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateParticle");
@@ -169,6 +178,10 @@ void GameScene::Update(HWND hWnd)
 	//ポストエフェクトの更新
 	PostEffectManager::Instance()->Update();
 
+
+	//障害物の更新
+	UpdateRebarOb();
+
 	//遷移処理
 	if (result != STATE_CONTINUOUS)
 		ChangeState(result);
@@ -182,11 +195,13 @@ void GameScene::Draw()
 
 	//背景の描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
-	DrawSkyBox();
-	DrawBackGroundCity();
-	DrawBackGroundRoad();
-	DrawBackGroundField();
+	//DrawBackGroundRoad();
+	//DrawBackGroundField();
+	bgController->Draw();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
+
+	//障害物の描画
+	DrawRebarOb();
 
 	//プレイヤーの描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");

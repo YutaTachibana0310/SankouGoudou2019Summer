@@ -10,19 +10,35 @@
 #include "main.h"
 
 /**************************************
-マクロ定義
+前方宣言
 ***************************************/
+class MeshContainer;
 
 /**************************************
 クラス定義
 ***************************************/
+class BackGroundCity
+{
+public:
+	BackGroundCity(const char* meshTag);
+	~BackGroundCity();
 
-/**************************************
-プロトタイプ宣言
-***************************************/
-void InitBackGroundCity(int num);
-void UninitBackGroundCity(int num);
-void UpdateBackGroundCity(void);
-void DrawBackGroundCity(void);
+	void Init();
+	void Uninit();
+	void Update();
+	void Draw(D3DXMATRIX mtxParent);
+
+	Transform transform;
+
+	static float depthMaxZ;
+
+private:
+	MeshContainer* mesh;
+	int cntFrame;
+	float alpha;
+
+	static float moveSpeed;
+	static int frameFadein;
+};
 
 #endif

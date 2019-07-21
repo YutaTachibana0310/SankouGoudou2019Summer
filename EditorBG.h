@@ -1,15 +1,13 @@
 //=====================================
 //
-//ストップエネミーモデルヘッダ[StopEnemyModel.h]
-//一時停止するタイプのエネミーモデル
+//エディタBGヘッダ[EditorBG.h]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#ifndef _STOPENEMYMODEL_H_
-#define _STOPENEMYMODEL_H_
+#ifndef _EDITORBG_H_
+#define _EDITORBG_H_
 
 #include "main.h"
-#include "EnemyModel.h"
 
 /**************************************
 マクロ定義
@@ -18,12 +16,19 @@
 /**************************************
 クラス定義
 ***************************************/
-class StopEnemyModel : public IStateMachine<EnemyModel>
+class EditorBG
 {
 public:
-	void OnStart(EnemyModel *entity);
-	int OnUpdate(EnemyModel *entity);
-	void OnExit(EnemyModel *entity);
+	EditorBG();
+	~EditorBG();
+
+	void Init();
+	void Uninit();
+	void Update();
+	void Draw();
+
+	LPDIRECT3DTEXTURE9 texture;
+	VERTEX_2D vtxWk[NUM_VERTEX];
 };
 
 #endif

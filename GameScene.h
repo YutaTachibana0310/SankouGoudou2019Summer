@@ -18,6 +18,7 @@
 class EnemyController;
 class GameParticleManager;
 class PlayerObserver;
+class BackGroundController;
 
 /**************************************
 ƒNƒ‰ƒX’è‹`
@@ -37,6 +38,7 @@ public:
 	EnemyController *enemyController;
 	GameParticleManager* particleManager;
 	PlayerObserver* playerObserver;
+	BackGroundController *bgController;
 
 private:
 	

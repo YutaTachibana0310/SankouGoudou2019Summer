@@ -21,7 +21,6 @@ class PlayerTrailParticleController : public BaseParticleController
 {
 public:
 	void Init();
-	void Uninit();
 	void Emit();
 	void SetEmitter(D3DXVECTOR3 *pPos, bool *pActive);
 };

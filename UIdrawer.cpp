@@ -255,6 +255,18 @@ void SetVertexGuageBar(OBJECT *object, float percentage, float flameWidth, int g
 }
 
 //=============================================================================
+// オブジェクトの頂点座標の設定　（テロップ背景専用）
+//=============================================================================
+void SetVertexTelopBG(OBJECT *object, float percentage)
+{
+	// 頂点座標の設定
+	object->vertexWk[0].vtx = D3DXVECTOR3(0, object->position.y - object->size.y*percentage, object->position.z);
+	object->vertexWk[1].vtx = D3DXVECTOR3(SCREEN_WIDTH, object->position.y - object->size.y*percentage, object->position.z);
+	object->vertexWk[2].vtx = D3DXVECTOR3(0 , object->position.y + object->size.y*percentage, object->position.z);
+	object->vertexWk[3].vtx = D3DXVECTOR3(SCREEN_WIDTH, object->position.y + object->size.y*percentage, object->position.z);
+}
+
+//=============================================================================
 // オブジェクトの頂点座標の設定　（カウンター専用）
 //=============================================================================
 void SetVertexCounter(OBJECT *object, int placeCount, float placeInterval)
@@ -320,3 +332,13 @@ void SetColorObject(OBJECT *object, D3DXCOLOR color)
 		object->vertexWk[3].diffuse = color;
 }
 
+//=============================================================================
+// オブジェクトカウント取得処理
+//=============================================================================
+float GetCountObject(OBJECT *object, float duration)
+{
+	object->countFrame++;
+	float t = (float)object->countFrame / duration;
+
+	return t;
+}

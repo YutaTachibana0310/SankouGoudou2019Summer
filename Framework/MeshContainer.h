@@ -30,6 +30,8 @@ public:
 	void GetTexture(unsigned id, LPDIRECT3DTEXTURE9 *pOut);	//テクスチャ取得
 	DWORD GetMaterialNum();								//マテリアル数取得
 
+	void SetMaterialColor(D3DXCOLOR& color);
+	void SetMaterialAlpha(float alpha);
 private:								
 	LPD3DXMESH mesh;					//メッシュデータ
 	D3DMATERIAL9* materials;			//マテリアル情報

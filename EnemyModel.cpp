@@ -36,6 +36,12 @@ EnemyModel::EnemyModel()
 EnemyModel::~EnemyModel()
 {
 	SAFE_DELETE(collider);
+
+	for (auto& enemy : enemyList)
+	{
+		SAFE_DELETE(enemy);
+	}
+	enemyList.clear();
 }
 
 /**************************************
@@ -54,19 +60,8 @@ void EnemyModel::Init(LineTrailModel model)
 ***************************************/
 void EnemyModel::Uninit()
 {
-	//エネミーリストクリア
-	enemyList.clear();
-
 	collider->active = false;
 	active = false;
-}
-
-/**************************************
-更新処理
-***************************************/
-int EnemyModel::Update()
-{
-	return state->OnUpdate(this);
 }
 
 /**************************************
@@ -74,6 +69,10 @@ int EnemyModel::Update()
 ***************************************/
 void EnemyModel::Draw()
 {
+	for (auto& enemy : enemyList)
+	{
+		enemy->VDraw();
+	}
 
 #ifdef TRAILCOLLIDER_USE_DEBUG
 	TrailCollider::DrawCollider(collider);
@@ -88,8 +87,9 @@ void EnemyModel::OnNotified(ObserveSubject *notifier)
 	//所属するすべてのエネミーにダメージ処理
 	for (auto& enemy : enemyList)
 	{
-		enemy->Uninit();
-		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->pos);
+		enemy->VUninit();
+		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
+
 		//スコア加算
 		SetAddScore(100);
 	}
@@ -98,21 +98,4 @@ void EnemyModel::OnNotified(ObserveSubject *notifier)
 
 	//非アクティブに
 	Uninit();
-}
-
-/**************************************
-状態遷移処理
-***************************************/
-void EnemyModel::ChangeState(IStateMachine<EnemyModel> *next)
-{
-	state = next;
-	state->OnStart(this);
-}
-
-/**************************************
-エネミー追加処理
-***************************************/
-void EnemyModel::AddEnemy(Enemy* enemy)
-{
-	enemyList.push_back(enemy);
 }

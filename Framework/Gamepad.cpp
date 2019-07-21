@@ -40,6 +40,9 @@ static DWORD	padTrigger[GAMEPADMAX];
 static DWORD	padRelease[GAMEPADMAX];
 static int		padCount = 0;			// 検出したパッドの数
 
+/**************************************
+パッド検査コールバック
+***************************************/
 BOOL CALLBACK SearchPadCallback(LPDIDEVICEINSTANCE lpddi, LPVOID, LPDIRECTINPUT8 inputInterface)
 {
 	HRESULT result;
@@ -48,7 +51,10 @@ BOOL CALLBACK SearchPadCallback(LPDIDEVICEINSTANCE lpddi, LPVOID, LPDIRECTINPUT8
 	return DIENUM_CONTINUE;	// 次のデバイスを列挙
 
 }
-//---------------------------------------- 初期化
+
+/**************************************
+初期化処理
+***************************************/
 HRESULT InitializePad(LPDIRECTINPUT8 inputInterface)			// パッド初期化
 {
 	HRESULT		result;
@@ -110,7 +116,10 @@ HRESULT InitializePad(LPDIRECTINPUT8 inputInterface)			// パッド初期化
 	return true;
 
 }
-//------------------------------------------- 終了処理
+
+/**************************************
+終了処理
+***************************************/
 void UninitPad(void)
 {
 	for (int i = 0; i < GAMEPADMAX; i++) {
@@ -123,7 +132,9 @@ void UninitPad(void)
 
 }
 
-//------------------------------------------ 更新
+/**************************************
+更新処理
+***************************************/
 void UpdatePad(void)
 {
 	HRESULT			result;
@@ -254,28 +265,33 @@ void UpdatePad(void)
 
 }
 
-//----------------------------------------------- 検査
+/**************************************
+プレス検出処理
+***************************************/
 BOOL IsButtonPressed(int padNo, DWORD button)
 {
 	return (button & padState[padNo]);
 }
 
+/**************************************
+トリガー検出処理
+***************************************/
 BOOL IsButtonTriggered(int padNo, DWORD button)
 {
 	return (button & padTrigger[padNo]);
 }
 
+/**************************************
+リリース検出処理
+***************************************/
 BOOL IsButtonReleased(int padNo, DWORD button)
 {
 	return (button & padRelease[padNo]);
 }
 
-void CheckAxisXRepeat(int padNo)
-{
-
-}
-
-//スティックの入力検出
+/**************************************
+X軸トリガー検出処理
+***************************************/
 int GetPadAxisXTriggered(int padNo)
 {
 	if (IsButtonTriggered(padNo, BUTTON_RIGHT))
@@ -288,6 +304,9 @@ int GetPadAxisXTriggered(int padNo)
 		return 0;
 }
 
+/**************************************
+Y軸トリガー検出処理
+***************************************/
 int GetPadAxisYTriggered(int padNo)
 {
 	if (IsButtonTriggered(padNo, BUTTON_UP))
@@ -300,13 +319,17 @@ int GetPadAxisYTriggered(int padNo)
 		return 0;
 }
 
-//パッドの数検出関数
+/**************************************
+パッド数を返す処理
+***************************************/
 int GetPadCount(void)
 {
 	return padCount;
 }
 
-// 右スティックのx軸の値を獲得
+/**************************************
+右スティックX軸入力計算処理
+***************************************/
 float GetStickAxisX(int padNo)
 {
 	if (padNo >= padCount)
@@ -318,7 +341,9 @@ float GetStickAxisX(int padNo)
 }
 
 
-// 右スティックのy軸の値を獲得
+/**************************************
+右スティックY軸入力計算処理
+***************************************/
 float GetStickAxisY(int padNo)
 {
 	if (padNo >= padCount)

@@ -17,14 +17,14 @@
 /**************************************
 グローバル変数
 ***************************************/
-
-//--------------------------------- mouse
 static LPDIRECTINPUTDEVICE8 pMouse = NULL; // mouse
 
 static DIMOUSESTATE2   mouseState;		// マウスのダイレクトな状態
 static DIMOUSESTATE2   mouseTrigger;	// 押された瞬間だけON
 
-										// マウスの初期化
+/**************************************
+初期化処理
+***************************************/
 HRESULT InitializeMouse(HINSTANCE hInst, HWND hWindow, LPDIRECTINPUT8 inputInterface)
 {
 	HRESULT result;
@@ -70,7 +70,10 @@ HRESULT InitializeMouse(HINSTANCE hInst, HWND hWindow, LPDIRECTINPUT8 inputInter
 	pMouse->Acquire();
 	return result;
 }
-//---------------------------------------------------------
+
+/**************************************
+終了処理
+***************************************/
 void UninitMouse()
 {
 	if (pMouse)
@@ -81,7 +84,10 @@ void UninitMouse()
 	}
 
 }
-//-----------------------------------------------------------
+
+/**************************************
+更新処理
+***************************************/
 HRESULT UpdateMouse()
 {
 	HRESULT result;
@@ -110,8 +116,10 @@ HRESULT UpdateMouse()
 	return result;
 
 }
-//#include "debugWindow.h"
-// マウス座標取得
+
+/**************************************
+マウス座標取得処理
+***************************************/
 D3DXVECTOR3 GetMousePosition(HWND hWnd)
 {
 	POINT position;
@@ -146,7 +154,9 @@ D3DXVECTOR3 GetMousePosition(HWND hWnd)
 	}
 }
 
-//----------------------------------------------
+/**************************************
+マウス入力検出処理
+***************************************/
 BOOL IsMouseLeftPressed(void)
 {
 	return (BOOL)(mouseState.rgbButtons[0] & 0x80);	// 押されたときに立つビットを検査
@@ -171,7 +181,10 @@ BOOL IsMouseCenterTriggered(void)
 {
 	return (BOOL)(mouseTrigger.rgbButtons[2] & 0x80);
 }
-//------------------
+
+/**************************************
+マウス座標取得処理
+***************************************/
 float GetMouseX(void)
 {
 	return float(mouseState.lX);

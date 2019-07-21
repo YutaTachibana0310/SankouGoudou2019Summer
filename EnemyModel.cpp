@@ -6,6 +6,7 @@
 //=====================================
 #include "EnemyModel.h"
 #include "GameParticleManager.h"
+#include "ScoreManager.h"
 
 using namespace std;
 
@@ -35,7 +36,7 @@ EnemyModel::EnemyModel()
 EnemyModel::~EnemyModel()
 {
 	SAFE_DELETE(collider);
-	
+
 	for (auto& enemy : enemyList)
 	{
 		SAFE_DELETE(enemy);
@@ -88,7 +89,12 @@ void EnemyModel::OnNotified(ObserveSubject *notifier)
 	{
 		enemy->VUninit();
 		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
+
+		//スコア加算
+		SetAddScore(100);
 	}
+
+	SetAddCombo(1);
 
 	//非アクティブに
 	Uninit();

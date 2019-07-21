@@ -142,6 +142,18 @@
     <Filter Include="ヘッダー ファイル\GameController">
       <UniqueIdentifier>{8a8c568f-4f22-431d-8aba-9b24e028e899}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\System\Score">
+      <UniqueIdentifier>{0178d064-3574-4ac9-9d54-23e54448d163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System\Score">
+      <UniqueIdentifier>{63dccca2-2b4c-440c-9469-ab5ee1917389}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI\ResultSceneUI">
+      <UniqueIdentifier>{5e22c4ca-9a77-484e-99e0-3899f863d911}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\UI\ResultSceneUI">
+      <UniqueIdentifier>{a1c65f35-2dfd-4740-958e-e68c8b8ebe26}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ソース ファイル\UI\Telop">
       <UniqueIdentifier>{0ef87ea0-c898-4cc6-81c7-89301d6a4e7b}</UniqueIdentifier>
     </Filter>
@@ -519,6 +531,21 @@
     <ClInclude Include="GameEnd.h">
       <Filter>ヘッダー ファイル\GameController</Filter>
     </ClInclude>
+    <ClInclude Include="ScoreManager.h">
+      <Filter>ヘッダー ファイル\System\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="rank.h">
+      <Filter>ヘッダー ファイル\System\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="savefile.h">
+      <Filter>ヘッダー ファイル\System\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultSceneUIManager.h">
+      <Filter>ヘッダー ファイル\UI\SceneUIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="resultBGUI.h">
+      <Filter>ヘッダー ファイル\UI\ResultSceneUI</Filter>
+    </ClInclude>
     <ClInclude Include="battleStartTelop.h">
       <Filter>ヘッダー ファイル\UI\Telop</Filter>
     </ClInclude>
@@ -576,14 +603,14 @@
     <ClInclude Include="SnakeEditWindow.h">
       <Filter>ヘッダー ファイル\Stage\EditWindow</Filter>
     </ClInclude>
-    <ClInclude Include="enemy.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Transform.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
     <ClInclude Include="BackGroundController.h">
       <Filter>ヘッダー ファイル\BG</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -913,6 +940,21 @@
     </ClCompile>
     <ClCompile Include="GameEnd.cpp">
       <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreManager.cpp">
+      <Filter>ソース ファイル\System\Score</Filter>
+    </ClCompile>
+    <ClCompile Include="rank.cpp">
+      <Filter>ソース ファイル\System\Score</Filter>
+    </ClCompile>
+    <ClCompile Include="savefile.cpp">
+      <Filter>ソース ファイル\System\Score</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultSceneUIManager.cpp">
+      <Filter>ソース ファイル\UI\SceneUIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="resultBGUI.cpp">
+      <Filter>ソース ファイル\UI\ResultSceneUI</Filter>
     </ClCompile>
     <ClCompile Include="battleStartTelop.cpp">
       <Filter>ソース ファイル\UI\Telop</Filter>

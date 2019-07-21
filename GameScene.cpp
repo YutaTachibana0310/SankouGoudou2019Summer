@@ -246,12 +246,13 @@ void GameScene::ChangeState(int resultUpdate)
 
 	case GameScene::State::Battle:
 		currentState = State::End;
+		Sound::GetInstance()->playsound = true;
 		state = fsm[currentState];
 		state->OnStart(this);
 		break;
 
 	case GameScene::State::End:
-		SceneChangeFlag(true, Scene::SceneTitle);
+		SceneChangeFlag(true, Scene::SceneResult);
 		break;
 
 	default:

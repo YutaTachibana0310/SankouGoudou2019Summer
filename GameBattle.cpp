@@ -39,8 +39,9 @@ int GameBattle::OnUpdate(GameScene *entity)
 	//Õ“Ë”»’è
 	TrailCollider::UpdateCollision();
 
-	if (entity->cntFrame == GAMEBATTLE_DURATION)
+	if (entity->cntFrame == GAMEBATTLE_DURATION) 
 		return STATE_FINISHED;
-	else
+	else 
 		return STATE_CONTINUOUS;
+	
 }

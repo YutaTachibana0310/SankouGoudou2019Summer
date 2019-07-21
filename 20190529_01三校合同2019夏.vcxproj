@@ -182,6 +182,11 @@
     <ClInclude Include="PlayerIdle.h" />
     <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="PlayerObserver.h" />
+    <ClInclude Include="rank.h" />
+    <ClInclude Include="resultBGUI.h" />
+    <ClInclude Include="ResultSceneUIManager.h" />
+    <ClInclude Include="savefile.h" />
+    <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="stageClearTelop.h" />
     <ClInclude Include="SnakeEditWindow.h" />
     <ClInclude Include="SnakeEnemyModel.h" />
@@ -365,6 +370,11 @@
     <ClCompile Include="PostEffect\SpikeNoise.cpp" />
     <ClCompile Include="PostEffect\SpikeNoiseController.cpp" />
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp" />
+    <ClCompile Include="rank.cpp" />
+    <ClCompile Include="resultBGUI.cpp" />
+    <ClCompile Include="ResultSceneUIManager.cpp" />
+    <ClCompile Include="savefile.cpp" />
+    <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="scoreUI.cpp" />
     <ClCompile Include="ScoreParticle.cpp" />
     <ClCompile Include="ScoreParticleController.cpp" />

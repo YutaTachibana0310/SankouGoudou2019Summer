@@ -15,6 +15,7 @@
 ***************************************/
 #define RESOURCE_ENEMYBULLET_TAG	("EnemyBullet")
 
+class EnemyBulletTrailEmitter;	
 /**************************************
 ƒNƒ‰ƒX’è‹`
 ***************************************/
@@ -37,6 +38,8 @@ private:
 	BoardPolygon *polygon;
 	D3DXVECTOR3 targetPos;
 	D3DXVECTOR3 velocity;
+
+	EnemyBulletTrailEmitter *trail;
 };
 
 #endif

@@ -22,7 +22,8 @@ void EnemyBulletTrail::Init()
 	cntFrame = 0;
 	active = true;
 	speed = RandomRangef(ENEMYBULLETTRAIL_SPEED_MIN, ENEMYBULLETTRAIL_SPEED_MAX);
-	lifeFrame = RandomRange(ENEMYBULLETTRAIL_LIFE_MAX, ENEMYBULLETTRAIL_LIFE_MAX);
+	lifeFrame = RandomRange(ENEMYBULLETTRAIL_LIFE_MIN, ENEMYBULLETTRAIL_LIFE_MAX);
+	transform.Rotate(0.0f, 0.0f, RandomRangef(0.0f, 360.0f));
 }
 
 /**************************************

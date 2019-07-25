@@ -7,6 +7,8 @@
 #include "EnemyBullet.h"
 #include "Framework\ResourceManager.h"
 #include "camera.h"
+#include "GameParticleManager.h"
+#include "EnemyBulletTrail.h"
 
 /**************************************
 ƒ}ƒNƒ’è‹`
@@ -47,6 +49,10 @@ void EnemyBullet::Init(D3DXVECTOR3 setPos, D3DXVECTOR3 target, int reachFrame)
 	velocity.z = 1.0f;
 	D3DXVec3Normalize(&velocity, &velocity);
 	velocity *= ENEMYBULLET_INIT_SPEED;
+
+	BaseEmitter* emitter = GameParticleManager::Instance()->SetEnemyBulletTrail(&transform.pos);
+	if (emitter != NULL)
+		trail = static_cast<EnemyBulletTrailEmitter*>(emitter);
 }
 
 /**************************************
@@ -55,6 +61,8 @@ void EnemyBullet::Init(D3DXVECTOR3 setPos, D3DXVECTOR3 target, int reachFrame)
 void EnemyBullet::Uninit()
 {
 	active = false;
+	trail->active = false;
+	trail = NULL;
 }
 
 /**************************************
@@ -78,6 +86,7 @@ void EnemyBullet::Update()
 	velocity += acceleration;
 
 	transform.pos += velocity;
+	trail->transform.pos = transform.pos;
 
 }
 
@@ -96,5 +105,5 @@ void EnemyBullet::Draw()
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 	//•`‰æ
-	polygon->Draw();
+	//polygon->Draw();
 }

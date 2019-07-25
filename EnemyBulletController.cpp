@@ -68,14 +68,21 @@ void EnemyBulletController::Update()
 ***************************************/
 void EnemyBulletController::Draw()
 {
-	GetDevice()->SetRenderState(D3DRS_LIGHTING, false);
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	pDevice->SetRenderState(D3DRS_LIGHTING, false);
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
 	for (auto& model : modelContainer)
 	{
 		model->Draw();
 	}
 
-	GetDevice()->SetRenderState(D3DRS_LIGHTING, true);
+	pDevice->SetRenderState(D3DRS_LIGHTING, true);
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 }
 
 /**************************************

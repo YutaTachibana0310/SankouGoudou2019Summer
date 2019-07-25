@@ -109,5 +109,5 @@ void EnemyBullet::Draw()
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 	//•`‰æ
-	//polygon->Draw();
+	polygon->Draw();
 }

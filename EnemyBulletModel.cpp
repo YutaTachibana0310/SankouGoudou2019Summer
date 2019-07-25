@@ -63,6 +63,7 @@ void EnemyBulletModel::Init(std::vector<D3DXVECTOR3> emitters, LineTrailModel ta
 		targetPos += diff;
 	}
 
+	active = true;
 }
 
 /**************************************
@@ -77,6 +78,8 @@ void EnemyBulletModel::Uninit()
 		SAFE_DELETE(bullet);
 	}
 	bullets.clear();
+
+	active = false;
 }
 
 /**************************************
@@ -84,6 +87,9 @@ void EnemyBulletModel::Uninit()
 ***************************************/
 void EnemyBulletModel::Update()
 {
+	if (!active)
+		return;
+
 	for (auto& bullet : bullets)
 	{
 		bullet->Update();
@@ -97,6 +103,9 @@ void EnemyBulletModel::Update()
 ***************************************/
 void EnemyBulletModel::Draw()
 {
+	if (!active)
+		return;
+
 	for (auto& bullet : bullets)
 	{
 		bullet->Draw();

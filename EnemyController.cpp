@@ -13,6 +13,7 @@
 
 #include "Framework\ResourceManager.h"
 #include "picojson\picojson.h"
+#include "debugWindow.h"
 
 #include <algorithm>
 #include <fstream>
@@ -90,9 +91,7 @@ void EnemyController::Init()
 
 	//新しく作るEnemyの初期化テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	vector<D3DXVECTOR3> tmpVector;
-	tmpVector.resize(5, D3DXVECTOR3(0.0f, 0.0f, 300.0f));
-	bulletController->SetEnemyBullet(tmpVector, LineTrailModel(0, 1));
+	
 #endif
 }
 
@@ -121,7 +120,14 @@ void EnemyController::Update()
 {
 	//新しく作るEnemyの更新テストはここに書く
 #if USE_DEBUG_TESTENEMY
-
+	BeginDebugWindow("Console");
+	if (DebugButton("EnemyBullet"))
+	{
+		vector<D3DXVECTOR3> tmpVector;
+		tmpVector.resize(5, D3DXVECTOR3(0.0f, 0.0f, 300.0f));
+		bulletController->SetEnemyBullet(tmpVector, LineTrailModel(0, 1));
+	}
+	EndDebugWindow("Console");
 #endif
 
 	//モデル更新処理

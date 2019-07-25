@@ -61,8 +61,11 @@ void EnemyBullet::Init(D3DXVECTOR3 setPos, D3DXVECTOR3 target, int reachFrame)
 void EnemyBullet::Uninit()
 {
 	active = false;
-	trail->active = false;
-	trail = NULL;
+	if (trail != NULL)
+	{
+		trail->active = false;
+		trail = NULL;
+	}
 }
 
 /**************************************
@@ -74,20 +77,21 @@ void EnemyBullet::Update()
 		return;
 
 	transform.Rotate(0.0f, 0.0f, 5.0f);
-	
+
 	D3DXVECTOR3 diff = targetPos - transform.pos;
 	D3DXVECTOR3 acceleration = (diff - velocity * (float)cntFrame) * 2.0f / (float)(cntFrame * cntFrame);
 
 	cntFrame--;
 
-	if (cntFrame < 0)
-		return;
-
 	velocity += acceleration;
 
 	transform.pos += velocity;
-	trail->transform.pos = transform.pos;
 
+	if (trail != NULL)
+		trail->transform.pos = transform.pos;
+
+	if (cntFrame < 0)
+		Uninit();
 }
 
 /**************************************

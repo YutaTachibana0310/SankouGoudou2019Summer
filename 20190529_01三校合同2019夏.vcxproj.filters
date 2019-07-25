@@ -633,6 +633,12 @@
     <ClInclude Include="EnemyBulletModel.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyBulletTrail.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletTrailController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1051,6 +1057,12 @@
     </ClCompile>
     <ClCompile Include="EnemyBulletModel.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletTrail.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletTrailController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

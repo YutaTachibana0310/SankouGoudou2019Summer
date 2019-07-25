@@ -68,7 +68,7 @@ void EnemyBullet::Update()
 	transform.Rotate(0.0f, 0.0f, 5.0f);
 	
 	D3DXVECTOR3 diff = targetPos - transform.pos;
-	D3DXVECTOR3 acceleration = (diff - velocity * cntFrame) * 2.0f / (float)(cntFrame * cntFrame);
+	D3DXVECTOR3 acceleration = (diff - velocity * (float)cntFrame) * 2.0f / (float)(cntFrame * cntFrame);
 
 	cntFrame--;
 

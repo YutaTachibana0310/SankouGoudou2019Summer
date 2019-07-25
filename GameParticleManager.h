@@ -34,6 +34,7 @@ public:
 	void SetPlayerTrailParticle(D3DXVECTOR3 *pPos, bool *pActive);
 	void SetEnemyExplosion(D3DXVECTOR3 *pPos);
 	void SetEnemyWarpHole(D3DXVECTOR3 *pPos);
+	void SetEnemyBulletTrail(D3DXVECTOR3 *pPos);
 
 private:
 	GameParticleManager() {}

@@ -12,6 +12,7 @@
 #include "EnemyExplosionController.h"
 #include "EnemyExplosionFlareController.h"
 #include "EnemyWarpHoleController.h"
+#include "EnemyBulletTrailController.h"
 
 using namespace std;
 
@@ -37,6 +38,7 @@ enum ParticleController
 	EnemyExplosion,
 	EnemyExplosionFlare,
 	EnemyWarpHole,
+	EnemyBulletTrail,
 	ControllerMax
 };
 
@@ -57,6 +59,7 @@ void GameParticleManager::Init()
 	controllers[EnemyExplosion] = new EnemyExplosionController();
 	controllers[EnemyExplosionFlare] = new EnemyExplosionFlareController();
 	controllers[EnemyWarpHole] = new EnemyWarpHoleController();
+	controllers[EnemyBulletTrail] = new EnemyBulletTrailController();
 
 	//各パーティクル初期化
 	for (auto& controller : controllers)
@@ -122,6 +125,14 @@ void GameParticleManager::SetEnemyExplosion(D3DXVECTOR3 *pos)
 void GameParticleManager::SetEnemyWarpHole(D3DXVECTOR3 *pos)
 {
 	controllers[EnemyWarpHole]->SetEmitter(pos);
+}
+
+/**************************************
+エネミーバレットトレイルセット処理
+***************************************/
+void GameParticleManager::SetEnemyBulletTrail(D3DXVECTOR3 *pos)
+{
+	controllers[EnemyBulletTrail]->SetEmitter(pos);
 }
 
 #ifdef GAMEPARTICLE_USE_DEBUG

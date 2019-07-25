@@ -9,9 +9,11 @@
 #include "ChangeEnemyModel.h"
 #include "StraightEnemyModel.h"
 #include "SnakeEnemyModel.h"
+#include "EnemyBullet.h"
 
 #include "Framework\ResourceManager.h"
 #include "picojson\picojson.h"
+#include "debugWindow.h"
 
 #include <algorithm>
 #include <fstream>
@@ -51,6 +53,9 @@ EnemyController::EnemyController()
 	//解放はシーン終了時にGame.cppで一括して開放する
 	ResourceManager::Instance()->LoadMesh("Enemy", "data/MODEL/Enemy/drone.x");
 
+	//バレットコントローラ作成
+	bulletController = new EnemyBulletController();
+
 	//ステージデータ読み込み
 	LoadStageData();
 }
@@ -66,6 +71,9 @@ EnemyController::~EnemyController()
 		SAFE_DELETE(model);
 	}
 	modelList.clear();
+	
+	//バレットコントローラ削除
+	SAFE_DELETE(bulletController);
 
 	//ステージデータクリア
 	stageModelList.clear();
@@ -83,7 +91,7 @@ void EnemyController::Init()
 
 	//新しく作るEnemyの初期化テストはここに書く
 #if USE_DEBUG_TESTENEMY
-
+	
 #endif
 }
 
@@ -96,6 +104,8 @@ void EnemyController::Uninit()
 	{
 		model->Uninit();
 	}
+
+	bulletController->Uninit();
 
 	//新しく作るEnemyの終了テストはここに書く
 #if USE_DEBUG_TESTENEMY
@@ -110,7 +120,16 @@ void EnemyController::Update()
 {
 	//新しく作るEnemyの更新テストはここに書く
 #if USE_DEBUG_TESTENEMY
-
+	BeginDebugWindow("Console");
+	if (DebugButton("EnemyBullet"))
+	{
+		vector<D3DXVECTOR3> tmpVector;
+		tmpVector.resize(5, D3DXVECTOR3(0.0f, 0.0f, 300.0f));
+		int start = RandomRange(0, 5);
+		int end = WrapAround(0, 5, start + RandomRange(1, 4));
+		bulletController->SetEnemyBullet(tmpVector, LineTrailModel(start, end));
+	}
+	EndDebugWindow("Console");
 #endif
 
 	//モデル更新処理
@@ -118,6 +137,9 @@ void EnemyController::Update()
 	{
 		model->Update();
 	}
+
+	//バレット更新処理
+	bulletController->Update();
 
 	//終了したモデルを削除する
 	for (auto& model : modelList)
@@ -143,6 +165,9 @@ void EnemyController::Draw()
 	{
 		model->Draw();
 	}
+
+	//バレット描画
+	bulletController->Draw();
 
 	//新しく作るEnemyの描画テストはここに書く
 #if USE_DEBUG_TESTENEMY

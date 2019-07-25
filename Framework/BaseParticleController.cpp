@@ -389,7 +389,7 @@ UINT BaseParticleController::EmbedParameterUV()
 /**************************************
 エミッタセット処理
 ***************************************/
-void BaseParticleController::SetEmitter(D3DXVECTOR3 *pos)
+BaseEmitter* BaseParticleController::SetEmitter(D3DXVECTOR3 *pos)
 {
 	auto emitter = find_if(emitterContainer.begin(), emitterContainer.end(), [](BaseEmitter* emitter)
 	{
@@ -397,10 +397,12 @@ void BaseParticleController::SetEmitter(D3DXVECTOR3 *pos)
 	});
 
 	if (emitter == emitterContainer.end())
-		return;
+		return NULL;
 
 	(*emitter)->transform.pos = *pos;
 	(*emitter)->Init();
+
+	return (*emitter);
 
 }
 

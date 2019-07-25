@@ -32,6 +32,9 @@ public:
 
 	//ワールド変換行列計算処理
 	void CalcWorldMtx(D3DXMATRIX* out);
+
+	//ビルボード用ワールド変換行列計算処理
+	void CalcWorldMtx(D3DXMATRIX* out, D3DXMATRIX *invView);
 };
 
 #endif

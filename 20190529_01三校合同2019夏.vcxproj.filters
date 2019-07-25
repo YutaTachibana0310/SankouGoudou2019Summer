@@ -621,6 +621,30 @@
     <ClInclude Include="Framework\Gamepad.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\BoardPolygon.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBullet.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletController.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletModel.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletTrail.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletTrailController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletEffect.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletEffectController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1027,6 +1051,30 @@
     </ClCompile>
     <ClCompile Include="Framework\Gamepad.cpp">
       <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\BoardPolygon.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBullet.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletController.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletModel.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletTrail.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletTrailController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletEffect.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletEffectController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

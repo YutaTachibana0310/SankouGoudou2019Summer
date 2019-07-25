@@ -58,3 +58,29 @@ void Transform::CalcWorldMtx(D3DXMATRIX* out)
 	D3DXMatrixTranslation(&translation, pos.x, pos.y, pos.z);
 	D3DXMatrixMultiply(out, out, &translation);
 }
+
+/**************************************
+ビルボード用ワールド変換行列計算処理
+***************************************/
+void Transform::CalcWorldMtx(D3DXMATRIX *out, D3DXMATRIX* invView)
+{
+	D3DXMATRIX rotation, scaling, translation;
+
+	//初期化
+	D3DXMatrixIdentity(out);
+
+	//スケーリング
+	D3DXMatrixScaling(&scaling, scale.x, scale.y, scale.z);
+	D3DXMatrixMultiply(out, out, &scaling);
+
+	//回転
+	D3DXMatrixRotationYawPitchRoll(&rotation, rot.y, rot.x, rot.z);
+	D3DXMatrixMultiply(out, out, &rotation);
+
+	//ビュー逆変換
+	D3DXMatrixMultiply(out, out, invView);
+
+	//移動
+	D3DXMatrixTranslation(&translation, pos.x, pos.y, pos.z);
+	D3DXMatrixMultiply(out, out, &translation);
+}

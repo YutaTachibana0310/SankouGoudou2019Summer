@@ -18,7 +18,7 @@ BoardPolygon::BoardPolygon()
 {
 	pDevice = GetDevice();
 
-	pDevice->CreateVertexBuffer(sizeof(VERTEX_BILLBOARD) * NUM_POLYGON,
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_BILLBOARD) * NUM_VERTEX,
 		D3DUSAGE_WRITEONLY,
 		FVF_VERTEX_BILLBOARD,
 		D3DPOOL_MANAGED,

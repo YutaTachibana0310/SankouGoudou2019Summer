@@ -11,7 +11,7 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define ENEMYBULLET_INIT_SPEED	(5.0f)
+#define ENEMYBULLET_INIT_SPEED	(5.5f)
 
 /**************************************
 コンストラクタ
@@ -38,14 +38,13 @@ void EnemyBullet::Init(D3DXVECTOR3 setPos, D3DXVECTOR3 target, int reachFrame)
 {
 	active = true;
 	targetPos = target;
-	cntFrame = 0;
-	this->reachFrame = reachFrame;
+	cntFrame = reachFrame;
 
 	transform.pos = setPos;
 
 	velocity.x = RandomRangef(-1.0f, 1.0f);
 	velocity.y = RandomRangef(-1.0f, 1.0f);
-	velocity.z = 0.0f;
+	velocity.z = 1.0f;
 	D3DXVec3Normalize(&velocity, &velocity);
 	velocity *= ENEMYBULLET_INIT_SPEED;
 }
@@ -65,6 +64,8 @@ void EnemyBullet::Update()
 {
 	if (!active)
 		return;
+
+	transform.Rotate(0.0f, 0.0f, 5.0f);
 	
 	D3DXVECTOR3 diff = targetPos - transform.pos;
 	D3DXVECTOR3 acceleration = (diff - velocity * cntFrame) * 2.0f / (float)(cntFrame * cntFrame);
@@ -77,6 +78,7 @@ void EnemyBullet::Update()
 	velocity += acceleration;
 
 	transform.pos += velocity;
+
 }
 
 /**************************************

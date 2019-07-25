@@ -12,6 +12,7 @@
 #include "IStateMachine.h"
 #include "enemy.h"
 #include "StageModel.h"
+#include "EnemyBulletController.h"
 
 #include "Framework\BaseObserver.h"
 #include "picojson\picojson.h"
@@ -61,6 +62,8 @@ private:
 
 	std::vector<StageModel> stageModelList;
 	int currentIndex;
+
+	EnemyBulletController* bulletController;
 
 	//エネミー生成処理(内部処理)
 	EnemySnake *test;

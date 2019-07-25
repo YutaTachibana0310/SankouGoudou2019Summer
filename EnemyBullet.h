@@ -34,7 +34,6 @@ public:
 
 private:
 	int cntFrame;
-	int reachFrame;
 	BoardPolygon *polygon;
 	D3DXVECTOR3 targetPos;
 	D3DXVECTOR3 velocity;

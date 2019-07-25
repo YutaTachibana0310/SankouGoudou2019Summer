@@ -10,10 +10,10 @@
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
-#define ENEMYBULLETTRAIL_SIZE			(&D3DXVECTOR2(15.0f, 15.0f))
+#define ENEMYBULLETTRAIL_SIZE			(&D3DXVECTOR2(10.0f, 10.0f))
 #define ENEMYBULLETTRAIL_TEX_DIV		(&D3DXVECTOR2(8.0f, 8.0f))
 #define ENEMYBULLETTRAIL_TEX_NAME		"data/TEXTURE/Effect/EnemyBulletTrail.png"
-#define ENEMYBULLETTRAIL_NUM_MAX		(512)
+#define ENEMYBULLETTRAIL_NUM_MAX		(1024)
 #define ENEMYBULLETTRAIL_EMITTER_MAX	(32)
 #define ENEMYBULLETTRAIL_EMIT_NUM		(5)
 

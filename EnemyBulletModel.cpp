@@ -6,6 +6,7 @@
 //=====================================
 #include "EnemyBulletModel.h"
 #include "EnemyBullet.h"
+#include "GameParticleManager.h"
 
 /**************************************
 ƒ}ƒNƒ’è‹`
@@ -94,6 +95,9 @@ void EnemyBulletModel::Update()
 	{
 		bullet->Update();
 	}
+
+	if (cntFrame == ENEMYBULLET_REACH_DEFAULT)
+		GameParticleManager::Instance()->SetEnemyBulletEffect(LineTrailModel(0, 1));
 
 	cntFrame++;
 }

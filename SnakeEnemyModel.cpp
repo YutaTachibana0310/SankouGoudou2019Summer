@@ -7,6 +7,7 @@
 #include "SnakeEnemyModel.h"
 #include "enemy.h"
 #include "GameParticleManager.h"
+#include "ScoreManager.h"
 
 using namespace std;
 
@@ -172,7 +173,11 @@ void SnakeEnemyModel::OnNotified(ObserveSubject *notifier)
 	{
 		enemy->VUninit();
 		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
+		//スコア加算
+		SetAddScore(100);
 	}
+
+	SetAddCombo(1);
 
 	//所属エネミーリストをクリア
 	colliderMap[entity].clear();

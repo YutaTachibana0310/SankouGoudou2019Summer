@@ -14,13 +14,13 @@ using namespace std;
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
-#define ENEMYBULLETEFFECT_SIZE		(&D3DXVECTOR2(15.0f, 15.0f))
+#define ENEMYBULLETEFFECT_SIZE		(&D3DXVECTOR2(10.0f, 10.0f))
 #define ENEMYBULLETEFFECT_TEX_DIV	(&D3DXVECTOR2(8.0f, 8.0f))
 #define ENEMYBULLETEFFECT_TEX_NAME	"data/TEXTURE/Effect/EnemyBulletEffect.png"
 #define ENEMYBULLETEFFECT_NUM_MAX	(1024)
 
 #define ENEMYBULLETEFFECT_EMITTER_MAX	(32)
-#define ENEMYBULLETEFFECT_EMIT_NUM		(5)
+#define ENEMYBULLETEFFECT_EMIT_NUM		(10)
 
 typedef BaseParticleController Base;
 /**************************************

@@ -21,6 +21,12 @@ void EnemyBulletEffect::Init()
 {
 	cntFrame = 0;
 	lifeFrame = RandomRange(ENEMYBULLETEFFECT_LIFE_MIN, ENEMYBULLETEFFECT_LIFE_MAX);
+
+	transform.Rotate(0.0f, 0.0f, RandomRangef(0.0f, 360.0f));
+	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	transform.scale *= RandomRangef(0.8f, 1.5f);
+	transform.pos.x += RandomRangef(-5.0f, 5.0f);
+	transform.pos.y += RandomRangef(-5.0f, 5.0f);
 	active = true;
 }
 

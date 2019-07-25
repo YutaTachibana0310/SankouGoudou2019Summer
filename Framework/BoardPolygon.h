@@ -7,7 +7,7 @@
 #ifndef _BOARDPOLYGON_H_
 #define _BOARDPOLYGON_H_
 
-#include "main.h"
+#include "../main.h"
 
 /**************************************
 É}ÉNÉçíËã`

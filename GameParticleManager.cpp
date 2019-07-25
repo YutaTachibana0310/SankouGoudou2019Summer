@@ -130,9 +130,9 @@ void GameParticleManager::SetEnemyWarpHole(D3DXVECTOR3 *pos)
 /**************************************
 エネミーバレットトレイルセット処理
 ***************************************/
-void GameParticleManager::SetEnemyBulletTrail(D3DXVECTOR3 *pos)
+BaseEmitter* GameParticleManager::SetEnemyBulletTrail(D3DXVECTOR3 *pos)
 {
-	controllers[EnemyBulletTrail]->SetEmitter(pos);
+	return controllers[EnemyBulletTrail]->SetEmitter(pos);
 }
 
 #ifdef GAMEPARTICLE_USE_DEBUG

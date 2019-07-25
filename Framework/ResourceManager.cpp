@@ -104,6 +104,7 @@ bool ResourceManager::GetTexture(const char* tag, LPDIRECT3DTEXTURE9* pOut)
 		return false;
 
 	*pOut = texturePool[tagStr];
+	return true;
 }
 
 /**************************************
@@ -120,6 +121,7 @@ void ResourceManager::MakePolygon(const char* tag, const char* path, D3DXVECTOR2
 	//BoardPolygonƒNƒ‰ƒX‚ð¶¬‚µ‚Ä“o˜^
 	BoardPolygon* instance = new BoardPolygon();
 	instance->SetSize(size);
+	instance->LoadTexture(path);
 	polygonPool[tagStr] = instance;
 }
 

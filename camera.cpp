@@ -124,6 +124,10 @@ void SetCamera(void)
 
 	// プロジェクションマトリックスの設定
 	pDevice->SetTransform(D3DTS_PROJECTION, &camera.projection);
+
+	//ビュー逆行列の計算
+	D3DXMatrixInverse(&camera.invView, NULL, &camera.view);
+	camera.invView._41 = camera.invView._42 = camera.invView._43 = 0.0f;
 }
 //=============================================================================
 // ビューマトリックスの取得(画面分割に対応)
@@ -214,4 +218,12 @@ D3DXVECTOR3 GetCameraPos(void)
 Camera *GetCameraAdr(void)
 {
 	return &camera;
+}
+
+//=============================================================================
+// ビュー逆行列取得処理
+//=============================================================================
+D3DXMATRIX GetInvView()
+{
+	return camera.invView;
 }

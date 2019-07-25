@@ -125,7 +125,9 @@ void EnemyController::Update()
 	{
 		vector<D3DXVECTOR3> tmpVector;
 		tmpVector.resize(5, D3DXVECTOR3(0.0f, 0.0f, 300.0f));
-		bulletController->SetEnemyBullet(tmpVector, LineTrailModel(0, 1));
+		int start = RandomRange(0, 5);
+		int end = WrapAround(0, 5, start + RandomRange(1, 4));
+		bulletController->SetEnemyBullet(tmpVector, LineTrailModel(start, end));
 	}
 	EndDebugWindow("Console");
 #endif

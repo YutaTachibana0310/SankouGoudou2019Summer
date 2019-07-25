@@ -14,6 +14,8 @@
 
 #define ENEMYBULLETEFFECT_DURATION	(120)
 
+#define ENEMYBULLETEFECT_POS_RANGE	(2.0f)
+
 /**************************************
 EnemyBulletEffectèâä˙âªèàóù
 ***************************************/
@@ -25,8 +27,8 @@ void EnemyBulletEffect::Init()
 	transform.Rotate(0.0f, 0.0f, RandomRangef(0.0f, 360.0f));
 	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	transform.scale *= RandomRangef(0.8f, 1.5f);
-	transform.pos.x += RandomRangef(-5.0f, 5.0f);
-	transform.pos.y += RandomRangef(-5.0f, 5.0f);
+	transform.pos.x += RandomRangef(-ENEMYBULLETEFECT_POS_RANGE, ENEMYBULLETEFECT_POS_RANGE);
+	transform.pos.y += RandomRangef(-ENEMYBULLETEFECT_POS_RANGE, ENEMYBULLETEFECT_POS_RANGE);
 	active = true;
 }
 

@@ -12,6 +12,7 @@
 マクロ定義
 ***************************************/
 #define ENEMYBULLET_REACH_DEFAULT		(45)
+#define ENeMYBULLET_EFFECTIVE_FRAME		(120)
 
 /**************************************
 コンストラクタ
@@ -47,6 +48,7 @@ void EnemyBulletModel::Init(std::vector<D3DXVECTOR3> emitters, LineTrailModel ta
 {
 	cntFrame = 0;
 
+	targetLine = target;
 	collider->SetTrailIndex(target);
 
 	bullets.reserve(emitters.size());
@@ -54,7 +56,7 @@ void EnemyBulletModel::Init(std::vector<D3DXVECTOR3> emitters, LineTrailModel ta
 	D3DXVECTOR3 edgeR, edgeL;
 	target.GetEdgePos(&edgeR, &edgeL);
 	D3DXVECTOR3 diff = edgeL - edgeR;
-	diff /= emitters.size() - 1;
+	diff /= (float)(emitters.size() - 1);
 
 	D3DXVECTOR3 targetPos = edgeR;
 	for (UINT cnt = 0; cnt < emitters.size(); cnt++)
@@ -91,15 +93,23 @@ void EnemyBulletModel::Update()
 	if (!active)
 		return;
 
+	cntFrame++;
+
 	for (auto& bullet : bullets)
 	{
 		bullet->Update();
 	}
 
 	if (cntFrame == ENEMYBULLET_REACH_DEFAULT)
-		GameParticleManager::Instance()->SetEnemyBulletEffect(LineTrailModel(0, 1));
+	{
+		collider->active = true;
+		GameParticleManager::Instance()->SetEnemyBulletEffect(targetLine);
+	}
 
-	cntFrame++;
+	if (cntFrame == ENeMYBULLET_EFFECTIVE_FRAME + ENEMYBULLET_REACH_DEFAULT)
+	{
+		Uninit();
+	}
 }
 
 /**************************************
@@ -114,6 +124,8 @@ void EnemyBulletModel::Draw()
 	{
 		bullet->Draw();
 	}
+
+	TrailCollider::DrawCollider(collider);
 }
 
 

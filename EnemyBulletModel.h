@@ -39,6 +39,7 @@ private:
 	int cntFrame;
 	TrailCollider *collider;
 	float posZ;
+	LineTrailModel targetLine;
 };
 
 #endif

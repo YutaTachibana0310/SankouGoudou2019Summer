@@ -14,7 +14,7 @@ using namespace std;
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
-#define ENEMYBULLETEFFECT_SIZE		(&D3DXVECTOR2(10.0f, 10.0f))
+#define ENEMYBULLETEFFECT_SIZE		(&D3DXVECTOR2(5.0f, 5.0f))
 #define ENEMYBULLETEFFECT_TEX_DIV	(&D3DXVECTOR2(8.0f, 8.0f))
 #define ENEMYBULLETEFFECT_TEX_NAME	"data/TEXTURE/Effect/EnemyBulletEffect.png"
 #define ENEMYBULLETEFFECT_NUM_MAX	(1024)

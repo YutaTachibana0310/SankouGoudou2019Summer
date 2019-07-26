@@ -13,6 +13,7 @@
 
 #include "starUI.h"
 #include "debugWindow.h"
+#include "PostEffect\SpikeNoiseController.h"
 
 using namespace std;
 
@@ -47,6 +48,7 @@ Player::Player()
 	collider = new TrailCollider(TrailColliderTag::Player);
 	collider->active = false;
 	collider->SetAddressZ(&transform.pos.z);
+	collider->AddObserver(this);
 }
 
 /**************************************
@@ -143,5 +145,6 @@ void Player::ChangeState(IStateMachine<Player> *next)
 ******************************************/
 void Player::OnNotified(ObserveSubject* notifier)
 {
+	SpikeNoiseController::Instance()->SetNoise(0.5f, 20);
 	hp -= PLAYER_DAMAGE;
 }

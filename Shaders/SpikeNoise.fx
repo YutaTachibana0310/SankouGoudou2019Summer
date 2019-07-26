@@ -9,6 +9,7 @@
 グローバル変数
 ***************************************/
 float length;		//ノイズの強さ
+float baseY;	
 
 /***************************************
 テクスチャサンプラ
@@ -44,7 +45,7 @@ VS_OUTPUT VS(
 float4 PS(VS_OUTPUT In) : COLOR0
 {
 	//float y = (int)(In.tex.y * 50.0f) * 0.02f * 20.0f;
-	float y = In.tex.y * 50.0f ;
+	float y = In.tex.y * 50.0f + baseY;
 	In.tex.x += (sin(10 * y) + cos(15 * y)) * 0.02f *length;
 	
 	return tex2D(s0, In.tex);

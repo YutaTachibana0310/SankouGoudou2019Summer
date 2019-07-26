@@ -211,15 +211,16 @@ void GameScene::Draw()
 	//エネミーの描画
 	enemyController->Draw();
 
+	//パーティクル描画
+	CountDebugTimer(GAMESCENE_LABEL, "DrawParticle");
+	particleManager->Draw();
+	CountDebugTimer(GAMESCENE_LABEL, "DrawParticle");
+
 	//ポストエフェクト描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawpostEffect");
 	PostEffectManager::Instance()->Draw();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawpostEffect");
 
-	//パーティクル描画
-	CountDebugTimer(GAMESCENE_LABEL, "DrawParticle");
-	particleManager->Draw();
-	CountDebugTimer(GAMESCENE_LABEL, "DrawParticle");
 
 	//UI描画
 	DrawGameSceneUI();

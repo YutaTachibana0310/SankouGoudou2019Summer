@@ -11,6 +11,7 @@
 #include "PlayerTrailParticleController.h"
 #include "EnemyExplosionController.h"
 #include "EnemyExplosionFlareController.h"
+#include "PlayerBomberParticleController.h"
 
 using namespace std;
 
@@ -35,6 +36,7 @@ enum ParticleController
 	PlayerTrailParticle,
 	EnemyExplosion,
 	EnemyExplosionFlare,
+	PlayerBomberParticle,
 	ControllerMax
 };
 
@@ -54,7 +56,7 @@ void GameParticleManager::Init()
 	controllers[PlayerTrailParticle] = new PlayerTrailParticleController();
 	controllers[EnemyExplosion] = new EnemyExplosionController();
 	controllers[EnemyExplosionFlare] = new EnemyExplosionFlareController();
-
+	controllers[PlayerBomberParticle] = new PlayerBomberParticleController();
 	//各パーティクル初期化
 	for (BaseParticleController *itr : controllers)
 	{
@@ -113,6 +115,16 @@ void GameParticleManager::SetEnemyExplosion(D3DXVECTOR3 *pos)
 	controllers[EnemyExplosionFlare]->SetEmitter(pos);
 }
 
+/**************************************
+プレイヤーボンバーパーティクル処理
+***************************************/
+void GameParticleManager::SetPlayerBomberParticle(D3DXVECTOR3 *pPos, bool *pActive)
+{
+	PlayerBomberParticleController *controller
+		= static_cast<PlayerBomberParticleController*>(controllers[PlayerBomberParticle]);
+
+	controller->SetEmitter(pPos, pActive);
+}
 #ifdef GAMEPARTICLE_USE_DEBUG
 /**************************************
 デバッグウィンドウ

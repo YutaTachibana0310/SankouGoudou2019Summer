@@ -6,16 +6,12 @@
 //=====================================
 #include "PlayerBomber.h"
 #include "camera.h"
+#include "GameParticleManager.h"
 
 /**************************************
 マクロ定義
 ***************************************/
-#define PLAYERBOMBER_TEXTURE_NAME	"data/MODEL/airplane000.x"
-
-#define BOMBER_X		(30)
-#define BOMBER_Y		(30)
-#define BOMBER_Z		(30)
-
+#define BOMBER_MOVE (10.0f)
 /**************************************
 構造体定義
 ***************************************/
@@ -45,9 +41,13 @@ void PlayerBomber::Init(void)
 
 	transform.pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	transform.rot = D3DXVECTOR3(0.0f, D3DXToRadian(180.0f), 0.0f);
+	transform.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	velocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	float x = RandomRangef(-BOMBER_MOVE, BOMBER_MOVE);
+	float y = RandomRangef(-BOMBER_MOVE, BOMBER_MOVE);
+	velocity = D3DXVECTOR3(x, y, 0.0f);
+
+	GameParticleManager::Instance()->SetPlayerBomberParticle(&transform.pos, &active);
 
 }
 /**************************************
@@ -56,8 +56,6 @@ void PlayerBomber::Init(void)
 void PlayerBomber::Uninit(void)
 {
 	active = false;
-	
-
 }
 
 /**************************************
@@ -99,7 +97,7 @@ void PlayerBomber::Draw(void)
 
 	//逆行列を掛ける
 	view = GetMtxView();
-	D3DXMatrixInverse(&view, NULL, &invView);
+	D3DXMatrixInverse(&invView, NULL, &view);
 	invView._41 = 0.0f;
 	invView._42 = 0.0f;
 	invView._43 = 0.0f;
@@ -113,6 +111,7 @@ void PlayerBomber::Draw(void)
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
+
 
 }
 
@@ -149,10 +148,9 @@ PlayerBomber::~PlayerBomber()
 void PlayerBomber::Set(D3DXVECTOR3 *pos, D3DXVECTOR3 initpos)
 {
 	//active = true;
-	Init();
 	transform.pos = initpos;
 	targetPos = pos;
-	cntFrame = reachFrame = 120;
+	cntFrame = reachFrame = 30;
 }
 
 

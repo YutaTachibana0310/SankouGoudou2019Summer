@@ -13,7 +13,7 @@ using namespace std;
 /*********************************************************
 マクロ定義
 **********************************************************/
-#define BOMBER_SIZE		(20.0f)
+#define BOMBER_SIZE		(30.0f)
 /********************************************************
 構造体定義
 *********************************************************/
@@ -30,7 +30,7 @@ PlayerBomberController::PlayerBomberController()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	const char* TextureName = "data/TEXTURE/Player/PlayerBullet.png";
+	const char* TextureName = "data/TEXTURE/Effect/PlayerBulletParticle.png";
 
 	texture = CreateTextureFromFile((LPSTR)TextureName, pDevice);
 
@@ -164,6 +164,7 @@ void PlayerBomberController::SetPlayerBomber(vector<D3DXVECTOR3*>targetList, D3D
 		{
 			PlayerBomber *bomber = new PlayerBomber();
 			bomber->Init();
+			bomber->Set(target, initpos);
 			bomberContainer.push_back(bomber);
 		}
 	}

@@ -31,6 +31,7 @@ public:
 
 	void SetScoreParticle(D3DXVECTOR3 *pos);
 	void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edgeRight, D3DXVECTOR3 *edgeLeft);
+	void SetPlayerBomberParticle(D3DXVECTOR3 *pPos, bool *pActive);
 	void SetPlayerTrailParticle(D3DXVECTOR3 *pPos, bool *pActive);
 	void SetEnemyExplosion(D3DXVECTOR3 *pPos);
 

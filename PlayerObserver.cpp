@@ -105,12 +105,20 @@ void PlayerObserver::Uninit()
 	bomberController->Uninit();
 	bulletController->Uninit();
 }
-
+#include "debugWindow.h"
 /**************************************
 XVˆ—
 ***************************************/
 void PlayerObserver::Update()
 {
+	BeginDebugWindow("GameScene");
+	if (DebugButton("Bomb"))
+	{
+		bomberController->SetPlayerBomber(testTarget, player->transform.pos);
+
+	}
+	EndDebugWindow("GaeScene");
+
 	int stateResult = player->Update();
 
 	if (stateResult != STATE_CONTINUOUS)

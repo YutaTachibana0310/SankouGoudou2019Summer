@@ -42,6 +42,10 @@ Player::Player()
 	mesh = new MeshContainer();
 	
 	mesh->Load(PLAYER_MODEL);
+
+	collider = new TrailCollider(TrailColliderTag::Player);
+	collider->active = false;
+	collider->SetAddressZ(&transform.pos.z);
 }
 
 /**************************************
@@ -50,6 +54,7 @@ Player::Player()
 Player::~Player()
 {
 	SAFE_DELETE(mesh);
+	SAFE_DELETE(collider);
 }
 
 /*************************************
@@ -119,6 +124,8 @@ void Player::Draw()
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 	mesh->Draw();
+
+	TrailCollider::DrawCollider(collider);
 }
 
 /*****************************************

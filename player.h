@@ -11,6 +11,7 @@
 #include "Framework/MeshContainer.h"
 #include "PlayerTrail.h"
 #include "IStateMachine.h"
+#include "TrailCollider.h"
 
 /**************************************
 マクロ定義
@@ -28,6 +29,7 @@ public:
 
 	MeshContainer* mesh;
 	Transform transform;
+	TrailCollider *collider;
 
 	bool active;
 	int	cntFrame;
@@ -35,7 +37,6 @@ public:
 
 	D3DXVECTOR3	initpos;			// 移動前位置
 	D3DXVECTOR3	goalpos;			// 移動後位置
-
 
 	IStateMachine<Player> *state;
 

@@ -137,7 +137,6 @@ bool PlayerModel::CheckOneStroke()
 				checkWork[i]++;
 				break;
 			}
-
 		}
 	}
 

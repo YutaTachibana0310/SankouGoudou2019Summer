@@ -19,7 +19,8 @@ using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
-#define PLAYER_MODEL  "data/MODEL/airplane000.x"
+#define PLAYER_MODEL	"data/MODEL/airplane000.x"
+#define PLAYER_DAMAGE	(10.0f)
 
 /**************************************
 構造体定義
@@ -135,4 +136,12 @@ void Player::ChangeState(IStateMachine<Player> *next)
 {
 	state = next;
 	state->OnStart(this);
+}
+
+/*****************************************
+衝突判定通知処理
+******************************************/
+void Player::OnNotified(ObserveSubject* notifier)
+{
+	hp -= PLAYER_DAMAGE;
 }

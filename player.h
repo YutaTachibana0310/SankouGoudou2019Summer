@@ -12,16 +12,16 @@
 #include "PlayerTrail.h"
 #include "IStateMachine.h"
 #include "TrailCollider.h"
+#include "Framework\BaseObserver.h"
 
 /**************************************
 マクロ定義
 ***************************************/
 
-
 /**************************************
 プレイヤークラス定義
 ***************************************/
-class Player
+class Player : public BaseObserver
 {
 public:
 	Player();
@@ -30,6 +30,7 @@ public:
 	MeshContainer* mesh;
 	Transform transform;
 	TrailCollider *collider;
+	float hp;
 
 	bool active;
 	int	cntFrame;
@@ -46,6 +47,8 @@ public:
 	void Uninit();
 	int Update();
 	void Draw();
+
+	void OnNotified(ObserveSubject* notifier);
 };
 
 #endif

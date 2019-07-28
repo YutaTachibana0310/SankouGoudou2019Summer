@@ -34,7 +34,10 @@ public:
 
 	bool active;
 	int	cntFrame;
-	int inputInterval;
+	int inputInterval;				//入力間隔
+
+	bool flgInvincible;				//無敵状態
+	int cntInvincible;				//無敵フレーム
 
 	D3DXVECTOR3	initpos;			// 移動前位置
 	D3DXVECTOR3	goalpos;			// 移動後位置

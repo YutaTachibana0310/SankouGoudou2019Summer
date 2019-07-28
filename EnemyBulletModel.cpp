@@ -127,7 +127,7 @@ void EnemyBulletModel::Draw()
 		bullet->Draw();
 	}
 
-	TrailCollider::DrawCollider(collider);
+	//TrailCollider::DrawCollider(collider);
 }
 
 

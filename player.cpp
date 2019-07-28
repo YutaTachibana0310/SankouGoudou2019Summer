@@ -20,8 +20,9 @@ using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
-#define PLAYER_MODEL	"data/MODEL/airplane000.x"
-#define PLAYER_DAMAGE	(10.0f)
+#define PLAYER_MODEL				"data/MODEL/airplane000.x"
+#define PLAYER_DAMAGE				(10.0f)		//プレイヤーが1回の被弾で受けるダメージ
+#define PLAYER_INVINCIBLE_DURATION	(30000)		//プレイヤーの無敵時間
 
 /**************************************
 構造体定義
@@ -71,6 +72,9 @@ void Player::Init()
 	active = true;
 
 	GameParticleManager::Instance()->SetPlayerTrailParticle(&transform.pos, &active);
+
+	cntInvincible = PLAYER_INVINCIBLE_DURATION;
+
 	return;
 }
 
@@ -94,6 +98,14 @@ int Player::Update()
 
 	if (state != NULL)
 		stateResult = state->OnUpdate(this);
+
+	//無敵時間の更新
+	if (!flgInvincible)
+	{
+		cntInvincible--;
+		if (cntInvincible == 0)
+			collider->active = false;
+	}
 
 	return stateResult;
 }
@@ -147,4 +159,9 @@ void Player::OnNotified(ObserveSubject* notifier)
 {
 	SpikeNoiseController::Instance()->SetNoise(0.5f, 20);
 	hp -= PLAYER_DAMAGE;
+
+	//無敵時間開始
+	cntInvincible = PLAYER_INVINCIBLE_DURATION;
+	collider->active = false;
+	flgInvincible = true;
 }

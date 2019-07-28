@@ -13,6 +13,9 @@
 //初期化されてから当たり判定がアクティブになるタイミング
 #define CHANGEENEMY_TIME_COLLIDER_ACTIVATE	(60)
 
+//攻撃タイミング
+#define CHANGEENEMY_TIME_ATTACK				(120 + CHANGEENEMY_TIME_COLLIDER_ACTIVATE)
+
 //当たり判定が無効になるタイミング
 #define CHANGEENEMY_TIME_ESCAPE				(300 + CHANGEENEMY_TIME_COLLIDER_ACTIVATE)
 
@@ -73,7 +76,7 @@ void ChangeEnemyModel::Init(LineTrailModel model, int enemyNum)
 	D3DXVECTOR3 cross;
 	D3DXVec3Cross(&cross, &(edgeL - edgeR), &D3DXVECTOR3(0.0f, 0.0f, 1.0f));
 	D3DXVec3Normalize(&cross, &cross);
-	
+
 	//初期座標を計算
 	D3DXVECTOR3 initOffset = cross * CHANGEENEMY_INIT_OFFSET;
 
@@ -97,6 +100,8 @@ int ChangeEnemyModel::Update()
 	if (cntFrame == CHANGEENEMY_TIME_COLLIDER_ACTIVATE)
 		collider->active = true;
 
+
+
 	//アクティブになってから300フレームで離脱する
 	if (cntFrame == CHANGEENEMY_TIME_ESCAPE)
 		collider->active = false;
@@ -110,5 +115,9 @@ int ChangeEnemyModel::Update()
 		enemy->VUpdate();
 	}
 
-	return StateContinuous;
+	//アクティブになってから120フレームで攻撃
+	if (cntFrame == CHANGEENEMY_TIME_ATTACK)
+		return AttackTiming;
+	else
+		return StateContinuous;
 }

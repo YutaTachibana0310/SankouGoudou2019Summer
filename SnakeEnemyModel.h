@@ -33,7 +33,7 @@ public:
 private:
 	std::vector<TrailCollider*> colliderList;
 	std::vector<D3DXVECTOR3> moveTargetList;
-	std::vector<float> timeList;
+	std::vector<int> timeList;
 	std::map<TrailCollider*, std::list<EnemySnake*>> colliderMap;
 
 	void SwapInColliderMap(TrailCollider* current, TrailCollider *next, EnemySnake* enemy);

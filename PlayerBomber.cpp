@@ -168,7 +168,7 @@ void PlayerBomber::CalcBomber(void)
 		return;
 	}
 
-	float time = cntFrame;
+	float time = (float)cntFrame;
 
 	D3DXVECTOR3 diff = *targetPos - transform.pos;
 

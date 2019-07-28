@@ -74,6 +74,9 @@ private:
 	//ステージデータ読み込み処理
 	bool LoadStageData();
 
+	//攻撃処理
+	void EnemyAttack(EnemyModel* model);
+
 	//五角形の外周を構成するLineModel
 	static const std::vector<LineTrailModel> OuterLineModel;
 };

@@ -12,6 +12,8 @@
 ***************************************/
 #define USE_SPIKENOISECTRL_DEBUG
 
+#define SPIKENOISE_SCROLL_SPEED	(0.001f)
+
 /**************************************
 構造体定義
 ***************************************/
@@ -34,6 +36,7 @@ void SpikeNoiseController::SetNoise(float power, int effectTime)
 	this->state = State::Start;
 	this->destPower = power;
 	this->srcPower = 0.0f;
+	this->base = 0.0f;
 }
 
 /**************************************
@@ -54,6 +57,10 @@ void SpikeNoiseController::Update()
 	float t = (float)cntFrame / (float)effectTime;
 	float power = Easing<float>::GetEasingValue(t, &this->srcPower, &this->destPower, (EasingType)EaseType[this->state]);
 	this->spikeNoise->SetLength(power);
+	
+	//ノイズをスクロール
+	base = WrapAroundf(0.0f, 1.0f, base + SPIKENOISE_SCROLL_SPEED);
+	spikeNoise->SetBaseY(base);
 
 	//遷移判定
 	if (cntFrame == effectTime)

@@ -158,8 +158,17 @@ void PlayerObserver::PushInput(int num)
 	//Wait状態であればMoveに遷移
 	if (current == PlayerState::Wait || current == PlayerState::Idle)
 	{
-		if(current == PlayerState::Wait)
+		if (current == PlayerState::Wait)
+		{
+			//無敵状態でなければ当たり判定を有効化
+			if (!player->flgInvincible)
+			{
+				player->collider->active = true;
+				player->collider->SetTrailIndex(LineTrailModel(moveTarget, num));
+			}
+
 			trailEffect->Init(&player->transform.pos);
+		}
 
 		moveTarget = num;
 		player->goalpos = targetPos[moveTarget];
@@ -208,6 +217,9 @@ Moveコールバック
 ***************************************/
 void PlayerObserver::OnFinishPlayerMove()
 {
+	//当たり判定を無効化
+	player->collider->active = false;
+
 	//移動履歴をプッシュ
 	model->PushMoveStack(moveTarget);
 

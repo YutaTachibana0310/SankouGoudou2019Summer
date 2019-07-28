@@ -28,6 +28,7 @@ enum class TrailColliderTag
 	PlayerBullet,
 	Enemy,
 	EnemyBullet,
+	Player,
 	Max
 };
 

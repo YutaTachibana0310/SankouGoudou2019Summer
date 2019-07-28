@@ -121,6 +121,21 @@ void TrailCollider::UpdateCollision()
 			bullet->CheckCollision(enemy);
 		}
 	}
+
+	//プレイヤーとエネミーの衝突判定
+	for (TrailCollider* enemyBullet : checkDictionary[TrailColliderTag::EnemyBullet])
+	{
+		if (!enemyBullet->active)
+			continue;
+
+		for (TrailCollider *player : checkDictionary[TrailColliderTag::Player])
+		{
+			if (!player->active)
+				continue;
+
+			enemyBullet->CheckCollision(player);
+		}
+	}
 }
 
 /**************************************

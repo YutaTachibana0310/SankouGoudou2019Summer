@@ -9,6 +9,7 @@
 
 #include "main.h"
 #include "LineTrailModel.h"
+
 #include <queue>
 #include <vector>
 #include <deque>

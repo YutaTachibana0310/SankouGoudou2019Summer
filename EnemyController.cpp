@@ -28,6 +28,7 @@ using namespace std;
 #define ENEMY_NUM_OUTERLINE		(3)		//五角形の外周に生成するエネミーの数
 #define ENEMY_NUM_INNNERLINE	(5)		//五角形の内側に生成するエネミーの数
 
+#define ENEMY_SHOTPOS_OFFSET	(D3DXVECTOR3(0.0f, 0.0f, -20.0f))
 /**************************************
 構造体定義
 ***************************************/
@@ -120,22 +121,16 @@ void EnemyController::Update()
 {
 	//新しく作るEnemyの更新テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	BeginDebugWindow("Console");
-	if (DebugButton("EnemyBullet"))
-	{
-		vector<D3DXVECTOR3> tmpVector;
-		tmpVector.resize(5, D3DXVECTOR3(0.0f, 0.0f, 300.0f));
-		int start = RandomRange(0, 5);
-		int end = WrapAround(0, 5, start + RandomRange(1, 4));
-		bulletController->SetEnemyBullet(tmpVector, LineTrailModel(start, end));
-	}
-	EndDebugWindow("Console");
+
 #endif
 
 	//モデル更新処理
 	for (auto &model : modelList)
 	{
-		model->Update();
+		int updateResult = model->Update();
+
+		if (updateResult == AttackTiming)
+			EnemyAttack(model);
 	}
 
 	//バレット更新処理
@@ -311,4 +306,20 @@ bool EnemyController::LoadStageData()
 	currentIndex = 0;
 
 	return true;
+}
+
+/**************************************
+エネミー攻撃処理
+***************************************/
+void EnemyController::EnemyAttack(EnemyModel *enermyModel)
+{
+	vector<D3DXVECTOR3> emitPos;
+	emitPos.reserve(enermyModel->enemyList.size());
+
+	for (auto& enemy : enermyModel->enemyList)
+	{
+		emitPos.push_back(enemy->m_Pos + ENEMY_SHOTPOS_OFFSET);
+	}
+
+	bulletController->SetEnemyBullet(emitPos, enermyModel->model);
 }

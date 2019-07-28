@@ -22,6 +22,8 @@ using namespace std;
 #define ENEMYBULLETEFFECT_EMITTER_MAX	(32)
 #define ENEMYBULLETEFFECT_EMIT_NUM		(10)
 
+#define ENEMYBULLETEFFECT_SHRINK_LENGTH	(10.0f)
+
 typedef BaseParticleController Base;
 /**************************************
 èâä˙âªèàóù
@@ -81,6 +83,13 @@ void EnemyBulletEffectController::SetEmitter(LineTrailModel model)
 
 	EnemyBulletEffectEmitter *entity = static_cast<EnemyBulletEffectEmitter*>(*itr);
 
-	model.GetEdgePos(&entity->edgeR, &entity->edgeL);
+	D3DXVECTOR3 edgeR, edgeL;
+	model.GetEdgePos(&edgeR, &edgeL);
+
+	D3DXVECTOR3 diff = edgeR - edgeL;
+	D3DXVec3Normalize(&diff, &diff);
+	entity->edgeL = edgeL + diff * ENEMYBULLETEFFECT_SHRINK_LENGTH;
+	entity->edgeR = edgeR - diff * ENEMYBULLETEFFECT_SHRINK_LENGTH;
+
 	entity->Init();
 }

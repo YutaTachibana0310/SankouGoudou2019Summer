@@ -53,12 +53,14 @@ void EnemyBulletModel::Init(std::vector<D3DXVECTOR3> emitters, LineTrailModel ta
 
 	bullets.reserve(emitters.size());
 
+	//’e‚Ì’…’e“_‚ðŒvŽZ
 	D3DXVECTOR3 edgeR, edgeL;
 	target.GetEdgePos(&edgeR, &edgeL);
 	D3DXVECTOR3 diff = edgeL - edgeR;
-	diff /= (float)(emitters.size() - 1);
+	diff /= (float)(emitters.size() + 1);
 
-	D3DXVECTOR3 targetPos = edgeR;
+
+	D3DXVECTOR3 targetPos = edgeR + diff;
 	for (UINT cnt = 0; cnt < emitters.size(); cnt++)
 	{
 		bullets.push_back(new EnemyBullet());

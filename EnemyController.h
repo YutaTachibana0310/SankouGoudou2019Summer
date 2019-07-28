@@ -63,9 +63,12 @@ private:
 	int currentIndex;
 
 	//エネミー生成処理(内部処理)
-	EnemySnake *test;
+	
 	void _SetEnemyChange(picojson::object& data);
 	void _SetEnemyStraight(picojson::object& data);
+
+	//test
+	EnemySnake *test;
 
 	//ステージデータ読み込み処理
 	bool LoadStageData();

@@ -23,18 +23,16 @@ using namespace std;
 
 #define	ENEMY_ATTENUATION (0.98f)		//減衰係数 
 
-#define POSDEST_MAX (6)
-
-#define FRAMEDEST_MAX (5)
-
 #define ENEMY_FRAME_SNAKE (200)
 
 //#define GET_RANDOM(a, b)		((a) + rand() / (RAND_MAX / ((b) - (a) + 1) + 1))
 
-#define STRAIGHT_SCL_EASE_MAX (D3DXVECTOR3(1.0f, 1.0f, 1.0f))
-#define STRAIGHT_SCL_EASE_MIN (D3DXVECTOR3(0.0f, 0.0f, 0.0f))
-#define STRAIGHT_SCL_EXPANSION (0.08f)
+#define STRAIGHT_SCL_MIN (D3DXVECTOR3(0.0f, 0.0f, 0.0f))  //スケールのアニメーションの最大値	
+#define STRAIGHT_SCL_SPEED (0.05f)						  //アニメーションの時間の増分
 
+#define CHANGE_SCL_MAX (D3DXVECTOR3(1.0f, 1.0f, 1.0f))
+#define CHANGE_SCL_MIN (D3DXVECTOR3(0.8f, 0.8f, 0.8f))
+#define CHANGE_SCL_SPEED (0.05f)
 /****************************************
 static変数
 ****************************************/
@@ -79,23 +77,24 @@ EnemyStraight::~EnemyStraight()
 ****************************************/
 HRESULT  EnemyStraight::VInit(void)
 {
+	m_SclTime = 0.0f;
+
 	m_Active = false;
 
-	f = 0.0f;
-
-	m_Pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scl = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
+	m_Pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	
+	
+	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_PosDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Start = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_FrameDest = 0.0f;
+
+	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	m_CntFrame = 0.0f;
-	
-	m_Start =  D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_FrameDest = 0.0f;
 
 	return S_OK;
 }
@@ -120,51 +119,30 @@ void EnemyStraight::VUpdate(void)
 			//ブレーキの手触り
 			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue((m_CntFrame/m_FrameDest), &m_Start, 
 				&m_PosDest, EasingType::InCubic);
-			//m_Scl = D3DXVECTOR3(GET_RANDOM(1.0f, 2.0f), GET_RANDOM(1.0f, 2.0f), GET_RANDOM(1.0f, 2.0f)); 
-			//D3DXVECTOR3 max = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-			//D3DXVECTOR3 min = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-
-			if (f <= 1.0f)
+			//現れる時の拡大
+			//if (f < 1.0f)
 			{
-				m_Scl = Easing<D3DXVECTOR3>::GetEasingValue(f, &STRAIGHT_SCL_EASE_MIN,
-					&STRAIGHT_SCL_EASE_MAX, EasingType::OutExponential);
-				f += STRAIGHT_SCL_EXPANSION;
+				m_Scl = Easing<D3DXVECTOR3>::GetEasingValue(m_SclTime, &STRAIGHT_SCL_MIN,
+					&D3DXVECTOR3(1.0f, 1.0f, 1.0f), EasingType::OutCubic);
+
+				m_SclTime += STRAIGHT_SCL_SPEED;
+				
+				//if (f >= 1.0f)
+				//{
+				//	m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+				//}
 			}
 
-			/*if (f < 1.0f)
-			{
-				m_Scl = Easing<D3DXVECTOR3>::GetEasingValue(f, &STRAIGHT_SCL_EASE_MIN,
-					&STRAIGHT_SCL_EASE_MAX, EasingType::OutExponential);
-				f += 0.1f;
-			}*/
-			/*else if(f >= 1.0f)
-			{
-				if (f == 1.0f)
-				{
-					f = 1.0f;
-				}
-				m_Scl = Easing<D3DXVECTOR3>::GetEasingValue(f, &min,
-					&max, EasingType::InExponential);
-				f -= 0.001f;
-				if (f <= 0.0f)
-				{
-					f = 0.0f;
-				}
-
-			}*/
-
-
-			
-			
-			
-			
 		}
-
-		
 		//countする.
 		m_CntFrame++;
 	}
+
+	BeginDebugWindow("scl");
+	DebugText("%f,%f,%f", m_Scl.x, m_Scl.y, m_Scl.z);
+	DebugText("%f", m_SclTime);
+	EndDebugWindow("scl");
 }
 
 /****************************************
@@ -240,24 +218,27 @@ EnemyChange::~EnemyChange()
 ****************************************/
 HRESULT EnemyChange::VInit(void)
 {
+	m_WaitTime = 0.0f;
+	m_VecChange = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_SclTime = 0.0f;
+	g_mode = MODE_EXPANSION;
+
 	m_Active = false;
 
-
-	m_Pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
-	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scl = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
 	m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_CntFrame = 0.0f;
+	m_Pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
 
-	m_FrameDest = 0.0f;
+	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_PosDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
 	m_Start = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_FrameDest = 0.0f;
 
-	m_waitTime = 0.0f;
-    m_VecChange = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+	m_CntFrame = 0.0f;
+		
 	return S_OK;
 }
 /****************************************
@@ -276,24 +257,22 @@ void EnemyChange::VUpdate()
 	if (m_Active)
 	{
 
-		if (m_CntFrame > m_FrameDest + m_waitTime + ENEMY_FALSE)
+		if (m_CntFrame > m_FrameDest + m_WaitTime + ENEMY_FALSE)
 		{
 			m_Active = false;
 		}
 
-		if (m_CntFrame > m_FrameDest && m_CntFrame < m_FrameDest + m_waitTime)
+		if (m_CntFrame > m_FrameDest && m_CntFrame < m_FrameDest + m_WaitTime)
 		{
 
 		}
-		else if (m_CntFrame == m_FrameDest + m_waitTime)
+		else if (m_CntFrame == m_FrameDest + m_WaitTime)
 		{
 			m_Move = m_VecChange;
 			
 		}
-		else if (m_CntFrame > m_FrameDest + m_waitTime)
+		else if (m_CntFrame > m_FrameDest + m_WaitTime)
 		{
-
-			//move = vecChange;
 
 			//クオリティアップする?
 			m_Move *= ENEMY_ATTENUATION;
@@ -305,6 +284,31 @@ void EnemyChange::VUpdate()
 			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue((m_CntFrame / m_FrameDest), &m_Start,
 				&m_PosDest, EasingType::OutCubic);
 			
+		}
+
+		//拡大と縮小の繰り返し
+		switch (g_mode)
+		{
+		case MODE_EXPANSION:
+			m_Scl = Easing<D3DXVECTOR3>::GetEasingValue(m_SclTime, &CHANGE_SCL_MIN,
+				&CHANGE_SCL_MAX, EasingType::Linear);
+			m_SclTime += CHANGE_SCL_SPEED;
+			if (m_SclTime >= 1.0f)
+			{
+				g_mode = MODE_SHRINK;
+			}
+			break;
+
+		case  MODE_SHRINK:
+			m_Scl = Easing<D3DXVECTOR3>::GetEasingValue(m_SclTime, &CHANGE_SCL_MIN,
+				&CHANGE_SCL_MAX, EasingType::Linear);
+			m_SclTime -= CHANGE_SCL_SPEED;
+			if (m_SclTime <= 0.0f)
+			{
+				g_mode = MODE_EXPANSION;
+			}
+			break;
+
 		}
 		//countする
 		m_CntFrame++;
@@ -354,7 +358,7 @@ void EnemyChange::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame)
 void EnemyChange::VSetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int waitTime, D3DXVECTOR3 vec)
 {
 	m_VecChange = vec;
-	m_waitTime = waitTime;
+	m_WaitTime = waitTime;
 	m_FrameDest = frame;
 	m_PosDest = end;
 	
@@ -388,29 +392,28 @@ EnemySnake::~EnemySnake()
 ****************************************/
 HRESULT EnemySnake::VInit()
 {
-	m_Active = false;
-
 	m_WaitTime = 0;
 	m_CurrentIndex = 0;
 	m_posDestMax = 0;
 	m_framePassed = 0;
 	m_waitcount = 0;
 
+	m_Active = false;
 
-	m_Pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
-	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scl = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
 	m_Rot = D3DXVECTOR3(0.0f, 59.7f, 0.0f);
-	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
 
-
-	m_FrameDest = 0.0f;
+	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_PosDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_CntFrame = 0.0f;
-
 	m_Start = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_FrameDest = 0.0f;
 
+	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+	m_CntFrame = 0.0f;
+	
 	return S_OK;
 }
 
@@ -428,8 +431,6 @@ void EnemySnake::VUninit()
 void EnemySnake::VUpdate()
 {
 	
-	
-
 	//最後の点のフレーム
 	int last = m_framePassed + m_FrameDestList[m_posDestMax - 2];
 

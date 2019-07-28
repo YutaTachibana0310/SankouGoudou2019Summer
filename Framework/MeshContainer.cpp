@@ -194,7 +194,7 @@ DWORD MeshContainer::GetMaterialNum()
 ***************************************/
 void MeshContainer::SetMaterialColor(D3DXCOLOR& color)
 {
-	for (int i = 0; i < materialNum; i++)
+	for (UINT i = 0; i < materialNum; i++)
 	{
 		materials[i].Diffuse = color;
 	}
@@ -205,7 +205,7 @@ void MeshContainer::SetMaterialColor(D3DXCOLOR& color)
 ***************************************/
 void MeshContainer::SetMaterialAlpha(float alpha)
 {
-	for (int i = 0; i < materialNum; i++)
+	for (UINT i = 0; i < materialNum; i++)
 	{
 		materials[i].Diffuse.a = alpha;
 	}

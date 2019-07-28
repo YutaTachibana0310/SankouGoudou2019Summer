@@ -75,11 +75,11 @@ HRESULT  EnemyStraight::VInit(void)
 {
 	m_Active = false;
 
-	m_FrameDest = 0.0f;
+	m_FrameDest = 0;
 	m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	m_Dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_PosDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_CntFrame = 0.0f;
+	m_CntFrame = 0;
 	
 	m_Start =  D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	return S_OK;
@@ -102,7 +102,7 @@ void EnemyStraight::VUpdate(void)
 		if (m_CntFrame <= m_FrameDest )
 		{
 			//ブレーキの手触り
-			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue((m_CntFrame/m_FrameDest), &m_Start, 
+			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue((float)m_CntFrame/m_FrameDest, &m_Start, 
 				&m_PosDest, EasingType::InCubic);
 			
 		}
@@ -156,7 +156,7 @@ void EnemyStraight::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame)
 	m_PosDest = end;
 	
 	m_Start = m_Pos = start;
-	m_CntFrame = 0.0f;
+	m_CntFrame = 0;
 	
 	m_Active = true;
 }
@@ -194,15 +194,15 @@ HRESULT EnemyChange::VInit(void)
 	m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_CntFrame = 0.0f;
+	m_CntFrame = 0;
 
-	m_FrameDest = 0.0f;
+	m_FrameDest = 0;
 	m_Dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_PosDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	m_Start = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	m_waitTime = 0.0f;
+	m_waitTime = 0;
     m_VecChange = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	return S_OK;
 }
@@ -248,7 +248,7 @@ void EnemyChange::VUpdate()
 		else if (m_CntFrame < m_FrameDest)
 		{
 			//ブレーキの手触り
-			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue((m_CntFrame / m_FrameDest), &m_Start,
+			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue((float)m_CntFrame / m_FrameDest, &m_Start,
 				&m_PosDest, EasingType::OutCubic);
 			
 		}
@@ -349,10 +349,10 @@ HRESULT EnemySnake::VInit()
 	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 
-	m_FrameDest = 0.0f;
+	m_FrameDest = 0;
 	m_Dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_PosDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_CntFrame = 0.0f;
+	m_CntFrame = 0;
 
 	m_Start = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -416,7 +416,7 @@ void EnemySnake::VUpdate()
 		}
 		else if (m_CurrentIndex <= m_posDestMax - 2)
 		{
-			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue(((m_CntFrame - m_framePassed) / m_FrameDestList[m_CurrentIndex]),
+			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue((float(m_CntFrame - m_framePassed) / m_FrameDestList[m_CurrentIndex]),
 				&m_PosDestList[m_CurrentIndex], &m_PosDestList[m_CurrentIndex + 1], EasingType::OutCubic);
 		}
 
@@ -466,7 +466,7 @@ void EnemySnake::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end1, int frame)
 	//空
 }
 
-void EnemySnake::Set(vector<D3DXVECTOR3> posDestList, vector<float> frameDestList,int waitTime)
+void EnemySnake::Set(vector<D3DXVECTOR3> posDestList, vector<int> frameDestList,int waitTime)
 {
 	
 	m_PosDestList = posDestList;

@@ -10,8 +10,8 @@
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
-#define ENEMYGUIDEARROW_LIFEFRAME		(60)
-#define ENEMYGUIDEARROW_DURATION		(30)
+#define ENEMYGUIDEARROW_LIFEFRAME		(45)
+#define ENEMYGUIDEARROW_DURATION		(20)
 
 #define ENEMYGUIDEARROW_BASE_VECTOR		(&D3DXVECTOR3(0.0f, 1.0f, 0.0f))
 

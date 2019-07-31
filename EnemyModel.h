@@ -24,6 +24,7 @@ enum EnemyModelResult
 	StateContinuous,
 	AttackTiming,
 	StateFinished,
+	ChargeTiming,
 	ResultMax
 };
 

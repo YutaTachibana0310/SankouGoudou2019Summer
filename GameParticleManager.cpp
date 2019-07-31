@@ -14,6 +14,7 @@
 #include "EnemyWarpHoleController.h"
 #include "EnemyBulletTrailController.h"
 #include "EnemyBulletEffectController.h"
+#include "EnemyBulletChargeController.h"
 
 #include "LineTrailModel.h"
 
@@ -43,6 +44,7 @@ enum ParticleController
 	EnemyWarpHole,
 	EnemyBulletTrail,
 	EnenyBulletEffect,
+	EnemyBulletCharge,
 	ControllerMax
 };
 
@@ -65,6 +67,7 @@ void GameParticleManager::Init()
 	controllers[EnemyWarpHole] = new EnemyWarpHoleController();
 	controllers[EnemyBulletTrail] = new EnemyBulletTrailController();
 	controllers[EnenyBulletEffect] = new EnemyBulletEffectController();
+	controllers[EnemyBulletCharge] = new EnemyBulletChargeController();
 
 	//各パーティクル初期化
 	for (auto& controller : controllers)
@@ -147,6 +150,14 @@ void GameParticleManager::SetEnemyBulletEffect(LineTrailModel model)
 {
 	EnemyBulletEffectController *entity = static_cast<EnemyBulletEffectController*>(controllers[EnenyBulletEffect]);
 	entity->SetEmitter(model);
+}
+
+/**************************************
+エネミーバレットチャージセット処理
+***************************************/
+void GameParticleManager::SetEnemyBulletCharge(D3DXVECTOR3 *pos)
+{
+	controllers[EnemyBulletCharge]->SetEmitter(pos);
 }
 
 #ifdef GAMEPARTICLE_USE_DEBUG

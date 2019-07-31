@@ -77,6 +77,9 @@ private:
 	//攻撃処理
 	void EnemyAttack(EnemyModel* model);
 
+	//攻撃チャージ処理
+	void SetChageEffect(EnemyModel *model);
+
 	//五角形の外周を構成するLineModel
 	static const std::vector<LineTrailModel> OuterLineModel;
 };

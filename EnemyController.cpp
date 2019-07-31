@@ -332,8 +332,14 @@ void EnemyController::EnemyAttack(EnemyModel *enermyModel)
 ***************************************/
 void EnemyController::SetChageEffect(EnemyModel *model)
 {
+	model->chageEffectList.clear();
+	model->chageEffectList.resize(model->enemyList.size());
+
+	UINT cntSet = 0;
 	for (auto& enemey : model->enemyList)
 	{
-		GameParticleManager::Instance()->SetEnemyBulletCharge(&(enemey->m_Pos + ENEMY_SHOTPOS_OFFSET));
+		BaseEmitter* emitter = GameParticleManager::Instance()->SetEnemyBulletCharge(&(enemey->m_Pos + ENEMY_SHOTPOS_OFFSET));
+		model->chageEffectList[cntSet] = emitter;
+		cntSet++;
 	}
 }

@@ -159,9 +159,9 @@ void GameParticleManager::SetEnemyBulletEffect(LineTrailModel model)
 /**************************************
 エネミーバレットチャージセット処理
 ***************************************/
-void GameParticleManager::SetEnemyBulletCharge(D3DXVECTOR3 *pos)
+BaseEmitter* GameParticleManager::SetEnemyBulletCharge(D3DXVECTOR3 *pos)
 {
-	controllers[EnemyBulletCharge]->SetEmitter(pos);
+	return controllers[EnemyBulletCharge]->SetEmitter(pos);
 }
 
 #ifdef GAMEPARTICLE_USE_DEBUG

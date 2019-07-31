@@ -41,7 +41,7 @@ public:
 	void SetEnemyWarpHole(D3DXVECTOR3 *pPos);
 	BaseEmitter* SetEnemyBulletTrail(D3DXVECTOR3 *pPos);
 	void SetEnemyBulletEffect(LineTrailModel model);
-	void SetEnemyBulletCharge(D3DXVECTOR3 *pos);
+	BaseEmitter* SetEnemyBulletCharge(D3DXVECTOR3 *pos);
 
 private:
 	GameParticleManager() {}

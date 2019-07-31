@@ -16,6 +16,7 @@
 
 #include <vector>
 
+class BaseEmitter;
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
@@ -51,6 +52,7 @@ public:
 	TrailCollider *collider;
 	LineTrailModel model;
 	std::vector<Enemy*> enemyList;
+	std::vector<BaseEmitter*> chageEffectList;
 
 protected:
 	D3DXVECTOR3 pos;

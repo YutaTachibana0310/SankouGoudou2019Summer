@@ -13,8 +13,8 @@
 #define ENEMYBULLETFIRE_LIFE_MIN	(10)
 #define ENEMYBULLETFIRE_LIFE_MAX	(30)
 
-#define ENEMYBULLETFIRE_SPEED_MAX	(10.0f)
-#define ENEMYBULLETFIRE_SPEED_MIN	(5.0f)
+#define ENEMYBULLETFIRE_SPEED_MAX	(20.0f)
+#define ENEMYBULLETFIRE_SPEED_MIN	(15.0f)
 
 /**************************************
 EnemyBulletFireèâä˙âªèàóù

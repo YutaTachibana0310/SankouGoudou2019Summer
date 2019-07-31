@@ -197,7 +197,9 @@ void GameParticleManager::DrawDebugWindow(void)
 	{
 		if (DebugButton("EnemyGuide"))
 		{
-			SetEnemyGuideArrow(LineTrailModel(0, 1));
+			int start = RandomRange(0, 5);
+			int end = WrapAround(0, 5, start + RandomRange(1, 4));
+			SetEnemyGuideArrow(LineTrailModel(start, end));
 		}
 	}
 	EndDebugWindow("GameParticle");

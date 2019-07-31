@@ -13,6 +13,8 @@
 #define ENEMYGUIDEARROW_LIFEFRAME		(60)
 #define ENEMYGUIDEARROW_DURATION		(30)
 
+#define ENEMYGUIDEARROW_BASE_VECTOR		(&D3DXVECTOR3(0.0f, 1.0f, 0.0f))
+
 /**************************************
 EnemyGuideArrowèâä˙âªèàóù
 ***************************************/
@@ -49,6 +51,13 @@ void EnemyGuideArrowEmitter::Init()
 	cntFrame = 0;
 	active = true;
 	duration = ENEMYGUIDEARROW_DURATION;
+
+	D3DXVECTOR3 diff = end - start;
+	D3DXVec3Normalize(&diff, &diff);
+
+	int dir = diff.x < 0 ? 1 : -1;
+
+	transform.rot.z = dir * acosf(D3DXVec3Dot(ENEMYGUIDEARROW_BASE_VECTOR, &diff))               ;
 }
 
 /**************************************

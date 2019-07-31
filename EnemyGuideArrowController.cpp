@@ -15,8 +15,8 @@ using namespace std;
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
-#define ENEMYGUIDEARROW_SIZE		(&D3DXVECTOR2(10.0f, 10.0f))
-#define ENEMYGUIDEARROW_TEX_DIV		(&D3DXVECTOR2(1.0f, 1.0f))
+#define ENEMYGUIDEARROW_SIZE		(&D3DXVECTOR2(20.0f, 10.0f))
+#define ENEMYGUIDEARROW_TEX_DIV		(&D3DXVECTOR2(0.5f, 1.0f))
 #define ENEMYGUIDEARROW_TEX_NAME	"data/TEXTURE/Effect/GuideArrow.png"
 
 #define ENEMYGUIDEARROW_INTERVAL	(5)

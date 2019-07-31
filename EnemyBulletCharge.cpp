@@ -9,7 +9,9 @@
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
-#define ENEMYBULLETCHARGE_POS_RANGE		(10.0f)
+#define ENEMYBULLETCHARGE_POS_RANGE			(4.0f)
+#define ENEMYBULLETCHARGE_EMIT_DURATION		(120)
+#define ENEMYBULLETCHARGE_LIFE				(30)
 
 /**************************************
 EnemyBulletChargeèâä˙âªèàóù
@@ -23,7 +25,7 @@ void EnemyBulletCharge::Init()
 	transform.pos.x += RandomRangef(-ENEMYBULLETCHARGE_POS_RANGE, ENEMYBULLETCHARGE_POS_RANGE);
 	transform.pos.y += RandomRangef(-ENEMYBULLETCHARGE_POS_RANGE, ENEMYBULLETCHARGE_POS_RANGE);
 
-	lifeFrame = 30;
+	lifeFrame = ENEMYBULLETCHARGE_LIFE;
 }
 
 /**************************************
@@ -51,7 +53,7 @@ void EnemyBulletChargeEmitter::Init()
 	active = true;
 	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
-	duration = 90;
+	duration = ENEMYBULLETCHARGE_EMIT_DURATION;
 }
 
 /**************************************

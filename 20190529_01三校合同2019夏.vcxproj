@@ -155,6 +155,8 @@
     <ClInclude Include="EnemyBulletController.h" />
     <ClInclude Include="EnemyBulletEffect.h" />
     <ClInclude Include="EnemyBulletEffectController.h" />
+    <ClInclude Include="EnemyBulletFire.h" />
+    <ClInclude Include="EnemyBulletFireController.h" />
     <ClInclude Include="EnemyBulletModel.h" />
     <ClInclude Include="EnemyBulletTrail.h" />
     <ClInclude Include="EnemyBulletTrailController.h" />
@@ -305,6 +307,8 @@
     <ClCompile Include="EnemyBulletController.cpp" />
     <ClCompile Include="EnemyBulletEffect.cpp" />
     <ClCompile Include="EnemyBulletEffectController.cpp" />
+    <ClCompile Include="EnemyBulletFire.cpp" />
+    <ClCompile Include="EnemyBulletFireController.cpp" />
     <ClCompile Include="EnemyBulletModel.cpp" />
     <ClCompile Include="EnemyBulletTrail.cpp" />
     <ClCompile Include="EnemyBulletTrailController.cpp" />

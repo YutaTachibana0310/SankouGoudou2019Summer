@@ -9,7 +9,8 @@
 
 
 #include "main.h"
-
+#include "TrailCollider.h"
+#include "LineTrailModel.h"
 
 
 //*****************************************************************************
@@ -19,8 +20,7 @@ HRESULT InitRebarOb(void);
 void UninitRebarOb(void);
 void UpdateRebarOb(void);
 void DrawRebarOb(void);
-void ResetRebar(int no);
-void SetRebar(D3DXVECTOR3 pos);
+void SetRebar(int a,int b);
 
 
 typedef struct
@@ -44,15 +44,9 @@ typedef struct
 	D3DXVECTOR3			m_sclRebarOb;				// モデルの大きさ(スケール)
 	D3DXVECTOR3			m_vecRebarOb;             //エネミーのベクトル
 
-	D3DXVECTOR3			m_DirSpeed;				//移動ベクトル
-	D3DXVECTOR3			m_RotSpeed;				//回転スピード
-	D3DXVECTOR3			m_Kakudo;				//回転移動用角度
-	D3DXVECTOR3			m_Radius;				//回転移動用半径
-
 	bool                m_bUse;                 //このオブジェクトが使用状態か
 
 	int					m_RebarObID;				// このキャラクタのモデルデータのID
-	int					m_ShadowID;				// このキャラクタの影オブジェクトのID
 }OBJECT3D;
 
 OBJECT3D* GetRebarOb(int no);//構造体の先頭ポインタを取得

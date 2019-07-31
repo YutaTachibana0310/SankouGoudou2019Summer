@@ -645,6 +645,18 @@
     <ClInclude Include="EnemyBulletEffectController.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyBulletCharge.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletChargeController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletFire.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletFireController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1074,6 +1086,18 @@
       <Filter>ソース ファイル\Effect\Particle</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBulletEffectController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletCharge.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletChargeController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletFire.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletFireController.cpp">
       <Filter>ソース ファイル\Effect\Controller</Filter>
     </ClCompile>
   </ItemGroup>

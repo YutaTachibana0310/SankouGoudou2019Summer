@@ -10,6 +10,7 @@
 #include "StraightEnemyModel.h"
 #include "SnakeEnemyModel.h"
 #include "EnemyBullet.h"
+#include "GameParticleManager.h"
 
 #include "Framework\ResourceManager.h"
 #include "picojson\picojson.h"
@@ -28,7 +29,7 @@ using namespace std;
 #define ENEMY_NUM_OUTERLINE		(3)		//五角形の外周に生成するエネミーの数
 #define ENEMY_NUM_INNNERLINE	(5)		//五角形の内側に生成するエネミーの数
 
-#define ENEMY_SHOTPOS_OFFSET	(D3DXVECTOR3(0.0f, 0.0f, -20.0f))
+#define ENEMY_SHOTPOS_OFFSET	(D3DXVECTOR3(0.0f, 0.0f, -50.0f))
 /**************************************
 構造体定義
 ***************************************/
@@ -131,6 +132,8 @@ void EnemyController::Update()
 
 		if (updateResult == AttackTiming)
 			EnemyAttack(model);
+		else if (updateResult == ChargeTiming)
+			SetChageEffect(model);
 	}
 
 	//バレット更新処理
@@ -322,4 +325,21 @@ void EnemyController::EnemyAttack(EnemyModel *enermyModel)
 	}
 
 	bulletController->SetEnemyBullet(emitPos, enermyModel->model);
+}
+
+/**************************************
+エネミー攻撃チャージ開始処理
+***************************************/
+void EnemyController::SetChageEffect(EnemyModel *model)
+{
+	model->chageEffectList.clear();
+	model->chageEffectList.resize(model->enemyList.size());
+
+	UINT cntSet = 0;
+	for (auto& enemey : model->enemyList)
+	{
+		BaseEmitter* emitter = GameParticleManager::Instance()->SetEnemyBulletCharge(&(enemey->m_Pos + ENEMY_SHOTPOS_OFFSET));
+		model->chageEffectList[cntSet] = emitter;
+		cntSet++;
+	}
 }

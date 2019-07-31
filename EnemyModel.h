@@ -16,6 +16,7 @@
 
 #include <vector>
 
+class BaseEmitter;
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
@@ -24,6 +25,7 @@ enum EnemyModelResult
 	StateContinuous,
 	AttackTiming,
 	StateFinished,
+	ChargeTiming,
 	ResultMax
 };
 
@@ -50,6 +52,7 @@ public:
 	TrailCollider *collider;
 	LineTrailModel model;
 	std::vector<Enemy*> enemyList;
+	std::vector<BaseEmitter*> chageEffectList;
 
 protected:
 	D3DXVECTOR3 pos;

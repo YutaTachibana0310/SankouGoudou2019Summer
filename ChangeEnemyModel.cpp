@@ -99,9 +99,7 @@ int ChangeEnemyModel::Update()
 	//60フレーム目で当たり判定をアクティブにする
 	if (cntFrame == CHANGEENEMY_TIME_COLLIDER_ACTIVATE)
 		collider->active = true;
-
-
-
+	
 	//アクティブになってから300フレームで離脱する
 	if (cntFrame == CHANGEENEMY_TIME_ESCAPE)
 		collider->active = false;
@@ -118,6 +116,9 @@ int ChangeEnemyModel::Update()
 	//アクティブになってから120フレームで攻撃
 	if (cntFrame == CHANGEENEMY_TIME_ATTACK)
 		return AttackTiming;
+	//当たり判定のアクティベイトと同時にチャージ演出
+	else if (cntFrame == CHANGEENEMY_TIME_COLLIDER_ACTIVATE)
+		return ChargeTiming;
 	else
 		return StateContinuous;
 }

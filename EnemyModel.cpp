@@ -7,6 +7,7 @@
 #include "EnemyModel.h"
 #include "GameParticleManager.h"
 #include "ScoreManager.h"
+#include "Framework\BaseEmitter.h"
 
 using namespace std;
 
@@ -92,6 +93,13 @@ void EnemyModel::OnNotified(ObserveSubject *notifier)
 
 		//スコア加算
 		SetAddScore(100);
+	}
+
+	//チャージエフェクト非表示
+	for (auto& emitter : chageEffectList)
+	{
+		if(emitter != NULL)
+			emitter->active = false;
 	}
 
 	SetAddCombo(1);

@@ -48,7 +48,6 @@ enum ParticleController
 	EnenyBulletEffect,
 	EnemyBulletCharge,
 	EnemyBulletFire,
-	EnemyGuideArrow,
 	ControllerMax
 };
 
@@ -73,7 +72,6 @@ void GameParticleManager::Init()
 	controllers[EnenyBulletEffect] = new EnemyBulletEffectController();
 	controllers[EnemyBulletCharge] = new EnemyBulletChargeController();
 	controllers[EnemyBulletFire] = new EnemyBulletFireController();
-	controllers[EnemyGuideArrow] = new EnemyGuideArrowController();
 
 	//各パーティクル初期化
 	for (auto& controller : controllers)
@@ -167,15 +165,6 @@ BaseEmitter* GameParticleManager::SetEnemyBulletCharge(D3DXVECTOR3 *pos)
 	return controllers[EnemyBulletCharge]->SetEmitter(pos);
 }
 
-/**************************************
-エネミーバレットチャージセット処理
-***************************************/
-void GameParticleManager::SetEnemyGuideArrow(LineTrailModel model)
-{
-	EnemyGuideArrowController *entity = static_cast<EnemyGuideArrowController*>(controllers[EnemyGuideArrow]);
-	entity->SetEmitter(&model);
-}
-
 #ifdef GAMEPARTICLE_USE_DEBUG
 /**************************************
 デバッグウィンドウ
@@ -194,14 +183,6 @@ void GameParticleManager::DrawDebugWindow(void)
 			SetEnemyExplosion(&D3DXVECTOR3(0.0f, 0.0f, 250.0f));
 	}
 
-	{
-		if (DebugButton("EnemyGuide"))
-		{
-			int start = RandomRange(0, 5);
-			int end = WrapAround(0, 5, start + RandomRange(1, 4));
-			SetEnemyGuideArrow(LineTrailModel(start, end));
-		}
-	}
 	EndDebugWindow("GameParticle");
 }
 #endif

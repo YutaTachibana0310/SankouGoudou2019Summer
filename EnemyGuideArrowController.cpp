@@ -5,8 +5,8 @@
 //
 //=====================================
 #include "EnemyGuideArrowController.h"
-#include "EnemyGuideArrow.h"
 
+#include "Framework\ResourceManager.h"
 #include "LineTrailModel.h"
 #include <algorithm>
 
@@ -15,64 +15,69 @@ using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
-#define ENEMYGUIDEARROW_SIZE		(&D3DXVECTOR2(20.0f, 10.0f))
-#define ENEMYGUIDEARROW_TEX_DIV		(&D3DXVECTOR2(0.5f, 1.0f))
+#define ENEMYGUIDEARROW_SIZE		(D3DXVECTOR2(20.0f, 10.0f))
 #define ENEMYGUIDEARROW_TEX_NAME	"data/TEXTURE/Effect/GuideArrow.png"
 
-#define ENEMYGUIDEARROW_INTERVAL	(3)
-
-#define ENEMYGUIDEARROW_NUM_MAX		(256)
-#define ENEMYGUIDEARROW_EMITTER_MAX	(16)
-
-#define ENEMYGUIDEARROW_EMIT_NUM	(1)
-
-typedef BaseParticleController Base;
 /**************************************
-初期化処理
+コンストラクタ
 ***************************************/
-void EnemyGuideArrowController::Init()
+EnemyGuideArrowController::EnemyGuideArrowController()
 {
-	//単位頂点バッファ作成、テクスチャ読み込み
-	Base::MakeUnitBuffer(ENEMYGUIDEARROW_SIZE, ENEMYGUIDEARROW_TEX_DIV);
-	Base::LoadTexture(ENEMYGUIDEARROW_TEX_NAME);
+	//リソース作成
+	ResourceManager::Instance()->MakePolygon("EnemyGuideArrow", ENEMYGUIDEARROW_TEX_NAME, ENEMYGUIDEARROW_SIZE);
 
-	//パーティクルコンテナ作成
-	particleContainer.resize(ENEMYGUIDEARROW_NUM_MAX);
-	for (auto& particle : particleContainer)
-	{
-		particle = new EnemyGuideArrow();
-	}
-
-	//エミッターコンテナ作成
-	emitterContainer.resize(ENEMYGUIDEARROW_EMITTER_MAX);
+	//コンテナ作成
 	for (auto& emitter : emitterContainer)
 	{
 		emitter = new EnemyGuideArrowEmitter();
 	}
-
 }
 
 /**************************************
-放出処理
+デストラクタ
 ***************************************/
-void EnemyGuideArrowController::Emit()
+EnemyGuideArrowController::~EnemyGuideArrowController()
 {
-	Base::ForEachEmitter(ENEMYGUIDEARROW_EMIT_NUM, [](BaseEmitter* emitter, BaseParticle* particle)
+	for (auto& emitter : emitterContainer)
 	{
-		if (emitter->cntFrame % ENEMYGUIDEARROW_INTERVAL != 0)
-			return;
+		SAFE_DELETE(emitter);
+	}
+}
 
-		particle->transform = emitter->transform;
-		particle->Init();
-	});
+/**************************************
+更新処理
+***************************************/
+void EnemyGuideArrowController::Update()
+{
+	for (auto& emitter : emitterContainer)
+	{
+		emitter->Update();
+	}
+}
+
+/**************************************
+描画処理
+***************************************/
+void EnemyGuideArrowController::Draw()
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	pDevice->SetRenderState(D3DRS_LIGHTING, false);
+
+	for (auto& emitter : emitterContainer)
+	{
+		emitter->Draw();
+	}
+
+	pDevice->SetRenderState(D3DRS_LIGHTING, true);
 }
 
 /**************************************
 エミッターセット処理
 ***************************************/
-void EnemyGuideArrowController::SetEmitter(LineTrailModel *model)
+void EnemyGuideArrowController::SetEmitter(LineTrailModel model)
 {
-	auto itr = find_if(emitterContainer.begin(), emitterContainer.end(), [](BaseEmitter* emitter)
+	auto itr = find_if(emitterContainer.begin(), emitterContainer.end(), [](EnemyGuideArrowEmitter* emitter)
 	{
 		return !emitter->active;
 	});
@@ -80,8 +85,7 @@ void EnemyGuideArrowController::SetEmitter(LineTrailModel *model)
 	if (itr == emitterContainer.end())
 		return;
 
-	EnemyGuideArrowEmitter *emitter = static_cast<EnemyGuideArrowEmitter*>(*itr);
-	
-	model->GetEdgePos(&emitter->start, &emitter->end);
-	emitter->Init();
+	D3DXVECTOR3 start, end;
+	model.GetEdgePos(&start, &end);
+	(*itr)->Init(start, end);
 }

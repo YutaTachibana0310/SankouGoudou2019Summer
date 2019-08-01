@@ -59,9 +59,10 @@
 #define	NUM_POLYGON		(2)		// ポリゴン数
 
 //解放、削除関連
-#define SAFE_RELEASE(p) {if(p){p->Release(); p = NULL;}}
-#define SAFE_DELETE(p)	{if(p){delete(p); p = NULL;}}
-#define SAFE_DELETE_ARRAY(p)	{if(p){delete[](p); p = NULL;}}
+#define SAFE_RELEASE(p)				{if(p){p->Release(); p = NULL;}}
+#define SAFE_DELETE(p)				{if(p){delete(p); p = NULL;}}
+#define SAFE_DELETE_ARRAY(p)		{if(p){delete[](p); p = NULL;}}
+#define SAFE_DELETE_VECTOR(vector)	{for(auto& p : vector){ SAFE_DELETE(p);} vector.clear();}
 
 #define TARGETPLAYER_MAX	(2)	//一度に参加できるプレイヤーの最大数
 

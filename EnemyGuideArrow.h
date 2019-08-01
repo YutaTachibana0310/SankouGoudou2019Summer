@@ -8,8 +8,8 @@
 #define _ENEMYGUIDEARROW_H_
 
 #include "main.h"
-#include "Framework\BaseParticle.h"
-#include "Framework\BaseEmitter.h"
+#include "Framework\BoardPolygon.h"
+#include <vector>
 
 /**************************************
 マクロ定義
@@ -18,20 +18,45 @@
 /**************************************
 クラス定義
 ***************************************/
-class EnemyGuideArrow : public BaseParticle
+class EnemyGuideArrow
 {
 public:
+	EnemyGuideArrow();
+	~EnemyGuideArrow();
+
 	void Init();
+	void Uninit();
 	void Update();
+	void Draw();
+
+	Transform transform;
+	bool active;
+
+private:
+	int cntFrame;
+	BoardPolygon *polygon;
 };
 
-class EnemyGuideArrowEmitter : public BaseEmitter
+class EnemyGuideArrowEmitter
 {
 public:
-	void Init();
+	EnemyGuideArrowEmitter();
+	~EnemyGuideArrowEmitter();
+
+	void Init(D3DXVECTOR3 start, D3DXVECTOR3 end);
+	void Uninit();
 	void Update();
+	void Draw();
 
 	D3DXVECTOR3 start, end;
+	bool active;
+	Transform transform;
+
+private:
+	int cntFrame;
+	int cntArrow;
+	std::vector<EnemyGuideArrow*> arrowContainer;
+
 };
 
 #endif

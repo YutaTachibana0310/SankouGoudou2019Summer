@@ -8,23 +8,32 @@
 #define _ENEMYGUIDEARROWCONTROLLER_H_
 
 #include "main.h"
-#include "Framework\BaseParticleController.h"
+#include "EnemyGuideArrow.h"
+
+#include <array>
 
 class LineTrailModel;
 /**************************************
 マクロ定義
 ***************************************/
+#define ENEMYGUIDEARROW_EMITTER_MAX		(10)
 
 /**************************************
 クラス定義
 ***************************************/
-class EnemyGuideArrowController : public BaseParticleController
+class EnemyGuideArrowController
 {
 public:
-	void Init();
-	void Emit();
+	EnemyGuideArrowController();
+	~EnemyGuideArrowController();
 
-	void SetEmitter(LineTrailModel* model);
+	void Update();
+	void Draw();
+
+	void SetEmitter(LineTrailModel model);
+
+private:
+	std::array<EnemyGuideArrowEmitter*, ENEMYGUIDEARROW_EMITTER_MAX> emitterContainer;
 };
 
 #endif

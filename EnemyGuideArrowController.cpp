@@ -53,9 +53,10 @@ void EnemyGuideArrowController::Update()
 	//予約確認
 	for (auto& reserve : reserveList)
 	{
-		reserve.cntFrame--;
 		if (reserve.cntFrame == 0)
 			SetEmitter(reserve.model);
+
+		reserve.cntFrame--;
 	}
 
 	//エミッター更新
@@ -67,7 +68,7 @@ void EnemyGuideArrowController::Update()
 	//終了した予約を削除
 	remove_if(reserveList.begin(), reserveList.end(), [](auto reserve)
 	{
-		return reserve.cntFrame == 0;
+		return reserve.cntFrame < 0;
 	});
 }
 

@@ -12,7 +12,7 @@
 
 Clip::Stencil clip;
 OBJECT	masktex;
-OBJECT	testtitle;
+OBJECT	maskBG;
 
 //拡大縮小が始まるフラグ
 bool sizechange;
@@ -34,7 +34,7 @@ HRESULT InitMask(float size_x, float size_y, float size_z)
 	MakeVertexObject(&masktex);
 
 	masktex.size = D3DXVECTOR3(size_x, size_y, size_z);
-	masktex.position = D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT/2, 0.0f);
+	masktex.position = SIZE_MASKBG;
 	masktex.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	SetColorObject(&masktex, SET_COLOR_NOT_COLORED);
 
@@ -43,6 +43,15 @@ HRESULT InitMask(float size_x, float size_y, float size_z)
 	isFadeIn = false;
 	wait = 0;
 
+	//ステンシル値が0の時に表示する画像
+	LoadTexture(pDevice, MASK_TEXTUREBG, &maskBG);
+	InitialTexture(&maskBG);
+	MakeVertexObject(&maskBG);
+	maskBG.size = SIZE_MASKBG;
+	maskBG.position = POSITION_MASKBG;
+	maskBG.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	SetColorObject(&maskBG, SET_COLOR_NOT_COLORED);
+
 	return S_OK;
 }
 
@@ -50,6 +59,7 @@ HRESULT InitMask(float size_x, float size_y, float size_z)
 void UninitMask(void)
 {
 	ReleaseTexture(&masktex);
+	ReleaseTexture(&maskBG);
 
 }
 
@@ -71,7 +81,7 @@ void UpdateMask(void) {
 void MaskFadeOut(void) {
 
 	if (sizechange) {
-		masktex.size -= D3DXVECTOR3(10.0f, 10.0f, 0.0f);
+		masktex.size -= D3DXVECTOR3(20.0f, 20.0f, 0.0f);
 
 	}
 	//サイズ小さくなるにつれ画面が黒くなる
@@ -98,7 +108,7 @@ void MaskFadeOut(void) {
 void MaskFadeIn(void) {
 
 	if (sizechange) {
-		masktex.size += D3DXVECTOR3(10.0f, 10.0f, 0.0f);
+		masktex.size += D3DXVECTOR3(20.0f, 20.0f, 0.0f);
 
 	}
 
@@ -125,6 +135,7 @@ void DrawMaskTexSet(void) {
 
 	//マスク部分
 	clip.setWriteMaskColor(Clip::Stencil::MaskColor_Trans);
+	
 	clip.regionBegin(Clip::Stencil::MaskColor_Fill);
 
 	DrawObject(pDevice, masktex);
@@ -132,8 +143,14 @@ void DrawMaskTexSet(void) {
 
 	clip.regionEnd();
 
+	DrawTransition();
+
+	//
 	clip.setRefMaskColor(Clip::Stencil::MaskColor_Fill);
+
 	clip.drawBegin();
+
+
 
 }
 
@@ -144,6 +161,7 @@ void DrawMaskTexEnd(void) {
 	clip.drawEnd();
 
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+
 
 }
 
@@ -161,3 +179,12 @@ void SceneChangeFlag(bool fadeflag,Scene next) {
 	}
 	
 }
+
+void DrawTransition(void) {
+
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	DrawObject(pDevice, maskBG);
+	SetVertexObject(&maskBG);
+}
+

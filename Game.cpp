@@ -58,7 +58,7 @@ static IStateScene* fsm[SceneMax];
 static SoundStateScene* ssm[SceneMax];
 
 //現在のシーン
-static Scene currentScene = SceneGame;
+static Scene currentScene = SceneTitle;
 
 /**************************************
 初期化処理
@@ -151,8 +151,8 @@ void DrawGame()
 
 	//オブジェクトを描画
 	SetCamera();
-
 	fsm[currentScene]->Draw();
+
 
 	//マスク終了
 	DrawMaskTexEnd();

@@ -11,8 +11,11 @@
 #include "Game.h"
 
 #define	MASK_SIZE (2000.0f)
+#define SIZE_MASKBG		(D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,0.0f))
+#define POSITION_MASKBG	(D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,5000.0f))
 
 #define	MASK_TEXTURE			("data/TEXTURE/UI/mask_star.png")	// 読み込むテクスチャファイル名
+#define	MASK_TEXTUREBG			("data/TEXTURE/UI/transition.jpg")	// 読み込むテクスチャファイル名
 
 //テクスチャ初期化
 HRESULT InitMask(float size_x, float size_y, float size_z);
@@ -31,4 +34,6 @@ void DrawMaskTexSet(void);
 void DrawMaskTexEnd(void);
 
 void SceneChangeFlag(bool fadeflag,Scene next);
+
+void DrawTransition(void);
 #endif

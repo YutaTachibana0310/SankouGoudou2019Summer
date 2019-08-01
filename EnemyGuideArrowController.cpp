@@ -7,7 +7,6 @@
 #include "EnemyGuideArrowController.h"
 
 #include "Framework\ResourceManager.h"
-#include "LineTrailModel.h"
 #include <algorithm>
 #include "debugWindow.h"
 
@@ -51,22 +50,26 @@ EnemyGuideArrowController::~EnemyGuideArrowController()
 ***************************************/
 void EnemyGuideArrowController::Update()
 {
-
-	BeginDebugWindow("EnemyGuide");
-
-	if (DebugButton("Set"))
+	//予約確認
+	for (auto& reserve : reserveList)
 	{
-		int start = RandomRange(0, 5);
-		int end = WrapAround(0, 5, start + RandomRange(1, 4));
-		SetEmitter(LineTrailModel(start, end));
+		if (reserve.cntFrame == 0)
+			SetEmitter(reserve.model);
+
+		reserve.cntFrame--;
 	}
 
-	EndDebugWindow("EnemyGuide");
-
+	//エミッター更新
 	for (auto& emitter : emitterContainer)
 	{
 		emitter->Update();
 	}
+
+	//終了した予約を削除
+	remove_if(reserveList.begin(), reserveList.end(), [](auto reserve)
+	{
+		return reserve.cntFrame < 0;
+	});
 }
 
 /**************************************
@@ -104,4 +107,12 @@ void EnemyGuideArrowController::SetEmitter(LineTrailModel model)
 	D3DXVECTOR3 start, end;
 	model.GetEdgePos(&start, &end);
 	(*itr)->Init(start, end);
+}
+
+/**************************************
+エミッター予約処理
+***************************************/
+void EnemyGuideArrowController::Reserve(int delay, LineTrailModel model)
+{
+	reserveList.push_back(EnemyGuideReserve(delay, model));
 }

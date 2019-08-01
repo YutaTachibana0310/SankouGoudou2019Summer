@@ -390,13 +390,7 @@
     <ClInclude Include="guageUI.h">
       <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
     </ClInclude>
-    <ClInclude Include="lineUI.h">
-      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
-    </ClInclude>
     <ClInclude Include="scoreUI.h">
-      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
-    </ClInclude>
-    <ClInclude Include="starUI.h">
       <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
     </ClInclude>
     <ClInclude Include="trailUI.h">
@@ -644,6 +638,12 @@
     </ClInclude>
     <ClInclude Include="EnemyBulletEffectController.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="starUI.h">
+      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="lineUI.h">
+      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,7 +11,7 @@
 //=============================================================================
 // テクスチャの読み込み
 //=============================================================================
-void LoadTexture(LPDIRECT3DDEVICE9 device, const char *adress, OBJECT *object)
+void Object::LoadTexture(LPDIRECT3DDEVICE9 device, const char *adress, Object *object)
 {
 	// テクスチャの読み込み
 	D3DXCreateTextureFromFile(device,	// デバイスへのポインタ
@@ -22,7 +22,7 @@ void LoadTexture(LPDIRECT3DDEVICE9 device, const char *adress, OBJECT *object)
 //=============================================================================
 // オブジェクトサークルの作成　（回転オブジェクト用のサークルを作る）
 //=============================================================================
-void CreateObjectCircle(OBJECT *object, float sizeX, float sizeY)
+void Object::CreateObjectCircle(Object *object, float sizeX, float sizeY)
 {
 	D3DXVECTOR2 temp = D3DXVECTOR2(sizeX, sizeY);
 	object->radius = D3DXVec2Length(&temp);
@@ -32,7 +32,7 @@ void CreateObjectCircle(OBJECT *object, float sizeX, float sizeY)
 //=============================================================================
 // テクスチャの解放
 //=============================================================================
-void ReleaseTexture(OBJECT *object)
+void Object::ReleaseTexture(Object *object)
 {
 	if (object->texture != NULL)
 	{// テクスチャの開放
@@ -44,7 +44,7 @@ void ReleaseTexture(OBJECT *object)
 //=============================================================================
 // テクスチャの初期化
 //=============================================================================
-void InitialTexture(OBJECT *object)
+void Object::InitialTexture(Object *object)
 {
 	// テクスチャ情報
 	&object->texture;
@@ -53,22 +53,22 @@ void InitialTexture(OBJECT *object)
 //=============================================================================
 // オブジェクト描画処理
 //=============================================================================
-void DrawObject(LPDIRECT3DDEVICE9 pDevice, OBJECT object)
+void Object::DrawObject(LPDIRECT3DDEVICE9 pDevice, Object *object)
 {
 	// 頂点フォーマットの設定
 	pDevice->SetFVF(FVF_VERTEX_2D);
 
 	// テクスチャの設定
-	pDevice->SetTexture(0, object.texture);
+	pDevice->SetTexture(0, object->texture);
 
 	// ポリゴンの描画
-	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, NUM_POLYGON, object.vertexWk, sizeof(VERTEX_2D));
+	pDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, NUM_POLYGON, object->vertexWk, sizeof(VERTEX_2D));
 }
 
 //=============================================================================
 // テクスチャの頂点の作成
 //=============================================================================
-void MakeVertexObject(OBJECT *object)
+void Object::MakeVertexObject(Object *object)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -94,7 +94,7 @@ void MakeVertexObject(OBJECT *object)
 //=============================================================================
 // テクスチャの頂点の作成 (回転オブジェクト用)
 //=============================================================================
-void MakeVertexRotateObject(OBJECT *object)
+void Object::MakeVertexRotateObject(Object *object)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -131,18 +131,18 @@ void MakeVertexRotateObject(OBJECT *object)
 //=============================================================================
 // テクスチャの頂点の作成　（ゲージ専用）
 //=============================================================================
-void MakeVertexGuageBar(OBJECT *object, float percentage, float flameWidth)
+void Object::MakeVertexGuageBar(Object *object, float percentage, float flameWidth)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	// 頂点座標の設定
-	object->vertexWk[0].vtx = D3DXVECTOR3(flameWidth + object->position.x, object->position.y, object->position.z) 
+	object->vertexWk[0].vtx = D3DXVECTOR3(flameWidth + object->position.x, object->position.y, object->position.z)
 		+ D3DXVECTOR3(-object->size.x, -object->size.y, 0.0f);
-	object->vertexWk[1].vtx = D3DXVECTOR3(-flameWidth + object->position.x*percentage, object->position.y, object->position.z) 
+	object->vertexWk[1].vtx = D3DXVECTOR3(-flameWidth + object->position.x*percentage, object->position.y, object->position.z)
 		+ D3DXVECTOR3(object->size.x, -object->size.y, 0.0f);
-	object->vertexWk[2].vtx = D3DXVECTOR3(flameWidth + object->position.x, object->position.y, object->position.z) 
+	object->vertexWk[2].vtx = D3DXVECTOR3(flameWidth + object->position.x, object->position.y, object->position.z)
 		+ D3DXVECTOR3(-object->size.x, object->size.y, 0.0f);
-	object->vertexWk[3].vtx = D3DXVECTOR3(-flameWidth + object->position.x*percentage, object->position.y, object->position.z) 
+	object->vertexWk[3].vtx = D3DXVECTOR3(-flameWidth + object->position.x*percentage, object->position.y, object->position.z)
 		+ D3DXVECTOR3(object->size.x, object->size.y, 0.0f);
 
 	// テクスチャのパースペクティブコレクト用
@@ -161,7 +161,7 @@ void MakeVertexGuageBar(OBJECT *object, float percentage, float flameWidth)
 //=============================================================================
 // オブジェクトの頂点座標の設定
 //=============================================================================
-void SetVertexObject(OBJECT *object)
+void Object::SetVertexObject(Object *object)
 {
 	// 頂点座標の設定
 	object->vertexWk[0].vtx = object->position + D3DXVECTOR3(-object->size.x, -object->size.y, 0.0f);
@@ -173,7 +173,7 @@ void SetVertexObject(OBJECT *object)
 //=============================================================================
 // オブジェクトの頂点座標の設定 (回転オブジェクト用)
 //=============================================================================
-void SetVertexRotateObject(OBJECT *object)
+void Object::SetVertexRotateObject(Object *object)
 {
 	// 頂点座標の設定
 	object->vertexWk[0].vtx.x = object->position.x - cosf(object->baseAngle + object->rotation.z) * object->radius;
@@ -196,7 +196,7 @@ void SetVertexRotateObject(OBJECT *object)
 //=============================================================================
 // オブジェクトの頂点座標の設定　（ゲージ専用）
 //=============================================================================
-void SetVertexGuageBar(OBJECT *object, float percentage, float flameWidth, int guageType)
+void Object::SetVertexGuageBar(Object *object, float percentage, float flameWidth, int guageType)
 {
 	if (guageType == LEFT_GUAGEBAR)
 	{
@@ -218,7 +218,7 @@ void SetVertexGuageBar(OBJECT *object, float percentage, float flameWidth, int g
 		object->vertexWk[0].vtx =
 			D3DXVECTOR3(flameWidth + object->vertexWk[1].vtx.x + (object->position.x - object->size.x - object->vertexWk[1].vtx.x)*percentage, object->position.y - object->size.y, object->position.z);
 		object->vertexWk[1].vtx =
-			D3DXVECTOR3(-flameWidth + object->position.x + object->size.x,object->position.y - object->size.y, object->position.z);
+			D3DXVECTOR3(-flameWidth + object->position.x + object->size.x, object->position.y - object->size.y, object->position.z);
 		object->vertexWk[2].vtx =
 			D3DXVECTOR3(flameWidth + object->vertexWk[3].vtx.x + (object->position.x - object->size.x - object->vertexWk[3].vtx.x)*percentage, object->position.y + object->size.y, object->position.z);
 		object->vertexWk[3].vtx =
@@ -229,10 +229,10 @@ void SetVertexGuageBar(OBJECT *object, float percentage, float flameWidth, int g
 	{
 		// 頂点座標の設定
 		object->vertexWk[0].vtx =
-			D3DXVECTOR3(object->position.x - object->size.x, 
+			D3DXVECTOR3(object->position.x - object->size.x,
 				flameWidth + object->vertexWk[2].vtx.y + (object->position.y - object->size.y - object->vertexWk[2].vtx.y)*percentage, object->position.z);
 		object->vertexWk[1].vtx =
-			D3DXVECTOR3(object->position.x + object->size.x, 
+			D3DXVECTOR3(object->position.x + object->size.x,
 				flameWidth + object->vertexWk[3].vtx.y + (object->position.y - object->size.y - object->vertexWk[3].vtx.y)*percentage, object->position.z);
 		object->vertexWk[2].vtx =
 			D3DXVECTOR3(object->position.x - object->size.x, -flameWidth + object->position.y + object->size.y, object->position.z);
@@ -257,35 +257,35 @@ void SetVertexGuageBar(OBJECT *object, float percentage, float flameWidth, int g
 //=============================================================================
 // オブジェクトの頂点座標の設定　（テロップ背景専用）
 //=============================================================================
-void SetVertexTelopBG(OBJECT *object, float percentage)
+void Object::SetVertexTelopBG(Object *object, float percentage)
 {
 	// 頂点座標の設定
 	object->vertexWk[0].vtx = D3DXVECTOR3(0, object->position.y - object->size.y*percentage, object->position.z);
 	object->vertexWk[1].vtx = D3DXVECTOR3(SCREEN_WIDTH, object->position.y - object->size.y*percentage, object->position.z);
-	object->vertexWk[2].vtx = D3DXVECTOR3(0 , object->position.y + object->size.y*percentage, object->position.z);
+	object->vertexWk[2].vtx = D3DXVECTOR3(0, object->position.y + object->size.y*percentage, object->position.z);
 	object->vertexWk[3].vtx = D3DXVECTOR3(SCREEN_WIDTH, object->position.y + object->size.y*percentage, object->position.z);
 }
 
 //=============================================================================
 // オブジェクトの頂点座標の設定　（カウンター専用）
 //=============================================================================
-void SetVertexCounter(OBJECT *object, int placeCount, float placeInterval)
+void Object::SetVertexCounter(Object *object, int placeCount, float placeInterval)
 {
 	// 頂点座標の設定
-	object->vertexWk[0].vtx = D3DXVECTOR3(object->position.x + placeCount * placeInterval, object->position.y, object->position.z) 
+	object->vertexWk[0].vtx = D3DXVECTOR3(object->position.x + placeCount * placeInterval, object->position.y, object->position.z)
 		+ D3DXVECTOR3(-object->size.x, -object->size.y, 0.0f);
-	object->vertexWk[1].vtx = D3DXVECTOR3(object->position.x + placeCount * placeInterval, object->position.y, object->position.z) 
+	object->vertexWk[1].vtx = D3DXVECTOR3(object->position.x + placeCount * placeInterval, object->position.y, object->position.z)
 		+ D3DXVECTOR3(object->size.x, -object->size.y, 0.0f);
-	object->vertexWk[2].vtx = D3DXVECTOR3(object->position.x + placeCount * placeInterval, object->position.y, object->position.z) 
+	object->vertexWk[2].vtx = D3DXVECTOR3(object->position.x + placeCount * placeInterval, object->position.y, object->position.z)
 		+ D3DXVECTOR3(-object->size.x, object->size.y, 0.0f);
-	object->vertexWk[3].vtx = D3DXVECTOR3(object->position.x + placeCount * placeInterval, object->position.y, object->position.z) 
+	object->vertexWk[3].vtx = D3DXVECTOR3(object->position.x + placeCount * placeInterval, object->position.y, object->position.z)
 		+ D3DXVECTOR3(object->size.x, object->size.y, 0.0f);
 }
 
 //=============================================================================
 //オブジェクトのテクスチャ座標設定処理
 //=============================================================================
-void SetTextureObject(OBJECT *object, int divX, int divY, int pattern)
+void Object::SetTextureObject(Object *object, int divX, int divY, int pattern)
 {
 	float sizeX = 1.0f / divX;
 	float sizeY = 1.0f / divY;
@@ -301,7 +301,7 @@ void SetTextureObject(OBJECT *object, int divX, int divY, int pattern)
 //=============================================================================
 //オブジェクトのテクスチャ座標設定処理　（カウンター専用）
 //=============================================================================
-void SetTextureCounter(OBJECT *object, int number, float placeInterval)
+void Object::SetTextureCounter(Object *object, int number, float placeInterval)
 {
 	// 頂点座標の設定
 	object->vertexWk[0].tex = D3DXVECTOR2(number * placeInterval, 0.0f);
@@ -313,7 +313,7 @@ void SetTextureCounter(OBJECT *object, int number, float placeInterval)
 //=============================================================================
 //オブジェクトのアルファ値設定処理　（透過）
 //=============================================================================
-void SetAlphaObject(OBJECT *object, float alpha)
+void Object::SetAlphaObject(Object *object, float alpha)
 {
 	object->vertexWk[0].diffuse =
 		object->vertexWk[1].diffuse =
@@ -324,7 +324,7 @@ void SetAlphaObject(OBJECT *object, float alpha)
 //=============================================================================
 //オブジェクトの反射光設定処理
 //=============================================================================
-void SetColorObject(OBJECT *object, D3DXCOLOR color)
+void Object::SetColorObject(Object *object, D3DXCOLOR color)
 {
 	object->vertexWk[0].diffuse =
 		object->vertexWk[1].diffuse =
@@ -335,7 +335,7 @@ void SetColorObject(OBJECT *object, D3DXCOLOR color)
 //=============================================================================
 // オブジェクトカウント取得処理
 //=============================================================================
-float GetCountObject(OBJECT *object, float duration)
+float Object::GetCountObject(Object *object, float duration)
 {
 	object->countFrame++;
 	float t = (float)object->countFrame / duration;

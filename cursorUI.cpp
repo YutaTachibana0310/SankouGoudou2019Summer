@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// カーソル画面処理 [cursor.cpp]
+// カーソル画面処理 [cursor->cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
@@ -19,79 +19,76 @@
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-OBJECT	cursor;
-bool	IsStarHitted(int num);
+Object	cursor;
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT InitCursor(void)
+void Cursor::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_CURSOR, &cursor);
-	InitialTexture(&cursor);
-	MakeVertexRotateObject(&cursor);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_CURSOR, cursor);
+	object->InitialTexture(cursor);
+	//object->MakeVertexRotateObject(cursor);
 
-	cursor.position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	cursor.size		= SIZE_CURSOR;
-	cursor.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	cursor.colliderSize = COLLIDERSIZE_CURSOR / 2;
+	cursor->position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	cursor->size		= SIZE_CURSOR;
+	cursor->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	cursor->colliderSize = COLLIDERSIZE_CURSOR / 2;
 
-	SetColorObject(&cursor, SET_COLOR_YELLOW);
+	object->SetColorObject(cursor, SET_COLOR_YELLOW);
 
 	// 回転オブジェクト用のサークルを作成
-	CreateObjectCircle(&cursor, cursor.size.x, cursor.size.y);
-
-	return S_OK;
+	object->CreateObjectCircle(cursor, cursor->size.x, cursor->size.y);
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitCursor(void)
+void Cursor::Uninit(void)
 {
-	ReleaseTexture(&cursor);
+	object->ReleaseTexture(cursor);
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateCursor(HWND hWnd)
+void Cursor::Update(HWND hWnd)
 {
-	cursor.position = GetMousePosition(hWnd);
+	cursor->position = GetMousePosition(hWnd);
 
 	for (int i = 0; i < STAR_MAX; i++)
 	{
 		if (IsStarHitted(i))
 		{
 			// 選択されているなら
-			SetColorObject(&cursor, SET_COLOR_RED);
+			object->SetColorObject(cursor, SET_COLOR_RED);
 		}
 		else
 		{	// 元に戻す
-			SetColorObject(&cursor, SET_COLOR_YELLOW);
+			object->SetColorObject(cursor, SET_COLOR_YELLOW);
 		}
 	}
 
-	cursor.rotation.z -= SPEED_ROTATION;
+	cursor->rotation.z -= SPEED_ROTATION;
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawCursor(void)
+void Cursor::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	DrawObject(pDevice, cursor);
-	SetVertexRotateObject(&cursor);
+	object->DrawObject(pDevice, cursor);
+	object->SetVertexRotateObject(cursor);
 }
 
 //=============================================================================
 // 選択されているかの判定処理 (当たったら選択状態)
 //=============================================================================
-bool IsStarHitted(int num)
+bool Cursor::IsStarHitted(int num)
 {
 	D3DXVECTOR3 starPosition[STAR_MAX];
 	GetStarPosition(starPosition);
@@ -118,15 +115,15 @@ bool IsStarHitted(int num)
 //=============================================================================
 // カーソルが重なったかの判定処理
 //=============================================================================
-bool IsCursorOvered(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+bool Cursor::IsCursorOvered(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
 	size /= 2.0f;	// 半サイズにする
 
-	if (cursor.position.x + cursor.colliderSize.x > pos.x - size.x 
-		&& pos.x + size.x > cursor.position.x - cursor.colliderSize.x 
+	if (cursor->position.x + cursor->colliderSize.x > pos.x - size.x 
+		&& pos.x + size.x > cursor->position.x - cursor->colliderSize.x 
 		&&
-		cursor.position.y + cursor.colliderSize.y > pos.y - size.y 
-		&& pos.y + size.y > cursor.position.y - cursor.colliderSize.y)
+		cursor->position.y + cursor->colliderSize.y > pos.y - size.y 
+		&& pos.y + size.y > cursor->position.y - cursor->colliderSize.y)
 	{
 		return true;
 	}

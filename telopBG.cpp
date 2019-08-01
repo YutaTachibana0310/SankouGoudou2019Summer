@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// テロップ背景処理 [telopBG.cpp]
+// テロップ背景処理 [telopBG->cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
@@ -23,15 +23,11 @@
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-void OpenTelopBG(void);
-void CloseTelopBG(void);
-void SetEasingValueTelopBGOpen(void);
-void SetEasingValueTelopBGClose(void);
 
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-OBJECT	telopBG;
+Object	telopBG;
 Easing<float> eTelopBG;
 static float	percentage;
 
@@ -41,37 +37,35 @@ bool telopBGCloseActivated = false;
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT InitTelopBG(void)
+void TelopBG::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_TELOP_BG, &telopBG);
-	InitialTexture(&telopBG);
-	MakeVertexObject(&telopBG);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_TELOP_BG, telopBG);
+	object->InitialTexture(telopBG);
+	object->MakeVertexObject(telopBG);
 
-	telopBG.position = POSITION_TELOP_BG;
-	telopBG.size	 = SIZE_TELOP_BG;
-	telopBG.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	telopBG->position = POSITION_TELOP_BG;
+	telopBG->size	 = SIZE_TELOP_BG;
+	telopBG->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	SetColorObject(&telopBG, SET_COLOR_NOT_COLORED);
+	object->SetColorObject(telopBG, SET_COLOR_NOT_COLORED);
 
 	percentage = INITIALVALUE_BG_PERCENTAGE;
-
-	return S_OK;
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitTelopBG(void)
+void TelopBG::Uninit(void)
 {
-	ReleaseTexture(&telopBG);
+	object->ReleaseTexture(telopBG);
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateTelopBG(void)
+void TelopBG::Update(void)
 {
 	//　あふれ防止
 	if (percentage < 0)
@@ -97,68 +91,68 @@ void UpdateTelopBG(void)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawTelopBG(void)
+void TelopBG::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	DrawObject(pDevice, telopBG);
-	SetVertexTelopBG(&telopBG, percentage);
+	object->DrawObject(pDevice, telopBG);
+	object->SetVertexTelopBG(telopBG, percentage);
 }
 
 //=============================================================================
 // 背景を開く処理
 //=============================================================================
-void OpenTelopBG(void)
+void TelopBG::OpenTelopBG(void)
 {
 	SetEasingValueTelopBGOpen();
-	percentage = eTelopBG.GetEasingValue(GetCountObject(&telopBG, DURATION_OPEN_CLOSE), &telopBG.easingStart, &telopBG.easingGoal, InOutCubic);
+	percentage = eTelopBG.GetEasingValue(object->GetCountObject(telopBG, DURATION_OPEN_CLOSE), &telopBG->easingStart, &telopBG->easingGoal, InOutCubic);
 
-	if(percentage >= telopBG.easingGoal)
+	if(percentage >= telopBG->easingGoal)
 	{
 		telopBGOpenActivated = false;
 		percentage = 1.0f;
-		telopBG.countFrame = 0;
+		telopBG->countFrame = 0;
 	}
 }
 
 //=============================================================================
 // 背景を閉じる処理
 //=============================================================================
-void CloseTelopBG(void)
+void TelopBG::CloseTelopBG(void)
 {
 	SetEasingValueTelopBGClose();
-	percentage = eTelopBG.GetEasingValue(GetCountObject(&telopBG ,DURATION_OPEN_CLOSE), &telopBG.easingStart, &telopBG.easingGoal, InOutCubic);
+	percentage = eTelopBG.GetEasingValue(object->GetCountObject(telopBG ,DURATION_OPEN_CLOSE), &telopBG->easingStart, &telopBG->easingGoal, InOutCubic);
 
-	if(percentage <= telopBG.easingGoal)
+	if(percentage <= telopBG->easingGoal)
 	{
 		telopBGCloseActivated = false;
 		percentage = 0.0f;
-		telopBG.countFrame = 0;
+		telopBG->countFrame = 0;
 	}
 }
 
 //=============================================================================
 // 背景openイージングセット処理
 //=============================================================================
-void SetEasingValueTelopBGOpen(void)
+void TelopBG::SetEasingValueTelopBGOpen(void)
 {	
-	telopBG.easingStart = INITIALVALUE_BG_PERCENTAGE;
-	telopBG.easingGoal = 1.0f;
+	telopBG->easingStart = INITIALVALUE_BG_PERCENTAGE;
+	telopBG->easingGoal = 1.0f;
 }
 
 //=============================================================================
 // 背景closeイージングセット処理
 //=============================================================================
-void SetEasingValueTelopBGClose(void)
+void TelopBG::SetEasingValueTelopBGClose(void)
 {
-	telopBG.easingStart = 1.0f;
-	telopBG.easingGoal = INITIALVALUE_BG_PERCENTAGE;
+	telopBG->easingStart = 1.0f;
+	telopBG->easingGoal = INITIALVALUE_BG_PERCENTAGE;
 }
 
 //=============================================================================
 // テロップ背景開始アクティベート処理
 //=============================================================================
-void AvctivateTelopBGOpen(void)
+void TelopBG::AvctivateTelopBGOpen(void)
 {
 	telopBGOpenActivated = true;
 }
@@ -166,7 +160,7 @@ void AvctivateTelopBGOpen(void)
 //=============================================================================
 // テロップ背景終了アクティベート処理
 //=============================================================================
-void AvctivateTelopBGClose(void)
+void TelopBG::AvctivateTelopBGClose(void)
 {
 	telopBGCloseActivated = true;
 }
@@ -174,7 +168,7 @@ void AvctivateTelopBGClose(void)
 //=============================================================================
 // テロップ背景開始アクティブ状態取得処理
 //=============================================================================
-bool GetTelopBGOpenActive(void)
+bool TelopBG::GetTelopBGOpenActive(void)
 {
 	return telopBGOpenActivated;
 }
@@ -182,7 +176,7 @@ bool GetTelopBGOpenActive(void)
 //=============================================================================
 // テロップ背景終了アクティブ状態取得処理
 //=============================================================================
-bool GetTelopBGCloseActive(void)
+bool TelopBG::GetTelopBGCloseActive(void)
 {
 	return telopBGCloseActivated;
 }

@@ -24,61 +24,59 @@
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-OBJECT	trail[TRAILPARTS_MAX];
+Object	trail[TRAILPARTS_MAX];
 int		historyMax;
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT InitTrail(void)
+void Trail::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	// テクスチャ読み込み
-	LoadTexture(pDevice, ADRESS_TEXTURE_TRAIL_BG, &trail[TRAIL_BG]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_TRAIL_LINE_TOP_TO_LOWERLEFT, &trail[TRAIL_LINE_TOP_TO_LOWERLEFT]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_TRAIL_LINE_TOP_TO_LOWERRIGHT, &trail[TRAIL_LINE_TOP_TO_LOWERRIGHT]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_TRAIL_LINE_LOWERLELEFT_TO_MIDDLERIGHT, &trail[TRAIL_LINE_LOWERLEFT_TO_MIDDLERIGHT]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_TRAIL_LINE_LOWERRIGHT_TO_MIDDLELEFT, &trail[TRAIL_LINE_LOWERRIGHT_TO_MIDDLELEFT]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_TRAIL_LINE_MIDDLELEFT_TO_MIDDLERIGHT, &trail[TRAIL_LINE_MIDDLELEFT_TO_MIDDLERIGHT]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_TRAIL_BG, &trail[TRAIL_BG]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_TRAIL_LINE_TOP_TO_LOWERLEFT, &trail[TRAIL_LINE_TOP_TO_LOWERLEFT]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_TRAIL_LINE_TOP_TO_LOWERRIGHT, &trail[TRAIL_LINE_TOP_TO_LOWERRIGHT]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_TRAIL_LINE_LOWERLELEFT_TO_MIDDLERIGHT, &trail[TRAIL_LINE_LOWERLEFT_TO_MIDDLERIGHT]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_TRAIL_LINE_LOWERRIGHT_TO_MIDDLELEFT, &trail[TRAIL_LINE_LOWERRIGHT_TO_MIDDLELEFT]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_TRAIL_LINE_MIDDLELEFT_TO_MIDDLERIGHT, &trail[TRAIL_LINE_MIDDLELEFT_TO_MIDDLERIGHT]);
 
 	for (int i = 0; i < TRAILPARTS_MAX; i++)
 	{
-		InitialTexture(&trail[i]);
-		MakeVertexObject(&trail[i]);
+		object->InitialTexture(&trail[i]);
+		//object->MakeVertexObject(&trail[i]);
 
 		trail[i].position	= POSITION_TRAIL;
 		trail[i].size		= SIZE_TRAIL;
 		trail[i].rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-		SetColorObject(&trail[i], SET_COLOR_NOT_COLORED);
+		object->SetColorObject(&trail[i], SET_COLOR_NOT_COLORED);
 	}
-
-	return S_OK;
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitTrail(void)
+void Trail::Uninit(void)
 {
 	for (int i = 0; i < TRAILPARTS_MAX; i++)
 	{
-		ReleaseTexture(&trail[i]);
+		object->ReleaseTexture(&trail[i]);
 	}
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateTrail(void)
+void Trail::Update(void)
 {
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawTrail(void)
+void Trail::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -87,15 +85,15 @@ void DrawTrail(void)
 	GetPlayerMoveHistory(&drawHistory);
 
 	// 先に背景を描画
-	DrawObject(pDevice, trail[TRAIL_BG]);
-	SetVertexObject(&trail[TRAIL_BG]);
+	object->DrawObject(pDevice, &trail[TRAIL_BG]);
+	object->SetVertexObject(&trail[TRAIL_BG]);
 
 	// 要素数計算
 	historyMax = drawHistory.size();
 
 	for (int i = 0; i < historyMax; i++)
 	{
-		DrawObject(pDevice, trail[drawHistory[i]]);
-		SetVertexObject(&trail[drawHistory[i]]);
+		object->DrawObject(pDevice, &trail[drawHistory[i]]);
+		object->SetVertexObject(&trail[drawHistory[i]]);
 	}
 }

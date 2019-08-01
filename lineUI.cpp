@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// インターフェースライン画面処理 [line.cpp]
+// インターフェースライン画面処理 [line->cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
@@ -18,50 +18,48 @@
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-OBJECT	line;
+Object line;
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT InitLine(void)
+void Line::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_LINE, &line);
-	InitialTexture(&line);
-	MakeVertexObject(&line);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_LINE, line);
+	object->InitialTexture(line);
+	//object->MakeVertexObject(line);
 
-	line.position	= POSITION_LINE;
-	line.size		= SIZE_LINE;
-	line.rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	line->position	= POSITION_LINE;
+	line->size		= SIZE_LINE;
+	line->rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	SetColorObject(&line, SET_COLOR_NOT_COLORED);
-
-	return S_OK;
+	object->SetColorObject(line, SET_COLOR_NOT_COLORED);
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitLine(void)
+void Line::Uninit(void)
 {
-	ReleaseTexture(&line);
+	object->ReleaseTexture(line);
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateLine()
+void Line::Update()
 {
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawLine(void)
+void Line::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	DrawObject(pDevice, line);
-	SetVertexObject(&line);
+	object->DrawObject(pDevice, line);
+	object->SetVertexObject(line);
 }

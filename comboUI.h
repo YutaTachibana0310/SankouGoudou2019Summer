@@ -23,14 +23,32 @@ enum COMBO_PARTS
 	BACKGROUND_COMBO
 };
 
+#include "GameSceneUIManager.h"
+#include "UIdrawer.h"
+
+class Object;
+
+/**************************************
+前方宣言
+***************************************/
+class GameSceneUI;
+
 //*****************************************************************************
-// プロトタイプ宣言
+// 構造体定義
 //*****************************************************************************
-HRESULT InitCombo	(void);
-void	UninitCombo	(void);
-void	UpdateCombo	(void);
-void	DrawCombo	(void);
-void	AddCombo	(int value);
-void	SetCombo(int value);
+class Combo :public GameSceneUI
+{
+public:
+	Object*object;
+	void Init(void);
+	void Uninit(void);
+	void Update(void);
+	void Draw(void);
+	void AddCombo(int value);
+	void SetCombo(int value);
+
+private:
+	void UpdateNumberColor(void);
+};
 
 #endif

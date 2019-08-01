@@ -26,14 +26,32 @@
 #define SIZE_SCORE		(D3DXVECTOR3(20.0f,30.0f,0.0f))
 #define POSITION_SCORE	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 8.8f, SCREEN_HEIGHT / 10 * 8, 0.0f))
 
+#include "GameSceneUIManager.h"
+#include "UIdrawer.h"
+
+class Object;
+
+/**************************************
+前方宣言
+***************************************/
+class GameSceneUI;
+
 //*****************************************************************************
-// プロトタイプ宣言
+// 構造体定義
 //*****************************************************************************
-HRESULT InitScore	(void);
-void	UninitScore	(void);
-void	UpdateScore	(void);
-void	DrawScore	(void);
-void	AddScore	(int value);
-int SetScore();
+class Score :public GameSceneUI
+{
+public:
+	Object*object;
+	void Init(void);
+	void Uninit(void);
+	void Update(void);
+	void Draw(void);
+	void AddScore(int value);
+	int SetScore();
+
+private:
+	void VolumeUpEffect(void);
+};
 
 #endif

@@ -10,7 +10,6 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-
 // 色定義
 #define SET_COLOR_NOT_COLORED	(D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))
 #define SET_COLOR_BLACK			(D3DXCOLOR(0.0f,0.0f,0.0f,1.0f))
@@ -25,9 +24,9 @@
 //*****************************************************************************
 // 構造体定義
 //*****************************************************************************
-
-typedef struct
+class Object
 {
+public:
 	LPDIRECT3DTEXTURE9	texture;
 	VERTEX_2D			vertexWk[NUM_VERTEX];
 	D3DXVECTOR3			position;
@@ -43,12 +42,30 @@ typedef struct
 
 	float				easingStart;
 	float				easingGoal;
-	int					countFrame;
 	float               baseAngle;
 	float				radius;
+	int					countFrame;
 	bool				isRotated;
 
-}OBJECT;
+	void LoadTexture(LPDIRECT3DDEVICE9 device, const char *adress, Object *object);
+	void CreateObjectCircle(Object *object, float sizeX, float sizeY);
+	void ReleaseTexture(Object *object);
+	void InitialTexture(Object *object);
+	void DrawObject(LPDIRECT3DDEVICE9 pDevice, Object *object);
+	void MakeVertexObject(Object *object);
+	void MakeVertexRotateObject(Object *object);
+	void MakeVertexGuageBar(Object *object, float percentage, float flameWidth);
+	void SetVertexObject(Object *object);
+	void SetVertexRotateObject(Object *object);
+	void SetVertexGuageBar(Object *object, float percentage, float flameWidth, int guageType);
+	void SetVertexTelopBG(Object *object, float percentage);
+	void SetVertexCounter(Object *object, int placeCount, float placeInterval);
+	void SetTextureObject(Object *object, int divX, int divY, int pattern);
+	void SetTextureCounter(Object *object, int number, float placeInterval);
+	void SetAlphaObject(Object *object, float alpha);
+	void SetColorObject(Object *object, D3DXCOLOR color);
+	float GetCountObject(Object *object, float duration);
+};
 
 enum GUAGETYPE
 {
@@ -66,29 +83,6 @@ enum TELOP_ANIM_SCENE
 	OUT_TEXT,
 	WAIT_BG_CLOSE
 };
-
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-
-void LoadTexture			(LPDIRECT3DDEVICE9 device, const char *adress, OBJECT *object);
-void CreateObjectCircle		(OBJECT *object, float sizeX, float sizeY);
-void ReleaseTexture			(OBJECT *object);
-void InitialTexture			(OBJECT *object);
-void DrawObject				(LPDIRECT3DDEVICE9 pDevice, OBJECT object);
-void MakeVertexObject		(OBJECT *object);
-void MakeVertexRotateObject	(OBJECT *object);
-void MakeVertexGuageBar		(OBJECT *object, float percentage, float flameWidth);
-void SetVertexObject		(OBJECT *object);
-void SetVertexRotateObject	(OBJECT *object);
-void SetVertexGuageBar		(OBJECT *object, float percentage, float flameWidth, int guageType);
-void SetVertexTelopBG		(OBJECT *object, float percentage);
-void SetVertexCounter		(OBJECT *object, int placeCount, float placeInterval);
-void SetTextureObject		(OBJECT *object, int divX, int divY, int pattern);
-void SetTextureCounter		(OBJECT *object, int number, float placeInterval);
-void SetAlphaObject			(OBJECT *object, float alpha);
-void SetColorObject			(OBJECT *object, D3DXCOLOR color);
-float GetCountObject		(OBJECT *object, float duration);
 
 #endif
 

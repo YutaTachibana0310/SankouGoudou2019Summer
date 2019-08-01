@@ -22,31 +22,26 @@
 #define INCREASE_VOLUME_ALPHA		(0.02f)
 
 //*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-void BlinkStartButtonText(void);
-
-//*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-OBJECT	startButtonParts[STARTBUTTON_PARTS_MAX];
+Object	startButtonParts[STARTBUTTON_PARTS_MAX];
 bool	IsAlphaIncreased = true;
 float	alpha = 0;
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT InitStartButton(void)
+void StartButton::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_STARTBUTTON_BG, &startButtonParts[BACKGROUND_STARTBUTTON]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_STARTBUTTON_TEXT, &startButtonParts[TEXT_STARTBUTTON]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_STARTBUTTON_BG, &startButtonParts[BACKGROUND_STARTBUTTON]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_STARTBUTTON_TEXT, &startButtonParts[TEXT_STARTBUTTON]);
 
 	for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
 	{
-		InitialTexture(&startButtonParts[i]);
-		MakeVertexObject(&startButtonParts[i]);
+		object->InitialTexture(&startButtonParts[i]);
+		object->MakeVertexObject(&startButtonParts[i]);
 
 		startButtonParts[i].position		= POSITION_STARTBUTTON;
 		startButtonParts[i].size			= SIZE_STARTBUTTON;
@@ -54,29 +49,27 @@ HRESULT InitStartButton(void)
 		startButtonParts[i].colliderSize	= COLLIDER_SIZE_STARTBUTTON;
 	}
 
-	SetColorObject(&startButtonParts[BACKGROUND_STARTBUTTON], SET_COLOR_NOT_COLORED);
-	SetColorObject(&startButtonParts[TEXT_STARTBUTTON], SET_COLOR_NOT_COLORED);
-
-	return S_OK;
+	object->SetColorObject(&startButtonParts[BACKGROUND_STARTBUTTON], SET_COLOR_NOT_COLORED);
+	object->SetColorObject(&startButtonParts[TEXT_STARTBUTTON], SET_COLOR_NOT_COLORED);
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitStartButton(void)
+void StartButton::Uninit(void)
 {
 	for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
 	{
-		ReleaseTexture(&startButtonParts[i]);
+		object->ReleaseTexture(&startButtonParts[i]);
 	}
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateStartButton(void)
+void StartButton::Update(HWND hWnd)
 {
-	if (IsCursorOvered(startButtonParts[BACKGROUND_STARTBUTTON].position, 
+	if (IsMouseOvered(hWnd,startButtonParts[BACKGROUND_STARTBUTTON].position, 
 		startButtonParts[BACKGROUND_STARTBUTTON].colliderSize))
 	{
 		// ボタンを押したらゲームシーンへ
@@ -108,21 +101,21 @@ void UpdateStartButton(void)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawStartButton(void)
+void StartButton::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
 	{
-		DrawObject(pDevice, startButtonParts[i]);
-		SetVertexObject(&startButtonParts[i]);
+		object->DrawObject(pDevice, &startButtonParts[i]);
+		object->SetVertexObject(&startButtonParts[i]);
 	}
 }
 
 //=============================================================================
 // スタートボタンテキスト点滅処理
 //=============================================================================
-void BlinkStartButtonText(void)
+void StartButton::BlinkStartButtonText(void)
 {
 	if (alpha >= 1.0f)
 	{
@@ -142,5 +135,26 @@ void BlinkStartButtonText(void)
 		alpha -= INCREASE_VOLUME_ALPHA;
 	}
 
-	SetColorObject(&startButtonParts[TEXT_STARTBUTTON], D3DXCOLOR(1.0f,1.0f,1.0f,alpha));
+	object->SetColorObject(&startButtonParts[TEXT_STARTBUTTON], D3DXCOLOR(1.0f,1.0f,1.0f,alpha));
+}
+
+//=============================================================================
+// マウスオーバー判定処理
+//=============================================================================
+bool StartButton::IsMouseOvered(HWND hWnd, D3DXVECTOR3 pos, D3DXVECTOR3 size)
+{
+	size /= 2.0f;	// 半サイズにする
+
+	D3DXVECTOR2 mouseColliderSize = D3DXVECTOR2(2.5f, 2.5f);
+
+	if (GetMousePosition(hWnd).x + mouseColliderSize.x > pos.x - size.x
+		&& pos.x + size.x > GetMousePosition(hWnd).x - mouseColliderSize.x
+		&&
+		GetMousePosition(hWnd).y + mouseColliderSize.y > pos.y - size.y
+		&& pos.y + size.y > GetMousePosition(hWnd).y - mouseColliderSize.y)
+	{
+		return true;
+	}
+
+	return false;
 }

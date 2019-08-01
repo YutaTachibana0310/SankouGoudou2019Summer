@@ -12,15 +12,33 @@
 //*****************************************************************************
 #define	ADRESS_TEXTURE_STAGE_CLEAR_TELOP	("data/TEXTURE/UI/telop/stageClearTelop.png")	// 読み込むテクスチャファイル名
 
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-HRESULT InitStageClearTelop(void);
-void UninitStageClearTelop(void);
-void UpdateStageClearTelop(void);
-void DrawStageClearTelop(void);
+#include "GameSceneUIManager.h"
+#include "UIdrawer.h"
 
-//テロップセット関数
-void SetStageClearTelop(void);
+class Object;
+
+/**************************************
+前方宣言
+***************************************/
+class GameSceneUI;
+class TelopBG;
+
+//*****************************************************************************
+// 構造体定義
+//*****************************************************************************
+class StageClearTelop :public GameSceneUI
+{
+public:
+	Object *object;
+	TelopBG *telopBG;
+	void Init(void);
+	void Uninit(void);
+	void Update(void);
+	void Draw(void);
+
+	//テロップセット関数
+	void SetStageClearTelop(void);
+};
+
 
 #endif

@@ -12,43 +12,58 @@
 #include "cursorUI.h"
 #include "TitleSceneUIManager.h"
 
+//*****************************************************************************
+// マクロ定義
+//*****************************************************************************
+#define TITLE_SCENE_UI_MAX (3)
+
+//*****************************************************************************
+// グローバル変数
+//*****************************************************************************
+TitleSceneUI *titleSceneUI[TITLE_SCENE_UI_MAX];
+
 //=============================================================================
 // 初期化処理
 //=============================================================================
-void InitTitleSceneUI(void)
+void TitleSceneUI::Init(void)
 {
-	InitTitleBG();
-	InitCursor();
-	InitTitleLogo();
-	InitStartButton();
+	//インスタンスの生成
+	TitleSceneUI *titleSceneUI[] = {
+		new TitleBG(), new TitleLogo(), new StartButton(),
+	};
+
+	for (int i = 0; i < TITLE_SCENE_UI_MAX; i++)
+	{
+		titleSceneUI[i]->Init();
+	}
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitTitleSceneUI(void)
+void TitleSceneUI::Uninit(void)
 {
-	UninitTitleBG();
-	UninitCursor();
-	UninitTitleLogo();
-	UninitStartButton();
+	for (int i = 0; i < TITLE_SCENE_UI_MAX; i++)
+	{
+		titleSceneUI[i]->Uninit();
+	}
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateTitleSceneUI(HWND hWnd)
+void TitleSceneUI::Update(HWND hWnd)
 {
-	UpdateTitleBG();
-	UpdateCursor(hWnd);
-	UpdateTitleLogo();
-	UpdateStartButton();
+	for (int i = 0; i < TITLE_SCENE_UI_MAX; i++)
+	{
+		titleSceneUI[i]->Update(hWnd);
+	}
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawTitleSceneUI(void)
+void TitleSceneUI::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -56,9 +71,10 @@ void DrawTitleSceneUI(void)
 	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
-	DrawTitleBG();
-	DrawTitleLogo();
-	DrawStartButton();
+	for (int i = 0; i < TITLE_SCENE_UI_MAX; i++)
+	{
+		titleSceneUI[i]->Draw();
+	}
 
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }

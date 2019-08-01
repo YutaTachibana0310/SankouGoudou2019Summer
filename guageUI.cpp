@@ -25,26 +25,26 @@
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-OBJECT	guageParts[GUAGEPARTS_MAX];
+Object	guageParts[GUAGEPARTS_MAX];
 float	damageGuagePercentage;	//ダメージ表現ゲージパーセンテージ
 float	trueGuagePercentage;	//実際のゲージパーセンテージ
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT InitGuageParts(void)
+void Guage::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEBAR, &guageParts[GUAGEBAR_DAMAGE]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEBAR, &guageParts[GUAGEBAR_TRUE]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEFLAME, &guageParts[GUAGEFLAME]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_GUAGETEXT, &guageParts[GUAGETEXT]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEBAR, &guageParts[GUAGEBAR_DAMAGE]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEBAR, &guageParts[GUAGEBAR_TRUE]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEFLAME, &guageParts[GUAGEFLAME]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_GUAGETEXT, &guageParts[GUAGETEXT]);
 
-	MakeVertexGuageBar(&guageParts[GUAGEBAR_DAMAGE],damageGuagePercentage,	WIDTH_GUAGEFLAME);
-	MakeVertexGuageBar(&guageParts[GUAGEBAR_TRUE],	trueGuagePercentage,	WIDTH_GUAGEFLAME);
-	MakeVertexObject  (&guageParts[GUAGEFLAME]);
-	MakeVertexObject(&guageParts[GUAGETEXT]);
+	object->MakeVertexGuageBar(&guageParts[GUAGEBAR_DAMAGE],damageGuagePercentage,	WIDTH_GUAGEFLAME);
+	object->MakeVertexGuageBar(&guageParts[GUAGEBAR_TRUE],	trueGuagePercentage,	WIDTH_GUAGEFLAME);
+	//object->MakeVertexObject  (&guageParts[GUAGEFLAME]);
+	//object->MakeVertexObject(&guageParts[GUAGETEXT]);
 
 	for (int i = 0; i < GUAGEPARTS_MAX; i++)
 	{
@@ -52,36 +52,34 @@ HRESULT InitGuageParts(void)
 		guageParts[i].rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		guageParts[i].size     = SIZE_GUAGE;
 
-		InitialTexture(&guageParts[i]);
+		object->InitialTexture(&guageParts[i]);
 	}
 
 	//　色設定
-	SetColorObject(&guageParts[GUAGEBAR_DAMAGE], SET_COLOR_RED);
-	SetColorObject(&guageParts[GUAGEBAR_TRUE],	 SET_COLOR_YELLOW);
-	SetColorObject(&guageParts[GUAGEFLAME],		 SET_COLOR_NOT_COLORED);
-	SetColorObject(&guageParts[GUAGETEXT], D3DXCOLOR(0.0f, 0.0f, 0.0f, TEXT_GUAGE_ALPHA));
+	object->SetColorObject(&guageParts[GUAGEBAR_DAMAGE], SET_COLOR_RED);
+	object->SetColorObject(&guageParts[GUAGEBAR_TRUE],	 SET_COLOR_YELLOW);
+	object->SetColorObject(&guageParts[GUAGEFLAME],		 SET_COLOR_NOT_COLORED);
+	object->SetColorObject(&guageParts[GUAGETEXT], D3DXCOLOR(0.0f, 0.0f, 0.0f, TEXT_GUAGE_ALPHA));
 
 	damageGuagePercentage = INITIALVALUE_GUAGEPERCENTAGE;
 	trueGuagePercentage   = INITIALVALUE_GUAGEPERCENTAGE;
-
-	return S_OK;
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitGuageParts(void)
+void Guage::Uninit(void)
 {
 	for (int i = 0; i < GUAGEPARTS_MAX; i++)
 	{
-		ReleaseTexture(&guageParts[i]);
+		object->ReleaseTexture(&guageParts[i]);
 	}
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateGuageParts(void)
+void Guage::Update(void)
 {
 	//ダメージ表現ゲージパーセンテージが実際のゲージパーセンテージと同じになるまで減算
 	if (damageGuagePercentage > trueGuagePercentage)
@@ -97,26 +95,26 @@ void UpdateGuageParts(void)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawGuageParts(void)
+void Guage::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	for (int i = 0; i < GUAGEPARTS_MAX; i++)
 	{
-		DrawObject(pDevice, guageParts[i]);
+		object->DrawObject(pDevice, &guageParts[i]);
 	}
 
 	// 頂点座標の設定
-	SetVertexGuageBar(&guageParts[GUAGEBAR_DAMAGE],	damageGuagePercentage,	WIDTH_GUAGEFLAME, DOWN_GUAGEBAR);
-	SetVertexGuageBar(&guageParts[GUAGEBAR_TRUE],	trueGuagePercentage,	WIDTH_GUAGEFLAME, DOWN_GUAGEBAR);
-	SetVertexObject(&guageParts[GUAGEFLAME]);
+	object->SetVertexGuageBar(&guageParts[GUAGEBAR_DAMAGE],	damageGuagePercentage,	WIDTH_GUAGEFLAME, DOWN_GUAGEBAR);
+	object->SetVertexGuageBar(&guageParts[GUAGEBAR_TRUE],	trueGuagePercentage,	WIDTH_GUAGEFLAME, DOWN_GUAGEBAR);
+	object->SetVertexObject(&guageParts[GUAGEFLAME]);
 	//SetVertexObject(&guageParts[GUAGETEXT]);
 }
 
 //=============================================================================
 // HPの変更
 //=============================================================================
-void ChangeGuage(float value)
+void Guage::ChangeGuage(float value)
 {
 	trueGuagePercentage += (value /= MAX_HP);
 

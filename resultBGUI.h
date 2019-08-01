@@ -12,12 +12,28 @@
 //*****************************************************************************
 #define	ADRESS_TEXTURE_RESULTBG	("data/TEXTURE/UI/Result/ブラック.jpg")	// 読み込むテクスチャファイル名
 
+#include "ResultSceneUIManager.h"
+
+#include "UIdrawer.h"
+
+class Object;
+
+/**************************************
+前方宣言
+***************************************/
+class ResultSceneUI;
+
 //*****************************************************************************
-// プロトタイプ宣言
+// 構造体定義
 //*****************************************************************************
-HRESULT InitResultBG(void);
-void	UninitResultBG(void);
-void	UpdateResultBG(void);
-void	DrawResultBG(void);
+class ResultBG :public ResultSceneUI
+{
+public:
+	Object * object;
+	void Init(void);
+	void Uninit(void);
+	void Update(void);
+	void Draw(void);
+};
 
 #endif

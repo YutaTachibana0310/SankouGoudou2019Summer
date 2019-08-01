@@ -7,13 +7,34 @@
 #ifndef _TITLESCENEUIMANAGER_H_
 #define _TITLESCENEUIMANAGER_H_
 
+#include "UIdrawer.h"
+
+/**************************************
+前方宣言
+***************************************/
+class Object;
+class TitleBG;
+class Cursor;
+class TitleLogo;
+class StartButton;
+
 //*****************************************************************************
-// プロトタイプ宣言
+// 構造体定義
 //*****************************************************************************
-void InitTitleSceneUI(void);
-void UninitTitleSceneUI(void);
-void UpdateTitleSceneUI(HWND hWnd);
-void DrawTitleSceneUI(void);
+class TitleSceneUI:public Object
+{
+public:
+	TitleBG*titleBG;
+	Cursor*cursor;
+	TitleLogo*titleLogo;
+	StartButton*startButton;
+
+	void Init(void);
+	void Uninit(void);
+	void Update(HWND hWnd);
+	void Draw(void);
+
+};
 
 #endif
 

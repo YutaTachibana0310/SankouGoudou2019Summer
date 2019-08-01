@@ -22,14 +22,30 @@ enum GUARGE_PARTS
 	GUAGETEXT,
 };
 
+#include "GameSceneUIManager.h"
+#include "UIdrawer.h"
+
+class Object;
+
+/**************************************
+前方宣言
+***************************************/
+class GameSceneUI;
+
 //*****************************************************************************
-// プロトタイプ宣言
+// 構造体定義
 //*****************************************************************************
-HRESULT InitGuageParts	(void);
-void	UninitGuageParts(void);
-void	UpdateGuageParts(void);
-void	DrawGuageParts	(void);
-void	ChangeGuage		(float value);
+class Guage :public GameSceneUI
+{
+public:
+	Object*object;
+	void Init(void);
+	void Uninit(void);
+	void Update(void);
+	void Draw(void);
+	void ChangeGuage(float value);
+};
+
 
 #endif
 

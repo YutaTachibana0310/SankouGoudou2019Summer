@@ -12,15 +12,31 @@
 //*****************************************************************************
 #define	ADRESS_TEXTURE_BATTLE_START_TELOP	("data/TEXTURE/UI/telop/battleStartTelop.png")	// 読み込むテクスチャファイル名
 
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-HRESULT InitBattleStartTelop(void);
-void UninitBattleStartTelop(void);
-void UpdateBattleStartTelop(void);
-void DrawBattleStartTelop(void);
+#include "GameSceneUIManager.h"
+#include "UIdrawer.h"
 
-//テロップセット関数
-void SetBattleStartTelop(void);
+/**************************************
+前方宣言
+***************************************/
+class Object;
+class GameSceneUI;
+class TelopBG;
+
+//*****************************************************************************
+// 構造体定義
+//*****************************************************************************
+class BattleStartTelop :public GameSceneUI
+{
+public:
+	Object*object;
+	TelopBG*telopBG;
+	void Init(void);
+	void Uninit(void);
+	void Update(void);
+	void Draw(void);
+
+	//テロップセット関数
+	void SetBattleStartTelop(void);
+};
 
 #endif

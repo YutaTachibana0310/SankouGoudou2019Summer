@@ -23,26 +23,25 @@
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-void RotateStar(int num);
 
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-OBJECT	star[STAR_MAX];
+Object	star[STAR_MAX];
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT InitStar(void)
+void Star::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	for (int i = 0; i < STAR_MAX; i++)
 	{
-		LoadTexture(pDevice, ADRESS_TEXTURE_STAR, &star[i]);
-		CreateObjectCircle(&star[i], star[i].size.x, star[i].size.y);
-		InitialTexture(&star[i]);
-		MakeVertexRotateObject(&star[i]);
+		object->LoadTexture(pDevice, ADRESS_TEXTURE_STAR, &star[i]);
+		object->CreateObjectCircle(&star[i], star[i].size.x, star[i].size.y);
+		object->InitialTexture(&star[i]);
+		//object->MakeVertexRotateObject(&star[i]);
 
 		star[i].size = SIZE_STAR;
 		star[i].colliderSize = COLLIDERSIZE_STAR;
@@ -61,30 +60,28 @@ HRESULT InitStar(void)
 	}
 
 	//　色設定
-	SetColorObject(&star[TOP],			SET_COLOR_NOT_COLORED);
-	SetColorObject(&star[MIDDLE_LEFT],	SET_COLOR_NOT_COLORED);
-	SetColorObject(&star[LOWER_LEFT],	SET_COLOR_NOT_COLORED);
-	SetColorObject(&star[LOWER_RIGHT],	SET_COLOR_NOT_COLORED);
-	SetColorObject(&star[MIDDLE_RIGHT], SET_COLOR_NOT_COLORED);
-
-	return S_OK;
+	object->SetColorObject(&star[TOP],			SET_COLOR_NOT_COLORED);
+	object->SetColorObject(&star[MIDDLE_LEFT],	SET_COLOR_NOT_COLORED);
+	object->SetColorObject(&star[LOWER_LEFT],	SET_COLOR_NOT_COLORED);
+	object->SetColorObject(&star[LOWER_RIGHT],	SET_COLOR_NOT_COLORED);
+	object->SetColorObject(&star[MIDDLE_RIGHT], SET_COLOR_NOT_COLORED);
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitStar(void)
+void Star::Uninit(void)
 {
 	for (int i = 0; i < STAR_MAX; i++)
 	{
-		ReleaseTexture(&star[i]);
+		object->ReleaseTexture(&star[i]);
 	}
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateStar(void)
+void Star::Update(void)
 {
 	for (int i = 0; i < STAR_MAX; i++)
 	{
@@ -104,7 +101,7 @@ void UpdateStar(void)
 				star[i].size.y = SIZE_STAR.y;
 			}
 
-		CreateObjectCircle(&star[i], star[i].size.x, star[i].size.y);
+		object->CreateObjectCircle(&star[i], star[i].size.x, star[i].size.y);
 		RotateStar(i);
 	}
 }
@@ -112,21 +109,21 @@ void UpdateStar(void)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawStar(void)
+void Star::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	for (int i = 0; i < STAR_MAX; i++)
 	{
-		DrawObject(pDevice, star[i]);
-		SetVertexRotateObject(&star[i]);
+		object->DrawObject(pDevice, &star[i]);
+		object->SetVertexRotateObject(&star[i]);
 	}
 }
 
 //=============================================================================
 // 回転処理
 //=============================================================================
-void RotateStar(int num)
+void Star::RotateStar(int num)
 {
 	star[num].countFrame++;
 	float t = (float)star[num].countFrame / DURATION_ROTATION;
@@ -137,7 +134,7 @@ void RotateStar(int num)
 //=============================================================================
 // 回転処理トグル
 //=============================================================================
-void ToggleRotateStar(int num, bool isRotated)
+void Star::ToggleRotateStar(int num, bool isRotated)
 {
 	star[num].rotation.z = 0.0f;
 	star[num].countFrame = 0;
@@ -162,9 +159,9 @@ void ToggleRotateStar(int num, bool isRotated)
 //=============================================================================
 // 選択されているかの判定処理 (当たったら選択状態)
 //=============================================================================
-bool IsStarSelected(int num)
+bool Star::IsStarSelected(int num)
 {
-	return IsCursorOvered(star[num].position,star[num].colliderSize);
+	return cursor->IsCursorOvered(star[num].position,star[num].colliderSize);
 }
 
 //=============================================================================

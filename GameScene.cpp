@@ -54,8 +54,10 @@ void GameScene::Init()
 	fsm[State::Battle] = new GameBattle();
 	fsm[State::End] = new GameEnd();
 
+	gameSceneUI = new GameSceneUI();
+
 	//UI初期化
-	InitGameSceneUI();
+	gameSceneUI->Init();
 
 	//☆ボタンの位置からワールド座標を計算
 	LineTrailModel::CalcEdgePosition();
@@ -120,7 +122,7 @@ void GameScene::Uninit()
 	enemyController->Uninit();
 
 	//UI終了
-	UninitGameSceneUI();
+	gameSceneUI->Uninit();
 
 	//障害物終了
 	UninitRebarOb();
@@ -172,7 +174,7 @@ void GameScene::Update(HWND hWnd)
 
 	//UIの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
-	UpdateGameSceneUI(hWnd);
+	gameSceneUI->Update(hWnd);
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
 
 	//ポストエフェクトの更新
@@ -223,7 +225,7 @@ void GameScene::Draw()
 
 
 	//UI描画
-	DrawGameSceneUI();
+	gameSceneUI->Draw();
 
 	DrawDebugTimer(GAMESCENE_LABEL);
 }

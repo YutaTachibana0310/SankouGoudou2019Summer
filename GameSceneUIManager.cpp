@@ -18,88 +18,84 @@
 #include "telopBG.h"
 #include "GameSceneUIManager.h"
 
+//*****************************************************************************
+// マクロ定義
+//*****************************************************************************
+#define GAME_SCENE_UI_MAX (10)
+
+//*****************************************************************************
+// グローバル変数
+//*****************************************************************************
+GameSceneUI *gameSceneUI[GAME_SCENE_UI_MAX];
+
 //=============================================================================
 // 初期化処理
 //=============================================================================
-void InitGameSceneUI(void)
+void GameSceneUI::Init(void)
 {
-	InitGuageParts();
-	InitScore();
-	InitStar();
-	InitCombo();
-	InitLine();
-	InitTrail();
-	InitCursor();
-	InitTelopBG();
+	//インスタンスの生成
+	GameSceneUI *gameSceneUI[] = {
+		new Guage(),new Score(),new Star(),new Combo(),
+		new Line(),new Trail(),new Cursor(),new TelopBG(),
+		new BattleStartTelop(),new StageClearTelop()
+	};
 
-	InitBattleStartTelop();
-	InitStageClearTelop();
+	for (int i = 0; i < GAME_SCENE_UI_MAX; i++)
+	{
+		gameSceneUI[i]->Init();
+	}
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitGameSceneUI(void)
+void GameSceneUI::Uninit(void)
 {
-	UninitGuageParts();
-	UninitScore();
-	UninitStar();
-	UninitCombo();
-	UninitLine();
-	UninitTrail();
-	UninitCursor();
-	UninitTelopBG();
-
-	UninitBattleStartTelop();
-	UninitStageClearTelop();
+	for (int i = 0; i < GAME_SCENE_UI_MAX; i++)
+	{
+		gameSceneUI[i]->Uninit();
+	}
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateGameSceneUI(HWND hWnd)
+void GameSceneUI::Update(HWND hWnd)
 {
-	UpdateGuageParts();
-	UpdateScore();
-	UpdateStar();
-	UpdateCombo();
-	UpdateLine();
-	UpdateTrail();
-	UpdateCursor(hWnd);
-	UpdateTelopBG();
-
-	UpdateBattleStartTelop();
-	UpdateStageClearTelop();
+	for (int i = 0; i < GAME_SCENE_UI_MAX; i++)
+	{ 
+		gameSceneUI[i]->Update(hWnd);
+	}
 
 #ifdef _DEBUG
 	// デバッグ用コマンド
 	if (GetKeyboardTrigger(DIK_1))
 	{
-		ChangeGuage(-10);
+		guage->ChangeGuage(-10);
 	}
 	if (GetKeyboardTrigger(DIK_2))
 	{
-		ChangeGuage(10);
+		guage->ChangeGuage(10);
 	}
 	if (GetKeyboardTrigger(DIK_3))
 	{
-		AddCombo(1);
+		combo->AddCombo(1);
 	}
 	if (GetKeyboardTrigger(DIK_4))
 	{
-		AddScore(1000);
+		score->AddScore(1000);
 	}
 	if (GetKeyboardTrigger(DIK_5))
 	{
-		SetCombo(0);
+		combo->SetCombo(0);
 	}
 	if (GetKeyboardTrigger(DIK_6))
 	{
-		SetBattleStartTelop();
+		battleStartTelop->SetBattleStartTelop();
 	}
 	if (GetKeyboardTrigger(DIK_7))
 	{
-		SetStageClearTelop();
+		stageClearTelop->SetStageClearTelop();
 	}
 #endif
 }
@@ -107,7 +103,7 @@ void UpdateGameSceneUI(HWND hWnd)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawGameSceneUI(void)
+void GameSceneUI::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -115,18 +111,11 @@ void DrawGameSceneUI(void)
 	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
-	DrawGuageParts();
-	DrawScore();
-	DrawStar();
-	DrawLine();
-	DrawCombo();
-	DrawTrail();
+	for (int i = 0; i < GAME_SCENE_UI_MAX; i++)
+	{
+		gameSceneUI[i]->Draw();
+	}
 
-	DrawCursor();
-	DrawTelopBG();
-
-	DrawBattleStartTelop();
-	DrawStageClearTelop();
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }
 

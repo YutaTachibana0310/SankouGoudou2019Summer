@@ -7,37 +7,67 @@
 #include "main.h"
 #include "rank.h"
 #include "resultBGUI.h"
-
 #include "ResultSceneUIManager.h"
+
+//*****************************************************************************
+// マクロ定義
+//*****************************************************************************
+#define RESULT_SCENE_UI_MAX (1)
+
+//*****************************************************************************
+// グローバル変数
+//*****************************************************************************
+ResultSceneUI *resultSceneUI[RESULT_SCENE_UI_MAX];
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
-void InitResultSceneUI(void) {
-	InitResultBG();
+void ResultSceneUI::Init(void)
+{
+	//インスタンスの生成
+	ResultSceneUI *resultSceneUI[] = {
+		new ResultBG()
+	};
+
+	for (int i = 0; i < RESULT_SCENE_UI_MAX; i++)
+	{
+		resultSceneUI[i]->Init();
+	}
 	InitRank();
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitResultSceneUI(void) {
-	UninitResultBG();
+void ResultSceneUI::Uninit(void)
+{
+	for (int i = 0; i < RESULT_SCENE_UI_MAX; i++)
+	{
+		resultSceneUI[i]->Uninit();
+	}
 	UninitRank();
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateResultSceneUI(HWND hwnd) {
-	UpdateResultBG();
+void ResultSceneUI::Update(HWND hwnd)
+{
+	for (int i = 0; i < RESULT_SCENE_UI_MAX; i++)
+	{
+		resultSceneUI[i]->Update(hwnd);
+	}
 	UpdateRank();
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawResultSceneUI(void) {
-	DrawResultBG();
+void ResultSceneUI::Draw(void)
+{
+	for (int i = 0; i < RESULT_SCENE_UI_MAX; i++)
+	{
+		resultSceneUI[i]->Draw();
+	}
 	DrawRank();
 }

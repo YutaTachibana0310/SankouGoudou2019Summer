@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// バトルスタートテロップ処理 [battleStartTelop.cpp]
+// バトルスタートテロップ処理 [battleStartTelop->cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
@@ -53,7 +53,7 @@ static const float AnimationDuration[ANIMATION_MAX] = {
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-OBJECT	battleStartTelop;
+Object	battleStartTelop;
 Easing<float> eBattleStartTelop;
 bool isBattleStartTelopActivated = false;
 static int currentAnimation = 0;
@@ -61,65 +61,63 @@ static int currentAnimation = 0;
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT InitBattleStartTelop(void)
+void BattleStartTelop::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_BATTLE_START_TELOP, &battleStartTelop);
-	InitialTexture(&battleStartTelop);
-	MakeVertexObject(&battleStartTelop);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_BATTLE_START_TELOP, battleStartTelop);
+	object->InitialTexture(battleStartTelop);
+	object->MakeVertexObject(battleStartTelop);
 
-	battleStartTelop.position = INIT_POSITION_BATTLE_START_TELOP;
-	battleStartTelop.size = SIZE_BATTLE_START_TELOP;
-	battleStartTelop.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	battleStartTelop->position = INIT_POSITION_BATTLE_START_TELOP;
+	battleStartTelop->size = SIZE_BATTLE_START_TELOP;
+	battleStartTelop->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	SetColorObject(&battleStartTelop, SET_COLOR_NOT_COLORED);
-
-	return S_OK;
+	object->SetColorObject(battleStartTelop, SET_COLOR_NOT_COLORED);
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitBattleStartTelop(void)
+void BattleStartTelop::Uninit(void)
 {
-	ReleaseTexture(&battleStartTelop);
+	object->ReleaseTexture(battleStartTelop);
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateBattleStartTelop()
+void BattleStartTelop::Update()
 {	
 	if (isBattleStartTelopActivated)
 	{
-		if (currentAnimation == WAIT_BG_OPEN && GetTelopBGOpenActive() == false)
+		if (currentAnimation == WAIT_BG_OPEN && telopBG->GetTelopBGOpenActive() == false)
 		{
-			AvctivateTelopBGOpen();
+			telopBG->AvctivateTelopBGOpen();
 		}
-		if (currentAnimation == WAIT_BG_CLOSE && GetTelopBGCloseActive() == false)
+		if (currentAnimation == WAIT_BG_CLOSE && telopBG->GetTelopBGCloseActive() == false)
 		{
-			AvctivateTelopBGClose();
+			telopBG->AvctivateTelopBGClose();
 		}
 
-		battleStartTelop.countFrame++;
+		battleStartTelop->countFrame++;
 
-		battleStartTelop.position.x = eBattleStartTelop.GetEasingValue(GetCountObject(
-			&battleStartTelop, AnimationDuration[currentAnimation]),
+		battleStartTelop->position.x = eBattleStartTelop.GetEasingValue(GetCountObject(
+			battleStartTelop, AnimationDuration[currentAnimation]),
 			&EasingStartPositionX[currentAnimation],
 			&EasingEndPositionX[currentAnimation],
 			AnimationType[currentAnimation]);
 
-		if (battleStartTelop.countFrame == AnimationDuration[currentAnimation])
+		if (battleStartTelop->countFrame == AnimationDuration[currentAnimation])
 		{
-			battleStartTelop.countFrame = 0;
+			battleStartTelop->countFrame = 0;
 			currentAnimation++;
 		}
 		if (currentAnimation == ANIMATION_MAX)
 		{
-			battleStartTelop.countFrame = 0;
+			battleStartTelop->countFrame = 0;
 			currentAnimation = 0;
-			battleStartTelop.position = INIT_POSITION_BATTLE_START_TELOP;
+			battleStartTelop->position = INIT_POSITION_BATTLE_START_TELOP;
 			isBattleStartTelopActivated = false;
 		}
 	}
@@ -128,18 +126,18 @@ void UpdateBattleStartTelop()
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawBattleStartTelop(void)
+void BattleStartTelop::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	DrawObject(pDevice, battleStartTelop);
-	SetVertexObject(&battleStartTelop);
+	object->DrawObject(pDevice,battleStartTelop);
+	object->SetVertexObject(battleStartTelop);
 }
 
 //=============================================================================
 // バトルスタートテロップセット処理
 //=============================================================================
-void SetBattleStartTelop(void)
+void BattleStartTelop::SetBattleStartTelop(void)
 {
 	isBattleStartTelopActivated = true;
 }

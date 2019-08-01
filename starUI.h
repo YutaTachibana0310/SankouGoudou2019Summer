@@ -33,15 +33,36 @@ enum STARS
 	CENTER
 };
 
+#include "GameSceneUIManager.h"
+#include "UIdrawer.h"
+
+class Object;
+
+/**************************************
+前方宣言
+***************************************/
+class GameSceneUI;
+class Cursor;
+
 //*****************************************************************************
-// プロトタイプ宣言
+// 構造体定義
 //*****************************************************************************
-HRESULT InitStar	(void);
-void	UninitStar	(void);
-void	UpdateStar	(void);
-void	DrawStar	(void);
-void	ToggleRotateStar(int num, bool isRotated);
-bool	IsStarSelected(int num);
-void	GetStarPosition(D3DXVECTOR3 *pos);
+class Star :public GameSceneUI
+{
+public:
+	Object*object;
+	Cursor*cursor;
+	void Init(void);
+	void Uninit(void);
+	void Update(void);
+	void Draw(void);
+
+private:
+	void RotateStar(int num);
+	void ToggleRotateStar(int num, bool isRotated);
+	bool IsStarSelected(int num);
+};
+
+void GetStarPosition(D3DXVECTOR3 *pos);
 
 #endif

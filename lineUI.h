@@ -12,12 +12,27 @@
 //*****************************************************************************
 #define	ADRESS_TEXTURE_LINE	("data/TEXTURE/UI/interfaceLine.png")	// 読み込むテクスチャファイル名
 
+#include "GameSceneUIManager.h"
+#include "UIdrawer.h"
+
+class Object;
+
+/**************************************
+前方宣言
+***************************************/
+class GameSceneUI;
+
 //*****************************************************************************
-// プロトタイプ宣言
+// 構造体定義
 //*****************************************************************************
-HRESULT InitLine(void);
-void	UninitLine(void);
-void	UpdateLine(void);
-void	DrawLine(void);
+class Line:public GameSceneUI
+{
+public:
+	Object *object;
+	void Init(void);
+	void Uninit(void);
+	void Update(void);
+	void Draw(void);
+};
 
 #endif

@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// スコア処理 [score.cpp]
+// スコア処理 [score->cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
@@ -10,35 +10,30 @@
 #include "comboUI.h"
 
 //*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-static void VolumeUpEffect(void);
-
-//*****************************************************************************
 // グローバル変数宣言
 //*****************************************************************************
-OBJECT	score;					
-int		g_score;		// スコア
-int		g_score_max;			
+Object score;					
+int	g_score;		// スコア
+int	g_score_max;			
 static float radian;
 static bool	volumeUpEffectUsed;
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT InitScore(void)
+void Score::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_SCORE, &score);
-	InitialTexture(&score);
-	MakeVertexObject(&score);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_SCORE, score);
+	object->InitialTexture(score);
+	object->MakeVertexObject(score);
 
-	score.position = POSITION_SCORE;
-	score.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	score.size	   = SIZE_SCORE;
+	score->position = POSITION_SCORE;
+	score->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	score->size	    = SIZE_SCORE;
 
-	SetColorObject(&score, SET_COLOR_NOT_COLORED);
+	object->SetColorObject(score, SET_COLOR_NOT_COLORED);
 
 	// 最大値設定
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
@@ -49,22 +44,20 @@ HRESULT InitScore(void)
 	g_score = 0;
 	radian = 0;
 	volumeUpEffectUsed = false;
-
-	return S_OK;
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void UninitScore(void)
+void Score::Uninit(void)
 {
-	ReleaseTexture(&score);
+	object->ReleaseTexture(score);
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateScore(void)
+void Score::Update(void)
 {
 	VolumeUpEffect();
 
@@ -82,7 +75,7 @@ void UpdateScore(void)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawScore(void)
+void Score::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -92,20 +85,20 @@ void DrawScore(void)
 
 		number = g_score % (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace))) / (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace - 1)));
 
-		DrawObject(pDevice, score);
-		SetVertexCounter(&score, nCntPlace, INTERVAL_NUMBER);
-		SetTextureCounter(&score, number, INTERVAL_NUMBER_TEXTURE);
-	}
+		object->DrawObject(pDevice, score);
+		object->SetVertexCounter(score, nCntPlace, INTERVAL_NUMBER);
+		object->SetTextureCounter(score, number, INTERVAL_NUMBER_TEXTURE);
+	}	
 }
 
 //=============================================================================
 // 数字ボリュームアップエフェクト処理
 //=============================================================================
-void VolumeUpEffect(void)
+void Score::VolumeUpEffect(void)
 {
 	if (volumeUpEffectUsed == true)
 	{
-		score.size.y = SIZE_SCORE.y + VOLUME_ZOOM * sinf(radian);
+		score->size.y = SIZE_SCORE.y + VOLUME_ZOOM * sinf(radian);
 
 		if (radian >= D3DX_PI)
 		{
@@ -120,7 +113,7 @@ void VolumeUpEffect(void)
 //=============================================================================
 // スコアの加算（引数で受け取った値をスコアに加算する）
 //=============================================================================
-void AddScore(int value)
+void Score::AddScore(int value)
 {
 	g_score += value;
 
@@ -132,6 +125,6 @@ void AddScore(int value)
 	}
 }
 
-int SetScore() {
+int Score::SetScore() {
 	return g_score;
 }

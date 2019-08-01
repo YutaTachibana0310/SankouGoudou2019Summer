@@ -5,8 +5,8 @@
 #include "scoreUI.h"
 
 SCORERANK scorerank[ARRAY_MAX];
-OBJECT rank[RANK_MAX];
-OBJECT rankBGParts[RANK_MAX];
+Object rank[RANK_MAX];
+Object rankBGParts[RANK_MAX];
 //*****************************************************************************
 // グローバル変数宣言
 //*****************************************************************************
@@ -20,6 +20,9 @@ D3DXVECTOR3 dir;
 D3DXVECTOR3 target;
 float length;
 
+static Object*object;
+static Score*score;
+
 //=============================================================================
 // ランキング初期化処理
 //=============================================================================
@@ -30,9 +33,9 @@ HRESULT InitRank(void) {
 	//ランキング数字側の処理
 	for (int i = 0; i < RANK_MAX; i++) {
 
-		LoadTexture(pDevice, ADRESS_TEXTURE_NUMBER_RANK, &rank[i]);
-		InitialTexture(&rank[i]);
-		MakeVertexObject(&rank[i]);
+		object->LoadTexture(pDevice, ADRESS_TEXTURE_NUMBER_RANK, &rank[i]);
+		object->InitialTexture(&rank[i]);
+		object->MakeVertexObject(&rank[i]);
 		rank[i].rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		rank[i].size = SIZE_RANK;
 
@@ -47,28 +50,28 @@ HRESULT InitRank(void) {
 	rank[CENTER].position = POSITION_RANK_CENTER;
 
 	//　色設定
-	SetColorObject(&rank[TOP], SET_COLOR_RED);
-	SetColorObject(&rank[MIDDLE_LEFT], SET_COLOR_PINK);
-	SetColorObject(&rank[LOWER_LEFT], SET_COLOR_RIGHTBLUE);
-	SetColorObject(&rank[LOWER_RIGHT], SET_COLOR_NOT_COLORED);
-	SetColorObject(&rank[MIDDLE_RIGHT], SET_COLOR_NOT_COLORED);
-	SetColorObject(&rank[CENTER], SET_COLOR_ORANGE);
+	object->SetColorObject(&rank[TOP], SET_COLOR_RED);
+	object->SetColorObject(&rank[MIDDLE_LEFT], SET_COLOR_PINK);
+	object->SetColorObject(&rank[LOWER_LEFT], SET_COLOR_RIGHTBLUE);
+	object->SetColorObject(&rank[LOWER_RIGHT], SET_COLOR_NOT_COLORED);
+	object->SetColorObject(&rank[MIDDLE_RIGHT], SET_COLOR_NOT_COLORED);
+	object->SetColorObject(&rank[CENTER], SET_COLOR_ORANGE);
 
 	//ランキングBGの処理
-	LoadTexture(pDevice, ADRESS_TEXTURE_BG_RANK1, &rankBGParts[0]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_BG_RANK2, &rankBGParts[1]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_BG_RANK3, &rankBGParts[2]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_BG_RANK4, &rankBGParts[3]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_BG_RANK5, &rankBGParts[4]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_BG_RANK6, &rankBGParts[5]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_BG_RANK1, &rankBGParts[0]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_BG_RANK2, &rankBGParts[1]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_BG_RANK3, &rankBGParts[2]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_BG_RANK4, &rankBGParts[3]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_BG_RANK5, &rankBGParts[4]);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_BG_RANK6, &rankBGParts[5]);
 
 	for (int i = 0; i < RANK_MAX; i++) {
-		InitialTexture(&rankBGParts[i]);
-		MakeVertexObject(&rankBGParts[i]);
+		object->InitialTexture(&rankBGParts[i]);
+		object->MakeVertexObject(&rankBGParts[i]);
 		rankBGParts[i].rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		rankBGParts[i].size = SIZE_BG_RANK;
 
-		SetColorObject(&rankBGParts[i], SET_COLOR_NOT_COLORED);
+		object->SetColorObject(&rankBGParts[i], SET_COLOR_NOT_COLORED);
 
 	}
 
@@ -113,8 +116,8 @@ void UninitRank(void) {
 
 	for (int i = 0; i < RANK_MAX; i++)
 	{
-		ReleaseTexture(&rank[i]);
-		ReleaseTexture(&rankBGParts[i]);
+		object->ReleaseTexture(&rank[i]);
+		object->ReleaseTexture(&rankBGParts[i]);
 	}
 }
 
@@ -157,17 +160,17 @@ void DrawRank(void) {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	for (int i = 0; i < RANK_MAX; i++) {
-		DrawObject(pDevice, rankBGParts[i]);
-		SetVertexObject(&rankBGParts[i]);
+		object->DrawObject(pDevice, &rankBGParts[i]);
+		object->SetVertexObject(&rankBGParts[i]);
 		for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
 		{
 			int number;
 
 			number = scorerank[i].g_scorerank % (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace))) / (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace - 1)));
 
-			DrawObject(pDevice, rank[i]);
-			SetVertexCounter(&rank[i], nCntPlace, INTERVAL_RANKING_NUMBER);
-			SetTextureCounter(&rank[i], number, INTERVAL_NUMBER_TEXTURE);
+			object->DrawObject(pDevice, &rank[i]);
+			object->SetVertexCounter(&rank[i], nCntPlace, INTERVAL_RANKING_NUMBER);
+			object->SetTextureCounter(&rank[i], number, INTERVAL_NUMBER_TEXTURE);
 		}
 
 	}
@@ -179,7 +182,7 @@ void RankSort(void) {
 	scorerank[MYSCORE].g_scorerank = NULL;
 
 	//今回の分のスコアを配列の最後に代入
-	scorerank[RANK_MAX].g_scorerank = SetScore();
+	scorerank[RANK_MAX].g_scorerank = score->SetScore();
 
 	for (int i = 0; i <= RANK_MAX; i++) {
 
@@ -203,7 +206,7 @@ void RankSort(void) {
 	}
 
 	//今回の分のマイスコアを中心に
-	scorerank[MYSCORE].g_scorerank = SetScore();
+	scorerank[MYSCORE].g_scorerank = score->SetScore();
 
 
 }

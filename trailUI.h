@@ -10,7 +10,6 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-
 // 読み込むテクスチャファイル名
 #define	ADRESS_TEXTURE_TRAIL_BG	("data/TEXTURE/UI/trail/trailBG.png")
 #define	ADRESS_TEXTURE_TRAIL_LINE_TOP_TO_LOWERLEFT	("data/TEXTURE/UI/trail/trailLine_TopToLowerLeft.png")
@@ -29,13 +28,28 @@ enum TRAIL_PARTS
 	TRAIL_LINE_MIDDLELEFT_TO_MIDDLERIGHT,
 };
 
+#include "GameSceneUIManager.h"
+#include "UIdrawer.h"
+
+class Object;
+
+/**************************************
+前方宣言
+***************************************/
+class GameSceneUI;
+
 //*****************************************************************************
-// プロトタイプ宣言
+// 構造体定義
 //*****************************************************************************
-HRESULT InitTrail(void);
-void	UninitTrail(void);
-void	UpdateTrail(void);
-void	DrawTrail(void);
+class Trail :public GameSceneUI
+{
+public:
+	Object *object;
+	void Init(void);
+	void Uninit(void);
+	void Update(void);
+	void Draw(void);
+};
 
 #endif
 

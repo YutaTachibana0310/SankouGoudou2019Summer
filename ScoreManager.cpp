@@ -10,15 +10,18 @@
 #include "comboUI.h"
 #include "sound.h"
 
+static Score *score;
+static Combo *combo;
+
 void SetAddScore(int n) {
 
-	AddScore(n);
+	score->AddScore(n);
 
 }
 
 void SetAddCombo(int n) {
 
-	AddCombo(n);
+	combo->AddCombo(n);
 
 	Sound::GetInstance()->SetPlaySE(COMBOSE, true, 1.0f);
 	Sound::GetInstance()->changepitch += n * 100;
@@ -30,7 +33,7 @@ void SetAddCombo(int n) {
 
 void ClearCombo(void) {
 
-	SetCombo(0);
+	combo->SetCombo(0);
 	Sound::GetInstance()->changepitch = 0;
 
 }

@@ -17,7 +17,7 @@ using namespace std;
 マクロ定義
 ***************************************/
 #define ENEMYGUIDEARROW_SIZE		(D3DXVECTOR2(10.0f, 5.0f))
-#define ENEMYGUIDEARROW_TEX_NAME	"data/TEXTURE/Effect/GuideArrow.png"
+#define ENEMYGUIDEARROW_TEX_NAME	"data/TEXTURE/Enemy/GuideArrow.png"
 
 /**************************************
 コンストラクタ

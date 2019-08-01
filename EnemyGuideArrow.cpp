@@ -59,6 +59,8 @@ void EnemyGuideArrow::Update()
 	if (!active)
 		return;
 
+	cntFrame++;
+
 	if (cntFrame == ENEMYGUIDEARROW_LIFEFRAME)
 		active = false;
 }

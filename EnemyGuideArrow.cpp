@@ -24,7 +24,7 @@ EnemyGuideArrow::EnemyGuideArrow()
 {
 	ResourceManager::Instance()->GetPolygon("EnemyGuideArrow", &polygon);
 	cntFrame = 0;
-	active = true;
+	active = false;
 }
 
 /**************************************
@@ -158,7 +158,7 @@ void EnemyGuideArrowEmitter::Update()
 	float t = (float)cntFrame / ENEMYGUIDEARROW_DURATION;
 	transform.pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &start, &end, EasingType::Linear);
 
-	if (cntFrame < ENEMYGUIDEARROW_DURATION && cntFrame % ENEMYGUIDEARROW_INTERVAL)
+	if (cntFrame < ENEMYGUIDEARROW_DURATION && cntFrame % ENEMYGUIDEARROW_INTERVAL == 0)
 	{
 		arrowContainer[cntArrow]->transform = transform;
 		arrowContainer[cntArrow]->Init();
@@ -175,6 +175,11 @@ void EnemyGuideArrowEmitter::Update()
 
 		if (!isArrowAlive)
 			Uninit();
+	}
+
+	for (auto& arrow : arrowContainer)
+	{
+		arrow->Update();
 	}
 }
 

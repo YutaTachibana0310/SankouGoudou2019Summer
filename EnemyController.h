@@ -13,6 +13,7 @@
 #include "enemy.h"
 #include "StageModel.h"
 #include "EnemyBulletController.h"
+#include "EnemyGuideArrowController.h"
 
 #include "Framework\BaseObserver.h"
 #include "picojson\picojson.h"
@@ -52,6 +53,7 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void DrawGuide();
 
 	//エネミー生成処理
 	void SetEnemy();
@@ -64,6 +66,7 @@ private:
 	int currentIndex;
 
 	EnemyBulletController* bulletController;
+	EnemyGuideArrowController* guideController;
 
 	//エネミー生成処理(内部処理)
 	EnemySnake *test;

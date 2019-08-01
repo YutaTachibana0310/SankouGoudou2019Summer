@@ -9,13 +9,14 @@
 #include "Framework\ResourceManager.h"
 #include "LineTrailModel.h"
 #include <algorithm>
+#include "debugWindow.h"
 
 using namespace std;
 
 /**************************************
 ƒ}ƒNƒ’è‹`
 ***************************************/
-#define ENEMYGUIDEARROW_SIZE		(D3DXVECTOR2(20.0f, 10.0f))
+#define ENEMYGUIDEARROW_SIZE		(D3DXVECTOR2(10.0f, 5.0f))
 #define ENEMYGUIDEARROW_TEX_NAME	"data/TEXTURE/Effect/GuideArrow.png"
 
 /**************************************
@@ -49,6 +50,18 @@ EnemyGuideArrowController::~EnemyGuideArrowController()
 ***************************************/
 void EnemyGuideArrowController::Update()
 {
+
+	BeginDebugWindow("EnemyGuide");
+
+	if (DebugButton("Set"))
+	{
+		int start = RandomRange(0, 5);
+		int end = WrapAround(0, 5, start + RandomRange(1, 4));
+		SetEmitter(LineTrailModel(start, end));
+	}
+
+	EndDebugWindow("EnemyGuide");
+
 	for (auto& emitter : emitterContainer)
 	{
 		emitter->Update();

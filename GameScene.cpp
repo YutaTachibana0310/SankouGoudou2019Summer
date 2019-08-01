@@ -210,6 +210,7 @@ void GameScene::Draw()
 
 	//エネミーの描画
 	enemyController->Draw();
+	enemyController->DrawGuide();
 
 	//パーティクル描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawParticle");

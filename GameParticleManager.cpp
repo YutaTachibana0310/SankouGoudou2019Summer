@@ -16,6 +16,7 @@
 #include "EnemyBulletEffectController.h"
 #include "EnemyBulletChargeController.h"
 #include "EnemyBulletFireController.h"
+#include "EnemyGuideArrowController.h"
 
 #include "LineTrailModel.h"
 
@@ -181,6 +182,7 @@ void GameParticleManager::DrawDebugWindow(void)
 		if (DebugButton("EnemyExplosion"))
 			SetEnemyExplosion(&D3DXVECTOR3(0.0f, 0.0f, 250.0f));
 	}
+
 	EndDebugWindow("GameParticle");
 }
 #endif

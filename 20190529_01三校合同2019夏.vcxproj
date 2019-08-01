@@ -160,6 +160,8 @@
     <ClInclude Include="EnemyBulletModel.h" />
     <ClInclude Include="EnemyBulletTrail.h" />
     <ClInclude Include="EnemyBulletTrailController.h" />
+    <ClInclude Include="EnemyGuideArrow.h" />
+    <ClInclude Include="EnemyGuideArrowController.h" />
     <ClInclude Include="EnemyWarpHole.h" />
     <ClInclude Include="EnemyWarpHoleController.h" />
     <ClInclude Include="Framework\BoardPolygon.h" />
@@ -312,6 +314,8 @@
     <ClCompile Include="EnemyBulletModel.cpp" />
     <ClCompile Include="EnemyBulletTrail.cpp" />
     <ClCompile Include="EnemyBulletTrailController.cpp" />
+    <ClCompile Include="EnemyGuideArrow.cpp" />
+    <ClCompile Include="EnemyGuideArrowController.cpp" />
     <ClCompile Include="EnemyWarpHole.cpp" />
     <ClCompile Include="EnemyWarpHoleController.cpp" />
     <ClCompile Include="Framework\BoardPolygon.cpp" />

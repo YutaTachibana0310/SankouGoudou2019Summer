@@ -55,8 +55,9 @@ EnemyController::EnemyController()
 	//解放はシーン終了時にGame.cppで一括して開放する
 	ResourceManager::Instance()->LoadMesh("Enemy", "data/MODEL/Enemy/drone.x");
 
-	//バレットコントローラ作成
+	//各コントローラ作成
 	bulletController = new EnemyBulletController();
+	guideController = new EnemyGuideArrowController();
 
 	//ステージデータ読み込み
 	LoadStageData();
@@ -74,8 +75,9 @@ EnemyController::~EnemyController()
 	}
 	modelList.clear();
 	
-	//バレットコントローラ削除
+	//各コントローラ削除
 	SAFE_DELETE(bulletController);
+	SAFE_DELETE(guideController);
 
 	//ステージデータクリア
 	stageModelList.clear();
@@ -139,6 +141,9 @@ void EnemyController::Update()
 	//バレット更新処理
 	bulletController->Update();
 
+	//ガイド更新処理
+	guideController->Update();
+
 	//終了したモデルを削除する
 	for (auto& model : modelList)
 	{
@@ -171,6 +176,14 @@ void EnemyController::Draw()
 #if USE_DEBUG_TESTENEMY
 
 #endif
+}
+
+/**************************************
+ガイド描画処理
+***************************************/
+void EnemyController::DrawGuide()
+{
+	guideController->Draw();
 }
 
 /**************************************

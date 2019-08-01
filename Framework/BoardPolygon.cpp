@@ -103,6 +103,16 @@ void BoardPolygon::SetTexDiv(D3DXVECTOR2 div)
 	texDiv = div;
 	texSize.x = 1.0f / div.x;
 	texSize.y = 1.0f / div.y;
+
+	VERTEX_BILLBOARD *pVtx;
+	vtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	pVtx[1].tex = D3DXVECTOR2(texSize.x, 0.0f);
+	pVtx[2].tex = D3DXVECTOR2(0.0f, texSize.y);
+	pVtx[3].tex = D3DXVECTOR2(texSize.x, texSize.y);
+
+	vtxBuff->Unlock();
 }
 
 /**************************************

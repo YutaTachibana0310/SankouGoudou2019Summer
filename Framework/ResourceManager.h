@@ -31,7 +31,7 @@ public:
 	void LoadTexture(const char* tag, const char* path);
 	void ReleaseTexture(const char* tag);
 
-	void MakePolygon(const char* tag, const char* path, D3DXVECTOR2 size);
+	void MakePolygon(const char* tag, const char* path, D3DXVECTOR2 size, D3DXVECTOR2 uv = D3DXVECTOR2(1.0f, 1.0f));
 	void ReleasePolygon(const char* tag);
 
 	//リソース参照処理

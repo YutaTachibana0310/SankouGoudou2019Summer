@@ -16,8 +16,9 @@ using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
-#define ENEMYGUIDEARROW_SIZE		(D3DXVECTOR2(10.0f, 5.0f))
+#define ENEMYGUIDEARROW_SIZE		(D3DXVECTOR2(5.0f, 5.0f))
 #define ENEMYGUIDEARROW_TEX_NAME	"data/TEXTURE/Enemy/GuideArrow.png"
+#define ENEMYGUIDEARROW_TEX_UV		(D3DXVECTOR2(1.0f, 1.0f))
 
 /**************************************
 コンストラクタ
@@ -25,7 +26,7 @@ using namespace std;
 EnemyGuideArrowController::EnemyGuideArrowController()
 {
 	//リソース作成
-	ResourceManager::Instance()->MakePolygon("EnemyGuideArrow", ENEMYGUIDEARROW_TEX_NAME, ENEMYGUIDEARROW_SIZE);
+	ResourceManager::Instance()->MakePolygon("EnemyGuideArrow", ENEMYGUIDEARROW_TEX_NAME, ENEMYGUIDEARROW_SIZE, ENEMYGUIDEARROW_TEX_UV);
 
 	//コンテナ作成
 	for (auto& emitter : emitterContainer)
@@ -76,6 +77,7 @@ void EnemyGuideArrowController::Draw()
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	pDevice->SetRenderState(D3DRS_LIGHTING, false);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
 
 	for (auto& emitter : emitterContainer)
 	{
@@ -83,6 +85,7 @@ void EnemyGuideArrowController::Draw()
 	}
 
 	pDevice->SetRenderState(D3DRS_LIGHTING, true);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 }
 
 /**************************************

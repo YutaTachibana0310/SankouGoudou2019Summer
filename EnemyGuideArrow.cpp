@@ -59,12 +59,6 @@ void EnemyGuideArrow::Update()
 	if (!active)
 		return;
 
-	static const float InitScale = 1.0f, EndScale = 0.0f;
-	cntFrame++;
-
-	float t = (float)cntFrame / ENEMYGUIDEARROW_LIFEFRAME;
-	transform.scale = Easing<float>::GetEasingValue(t, &InitScale, &EndScale, EasingType::InExponential) * D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-
 	if (cntFrame == ENEMYGUIDEARROW_LIFEFRAME)
 		active = false;
 }

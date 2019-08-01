@@ -15,7 +15,7 @@ using namespace std;
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
-#define ENEMYGUIDEARROW_SIZE		(D3DXVECTOR2(5.0f, 5.0f))
+#define ENEMYGUIDEARROW_SIZE		(D3DXVECTOR2(12.5f, 5.0f))
 #define ENEMYGUIDEARROW_TEX_NAME	"data/TEXTURE/Enemy/GuideArrow.png"
 #define ENEMYGUIDEARROW_TEX_UV		(D3DXVECTOR2(1.0f, 1.0f))
 

@@ -35,7 +35,7 @@ class GameSceneUI;
 //*****************************************************************************
 // \‘¢‘Ì’è‹`
 //*****************************************************************************
-class Guage :public GameSceneUI
+class Guage :public Object
 {
 public:
 	Object*object;

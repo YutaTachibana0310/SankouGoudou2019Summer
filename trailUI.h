@@ -41,7 +41,7 @@ class GameSceneUI;
 //*****************************************************************************
 // \‘¢‘Ì’è‹`
 //*****************************************************************************
-class Trail :public GameSceneUI
+class Trail :public Object
 {
 public:
 	Object *object;

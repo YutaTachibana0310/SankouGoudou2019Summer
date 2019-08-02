@@ -26,7 +26,7 @@ class TitleSceneUI;
 //*****************************************************************************
 // ç\ë¢ëÃíËã`
 //*****************************************************************************
-class TitleBG :public TitleSceneUI
+class TitleBG :public Object
 {
 public:
 	Object *object;

@@ -18,7 +18,7 @@ class ResultBG;
 /**************************************
 \‘¢‘Ì’è‹`
 ***************************************/
-class ResultSceneUI:public Object
+class ResultSceneUI
 {
 public:
 	ResultBG *resultBG;

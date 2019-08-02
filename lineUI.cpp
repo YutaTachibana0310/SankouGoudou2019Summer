@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// インターフェースライン画面処理 [line->cpp]
+// インターフェースライン画面処理 [line.cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
@@ -27,15 +27,15 @@ void Line::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->LoadTexture(pDevice, ADRESS_TEXTURE_LINE, line);
-	object->InitialTexture(line);
-	//object->MakeVertexObject(line);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_LINE, &line);
+	object->InitialTexture(&line);
+	object->MakeVertexObject(&line);
 
-	line->position	= POSITION_LINE;
-	line->size		= SIZE_LINE;
-	line->rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	line.position	= POSITION_LINE;
+	line.size		= SIZE_LINE;
+	line.rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	object->SetColorObject(line, SET_COLOR_NOT_COLORED);
+	object->SetColorObject(&line, SET_COLOR_NOT_COLORED);
 }
 
 //=============================================================================
@@ -43,7 +43,7 @@ void Line::Init(void)
 //=============================================================================
 void Line::Uninit(void)
 {
-	object->ReleaseTexture(line);
+	object->ReleaseTexture(&line);
 }
 
 //=============================================================================
@@ -60,6 +60,6 @@ void Line::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->DrawObject(pDevice, line);
-	object->SetVertexObject(line);
+	object->DrawObject(pDevice, &line);
+	object->SetVertexObject(&line);
 }

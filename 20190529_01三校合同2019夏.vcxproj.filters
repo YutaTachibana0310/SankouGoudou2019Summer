@@ -154,12 +154,6 @@
     <Filter Include="ヘッダー ファイル\UI\ResultSceneUI">
       <UniqueIdentifier>{a1c65f35-2dfd-4740-958e-e68c8b8ebe26}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\UI\Telop">
-      <UniqueIdentifier>{0ef87ea0-c898-4cc6-81c7-89301d6a4e7b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\UI\Telop">
-      <UniqueIdentifier>{3bcf998c-7dee-4bc7-9fcd-6c7e1aa6afa3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Stage">
       <UniqueIdentifier>{01486906-f323-4787-a90e-75b766ee4f26}</UniqueIdentifier>
     </Filter>
@@ -174,6 +168,12 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\BG">
       <UniqueIdentifier>{32c236d4-f951-4bbb-ae16-90073dd29807}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI\GameSceneUI\Telop">
+      <UniqueIdentifier>{0ef87ea0-c898-4cc6-81c7-89301d6a4e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\UI\GameSceneUI\Telop">
+      <UniqueIdentifier>{3bcf998c-7dee-4bc7-9fcd-6c7e1aa6afa3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -541,13 +541,13 @@
       <Filter>ヘッダー ファイル\UI\ResultSceneUI</Filter>
     </ClInclude>
     <ClInclude Include="battleStartTelop.h">
-      <Filter>ヘッダー ファイル\UI\Telop</Filter>
+      <Filter>ヘッダー ファイル\UI\GameSceneUI\Telop</Filter>
     </ClInclude>
     <ClInclude Include="telopBG.h">
-      <Filter>ヘッダー ファイル\UI\Telop</Filter>
+      <Filter>ヘッダー ファイル\UI\GameSceneUI\Telop</Filter>
     </ClInclude>
     <ClInclude Include="stageClearTelop.h">
-      <Filter>ヘッダー ファイル\UI\Telop</Filter>
+      <Filter>ヘッダー ファイル\UI\GameSceneUI\Telop</Filter>
     </ClInclude>
     <ClInclude Include="picojson\picojson.h">
       <Filter>ヘッダー ファイル\Stage</Filter>
@@ -990,13 +990,13 @@
       <Filter>ソース ファイル\UI\ResultSceneUI</Filter>
     </ClCompile>
     <ClCompile Include="battleStartTelop.cpp">
-      <Filter>ソース ファイル\UI\Telop</Filter>
+      <Filter>ソース ファイル\UI\GameSceneUI\Telop</Filter>
     </ClCompile>
     <ClCompile Include="telopBG.cpp">
-      <Filter>ソース ファイル\UI\Telop</Filter>
+      <Filter>ソース ファイル\UI\GameSceneUI\Telop</Filter>
     </ClCompile>
     <ClCompile Include="stageClearTelop.cpp">
-      <Filter>ソース ファイル\UI\Telop</Filter>
+      <Filter>ソース ファイル\UI\GameSceneUI\Telop</Filter>
     </ClCompile>
     <ClCompile Include="EditorScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>

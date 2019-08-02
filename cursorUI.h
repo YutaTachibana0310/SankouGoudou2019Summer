@@ -27,10 +27,11 @@ class GameSceneUI;
 //*****************************************************************************
 // ç\ë¢ëÃíËã`
 //*****************************************************************************
-class Cursor :public GameSceneUI
+class Cursor :public Object
 {
 public:
 	Object*object;
+
 	void Init(void);
 	void Uninit(void);
 	void Update(HWND hWnd);

@@ -26,7 +26,7 @@ class ResultSceneUI;
 //*****************************************************************************
 // ç\ë¢ëÃíËã`
 //*****************************************************************************
-class ResultBG :public ResultSceneUI
+class ResultBG :public Object
 {
 public:
 	Object * object;

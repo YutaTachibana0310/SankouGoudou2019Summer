@@ -7,9 +7,8 @@
 #include "main.h"
 #include "input.h"
 #include "startButtonUI.h"
-#include "cursorUI.h"
-#include "masktex.h"
 #include "UIdrawer.h"
+#include "TitleSceneUIManager.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -25,6 +24,7 @@
 // グローバル変数
 //*****************************************************************************
 Object	startButtonParts[STARTBUTTON_PARTS_MAX];
+StartButtonManager startButtonManager;
 bool	IsAlphaIncreased = true;
 float	alpha = 0;
 
@@ -75,7 +75,7 @@ void StartButton::Update(HWND hWnd)
 		// ボタンを押したらゲームシーンへ
 		if (IsMouseLeftTriggered())
 		{
-			SceneChangeFlag(true, SceneGame);
+			startButtonManager.GoGameScene();
 		}
 
 		for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)

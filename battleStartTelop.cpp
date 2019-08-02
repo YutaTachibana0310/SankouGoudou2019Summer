@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// バトルスタートテロップ処理 [battleStartTelop->cpp]
+// バトルスタートテロップ処理 [battleStartTelop.cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
@@ -65,15 +65,15 @@ void BattleStartTelop::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->LoadTexture(pDevice, ADRESS_TEXTURE_BATTLE_START_TELOP, battleStartTelop);
-	object->InitialTexture(battleStartTelop);
-	object->MakeVertexObject(battleStartTelop);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_BATTLE_START_TELOP, &battleStartTelop);
+	object->InitialTexture(&battleStartTelop);
+	object->MakeVertexObject(&battleStartTelop);
 
-	battleStartTelop->position = INIT_POSITION_BATTLE_START_TELOP;
-	battleStartTelop->size = SIZE_BATTLE_START_TELOP;
-	battleStartTelop->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	battleStartTelop.position = INIT_POSITION_BATTLE_START_TELOP;
+	battleStartTelop.size = SIZE_BATTLE_START_TELOP;
+	battleStartTelop.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	object->SetColorObject(battleStartTelop, SET_COLOR_NOT_COLORED);
+	object->SetColorObject(&battleStartTelop, SET_COLOR_NOT_COLORED);
 }
 
 //=============================================================================
@@ -81,7 +81,7 @@ void BattleStartTelop::Init(void)
 //=============================================================================
 void BattleStartTelop::Uninit(void)
 {
-	object->ReleaseTexture(battleStartTelop);
+	object->ReleaseTexture(&battleStartTelop);
 }
 
 //=============================================================================
@@ -100,24 +100,24 @@ void BattleStartTelop::Update()
 			telopBG->AvctivateTelopBGClose();
 		}
 
-		battleStartTelop->countFrame++;
+		battleStartTelop.countFrame++;
 
-		battleStartTelop->position.x = eBattleStartTelop.GetEasingValue(GetCountObject(
-			battleStartTelop, AnimationDuration[currentAnimation]),
+		battleStartTelop.position.x = eBattleStartTelop.GetEasingValue(GetCountObject(
+			&battleStartTelop, AnimationDuration[currentAnimation]),
 			&EasingStartPositionX[currentAnimation],
 			&EasingEndPositionX[currentAnimation],
 			AnimationType[currentAnimation]);
 
-		if (battleStartTelop->countFrame == AnimationDuration[currentAnimation])
+		if (battleStartTelop.countFrame == AnimationDuration[currentAnimation])
 		{
-			battleStartTelop->countFrame = 0;
+			battleStartTelop.countFrame = 0;
 			currentAnimation++;
 		}
 		if (currentAnimation == ANIMATION_MAX)
 		{
-			battleStartTelop->countFrame = 0;
+			battleStartTelop.countFrame = 0;
 			currentAnimation = 0;
-			battleStartTelop->position = INIT_POSITION_BATTLE_START_TELOP;
+			battleStartTelop.position = INIT_POSITION_BATTLE_START_TELOP;
 			isBattleStartTelopActivated = false;
 		}
 	}
@@ -130,8 +130,8 @@ void BattleStartTelop::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->DrawObject(pDevice,battleStartTelop);
-	object->SetVertexObject(battleStartTelop);
+	object->DrawObject(pDevice, &battleStartTelop);
+	object->SetVertexObject(&battleStartTelop);
 }
 
 //=============================================================================

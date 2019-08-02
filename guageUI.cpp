@@ -43,8 +43,8 @@ void Guage::Init(void)
 
 	object->MakeVertexGuageBar(&guageParts[GUAGEBAR_DAMAGE],damageGuagePercentage,	WIDTH_GUAGEFLAME);
 	object->MakeVertexGuageBar(&guageParts[GUAGEBAR_TRUE],	trueGuagePercentage,	WIDTH_GUAGEFLAME);
-	//object->MakeVertexObject  (&guageParts[GUAGEFLAME]);
-	//object->MakeVertexObject(&guageParts[GUAGETEXT]);
+	object->MakeVertexObject  (&guageParts[GUAGEFLAME]);
+	object->MakeVertexObject(&guageParts[GUAGETEXT]);
 
 	for (int i = 0; i < GUAGEPARTS_MAX; i++)
 	{

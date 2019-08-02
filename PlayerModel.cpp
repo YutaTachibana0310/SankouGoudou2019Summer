@@ -163,7 +163,7 @@ void PlayerModel::Clear()
 {
 	inputHistory.clear();
 	queue<int>().swap(inputQueue);
-	ClearCombo();
+	//ClearCombo();
 }
 
 /**************************************

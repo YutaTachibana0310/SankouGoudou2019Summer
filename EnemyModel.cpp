@@ -91,10 +91,10 @@ void EnemyModel::OnNotified(ObserveSubject *notifier)
 		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
 
 		//スコア加算
-		SetAddScore(100);
+		//SetAddScore(100);
 	}
 
-	SetAddCombo(1);
+	//SetAddCombo(1);
 
 	//非アクティブに
 	Uninit();

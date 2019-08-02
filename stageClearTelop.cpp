@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// ステージクリアテロップ処理 [stageClearTelop->cpp]
+// ステージクリアテロップ処理 [stageClearTelop.cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
@@ -65,15 +65,15 @@ void StageClearTelop::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->LoadTexture(pDevice, ADRESS_TEXTURE_STAGE_CLEAR_TELOP, stageClearTelop);
-	object->InitialTexture(stageClearTelop);
-	object->MakeVertexObject(stageClearTelop);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_STAGE_CLEAR_TELOP, &stageClearTelop);
+	object->InitialTexture(&stageClearTelop);
+	object->MakeVertexObject(&stageClearTelop);
 
-	stageClearTelop->position = INIT_POSITION_STAGE_CLEAR_TELOP;
-	stageClearTelop->size = SIZE_STAGE_CLEAR_TELOP;
-	stageClearTelop->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	stageClearTelop.position = INIT_POSITION_STAGE_CLEAR_TELOP;
+	stageClearTelop.size = SIZE_STAGE_CLEAR_TELOP;
+	stageClearTelop.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	object->SetColorObject(stageClearTelop, SET_COLOR_NOT_COLORED);
+	object->SetColorObject(&stageClearTelop, SET_COLOR_NOT_COLORED);
 }
 
 //=============================================================================
@@ -81,7 +81,7 @@ void StageClearTelop::Init(void)
 //=============================================================================
 void StageClearTelop::Uninit(void)
 {
-	object->ReleaseTexture(stageClearTelop);
+	object->ReleaseTexture(&stageClearTelop);
 }
 
 //=============================================================================
@@ -100,24 +100,24 @@ void StageClearTelop::Update()
 			telopBG->AvctivateTelopBGClose();
 		}
 
-		stageClearTelop->countFrame++;
+		stageClearTelop.countFrame++;
 
-		stageClearTelop->position.x = eStageClearTelop.GetEasingValue(GetCountObject(
-			stageClearTelop, AnimationDuration[currentAnimation]),
+		stageClearTelop.position.x = eStageClearTelop.GetEasingValue(GetCountObject(
+			&stageClearTelop, AnimationDuration[currentAnimation]),
 			&EasingStartPositionX[currentAnimation],
 			&EasingEndPositionX[currentAnimation],
 			AnimationType[currentAnimation]);
 
-		if (stageClearTelop->countFrame == AnimationDuration[currentAnimation])
+		if (stageClearTelop.countFrame == AnimationDuration[currentAnimation])
 		{
-			stageClearTelop->countFrame = 0;
+			stageClearTelop.countFrame = 0;
 			currentAnimation++;
 		}
 		if (currentAnimation == ANIMATION_MAX)
 		{
-			stageClearTelop->countFrame = 0;
+			stageClearTelop.countFrame = 0;
 			currentAnimation = 0;
-			stageClearTelop->position = INIT_POSITION_STAGE_CLEAR_TELOP;
+			stageClearTelop.position = INIT_POSITION_STAGE_CLEAR_TELOP;
 			isStageClearTelopActivated = false;
 		}
 	}
@@ -130,8 +130,8 @@ void StageClearTelop::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->DrawObject(pDevice, stageClearTelop);
-	object->SetVertexObject(stageClearTelop);
+	object->DrawObject(pDevice, &stageClearTelop);
+	object->SetVertexObject(&stageClearTelop);
 }
 
 //=============================================================================

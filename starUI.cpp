@@ -41,7 +41,7 @@ void Star::Init(void)
 		object->LoadTexture(pDevice, ADRESS_TEXTURE_STAR, &star[i]);
 		object->CreateObjectCircle(&star[i], star[i].size.x, star[i].size.y);
 		object->InitialTexture(&star[i]);
-		//object->MakeVertexRotateObject(&star[i]);
+		object->MakeVertexRotateObject(&star[i]);
 
 		star[i].size = SIZE_STAR;
 		star[i].colliderSize = COLLIDERSIZE_STAR;

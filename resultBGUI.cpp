@@ -27,15 +27,15 @@ void ResultBG::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->LoadTexture(pDevice, ADRESS_TEXTURE_RESULTBG, resultBG);
-	object->InitialTexture(resultBG);
-	object->MakeVertexObject(resultBG);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_RESULTBG, &resultBG);
+	object->InitialTexture(&resultBG);
+	object->MakeVertexObject(&resultBG);
 
-	resultBG->position = POSITION_RESULTBG;
-	resultBG->size = SIZE_RESULTBG;
-	resultBG->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	resultBG.position = POSITION_RESULTBG;
+	resultBG.size = SIZE_RESULTBG;
+	resultBG.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	object->SetColorObject(resultBG, SET_COLOR_NOT_COLORED);
+	object->SetColorObject(&resultBG, SET_COLOR_NOT_COLORED);
 }
 
 //=============================================================================
@@ -43,7 +43,7 @@ void ResultBG::Init(void)
 //=============================================================================
 void ResultBG::Uninit(void)
 {
-	object->ReleaseTexture(resultBG);
+	object->ReleaseTexture(&resultBG);
 }
 
 //=============================================================================
@@ -60,6 +60,6 @@ void ResultBG::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->DrawObject(pDevice, resultBG);
-	object->SetVertexObject(resultBG);
+	object->DrawObject(pDevice, &resultBG);
+	object->SetVertexObject(&resultBG);
 }

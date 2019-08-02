@@ -8,6 +8,7 @@
 #define _GAMESCENEUIMANAGER_H_
 
 #include "UIdrawer.h"
+#include "comboUI.h"
 
 /**************************************
 前方宣言
@@ -23,11 +24,12 @@ class Trail;
 class TelopBG;
 class BattleStartTelop;
 class StageClearTelop;
+class ComboManager;
 
 //*****************************************************************************
 // 構造体定義
 //*****************************************************************************
-class GameSceneUI:public Object
+class GameSceneUI
 {
 public:
 	Guage*guage;
@@ -41,10 +43,77 @@ public:
 	BattleStartTelop*battleStartTelop;
 	StageClearTelop*stageClearTelop;
 
-	virtual void Init(void);
-	virtual void Uninit(void);
-	virtual void Update(HWND hwnd);
-	virtual void Draw(void);
+	ComboManager *comboManager;
+
+	void Init(void);
+	void Uninit(void);
+	void Update(HWND hwnd);
+	void Draw(void);
+};
+
+class ComboManager:public Combo
+{
+public:
+	void AddCombo(int value)
+	{
+		combo += value;
+	}
+	void SetCombo(int value)
+	{
+		combo = value;
+	}
+	void EnableEffect(bool enableEffect)
+	{
+		enableEffect = true;
+	}
+};
+
+class CursorManager
+{
+public:
+
+};
+
+class GuageManager
+{
+public:
+
+};
+
+class ScoreManager
+{
+public:
+
+};
+
+class StarManager
+{
+public:
+
+};
+
+class TrailManager
+{
+public:
+
+};
+
+//テロップ
+class BattleStartTelopManager
+{
+public:
+
+};
+class StageClearTelopManager
+{
+public:
+
+};
+
+class TelopBGManager
+{
+public:
+
 };
 
 #endif

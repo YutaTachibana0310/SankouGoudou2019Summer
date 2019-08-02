@@ -32,7 +32,7 @@ class TitleSceneUI;
 //*****************************************************************************
 // ç\ë¢ëÃíËã`
 //*****************************************************************************
-class StartButton :public TitleSceneUI
+class StartButton :public Object
 {
 public:
 	Object *object;

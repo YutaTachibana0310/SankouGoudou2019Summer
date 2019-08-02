@@ -23,31 +23,34 @@ enum COMBO_PARTS
 	BACKGROUND_COMBO
 };
 
-#include "GameSceneUIManager.h"
 #include "UIdrawer.h"
-
-class Object;
 
 /**************************************
 ëOï˚êÈåæ
 ***************************************/
-class GameSceneUI;
+class Object;
 
 //*****************************************************************************
 // ç\ë¢ëÃíËã`
 //*****************************************************************************
-class Combo :public GameSceneUI
+class Combo :public Object
 {
 public:
-	Object*object;
+	Object *object;
+
 	void Init(void);
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
-	void AddCombo(int value);
-	void SetCombo(int value);
+
+protected:
+	int combo;
+	int comboMax;
+	bool volumeUpEffectUsed;
 
 private:
+	float radian;
+	void VolumeUpEffect(void);
 	void UpdateNumberColor(void);
 };
 

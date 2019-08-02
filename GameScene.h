@@ -37,7 +37,7 @@ public:
 
 	int cntFrame;
 
-	GameSceneUI*gameSceneUI;
+	GameSceneUI *gameSceneUI;
 	EnemyController *enemyController;
 	GameParticleManager* particleManager;
 	PlayerObserver* playerObserver;

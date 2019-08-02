@@ -25,7 +25,7 @@ class TitleSceneUI;
 //*****************************************************************************
 // ç\ë¢ëÃíËã`
 //*****************************************************************************
-class TitleLogo :public TitleSceneUI
+class TitleLogo :public Object
 {
 public:
 	Object *object;

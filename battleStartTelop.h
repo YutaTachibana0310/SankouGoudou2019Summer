@@ -25,7 +25,7 @@ class TelopBG;
 //*****************************************************************************
 // ç\ë¢ëÃíËã`
 //*****************************************************************************
-class BattleStartTelop :public GameSceneUI
+class BattleStartTelop :public Object
 {
 public:
 	Object*object;

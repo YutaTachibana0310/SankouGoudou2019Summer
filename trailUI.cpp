@@ -45,7 +45,7 @@ void Trail::Init(void)
 	for (int i = 0; i < TRAILPARTS_MAX; i++)
 	{
 		object->InitialTexture(&trail[i]);
-		//object->MakeVertexObject(&trail[i]);
+		object->MakeVertexObject(&trail[i]);
 
 		trail[i].position	= POSITION_TRAIL;
 		trail[i].size		= SIZE_TRAIL;

@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// スコア処理 [score->cpp]
+// スコア処理 [score.cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
@@ -25,15 +25,15 @@ void Score::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->LoadTexture(pDevice, ADRESS_TEXTURE_SCORE, score);
-	object->InitialTexture(score);
-	object->MakeVertexObject(score);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_SCORE, &score);
+	object->InitialTexture(&score);
+	object->MakeVertexObject(&score);
 
-	score->position = POSITION_SCORE;
-	score->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	score->size	    = SIZE_SCORE;
+	score.position = POSITION_SCORE;
+	score.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	score.size	    = SIZE_SCORE;
 
-	object->SetColorObject(score, SET_COLOR_NOT_COLORED);
+	object->SetColorObject(&score, SET_COLOR_NOT_COLORED);
 
 	// 最大値設定
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
@@ -51,7 +51,7 @@ void Score::Init(void)
 //=============================================================================
 void Score::Uninit(void)
 {
-	object->ReleaseTexture(score);
+	object->ReleaseTexture(&score);
 }
 
 //=============================================================================
@@ -85,9 +85,9 @@ void Score::Draw(void)
 
 		number = g_score % (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace))) / (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace - 1)));
 
-		object->DrawObject(pDevice, score);
-		object->SetVertexCounter(score, nCntPlace, INTERVAL_NUMBER);
-		object->SetTextureCounter(score, number, INTERVAL_NUMBER_TEXTURE);
+		object->DrawObject(pDevice, &score);
+		object->SetVertexCounter(&score, nCntPlace, INTERVAL_NUMBER);
+		object->SetTextureCounter(&score, number, INTERVAL_NUMBER_TEXTURE);
 	}	
 }
 
@@ -98,7 +98,7 @@ void Score::VolumeUpEffect(void)
 {
 	if (volumeUpEffectUsed == true)
 	{
-		score->size.y = SIZE_SCORE.y + VOLUME_ZOOM * sinf(radian);
+		score.size.y = SIZE_SCORE.y + VOLUME_ZOOM * sinf(radian);
 
 		if (radian >= D3DX_PI)
 		{

@@ -27,15 +27,9 @@ TitleSceneUI *titleSceneUI[TITLE_SCENE_UI_MAX];
 //=============================================================================
 void TitleSceneUI::Init(void)
 {
-	//インスタンスの生成
-	TitleSceneUI *titleSceneUI[] = {
-		new TitleBG(), new TitleLogo(), new StartButton(),
-	};
-
-	for (int i = 0; i < TITLE_SCENE_UI_MAX; i++)
-	{
-		titleSceneUI[i]->Init();
-	}
+	startButton->Init();
+	titleBG->Init();
+	titleLogo->Init();
 }
 
 //=============================================================================
@@ -43,10 +37,9 @@ void TitleSceneUI::Init(void)
 //=============================================================================
 void TitleSceneUI::Uninit(void)
 {
-	for (int i = 0; i < TITLE_SCENE_UI_MAX; i++)
-	{
-		titleSceneUI[i]->Uninit();
-	}
+	startButton->Uninit();
+	titleBG->Uninit();
+	titleLogo->Uninit();
 }
 
 //=============================================================================
@@ -54,10 +47,9 @@ void TitleSceneUI::Uninit(void)
 //=============================================================================
 void TitleSceneUI::Update(HWND hWnd)
 {
-	for (int i = 0; i < TITLE_SCENE_UI_MAX; i++)
-	{
-		titleSceneUI[i]->Update(hWnd);
-	}
+	startButton->Update(hWnd);
+	titleBG->Update();
+	titleLogo->Update();
 }
 
 //=============================================================================
@@ -71,10 +63,9 @@ void TitleSceneUI::Draw(void)
 	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
-	for (int i = 0; i < TITLE_SCENE_UI_MAX; i++)
-	{
-		titleSceneUI[i]->Draw();
-	}
+	startButton->Draw();
+	titleBG->Draw();
+	titleLogo->Draw();
 
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }

@@ -27,15 +27,15 @@ void TitleLogo::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->LoadTexture(pDevice, ADRESS_TEXTURE_TITLELOGO, titleLogo);
-	object->InitialTexture(titleLogo);
-	object->MakeVertexObject(titleLogo);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_TITLELOGO, &titleLogo);
+	object->InitialTexture(&titleLogo);
+	object->MakeVertexObject(&titleLogo);
 
-	titleLogo->position	= POSITION_TITLELOGO;
-	titleLogo->size		= SIZE_TITLELOGO;
-	titleLogo->rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	titleLogo.position	= POSITION_TITLELOGO;
+	titleLogo.size		= SIZE_TITLELOGO;
+	titleLogo.rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	object->SetColorObject(titleLogo, SET_COLOR_NOT_COLORED);
+	object->SetColorObject(&titleLogo, SET_COLOR_NOT_COLORED);
 }
 
 //=============================================================================
@@ -43,7 +43,7 @@ void TitleLogo::Init(void)
 //=============================================================================
 void TitleLogo::Uninit(void)
 {
-	object->ReleaseTexture(titleLogo);
+	object->ReleaseTexture(&titleLogo);
 }
 
 //=============================================================================
@@ -60,6 +60,6 @@ void TitleLogo::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->DrawObject(pDevice, titleLogo);
-	object->SetVertexObject(titleLogo);
+	object->DrawObject(pDevice, &titleLogo);
+	object->SetVertexObject(&titleLogo);
 }

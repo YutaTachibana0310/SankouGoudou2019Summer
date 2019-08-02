@@ -26,7 +26,7 @@ class GameSceneUI;
 //*****************************************************************************
 // ç\ë¢ëÃíËã`
 //*****************************************************************************
-class TelopBG :public GameSceneUI
+class TelopBG :public Object
 {
 public:
 	Object *object;

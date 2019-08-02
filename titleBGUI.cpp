@@ -27,15 +27,15 @@ void TitleBG::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->LoadTexture(pDevice, ADRESS_TEXTURE_TITLEBG, titleBG);
-	object->InitialTexture(titleBG);
-	object->MakeVertexObject(titleBG);
+	object->LoadTexture(pDevice, ADRESS_TEXTURE_TITLEBG, &titleBG);
+	object->InitialTexture(&titleBG);
+	object->MakeVertexObject(&titleBG);
 
-	titleBG->position	= POSITION_TITLEBG;
-	titleBG->size		= SIZE_TITLEBG;
-	titleBG->rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	titleBG.position	= POSITION_TITLEBG;
+	titleBG.size		= SIZE_TITLEBG;
+	titleBG.rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	object->SetColorObject(titleBG, SET_COLOR_NOT_COLORED);
+	object->SetColorObject(&titleBG, SET_COLOR_NOT_COLORED);
 }
 
 //=============================================================================
@@ -43,7 +43,7 @@ void TitleBG::Init(void)
 //=============================================================================
 void TitleBG::Uninit(void)
 {
-	object->ReleaseTexture(titleBG);
+	object->ReleaseTexture(&titleBG);
 }
 
 //=============================================================================
@@ -60,6 +60,6 @@ void TitleBG::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->DrawObject(pDevice, titleBG);
-	object->SetVertexObject(titleBG);
+	object->DrawObject(pDevice, &titleBG);
+	object->SetVertexObject(&titleBG);
 }

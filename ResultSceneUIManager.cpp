@@ -24,15 +24,7 @@ ResultSceneUI *resultSceneUI[RESULT_SCENE_UI_MAX];
 //=============================================================================
 void ResultSceneUI::Init(void)
 {
-	//インスタンスの生成
-	ResultSceneUI *resultSceneUI[] = {
-		new ResultBG()
-	};
-
-	for (int i = 0; i < RESULT_SCENE_UI_MAX; i++)
-	{
-		resultSceneUI[i]->Init();
-	}
+	resultBG->Init();
 	InitRank();
 }
 
@@ -41,10 +33,7 @@ void ResultSceneUI::Init(void)
 //=============================================================================
 void ResultSceneUI::Uninit(void)
 {
-	for (int i = 0; i < RESULT_SCENE_UI_MAX; i++)
-	{
-		resultSceneUI[i]->Uninit();
-	}
+	resultBG->Uninit();
 	UninitRank();
 }
 
@@ -53,10 +42,7 @@ void ResultSceneUI::Uninit(void)
 //=============================================================================
 void ResultSceneUI::Update(HWND hwnd)
 {
-	for (int i = 0; i < RESULT_SCENE_UI_MAX; i++)
-	{
-		resultSceneUI[i]->Update(hwnd);
-	}
+	resultBG->Update();
 	UpdateRank();
 }
 
@@ -65,9 +51,6 @@ void ResultSceneUI::Update(HWND hwnd)
 //=============================================================================
 void ResultSceneUI::Draw(void)
 {
-	for (int i = 0; i < RESULT_SCENE_UI_MAX; i++)
-	{
-		resultSceneUI[i]->Draw();
-	}
+	resultBG->Draw();
 	DrawRank();
 }

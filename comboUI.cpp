@@ -31,18 +31,9 @@
 #define POSITION_BACKGROUND_COMBO	(D3DXVECTOR3(SCREEN_WIDTH / 10*2.25f, SCREEN_HEIGHT / 10*2.0f , 0.0f))
 
 //*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-static void VolumeUpEffect(void);
-
-//*****************************************************************************
 // グローバル変数宣言
 //*****************************************************************************
-Object	comboParts[COMBOPARTS_MAX];
-int		g_combo;	// コンボ
-int		g_combo_max;
-static float radian;
-static bool	volumeUpEffectUsed;
+Object comboParts[COMBOPARTS_MAX];
 
 //=============================================================================
 // 初期化処理
@@ -58,7 +49,7 @@ void Combo::Init(void)
 	for (int i = 0; i < COMBOPARTS_MAX; i++)
 	{
 		object->InitialTexture(&comboParts[i]);
-		//object->MakeVertexObject(&comboParts[i]);
+		object->MakeVertexObject(&comboParts[i]);
 		comboParts[i].rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	}
 
@@ -80,10 +71,10 @@ void Combo::Init(void)
 	// 最大値設定
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
 	{
-		g_combo_max += (BASE_NUMBER -1)* (int)powf(BASE_NUMBER, (float)nCntPlace);
+		comboMax += (BASE_NUMBER -1)* (int)powf(BASE_NUMBER, (float)nCntPlace);
 	}
 
-	g_combo = 0;
+	combo = 0;
 	radian = 0;
 	volumeUpEffectUsed = false;
 }
@@ -114,13 +105,13 @@ void Combo::Update(void)
 	VolumeUpEffect();
 
 	// 桁あふれ防止
-	if (g_combo < 0)
+	if (combo < 0)
 	{
-		g_combo = 0;
+		combo = 0;
 	}
-	if (g_combo >= g_combo_max)
+	if (combo >= comboMax)
 	{
-		g_combo = g_combo_max;
+		combo = comboMax;
 	}
 }
 
@@ -139,7 +130,7 @@ void Combo::Draw(void)
 	{
 		int number;
 
-		number = g_combo % (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace))) 
+		number = combo % (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace))) 
 			/ (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace - 1)));
 
 		object->DrawObject(pDevice, &comboParts[NUMBER_COMBO]);
@@ -154,7 +145,7 @@ void Combo::Draw(void)
 //=============================================================================
 // 数字ボリュームアップエフェクト処理
 //=============================================================================
-void VolumeUpEffect(void)
+void Combo::VolumeUpEffect(void)
 {
 	if (volumeUpEffectUsed == true)
 	{
@@ -179,39 +170,16 @@ void Combo::UpdateNumberColor(void)
 	int secondColorStartCombo = 5;
 	int thirdColorStartCombo  = 10;
 
-	if (g_combo >= firstColorStartCombo && g_combo < secondColorStartCombo)
+	if (combo >= firstColorStartCombo && combo < secondColorStartCombo)
 	{
 		object->SetColorObject(&comboParts[NUMBER_COMBO], SET_COLOR_NOT_COLORED);
 	}
-	if (g_combo >= secondColorStartCombo && g_combo < thirdColorStartCombo)
+	if (combo >= secondColorStartCombo && combo < thirdColorStartCombo)
 	{
 		object->SetColorObject(&comboParts[NUMBER_COMBO], SET_COLOR_YELLOW);
 	}
-	if (g_combo >= thirdColorStartCombo)
+	if (combo >= thirdColorStartCombo)
 	{
 		object->SetColorObject(&comboParts[NUMBER_COMBO], SET_COLOR_RED);
 	}
-}
-
-//=============================================================================
-// コンボの加算（引数で受け取った値をコンボに加算する）
-//=============================================================================
-void Combo::AddCombo(int value)
-{
-	g_combo += value;
-
-	// コンボが加算されたら行う処理
-	if (value > 0)
-	{
-		// エフェクト有効化
-		volumeUpEffectUsed = true;
-	}
-}
-
-//=============================================================================
-// コンボの代入（引数で受け取った値をコンボに代入する）
-//=============================================================================
-void Combo::SetCombo(int value)
-{
-	g_combo = value;
 }

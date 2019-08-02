@@ -26,7 +26,7 @@ class TelopBG;
 //*****************************************************************************
 // ç\ë¢ëÃíËã`
 //*****************************************************************************
-class StageClearTelop :public GameSceneUI
+class StageClearTelop :public Object
 {
 public:
 	Object *object;

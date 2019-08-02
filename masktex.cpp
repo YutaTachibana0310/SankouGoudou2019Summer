@@ -9,6 +9,7 @@
 #include "UIdrawer.h"
 #include "Stencil.h"
 #include "Game.h"
+#include "Framework/EasingVector.h"
 
 Clip::Stencil clip;
 OBJECT	masktex;
@@ -28,15 +29,18 @@ Scene nextscene;
 //テクスチャ初期化
 HRESULT InitMask(float size_x, float size_y, float size_z)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	LoadTexture(pDevice, MASK_TEXTURE, &masktex);
-	InitialTexture(&masktex);
-	MakeVertexObject(&masktex);
 
 	masktex.size = D3DXVECTOR3(size_x, size_y, size_z);
-	masktex.position = SIZE_MASKBG;
+	masktex.position = POSITION_MASKTEX;
 	masktex.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	SetColorObject(&masktex, SET_COLOR_NOT_COLORED);
+
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LoadTexture(pDevice, MASK_TEXTURE, &masktex);
+	CreateObjectCircle(&masktex, masktex.size.x, masktex.size.y);
+	InitialTexture(&masktex);
+	MakeVertexRotateObject(&masktex);
+
 
 	active = false;
 	sizechange = false;
@@ -80,13 +84,24 @@ void UpdateMask(void) {
 //マスク用テクスチャ更新処理
 void MaskFadeOut(void) {
 
-	if (sizechange) {
-		masktex.size -= D3DXVECTOR3(20.0f, 20.0f, 0.0f);
 
+	if (sizechange) {
+		
+		masktex.countFrame++;
+		float t = masktex.countFrame / float(60);
+
+		masktex.size = EaseInCubicVector(t, MAXSIZE_MASKBG, DISAPPER_MASKBG);
+		masktex.rotation = EaseInCubicVector(t, DISAPPER_MASKBG, ROTATION);
+
+		CreateObjectCircle(&masktex, masktex.size.x, masktex.size.y);
 	}
+
 	//サイズ小さくなるにつれ画面が黒くなる
-	if (masktex.size.x <= 0) {
-		masktex.size = D3DXVECTOR3(0,0,0);
+	if (masktex.size == DISAPPER_MASKBG) {
+
+		masktex.size = DISAPPER_MASKBG;
+		masktex.rotation = DISAPPER_MASKBG;
+
 		SceneChangeFlag(true, nextscene);
 
 		//サイズ0以下でシーン切り替え
@@ -96,8 +111,8 @@ void MaskFadeOut(void) {
 
 			ChangeScene(nextscene);
 			isFadeIn = true;
-			//active = false;
 			wait = 0;
+			masktex.countFrame = 0;
 
 		}
 
@@ -108,15 +123,26 @@ void MaskFadeOut(void) {
 void MaskFadeIn(void) {
 
 	if (sizechange) {
-		masktex.size += D3DXVECTOR3(20.0f, 20.0f, 0.0f);
+		
+		masktex.countFrame++;
+		float t = masktex.countFrame / float(60);
+		
+		masktex.size = EaseInCubicVector(t, DISAPPER_MASKBG, MAXSIZE_MASKBG);
+		masktex.rotation = EaseInCubicVector(t, ROTATION, DISAPPER_MASKBG);
+
+		CreateObjectCircle(&masktex, masktex.size.x, masktex.size.y);
 
 	}
 
 	//サイズが大きくなるにつれゲーム画面表示
 	if (masktex.size.x >= MASK_SIZE) {
 
+		masktex.size = MAXSIZE_MASKBG;
+		masktex.rotation = DISAPPER_MASKBG;
+
 		SceneChangeFlag(false,nextscene);
 		active = false;
+		masktex.countFrame = 0;
 	}
 
 
@@ -139,7 +165,7 @@ void DrawMaskTexSet(void) {
 	clip.regionBegin(Clip::Stencil::MaskColor_Fill);
 
 	DrawObject(pDevice, masktex);
-	SetVertexObject(&masktex);
+	SetVertexRotateObject(&masktex);
 
 	clip.regionEnd();
 

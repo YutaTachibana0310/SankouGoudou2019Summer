@@ -17,9 +17,10 @@ using namespace std;
 typedef EnemyModel Base;
 
 #define SNAKEENEMY_START_OFFSET			(400.0f)		//エネミーの初期座標のオフセット
-#define SNAKEENEMY_MOVE_DURATION		(60)		//エネミーが移動にかける時間
-#define SNAKEENMY_GENERATE_NUM			(9)			//生成するエネミーの数
-#define SNAKEENEMY_GENERATE_INTERVAL	(20)			//生成インターバル
+#define SNAKEENEMY_INIT_DURATION		(45)			//最初のターゲットへ向かうのにかける時間-
+#define SNAKEENEMY_MOVE_DURATION		(90)			//エネミーが移動にかける時間
+#define SNAKEENMY_GENERATE_NUM			(7)				//生成するエネミーの数
+#define SNAKEENEMY_GENERATE_INTERVAL	(10)			//生成インターバル
 #define SNAKEENEMY_GENERATE_DURATION	(SNAKEENMY_GENERATE_NUM*SNAKEENEMY_GENERATE_INTERVAL)
 
 /**************************************
@@ -78,9 +79,10 @@ void SnakeEnemyModel::Init(vector<int> destList)
 
 	//移動時間リスト作成
 	timeList.resize(moveTargetList.size());
-	for (auto& time : timeList)
+	for (UINT i = 0; i < moveTargetList.size(); i++)
 	{
-		time = SNAKEENEMY_MOVE_DURATION;
+		float t = i == 0 || i == moveTargetList.size() - 1 ? SNAKEENEMY_INIT_DURATION : SNAKEENEMY_MOVE_DURATION;
+		timeList[i] = t;
 	}
 
 	//最初のエネミーを生成

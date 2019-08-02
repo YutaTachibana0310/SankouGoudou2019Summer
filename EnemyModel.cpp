@@ -16,8 +16,17 @@ using namespace std;
 ***************************************/
 
 /**************************************
-構造体定義
+static変数
 ***************************************/
+//五角形の外周を構成するLineModel
+const vector<LineTrailModel> EnemyModel::OuterLineModel = {
+	LineTrailModel(0, 1),
+	LineTrailModel(1, 2),
+	LineTrailModel(2, 3),
+	LineTrailModel(3, 4),
+	LineTrailModel(4, 0)
+};
+
 
 /**************************************
 コンストラクタ

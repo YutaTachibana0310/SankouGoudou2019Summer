@@ -33,9 +33,9 @@ public:
 	bool active;
 
 	Transform transform;
+	int cntFrame;
 
 protected:
-	int cntFrame;
 	int duration;
 };
 

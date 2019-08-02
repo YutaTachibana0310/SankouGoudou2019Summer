@@ -183,9 +183,10 @@ void StageEditor::Save()
 	picojson::array dataList;
 
 	//各データをシリアライズ
+	int sumFrame = 0;
 	for (auto& node : windowList)
 	{
-		dataList.push_back(node->Serialize());
+		dataList.push_back(node->Serialize(sumFrame));
 	}
 
 	//StageDataとしてデータ配列をシリアライス
@@ -220,15 +221,18 @@ void StageEditor::Load()
 	ifs.close();
 
 	//各データをそれぞれデシリアライズ
+	int sumFrame = 0;
 	picojson::array& stageData = val.get<picojson::object>()["StageData"].get<picojson::array>();
 	for (UINT i = 0; i < stageData.size(); i++)
 	{
 		picojson::object data = stageData[i].get<picojson::object>();
 
-		int frame = static_cast<int>(data["frame"].get<double>());
+		int frame = static_cast<int>(data["frame"].get<double>()) - sumFrame;
 		std::string type = data["type"].get<std::string>();
 		picojson::object obj = data["data"].get<picojson::object>();
 
 		windowList.push_back(new BaseEditWindow(i, frame, type, obj));
+
+		sumFrame += frame;
 	}
 }

@@ -175,6 +175,12 @@
     <Filter Include="ヘッダー ファイル\BG">
       <UniqueIdentifier>{32c236d4-f951-4bbb-ae16-90073dd29807}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Enemy\Factory">
+      <UniqueIdentifier>{6f3cde4c-4826-4ff7-a9f7-739c14be2b04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Enemy\Factory">
+      <UniqueIdentifier>{e0d44abe-09c8-49d1-9d5d-c3175ed7bd54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -657,6 +663,24 @@
     <ClInclude Include="EnemyBulletFireController.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyGuideArrowController.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGuideArrow.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFactory.h">
+      <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangeEnemyFactory.h">
+      <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="StraightEnemyFactory.h">
+      <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="SnakeEnemyFactory.h">
+      <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1099,6 +1123,21 @@
     </ClCompile>
     <ClCompile Include="EnemyBulletFireController.cpp">
       <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGuideArrow.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGuideArrowController.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ChangeEnemyFactory.cpp">
+      <Filter>ソース ファイル\Enemy\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="StraightEnemyFactory.cpp">
+      <Filter>ソース ファイル\Enemy\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="SnakeEnemyFactory.cpp">
+      <Filter>ソース ファイル\Enemy\Factory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -145,9 +145,11 @@
     <ClInclude Include="battleStartTelop.h" />
     <ClInclude Include="BaseEditWindow.h" />
     <ClInclude Include="ChangeEditWindow.h" />
+    <ClInclude Include="ChangeEnemyFactory.h" />
     <ClInclude Include="DataEditWindow.h" />
     <ClInclude Include="EditorBG.h" />
     <ClInclude Include="EditorScene.h" />
+    <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="EnemyBulletCharge.h" />
@@ -160,6 +162,8 @@
     <ClInclude Include="EnemyBulletModel.h" />
     <ClInclude Include="EnemyBulletTrail.h" />
     <ClInclude Include="EnemyBulletTrailController.h" />
+    <ClInclude Include="EnemyGuideArrow.h" />
+    <ClInclude Include="EnemyGuideArrowController.h" />
     <ClInclude Include="EnemyWarpHole.h" />
     <ClInclude Include="EnemyWarpHoleController.h" />
     <ClInclude Include="Framework\BoardPolygon.h" />
@@ -202,6 +206,7 @@
     <ClInclude Include="ResultSceneUIManager.h" />
     <ClInclude Include="savefile.h" />
     <ClInclude Include="ScoreManager.h" />
+    <ClInclude Include="SnakeEnemyFactory.h" />
     <ClInclude Include="stageClearTelop.h" />
     <ClInclude Include="SnakeEditWindow.h" />
     <ClInclude Include="SnakeEnemyModel.h" />
@@ -278,6 +283,7 @@
     <ClInclude Include="SoundTitleScene.h" />
     <ClInclude Include="Stencil.h" />
     <ClInclude Include="starUI.h" />
+    <ClInclude Include="StraightEnemyFactory.h" />
     <ClInclude Include="telopBG.h" />
     <ClInclude Include="ChangeEnemyModel.h" />
     <ClInclude Include="StraightEnemyModel.h" />
@@ -300,6 +306,7 @@
     <ClCompile Include="battleStartTelop.cpp" />
     <ClCompile Include="BaseEditWindow.cpp" />
     <ClCompile Include="ChangeEditWindow.cpp" />
+    <ClCompile Include="ChangeEnemyFactory.cpp" />
     <ClCompile Include="EditorScene.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="EnemyBulletCharge.cpp" />
@@ -312,6 +319,8 @@
     <ClCompile Include="EnemyBulletModel.cpp" />
     <ClCompile Include="EnemyBulletTrail.cpp" />
     <ClCompile Include="EnemyBulletTrailController.cpp" />
+    <ClCompile Include="EnemyGuideArrow.cpp" />
+    <ClCompile Include="EnemyGuideArrowController.cpp" />
     <ClCompile Include="EnemyWarpHole.cpp" />
     <ClCompile Include="EnemyWarpHoleController.cpp" />
     <ClCompile Include="Framework\BoardPolygon.cpp" />
@@ -410,6 +419,7 @@
     <ClCompile Include="ScoreParticleController.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="SnakeEditWindow.cpp" />
+    <ClCompile Include="SnakeEnemyFactory.cpp" />
     <ClCompile Include="SnakeEnemyModel.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="SoundGameScene.cpp" />
@@ -422,6 +432,7 @@
     <ClCompile Include="startButtonUI.cpp" />
     <ClCompile Include="starUI.cpp" />
     <ClCompile Include="PlayerTrail.cpp" />
+    <ClCompile Include="StraightEnemyFactory.cpp" />
     <ClCompile Include="telopBG.cpp" />
     <ClCompile Include="ChangeEnemyModel.cpp" />
     <ClCompile Include="StraightEnemyModel.cpp" />

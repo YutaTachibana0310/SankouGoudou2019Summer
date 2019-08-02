@@ -15,7 +15,7 @@ using namespace std;
 /**************************************
 ƒ}ƒNƒ’è‹`
 ***************************************/
-#define ENEMYGUIDEARROW_SIZE		(D3DXVECTOR2(5.0f, 5.0f))
+#define ENEMYGUIDEARROW_SIZE		(D3DXVECTOR2(7.5f, 3.0f))
 #define ENEMYGUIDEARROW_TEX_NAME	"data/TEXTURE/Enemy/GuideArrow.png"
 #define ENEMYGUIDEARROW_TEX_UV		(D3DXVECTOR2(1.0f, 1.0f))
 
@@ -81,6 +81,8 @@ void EnemyGuideArrowController::Draw()
 
 	pDevice->SetRenderState(D3DRS_LIGHTING, false);
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	pDevice->SetRenderState(D3DRS_ZENABLE, false);
 
 	for (auto& emitter : emitterContainer)
 	{
@@ -89,6 +91,8 @@ void EnemyGuideArrowController::Draw()
 
 	pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	pDevice->SetRenderState(D3DRS_ZENABLE, true);
 }
 
 /**************************************

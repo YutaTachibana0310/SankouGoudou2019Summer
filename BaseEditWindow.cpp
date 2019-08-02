@@ -107,12 +107,14 @@ bool BaseEditWindow::Draw()
 /**************************************
 シリアライズ処理
 ***************************************/
-picojson::value BaseEditWindow::Serialize()
+picojson::value BaseEditWindow::Serialize(int& sumFrame)
 {
 	picojson::object obj;
 
+	sumFrame += frame;
+
 	obj.emplace(make_pair("id", picojson::value((double)id)));
-	obj.emplace(make_pair("frame", picojson::value((double)frame)));
+	obj.emplace(make_pair("frame", picojson::value((double)(sumFrame))));
 	obj.emplace(make_pair("type", picojson::value(type)));
 
 	if (dataWindow.count(type) != 0)

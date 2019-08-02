@@ -12,7 +12,7 @@
 É}ÉNÉçíËã`
 ***************************************/
 #define ENEMYGUIDEARROW_LIFEFRAME		(60)
-#define ENEMYGUIDEARROW_INTERVAL		(2)
+#define ENEMYGUIDEARROW_INTERVAL		(1)
 
 #define ENEMYGUIDEARROW_BASE_VECTOR		(&D3DXVECTOR3(0.0f, 1.0f, 0.0f))
 
@@ -59,11 +59,7 @@ void EnemyGuideArrow::Update()
 	if (!active)
 		return;
 
-	static const float InitScale = 1.0f, EndScale = 0.0f;
 	cntFrame++;
-
-	float t = (float)cntFrame / ENEMYGUIDEARROW_LIFEFRAME;
-	transform.scale = Easing<float>::GetEasingValue(t, &InitScale, &EndScale, EasingType::InExponential) * D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
 	if (cntFrame == ENEMYGUIDEARROW_LIFEFRAME)
 		active = false;

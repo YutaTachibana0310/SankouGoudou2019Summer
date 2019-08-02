@@ -12,7 +12,7 @@
 É}ÉNÉçíËã`
 ***************************************/
 #define ENEMYGUIDEARROW_LIFEFRAME		(60)
-#define ENEMYGUIDEARROW_INTERVAL		(2)
+#define ENEMYGUIDEARROW_INTERVAL		(1)
 
 #define ENEMYGUIDEARROW_BASE_VECTOR		(&D3DXVECTOR3(0.0f, 1.0f, 0.0f))
 

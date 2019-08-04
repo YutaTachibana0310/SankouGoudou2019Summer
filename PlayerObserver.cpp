@@ -167,6 +167,7 @@ void PlayerObserver::PushInput(int num)
 				player->collider->SetTrailIndex(LineTrailModel(moveTarget, num));
 			}
 
+			player->ChangeAnim(PlayerAnimID::Attack);
 			trailEffect->Init(&player->transform.pos);
 		}
 
@@ -232,6 +233,8 @@ void PlayerObserver::OnFinishPlayerMove()
 		LineTrailModel modelTrail;
 		model->GetPlayerTrail(&modelTrail);
 		bulletController->SetPlayerBullet(modelTrail);
+
+		player->ChangeAnim(PlayerAnimID::Flying);
 	}
 
 	//ˆê•M‘‚«”»’è

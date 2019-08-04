@@ -163,3 +163,16 @@ void Player::OnNotified(ObserveSubject* notifier)
 	collider->active = false;
 	flgInvincible = true;
 }
+
+/*****************************************
+アニメーション切り替え処理
+******************************************/
+void Player::ChangeAnim(PlayerAnimID next)
+{
+	static float shitTime[PlayerAnimID::PlayerAnimMax] = {
+		1.5f,
+		7.0f
+	};
+
+	animation->ChangeAnim(next, shitTime[next], true);
+}

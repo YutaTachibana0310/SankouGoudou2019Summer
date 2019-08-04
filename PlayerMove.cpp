@@ -42,8 +42,6 @@ void PlayerMove::OnStart(Player *entity)
 	//‰Šú‰»
 	entity->cntFrame = 0;
 	entity->initpos = entity->transform.pos;
-
-	entity->animation->ChangeAnim(PlayerAnimID::Attack, 5.5f, true);
 }
 
 /**************************************

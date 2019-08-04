@@ -53,6 +53,7 @@ public:
 
 	//ä÷êî
 	void ChangeState(IStateMachine<Player> *next);
+	void ChangeAnim(PlayerAnimID next);
 	void Init();
 	void Uninit();
 	int Update();

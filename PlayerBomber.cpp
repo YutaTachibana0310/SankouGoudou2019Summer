@@ -43,10 +43,6 @@ void PlayerBomber::Init(void)
 	cntFrame = 0;
 	reachFrame = 0;
 
-	transform.pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	transform.rot = D3DXVECTOR3(0.0f, D3DXToRadian(180.0f), 0.0f);
-
 	velocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 }
@@ -85,32 +81,8 @@ void PlayerBomber::Draw(void)
 		return;
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, quatMatrixs, mtxWorld, view, invView;
-	// ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&mtxWorld);
 
-	// スケールを反映
-	D3DXMatrixScaling(&mtxScl, transform.scale.y, transform.scale.x, transform.scale.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScl);
-
-	// 回転を反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, transform.rot.y, transform.rot.x, transform.rot.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRot);
-
-	//逆行列を掛ける
-	view = GetMtxView();
-	D3DXMatrixInverse(&view, NULL, &invView);
-	invView._41 = 0.0f;
-	invView._42 = 0.0f;
-	invView._43 = 0.0f;
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &invView);
-
-	// 移動を反映
-	D3DXMatrixTranslation(&mtxTranslate, transform.pos.x, transform.pos.y, transform.pos.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTranslate);
-
-	// ワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+	transform.SetWorld();
 
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
 

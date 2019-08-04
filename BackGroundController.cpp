@@ -121,8 +121,7 @@ void BackGroundController::Draw()
 		box->Draw();
 	}
 
-	D3DXMATRIX mtxWorld;
-	transform.CalcWorldMtx(&mtxWorld);
+	D3DXMATRIX mtxWorld = transform.GetMatrix();
 	for (auto& city : cityContainer)
 	{
 		city->Draw(mtxWorld);

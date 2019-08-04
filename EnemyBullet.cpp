@@ -104,9 +104,7 @@ void EnemyBullet::Draw()
 	D3DXMATRIX mtxWorld, mtxInvView;
 
 	//ƒ[ƒ‹ƒh•ÏŠ·
-	mtxInvView = GetInvView();
-	transform.CalcWorldMtx(&mtxWorld, &mtxInvView);
-	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+	transform.SetWorldInvView();
 
 	//•`‰æ
 	polygon->Draw();

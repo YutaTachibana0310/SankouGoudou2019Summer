@@ -75,10 +75,7 @@ void EnemyGuideArrow::Draw()
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	D3DXMATRIX mtxWorld;
-	transform.CalcWorldMtx(&mtxWorld);
-
-	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+	transform.SetWorld();
 
 	polygon->Draw();
 }
@@ -122,8 +119,10 @@ void EnemyGuideArrowEmitter::Init(D3DXVECTOR3 start, D3DXVECTOR3 end)
 	D3DXVec3Normalize(&diff, &diff);
 
 	int dir = diff.x < 0 ? 1 : -1;
+	float rotRadian = dir * acosf(D3DXVec3Dot(ENEMYGUIDEARROW_BASE_VECTOR, &diff));
 
-	transform.rot.z = dir * acosf(D3DXVec3Dot(ENEMYGUIDEARROW_BASE_VECTOR, &diff))               ;
+	transform.IdentifyRotation();
+	transform.Rotate(0.0f, 0.0f, D3DXToDegree(rotRadian));
 }
 
 /**************************************

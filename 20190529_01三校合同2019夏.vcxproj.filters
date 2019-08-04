@@ -133,10 +133,10 @@
     <Filter Include="ヘッダー ファイル\GameController">
       <UniqueIdentifier>{8a8c568f-4f22-431d-8aba-9b24e028e899}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Framework\Enemy">
+    <Filter Include="ソース ファイル\Enemy">
       <UniqueIdentifier>{8a4c5504-7a10-4568-b71e-60ddceb1b5f6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Framework\Enemy\Model">
+    <Filter Include="ソース ファイル\Enemy\Model">
       <UniqueIdentifier>{1b54fa04-28aa-4755-983c-c44af28dd54d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -771,25 +771,25 @@
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
     <ClCompile Include="EnemyController.cpp">
-      <Filter>ソース ファイル\Framework\Enemy</Filter>
+      <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="TestEnemyModel.cpp">
-      <Filter>ソース ファイル\Framework\Enemy\Model</Filter>
+      <Filter>ソース ファイル\Enemy\Model</Filter>
     </ClCompile>
     <ClCompile Include="EnemyModel.cpp">
-      <Filter>ソース ファイル\Framework\Enemy\Model</Filter>
+      <Filter>ソース ファイル\Enemy\Model</Filter>
     </ClCompile>
     <ClCompile Include="LineRenderer.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="StopEnemyModel.cpp">
-      <Filter>ソース ファイル\Framework\Enemy\Model</Filter>
+      <Filter>ソース ファイル\Enemy\Model</Filter>
     </ClCompile>
     <ClCompile Include="Framework\BoxCollider3D.cpp">
       <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>ソース ファイル\Framework\Enemy</Filter>
+      <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Framework\AnimationParticle.cpp">
       <Filter>ソース ファイル\Framework</Filter>

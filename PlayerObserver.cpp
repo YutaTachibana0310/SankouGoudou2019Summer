@@ -233,8 +233,6 @@ void PlayerObserver::OnFinishPlayerMove()
 		LineTrailModel modelTrail;
 		model->GetPlayerTrail(&modelTrail);
 		bulletController->SetPlayerBullet(modelTrail);
-
-		player->ChangeAnim(PlayerAnimID::Flying);
 	}
 
 	//ˆê•M‘‚«”»’è
@@ -249,11 +247,13 @@ void PlayerObserver::OnFinishPlayerMove()
 	{
 		player->goalpos = targetPos[moveTarget];
 		trailEffect->Init(&player->transform.pos);
+		player->ChangeAnim(PlayerAnimID::Attack);
 		ChangeStatePlayer(PlayerState::Move);
 	}
 	//–³‚¯‚ê‚Î‘Ò‹@ó‘Ô‚Ö‘JˆÚ
 	else
 	{
+		player->ChangeAnim(PlayerAnimID::Flying);
 		ChangeStatePlayer(PlayerState::Wait);
 	}
 }

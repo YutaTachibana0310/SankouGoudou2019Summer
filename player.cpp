@@ -68,7 +68,6 @@ void Player::Init()
 {
 	transform.pos = PLAYER_CENTER;
 	transform.scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
-	transform.rot = D3DXVECTOR3(0.0f, D3DXToRadian(180.0f), 0.0f);
 	active = true;
 
 	GameParticleManager::Instance()->SetPlayerTrailParticle(&transform.pos, &active);
@@ -120,24 +119,8 @@ void Player::Draw()
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, quatMatrixs, shadowMatrix, mtxWorld;
-	// ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&mtxWorld);
-
-	// スケールを反映
-	D3DXMatrixScaling(&mtxScl, transform.scale.y, transform.scale.x, transform.scale.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScl);
-
-	// 回転を反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, transform.rot.y, transform.rot.x, transform.rot.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRot);
-
-	// 移動を反映
-	D3DXMatrixTranslation(&mtxTranslate, transform.pos.x, transform.pos.y, transform.pos.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTranslate);
-
-	// ワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
-
+	
+	transform.SetWorld();
 	mesh->Draw();
 
 	TrailCollider::DrawCollider(collider);

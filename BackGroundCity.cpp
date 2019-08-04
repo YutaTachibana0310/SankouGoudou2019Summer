@@ -105,7 +105,7 @@ void BackGroundCity::Draw(D3DXMATRIX mtxParent)
 	D3DXMATRIX mtxWorld;
 
 	//自身のワールド行列設定
-	transform.CalcWorldMtx(&mtxWorld);
+	mtxWorld = transform.GetMatrix();
 
 	//親のワールド行列を反映
 	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxParent);

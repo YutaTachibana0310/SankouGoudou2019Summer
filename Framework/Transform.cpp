@@ -103,11 +103,12 @@ void Transform::SetWorldInvView()
 	pDevice->GetTransform(D3DTS_VIEW, &view);
 	D3DXMatrixInverse(&invView, NULL, &view);
 	invView._41 = invView._42 = invView._43 = 0.0f;
-	D3DXMatrixMultiply(&world, &world, &invView);
 
 	//ˆÚ“®
 	D3DXMatrixTranslation(&translation, pos.x, pos.y, pos.z);
 	D3DXMatrixMultiply(&world, &world, &translation);
+
+	pDevice->SetTransform(D3DTS_WORLD, &world);
 }
 
 /**************************************

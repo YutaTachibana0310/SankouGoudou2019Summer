@@ -33,8 +33,8 @@ VS_OUTPUT vsMain(
 	float3 pos : POSITION,
 	float2 localUV : TEXCOORD0,
 	float3 worldPos : TEXCOORD1,
-	float3 worldRot : TEXCOORD2,
-	float3 worldScl : TEXCOORD3,
+	float3 worldScl : TEXCOORD2,
+	float4 worldRot : TEXCOORD3,
 	float2 texUV : TEXCOORD4
 ) {
 	VS_OUTPUT Out;
@@ -47,19 +47,21 @@ VS_OUTPUT vsMain(
 	Out.pos.z = Out.pos.z * worldScl.z;
 
 	//rotX
-	float4 tmpPos = Out.pos;
-	Out.pos.y = tmpPos.y * cos(worldRot.x) - tmpPos.z * sin(worldRot.x);
-	Out.pos.z = tmpPos.y * sin(worldRot.x) + tmpPos.z * sin(worldRot.x);
+	float4 tmp = Out.pos;
+	Out.pos.x =
+		tmp.x * (1 - 2 * worldRot.y*worldRot.y - 2 * worldRot.z*worldRot.z)
+		+ tmp.y * 2 * (worldRot.x*worldRot.y + worldRot.w*worldRot.z)
+		+ tmp.z * 2 * (worldRot.x*worldRot.z - worldRot.w*worldRot.x);
 
-	//rotY
-	tmpPos = Out.pos;
-	Out.pos.x = tmpPos.x * cos(worldRot.y) + tmpPos.z * sin(worldRot.y);
-	Out.pos.z = tmpPos.x * -sin(worldRot.y) + tmpPos.z * cos(worldRot.y);
+	Out.pos.y =
+		tmp.x * 2 * (worldRot.x*worldRot.y - worldRot.w*worldRot.z)
+		+ tmp.y * (1 - 2 * worldRot.x*worldRot.x - 2 * worldRot.z*worldRot.z)
+		+ tmp.z * 2 * (worldRot.y*worldRot.z + worldRot.w*worldRot.x);
 
-	//rotZ
-	tmpPos = Out.pos;
-	Out.pos.x = tmpPos.x * cos(worldRot.z) - tmpPos.y * sin(worldRot.z);
-	Out.pos.y = tmpPos.x * sin(worldRot.z) + tmpPos.y * cos(worldRot.z);
+	Out.pos.z =
+		tmp.x * 2 * (worldRot.x*worldRot.z + worldRot.w*worldRot.y)
+		+ tmp.y * 2 * (worldRot.y*worldRot.z - worldRot.w*worldRot.x)
+		+ tmp.z * (1 - 2 * worldRot.x*worldRot.x - 2 * worldRot.y*worldRot.y);
 
 	//InvView
 	Out.pos = mul(Out.pos, mtxInvView);

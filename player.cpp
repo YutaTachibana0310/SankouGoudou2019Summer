@@ -20,14 +20,13 @@ using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
-#define PLAYER_MODEL				"data/MODEL/airplane000.x"
+#define PLAYER_MODEL				"data/MODEL/player.x"
 #define PLAYER_DAMAGE				(10.0f)		//プレイヤーが1回の被弾で受けるダメージ
 #define PLAYER_INVINCIBLE_DURATION	(30000)		//プレイヤーの無敵時間
 
 /**************************************
 構造体定義
 ***************************************/
-
 
 /**************************************
 グローバル変数
@@ -42,14 +41,22 @@ using namespace std;
 ***************************************/
 Player::Player()
 {
-	mesh = new MeshContainer();
-	
-	mesh->Load(PLAYER_MODEL);
+	//アニメーション初期化
+	animation = new AnimContainer();
+	animation->LoadXFile(PLAYER_MODEL, "Player");
+	animation->SetupCallbackKeyFrames("Flying");
+	animation->SetupCallbackKeyFrames("Attack");
+	animation->LoadAnimation("Flying", PlayerAnimID::Flying);
+	animation->LoadAnimation("Attack", PlayerAnimID::Attack);
+	animation->SetShiftTime(PlayerAnimID::Flying, 0.2f);
+	animation->SetShiftTime(PlayerAnimID::Attack, 0.2f);
 
 	collider = new TrailCollider(TrailColliderTag::Player);
 	collider->active = false;
 	collider->SetAddressZ(&transform.pos.z);
 	collider->AddObserver(this);
+
+	animation->ChangeAnim(PlayerAnimID::Flying, 1.5f, true);
 }
 
 /**************************************
@@ -57,7 +64,7 @@ Player::Player()
 ***************************************/
 Player::~Player()
 {
-	SAFE_DELETE(mesh);
+	SAFE_DELETE(animation);
 	SAFE_DELETE(collider);
 }
 
@@ -67,7 +74,7 @@ Player::~Player()
 void Player::Init()
 {
 	transform.pos = PLAYER_CENTER;
-	transform.scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
+	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	active = true;
 
 	GameParticleManager::Instance()->SetPlayerTrailParticle(&transform.pos, &active);
@@ -106,6 +113,9 @@ int Player::Update()
 			collider->active = false;
 	}
 
+	//アニメーションの更新
+	animation->Update(1.0f / 60.0f);
+
 	return stateResult;
 }
 
@@ -118,10 +128,15 @@ void Player::Draw()
 		return;
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, quatMatrixs, shadowMatrix, mtxWorld;
+	D3DXMATRIX mtxWorld = transform.GetMatrix();
+	D3DMATERIAL9 matDef;
+
+	pDevice->GetMaterial(&matDef);
 	
 	transform.SetWorld();
-	mesh->Draw();
+	animation->Draw(&mtxWorld);
+
+	pDevice->SetMaterial(&matDef);
 
 	TrailCollider::DrawCollider(collider);
 }

@@ -13,10 +13,17 @@
 #include "IStateMachine.h"
 #include "TrailCollider.h"
 #include "Framework\BaseObserver.h"
+#include "Framework\AnimContainer.h"
 
 /**************************************
 マクロ定義
 ***************************************/
+enum PlayerAnimID
+{
+	Flying,
+	Attack,
+	PlayerAnimMax
+};
 
 /**************************************
 プレイヤークラス定義
@@ -27,7 +34,7 @@ public:
 	Player();
 	~Player();
 
-	MeshContainer* mesh;
+	AnimContainer* animation;
 	Transform transform;
 	TrailCollider *collider;
 	float hp;
@@ -52,6 +59,7 @@ public:
 	void Draw();
 
 	void OnNotified(ObserveSubject* notifier);
+
 };
 
 #endif

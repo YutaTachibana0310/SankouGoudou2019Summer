@@ -38,6 +38,8 @@ void PlayerWait::OnStart(Player *entity)
 {
 	entity->cntFrame = 0;
 	entity->inputInterval = 0;
+
+	entity->animation->ChangeAnim(PlayerAnimID::Flying, 1.5f, true);
 }
 
 /*************************************

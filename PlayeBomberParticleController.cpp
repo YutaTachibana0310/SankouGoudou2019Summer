@@ -76,10 +76,13 @@ void PlayerBomberParticleController::Emit()
 			PlayerBomberParticleEmitter *entity = static_cast<PlayerBomberParticleEmitter*>(emitter);
 			PlayerBomberParticle *particle = static_cast<PlayerBomberParticle*>(p);
 
-			//移動方向設定
-			particle->moveDir.x = RandomRangef(-1.0f, 1.0f);
-			particle->moveDir.y = RandomRangef(-1.0f, 1.0f);
-			particle->moveDir.z = -2.0f;
+			////移動方向設定
+			//float t = (float)particle->cntFrame / (float)particle->lifeFrame;
+
+			//particle->moveDir.x = RandomRangef(-1.0f, 1.0f);
+			//particle->moveDir.y = RandomRangef(-1.0f, 1.0f);
+			//particle->moveDir.z = 1.0f;
+			particle->moveDir = entity->prevPos - emitter->transform.pos;
 			D3DXVec3Normalize(&particle->moveDir, &particle->moveDir);
 
 			//寿命、スピード設定
@@ -118,6 +121,7 @@ void PlayerBomberParticleController::SetEmitter(D3DXVECTOR3 *pPos, bool *pActive
 		[](BaseEmitter* p)
 	{
 		return !p->active;
+
 	});
 
 	//無かったのでリターン

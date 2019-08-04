@@ -24,6 +24,7 @@ public:
 	void Init();
 	void Emit();
 	void SetEmitter(D3DXVECTOR3 *pPos, bool *pActive);
+
 };
 
 #endif

@@ -8,6 +8,7 @@
 #define _PLAYERBOMBERPARTICLE_
 
 #include "main.h"
+#include "Framework/AnimationParticle.h"
 #include "Framework/BaseParticle.h"
 #include "Framework/BaseEmitter.h"
 
@@ -48,8 +49,7 @@ public:
 
 	bool*parentActive;
 	D3DXVECTOR3 *parentPos;
-	D3DXVECTOR3 oldPos;
-
+	D3DXVECTOR3 prevPos;
 };
 
 

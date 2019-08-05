@@ -28,7 +28,6 @@ class GameSceneUI;
 class Line:public Object
 {
 public:
-	Object *object;
 	void Init(void);
 	void Uninit(void);
 	void Update(void);

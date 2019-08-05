@@ -63,17 +63,17 @@ static int currentAnimation = 0;
 //=============================================================================
 void StageClearTelop::Init(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->LoadTexture(pDevice, ADRESS_TEXTURE_STAGE_CLEAR_TELOP, &stageClearTelop);
-	object->InitialTexture(&stageClearTelop);
-	object->MakeVertexObject(&stageClearTelop);
+	//object->LoadTexture(pDevice, ADRESS_TEXTURE_STAGE_CLEAR_TELOP, &stageClearTelop);
+	//object->InitialTexture(&stageClearTelop);
+	//object->MakeVertexObject(&stageClearTelop);
 
-	stageClearTelop.position = INIT_POSITION_STAGE_CLEAR_TELOP;
-	stageClearTelop.size = SIZE_STAGE_CLEAR_TELOP;
-	stageClearTelop.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	//stageClearTelop.position = INIT_POSITION_STAGE_CLEAR_TELOP;
+	//stageClearTelop.size = SIZE_STAGE_CLEAR_TELOP;
+	//stageClearTelop.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	object->SetColorObject(&stageClearTelop, SET_COLOR_NOT_COLORED);
+	//object->SetColorObject(&stageClearTelop, SET_COLOR_NOT_COLORED);
 }
 
 //=============================================================================
@@ -81,7 +81,7 @@ void StageClearTelop::Init(void)
 //=============================================================================
 void StageClearTelop::Uninit(void)
 {
-	object->ReleaseTexture(&stageClearTelop);
+	//object->ReleaseTexture(&stageClearTelop);
 }
 
 //=============================================================================
@@ -89,38 +89,38 @@ void StageClearTelop::Uninit(void)
 //=============================================================================
 void StageClearTelop::Update()
 {
-	if (isStageClearTelopActivated)
-	{
-		if (currentAnimation == WAIT_BG_OPEN && telopBG->GetTelopBGOpenActive() == false)
-		{
-			telopBG->AvctivateTelopBGOpen();
-		}
-		if (currentAnimation == WAIT_BG_CLOSE && telopBG->GetTelopBGCloseActive() == false)
-		{
-			telopBG->AvctivateTelopBGClose();
-		}
+	//if (isStageClearTelopActivated)
+	//{
+	//	if (currentAnimation == WAIT_BG_OPEN && telopBG->GetTelopBGOpenActive() == false)
+	//	{
+	//		telopBG->AvctivateTelopBGOpen();
+	//	}
+	//	if (currentAnimation == WAIT_BG_CLOSE && telopBG->GetTelopBGCloseActive() == false)
+	//	{
+	//		telopBG->AvctivateTelopBGClose();
+	//	}
 
-		stageClearTelop.countFrame++;
+	//	stageClearTelop.countFrame++;
 
-		stageClearTelop.position.x = eStageClearTelop.GetEasingValue(GetCountObject(
-			&stageClearTelop, AnimationDuration[currentAnimation]),
-			&EasingStartPositionX[currentAnimation],
-			&EasingEndPositionX[currentAnimation],
-			AnimationType[currentAnimation]);
+	//	stageClearTelop.position.x = eStageClearTelop.GetEasingValue(GetCountObject(
+	//		&stageClearTelop, AnimationDuration[currentAnimation]),
+	//		&EasingStartPositionX[currentAnimation],
+	//		&EasingEndPositionX[currentAnimation],
+	//		AnimationType[currentAnimation]);
 
-		if (stageClearTelop.countFrame == AnimationDuration[currentAnimation])
-		{
-			stageClearTelop.countFrame = 0;
-			currentAnimation++;
-		}
-		if (currentAnimation == ANIMATION_MAX)
-		{
-			stageClearTelop.countFrame = 0;
-			currentAnimation = 0;
-			stageClearTelop.position = INIT_POSITION_STAGE_CLEAR_TELOP;
-			isStageClearTelopActivated = false;
-		}
-	}
+	//	if (stageClearTelop.countFrame == AnimationDuration[currentAnimation])
+	//	{
+	//		stageClearTelop.countFrame = 0;
+	//		currentAnimation++;
+	//	}
+	//	if (currentAnimation == ANIMATION_MAX)
+	//	{
+	//		stageClearTelop.countFrame = 0;
+	//		currentAnimation = 0;
+	//		stageClearTelop.position = INIT_POSITION_STAGE_CLEAR_TELOP;
+	//		isStageClearTelopActivated = false;
+	//	}
+	//}
 }
 
 //=============================================================================
@@ -128,10 +128,10 @@ void StageClearTelop::Update()
 //=============================================================================
 void StageClearTelop::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->DrawObject(pDevice, &stageClearTelop);
-	object->SetVertexObject(&stageClearTelop);
+	//object->DrawObject(pDevice, &stageClearTelop);
+	//object->SetVertexObject(&stageClearTelop);
 }
 
 //=============================================================================
@@ -139,5 +139,5 @@ void StageClearTelop::Draw(void)
 //=============================================================================
 void StageClearTelop::SetStageClearTelop(void)
 {
-	isStageClearTelopActivated = true;
+	//isStageClearTelopActivated = true;
 }

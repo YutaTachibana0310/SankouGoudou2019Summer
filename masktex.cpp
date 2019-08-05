@@ -30,20 +30,20 @@ Scene nextscene;
 //テクスチャ初期化
 HRESULT InitMask(float size_x, float size_y, float size_z)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	object->LoadTexture(pDevice, MASK_TEXTURE, &masktex);
-	object->InitialTexture(&masktex);
-	object->MakeVertexObject(&masktex);
+	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	//object->LoadTexture(pDevice, MASK_TEXTURE, &masktex);
+	//object->InitialTexture(&masktex);
+	//object->MakeVertexObject(&masktex);
 
-	masktex.size = D3DXVECTOR3(size_x, size_y, size_z);
-	masktex.position = D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT/2, 0.0f);
-	masktex.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	object->SetColorObject(&masktex, SET_COLOR_NOT_COLORED);
+	//masktex.size = D3DXVECTOR3(size_x, size_y, size_z);
+	//masktex.position = D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT/2, 0.0f);
+	//masktex.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	//object->SetColorObject(&masktex, SET_COLOR_NOT_COLORED);
 
-	active = false;
-	sizechange = false;
-	isFadeIn = false;
-	wait = 0;
+	//active = false;
+	//sizechange = false;
+	//isFadeIn = false;
+	//wait = 0;
 
 	return S_OK;
 }
@@ -51,7 +51,7 @@ HRESULT InitMask(float size_x, float size_y, float size_z)
 //テクスチャ終了処理
 void UninitMask(void)
 {
-	object->ReleaseTexture(&masktex);
+	//object->ReleaseTexture(&masktex);
 
 }
 
@@ -129,8 +129,8 @@ void DrawMaskTexSet(void) {
 	clip.setWriteMaskColor(Clip::Stencil::MaskColor_Trans);
 	clip.regionBegin(Clip::Stencil::MaskColor_Fill);
 
-	object->DrawObject(pDevice, &masktex);
-	object->SetVertexObject(&masktex);
+	//object->DrawObject(pDevice, &masktex);
+	//object->SetVertexObject(&masktex);
 
 	clip.regionEnd();
 

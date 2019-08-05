@@ -33,10 +33,10 @@
 //=============================================================================
 void GameSceneUI::Init(void)
 {
+	line->Init();
 	cursor->Init();
 	combo->Init();
 	guage->Init();
-	line->Init();
 	score->Init();
 	star->Init();
 	trail->Init();

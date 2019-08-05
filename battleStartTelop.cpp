@@ -63,17 +63,17 @@ static int currentAnimation = 0;
 //=============================================================================
 void BattleStartTelop::Init(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->LoadTexture(pDevice, ADRESS_TEXTURE_BATTLE_START_TELOP, &battleStartTelop);
-	object->InitialTexture(&battleStartTelop);
-	object->MakeVertexObject(&battleStartTelop);
+	//object->LoadTexture(pDevice, ADRESS_TEXTURE_BATTLE_START_TELOP, &battleStartTelop);
+	//object->InitialTexture(&battleStartTelop);
+	//object->MakeVertexObject(&battleStartTelop);
 
-	battleStartTelop.position = INIT_POSITION_BATTLE_START_TELOP;
-	battleStartTelop.size = SIZE_BATTLE_START_TELOP;
-	battleStartTelop.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	//battleStartTelop.position = INIT_POSITION_BATTLE_START_TELOP;
+	//battleStartTelop.size = SIZE_BATTLE_START_TELOP;
+	//battleStartTelop.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	object->SetColorObject(&battleStartTelop, SET_COLOR_NOT_COLORED);
+	//object->SetColorObject(&battleStartTelop, SET_COLOR_NOT_COLORED);
 }
 
 //=============================================================================
@@ -81,7 +81,7 @@ void BattleStartTelop::Init(void)
 //=============================================================================
 void BattleStartTelop::Uninit(void)
 {
-	object->ReleaseTexture(&battleStartTelop);
+	//object->ReleaseTexture(&battleStartTelop);
 }
 
 //=============================================================================
@@ -89,38 +89,38 @@ void BattleStartTelop::Uninit(void)
 //=============================================================================
 void BattleStartTelop::Update()
 {	
-	if (isBattleStartTelopActivated)
-	{
-		if (currentAnimation == WAIT_BG_OPEN && telopBG->GetTelopBGOpenActive() == false)
-		{
-			telopBG->AvctivateTelopBGOpen();
-		}
-		if (currentAnimation == WAIT_BG_CLOSE && telopBG->GetTelopBGCloseActive() == false)
-		{
-			telopBG->AvctivateTelopBGClose();
-		}
+	//if (isBattleStartTelopActivated)
+	//{
+	//	if (currentAnimation == WAIT_BG_OPEN && telopBG->GetTelopBGOpenActive() == false)
+	//	{
+	//		telopBG->AvctivateTelopBGOpen();
+	//	}
+	//	if (currentAnimation == WAIT_BG_CLOSE && telopBG->GetTelopBGCloseActive() == false)
+	//	{
+	//		telopBG->AvctivateTelopBGClose();
+	//	}
 
-		battleStartTelop.countFrame++;
+	//	battleStartTelop.countFrame++;
 
-		battleStartTelop.position.x = eBattleStartTelop.GetEasingValue(GetCountObject(
-			&battleStartTelop, AnimationDuration[currentAnimation]),
-			&EasingStartPositionX[currentAnimation],
-			&EasingEndPositionX[currentAnimation],
-			AnimationType[currentAnimation]);
+	//	battleStartTelop.position.x = eBattleStartTelop.GetEasingValue(GetCountObject(
+	//		&battleStartTelop, AnimationDuration[currentAnimation]),
+	//		&EasingStartPositionX[currentAnimation],
+	//		&EasingEndPositionX[currentAnimation],
+	//		AnimationType[currentAnimation]);
 
-		if (battleStartTelop.countFrame == AnimationDuration[currentAnimation])
-		{
-			battleStartTelop.countFrame = 0;
-			currentAnimation++;
-		}
-		if (currentAnimation == ANIMATION_MAX)
-		{
-			battleStartTelop.countFrame = 0;
-			currentAnimation = 0;
-			battleStartTelop.position = INIT_POSITION_BATTLE_START_TELOP;
-			isBattleStartTelopActivated = false;
-		}
-	}
+	//	if (battleStartTelop.countFrame == AnimationDuration[currentAnimation])
+	//	{
+	//		battleStartTelop.countFrame = 0;
+	//		currentAnimation++;
+	//	}
+	//	if (currentAnimation == ANIMATION_MAX)
+	//	{
+	//		battleStartTelop.countFrame = 0;
+	//		currentAnimation = 0;
+	//		battleStartTelop.position = INIT_POSITION_BATTLE_START_TELOP;
+	//		isBattleStartTelopActivated = false;
+	//	}
+	//}
 }
 
 //=============================================================================
@@ -128,10 +128,10 @@ void BattleStartTelop::Update()
 //=============================================================================
 void BattleStartTelop::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->DrawObject(pDevice, &battleStartTelop);
-	object->SetVertexObject(&battleStartTelop);
+	//object->DrawObject(pDevice, &battleStartTelop);
+	//object->SetVertexObject(&battleStartTelop);
 }
 
 //=============================================================================
@@ -139,5 +139,5 @@ void BattleStartTelop::Draw(void)
 //=============================================================================
 void BattleStartTelop::SetBattleStartTelop(void)
 {
-	isBattleStartTelopActivated = true;
+	//isBattleStartTelopActivated = true;
 }

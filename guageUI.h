@@ -25,12 +25,13 @@ enum GUARGE_PARTS
 #include "GameSceneUIManager.h"
 #include "UIdrawer.h"
 
-class Object;
-
 /**************************************
 前方宣言
 ***************************************/
-class GameSceneUI;
+class DamageGuage;
+class HPGuage;
+class GuageFlame;
+class GuageText;
 
 //*****************************************************************************
 // 構造体定義
@@ -38,14 +39,41 @@ class GameSceneUI;
 class Guage :public Object
 {
 public:
-	Object*object;
+	DamageGuage *damageGuage;
+	HPGuage		*hPGuage;
+	GuageFlame  *guageFlame;
+	GuageText	*guageText;
+
 	void Init(void);
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
 	void ChangeGuage(float value);
+
+private:
+	float	damageGuagePercentage;	//ダメージ表現ゲージパーセンテージ
+	float	trueGuagePercentage;	//実際のゲージパーセンテージ
 };
 
+class DamageGuage :public Guage
+{
+
+};
+
+class HPGuage :public Guage
+{
+
+};
+
+class GuageFlame :public Guage
+{
+
+};
+
+class GuageText :public Guage
+{
+
+};
 
 #endif
 

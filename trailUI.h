@@ -18,6 +18,8 @@
 #define	ADRESS_TEXTURE_TRAIL_LINE_LOWERRIGHT_TO_MIDDLELEFT	("data/TEXTURE/UI/trail/trailLine_LowerRightToMiddleLeft.png")
 #define	ADRESS_TEXTURE_TRAIL_LINE_MIDDLELEFT_TO_MIDDLERIGHT	("data/TEXTURE/UI/trail/trailLine_MiddleLeftToMiddleRight.png")
 
+#define	TRAILPARTS_MAX	(6)
+
 enum TRAIL_PARTS
 {
 	TRAIL_BG,
@@ -44,11 +46,22 @@ class GameSceneUI;
 class Trail :public Object
 {
 public:
-	Object *object;
 	void Init(void);
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
+
+	Trail * trail[TRAILPARTS_MAX];
+
+	const char *texPath[TRAILPARTS_MAX]
+	{
+		"data/TEXTURE/UI/trail/trailBG.png",
+		"data/TEXTURE/UI/trail/trailLine_TopToLowerLeft.png",
+		"data/TEXTURE/UI/trail/trailLine_TopToLowerRight.png",
+		"data/TEXTURE/UI/trail/trailLine_LowerLeftToMiddleRight.png",
+		"data/TEXTURE/UI/trail/trailLine_LowerRightToMiddleLeft.png",
+		"data/TEXTURE/UI/trail/trailLine_MiddleLeftToMiddleRight.png"
+	};
 };
 
 #endif

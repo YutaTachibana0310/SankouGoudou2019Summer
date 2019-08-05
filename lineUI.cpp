@@ -18,7 +18,6 @@
 //*****************************************************************************
 // ƒOƒ[ƒoƒ‹•Ï”
 //*****************************************************************************
-Object line;
 
 //=============================================================================
 // ‰Šú‰»ˆ—
@@ -27,15 +26,15 @@ void Line::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->LoadTexture(pDevice, ADRESS_TEXTURE_LINE, &line);
-	object->InitialTexture(&line);
-	object->MakeVertexObject(&line);
+	LoadTexture(pDevice, ADRESS_TEXTURE_LINE);
+	InitialTexture();
+	MakeVertexObject();
 
-	line.position	= POSITION_LINE;
-	line.size		= SIZE_LINE;
-	line.rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	position	= POSITION_LINE;
+	size		= SIZE_LINE;
+	rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	object->SetColorObject(&line, SET_COLOR_NOT_COLORED);
+	SetColorObject(SET_COLOR_NOT_COLORED);
 }
 
 //=============================================================================
@@ -43,7 +42,7 @@ void Line::Init(void)
 //=============================================================================
 void Line::Uninit(void)
 {
-	object->ReleaseTexture(&line);
+	ReleaseTexture();
 }
 
 //=============================================================================
@@ -60,6 +59,6 @@ void Line::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->DrawObject(pDevice, &line);
-	object->SetVertexObject(&line);
+	DrawObject(pDevice);
+	SetVertexObject();
 }

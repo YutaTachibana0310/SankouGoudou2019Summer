@@ -15,6 +15,7 @@
 #define	ADRESS_TEXTURE_BACKGROUND_COMBO	"data/TEXTURE/UI/combo/circleCombo.png"	// 読み込むテクスチャファイル名
 
 #define SPEED_VOLUMEUP_NUMBER		(0.2f)
+#define COMBOPARTS_MAX		(3)
 
 enum COMBO_PARTS
 {
@@ -28,7 +29,9 @@ enum COMBO_PARTS
 /**************************************
 前方宣言
 ***************************************/
-class Object;
+class ComboNumber;
+class ComboText;
+class ComboBG;
 
 //*****************************************************************************
 // 構造体定義
@@ -36,7 +39,9 @@ class Object;
 class Combo :public Object
 {
 public:
-	Object *object;
+	ComboNumber * comboNumber;
+	ComboText * comboText;
+	ComboBG * comboBG;
 
 	void Init(void);
 	void Uninit(void);
@@ -52,6 +57,18 @@ private:
 	float radian;
 	void VolumeUpEffect(void);
 	void UpdateNumberColor(void);
+};
+
+class ComboNumber :public Combo
+{
+};
+
+class ComboText :public Combo
+{
+};
+
+class ComboBG :public Combo
+{
 };
 
 #endif

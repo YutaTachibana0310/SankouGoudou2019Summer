@@ -30,7 +30,7 @@ class GameSceneUI;
 class Cursor :public Object
 {
 public:
-	Object*object;
+	Object *object;
 
 	void Init(void);
 	void Uninit(void);

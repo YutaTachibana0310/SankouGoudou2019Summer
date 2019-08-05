@@ -33,24 +33,24 @@ float	alpha = 0;
 //=============================================================================
 void StartButton::Init(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->LoadTexture(pDevice, ADRESS_TEXTURE_STARTBUTTON_BG, &startButtonParts[BACKGROUND_STARTBUTTON]);
-	object->LoadTexture(pDevice, ADRESS_TEXTURE_STARTBUTTON_TEXT, &startButtonParts[TEXT_STARTBUTTON]);
+	//object->LoadTexture(pDevice, ADRESS_TEXTURE_STARTBUTTON_BG, &startButtonParts[BACKGROUND_STARTBUTTON]);
+	//object->LoadTexture(pDevice, ADRESS_TEXTURE_STARTBUTTON_TEXT, &startButtonParts[TEXT_STARTBUTTON]);
 
-	for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
-	{
-		object->InitialTexture(&startButtonParts[i]);
-		object->MakeVertexObject(&startButtonParts[i]);
+	//for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
+	//{
+	//	object->InitialTexture(&startButtonParts[i]);
+	//	object->MakeVertexObject(&startButtonParts[i]);
 
-		startButtonParts[i].position		= POSITION_STARTBUTTON;
-		startButtonParts[i].size			= SIZE_STARTBUTTON;
-		startButtonParts[i].rotation		= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		startButtonParts[i].colliderSize	= COLLIDER_SIZE_STARTBUTTON;
-	}
+	//	startButtonParts[i].position		= POSITION_STARTBUTTON;
+	//	startButtonParts[i].size			= SIZE_STARTBUTTON;
+	//	startButtonParts[i].rotation		= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	//	startButtonParts[i].colliderSize	= COLLIDER_SIZE_STARTBUTTON;
+	//}
 
-	object->SetColorObject(&startButtonParts[BACKGROUND_STARTBUTTON], SET_COLOR_NOT_COLORED);
-	object->SetColorObject(&startButtonParts[TEXT_STARTBUTTON], SET_COLOR_NOT_COLORED);
+	//object->SetColorObject(&startButtonParts[BACKGROUND_STARTBUTTON], SET_COLOR_NOT_COLORED);
+	//object->SetColorObject(&startButtonParts[TEXT_STARTBUTTON], SET_COLOR_NOT_COLORED);
 }
 
 //=============================================================================
@@ -58,10 +58,10 @@ void StartButton::Init(void)
 //=============================================================================
 void StartButton::Uninit(void)
 {
-	for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
-	{
-		object->ReleaseTexture(&startButtonParts[i]);
-	}
+	//for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
+	//{
+	//	object->ReleaseTexture(&startButtonParts[i]);
+	//}
 }
 
 //=============================================================================
@@ -69,33 +69,33 @@ void StartButton::Uninit(void)
 //=============================================================================
 void StartButton::Update(HWND hWnd)
 {
-	if (IsMouseOvered(hWnd,startButtonParts[BACKGROUND_STARTBUTTON].position, 
-		startButtonParts[BACKGROUND_STARTBUTTON].colliderSize))
-	{
-		// ボタンを押したらゲームシーンへ
-		if (IsMouseLeftTriggered())
-		{
-			startButtonManager.GoGameScene();
-		}
+	//if (IsMouseOvered(hWnd,startButtonParts[BACKGROUND_STARTBUTTON].position, 
+	//	startButtonParts[BACKGROUND_STARTBUTTON].colliderSize))
+	//{
+	//	// ボタンを押したらゲームシーンへ
+	//	if (IsMouseLeftTriggered())
+	//	{
+	//		startButtonManager.GoGameScene();
+	//	}
 
-		for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
-		{
-			// 選択されているなら拡大表示
-			startButtonParts[i].size.x = SIZE_STARTBUTTON.x + VOLUME_ZOOM;
-			startButtonParts[i].size.y = SIZE_STARTBUTTON.y + VOLUME_ZOOM;
-		}
-	}
-	else
-	{	
-		for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
-		{
-			// 元に戻す
-			startButtonParts[i].size.x = SIZE_STARTBUTTON.x;
-			startButtonParts[i].size.y = SIZE_STARTBUTTON.y;
-		}
-	}
+	//	for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
+	//	{
+	//		// 選択されているなら拡大表示
+	//		startButtonParts[i].size.x = SIZE_STARTBUTTON.x + VOLUME_ZOOM;
+	//		startButtonParts[i].size.y = SIZE_STARTBUTTON.y + VOLUME_ZOOM;
+	//	}
+	//}
+	//else
+	//{	
+	//	for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
+	//	{
+	//		// 元に戻す
+	//		startButtonParts[i].size.x = SIZE_STARTBUTTON.x;
+	//		startButtonParts[i].size.y = SIZE_STARTBUTTON.y;
+	//	}
+	//}
 
-	BlinkStartButtonText();
+	//BlinkStartButtonText();
 }
 
 //=============================================================================
@@ -103,13 +103,13 @@ void StartButton::Update(HWND hWnd)
 //=============================================================================
 void StartButton::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
-	{
-		object->DrawObject(pDevice, &startButtonParts[i]);
-		object->SetVertexObject(&startButtonParts[i]);
-	}
+	//for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
+	//{
+	//	object->DrawObject(pDevice, &startButtonParts[i]);
+	//	object->SetVertexObject(&startButtonParts[i]);
+	//}
 }
 
 //=============================================================================
@@ -117,25 +117,25 @@ void StartButton::Draw(void)
 //=============================================================================
 void StartButton::BlinkStartButtonText(void)
 {
-	if (alpha >= 1.0f)
-	{
-		IsAlphaIncreased = false;
-	}
-	if (alpha <= 0.0f)
-	{
-		IsAlphaIncreased = true;
-	}
+	//if (alpha >= 1.0f)
+	//{
+	//	IsAlphaIncreased = false;
+	//}
+	//if (alpha <= 0.0f)
+	//{
+	//	IsAlphaIncreased = true;
+	//}
 
-	if (IsAlphaIncreased)
-	{
-		alpha += INCREASE_VOLUME_ALPHA;
-	}
-	else
-	{
-		alpha -= INCREASE_VOLUME_ALPHA;
-	}
+	//if (IsAlphaIncreased)
+	//{
+	//	alpha += INCREASE_VOLUME_ALPHA;
+	//}
+	//else
+	//{
+	//	alpha -= INCREASE_VOLUME_ALPHA;
+	//}
 
-	object->SetColorObject(&startButtonParts[TEXT_STARTBUTTON], D3DXCOLOR(1.0f,1.0f,1.0f,alpha));
+	//object->SetColorObject(&startButtonParts[TEXT_STARTBUTTON], D3DXCOLOR(1.0f,1.0f,1.0f,alpha));
 }
 
 //=============================================================================

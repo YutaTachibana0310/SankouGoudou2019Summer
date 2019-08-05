@@ -47,24 +47,24 @@ public:
 	int					countFrame;
 	bool				isRotated;
 
-	void LoadTexture(LPDIRECT3DDEVICE9 device, const char *adress, Object *object);
-	void CreateObjectCircle(Object *object, float sizeX, float sizeY);
-	void ReleaseTexture(Object *object);
-	void InitialTexture(Object *object);
-	void DrawObject(LPDIRECT3DDEVICE9 pDevice, Object *object);
-	void MakeVertexObject(Object *object);
-	void MakeVertexRotateObject(Object *object);
-	void MakeVertexGuageBar(Object *object, float percentage, float flameWidth);
-	void SetVertexObject(Object *object);
-	void SetVertexRotateObject(Object *object);
-	void SetVertexGuageBar(Object *object, float percentage, float flameWidth, int guageType);
-	void SetVertexTelopBG(Object *object, float percentage);
-	void SetVertexCounter(Object *object, int placeCount, float placeInterval);
-	void SetTextureObject(Object *object, int divX, int divY, int pattern);
-	void SetTextureCounter(Object *object, int number, float placeInterval);
-	void SetAlphaObject(Object *object, float alpha);
-	void SetColorObject(Object *object, D3DXCOLOR color);
-	float GetCountObject(Object *object, float duration);
+	void LoadTexture(LPDIRECT3DDEVICE9 device, const char *path);
+	void CreateObjectCircle();
+	void ReleaseTexture();
+	void InitialTexture();
+	void DrawObject(LPDIRECT3DDEVICE9 pDevice);
+	void MakeVertexObject();
+	void MakeVertexRotateObject();
+	void MakeVertexGuageBar(float percentage, float flameWidth);
+	void SetVertexObject();
+	void SetVertexRotateObject();
+	void SetVertexGuageBar(float percentage, float flameWidth, int guageType);
+	void SetVertexTelopBG(float percentage);
+	void SetVertexCounter(int placeCount, float placeInterval);
+	void SetTextureObject(int divX, int divY, int pattern);
+	void SetTextureCounter(int number, float placeInterval);
+	void SetAlphaObject(float alpha);
+	void SetColorObject(D3DXCOLOR color);
+	float GetCountObject(float duration);
 };
 
 enum GUAGETYPE

@@ -50,7 +50,7 @@ class Cursor;
 class Star :public Object
 {
 public:
-	Object*object;
+	Star * star[STAR_MAX];
 	Cursor*cursor;
 	void Init(void);
 	void Uninit(void);

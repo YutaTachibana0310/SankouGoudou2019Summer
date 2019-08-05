@@ -19,7 +19,6 @@
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-Object	cursor;
 
 //=============================================================================
 // 初期化処理
@@ -28,19 +27,19 @@ void Cursor::Init(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->LoadTexture(pDevice, ADRESS_TEXTURE_CURSOR, &cursor);
-	object->InitialTexture(&cursor);
-	object->MakeVertexRotateObject(&cursor);
+	LoadTexture(pDevice, ADRESS_TEXTURE_CURSOR);
+	InitialTexture();
+	MakeVertexRotateObject();
 
-	cursor.position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	cursor.size		= SIZE_CURSOR;
-	cursor.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	cursor.colliderSize = COLLIDERSIZE_CURSOR / 2;
+	position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	size		= SIZE_CURSOR;
+	rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	colliderSize = COLLIDERSIZE_CURSOR / 2;
 
-	object->SetColorObject(&cursor, SET_COLOR_YELLOW);
+	SetColorObject(SET_COLOR_YELLOW);
 
 	// 回転オブジェクト用のサークルを作成
-	object->CreateObjectCircle(&cursor, cursor.size.x, cursor.size.y);
+	CreateObjectCircle();
 }
 
 //=============================================================================
@@ -48,7 +47,7 @@ void Cursor::Init(void)
 //=============================================================================
 void Cursor::Uninit(void)
 {
-	object->ReleaseTexture(&cursor);
+	ReleaseTexture();
 }
 
 //=============================================================================
@@ -56,22 +55,22 @@ void Cursor::Uninit(void)
 //=============================================================================
 void Cursor::Update(HWND hWnd)
 {
-	cursor.position = GetMousePosition(hWnd);
+	position = GetMousePosition(hWnd);
 
 	for (int i = 0; i < STAR_MAX; i++)
 	{
 		if (IsStarHitted(i))
 		{
 			// 選択されているなら
-			object->SetColorObject(&cursor, SET_COLOR_RED);
+			SetColorObject(SET_COLOR_RED);
 		}
 		else
 		{	// 元に戻す
-			object->SetColorObject(&cursor, SET_COLOR_YELLOW);
+			SetColorObject(SET_COLOR_YELLOW);
 		}
 	}
 
-	cursor.rotation.z -= SPEED_ROTATION;
+	rotation.z -= SPEED_ROTATION;
 }
 
 //=============================================================================
@@ -81,8 +80,8 @@ void Cursor::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	object->DrawObject(pDevice, &cursor);
-	object->SetVertexRotateObject(&cursor);
+	DrawObject(pDevice);
+	SetVertexRotateObject();
 }
 
 //=============================================================================
@@ -119,11 +118,11 @@ bool Cursor::IsCursorOvered(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
 	size /= 2.0f;	// 半サイズにする
 
-	if (cursor.position.x + cursor.colliderSize.x > pos.x - size.x 
-		&& pos.x + size.x > cursor.position.x - cursor.colliderSize.x 
+	if (position.x + colliderSize.x > pos.x - size.x 
+		&& pos.x + size.x > position.x - colliderSize.x 
 		&&
-		cursor.position.y + cursor.colliderSize.y > pos.y - size.y 
-		&& pos.y + size.y > cursor.position.y - cursor.colliderSize.y)
+		position.y + colliderSize.y > pos.y - size.y 
+		&& pos.y + size.y > position.y - colliderSize.y)
 	{
 		return true;
 	}

@@ -31,6 +31,8 @@ public:
 	void Update(HWND hWnd);
 	void Draw();
 
+	void UpdateWhole();
+
 	GameScene() {};
 	~GameScene() {};
 
@@ -40,16 +42,16 @@ public:
 	PlayerObserver* playerObserver;
 	BackGroundController *bgController;
 
-private:
-	
-	enum class State
+	enum State
 	{
-		Idle,
 		Start,
 		Battle,
 		End,
+		BombSequence,
+		StateMax,
 	};
 
+private:
 	std::map<State, IStateMachine<GameScene>*> fsm;
 	IStateMachine<GameScene> *state;
 	State currentState;

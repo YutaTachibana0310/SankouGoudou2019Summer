@@ -16,7 +16,7 @@ using namespace std;
 // マクロ定義
 //*****************************************************************************
 #define MAX_ENEMY (100)
-
+#define SHADOW_MAX      (8)						//シャドウ数
 //*****************************************************************************
 // 種類
 //*****************************************************************************
@@ -54,6 +54,7 @@ public:
 
 	float				m_CntFrame;			//フレームカウント
 	
+	
 
 	//純粋仮想関数
 	virtual HRESULT  VInit(void) = 0;
@@ -72,6 +73,12 @@ class EnemyStraight : public Enemy
 {
 public:
 	float m_SclTime;								//アニメーションの時間
+
+	int	  position_history_timer;					//直前のフレームの時間
+
+	int   position_history_index;					//シャドウワークのインデクス
+
+	D3DXVECTOR3			m_ShadowPos[SHADOW_MAX];	//キュー構造			
 
 	EnemyStraight();
 	~EnemyStraight();

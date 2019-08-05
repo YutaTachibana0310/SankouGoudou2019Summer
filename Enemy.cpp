@@ -16,12 +16,12 @@ using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
-#define ENEMY_MODEL  "data/MODEL/airplane000.x"
+//#define ENEMY_MODEL  "data/MODEL/airplane000.x"
 
-#define ENEMY_FALSE (300)				//falseの時間(方向が変えってから)
+#define ENEMY_FALSE_CHANGE (300)				//falseの時間(方向が変えってから)
 #define ENEMY_FALSE_SNAKE	(900)
 
-#define	ENEMY_ATTENUATION (0.98f)		//減衰係数 
+#define	ENEMY_ATTENUATION (0.98f)				//減衰係数 
 
 #define ENEMY_FRAME_SNAKE (200)
 
@@ -33,6 +33,9 @@ using namespace std;
 #define CHANGE_SCL_MAX (D3DXVECTOR3(1.0f, 1.0f, 1.0f))
 #define CHANGE_SCL_MIN (D3DXVECTOR3(0.8f, 0.8f, 0.8f))
 #define CHANGE_SCL_SPEED (0.05f)
+
+#define WAIT_TIME       (0.9)							  //サンプリング周期
+
 /****************************************
 static変数
 ****************************************/
@@ -96,6 +99,14 @@ HRESULT  EnemyStraight::VInit(void)
 
 	m_CntFrame = 0.0f;
 
+	position_history_timer = 0;
+	position_history_index = 0;
+
+	for (int i = 0; i < SHADOW_MAX; i++)
+	{
+		m_ShadowPos[i] = D3DXVECTOR3(500.0f, 0.0f, 0.0f);// m_Pos;// D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	}
+
 	return S_OK;
 }
 /****************************************
@@ -135,14 +146,44 @@ void EnemyStraight::VUpdate(void)
 			}
 
 		}
+		else
+		{
+			//m_Active = false;
+		}
+
 		//countする.
 		m_CntFrame++;
 	}
 
+
+	//shadow
+	//for (int i = 0; i < SHADOW_MAX; i++)
+	//{
+		//m_ShadowPos[i] = m_Pos;
+	//}
+	if (m_CntFrame > position_history_timer + WAIT_TIME)
+	{
+
+		position_history_timer = m_CntFrame;
+		position_history_index++;
+
+		if (position_history_index > SHADOW_MAX - 1)
+		{
+			position_history_index = SHADOW_MAX - 1;
+			//キュー操作
+			for (int i = 1; i < SHADOW_MAX; i++)
+				m_ShadowPos[i - 1] = m_ShadowPos[i];
+		}
+		m_ShadowPos[position_history_index] = m_Pos;
+
+	}
+
+#if 0
 	BeginDebugWindow("scl");
 	DebugText("%f,%f,%f", m_Scl.x, m_Scl.y, m_Scl.z);
 	DebugText("%f", m_SclTime);
 	EndDebugWindow("scl");
+#endif
 }
 
 /****************************************
@@ -152,6 +193,10 @@ void EnemyStraight::VDraw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, mtxWorld;
+	
+	//0803
+	//pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+	//pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 
 	if (m_Active)
 	{
@@ -172,8 +217,49 @@ void EnemyStraight::VDraw(void)
 
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+		
+		//for (DWORD i = 0; i < m_pMesh->GetMaterialNum(); i++)
+		//{
+		//	D3DMATERIAL9 a;
+		//	m_pMesh->GetMaterial(i, &a);
+		//	a.Diffuse.a = 0.0f;
+		//	//m_pMesh->materials[i].Diffuse.a = 0.0f;
+		//	//pDevice->SetMaterial(&m_pMesh->materials[i]);
+		//	
 
+		//}
+		//m_pMesh->SetMaterialAlpha(0.0f);
+		//m_pMesh->SetMaterialAlpha(0.0f);
+	
+		//m_pMesh->SetMaterialColor(D3DCOLOR_RGBA(0, 240, 240, 256));
+		
 		m_pMesh->Draw();
+		//m_pMesh->SetMaterialAlpha(1.0f);
+
+
+	}
+
+
+	for (int n = 0; n < SHADOW_MAX; n++)
+	{
+		//ワールドマトリックスの初期化
+		D3DXMatrixIdentity(&mtxWorld);
+
+		// 移動を反映
+		D3DXMatrixTranslation(&mtxTranslate, m_ShadowPos[n].x, m_ShadowPos[n].y, m_ShadowPos[n].z);
+		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTranslate);
+
+		// ワールドマトリックスの設定
+		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+
+		//m_pMesh->SetMaterialColor(D3DCOLOR_RGBA(0, 240, 240, 20 + n * 10));
+		m_pMesh->SetMaterialAlpha(float(0.07 + n * 0.039));
+		m_pMesh->Draw();
+
+		m_pMesh->SetMaterialAlpha(1.0f);
+		//BeginDebugWindow("pos");
+		//DebugText("%f,%f,%f", m_ShadowPos[n].x, m_ShadowPos[n].y, m_ShadowPos[n].z);
+		//EndDebugWindow("pos");
 	}
 
 }
@@ -257,7 +343,7 @@ void EnemyChange::VUpdate()
 	if (m_Active)
 	{
 
-		if (m_CntFrame > m_FrameDest + m_WaitTime + ENEMY_FALSE)
+		if (m_CntFrame > m_FrameDest + m_WaitTime + ENEMY_FALSE_CHANGE)
 		{
 			m_Active = false;
 		}
@@ -312,6 +398,11 @@ void EnemyChange::VUpdate()
 		}
 		//countする
 		m_CntFrame++;
+
+		//BeginDebugWindow("scl");
+		//DebugText("%f,%f,%f", m_Scl.x, m_Scl.y, m_Scl.z);
+		//DebugText("%f", m_SclTime);
+		//EndDebugWindow("scl");
 	}
 }
 

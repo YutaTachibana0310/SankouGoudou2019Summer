@@ -681,6 +681,12 @@
     <ClInclude Include="SnakeEnemyFactory.h">
       <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
     </ClInclude>
+    <ClInclude Include="GameBomberSequence.h">
+      <Filter>ヘッダー ファイル\GameController</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Polygon2D.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1138,6 +1144,12 @@
     </ClCompile>
     <ClCompile Include="SnakeEnemyFactory.cpp">
       <Filter>ソース ファイル\Enemy\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="GameBomberSequence.cpp">
+      <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Polygon2D.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

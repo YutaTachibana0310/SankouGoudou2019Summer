@@ -25,8 +25,6 @@ using namespace std;
 構造体定義
 ***************************************/
 
-
-
 /**************************************
 コンストラクタ
 ***************************************/
@@ -52,6 +50,9 @@ PlayerObserver::PlayerObserver()
 
 	//moveTarget初期化
 	moveTarget = MOVETARGET_DEFAULT;
+
+	//ロジック更新有効化
+	enableUpdateLogic = true;
 }
 
 /**************************************
@@ -98,16 +99,21 @@ void PlayerObserver::Uninit()
 ***************************************/
 void PlayerObserver::Update()
 {
-	int stateResult = player->Update();
+	if (enableUpdateLogic)
+	{
+		int stateResult = player->Update();
 
-	if (stateResult != STATE_CONTINUOUS)
-		OnPlayerStateFinish();
+		if (stateResult != STATE_CONTINUOUS)
+			OnPlayerStateFinish();
 
-	bulletController->Update();
+		bulletController->Update();
+	}
 
 	trailEffect->Update();
 
 	bomberController->Update();
+
+	player->Animation();
 }
 
 /**************************************
@@ -120,7 +126,7 @@ void PlayerObserver::Draw()
 	player->Draw();
 
 	trailEffect->Draw();
-	
+
 	bomberController->Draw();
 	bulletController->Draw();
 }
@@ -201,7 +207,7 @@ void PlayerObserver::OnPlayerStateFinish()
 	{
 	case PlayerState::Move:
 		OnFinishPlayerMove();
-			break;
+		break;
 
 	case PlayerState::Wait:
 		OnFinishPlayerWait();
@@ -233,13 +239,6 @@ void PlayerObserver::OnFinishPlayerMove()
 		LineTrailModel modelTrail;
 		model->GetPlayerTrail(&modelTrail);
 		bulletController->SetPlayerBullet(modelTrail);
-	}
-
-	//一筆書き判定
-	if (model->CheckOneStroke())
-	{
-
-		//ボム発射
 	}
 
 	//先行入力確認
@@ -278,4 +277,53 @@ void PlayerObserver::OnFinishPlayerReturn()
 {
 	//プレイヤーをIdle状態へ遷移
 	ChangeStatePlayer(PlayerState::Idle);
+}
+
+/**************************************
+ボンバーシーケンス開始処理
+***************************************/
+void PlayerObserver::OnStartBomberSequence()
+{
+	enableUpdateLogic = false;
+	player->ChangeAnim(PlayerAnimID::FireBomber);
+	player->ChargeBomber();
+}
+
+/**************************************
+ボンバーシーケンス終了処理
+***************************************/
+void PlayerObserver::OnFinishBomberSequence()
+{
+	enableUpdateLogic = true;
+
+	//先行入力確認
+	if (model->IsExistPrecedInput(&moveTarget))
+	{
+		player->goalpos = targetPos[moveTarget];
+		trailEffect->Init(&player->transform.pos);
+		player->ChangeAnim(PlayerAnimID::Attack);
+		ChangeStatePlayer(PlayerState::Move);
+	}
+	//無ければ待機状態へ遷移
+	else
+	{
+		player->ChangeAnim(PlayerAnimID::Flying);
+		ChangeStatePlayer(PlayerState::Wait);
+	}
+}
+
+/**************************************
+一筆書きは成立しているか
+***************************************/
+bool PlayerObserver::IsCompletedOneStroke()
+{
+	return model->CheckOneStroke();
+}
+
+/**************************************
+ボンバー発射処理
+***************************************/
+void PlayerObserver::FirePlayerBomber(vector<D3DXVECTOR3> posList)
+{
+	bomberController->SetPlayerBomber(posList, player->transform.pos);
 }

@@ -46,10 +46,13 @@ Player::Player()
 	animation->LoadXFile(PLAYER_MODEL, "Player");
 	animation->SetupCallbackKeyFrames("Flying");
 	animation->SetupCallbackKeyFrames("Attack");
+	animation->SetupCallbackKeyFrames("FireBomber");
 	animation->LoadAnimation("Flying", PlayerAnimID::Flying);
 	animation->LoadAnimation("Attack", PlayerAnimID::Attack);
+	animation->LoadAnimation("FireBomber", PlayerAnimID::FireBomber);
 	animation->SetShiftTime(PlayerAnimID::Flying, 0.2f);
 	animation->SetShiftTime(PlayerAnimID::Attack, 0.2f);
+	animation->SetShiftTime(PlayerAnimID::FireBomber, 0.2f);
 
 	collider = new TrailCollider(TrailColliderTag::Player);
 	collider->active = false;
@@ -113,10 +116,15 @@ int Player::Update()
 			collider->active = false;
 	}
 
-	//アニメーションの更新
-	animation->Update(1.0f / 60.0f);
-
 	return stateResult;
+}
+
+/****************************************
+アニメーションの更新
+*****************************************/
+void Player::Animation()
+{
+	animation->Update(1.0f / 60.0f);
 }
 
 /*****************************************
@@ -169,10 +177,20 @@ void Player::OnNotified(ObserveSubject* notifier)
 ******************************************/
 void Player::ChangeAnim(PlayerAnimID next)
 {
-	static float shitTime[PlayerAnimID::PlayerAnimMax] = {
+	static const float shitTime[PlayerAnimID::PlayerAnimMax] = {
 		1.5f,
-		7.0f
+		5.0f,
+		1.5f
 	};
 
 	animation->ChangeAnim(next, shitTime[next], true);
+}
+
+/*****************************************
+アニメーション切り替え処理
+******************************************/
+void Player::ChargeBomber()
+{
+	D3DXVECTOR3 setPos = transform.pos + D3DXVECTOR3(0.0f, 0.0f, 60.0f);
+	GameParticleManager::Instance()->SetPlayerCharge(&setPos);
 }

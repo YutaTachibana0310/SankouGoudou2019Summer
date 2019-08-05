@@ -49,10 +49,17 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void OnStartBomberSequence();
+	void OnFinishBomberSequence();
 
 	void CheckInput();
 	void PushInput(int num);
+	bool IsCompletedOneStroke();
+
+	void FirePlayerBomber(std::vector<D3DXVECTOR3> posList);
+
 	PlayerModel *model;
+	bool enableUpdateLogic;
 
 private:
 	Player *player;

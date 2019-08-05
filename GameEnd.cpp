@@ -5,6 +5,7 @@
 //
 //=====================================
 #include "GameEnd.h"
+#include "masktex.h"
 
 /**************************************
 マクロ定義
@@ -17,6 +18,7 @@
 void GameEnd::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
+	SceneChangeFlag(true, Scene::SceneResult);
 
 	//TODO：ここでゲーム終了テロップを再生する
 }
@@ -28,8 +30,7 @@ int GameEnd::OnUpdate(GameScene *entity)
 {
 	entity->cntFrame++;
 
-	if (entity->cntFrame == GAMEEND_DURATION)
-		return STATE_FINISHED;
-	else
-		return STATE_CONTINUOUS;
+	entity->UpdateWhole();
+
+	return GameScene::State::End;
 }

@@ -146,7 +146,7 @@ void PlayerBomberController::Draw()
 /***************************************************
 ボムセット処理
 ***************************************************/
-void PlayerBomberController::SetPlayerBomber(vector<D3DXVECTOR3*>targetList, D3DXVECTOR3 initpos)
+void PlayerBomberController::SetPlayerBomber(vector<D3DXVECTOR3>targetList, D3DXVECTOR3 initpos)
 {
 	for (auto &target : targetList)
 	{

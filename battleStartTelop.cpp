@@ -34,12 +34,12 @@ static const float EasingEndPositionX[ANIMATION_MAX] = {
 	-SCREEN_WIDTH * 1.5
 };
 
-static const EasingType AnimationType[ANIMATION_MAX] = {
-	OutExponential,
-	OutExponential,
+static const EaseType AnimationType[ANIMATION_MAX] = {
+	OutExpo,
+	OutExpo,
 	InOutCubic,
-	InExponential,
-	InExponential
+	InExpo,
+	InExpo
 };
 
 static const float AnimationDuration[ANIMATION_MAX] = {
@@ -54,7 +54,7 @@ static const float AnimationDuration[ANIMATION_MAX] = {
 // ÉOÉçÅ[ÉoÉãïœêî
 //*****************************************************************************
 OBJECT	battleStartTelop;
-Easing<float> eBattleStartTelop;
+Easing eBattleStartTelop;
 bool isBattleStartTelopActivated = false;
 static int currentAnimation = 0;
 
@@ -104,10 +104,10 @@ void UpdateBattleStartTelop()
 
 		battleStartTelop.countFrame++;
 
-		battleStartTelop.position.x = eBattleStartTelop.GetEasingValue(GetCountObject(
+		battleStartTelop.position.x = eBattleStartTelop.EaseValue(GetCountObject(
 			&battleStartTelop, AnimationDuration[currentAnimation]),
-			&EasingStartPositionX[currentAnimation],
-			&EasingEndPositionX[currentAnimation],
+			EasingStartPositionX[currentAnimation],
+			EasingEndPositionX[currentAnimation],
 			AnimationType[currentAnimation]);
 
 		if (battleStartTelop.countFrame == AnimationDuration[currentAnimation])

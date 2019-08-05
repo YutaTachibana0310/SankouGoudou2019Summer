@@ -99,7 +99,7 @@ int StraightEnemyModel::Update()
 	if (cntFrame >= STRAIGHTENEMY_ACTIVATE_FRAME)
 	{
 		float t = (float)(cntFrame - STRAIGHTENEMY_ACTIVATE_FRAME) / (float)STRAIGHTENEMY_REACH_FRAME;
-		pos.z = Easing<float>::GetEasingValue(t, &StartPosZ, &DestPosZ, EasingType::InCubic);
+		pos.z = Easing::EaseValue(t, StartPosZ, DestPosZ, EaseType::InCubic);
 	}
 
 	//èIóπîªíË

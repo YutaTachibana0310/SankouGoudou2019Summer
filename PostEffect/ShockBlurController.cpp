@@ -26,7 +26,7 @@
 void ShockBlurController::Update()
 {
 	const int Duration = 10;
-	const int EaseType[State::Max] = { EasingType::InCubic, EasingType::Linear, EasingType::OutCubic };
+	const int type[State::Max] = { EaseType::InCubic, EaseType::Linear, EaseType::OutCubic };
 
 	//非アクティブであれば早期リターン
 	if (!active)
@@ -37,7 +37,7 @@ void ShockBlurController::Update()
 	//ブラーの強さをアニメーション
 	int effectDuration = state == State::Wait ? effectTime : Duration;
 	float t = (float)cntFrame / (float)effectDuration;
-	float power = Easing<float>::GetEasingValue(t, &srcPower, &destPower, (EasingType)EaseType[state]);
+	float power = Easing::EaseValue(t, srcPower, destPower, (EaseType)type[state]);
 	shockBlur->SetPower(power);
 
 	//状態遷移

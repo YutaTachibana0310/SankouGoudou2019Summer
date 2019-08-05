@@ -681,6 +681,9 @@
     <ClInclude Include="SnakeEnemyFactory.h">
       <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\TMath.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">

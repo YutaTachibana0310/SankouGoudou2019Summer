@@ -211,7 +211,7 @@ void GameScene::Draw()
 	CountDebugTimer(GAMESCENE_LABEL, "DrawpostEffect");
 
 	//UI•`‰æ
-	//DrawGameSceneUI();
+	DrawGameSceneUI();
 
 	DrawDebugTimer(GAMESCENE_LABEL);
 }

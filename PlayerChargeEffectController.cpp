@@ -12,7 +12,7 @@
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
-#define PLAYERCHARGEEFFECT_SIZE			(&D3DXVECTOR2(20.0f, 20.0f))
+#define PLAYERCHARGEEFFECT_SIZE			(&D3DXVECTOR2(15.0f, 15.0f))
 
 #define PLAYERCHARGEEFFECT_TEX_NAME		"data/TEXTURE/Effect/PlayerCharge.png"
 #define PLAYERCHARGEFEFECT_TEX_DIV		(&D3DXVECTOR2(8.0f, 8.0f))

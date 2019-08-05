@@ -18,6 +18,7 @@
 #include "EnemyBulletFireController.h"
 #include "EnemyGuideArrowController.h"
 #include "PlayerChargeEffectController.h"
+#include "PlayerChargeParticleController.h"
 
 #include "LineTrailModel.h"
 
@@ -50,6 +51,7 @@ enum ParticleController
 	EnemyBulletCharge,
 	EnemyBulletFire,
 	PlayerCharge,
+	PlayerChargeParticle,
 	ControllerMax
 };
 
@@ -75,6 +77,7 @@ void GameParticleManager::Init()
 	controllers[EnemyBulletCharge] = new EnemyBulletChargeController();
 	controllers[EnemyBulletFire] = new EnemyBulletFireController();
 	controllers[PlayerCharge] = new PlayerChargeEffectController();
+	controllers[PlayerChargeParticle] = new PlayerChargeParticleController();
 
 	//各パーティクル初期化
 	for (auto& controller : controllers)
@@ -100,6 +103,7 @@ void GameParticleManager::Update(void)
 ***************************************/
 void GameParticleManager::UpdateBombParticle()
 {
+	controllers[PlayerChargeParticle]->Update();
 	controllers[PlayerCharge]->Update();
 }
 
@@ -181,6 +185,7 @@ BaseEmitter* GameParticleManager::SetEnemyBulletCharge(D3DXVECTOR3 *pos)
 ***************************************/
 void GameParticleManager::SetPlayerCharge(D3DXVECTOR3 *pos)
 {
+	controllers[PlayerChargeParticle]->SetEmitter(pos);
 	controllers[PlayerCharge]->SetEmitter(pos);
 }
 

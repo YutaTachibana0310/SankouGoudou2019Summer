@@ -9,7 +9,7 @@
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
-#define PLAYERCHARGEEFFECT_POS_RANGE		(5.0f)
+#define PLAYERCHARGEEFFECT_POS_RANGE		(2.0f)
 #define PLAYERCHARGEEFFECT_LIFE_MIN			(20)
 #define PLAYERCHARGEEFFECT_LIFE_MAX			(60)
 #define PLAYERCHARGEEFFECT_EMIT_DURATION	(70)

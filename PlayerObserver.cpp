@@ -167,6 +167,7 @@ void PlayerObserver::PushInput(int num)
 				player->collider->SetTrailIndex(LineTrailModel(moveTarget, num));
 			}
 
+			player->ChangeAnim(PlayerAnimID::Attack);
 			trailEffect->Init(&player->transform.pos);
 		}
 
@@ -246,11 +247,13 @@ void PlayerObserver::OnFinishPlayerMove()
 	{
 		player->goalpos = targetPos[moveTarget];
 		trailEffect->Init(&player->transform.pos);
+		player->ChangeAnim(PlayerAnimID::Attack);
 		ChangeStatePlayer(PlayerState::Move);
 	}
 	//–³‚¯‚ê‚Î‘Ò‹@ó‘Ô‚Ö‘JˆÚ
 	else
 	{
+		player->ChangeAnim(PlayerAnimID::Flying);
 		ChangeStatePlayer(PlayerState::Wait);
 	}
 }

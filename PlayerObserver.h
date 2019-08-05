@@ -49,9 +49,13 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void OnStartBomberSequence();
+	void OnFinishBomberSequence();
 
 	void CheckInput();
 	void PushInput(int num);
+	bool IsCompletedOneStroke();
+
 	PlayerModel *model;
 	bool enableUpdateLogic;
 

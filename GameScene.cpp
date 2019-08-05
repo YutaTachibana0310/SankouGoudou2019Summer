@@ -26,6 +26,7 @@
 #include "GameStart.h"
 #include "GameBattle.h"
 #include "GameEnd.h"
+#include "GameBomberSequence.h"
 
 #include "RebarOb.h"
 
@@ -53,6 +54,7 @@ void GameScene::Init()
 	fsm[State::Start] = new GameStart();
 	fsm[State::Battle] = new GameBattle();
 	fsm[State::End] = new GameEnd();
+	fsm[State::BombSequence] = new GameBomberSequence();
 
 	//UIèâä˙âª
 	InitGameSceneUI();
@@ -153,10 +155,6 @@ void GameScene::Update(HWND hWnd)
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
 	UpdateGameSceneUI(hWnd);
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
-
-	//ëJà⁄èàóù
-	if (result != STATE_CONTINUOUS)
-		ChangeState(result);
 }
 
 /**************************************
@@ -196,7 +194,7 @@ void GameScene::Draw()
 
 
 	//UIï`âÊ
-	DrawGameSceneUI();
+	//DrawGameSceneUI();
 
 	DrawDebugTimer(GAMESCENE_LABEL);
 }

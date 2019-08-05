@@ -243,13 +243,6 @@ void PlayerObserver::OnFinishPlayerMove()
 		bulletController->SetPlayerBullet(modelTrail);
 	}
 
-	//一筆書き判定
-	if (model->CheckOneStroke())
-	{
-
-		//ボム発射
-	}
-
 	//先行入力確認
 	if (model->IsExistPrecedInput(&moveTarget))
 	{
@@ -286,4 +279,44 @@ void PlayerObserver::OnFinishPlayerReturn()
 {
 	//プレイヤーをIdle状態へ遷移
 	ChangeStatePlayer(PlayerState::Idle);
+}
+
+/**************************************
+ボンバーシーケンス開始処理
+***************************************/
+void PlayerObserver::OnStartBomberSequence()
+{
+	enableUpdateLogic = false;
+	player->ChangeAnim(PlayerAnimID::FireBomber);
+}
+
+/**************************************
+ボンバーシーケンス終了処理
+***************************************/
+void PlayerObserver::OnFinishBomberSequence()
+{
+	enableUpdateLogic = true;
+
+	//先行入力確認
+	if (model->IsExistPrecedInput(&moveTarget))
+	{
+		player->goalpos = targetPos[moveTarget];
+		trailEffect->Init(&player->transform.pos);
+		player->ChangeAnim(PlayerAnimID::Attack);
+		ChangeStatePlayer(PlayerState::Move);
+	}
+	//無ければ待機状態へ遷移
+	else
+	{
+		player->ChangeAnim(PlayerAnimID::Flying);
+		ChangeStatePlayer(PlayerState::Wait);
+	}
+}
+
+/**************************************
+一筆書きは成立しているか
+***************************************/
+bool PlayerObserver::IsCompletedOneStroke()
+{
+	return model->CheckOneStroke();
 }

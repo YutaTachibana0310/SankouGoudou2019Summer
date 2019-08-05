@@ -179,8 +179,8 @@ void Player::ChangeAnim(PlayerAnimID next)
 {
 	static const float shitTime[PlayerAnimID::PlayerAnimMax] = {
 		1.5f,
-		7.0f,
-		1.0f
+		5.0f,
+		1.5f
 	};
 
 	animation->ChangeAnim(next, shitTime[next], true);

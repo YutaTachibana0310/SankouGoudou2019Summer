@@ -30,7 +30,7 @@ public:
 	void Update();
 	void Draw();
 
-	void SetPlayerBomber(std::vector<D3DXVECTOR3*>targetList, D3DXVECTOR3 initpos);
+	void SetPlayerBomber(std::vector<D3DXVECTOR3>targetList, D3DXVECTOR3 initpos);
 
 	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
 	//‰Â•Ï’·”z—ñ

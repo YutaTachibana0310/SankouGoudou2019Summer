@@ -237,6 +237,20 @@ int WrapAround(int min, int max, int value)
 }
 
 /*******************************************************************
+//関数名	：WrapAroundf(float min, float max, float value)
+//引数1		：float min		：最小値
+//引数2		：float max		：最大値
+//引数3		：float value		：対象の値
+//戻り値	：void
+//説明		：対象の値を最小から最大の範囲でラップさせる関数
+******************************************************************************/
+float WrapAroundf(float min, float max, float value)
+{
+	float mod = fmodf(value - min, max - min);
+	return mod >= 0.0f ? mod + min : mod + max;
+}
+
+/*******************************************************************
 //関数名	：Clamp(int min, int max, int value)
 //引数1		：int min		：最小値
 //引数2		：int max		：最大値

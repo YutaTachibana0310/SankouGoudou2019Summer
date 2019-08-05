@@ -23,7 +23,7 @@ public:
 	StraightEnemyModel();
 	~StraightEnemyModel();
 
-	void Init(LineTrailModel model);
+	void Init(LineTrailModel model, int enemyNum);
 	int Update();
 
 private:

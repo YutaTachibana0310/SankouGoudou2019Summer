@@ -14,7 +14,7 @@
 #include <map>
 #include <string>
 
-#define TRAILCOLLIDER_USE_DEBUG
+//#define TRAILCOLLIDER_USE_DEBUG
 
 #ifdef TRAILCOLLIDER_USE_DEBUG
 #include "LineRenderer.h"
@@ -27,6 +27,8 @@ enum class TrailColliderTag
 {
 	PlayerBullet,
 	Enemy,
+	EnemyBullet,
+	Player,
 	Max
 };
 
@@ -53,9 +55,7 @@ public:
 
 	static void UpdateCollision();
 
-#ifdef TRAILCOLLIDER_USE_DEBUG
 	static void DrawCollider(TrailCollider *collider);
-#endif
 
 private:
 	TrailCollider() {}

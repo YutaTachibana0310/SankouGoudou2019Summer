@@ -102,7 +102,7 @@ BloomController::BloomController()
 	blurFilter = new BlurFilter();
 	for (int i = 0; i < 3; i++)
 	{
-		int reduction = (int)powf(2, i + 2);
+		int reduction = (int)powf(2.0f, i + 2.0f);
 		for (int j = 0; j < 2; j++)
 		{
 			pDevice->CreateTexture(SCREEN_WIDTH / reduction, SCREEN_HEIGHT / reduction, 1, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &blurTexture[i][j], 0);
@@ -159,7 +159,7 @@ void BloomController::SampleBrightness(LPDIRECT3DTEXTURE9 targetTexture)
 		//ブルームのゲインを設定
 		bloomFilter->SetBloomPower(BloomPower[i]);
 
-		int reduction = (int)powf(2, i + 2);
+		float reduction = powf(2.0f, i + 2.0f);
 		bloomFilter->Resize(SCREEN_WIDTH / reduction, SCREEN_HEIGHT / reduction);
 
 		//現在の描画情報から輝度を抽出
@@ -193,7 +193,7 @@ void BloomController::ProcessBlur()
 		//ビューポートを設定
 		pDevice->SetViewport(&blurViewPort[j]);
 
-		int reduction = (int)powf(2, j + 2);
+		float reduction = powf(2.0f, j + 2.0f);
 		blurFilter->SetSurfaceSize(SCREEN_WIDTH / reduction, SCREEN_HEIGHT / reduction);
 
 		cntBlur = 1;

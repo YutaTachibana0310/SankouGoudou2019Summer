@@ -10,17 +10,6 @@
 #include "comboUI.h"
 
 //*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-#define	INTERVAL_NUMBER	(40.0f)				// スコア数字の表示間隔
-#define	INTERVAL_NUMBER_TEXTURE	(0.097f)	// テクスチャテクスチャ内のスコア数字の表示間隔
-#define	PLACE_MAX		(4)					// スコアの桁数
-#define BASE_NUMBER		(10)				// 進数
-#define VOLUME_ZOOM		(30.0f)
-#define SIZE_SCORE		(D3DXVECTOR3(20.0f,30.0f,0.0f))
-#define POSITION_SCORE	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 8.8f, SCREEN_HEIGHT / 10 * 8, 0.0f))
-
-//*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
 static void VolumeUpEffect(void);
@@ -29,10 +18,10 @@ static void VolumeUpEffect(void);
 // グローバル変数宣言
 //*****************************************************************************
 OBJECT	score;					
-int		g_score		= 0;		// スコア
-int		g_score_max = 0;			
-static float radian = 0;
-static bool	volumeUpEffectUsed = false;
+int		g_score;		// スコア
+int		g_score_max;			
+static float radian;
+static bool	volumeUpEffectUsed;
 
 //=============================================================================
 // 初期化処理
@@ -56,6 +45,10 @@ HRESULT InitScore(void)
 	{
 		g_score_max += (BASE_NUMBER -1)* (int)powf(BASE_NUMBER, (float)nCntPlace);
 	}
+
+	g_score = 0;
+	radian = 0;
+	volumeUpEffectUsed = false;
 
 	return S_OK;
 }
@@ -137,4 +130,8 @@ void AddScore(int value)
 		// エフェクト有効化
 		volumeUpEffectUsed = true;
 	}
+}
+
+int SetScore() {
+	return g_score;
 }

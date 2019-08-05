@@ -32,6 +32,7 @@ public:
 
 	void SetMaterialColor(const D3DXCOLOR& color);
 	void SetMaterialAlpha(float alpha);
+
 private:								
 	LPD3DXMESH mesh;					//メッシュデータ
 	D3DMATERIAL9* materials;			//マテリアル情報

@@ -6,6 +6,7 @@
 //=====================================
 #include "PlayerModel.h"
 #include "starUI.h"
+#include "ScoreManager.h"
 
 using namespace std;
 
@@ -136,7 +137,6 @@ bool PlayerModel::CheckOneStroke()
 				checkWork[i]++;
 				break;
 			}
-
 		}
 	}
 
@@ -163,6 +163,7 @@ void PlayerModel::Clear()
 {
 	inputHistory.clear();
 	queue<int>().swap(inputQueue);
+	ClearCombo();
 }
 
 /**************************************

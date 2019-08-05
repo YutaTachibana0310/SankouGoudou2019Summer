@@ -222,8 +222,8 @@ void BaseParticleController::MakeVertexDeclaration()
 		{ 0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },	//単位頂点（頂点座標）
 		{ 0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },	//単位頂点（テクスチャ座標）
 		{ 1, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 1 },	//ワールド変換情報（ポジション）
-		{ 1, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 2 },	//ワールド変換情報（ローテーション）
-		{ 1, 24, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 3 },	//ワールド変換情報（スケール）
+		{ 1, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 2 },	//ワールド変換情報（スケール）
+		{ 1, 24, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 3 },	//ワールド変換情報（ローテーション）
 		{ 2, 0, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 4 },	//個別のテクスチャ
 		D3DDECL_END()
 	};
@@ -389,7 +389,7 @@ UINT BaseParticleController::EmbedParameterUV()
 /**************************************
 エミッタセット処理
 ***************************************/
-void BaseParticleController::SetEmitter(D3DXVECTOR3 *pos)
+BaseEmitter* BaseParticleController::SetEmitter(D3DXVECTOR3 *pos)
 {
 	auto emitter = find_if(emitterContainer.begin(), emitterContainer.end(), [](BaseEmitter* emitter)
 	{
@@ -397,10 +397,12 @@ void BaseParticleController::SetEmitter(D3DXVECTOR3 *pos)
 	});
 
 	if (emitter == emitterContainer.end())
-		return;
+		return NULL;
 
 	(*emitter)->transform.pos = *pos;
 	(*emitter)->Init();
+
+	return (*emitter);
 
 }
 

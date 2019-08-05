@@ -118,9 +118,6 @@
     <Filter Include="ヘッダー ファイル\UI\SceneUIManager">
       <UniqueIdentifier>{c987a7c9-6f82-466b-9592-74b51ed87536}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Collider\BG">
-      <UniqueIdentifier>{32c236d4-f951-4bbb-ae16-90073dd29807}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Enemy\Model">
       <UniqueIdentifier>{40296833-e7bf-47f8-a773-7eff874b2531}</UniqueIdentifier>
     </Filter>
@@ -145,6 +142,24 @@
     <Filter Include="ヘッダー ファイル\GameController">
       <UniqueIdentifier>{8a8c568f-4f22-431d-8aba-9b24e028e899}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\System\Score">
+      <UniqueIdentifier>{0178d064-3574-4ac9-9d54-23e54448d163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System\Score">
+      <UniqueIdentifier>{63dccca2-2b4c-440c-9469-ab5ee1917389}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI\ResultSceneUI">
+      <UniqueIdentifier>{5e22c4ca-9a77-484e-99e0-3899f863d911}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\UI\ResultSceneUI">
+      <UniqueIdentifier>{a1c65f35-2dfd-4740-958e-e68c8b8ebe26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI\Telop">
+      <UniqueIdentifier>{0ef87ea0-c898-4cc6-81c7-89301d6a4e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\UI\Telop">
+      <UniqueIdentifier>{3bcf998c-7dee-4bc7-9fcd-6c7e1aa6afa3}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ソース ファイル\Stage">
       <UniqueIdentifier>{01486906-f323-4787-a90e-75b766ee4f26}</UniqueIdentifier>
     </Filter>
@@ -156,6 +171,15 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Stage\EditWindow">
       <UniqueIdentifier>{67a63066-4cb7-44e5-a76b-581e1b40540e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\BG">
+      <UniqueIdentifier>{32c236d4-f951-4bbb-ae16-90073dd29807}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Enemy\Factory">
+      <UniqueIdentifier>{6f3cde4c-4826-4ff7-a9f7-739c14be2b04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Enemy\Factory">
+      <UniqueIdentifier>{e0d44abe-09c8-49d1-9d5d-c3175ed7bd54}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -283,19 +307,19 @@
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="BackGroundCity.h">
-      <Filter>ヘッダー ファイル\Collider\BG</Filter>
+      <Filter>ヘッダー ファイル\BG</Filter>
     </ClInclude>
     <ClInclude Include="SkyBox.h">
-      <Filter>ヘッダー ファイル\Collider\BG</Filter>
+      <Filter>ヘッダー ファイル\BG</Filter>
     </ClInclude>
     <ClInclude Include="GameParticleManager.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
     <ClInclude Include="BackGroundRoad.h">
-      <Filter>ヘッダー ファイル\Collider\BG</Filter>
+      <Filter>ヘッダー ファイル\BG</Filter>
     </ClInclude>
     <ClInclude Include="BackGroundField.h">
-      <Filter>ヘッダー ファイル\Collider\BG</Filter>
+      <Filter>ヘッダー ファイル\BG</Filter>
     </ClInclude>
     <ClInclude Include="PostEffectManager.h">
       <Filter>ヘッダー ファイル\PostEffect</Filter>
@@ -450,9 +474,6 @@
     <ClInclude Include="PlayerBomber.h">
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBomberController.h">
-      <Filter>ヘッダー ファイル\Player\State</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyController.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
@@ -467,9 +488,6 @@
     </ClInclude>
     <ClInclude Include="Framework\BoxCollider3D.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="enemy.h">
-      <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Framework\AnimationParticle.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
@@ -516,6 +534,30 @@
     <ClInclude Include="GameEnd.h">
       <Filter>ヘッダー ファイル\GameController</Filter>
     </ClInclude>
+    <ClInclude Include="ScoreManager.h">
+      <Filter>ヘッダー ファイル\System\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="rank.h">
+      <Filter>ヘッダー ファイル\System\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="savefile.h">
+      <Filter>ヘッダー ファイル\System\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultSceneUIManager.h">
+      <Filter>ヘッダー ファイル\UI\SceneUIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="resultBGUI.h">
+      <Filter>ヘッダー ファイル\UI\ResultSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="battleStartTelop.h">
+      <Filter>ヘッダー ファイル\UI\Telop</Filter>
+    </ClInclude>
+    <ClInclude Include="telopBG.h">
+      <Filter>ヘッダー ファイル\UI\Telop</Filter>
+    </ClInclude>
+    <ClInclude Include="stageClearTelop.h">
+      <Filter>ヘッダー ファイル\UI\Telop</Filter>
+    </ClInclude>
     <ClInclude Include="picojson\picojson.h">
       <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
@@ -558,12 +600,114 @@
     <ClInclude Include="EnemyWarpHole.h">
       <Filter>ヘッダー ファイル\Effect\Particle</Filter>
     </ClInclude>
+    <ClInclude Include="SnakeEnemyModel.h">
+      <Filter>ヘッダー ファイル\Enemy\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="SnakeEditWindow.h">
+      <Filter>ヘッダー ファイル\Stage\EditWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Transform.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGroundController.h">
+      <Filter>ヘッダー ファイル\BG</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Keyboard.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Mouse.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Gamepad.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\BoardPolygon.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBullet.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletController.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletModel.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletTrail.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletTrailController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletEffect.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletEffectController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletCharge.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletChargeController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletFire.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletFireController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGuideArrowController.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGuideArrow.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFactory.h">
+      <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangeEnemyFactory.h">
+      <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="StraightEnemyFactory.h">
+      <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="SnakeEnemyFactory.h">
+      <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="GameBomberSequence.h">
+      <Filter>ヘッダー ファイル\GameController</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Polygon2D.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerChargeEffect.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerChargeEffectController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\TMath.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerChargeParticle.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerChargeParticleController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBomberController.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\TMath.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
-      <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="input.cpp">
@@ -806,9 +950,6 @@
     <ClCompile Include="PlayerReturn.cpp">
       <Filter>ソース ファイル\Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBomber.cpp">
-      <Filter>ソース ファイル\Player\State</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerBomberController.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
@@ -890,6 +1031,30 @@
     <ClCompile Include="GameEnd.cpp">
       <Filter>ソース ファイル\GameController</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreManager.cpp">
+      <Filter>ソース ファイル\System\Score</Filter>
+    </ClCompile>
+    <ClCompile Include="rank.cpp">
+      <Filter>ソース ファイル\System\Score</Filter>
+    </ClCompile>
+    <ClCompile Include="savefile.cpp">
+      <Filter>ソース ファイル\System\Score</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultSceneUIManager.cpp">
+      <Filter>ソース ファイル\UI\SceneUIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="resultBGUI.cpp">
+      <Filter>ソース ファイル\UI\ResultSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="battleStartTelop.cpp">
+      <Filter>ソース ファイル\UI\Telop</Filter>
+    </ClCompile>
+    <ClCompile Include="telopBG.cpp">
+      <Filter>ソース ファイル\UI\Telop</Filter>
+    </ClCompile>
+    <ClCompile Include="stageClearTelop.cpp">
+      <Filter>ソース ファイル\UI\Telop</Filter>
+    </ClCompile>
     <ClCompile Include="EditorScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
@@ -919,6 +1084,102 @@
     </ClCompile>
     <ClCompile Include="EnemyWarpHole.cpp">
       <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="SnakeEnemyModel.cpp">
+      <Filter>ソース ファイル\Enemy\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="SnakeEditWindow.cpp">
+      <Filter>ソース ファイル\Stage\EditWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Transform.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGroundController.cpp">
+      <Filter>ソース ファイル\BG</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Keyboard.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Mouse.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Gamepad.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\BoardPolygon.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBullet.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletController.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletModel.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletTrail.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletTrailController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletEffect.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletEffectController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletCharge.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletChargeController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletFire.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletFireController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGuideArrow.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGuideArrowController.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ChangeEnemyFactory.cpp">
+      <Filter>ソース ファイル\Enemy\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="StraightEnemyFactory.cpp">
+      <Filter>ソース ファイル\Enemy\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="SnakeEnemyFactory.cpp">
+      <Filter>ソース ファイル\Enemy\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="GameBomberSequence.cpp">
+      <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Polygon2D.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerChargeEffect.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerChargeEffectController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerChargeParticle.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerChargeParticleController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBomber.cpp">
+      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

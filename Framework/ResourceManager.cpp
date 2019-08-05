@@ -6,6 +6,7 @@
 //=====================================
 #include "ResourceManager.h"
 #include "MeshContainer.h"
+#include "BoardPolygon.h"
 
 using namespace std;
 
@@ -62,6 +63,98 @@ bool ResourceManager::GetMesh(const char* tag, MeshContainer** pOut)
 }
 
 /**************************************
+テクスチャ読み込み処理
+***************************************/
+void ResourceManager::LoadTexture(const char* tag, const char* path)
+{
+	string tagStr = string(tag);
+
+	//重複確認
+	if (texturePool.count(tagStr) != 0)
+		SAFE_RELEASE(texturePool[tagStr]);
+
+	//読み込み
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	D3DXCreateTextureFromFile(pDevice, path, &texturePool[tagStr]);
+}
+
+/**************************************
+テクスチャ解放処理
+***************************************/
+void ResourceManager::ReleaseTexture(const char* tag)
+{
+	string tagStr = string(tag);
+
+	//登録確認
+	if (texturePool.count(tagStr) == 0)
+		return;
+
+	SAFE_RELEASE(texturePool[tagStr]);
+}
+
+/**************************************
+テクスチャ参照処理
+***************************************/
+bool ResourceManager::GetTexture(const char* tag, LPDIRECT3DTEXTURE9* pOut)
+{
+	string tagStr = string(tag);
+
+	//登録確認
+	if (texturePool.count(tagStr) == 0)
+		return false;
+
+	*pOut = texturePool[tagStr];
+	return true;
+}
+
+/**************************************
+板ポリゴン作成処理
+***************************************/
+void ResourceManager::MakePolygon(const char* tag, const char* path, D3DXVECTOR2 size, D3DXVECTOR2 uv)
+{
+	string tagStr = string(tag);
+
+	//登録確認
+	if (polygonPool.count(tagStr) == 0)
+		SAFE_DELETE(polygonPool[tagStr]);
+
+	//BoardPolygonクラスを生成して登録
+	polygonPool[tagStr] = new BoardPolygon();;
+	polygonPool[tagStr]->SetSize(size);
+	polygonPool[tagStr]->SetTexDiv(uv);
+	polygonPool[tagStr]->LoadTexture(path);
+}
+
+/**************************************
+板ポリゴン解放処理
+***************************************/
+void ResourceManager::ReleasePolygon(const char* tag)
+{
+	string tagStr = string(tag);
+
+	//登録確認
+	if (polygonPool.count(tagStr) == 0)
+		return;
+
+	SAFE_DELETE(polygonPool[tagStr]);
+}
+
+/**************************************
+板ポリゴン参照処理
+***************************************/
+bool ResourceManager::GetPolygon(const char* tag, BoardPolygon** pOut)
+{
+	string tagStr = string(tag);
+
+	//登録確認
+	if (polygonPool.count(tagStr) == 0)
+		return false;
+
+	*pOut = polygonPool[tagStr];
+	return true;
+}
+
+/**************************************
 全リソース解放処理
 ***************************************/
 void ResourceManager::AllRelease()
@@ -71,4 +164,16 @@ void ResourceManager::AllRelease()
 		SAFE_DELETE(pair.second);
 	}
 	meshPool.clear();
+
+	for (auto& pair : texturePool)
+	{
+		SAFE_RELEASE(pair.second);
+	}
+	texturePool.clear();
+
+	for (auto& pair : polygonPool)
+	{
+		SAFE_DELETE(pair.second);
+	}
+	polygonPool.clear();
 }

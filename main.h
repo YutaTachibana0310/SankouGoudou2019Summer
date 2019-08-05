@@ -14,6 +14,7 @@
 //*****************************************************************************
 #include <windows.h>
 #include "d3dx9.h"
+#include "Framework\Transform.h"
 
 #define DIRECTINPUT_VERSION (0x0800)	// 警告対策
 #include "dinput.h"
@@ -41,11 +42,13 @@
 #define	FVF_VERTEX_2D	(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
 // ３Ｄポリゴン頂点フォーマット( 頂点座標[3D] / 法線 / 反射光 / テクスチャ座標 )
 #define	FVF_VERTEX_3D	(D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1)
+// ビルボード頂点フォーマット
+#define FVF_VERTEX_BILLBOARD	(D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1)
 
 #define SCREEN_WIDTH	(1800)
 #define SCREEN_HEIGHT	(1000)
 
-////WQHD用
+//WQHD用
 //#define SCREEN_WIDTH	(1500)
 //#define SCREEN_HEIGHT	(900)
 
@@ -56,9 +59,10 @@
 #define	NUM_POLYGON		(2)		// ポリゴン数
 
 //解放、削除関連
-#define SAFE_RELEASE(p) {if(p){p->Release(); p = NULL;}}
-#define SAFE_DELETE(p)	{if(p){delete(p); p = NULL;}}
-#define SAFE_DELETE_ARRAY(p)	{if(p){delete[](p); p = NULL;}}
+#define SAFE_RELEASE(p)				{if(p){p->Release(); p = NULL;}}
+#define SAFE_DELETE(p)				{if(p){delete(p); p = NULL;}}
+#define SAFE_DELETE_ARRAY(p)		{if(p){delete[](p); p = NULL;}}
+#define SAFE_DELETE_VECTOR(vector)	{for(auto& p : vector){ SAFE_DELETE(p);} vector.clear();}
 
 #define TARGETPLAYER_MAX	(2)	//一度に参加できるプレイヤーの最大数
 
@@ -80,44 +84,20 @@ typedef struct
 	D3DXVECTOR2 tex;		// テクスチャ座標
 } VERTEX_3D;
 
+// 上記ビルボードフォーマットに合わせた構造体を定義
+typedef struct
+{
+	D3DXVECTOR3 vtx;		// 頂点座標0
+	D3DCOLOR diffuse;		// 反射光
+	D3DXVECTOR2 tex;		// テクスチャ座標
+} VERTEX_BILLBOARD;
+
 //パーティクルの単位頂点
 typedef struct
 {
 	D3DXVECTOR3 vtx;	//頂点座標
 	D3DXVECTOR2 tex;	//UV座標
 } ParticleUnit;
-
-//SRT情報
-typedef struct _Transform
-{
-	D3DXVECTOR3 pos;	//座標
-	D3DXVECTOR3 rot;	//回転
-	D3DXVECTOR3 scale;	//スケール
-
-	//コンストラクタ
-	_Transform()
-	{
-		pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	}
-
-	_Transform(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 scale)
-	{
-		this->pos = pos;
-		this->rot = rot;
-		this->scale = scale;
-	}
-
-	//回転処理
-	void Rotate(float degX, float degY, float degZ)
-	{
-		rot.x += D3DXToRadian(degX);
-		rot.y += D3DXToRadian(degY);
-		rot.z += D3DXToRadian(degZ);
-	}
-
-}Transform;
 
 //パーティクルのUV情報
 typedef struct

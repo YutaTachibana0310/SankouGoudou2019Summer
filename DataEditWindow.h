@@ -16,7 +16,11 @@
 
 /**************************************
 DataEditWindowƒNƒ‰ƒX
-Œp³æ‚ÅDraw(), Serialize()‚ğÀ‘•‚·‚é
+Œp³æ‚Å
+bool Draw(),
+picojsonn:value Serialize(),
+void Deserialize(picojson::object)
+‚ğÀ‘•‚·‚é
 ***************************************/
 class DataEditWindow
 {

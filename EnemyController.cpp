@@ -6,11 +6,15 @@
 //=====================================
 #include "EnemyController.h"
 #include "TestEnemyModel.h"
-#include "ChangeEnemyModel.h"
-#include "StraightEnemyModel.h"
+#include "ChangeEnemyFactory.h"
+#include "StraightEnemyFactory.h"
+#include "SnakeEnemyFactory.h"
+#include "EnemyBullet.h"
+#include "GameParticleManager.h"
 
 #include "Framework\ResourceManager.h"
 #include "picojson\picojson.h"
+#include "debugWindow.h"
 
 #include <algorithm>
 #include <fstream>
@@ -20,7 +24,10 @@ using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
-#define USE_DEBUG_TESTENEMY (0)
+#define USE_DEBUG_TESTENEMY (1)
+
+#define ENEMY_SHOTPOS_OFFSET	(D3DXVECTOR3(0.0f, 0.0f, -50.0f))
+#define ENEMY_GUIDE_TIMING		(10)
 
 /**************************************
 構造体定義
@@ -37,7 +44,16 @@ EnemyController::EnemyController()
 {
 	//リソース読み込み
 	//解放はシーン終了時にGame.cppで一括して開放する
-	ResourceManager::Instance()->LoadMesh("Enemy", "data/MODEL/airplane000.x");
+	ResourceManager::Instance()->LoadMesh("Enemy", "data/MODEL/Enemy/drone.x");
+
+	//各コントローラ作成
+	bulletController = new EnemyBulletController();
+	guideController = new EnemyGuideArrowController();
+
+	//各ファクトリー作成
+	factoryContainer["Change"] = new ChangeEnemyFactory();
+	factoryContainer["Straight"] = new StraightEnemyFactory();
+	factoryContainer["Snake"] = new SnakeEnemyFactory();
 
 	//ステージデータ読み込み
 	LoadStageData();
@@ -54,12 +70,20 @@ EnemyController::~EnemyController()
 		SAFE_DELETE(model);
 	}
 	modelList.clear();
+	
+	//各コントローラ削除
+	SAFE_DELETE(bulletController);
+	SAFE_DELETE(guideController);
+
+	//各ファクトリー削除
+	for (auto& pair : factoryContainer)
+	{
+		SAFE_DELETE(pair.second);
+	}
+	factoryContainer.clear();
 
 	//ステージデータクリア
 	stageModelList.clear();
-
-	//テスト用エネミーをdeleteする
-	SAFE_DELETE(test);
 }
 
 /**************************************
@@ -71,23 +95,7 @@ void EnemyController::Init()
 
 	//新しく作るEnemyの初期化テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	//test
-	test = new EnemySnake;
-	std::vector<D3DXVECTOR3> posDestList;
-	posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	posDestList.push_back(D3DXVECTOR3(50.0f, 0.0f, 0.0f));
-	posDestList.push_back(D3DXVECTOR3(0.0f, 50.0f, 0.0f));
-	posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 50.0f));
-	posDestList.push_back(D3DXVECTOR3(50.0f, 0.0f, 0.0f));
-	posDestList.push_back(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	vector<float> frameDestList;
-	frameDestList.push_back(50.0f);
-	frameDestList.push_back(100.0f);
-	frameDestList.push_back(200.0f);
-	frameDestList.push_back(300.0f);
-	frameDestList.push_back(400.0f);
-	test->VInit();
-	test->Set(posDestList, frameDestList, 50.0f);
+	
 #endif
 }
 
@@ -101,9 +109,11 @@ void EnemyController::Uninit()
 		model->Uninit();
 	}
 
+	bulletController->Uninit();
+
 	//新しく作るEnemyの終了テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	test->VUninit();
+
 #endif
 }
 
@@ -114,14 +124,25 @@ void EnemyController::Update()
 {
 	//新しく作るEnemyの更新テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	test->VUpdate();
+
 #endif
 
 	//モデル更新処理
 	for (auto &model : modelList)
 	{
-		model->Update();
+		int updateResult = model->Update();
+
+		if (updateResult == AttackTiming)
+			EnemyAttack(model);
+		else if (updateResult == ChargeTiming)
+			SetChageEffect(model);
 	}
+
+	//バレット更新処理
+	bulletController->Update();
+
+	//ガイド更新処理
+	guideController->Update();
 
 	//終了したモデルを削除する
 	for (auto& model : modelList)
@@ -148,10 +169,21 @@ void EnemyController::Draw()
 		model->Draw();
 	}
 
+	//バレット描画
+	bulletController->Draw();
+
 	//新しく作るEnemyの描画テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	test->VDraw();
+
 #endif
+}
+
+/**************************************
+ガイド描画処理
+***************************************/
+void EnemyController::DrawGuide()
+{
+	guideController->Draw();
 }
 
 /**************************************
@@ -161,6 +193,9 @@ void EnemyController::SetEnemy()
 {
 	cntFrame++;
 
+	//ガイド生成
+	SetGuide();
+
 	//現在のインデックスからステージデータを確認していく
 	for (UINT i = currentIndex; i < stageModelList.size(); i++)
 	{
@@ -169,50 +204,34 @@ void EnemyController::SetEnemy()
 			break;
 
 		//typeに応じて生成処理をディスパッチ
-		if (stageModelList[i].type == "Change")
-			_SetEnemyChange(stageModelList[i].data);
-		
-		else if (stageModelList[i].type == "Straight")
-			_SetEnemyStraight(stageModelList[i].data);
+		string type = stageModelList[i].type;
+		EnemyModel* model = factoryContainer[type]->Create(stageModelList[i].data);
+		modelList.push_back(model);
 
 		currentIndex++;
 	}
 }
 
 /**************************************
-エネミー生成処理（Changeタイプ）
+ガイド生成処理
 ***************************************/
-void EnemyController::_SetEnemyChange(picojson::object& data)
+void EnemyController::SetGuide()
 {
-	//インスタンス生成
-	EnemyModel *model = new ChangeEnemyModel();
+	//現在のインデックスからデータを確認していく
+	for (UINT i = currentIndex; i < stageModelList.size(); i++)
+	{
+		//ガイドタイミングでなければContinue
+		if (cntFrame + ENEMY_GUIDE_TIMING != stageModelList[i].frame)
+			continue;
 
-	//データをパース
-	int start = static_cast<int>(data["start"].get<double>());
-	int end = static_cast<int>(data["end"].get<double>());
+		//ガイドタイミングより遅いデータが来たらbreak
+		if (cntFrame + ENEMY_GUIDE_TIMING < stageModelList[i].frame)
+			break;
 
-	//初期化
-	model->Init(LineTrailModel(start, end));
-
-	modelList.push_back(model);
-}
-
-/**************************************
-エネミー生成処理（Straightタイプ）
-***************************************/
-void EnemyController::_SetEnemyStraight(picojson::object& data)
-{
-	//インスタンス生成
-	EnemyModel *model = new StraightEnemyModel();
-
-	//データをパース
-	int start = static_cast<int>(data["start"].get<double>());
-	int end = static_cast<int>(data["end"].get<double>());
-
-	//初期化
-	model->Init(LineTrailModel(start, end));
-
-	modelList.push_back(model);
+		//ガイド生成
+		string type = stageModelList[i].type;
+		factoryContainer[type]->CreateGuide(stageModelList[i].data, guideController);
+	}
 }
 
 /**************************************
@@ -251,4 +270,48 @@ bool EnemyController::LoadStageData()
 	currentIndex = 0;
 
 	return true;
+}
+
+/**************************************
+エネミー攻撃処理
+***************************************/
+void EnemyController::EnemyAttack(EnemyModel *enermyModel)
+{
+	vector<D3DXVECTOR3> emitPos;
+	emitPos.reserve(enermyModel->enemyList.size());
+
+	for (auto& enemy : enermyModel->enemyList)
+	{
+		emitPos.push_back(enemy->m_Pos + ENEMY_SHOTPOS_OFFSET);
+	}
+
+	bulletController->SetEnemyBullet(emitPos, enermyModel->model);
+}
+
+/**************************************
+エネミー攻撃チャージ開始処理
+***************************************/
+void EnemyController::SetChageEffect(EnemyModel *model)
+{
+	model->chageEffectList.clear();
+	model->chageEffectList.resize(model->enemyList.size());
+
+	UINT cntSet = 0;
+	for (auto& enemey : model->enemyList)
+	{
+		BaseEmitter* emitter = GameParticleManager::Instance()->SetEnemyBulletCharge(&(enemey->m_Pos + ENEMY_SHOTPOS_OFFSET));
+		model->chageEffectList[cntSet] = emitter;
+		cntSet++;
+	}
+}
+
+/**************************************
+エネミー座標取得処理
+***************************************/
+void EnemyController::GetEnemyPositionList(vector<D3DXVECTOR3>& out)
+{
+	for (auto& model : modelList)
+	{
+		model->GetEnemyPosition(out);
+	}
 }

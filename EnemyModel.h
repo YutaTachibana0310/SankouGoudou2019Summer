@@ -16,6 +16,7 @@
 
 #include <vector>
 
+class BaseEmitter;
 /**************************************
 マクロ定義
 ***************************************/
@@ -24,11 +25,17 @@ enum EnemyModelResult
 	StateContinuous,
 	AttackTiming,
 	StateFinished,
+	ChargeTiming,
 	ResultMax
 };
 
+#define ENEMY_NUM_OUTERLINE		(3)		//五角形の外周に生成するエネミーの数
+#define ENEMY_NUM_INNNERLINE	(5)		//五角形の内側に生成するエネミーの数
+
 /**************************************
-クラス定義
+EnemyModelクラス
+継承先で必ずint Update()を実装する
+必要であればInit(LineTrailModel)をoverrideする
 ***************************************/
 class EnemyModel :public BaseObserver
 {
@@ -43,11 +50,17 @@ public:
 
 	virtual void OnNotified(ObserveSubject *notifier);
 
+	virtual void GetEnemyPosition(std::vector<D3DXVECTOR3>& out);
+
 	int cntFrame;
 	bool active;
 	TrailCollider *collider;
 	LineTrailModel model;
 	std::vector<Enemy*> enemyList;
+	std::vector<BaseEmitter*> chageEffectList;
+
+	//五角形の外周を構成するLineModel
+	static const std::vector<LineTrailModel> OuterLineModel;
 
 protected:
 	D3DXVECTOR3 pos;

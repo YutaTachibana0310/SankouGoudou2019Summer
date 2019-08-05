@@ -10,15 +10,18 @@
 #include "main.h"
 #include "EnemyModel.h"
 #include "IStateMachine.h"
+#include "EnemyFactory.h"
 #include "enemy.h"
 #include "StageModel.h"
+#include "EnemyBulletController.h"
+#include "EnemyGuideArrowController.h"
 
 #include "Framework\BaseObserver.h"
 #include "picojson\picojson.h"
 
 #include <list>
 #include <vector>
-
+#include <map>
 /**************************************
 列挙子定義
 ***************************************/
@@ -51,9 +54,13 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void DrawGuide();
 
 	//エネミー生成処理
 	void SetEnemy();
+
+	//エネミー座標取得処理
+	void GetEnemyPositionList(std::vector<D3DXVECTOR3>& out);
 
 private:
 	std::list<EnemyModel*> modelList;
@@ -62,16 +69,26 @@ private:
 	std::vector<StageModel> stageModelList;
 	int currentIndex;
 
-	//エネミー生成処理(内部処理)
-	
-	void _SetEnemyChange(picojson::object& data);
-	void _SetEnemyStraight(picojson::object& data);
+	EnemyBulletController* bulletController;
+	EnemyGuideArrowController* guideController;
+
+	//エネミー生成クラスコンテナ
+	std::map<std::string, EnemyFactory*> factoryContainer;
 
 	//test
 	EnemySnake *test;
 
 	//ステージデータ読み込み処理
 	bool LoadStageData();
+
+	//攻撃処理
+	void EnemyAttack(EnemyModel* model);
+
+	//攻撃チャージ処理
+	void SetChageEffect(EnemyModel *model);
+
+	//ガイド生成処理
+	void SetGuide();
 };
 
 #endif

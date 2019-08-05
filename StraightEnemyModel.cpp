@@ -17,7 +17,7 @@ typedef EnemyModel Base;
 #define STRAIGHTENEMY_REACH_FRAME		(180)
 #define STRAIGHTENEMY_ACTIVATE_FRAME	(30)
 //0805 BA
-#define SHADOW_FALSE_FRAME				(1000)
+#define SHADOW_FALSE_FRAME				(200)
 
 /**************************************
 コンストラクタ
@@ -38,7 +38,7 @@ StraightEnemyModel::~StraightEnemyModel()
 /**************************************
 初期化処理
 ***************************************/
-void StraightEnemyModel::Init(LineTrailModel model)
+void StraightEnemyModel::Init(LineTrailModel model, int enemyNum)
 {
 	Base::Init(model);
 
@@ -46,7 +46,7 @@ void StraightEnemyModel::Init(LineTrailModel model)
 	collider->active = false;
 
 	//エネミー生成
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < enemyNum; i++)
 	{
 		enemyList.push_back(new EnemyStraight());
 	}
@@ -56,7 +56,8 @@ void StraightEnemyModel::Init(LineTrailModel model)
 	model.GetEdgePos(&edgeR, &edgeL);
 	edgeL.z = edgeR.z = StartPosZ;
 	
-	D3DXVECTOR3 offset = (edgeL - edgeR) / ((float)enemyList.size() - 1);
+	D3DXVECTOR3 offset = (edgeL - edgeR) / ((float)enemyList.size() + 1);
+	edgeR += offset;
 	
 	D3DXVECTOR3 dest = edgeR;
 	dest.z = DestPosZ;
@@ -100,7 +101,7 @@ int StraightEnemyModel::Update()
 	if (cntFrame >= STRAIGHTENEMY_ACTIVATE_FRAME)
 	{
 		float t = (float)(cntFrame - STRAIGHTENEMY_ACTIVATE_FRAME) / (float)STRAIGHTENEMY_REACH_FRAME;
-		pos.z = Easing<float>::GetEasingValue(t, &StartPosZ, &DestPosZ, EasingType::InCubic);
+		pos.z = Easing::EaseValue(t, StartPosZ, DestPosZ, EaseType::InCubic);
 	}
 
 	//終了判定

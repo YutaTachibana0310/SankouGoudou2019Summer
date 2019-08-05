@@ -17,6 +17,11 @@
 #define GAMEPARTICLE_USE_DEBUG
 
 /**************************************
+前方宣言
+***************************************/
+class LineTrailModel;
+
+/**************************************
 クラス定義
 ***************************************/
 class GameParticleManager :
@@ -28,12 +33,17 @@ public:
 
 	void Init() override;
 	void Update() override;
+	void UpdateBombParticle();
 
 	void SetScoreParticle(D3DXVECTOR3 *pos);
 	void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edgeRight, D3DXVECTOR3 *edgeLeft);
 	void SetPlayerTrailParticle(D3DXVECTOR3 *pPos, bool *pActive);
 	void SetEnemyExplosion(D3DXVECTOR3 *pPos);
 	void SetEnemyWarpHole(D3DXVECTOR3 *pPos);
+	BaseEmitter* SetEnemyBulletTrail(D3DXVECTOR3 *pPos);
+	void SetEnemyBulletEffect(LineTrailModel model);
+	BaseEmitter* SetEnemyBulletCharge(D3DXVECTOR3 *pos);
+	void SetPlayerCharge(D3DXVECTOR3 *pos);
 
 private:
 	GameParticleManager() {}

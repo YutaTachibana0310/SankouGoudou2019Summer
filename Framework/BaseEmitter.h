@@ -33,8 +33,6 @@ public:
 	bool active;
 
 	Transform transform;
-
-protected:
 	int cntFrame;
 	int duration;
 };

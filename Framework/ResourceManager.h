@@ -15,6 +15,7 @@
 前方宣言
 ***************************************/
 class MeshContainer;
+class BoardPolygon;
 
 /**************************************
 クラス定義
@@ -27,8 +28,16 @@ public:
 	void LoadMesh(const char* tag, const char* path);
 	void ReleaseMesh(const char* tag);
 
+	void LoadTexture(const char* tag, const char* path);
+	void ReleaseTexture(const char* tag);
+
+	void MakePolygon(const char* tag, const char* path, D3DXVECTOR2 size, D3DXVECTOR2 uv = D3DXVECTOR2(1.0f, 1.0f));
+	void ReleasePolygon(const char* tag);
+
 	//リソース参照処理
 	bool GetMesh(const char* tag, MeshContainer** pOut);
+	bool GetTexture(const char* tag, LPDIRECT3DTEXTURE9* pOut);
+	bool GetPolygon(const char* tag, BoardPolygon** pOut);
 
 	//全リソース解放処理
 	void AllRelease();
@@ -38,6 +47,8 @@ private:
 	~ResourceManager() {}
 
 	std::map<std::string, MeshContainer*> meshPool;
+	std::map<std::string, LPDIRECT3DTEXTURE9> texturePool;
+	std::map<std::string, BoardPolygon*> polygonPool;
 };
 
 #endif

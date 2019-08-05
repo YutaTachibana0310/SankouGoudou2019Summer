@@ -51,9 +51,7 @@ public:
 	float				m_FrameDest;	    //移動がいるフレーム数
 
 	D3DXVECTOR3			m_RotDest;			//目的の向き
-
-	float				m_CntFrame;			//フレームカウント
-	
+	int					m_CntFrame;			//フレームカウント
 	
 
 	//純粋仮想関数
@@ -117,12 +115,13 @@ class EnemySnake :public Enemy
 public:
 	int m_WaitTime;						//停止の時間
 	int m_CurrentIndex;					//現在、posDestListの何番へ向かっているかを入れる変数
+	int m_PrevIndex;					//1フレーム前はposDestListの何番へ向かっていたか
 	int m_posDestMax;					//m_FrameDestListの要素数
 	int m_framePassed;					//前の点を通過するのにの時間
 	int m_waitcount;					//停止状態のフレームをカウント
 
 	vector<D3DXVECTOR3> m_PosDestList;  //移動先、m_PosDestList[0]はEからカウント
-	vector<float> m_FrameDestList;		//移動がいるフレーム数　m_PosDestList[1]にいる時、 m_FrameDestList[0]
+	vector<int> m_FrameDestList;		//移動がいるフレーム数　m_PosDestList[1]にいる時、 m_FrameDestList[0]
 
 	EnemySnake();
 	~EnemySnake();
@@ -136,7 +135,7 @@ public:
 
 	//スタートの所(posDestList[0])　
 	//[1]移動先ごとに設定、[2]posDestListの何番の移動がいるフレーム数に設定、[3]停止の時間
-	void Set(vector<D3DXVECTOR3> posDestList, vector<float> m_frameDestList,int m_waitTime);
+	void Set(vector<D3DXVECTOR3> posDestList, vector<int> m_frameDestList,int m_waitTime);
 	
 };
 

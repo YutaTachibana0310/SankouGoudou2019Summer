@@ -33,6 +33,7 @@ SpikeNoise::SpikeNoise()
 		D3DXCreateEffectFromFile(pDevice, (LPSTR)EFFECTFILE_SPIKENOISE_PATH, 0, 0, 0, 0, &effect, 0);
 
 	hndlLength = effect->GetParameterByName(0, "length");
+	hBaseY = effect->GetParameterByName(0, "baseY");
 }
 
 /**************************************
@@ -63,5 +64,14 @@ void SpikeNoise::DrawEffect()
 void SpikeNoise::SetLength(float length)
 {
 	effect->SetFloat(hndlLength, length);
+	effect->CommitChanges();
+}
+
+/**************************************
+Y基準点セット処理
+***************************************/
+void SpikeNoise::SetBaseY(float f)
+{
+	effect->SetFloat(hBaseY, f);
 	effect->CommitChanges();
 }

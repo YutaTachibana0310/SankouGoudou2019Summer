@@ -50,6 +50,7 @@ private:
 	int effectTime;
 	int state;
 	float destPower, srcPower;
+	float base;
 };
 
 #endif

@@ -131,7 +131,7 @@ void RotateStar(int num)
 	star[num].countFrame++;
 	float t = (float)star[num].countFrame / DURATION_ROTATION;
 	star[num].rotation = 
-		EaseOutExponentialVector(t, star[num].easingStartRotation, star[num].easingGoalRotation);
+		EaseOutExpoVector(t, star[num].easingStartRotation, star[num].easingGoalRotation);
 }
 
 //=============================================================================

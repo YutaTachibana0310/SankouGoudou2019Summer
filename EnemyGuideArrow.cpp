@@ -150,7 +150,7 @@ void EnemyGuideArrowEmitter::Update()
 	cntFrame++;
 
 	float t = (float)cntFrame / ENEMYGUIDEARROW_DURATION;
-	transform.pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &start, &end, EasingType::Linear);
+	transform.pos = Easing::EaseValue(t, start, end, EaseType::Linear);
 
 	if (cntFrame < ENEMYGUIDEARROW_DURATION && cntFrame % ENEMYGUIDEARROW_INTERVAL == 0)
 	{

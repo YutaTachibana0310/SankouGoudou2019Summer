@@ -47,10 +47,10 @@ void EnemyBulletFire::Update()
 	float t = (float)cntFrame / lifeFrame;
 
 	
-	float currentSpeed = Easing<float>::GetEasingValue(t, &speed, &EndSpeed, EasingType::OutCubic);
+	float currentSpeed = Easing::EaseValue(t, speed, EndSpeed, EaseType::OutCubic);
 	transform.pos += moveDir * currentSpeed;
 
-	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f) * Easing<float>::GetEasingValue(t, &InitScale, &EndScale, EasingType::InExponential);
+	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f) * Easing::EaseValue(t, InitScale, EndScale, EaseType::InExpo);
 
 	if (cntFrame == lifeFrame)
 		active = false;

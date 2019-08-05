@@ -7,11 +7,12 @@
 #include "PlayerChargeEffectController.h"
 #include "PlayerChargeEffect.h"
 #include "Framework\Easing.h"
+#include "Framework\Easing.h"
 
 /**************************************
 ƒ}ƒNƒ’è‹`
 ***************************************/
-#define PLAYERCHARGEEFFECT_SIZE			(&D3DXVECTOR2(10.0f, 10.0f))
+#define PLAYERCHARGEEFFECT_SIZE			(&D3DXVECTOR2(20.0f, 20.0f))
 
 #define PLAYERCHARGEEFFECT_TEX_NAME		"data/TEXTURE/Effect/PlayerCharge.png"
 #define PLAYERCHARGEFEFECT_TEX_DIV		(&D3DXVECTOR2(8.0f, 8.0f))
@@ -52,6 +53,9 @@ void PlayerChargeEffectController::Emit()
 {
 	ForEachEmitter(PLAYERCHARGEEFFECT_EMIT_NUM, [](BaseEmitter* emitter, BaseParticle *particle)
 	{
+		float t = (float)emitter->cntFrame / emitter->duration;
+		particle->transform.scale = Easing::EaseValue(t, 0.0f, 1.0f, EaseType::OutCubic) * D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+
 		particle->transform.pos = emitter->transform.pos;
 		particle->Init();
 	});

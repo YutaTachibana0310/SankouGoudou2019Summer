@@ -35,7 +35,6 @@ public:
 	Player();
 	~Player();
 
-	AnimContainer* animation;
 	Transform transform;
 	TrailCollider *collider;
 	float hp;
@@ -58,10 +57,13 @@ public:
 	void Init();
 	void Uninit();
 	int Update();
+	void Animation();
 	void Draw();
 
 	void OnNotified(ObserveSubject* notifier);
 
+private:
+	AnimContainer* animation;
 };
 
 #endif

@@ -53,6 +53,7 @@ public:
 	void CheckInput();
 	void PushInput(int num);
 	PlayerModel *model;
+	bool enableUpdateLogic;
 
 private:
 	Player *player;

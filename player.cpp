@@ -116,10 +116,15 @@ int Player::Update()
 			collider->active = false;
 	}
 
-	//アニメーションの更新
-	animation->Update(1.0f / 60.0f);
-
 	return stateResult;
+}
+
+/****************************************
+アニメーションの更新
+*****************************************/
+void Player::Animation()
+{
+	animation->Update(1.0f / 60.0f);
 }
 
 /*****************************************

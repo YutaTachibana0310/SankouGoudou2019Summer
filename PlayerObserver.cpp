@@ -52,6 +52,9 @@ PlayerObserver::PlayerObserver()
 
 	//moveTarget初期化
 	moveTarget = MOVETARGET_DEFAULT;
+
+	//ロジック更新有効化
+	enableUpdateLogic = true;
 }
 
 /**************************************
@@ -98,16 +101,21 @@ void PlayerObserver::Uninit()
 ***************************************/
 void PlayerObserver::Update()
 {
-	int stateResult = player->Update();
+	if (enableUpdateLogic)
+	{
+		int stateResult = player->Update();
 
-	if (stateResult != STATE_CONTINUOUS)
-		OnPlayerStateFinish();
+		if (stateResult != STATE_CONTINUOUS)
+			OnPlayerStateFinish();
 
-	bulletController->Update();
+		bulletController->Update();
+	}
 
 	trailEffect->Update();
 
 	bomberController->Update();
+
+	player->Animation();
 }
 
 /**************************************
@@ -120,7 +128,7 @@ void PlayerObserver::Draw()
 	player->Draw();
 
 	trailEffect->Draw();
-	
+
 	bomberController->Draw();
 	bulletController->Draw();
 }
@@ -201,7 +209,7 @@ void PlayerObserver::OnPlayerStateFinish()
 	{
 	case PlayerState::Move:
 		OnFinishPlayerMove();
-			break;
+		break;
 
 	case PlayerState::Wait:
 		OnFinishPlayerWait();

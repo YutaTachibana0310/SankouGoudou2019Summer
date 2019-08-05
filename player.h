@@ -22,6 +22,7 @@ enum PlayerAnimID
 {
 	Flying,
 	Attack,
+	FireBomber,
 	PlayerAnimMax
 };
 

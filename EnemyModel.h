@@ -50,6 +50,8 @@ public:
 
 	virtual void OnNotified(ObserveSubject *notifier);
 
+	virtual void GetEnemyPosition(std::vector<D3DXVECTOR3>& out);
+
 	int cntFrame;
 	bool active;
 	TrailCollider *collider;

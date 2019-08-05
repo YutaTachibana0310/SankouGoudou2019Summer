@@ -56,6 +56,8 @@ public:
 	void PushInput(int num);
 	bool IsCompletedOneStroke();
 
+	void FirePlayerBomber(std::vector<D3DXVECTOR3> posList);
+
 	PlayerModel *model;
 	bool enableUpdateLogic;
 

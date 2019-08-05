@@ -59,6 +59,9 @@ public:
 	//エネミー生成処理
 	void SetEnemy();
 
+	//エネミー座標取得処理
+	void GetEnemyPositionList(std::vector<D3DXVECTOR3>& out);
+
 private:
 	std::list<EnemyModel*> modelList;
 	int cntFrame;

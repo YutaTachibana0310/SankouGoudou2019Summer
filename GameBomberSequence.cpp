@@ -7,11 +7,16 @@
 #include "GameBomberSequence.h"
 #include "PlayerObserver.h"
 #include "GameParticleManager.h"
+#include "EnemyController.h"
 
+#include <vector>
+
+using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
 #define GAMEBOMBERSEQUENCE_DURATION		(120)
+#define GAMEBOMBERSEQUENCE_LAUNCH_TIME	(100)
 
 /**************************************
 入場処理
@@ -38,10 +43,21 @@ int GameBomberSequence::OnUpdate(GameScene* entity)
 	//ボンバーのエフェクトだけ更新する
 	entity->particleManager->UpdateBombParticle();
 
+	//発射タイミングであればボンバー発射
+	if (cntFrame == GAMEBOMBERSEQUENCE_LAUNCH_TIME)
+	{
+		//TODO:ボンバー関連のマージが終わったらコメントアウト解除する
+		//vector<D3DXVECTOR3> targetList;
+		//entity->enemyController->GetEnemyPositionList(targetList);
+		//entity->playerObserver->FirePlayerBomber(targetList);
+	}
+
+	//終了判定
 	if (cntFrame == GAMEBOMBERSEQUENCE_DURATION)
 	{
 		entity->playerObserver->OnFinishBomberSequence();
 		entity->useDarkMask = false;
+
 		result = GameScene::State::Battle;
 	}
 

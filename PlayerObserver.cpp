@@ -25,8 +25,6 @@ using namespace std;
 構造体定義
 ***************************************/
 
-
-
 /**************************************
 コンストラクタ
 ***************************************/
@@ -320,4 +318,12 @@ void PlayerObserver::OnFinishBomberSequence()
 bool PlayerObserver::IsCompletedOneStroke()
 {
 	return model->CheckOneStroke();
+}
+
+/**************************************
+ボンバー発射処理
+***************************************/
+void PlayerObserver::FirePlayerBomber(vector<D3DXVECTOR3> posList)
+{
+	bomberController->SetPlayerBomber(posList, player->transform.pos);
 }

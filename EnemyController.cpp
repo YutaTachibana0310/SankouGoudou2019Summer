@@ -304,3 +304,14 @@ void EnemyController::SetChageEffect(EnemyModel *model)
 		cntSet++;
 	}
 }
+
+/**************************************
+エネミー座標取得処理
+***************************************/
+void EnemyController::GetEnemyPositionList(vector<D3DXVECTOR3>& out)
+{
+	for (auto& model : modelList)
+	{
+		model->GetEnemyPosition(out);
+	}
+}

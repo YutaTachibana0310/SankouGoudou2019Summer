@@ -191,6 +191,6 @@ void Player::ChangeAnim(PlayerAnimID next)
 ******************************************/
 void Player::ChargeBomber()
 {
-	D3DXVECTOR3 setPos = transform.pos + D3DXVECTOR3(0.0f, 5.0f, 50.0f);
+	D3DXVECTOR3 setPos = transform.pos + D3DXVECTOR3(0.0f, 0.0f, 60.0f);
 	GameParticleManager::Instance()->SetPlayerCharge(&setPos);
 }

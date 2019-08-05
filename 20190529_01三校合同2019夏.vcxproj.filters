@@ -474,9 +474,6 @@
     <ClInclude Include="PlayerBomber.h">
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBomberController.h">
-      <Filter>ヘッダー ファイル\Player\State</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyController.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
@@ -701,6 +698,9 @@
     </ClInclude>
     <ClInclude Include="PlayerChargeParticleController.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBomberController.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -947,9 +947,6 @@
     <ClCompile Include="PlayerReturn.cpp">
       <Filter>ソース ファイル\Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBomber.cpp">
-      <Filter>ソース ファイル\Player\State</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerBomberController.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
@@ -1177,6 +1174,9 @@
     </ClCompile>
     <ClCompile Include="PlayerChargeParticleController.cpp">
       <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBomber.cpp">
+      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

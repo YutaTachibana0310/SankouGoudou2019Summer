@@ -70,12 +70,12 @@ void ScoreParticle::Update()
 
 	//ˆÚ“®ˆ—
 	float tSpeed = (float)cntFrame / (float)SCOREPARTICLE_SPEED_TIME;
-	float currentSpeed = Easing<float>::GetEasingValue(tSpeed, &speed, &EndSpeed, EasingType::InExponential);
+	float currentSpeed = Easing::EaseValue(tSpeed, speed, EndSpeed, EaseType::InExpo);
 	transform.pos += moveDir * currentSpeed;
 
 	//ƒXƒP[ƒ‹ˆ—
 	float tScale = (float)cntFrame / (float)lifeFrame;
-	float currentScale = Easing<float>::GetEasingValue(tScale, &InitScale, &EndScale, EasingType::OutExponential);
+	float currentScale = Easing::EaseValue(tScale, InitScale, EndScale, EaseType::OutExpo);
 	transform.scale = D3DXVECTOR3(currentScale, currentScale, currentScale);
 
 	//õ–½”»’è

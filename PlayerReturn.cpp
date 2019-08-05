@@ -28,7 +28,7 @@ int PlayerReturn::OnUpdate(Player *entity)
 {
 	float t = (float)entity->cntFrame / PLAYER_RETURN_DURATION;
 	entity->cntFrame++;
-	entity->transform.pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->initpos, &entity->goalpos, EasingType::OutCubic);
+	entity->transform.pos = Easing::EaseValue(t, entity->initpos, entity->goalpos, EaseType::OutCubic);
 	
 	if (entity->cntFrame == PLAYER_RETURN_DURATION)
 	{

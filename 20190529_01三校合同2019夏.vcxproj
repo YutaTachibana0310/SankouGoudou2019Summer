@@ -171,6 +171,7 @@
     <ClInclude Include="Framework\Keyboard.h" />
     <ClInclude Include="Framework\Mouse.h" />
     <ClInclude Include="Framework\ResourceManager.h" />
+    <ClInclude Include="Framework\TMath.h" />
     <ClInclude Include="Framework\Transform.h" />
     <ClInclude Include="RebarOb.h" />
     <ClInclude Include="EnemyExplosionController.h" />

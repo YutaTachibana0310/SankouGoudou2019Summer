@@ -102,8 +102,8 @@ void EnemyStraight::VUpdate(void)
 		if (m_CntFrame <= m_FrameDest )
 		{
 			//ブレーキの手触り
-			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue((float)m_CntFrame/m_FrameDest, &m_Start, 
-				&m_PosDest, EasingType::InCubic);
+			m_Pos = Easing::EaseValue((float)m_CntFrame/m_FrameDest, m_Start, 
+				m_PosDest, EaseType::InCubic);
 			
 		}
 
@@ -248,8 +248,8 @@ void EnemyChange::VUpdate()
 		else if (m_CntFrame < m_FrameDest)
 		{
 			//ブレーキの手触り
-			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue((float)m_CntFrame / m_FrameDest, &m_Start,
-				&m_PosDest, EasingType::OutCubic);
+			m_Pos = Easing::EaseValue((float)m_CntFrame / m_FrameDest, m_Start,
+				m_PosDest, EaseType::OutCubic);
 			
 		}
 		//countする
@@ -416,8 +416,8 @@ void EnemySnake::VUpdate()
 		}
 		else if (m_CurrentIndex <= m_posDestMax - 2)
 		{
-			m_Pos = Easing<D3DXVECTOR3>::GetEasingValue((float(m_CntFrame - m_framePassed) / m_FrameDestList[m_CurrentIndex]),
-				&m_PosDestList[m_CurrentIndex], &m_PosDestList[m_CurrentIndex + 1], EasingType::OutCubic);
+			m_Pos = Easing::EaseValue((float(m_CntFrame - m_framePassed) / m_FrameDestList[m_CurrentIndex]),
+				m_PosDestList[m_CurrentIndex], m_PosDestList[m_CurrentIndex + 1], EaseType::OutCubic);
 		}
 
 		//countする

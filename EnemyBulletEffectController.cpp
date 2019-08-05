@@ -61,7 +61,7 @@ void EnemyBulletEffectController::Emit()
 		
 		
 		float t = RandomRangef(0.0f, 1.0f);
-		particle->transform.pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->edgeL, &entity->edgeR, EasingType::Linear);
+		particle->transform.pos = Easing::EaseValue(t, entity->edgeL, entity->edgeR, EaseType::Linear);
 
 		particle->Init();
 		

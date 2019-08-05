@@ -32,7 +32,7 @@ void SetEasingValueTelopBGClose(void);
 // ÉOÉçÅ[ÉoÉãïœêî
 //*****************************************************************************
 OBJECT	telopBG;
-Easing<float> eTelopBG;
+Easing eTelopBG;
 static float	percentage;
 
 bool telopBGOpenActivated = false;
@@ -111,7 +111,7 @@ void DrawTelopBG(void)
 void OpenTelopBG(void)
 {
 	SetEasingValueTelopBGOpen();
-	percentage = eTelopBG.GetEasingValue(GetCountObject(&telopBG, DURATION_OPEN_CLOSE), &telopBG.easingStart, &telopBG.easingGoal, InOutCubic);
+	percentage = eTelopBG.EaseValue(GetCountObject(&telopBG, DURATION_OPEN_CLOSE), telopBG.easingStart, telopBG.easingGoal, InOutCubic);
 
 	if(percentage >= telopBG.easingGoal)
 	{
@@ -127,7 +127,7 @@ void OpenTelopBG(void)
 void CloseTelopBG(void)
 {
 	SetEasingValueTelopBGClose();
-	percentage = eTelopBG.GetEasingValue(GetCountObject(&telopBG ,DURATION_OPEN_CLOSE), &telopBG.easingStart, &telopBG.easingGoal, InOutCubic);
+	percentage = eTelopBG.EaseValue(GetCountObject(&telopBG ,DURATION_OPEN_CLOSE), telopBG.easingStart, telopBG.easingGoal, InOutCubic);
 
 	if(percentage <= telopBG.easingGoal)
 	{

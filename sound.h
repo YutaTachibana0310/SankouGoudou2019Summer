@@ -22,7 +22,9 @@ const char BGM[] = "data/SOUND/Win/BGM.xwb";
 const char SE[] = "data/SOUND/Win/SE.xwb";
 const char SOUND_BANK[] = "data/SOUND/Win/Sound Bank.xsb";
 
-const char TITLE_BGM[] = "Blue_LIGHT_Techno";
+const char TITLE_BGM[] = "Jackhammer";
+const char GAME_BGM[] = "Blue_LIGHT_Techno";
+
 const char ENTER_SE[] = "Œˆ’èSE";
 const char TEST_SE[] = "”­–C‰¹";
 const char COMBO_SE[] = "combo";
@@ -32,6 +34,7 @@ const char COMBO_SE[] = "combo";
 enum BGMNAME
 {
 	GAMEBGM = 0,
+	TITLEBGM,
 	MAXBGM
 };
 
@@ -70,6 +73,7 @@ public:
 	bool playsound;
 	bool pause;
 	int changepitch;
+	float changevol;
 
 	static Sound *GetInstance() {
 		return sound;

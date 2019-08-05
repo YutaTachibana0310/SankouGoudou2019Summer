@@ -28,8 +28,7 @@ Sound::Sound()
 	playsound = false;
 	pause = false;
 	changepitch = 0;
-
-
+	
 
 }
 
@@ -81,6 +80,7 @@ HRESULT Sound::initialize() {
 	soundBank = NULL;
 	mapWaveBank = NULL;
 	soundBankData = NULL;
+	changevol = 1.0f;
 
 
 	HRESULT result = E_FAIL;
@@ -323,7 +323,7 @@ void Sound::FadeIn(int wavenum, float fadesec,float setvol,bool inflag) {
 	//0.25 / 60 = 1フレームに上がる音量(4秒の場合0.00416…)
 	//0.004 * 240 = 0.96(最大vol1）
 
-	if (fadevolume[wavenum] <= 1 && !pauseflag) {
+	if (fadevolume[wavenum] <= changevol && !pauseflag) {
 		maxvol_BGM[wavenum] = setvol;
 		fadevolume[wavenum] += (maxvol_BGM[wavenum] / fadesec) / FLAME;
 		Sound::ChangeBGMVolume(wavenum, fadevolume[wavenum]);

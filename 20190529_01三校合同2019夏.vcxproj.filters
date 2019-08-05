@@ -693,6 +693,9 @@
     <ClInclude Include="PlayerChargeEffectController.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\TMath.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">

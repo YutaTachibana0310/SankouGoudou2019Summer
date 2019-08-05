@@ -172,6 +172,7 @@
     <ClInclude Include="Framework\Mouse.h" />
     <ClInclude Include="Framework\Polygon2D.h" />
     <ClInclude Include="Framework\ResourceManager.h" />
+    <ClInclude Include="Framework\TMath.h" />
     <ClInclude Include="Framework\Transform.h" />
     <ClInclude Include="GameBomberSequence.h" />
     <ClInclude Include="PlayerChargeEffect.h" />

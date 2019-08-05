@@ -10,6 +10,7 @@
 #include "main.h"
 #include "IStateScene.h"
 #include "IStateMachine.h"
+#include "Framework\Polygon2D.h"
 
 #include  <map>
 /**************************************
@@ -32,6 +33,7 @@ public:
 	void Draw();
 
 	void UpdateWhole();
+	void DrawWhole();
 
 	GameScene() {};
 	~GameScene() {};
@@ -41,6 +43,8 @@ public:
 	GameParticleManager* particleManager;
 	PlayerObserver* playerObserver;
 	BackGroundController *bgController;
+
+	bool useDarkMask;
 
 	enum State
 	{
@@ -55,6 +59,7 @@ private:
 	std::map<State, IStateMachine<GameScene>*> fsm;
 	IStateMachine<GameScene> *state;
 	State currentState;
+	Polygon2D* darkMask;
 
 	void ChangeState(int resultUpdate);
 };

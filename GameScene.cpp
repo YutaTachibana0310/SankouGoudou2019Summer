@@ -56,6 +56,12 @@ void GameScene::Init()
 	fsm[State::End] = new GameEnd();
 	fsm[State::BombSequence] = new GameBomberSequence();
 
+	//暗転用ポリゴン作成
+	darkMask = new Polygon2D();
+	darkMask->SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
+	darkMask->SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.5f));
+	useDarkMask = false;
+
 	//UI初期化
 	InitGameSceneUI();
 
@@ -128,6 +134,7 @@ void GameScene::Uninit()
 	SAFE_DELETE(enemyController);
 	SAFE_DELETE(playerObserver);
 	SAFE_DELETE(bgController);
+	SAFE_DELETE(darkMask);
 
 	//ステートマシン削除
 	for (auto& pair : fsm)
@@ -173,6 +180,17 @@ void GameScene::Draw()
 	//障害物の描画
 	DrawRebarOb();
 
+	//暗転用ポリゴンの描画
+	if (useDarkMask)
+	{
+		LPDIRECT3DDEVICE9 pDevice = GetDevice();
+		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
+
+		darkMask->Draw();
+
+		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+	}
+
 	//プレイヤーの描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
 	playerObserver->Draw();
@@ -194,7 +212,7 @@ void GameScene::Draw()
 
 
 	//UI描画
-	//DrawGameSceneUI();
+	DrawGameSceneUI();
 
 	DrawDebugTimer(GAMESCENE_LABEL);
 }
@@ -242,4 +260,12 @@ void GameScene::UpdateWhole()
 
 	//障害物の更新
 	UpdateRebarOb();
+}
+
+/**************************************
+全体描画処理
+***************************************/
+void GameScene::DrawWhole()
+{
+
 }

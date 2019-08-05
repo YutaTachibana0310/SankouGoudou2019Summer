@@ -23,7 +23,7 @@ int PlayerMove::OnUpdate(Player *entity)
 {
 	entity->cntFrame++;
 	float t = (float)entity->cntFrame / PLAYER_MOVE_DURATION;
-	entity->transform.pos = Easing::EaseValue(t, entity->initpos, entity->goalpos, EaseType::OutCubic);
+	entity->transform.pos = Easing::EaseValue(t, entity->initpos, entity->goalpos, EaseType::InOutCubic);
 
 	if (entity->cntFrame == PLAYER_MOVE_DURATION)
 	{

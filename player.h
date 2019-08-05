@@ -61,6 +61,7 @@ public:
 	void Draw();
 
 	void OnNotified(ObserveSubject* notifier);
+	void ChargeBomber();
 
 private:
 	AnimContainer* animation;

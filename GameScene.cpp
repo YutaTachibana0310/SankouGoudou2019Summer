@@ -210,9 +210,8 @@ void GameScene::Draw()
 	PostEffectManager::Instance()->Draw();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawpostEffect");
 
-
 	//UI•`‰æ
-	DrawGameSceneUI();
+	//DrawGameSceneUI();
 
 	DrawDebugTimer(GAMESCENE_LABEL);
 }

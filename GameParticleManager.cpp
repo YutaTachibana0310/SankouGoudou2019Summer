@@ -17,6 +17,7 @@
 #include "EnemyBulletChargeController.h"
 #include "EnemyBulletFireController.h"
 #include "EnemyGuideArrowController.h"
+#include "PlayerChargeEffectController.h"
 
 #include "LineTrailModel.h"
 
@@ -48,6 +49,7 @@ enum ParticleController
 	EnenyBulletEffect,
 	EnemyBulletCharge,
 	EnemyBulletFire,
+	PlayerCharge,
 	ControllerMax
 };
 
@@ -72,6 +74,7 @@ void GameParticleManager::Init()
 	controllers[EnenyBulletEffect] = new EnemyBulletEffectController();
 	controllers[EnemyBulletCharge] = new EnemyBulletChargeController();
 	controllers[EnemyBulletFire] = new EnemyBulletFireController();
+	controllers[PlayerCharge] = new PlayerChargeEffectController();
 
 	//各パーティクル初期化
 	for (auto& controller : controllers)
@@ -90,6 +93,14 @@ void GameParticleManager::Update(void)
 #endif
 
 	Base::Update();
+}
+
+/**************************************
+ボンバーパーティクル更新処理
+***************************************/
+void GameParticleManager::UpdateBombParticle()
+{
+	controllers[PlayerCharge]->Update();
 }
 
 /**************************************
@@ -165,6 +176,14 @@ BaseEmitter* GameParticleManager::SetEnemyBulletCharge(D3DXVECTOR3 *pos)
 	return controllers[EnemyBulletCharge]->SetEmitter(pos);
 }
 
+/**************************************
+プレイヤーチャージエフェクトセット処理
+***************************************/
+void GameParticleManager::SetPlayerCharge(D3DXVECTOR3 *pos)
+{
+	controllers[PlayerCharge]->SetEmitter(pos);
+}
+
 #ifdef GAMEPARTICLE_USE_DEBUG
 /**************************************
 デバッグウィンドウ
@@ -183,6 +202,10 @@ void GameParticleManager::DrawDebugWindow(void)
 			SetEnemyExplosion(&D3DXVECTOR3(0.0f, 0.0f, 250.0f));
 	}
 
+	{
+		if (DebugButton("PlayerCharge"))
+			SetPlayerCharge(&D3DXVECTOR3(50.0f, 50.0f, 50.0f));
+	}
 	EndDebugWindow("GameParticle");
 }
 #endif

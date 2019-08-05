@@ -34,8 +34,6 @@ public:
 
 	Transform transform;
 	int cntFrame;
-
-protected:
 	int duration;
 };
 

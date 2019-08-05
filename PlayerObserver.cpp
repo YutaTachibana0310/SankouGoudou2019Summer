@@ -288,6 +288,7 @@ void PlayerObserver::OnStartBomberSequence()
 {
 	enableUpdateLogic = false;
 	player->ChangeAnim(PlayerAnimID::FireBomber);
+	player->ChargeBomber();
 }
 
 /**************************************

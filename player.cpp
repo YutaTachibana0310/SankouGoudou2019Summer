@@ -185,3 +185,12 @@ void Player::ChangeAnim(PlayerAnimID next)
 
 	animation->ChangeAnim(next, shitTime[next], true);
 }
+
+/*****************************************
+アニメーション切り替え処理
+******************************************/
+void Player::ChargeBomber()
+{
+	D3DXVECTOR3 setPos = transform.pos + D3DXVECTOR3(0.0f, 5.0f, 50.0f);
+	GameParticleManager::Instance()->SetPlayerCharge(&setPos);
+}

@@ -35,8 +35,8 @@ int GameBomberSequence::OnUpdate(GameScene* entity)
 	//プレイヤーのアニメーションだけさせる
 	entity->playerObserver->Update();
 
-	//パーティクルの更新
-	entity->particleManager->Update();
+	//ボンバーのエフェクトだけ更新する
+	entity->particleManager->UpdateBombParticle();
 
 	if (cntFrame == GAMEBOMBERSEQUENCE_DURATION)
 	{
@@ -45,5 +45,5 @@ int GameBomberSequence::OnUpdate(GameScene* entity)
 		result = GameScene::State::Battle;
 	}
 
-	return result;
+	return result;	
 }

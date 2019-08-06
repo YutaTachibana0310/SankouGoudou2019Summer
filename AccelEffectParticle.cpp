@@ -10,10 +10,12 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define ACCELEFFECT_LIFEFRAME		(20)
+#define ACCELEFFECT_LIFE_MIN		(10)
+#define ACCELEFFECT_LIFE_MAX		(20)
 #define ACCELEFFECT_SCALE			(5.0f)
-#define ACCELEFFECT_POS_OFFSET		(3.0f)
-#define ACCELEFFECT_SPEED			(10.0f)
+#define ACCELEFFECT_POS_OFFSET		(5.0f)
+#define ACCELEFFECT_SPEED			(8.0f)
+#define ACCELEFFECT_MOVE_Z			(-2.0f)
 
 /**************************************
 AccelEffectParticle初期化処理
@@ -26,19 +28,22 @@ void AccelEffectParticle::Init()
 	//移動方向決定
 	moveDir.x = RandomRangef(-1.0f, 1.0f);
 	moveDir.y = RandomRangef(-1.0f, 1.0f);
-	moveDir.z = -1.0f;
+	moveDir.z = -0.0f;
 	D3DXVec3Normalize(&moveDir, &moveDir);
 
-	//スケール決定
-	baseScale = D3DXVECTOR3(fabsf(moveDir.x), fabsf(moveDir.y), 0.0f);
-	D3DXVec3Normalize(&baseScale, &baseScale);
-	baseScale.z = 1.0f;
+	//回転
+	float dir = moveDir.x > 0.0f ? 1.0f : -1.0f;
+	float dot = D3DXVec3Dot(&moveDir, &D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+	transform.Rotate(0.0f, 0.0f, D3DXToDegree(acosf(dot)) * dir);
 
 	//座標オフセット
-	transform.pos += moveDir * ACCELEFFECT_POS_OFFSET;
+	transform.pos.x += moveDir.x * ACCELEFFECT_POS_OFFSET;
+	transform.pos.y += moveDir.y * ACCELEFFECT_POS_OFFSET;
 
 	//寿命決定
-	lifeFrame = ACCELEFFECT_LIFEFRAME;
+	lifeFrame = RandomRange(ACCELEFFECT_LIFE_MIN, ACCELEFFECT_LIFE_MAX);
+	
+	moveDir.z = ACCELEFFECT_MOVE_Z;
 }
 
 /**************************************
@@ -47,13 +52,14 @@ AccelEffectParticle更新処理
 void AccelEffectParticle::Update()
 {
 	cntFrame++;
+	float t = (float)cntFrame / lifeFrame;
 
-	//移動
-	transform.pos += moveDir * ACCELEFFECT_SPEED;
+	//スピードイージング
+	float speed = Easing::EaseValue(t, ACCELEFFECT_SPEED, 0.3f, EaseType::OutCubic);
+	transform.pos += moveDir * speed;
 
 	//スケールイージング
-	float t = (float)cntFrame / lifeFrame;
-	transform.scale = Easing::EaseValue(t, 1.0f, 0.0f, EaseType::InCubic) * baseScale;
+	transform.scale.x = Easing::EaseValue(t, 1.0f, 0.0f, EaseType::InCubic);
 
 	if (cntFrame == lifeFrame)
 		active = false;

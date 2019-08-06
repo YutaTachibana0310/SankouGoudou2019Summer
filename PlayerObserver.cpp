@@ -335,5 +335,6 @@ void PlayerObserver::FirePlayerBomber(vector<D3DXVECTOR3> posList)
 ***************************************/
 void PlayerObserver::OnStartAccel()
 {
-	GameParticleManager::Instance()->SetAccelEffect(&player->transform.pos);
+	const D3DXVECTOR3 EffectPos = D3DXVECTOR3(0.0f, 10.0f, 50.0f);
+	GameParticleManager::Instance()->SetAccelEffect(&(player->transform.pos + EffectPos));
 }

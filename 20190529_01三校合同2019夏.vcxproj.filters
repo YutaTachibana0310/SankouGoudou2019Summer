@@ -681,6 +681,9 @@
     <ClInclude Include="SnakeEnemyFactory.h">
       <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
     </ClInclude>
+    <ClInclude Include="soundUI.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1138,6 +1141,9 @@
     </ClCompile>
     <ClCompile Include="SnakeEnemyFactory.cpp">
       <Filter>ソース ファイル\Enemy\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="soundUI.cpp">
+      <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

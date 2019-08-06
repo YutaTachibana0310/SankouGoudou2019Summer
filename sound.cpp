@@ -7,6 +7,7 @@
 //=============================================================================
 
 #include "sound.h"
+#include "soundUI.h"
 
 Sound *Sound::sound = NULL;
 
@@ -80,7 +81,8 @@ HRESULT Sound::initialize() {
 	soundBank = NULL;
 	mapWaveBank = NULL;
 	soundBankData = NULL;
-	changevol = 1.0f;
+	changevol = MAXVOLUME;
+	UIcounta = SOUNDUI_PARTS_MAX;
 
 
 	HRESULT result = E_FAIL;

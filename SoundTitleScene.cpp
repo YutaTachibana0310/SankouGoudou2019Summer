@@ -7,6 +7,7 @@
 
 #include "sound.h"
 #include "SoundTitleScene.h"
+#include "soundUI.h"
 #include "input.h"
 
 /**************************************
@@ -26,12 +27,35 @@ void SoundTitleScene::Play() {
 
 	if (Sound::GetInstance()->changevol < 1.0f &&
 		GetKeyboardTrigger(DIK_UP)) {
-		Sound::GetInstance()->changevol += 0.1f;
+
+		Sound::GetInstance()->changevol += 0.2f;
+
+		if (Sound::GetInstance()->changevol > 1.0f) {
+			Sound::GetInstance()->changevol = 1.0f;
+		}
+
+		Sound::GetInstance()->UIcounta++;
+		if (Sound::GetInstance()->UIcounta > SOUNDUI_PARTS_MAX) {
+			Sound::GetInstance()->UIcounta = SOUNDUI_PARTS_MAX;
+		}
+
 	}
 	else if (Sound::GetInstance()->changevol > 0.0f &&
 		GetKeyboardTrigger(DIK_DOWN)) {
-		Sound::GetInstance()->changevol -= 0.1f;
+
+		Sound::GetInstance()->changevol -= 0.2f;
+
+		if (Sound::GetInstance()->changevol <= 0.0f) {
+			Sound::GetInstance()->changevol = 0.0f;
+		}
+
+		Sound::GetInstance()->UIcounta--;
+		if (Sound::GetInstance()->UIcounta < SOUND_LINE_ONE) {
+			Sound::GetInstance()->UIcounta = SOUND_LINE_ONE;
+		}
+
 	}
+
 	Sound::GetInstance()->ChangeBGMVolume(TITLEBGM, Sound::GetInstance()->changevol);
 
 }

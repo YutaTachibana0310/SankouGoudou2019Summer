@@ -74,6 +74,7 @@ public:
 	bool pause;
 	int changepitch;
 	float changevol;
+	int UIcounta;
 
 	static Sound *GetInstance() {
 		return sound;

@@ -47,6 +47,7 @@ typedef struct
 	float               baseAngle;
 	float				radius;
 	bool				isRotated;
+	bool				use;
 
 }OBJECT;
 

@@ -57,6 +57,7 @@ public:
 	bool IsCompletedOneStroke();
 
 	void FirePlayerBomber(std::vector<D3DXVECTOR3> posList);
+	void OnStartAccel();
 
 	PlayerModel *model;
 	bool enableUpdateLogic;

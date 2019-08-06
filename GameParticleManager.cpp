@@ -19,6 +19,7 @@
 #include "EnemyGuideArrowController.h"
 #include "PlayerChargeEffectController.h"
 #include "PlayerChargeParticleController.h"
+#include "AccelEffectController.h"
 
 #include "LineTrailModel.h"
 
@@ -52,6 +53,7 @@ enum ParticleController
 	EnemyBulletFire,
 	PlayerCharge,
 	PlayerChargeParticle,
+	AccelEffect,
 	ControllerMax
 };
 
@@ -78,6 +80,7 @@ void GameParticleManager::Init()
 	controllers[EnemyBulletFire] = new EnemyBulletFireController();
 	controllers[PlayerCharge] = new PlayerChargeEffectController();
 	controllers[PlayerChargeParticle] = new PlayerChargeParticleController();
+	controllers[AccelEffect] = new AccelEffectController();
 
 	//各パーティクル初期化
 	for (auto& controller : controllers)
@@ -189,6 +192,14 @@ void GameParticleManager::SetPlayerCharge(D3DXVECTOR3 *pos)
 	controllers[PlayerCharge]->SetEmitter(pos);
 }
 
+/**************************************
+加速エフェクトセット処理
+***************************************/
+void GameParticleManager::SetAccelEffect(D3DXVECTOR3 *pos)
+{
+	controllers[AccelEffect]->SetEmitter(pos);
+}
+
 #ifdef GAMEPARTICLE_USE_DEBUG
 /**************************************
 デバッグウィンドウ
@@ -211,6 +222,12 @@ void GameParticleManager::DrawDebugWindow(void)
 		if (DebugButton("PlayerCharge"))
 			SetPlayerCharge(&D3DXVECTOR3(50.0f, 50.0f, 50.0f));
 	}
+
+	{
+		if (DebugButton("Accel"))
+			SetAccelEffect(&D3DXVECTOR3(0.0f, 0.0f, 50.0f));
+	}
+
 	EndDebugWindow("GameParticle");
 }
 #endif

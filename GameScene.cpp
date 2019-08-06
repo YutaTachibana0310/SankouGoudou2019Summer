@@ -304,6 +304,7 @@ void GameScene::OnAddCombo(int n)
 
 	SpeedBlurController::Instance()->AddPower(AddPower);
 	bgController->AddScrollSpeed(AddSpeed);
+	playerObserver->OnStartAccel();
 }
 
 /**************************************

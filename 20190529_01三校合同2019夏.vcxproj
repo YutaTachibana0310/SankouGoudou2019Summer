@@ -138,6 +138,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AccelEffectController.h" />
+    <ClInclude Include="AccelEffectParticle.h" />
     <ClInclude Include="BackGroundCity.h" />
     <ClInclude Include="BackGroundController.h" />
     <ClInclude Include="BackGroundField.h" />
@@ -306,6 +308,8 @@
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AccelEffectController.cpp" />
+    <ClCompile Include="AccelEffectParticle.cpp" />
     <ClCompile Include="BackGroundCity.cpp" />
     <ClCompile Include="BackGroundController.cpp" />
     <ClCompile Include="BackGroundRoad.cpp" />

@@ -202,7 +202,7 @@ void BackGroundController::AddScrollSpeed(float add)
 {
 	endSpeed += add;
 
-	if (cntChangeSpeed != 0)
+	if (cntChangeSpeed > BACKGROUND_DAMPER_DURATION)
 		return;
 
 	startSpeed = scroolSpeed;

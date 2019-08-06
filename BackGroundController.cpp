@@ -35,7 +35,9 @@ static const char* MeshTag[] = {
 };
 
 #define BACKGROUND_SCROOLSPEED_INIT			(-75.0f)
-#define BACKGROUND_SPEEDCHANGE_DURATION		(30)
+#define BACKGROUND_ACCEL_DURATION			(30)
+#define BACKGROUND_DAMPER_DURATION			(120)
+#define BACKGROUND_ACCEL_MAGNI				(5.0f)
 
 /**************************************
 コンストラクタ
@@ -103,21 +105,20 @@ void BackGroundController::Uninit()
 		city->Uninit();
 	}
 }
-
+#include "debugWindow.h"
 /**************************************
 更新処理
 ***************************************/
 void BackGroundController::Update()
 {
+	DebugLog("speed : %f", scroolSpeed);
 	//スクロールスピードをイージング
 	if (cntChangeSpeed > 0)
 	{
-		cntChangeSpeed--;
-		float t = 1.0f - (float)cntChangeSpeed / BACKGROUND_SPEEDCHANGE_DURATION;
-		scroolSpeed = Easing::EaseValue(t, startSpeed, endSpeed, EaseType::InOutCubic);
-
-		if (cntChangeSpeed == 0)
-			startSpeed = endSpeed;
+		if (cntChangeSpeed > BACKGROUND_DAMPER_DURATION)
+			AccelScrollSpeed();
+		else
+			DampScrollSpeed();
 	}
 
 	//建物を更新
@@ -199,13 +200,13 @@ void BackGroundController::CreateCityContainer()
 ***************************************/
 void BackGroundController::AddScrollSpeed(float add)
 {
-	endSpeed = startSpeed + add;
+	endSpeed += add;
 
 	if (cntChangeSpeed != 0)
 		return;
 
 	startSpeed = scroolSpeed;
-	cntChangeSpeed = BACKGROUND_SPEEDCHANGE_DURATION;
+	cntChangeSpeed = BACKGROUND_ACCEL_DURATION + BACKGROUND_DAMPER_DURATION;
 }
 
 /**************************************
@@ -219,5 +220,31 @@ void BackGroundController::InitScroolSpeed()
 		return;
 
 	startSpeed = scroolSpeed;
-	cntChangeSpeed = BACKGROUND_SPEEDCHANGE_DURATION;
+	cntChangeSpeed = BACKGROUND_DAMPER_DURATION;
+}
+
+/**************************************
+スクロールスピード加速処理
+***************************************/
+void BackGroundController::AccelScrollSpeed()
+{
+	cntChangeSpeed--;
+	float t = 1.0f - (float)(cntChangeSpeed - BACKGROUND_DAMPER_DURATION) / BACKGROUND_ACCEL_DURATION;
+	scroolSpeed = Easing::EaseValue(t, startSpeed, BACKGROUND_ACCEL_MAGNI * endSpeed, EaseType::OutCubic);
+
+	if (cntChangeSpeed == BACKGROUND_DAMPER_DURATION)
+		startSpeed = BACKGROUND_ACCEL_MAGNI * endSpeed;
+}
+
+/**************************************
+スクロールスピード減速処理
+***************************************/
+void BackGroundController::DampScrollSpeed()
+{
+	cntChangeSpeed--;
+	float t = 1.0f - (float)(cntChangeSpeed - BACKGROUND_ACCEL_DURATION) / BACKGROUND_DAMPER_DURATION;
+	scroolSpeed = Easing::EaseValue(t, startSpeed, endSpeed, EaseType::InOutExpo);
+
+	if (cntChangeSpeed == 0)
+		startSpeed = endSpeed;
 }

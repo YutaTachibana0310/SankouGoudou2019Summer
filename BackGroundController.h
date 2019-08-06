@@ -45,6 +45,8 @@ private:
 	int cntChangeSpeed;
 
 	void CreateCityContainer();
+	void AccelScrollSpeed();
+	void DampScrollSpeed();
 
 };
 

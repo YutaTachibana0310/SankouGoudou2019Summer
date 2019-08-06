@@ -36,7 +36,7 @@ void SpeedBlurController::Update()
 		cntPower--;
 
 		float t = 1.0f - (float)cntPower / SPEEDBLUR_TRANSITION_DURATION;
-		float power = Easing::EaseValue(t, startPower, endPower, EaseType::Linear);
+		float power = Easing::EaseValue(t, startPower, endPower, EaseType::OutCubic);
 		speedBlur->SetPower(power);
 
 		if (cntPower == 0)
@@ -92,6 +92,19 @@ void SpeedBlurController::Draw()
 void SpeedBlurController::SetPower(float power)
 {
 	endPower = power;
+
+	if (cntPower != 0)
+		return;
+
+	cntPower = SPEEDBLUR_TRANSITION_DURATION;
+}
+
+/**************************************
+ブラーパワーセット処理
+***************************************/
+void SpeedBlurController::AddPower(float power)
+{
+	endPower += power;
 
 	if (cntPower != 0)
 		return;

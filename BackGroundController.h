@@ -32,11 +32,17 @@ public:
 	void Update();
 	void Draw();
 
+	void AddScrollSpeed(float add);
+	void InitScroolSpeed();
+
 	Transform transform;
 
 private:
 	std::vector<BackGroundCity*> cityContainer;
 	std::vector<SkyBox*> skyBoxies;
+	float scroolSpeed;
+	float startSpeed, endSpeed;
+	int cntChangeSpeed;
 
 	void CreateCityContainer();
 

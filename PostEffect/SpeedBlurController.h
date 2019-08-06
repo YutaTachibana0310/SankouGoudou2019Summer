@@ -30,6 +30,7 @@ public:
 	void Update();
 	void Draw();
 	void SetPower(float power);
+	void AddPower(float power);
 
 private:
 	SpeedBlurController();

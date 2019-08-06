@@ -39,7 +39,8 @@ using namespace std;
 マクロ定義
 ***************************************/
 #define GAMESCENE_LABEL			("GameScene")
-#define COMBOEFFECT_PERIOD		(5)
+#define COMBOEFFECT_PERIOD		(10)			//このコンボおきに演出が発生する
+
 /**************************************
 構造体定義
 ***************************************/
@@ -295,7 +296,7 @@ void GameScene::DrawWhole()
 void GameScene::OnAddCombo(int n)
 {
 	static const float AddPower = 10.0f;
-	static const float AddSpeed = -50.0f;
+	static const float AddSpeed = -100.0f;
 
 	currentCombo += n;
 

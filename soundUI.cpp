@@ -34,7 +34,7 @@ HRESULT InitSoundUI(void)
 	//ミュート時のマーク
 	LoadTexture(pDevice, ADRESS_TEXTURE_SOUNDUI_MUTE, &sounduiParts[SOUND_MUTE]);
 	sounduiParts[SOUND_MUTE].position = POSITION_SOUNDUI;
-	sounduiParts[SOUND_MUTE].size = SIZE_SOUNDUI;
+	sounduiParts[SOUND_MUTE].size = SIZE_MUTEUI;
 	sounduiParts[SOUND_MUTE].use = false;
 
 	//音量の大きさを表す波形ライン
@@ -83,11 +83,9 @@ void UninitSoundUI(void)
 void UpdateSoundUI(void)
 {
 	if (currentNum <= SOUND_LINE_ONE) {
-		sounduiParts[SOUND_MARK].use = false;
 		sounduiParts[SOUND_MUTE].use = true;
 	}
 	else{
-		sounduiParts[SOUND_MARK].use = true;
 		sounduiParts[SOUND_MUTE].use = false;
 	}
 	//音量を下げる場合

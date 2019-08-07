@@ -17,6 +17,7 @@
 #define SOUNDUI_PARTS_MAX		(7)
 #define SOUNDUI_PARTS_LINE		(5)
 #define SIZE_SOUNDUI			(D3DXVECTOR3(50.0f,50.0f,0.0f))
+#define SIZE_MUTEUI				(D3DXVECTOR3(70.0f,60.0f,0.0f))
 #define SIZE_SOUNDLINE_X		(25.0f)
 #define SIZE_SOUNDLINE_Y		(30.0f)
 #define SIZE_SOUNDLINE_Z		(0.0f)

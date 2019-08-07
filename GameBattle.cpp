@@ -9,6 +9,7 @@
 #include "EnemyController.h"
 #include "InputController.h"
 #include "PlayerObserver.h"
+#include "sound.h"
 
 /**************************************
 マクロ定義
@@ -21,6 +22,7 @@
 void GameBattle::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
+	Sound::GetInstance()->playsound = true;
 }
 
 /**************************************
@@ -28,6 +30,8 @@ void GameBattle::OnStart(GameScene *entity)
 ***************************************/
 int GameBattle::OnUpdate(GameScene *entity)
 {
+	int result = GameScene::State::Battle;
+
 	entity->cntFrame++;
 
 	//入力確認
@@ -36,12 +40,20 @@ int GameBattle::OnUpdate(GameScene *entity)
 	//エネミー生成処理
 	entity->enemyController->SetEnemy();
 
+	//ゲーム全体を更新
+	entity->UpdateWhole();
+
+	//一筆書き判定
+	if (entity->playerObserver->IsCompletedOneStroke())
+		result = GameScene::State::BombSequence;
+
 	//衝突判定
 	TrailCollider::UpdateCollision();
 
-	if (entity->cntFrame == GAMEBATTLE_DURATION) 
-		return STATE_FINISHED;
-	else 
-		return STATE_CONTINUOUS;
+	//終了判定
+	if (entity->cntFrame == GAMEBATTLE_DURATION)
+		result = GameScene::State::End;
+
+	return result;
 	
 }

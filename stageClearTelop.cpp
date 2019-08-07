@@ -34,7 +34,7 @@ static const float EasingEndPositionX[ANIMATION_MAX] = {
 	-SCREEN_WIDTH * 1.5
 };
 
-static const EasingType AnimationType[ANIMATION_MAX] = {
+static const EaseType AnimationType[ANIMATION_MAX] = {
 	InOutCubic,
 	InOutCubic,
 	InOutCubic,
@@ -54,7 +54,7 @@ static const float AnimationDuration[ANIMATION_MAX] = {
 // ÉOÉçÅ[ÉoÉãïœêî
 //*****************************************************************************
 OBJECT	stageClearTelop;
-Easing<float> eStageClearTelop;
+Easing eStageClearTelop;
 bool isStageClearTelopActivated = false;
 static int currentAnimation = 0;
 
@@ -104,10 +104,10 @@ void UpdateStageClearTelop()
 
 		stageClearTelop.countFrame++;
 
-		stageClearTelop.position.x = eStageClearTelop.GetEasingValue(GetCountObject(
+		stageClearTelop.position.x = eStageClearTelop.EaseValue(GetCountObject(
 			&stageClearTelop, AnimationDuration[currentAnimation]),
-			&EasingStartPositionX[currentAnimation],
-			&EasingEndPositionX[currentAnimation],
+			EasingStartPositionX[currentAnimation],
+			EasingEndPositionX[currentAnimation],
 			AnimationType[currentAnimation]);
 
 		if (stageClearTelop.countFrame == AnimationDuration[currentAnimation])

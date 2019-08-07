@@ -22,6 +22,7 @@ enum PlayerAnimID
 {
 	Flying,
 	Attack,
+	FireBomber,
 	PlayerAnimMax
 };
 
@@ -34,7 +35,6 @@ public:
 	Player();
 	~Player();
 
-	AnimContainer* animation;
 	Transform transform;
 	TrailCollider *collider;
 	float hp;
@@ -57,10 +57,14 @@ public:
 	void Init();
 	void Uninit();
 	int Update();
+	void Animation();
 	void Draw();
 
 	void OnNotified(ObserveSubject* notifier);
+	void ChargeBomber();
 
+private:
+	AnimContainer* animation;
 };
 
 #endif

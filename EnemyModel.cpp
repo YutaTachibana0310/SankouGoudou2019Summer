@@ -116,3 +116,14 @@ void EnemyModel::OnNotified(ObserveSubject *notifier)
 	//非アクティブに
 	Uninit();
 }
+
+/**************************************
+エネミー座標取得処理
+***************************************/
+void EnemyModel::GetEnemyPosition(vector<D3DXVECTOR3>& out)
+{
+	for (auto& enemy : enemyList)
+	{
+		out.push_back(enemy->m_Pos);
+	}
+}

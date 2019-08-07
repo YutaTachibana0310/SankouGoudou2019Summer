@@ -16,6 +16,8 @@ typedef EnemyModel Base;
 
 #define STRAIGHTENEMY_REACH_FRAME		(180)
 #define STRAIGHTENEMY_ACTIVATE_FRAME	(30)
+//0805 BA
+#define SHADOW_FALSE_FRAME				(200)
 
 /**************************************
 コンストラクタ
@@ -99,11 +101,11 @@ int StraightEnemyModel::Update()
 	if (cntFrame >= STRAIGHTENEMY_ACTIVATE_FRAME)
 	{
 		float t = (float)(cntFrame - STRAIGHTENEMY_ACTIVATE_FRAME) / (float)STRAIGHTENEMY_REACH_FRAME;
-		pos.z = Easing<float>::GetEasingValue(t, &StartPosZ, &DestPosZ, EasingType::InCubic);
+		pos.z = Easing::EaseValue(t, StartPosZ, DestPosZ, EaseType::InCubic);
 	}
 
 	//終了判定
-	if (cntFrame == STRAIGHTENEMY_REACH_FRAME + STRAIGHTENEMY_ACTIVATE_FRAME)
+	if (cntFrame == STRAIGHTENEMY_REACH_FRAME + STRAIGHTENEMY_ACTIVATE_FRAME+ SHADOW_FALSE_FRAME)
 	{
 		Uninit();
 	}

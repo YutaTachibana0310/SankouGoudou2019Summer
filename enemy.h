@@ -16,10 +16,16 @@ using namespace std;
 // マクロ定義
 //*****************************************************************************
 #define MAX_ENEMY (100)
-
+#define SHADOW_MAX      (8)						//シャドウ数
 //*****************************************************************************
 // 種類
 //*****************************************************************************
+typedef enum
+{
+	MODE_EXPANSION = 0,		//拡大
+	MODE_SHRINK,			//縮小
+	MODE_MAX
+} MODE;
 
 //*****************************************************************************
 // クラス定義
@@ -29,27 +35,25 @@ class Enemy
 {
 public:
 	
-
-	
 	Enemy();
 	virtual ~Enemy();
 
-	bool				m_Active;				//アクティブ
+	bool				m_Active;			//アクティブ
 
-	D3DXVECTOR3			m_Pos;				//現在の位置
-	D3DXVECTOR3			m_Move;				//移動量
 	D3DXVECTOR3			m_Scl;				//モデルの大きさ(スケール)
 	D3DXVECTOR3			m_Rot;				//現在の向き
-	D3DXVECTOR3			m_RotDest;			//目的の向き
+	D3DXVECTOR3			m_Pos;				//現在の位置
 
+	D3DXVECTOR3			m_Move;				//移動量
 	D3DXVECTOR3         m_Dir;				//移動の方向
 	D3DXVECTOR3         m_PosDest;			//移動先
-
-	int					m_CntFrame;			//フレームカウント
-
 	D3DXVECTOR3         m_Start;			//移動の元
+	float				m_FrameDest;	    //移動がいるフレーム数
 
-	int					m_FrameDest;	//移動がいるフレーム数
+	D3DXVECTOR3			m_RotDest;			//目的の向き
+	int					m_CntFrame;			//フレームカウント
+	
+
 	//純粋仮想関数
 	virtual HRESULT  VInit(void) = 0;
 	virtual void VUninit(void) = 0;
@@ -66,6 +70,13 @@ public:
 class EnemyStraight : public Enemy
 {
 public:
+	float m_SclTime;								//アニメーションの時間
+
+	int	  position_history_timer;					//直前のフレームの時間
+
+	int   position_history_index;					//シャドウワークのインデクス
+
+	D3DXVECTOR3			m_ShadowPos[SHADOW_MAX];	//キュー構造			
 
 	EnemyStraight();
 	~EnemyStraight();
@@ -82,8 +93,10 @@ class EnemyChange :public Enemy
 {
 public:
 
-	int m_waitTime;				//停止の時間
-	D3DXVECTOR3 m_VecChange;	//停止して以降のベクトル
+	int				m_WaitTime;		//停止の時間
+	D3DXVECTOR3		m_VecChange;	//停止して以降のベクトル
+	float			m_SclTime;		//アニメーションの時間
+	MODE			g_mode;			//モード
 
 	EnemyChange();
 	~EnemyChange();

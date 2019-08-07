@@ -33,6 +33,7 @@ public:
 
 	void Init() override;
 	void Update() override;
+	void UpdateBombParticle();
 
 	void SetScoreParticle(D3DXVECTOR3 *pos);
 	void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edgeRight, D3DXVECTOR3 *edgeLeft);
@@ -42,6 +43,7 @@ public:
 	BaseEmitter* SetEnemyBulletTrail(D3DXVECTOR3 *pPos);
 	void SetEnemyBulletEffect(LineTrailModel model);
 	BaseEmitter* SetEnemyBulletCharge(D3DXVECTOR3 *pos);
+	void SetPlayerCharge(D3DXVECTOR3 *pos);
 
 private:
 	GameParticleManager() {}

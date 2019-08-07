@@ -81,7 +81,7 @@ void SnakeEnemyModel::Init(vector<int> destList)
 	timeList.resize(moveTargetList.size());
 	for (UINT i = 0; i < moveTargetList.size(); i++)
 	{
-		float t = i == 0 || i == moveTargetList.size() - 1 ? SNAKEENEMY_INIT_DURATION : SNAKEENEMY_MOVE_DURATION;
+		int t = i == 0 || i == moveTargetList.size() - 1 ? SNAKEENEMY_INIT_DURATION : SNAKEENEMY_MOVE_DURATION;
 		timeList[i] = t;
 	}
 

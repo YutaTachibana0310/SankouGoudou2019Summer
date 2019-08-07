@@ -118,7 +118,7 @@ PlayerBomber::~PlayerBomber()
 ホーミング対象のアドレスを取得
 引数(ホーミング対象のアドレス、ボムのセット位置)
 ***************************************/
-void PlayerBomber::Set(D3DXVECTOR3 *pos, D3DXVECTOR3 initpos)
+void PlayerBomber::Set(D3DXVECTOR3 pos, D3DXVECTOR3 initpos)
 {
 	//active = true;
 	Init();
@@ -142,7 +142,7 @@ void PlayerBomber::CalcBomber(void)
 
 	float time = (float)cntFrame;
 
-	D3DXVECTOR3 diff = *targetPos - transform.pos;
+	D3DXVECTOR3 diff = targetPos - transform.pos;
 
 	D3DXVECTOR3 acceleration = (diff - velocity * time) * 2.0f / (time * time);
 

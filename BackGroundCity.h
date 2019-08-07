@@ -25,7 +25,7 @@ public:
 
 	void Init();
 	void Uninit();
-	void Update();
+	void Update(float speed);
 	void Draw(D3DXMATRIX mtxParent);
 
 	Transform transform;
@@ -34,11 +34,7 @@ public:
 
 private:
 	MeshContainer* mesh;
-	int cntFrame;
-	float alpha;
 
-	static float moveSpeed;
-	static int frameFadein;
 };
 
 #endif

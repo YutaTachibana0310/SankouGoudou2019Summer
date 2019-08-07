@@ -63,6 +63,7 @@ void PostEffectManager::Update()
 
 	SpikeNoiseController::Instance()->Update();
 	ShockBlurController::Instance()->Update();
+	SpeedBlurController::Instance()->Update();
 
 	if (useSceneBloom)
 		BloomController::Instance()->Update();

@@ -12,6 +12,8 @@
 #include "PlayerReturn.h"
 #include "PlayerIdle.h"
 
+#include "GameParticleManager.h"
+
 #include <algorithm>
 
 using namespace std;
@@ -326,4 +328,13 @@ bool PlayerObserver::IsCompletedOneStroke()
 void PlayerObserver::FirePlayerBomber(vector<D3DXVECTOR3> posList)
 {
 	bomberController->SetPlayerBomber(posList, player->transform.pos);
+}
+
+/**************************************
+‰Á‘¬‰‰oˆ—
+***************************************/
+void PlayerObserver::OnStartAccel()
+{
+	const D3DXVECTOR3 EffectPos = D3DXVECTOR3(0.0f, 10.0f, 50.0f);
+	GameParticleManager::Instance()->SetAccelEffect(&(player->transform.pos + EffectPos));
 }

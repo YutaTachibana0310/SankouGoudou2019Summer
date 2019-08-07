@@ -28,8 +28,6 @@
 /**************************************
 グローバル変数
 ***************************************/
-float BackGroundCity::moveSpeed = 75.0f;
-int BackGroundCity::frameFadein = 300;
 float BackGroundCity::depthMaxZ = 0.0f;
 
 /**************************************
@@ -59,8 +57,6 @@ BackGroundCity::~BackGroundCity()
 ***************************************/
 void BackGroundCity::Init()
 {
-	cntFrame = 0;
-
 	transform.Rotate(0.0f, 45.0f * RandomRange(0, 8), 0.0f);
 
 	transform.pos.y = RandomRange(BACKGROUNDCITY_POSY_MIN, BACKGROUNDCITY_POSY_MAX) * BACKGROUNDCITY_POSY_MAGNI;
@@ -77,16 +73,9 @@ void BackGroundCity::Uninit()
 /**************************************
 更新処理
 ***************************************/
-void BackGroundCity::Update()
+void BackGroundCity::Update(float speed)
 {
-	transform.pos.z -= moveSpeed;
-
-	//フェードイン
-	if (cntFrame < frameFadein)
-	{
-		cntFrame++;
-		alpha = (float)cntFrame / (float)frameFadein;
-	}
+	transform.pos.z += speed;
 
 	//移動
 	if (transform.pos.z < BACKGROUNDCITY_BORDER_Z)

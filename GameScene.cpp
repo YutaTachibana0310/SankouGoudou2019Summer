@@ -22,6 +22,8 @@
 #include "sound.h"
 #include "EnemyController.h"
 #include "masktex.h"
+#include "ScoreManager.h"
+#include "PostEffect\SpeedBlurController.h"
 
 #include "GameStart.h"
 #include "GameBattle.h"
@@ -29,13 +31,15 @@
 #include "GameBomberSequence.h"
 
 #include "RebarOb.h"
+#include <functional>
 
 using namespace std;
 
 /**************************************
 マクロ定義
 ***************************************/
-#define GAMESCENE_LABEL ("GameScene")
+#define GAMESCENE_LABEL			("GameScene")
+#define COMBOEFFECT_PERIOD		(10)			//このコンボおきに演出が発生する
 
 /**************************************
 構造体定義
@@ -103,6 +107,18 @@ void GameScene::Init()
 	currentState = State::Start;
 	state = fsm[currentState];
 	state->OnStart(this);
+
+	//コールバック設定
+	currentCombo = 0;
+	SetCallbackClearCombo([&]()
+	{
+		this->OnClearCombo();
+	});
+
+	SetCallbackAddCombo([&](int n)
+	{
+		this->OnAddCombo(n);
+	});
 }
 
 /**************************************
@@ -162,6 +178,11 @@ void GameScene::Update(HWND hWnd)
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
 	UpdateGameSceneUI(hWnd);
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
+
+	BeginDebugWindow("Console");
+	if (DebugButton("AddCombo")) SetAddCombo(1);
+	if (DebugButton("ResetCombo")) ClearCombo();
+	EndDebugWindow("");
 }
 
 /**************************************
@@ -267,4 +288,35 @@ void GameScene::UpdateWhole()
 void GameScene::DrawWhole()
 {
 
+}
+
+/**************************************
+コンボ加算時演出
+***************************************/
+void GameScene::OnAddCombo(int n)
+{
+	static const float AddPower = 10.0f;
+	static const float AddSpeed = -100.0f;
+
+	currentCombo += n;
+
+	if (currentCombo % COMBOEFFECT_PERIOD != 0)
+		return;
+
+	SpeedBlurController::Instance()->AddPower(AddPower);
+	bgController->AddScrollSpeed(AddSpeed);
+	playerObserver->OnStartAccel();
+}
+
+/**************************************
+コンボクリア時演出
+***************************************/
+void GameScene::OnClearCombo()
+{
+	static const float InitPower = 0.0f;
+
+	currentCombo = 0;
+
+	SpeedBlurController::Instance()->SetPower(InitPower);
+	bgController->InitScroolSpeed();
 }

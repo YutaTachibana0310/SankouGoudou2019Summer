@@ -100,8 +100,9 @@ void EnemyModel::OnNotified(ObserveSubject *notifier)
 		enemy->VUninit();
 		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
 
-		//スコア加算
+		//スコア・コンボ加算
 		SetAddScore(100);
+		SetAddCombo(1);
 	}
 
 	//チャージエフェクト非表示
@@ -110,8 +111,6 @@ void EnemyModel::OnNotified(ObserveSubject *notifier)
 		if(emitter != NULL)
 			emitter->active = false;
 	}
-
-	SetAddCombo(1);
 
 	//非アクティブに
 	Uninit();

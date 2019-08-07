@@ -44,6 +44,7 @@ public:
 	void SetEnemyBulletEffect(LineTrailModel model);
 	BaseEmitter* SetEnemyBulletCharge(D3DXVECTOR3 *pos);
 	void SetPlayerCharge(D3DXVECTOR3 *pos);
+	void SetAccelEffect(D3DXVECTOR3 *pos);
 
 private:
 	GameParticleManager() {}

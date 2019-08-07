@@ -35,6 +35,9 @@ public:
 	void UpdateWhole();
 	void DrawWhole();
 
+	void OnAddCombo(int n);
+	void OnClearCombo();
+
 	GameScene() {};
 	~GameScene() {};
 
@@ -62,6 +65,9 @@ private:
 	Polygon2D* darkMask;
 
 	void ChangeState(int resultUpdate);
+
+
+	int currentCombo;
 };
 
 #endif

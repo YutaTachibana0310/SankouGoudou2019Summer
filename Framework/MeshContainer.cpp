@@ -147,7 +147,7 @@ void MeshContainer::Draw()
 	{
 		//テクスチャの設定
 		pDevice->SetTexture(0, textures[i]);
-
+		
 		//マテリアル設定
 		pDevice->SetMaterial(&materials[i]);
 
@@ -192,9 +192,9 @@ DWORD MeshContainer::GetMaterialNum()
 /**************************************
 マテリアルカラー設定処理
 ***************************************/
-void MeshContainer::SetMaterialColor(D3DXCOLOR& color)
+void MeshContainer::SetMaterialColor(const D3DXCOLOR& color)
 {
-	for (UINT i = 0; i < materialNum; i++)
+	for (int i = 0; i < materialNum; i++)
 	{
 		materials[i].Diffuse = color;
 	}

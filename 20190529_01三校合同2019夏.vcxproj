@@ -216,6 +216,7 @@
     <ClInclude Include="savefile.h" />
     <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="SnakeEnemyFactory.h" />
+    <ClInclude Include="soundUI.h" />
     <ClInclude Include="stageClearTelop.h" />
     <ClInclude Include="SnakeEditWindow.h" />
     <ClInclude Include="SnakeEnemyModel.h" />
@@ -442,6 +443,7 @@
     <ClCompile Include="SoundGameScene.cpp" />
     <ClCompile Include="SoundResultScene.cpp" />
     <ClCompile Include="SoundTitleScene.cpp" />
+    <ClCompile Include="soundUI.cpp" />
     <ClCompile Include="stageClearTelop.cpp" />
     <ClCompile Include="EditorBG.cpp" />
     <ClCompile Include="StageEditor.cpp" />

@@ -15,6 +15,7 @@ using namespace std;
 **********************************************************/
 #define BOMBER_SIZE					(20.0f)
 #define BOMBER_STOCK_INTERVAL		(300)
+#define BOMBER_STOCK_MAX			(3)
 
 /********************************************************
 構造体定義
@@ -104,7 +105,7 @@ void PlayerBomberController::Uninit()
 		bomber->Uninit();
 	}
 }
-#include "debugWindow.h"
+
 /*********************************************************
 更新処理
 **********************************************************/
@@ -118,9 +119,6 @@ void PlayerBomberController::Update()
 
 	//ストックインターバルを更新
 	stockInterval = Min(BOMBER_STOCK_INTERVAL, stockInterval + 1);
-
-	DebugLog("interval : %d", stockInterval);
-	DebugLog("stock : %d", stock);
 }
 
 /*********************************************
@@ -194,7 +192,7 @@ bool PlayerBomberController::CanStock()
 ***************************************************/
 bool PlayerBomberController::CanSet()
 {
-	return stockInterval > 0;
+	return stock > 0;
 }
 
 /***************************************************
@@ -202,6 +200,6 @@ bool PlayerBomberController::CanSet()
 ***************************************************/
 void PlayerBomberController::AddStock()
 {
-	stock++;
+	stock = Min(stock + 1, BOMBER_STOCK_MAX);
 	stockInterval = 0;
 }

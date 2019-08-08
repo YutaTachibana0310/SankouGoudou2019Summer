@@ -71,7 +71,7 @@ void EnemyBulletEffectController::Emit()
 /**************************************
 エミッターセット処理
 ***************************************/
-void EnemyBulletEffectController::SetEmitter(LineTrailModel model)
+BaseEmitter* EnemyBulletEffectController::SetEmitter(LineTrailModel model)
 {
 	auto itr = find_if(emitterContainer.begin(), emitterContainer.end(), [](BaseEmitter* emitter)
 	{
@@ -79,7 +79,7 @@ void EnemyBulletEffectController::SetEmitter(LineTrailModel model)
 	});
 
 	if (itr == emitterContainer.end())
-		return;
+		return NULL;
 
 	EnemyBulletEffectEmitter *entity = static_cast<EnemyBulletEffectEmitter*>(*itr);
 
@@ -92,4 +92,6 @@ void EnemyBulletEffectController::SetEmitter(LineTrailModel model)
 	entity->edgeR = edgeR - diff * ENEMYBULLETEFFECT_SHRINK_LENGTH;
 
 	entity->Init();
+
+	return entity;
 }

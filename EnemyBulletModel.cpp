@@ -25,6 +25,8 @@ EnemyBulletModel::EnemyBulletModel()
 	collider = new TrailCollider(TrailColliderTag::EnemyBullet);
 	collider->SetAddressZ(&posZ);
 	collider->active = false;
+
+	effect = NULL;
 }
 
 /**************************************
@@ -85,6 +87,8 @@ void EnemyBulletModel::Uninit()
 	bullets.clear();
 
 	active = false;
+
+	effect = NULL;
 }
 
 /**************************************
@@ -105,7 +109,7 @@ void EnemyBulletModel::Update()
 	if (cntFrame == ENEMYBULLET_REACH_DEFAULT)
 	{
 		collider->active = true;
-		GameParticleManager::Instance()->SetEnemyBulletEffect(targetLine);
+		effect = GameParticleManager::Instance()->SetEnemyBulletEffect(targetLine);
 	}
 
 	if (cntFrame == ENeMYBULLET_EFFECTIVE_FRAME + ENEMYBULLET_REACH_DEFAULT)
@@ -143,6 +147,9 @@ void EnemyBulletModel::Disable()
 		GameParticleManager::Instance()->SetEnemyBulletExplosion(&bullet->transform.pos);
 		bullet->Uninit();
 	}
+
+	if (effect != NULL)
+		effect->Uninit();
 
 	Uninit();
 }

@@ -17,6 +17,7 @@
 前方宣言
 ***************************************/
 class EnemyBullet;
+class BaseEmitter;
 
 /**************************************
 クラス定義
@@ -41,6 +42,7 @@ private:
 	TrailCollider *collider;
 	float posZ;
 	LineTrailModel targetLine;
+	BaseEmitter* effect;
 };
 
 #endif

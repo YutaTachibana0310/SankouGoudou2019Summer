@@ -177,10 +177,10 @@ void GameParticleManager::SetEnemyBulletExplosion(D3DXVECTOR3 *pos)
 /**************************************
 エネミーバレットエフェクトセット処理
 ***************************************/
-void GameParticleManager::SetEnemyBulletEffect(LineTrailModel model)
+BaseEmitter* GameParticleManager::SetEnemyBulletEffect(LineTrailModel model)
 {
 	EnemyBulletEffectController *entity = static_cast<EnemyBulletEffectController*>(controllers[EnenyBulletEffect]);
-	entity->SetEmitter(model);
+	return entity->SetEmitter(model);
 }
 
 /**************************************

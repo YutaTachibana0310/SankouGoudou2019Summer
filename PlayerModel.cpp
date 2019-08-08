@@ -162,6 +162,7 @@ bool PlayerModel::CheckOneStroke()
 void PlayerModel::Clear()
 {
 	inputHistory.clear();
+	moveHistory.clear();
 	queue<int>().swap(inputQueue);
 	ClearCombo();
 }

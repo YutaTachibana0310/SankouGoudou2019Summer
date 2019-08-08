@@ -230,8 +230,7 @@ void PlayerObserver::OnFinishPlayerMove()
 	player->collider->active = false;
 
 	//移動履歴をプッシュ（ボンバーのストックインターバルが終了していたら）
-	if(bomberController->CanStock())
-		model->PushMoveStack(moveTarget);
+	model->PushMoveStack(moveTarget, bomberController->CanStock());
 
 	//トレイルを終了
 	trailEffect->Uninit();

@@ -130,4 +130,19 @@ void EnemyBulletModel::Draw()
 	//TrailCollider::DrawCollider(collider);
 }
 
+/**************************************
+非アクティブ処理
+***************************************/
+void EnemyBulletModel::Disable()
+{
+	for (auto& bullet : bullets)
+	{
+		if (!bullet->active)
+			continue;
 
+		GameParticleManager::Instance()->SetEnemyBulletExplosion(&bullet->transform.pos);
+		bullet->Uninit();
+	}
+
+	Uninit();
+}

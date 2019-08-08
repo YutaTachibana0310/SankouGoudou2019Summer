@@ -56,6 +56,7 @@ int GameBomberSequence::OnUpdate(GameScene* entity)
 	if (cntFrame == GAMEBOMBERSEQUENCE_DURATION)
 	{
 		entity->playerObserver->OnFinishBomberSequence();
+		entity->enemyController->OnFinishBombSequence();
 		entity->useDarkMask = false;
 
 		result = GameScene::State::Battle;

@@ -167,6 +167,14 @@ BaseEmitter* GameParticleManager::SetEnemyBulletTrail(D3DXVECTOR3 *pos)
 }
 
 /**************************************
+エネミーバレット爆発セット処理
+***************************************/
+void GameParticleManager::SetEnemyBulletExplosion(D3DXVECTOR3 *pos)
+{
+	controllers[EnemyBulletFire]->SetEmitter(pos);
+}
+
+/**************************************
 エネミーバレットエフェクトセット処理
 ***************************************/
 void GameParticleManager::SetEnemyBulletEffect(LineTrailModel model)

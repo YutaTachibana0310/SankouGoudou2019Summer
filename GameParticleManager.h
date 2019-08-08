@@ -45,6 +45,7 @@ public:
 	BaseEmitter* SetEnemyBulletCharge(D3DXVECTOR3 *pos);
 	void SetPlayerCharge(D3DXVECTOR3 *pos);
 	void SetAccelEffect(D3DXVECTOR3 *pos);
+	void SetEnemyBulletExplosion(D3DXVECTOR3 *pos);
 
 private:
 	GameParticleManager() {}

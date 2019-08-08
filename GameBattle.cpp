@@ -43,8 +43,8 @@ int GameBattle::OnUpdate(GameScene *entity)
 	//ゲーム全体を更新
 	entity->UpdateWhole();
 
-	//一筆書き判定
-	if (entity->playerObserver->IsCompletedOneStroke())
+	//ボンバー発射判定
+	if (entity->playerObserver->ShouldFireBomber())
 		result = GameScene::State::BombSequence;
 
 	//衝突判定

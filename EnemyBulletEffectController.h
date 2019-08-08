@@ -23,7 +23,7 @@ class EnemyBulletEffectController : public BaseParticleController
 public:
 	void Init();
 	void Emit();
-	void SetEmitter(LineTrailModel model);
+	BaseEmitter* SetEmitter(LineTrailModel model);
 };
 
 #endif

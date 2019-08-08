@@ -71,7 +71,7 @@ void PlayerModel::PushInput(int num)
 /**************************************
 入力履歴のプッシュ
 ***************************************/
-void PlayerModel::PushMoveStack(int num)
+void PlayerModel::PushMoveStack(int num, bool canUpdate)
 {
 	//最大数であれば一番古い履歴を削除
 	if (inputHistory.size() == PLAYERMODEL_INPUTHISTORY_MAX)
@@ -81,7 +81,8 @@ void PlayerModel::PushMoveStack(int num)
 	inputHistory.push_back(num);
 
 	//移動履歴の更新
-	UpdateMoveHistory();
+	if(canUpdate)
+		UpdateMoveHistory();
 }
 
 /**************************************
@@ -162,6 +163,7 @@ bool PlayerModel::CheckOneStroke()
 void PlayerModel::Clear()
 {
 	inputHistory.clear();
+	moveHistory.clear();
 	queue<int>().swap(inputQueue);
 	ClearCombo();
 }
@@ -171,10 +173,12 @@ void PlayerModel::Clear()
 ***************************************/
 bool PlayerModel::GetPlayerTrail(LineTrailModel *pOut)
 {
-	if (moveHistory.size() == 0)
+	if (inputHistory.size() < 2)
 		return false;
 	
-	*pOut = moveHistory.back();
+	int start = *(inputHistory.end() - 1);
+	int end = *(inputHistory.end() - 2);
+	*pOut = LineTrailModel(start, end);
 	return true;
 }
 

@@ -62,6 +62,9 @@ public:
 	//エネミー座標取得処理
 	void GetEnemyPositionList(std::vector<D3DXVECTOR3>& out);
 
+	//ボンバーシーケンスコールバック
+	void OnFinishBombSequence();
+
 private:
 	std::list<EnemyModel*> modelList;
 	int cntFrame;

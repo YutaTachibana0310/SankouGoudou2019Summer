@@ -14,6 +14,7 @@
 #include "TrailCollider.h"
 #include "Framework\BaseObserver.h"
 #include "Framework\AnimContainer.h"
+#include "BomberStockEffect.h"
 
 /**************************************
 É}ÉNÉçíËã`
@@ -62,9 +63,11 @@ public:
 
 	void OnNotified(ObserveSubject* notifier);
 	void ChargeBomber();
+	void StockBomber();
 
 private:
 	AnimContainer* animation;
+	BomberStockEffect* stockEffect;
 };
 
 #endif

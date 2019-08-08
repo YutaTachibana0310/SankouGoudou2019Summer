@@ -46,16 +46,16 @@ int GameBomberSequence::OnUpdate(GameScene* entity)
 	//発射タイミングであればボンバー発射
 	if (cntFrame == GAMEBOMBERSEQUENCE_LAUNCH_TIME)
 	{
-		//TODO:ボンバー関連のマージが終わったらコメントアウト解除する
-		//vector<D3DXVECTOR3> targetList;
-		//entity->enemyController->GetEnemyPositionList(targetList);
-		//entity->playerObserver->FirePlayerBomber(targetList);
+		vector<D3DXVECTOR3> targetList;
+		entity->enemyController->GetEnemyPositionList(targetList);
+		entity->playerObserver->FirePlayerBomber(targetList);
 	}
 
 	//終了判定
 	if (cntFrame == GAMEBOMBERSEQUENCE_DURATION)
 	{
 		entity->playerObserver->OnFinishBomberSequence();
+		entity->enemyController->OnFinishBombSequence();
 		entity->useDarkMask = false;
 
 		result = GameScene::State::Battle;

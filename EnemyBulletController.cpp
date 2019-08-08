@@ -104,3 +104,17 @@ void EnemyBulletController::SetEnemyBullet(vector<D3DXVECTOR3> emitters, LineTra
 
 	(*itr)->Init(emitters, target);
 }
+
+/**************************************
+非アクティブ処理
+***************************************/
+void EnemyBulletController::DisableAll()
+{
+	for (auto& model : modelContainer)
+	{
+		if (!model->active)
+			continue;
+
+		model->Disable();
+	}
+}

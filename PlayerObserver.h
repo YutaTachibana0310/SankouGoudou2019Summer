@@ -54,8 +54,8 @@ public:
 
 	void CheckInput();
 	void PushInput(int num);
-	bool IsCompletedOneStroke();
 
+	bool ShouldFireBomber();
 	void FirePlayerBomber(std::vector<D3DXVECTOR3> posList);
 	void OnStartAccel();
 
@@ -75,6 +75,8 @@ private:
 	std::vector<D3DXVECTOR3> targetPos;
 
 	void ChangeStatePlayer(PlayerState next);
+	
+	void TryStockBomber();
 
 	void OnFinishPlayerMove();
 	void OnFinishPlayerWait();

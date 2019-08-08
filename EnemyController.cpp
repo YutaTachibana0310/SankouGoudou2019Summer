@@ -315,3 +315,11 @@ void EnemyController::GetEnemyPositionList(vector<D3DXVECTOR3>& out)
 		model->GetEnemyPosition(out);
 	}
 }
+
+/**************************************
+ボンバーシーケンスコールバック
+***************************************/
+void EnemyController::OnFinishBombSequence()
+{
+	bulletController->DisableAll();
+}

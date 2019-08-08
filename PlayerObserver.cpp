@@ -144,7 +144,7 @@ void PlayerObserver::CheckInput()
 	//入力を確認
 	for (int i = 0; i < INPUTBUTTON_MAX; i++)
 	{
-		if (!IsEntered(i))
+		if (!GetMoveInput(i))
 			continue;
 
 		PushInput(i);
@@ -232,6 +232,9 @@ void PlayerObserver::OnFinishPlayerMove()
 	//移動履歴をプッシュ
 	model->PushMoveStack(moveTarget);
 
+	//ボンバーストック可能かつ一筆書きが成立したか判定
+	TryStockBomber();
+
 	//トレイルを終了
 	trailEffect->Uninit();
 
@@ -317,9 +320,17 @@ void PlayerObserver::OnFinishBomberSequence()
 /**************************************
 一筆書きは成立しているか
 ***************************************/
-bool PlayerObserver::IsCompletedOneStroke()
+bool PlayerObserver::ShouldFireBomber()
 {
-	return model->CheckOneStroke();
+	//ボンバーのストックがなければfalse
+	if (!bomberController->CanSet())
+		return false;
+
+	//発射の入力が行われていなければfalse
+	if (!GetBomberInput())
+		return false;
+
+	return true;
 }
 
 /**************************************
@@ -327,7 +338,8 @@ bool PlayerObserver::IsCompletedOneStroke()
 ***************************************/
 void PlayerObserver::FirePlayerBomber(vector<D3DXVECTOR3> posList)
 {
-	bomberController->SetPlayerBomber(posList, player->transform.pos);
+	if(bomberController->CanSet())
+		bomberController->SetPlayerBomber(posList, player->transform.pos);
 }
 
 /**************************************
@@ -337,4 +349,21 @@ void PlayerObserver::OnStartAccel()
 {
 	const D3DXVECTOR3 EffectPos = D3DXVECTOR3(0.0f, 10.0f, 50.0f);
 	GameParticleManager::Instance()->SetAccelEffect(&(player->transform.pos + EffectPos));
+}
+
+/**************************************
+ボンバーストック処理
+***************************************/
+void PlayerObserver::TryStockBomber()
+{
+	//ストックインターバルが経過しているか
+	if (!bomberController->CanStock())
+		return;
+
+	//一筆書きが成立しているか
+	if (!model->CheckOneStroke())
+		return;
+
+	//ボンバーをストック
+	bomberController->AddStock();
 }

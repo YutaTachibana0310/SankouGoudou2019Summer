@@ -44,7 +44,7 @@ bool GetBomberInput()
 	if (IsMouseRightTriggered())
 		return true;
 
-	if (GetKeyboardTrigger(DIK_SPACE))
+	if (GetKeyboardTrigger(DIK_SPACE) || GetKeyboardTrigger(DIK_LSHIFT))
 		return true;
 
 	return false;

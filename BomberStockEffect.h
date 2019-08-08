@@ -8,7 +8,7 @@
 #define _BOMBERSTOCKEFFECT_H_
 
 #include "main.h"
-#include "Framework\Polygon2D.h"
+#include "Framework\BoardPolygon.h"
 
 /**************************************
 É}ÉNÉçíËã`
@@ -32,7 +32,7 @@ public:
 private:
 	bool active;
 	int cntFrame;
-	Polygon2D* polygon;
+	BoardPolygon* polygon;
 };
 
 #endif

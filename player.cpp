@@ -60,6 +60,9 @@ Player::Player()
 	collider->AddObserver(this);
 
 	animation->ChangeAnim(PlayerAnimID::Flying, 1.5f, true);
+
+	//ストックエフェクト作成
+	stockEffect = new BomberStockEffect();
 }
 
 /**************************************
@@ -69,6 +72,8 @@ Player::~Player()
 {
 	SAFE_DELETE(animation);
 	SAFE_DELETE(collider);
+
+	SAFE_DELETE(stockEffect);
 }
 
 /*************************************
@@ -116,6 +121,10 @@ int Player::Update()
 			collider->active = false;
 	}
 
+	//ボンバーストックエフェクトの更新
+	stockEffect->transform.pos = transform.pos;
+	stockEffect->Update();
+
 	return stateResult;
 }
 
@@ -147,6 +156,8 @@ void Player::Draw()
 	pDevice->SetMaterial(&matDef);
 
 	TrailCollider::DrawCollider(collider);
+
+	stockEffect->Draw();
 }
 
 /*****************************************
@@ -193,4 +204,12 @@ void Player::ChargeBomber()
 {
 	D3DXVECTOR3 setPos = transform.pos + D3DXVECTOR3(0.0f, 0.0f, 60.0f);
 	GameParticleManager::Instance()->SetPlayerCharge(&setPos);
+}
+
+/*****************************************
+ボンバーストック処理
+******************************************/
+void Player::StockBomber()
+{
+	stockEffect->Init();
 }

@@ -229,11 +229,9 @@ void PlayerObserver::OnFinishPlayerMove()
 	//当たり判定を無効化
 	player->collider->active = false;
 
-	//移動履歴をプッシュ
-	model->PushMoveStack(moveTarget);
-
-	//ボンバーストック可能かつ一筆書きが成立したか判定
-	TryStockBomber();
+	//移動履歴をプッシュ（ボンバーのストックインターバルが終了していたら）
+	if(bomberController->CanStock())
+		model->PushMoveStack(moveTarget);
 
 	//トレイルを終了
 	trailEffect->Uninit();
@@ -245,6 +243,9 @@ void PlayerObserver::OnFinishPlayerMove()
 		model->GetPlayerTrail(&modelTrail);
 		bulletController->SetPlayerBullet(modelTrail);
 	}
+
+	//ボンバーストック可能かつ一筆書きが成立したか判定
+	TryStockBomber();
 
 	//先行入力確認
 	if (model->IsExistPrecedInput(&moveTarget))
@@ -318,7 +319,7 @@ void PlayerObserver::OnFinishBomberSequence()
 }
 
 /**************************************
-一筆書きは成立しているか
+ボンバー発射判定
 ***************************************/
 bool PlayerObserver::ShouldFireBomber()
 {
@@ -366,4 +367,7 @@ void PlayerObserver::TryStockBomber()
 
 	//ボンバーをストック
 	bomberController->AddStock();
+
+	//エフェクト再生
+	player->StockBomber();
 }

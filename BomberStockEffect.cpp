@@ -10,7 +10,7 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define BOMBERSTOCKEFFECT_SIZE					(10.0f)
+#define BOMBERSTOCKEFFECT_SIZE					(D3DXVECTOR2(40.0f, 40.0f))
 #define BOMBERSTOCKEFFECT_TEX_NAME				"data/TEXTURE/Player/BomberStock.png"
 
 #define BOMBERSTOCKEFFECT_ACTIVE_DURATION		(60)
@@ -24,8 +24,8 @@ BomberStockEffect::BomberStockEffect()
 {
 	active = false;
 
-	polygon = new Polygon2D();
-	polygon->SetSize(BOMBERSTOCKEFFECT_SIZE, BOMBERSTOCKEFFECT_SIZE);
+	polygon = new BoardPolygon();
+	polygon->SetSize(BOMBERSTOCKEFFECT_SIZE);
 	polygon->LoadTexture(BOMBERSTOCKEFFECT_TEX_NAME);
 }
 
@@ -65,12 +65,12 @@ void BomberStockEffect::Update()
 	else
 	{
 		float t = (float)(cntFrame - BOMBERSTOCKEFFECT_SCALEUP_DURATION) / BOMBERSTOCKEFFECT_SCALEDOWN_DURATION;
-		transform.scale = Easing::EaseValue(t, 1.0f, 0.0f, EaseType::InExpo) * D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+		transform.scale = Easing::EaseValue(t, 1.0f, 0.0f, EaseType::InCubic) * D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	}
 
 	//回転イージング
 	float t = (float)cntFrame / BOMBERSTOCKEFFECT_ACTIVE_DURATION;
-	float rotAngle = Easing::EaseValue(t, 50.0f, 0.0f,EaseType::OutCubic);
+	float rotAngle = Easing::EaseValue(t, 50.0f, 5.0f,EaseType::OutSine);
 	transform.Rotate(0.0f, 0.0f, rotAngle);
 
 	//寿命判定
@@ -90,9 +90,13 @@ void BomberStockEffect::Draw()
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	pDevice->SetRenderState(D3DRS_ZENABLE, false);
-	
+	pDevice->SetRenderState(D3DRS_LIGHTING, false);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+
 	transform.SetWorld();
 	polygon->Draw();
 
 	pDevice->SetRenderState(D3DRS_ZENABLE, true);
+	pDevice->SetRenderState(D3DRS_LIGHTING, true);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 }

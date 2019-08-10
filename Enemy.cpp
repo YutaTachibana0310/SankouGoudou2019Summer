@@ -225,11 +225,6 @@ void EnemyStraight::VDraw(void)
 		m_pMesh->SetMaterialAlpha(float(0.07 + n * 0.039));
 		m_pMesh->Draw();
 		m_pMesh->SetMaterialAlpha(1.0f);
-
-		BeginDebugWindow("scl");
-		DebugText("%f,%f,%f", m_ShadowScl[n].y, m_ShadowScl[n].x, m_ShadowScl[n].z);
-		DebugText("%f", m_SclTime);
-		EndDebugWindow("scl");
 	}
 
 }

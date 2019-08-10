@@ -40,6 +40,7 @@ public:
 	D3DXVECTOR3			easingStartSize;
 	D3DXVECTOR3			easingGoalSize;
 
+	//後でそれぞれのUIオブジェクトクラスに移す
 	float				easingStart;
 	float				easingGoal;
 	float               baseAngle;
@@ -67,6 +68,7 @@ public:
 	float GetCountObject(float duration);
 };
 
+//後でそれぞれのUIオブジェクトクラスに移す
 enum GUAGETYPE
 {
 	LEFT_GUAGEBAR,

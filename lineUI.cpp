@@ -28,13 +28,14 @@ void Line::Init(void)
 
 	LoadTexture(pDevice, ADRESS_TEXTURE_LINE);
 	InitialTexture();
-	MakeVertexObject();
 
 	position	= POSITION_LINE;
 	size		= SIZE_LINE;
 	rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	SetColorObject(SET_COLOR_NOT_COLORED);
+
+	MakeVertexObject();
 }
 
 //=============================================================================

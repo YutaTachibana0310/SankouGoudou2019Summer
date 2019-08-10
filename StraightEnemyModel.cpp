@@ -16,6 +16,7 @@ typedef EnemyModel Base;
 
 #define STRAIGHTENEMY_REACH_FRAME		(180)
 #define STRAIGHTENEMY_ACTIVATE_FRAME	(30)
+#define STRAIGHTENEMY_HITABLE_FRAME		(45)
 //0805 BA
 #define SHADOW_FALSE_FRAME				(200)
 
@@ -55,10 +56,10 @@ void StraightEnemyModel::Init(LineTrailModel model, int enemyNum)
 	D3DXVECTOR3 edgeR, edgeL;
 	model.GetEdgePos(&edgeR, &edgeL);
 	edgeL.z = edgeR.z = StartPosZ;
-	
+
 	D3DXVECTOR3 offset = (edgeL - edgeR) / ((float)enemyList.size() + 1);
 	edgeR += offset;
-	
+
 	D3DXVECTOR3 dest = edgeR;
 	dest.z = DestPosZ;
 
@@ -69,6 +70,8 @@ void StraightEnemyModel::Init(LineTrailModel model, int enemyNum)
 		enemy->m_Active = false;
 		edgeR += offset;
 		dest += offset;
+
+		enemy->m_Active = true;
 	}
 
 	//ワープエフェクトセット
@@ -90,10 +93,6 @@ int StraightEnemyModel::Update()
 	//エネミーのアクティベイト
 	if (cntFrame == STRAIGHTENEMY_ACTIVATE_FRAME)
 	{
-		for (auto& enemy : enemyList)
-		{
-			enemy->m_Active = true;
-		}
 		collider->active = true;
 	}
 
@@ -105,7 +104,7 @@ int StraightEnemyModel::Update()
 	}
 
 	//終了判定
-	if (cntFrame == STRAIGHTENEMY_REACH_FRAME + STRAIGHTENEMY_ACTIVATE_FRAME+ SHADOW_FALSE_FRAME)
+	if (cntFrame == STRAIGHTENEMY_REACH_FRAME + STRAIGHTENEMY_ACTIVATE_FRAME + SHADOW_FALSE_FRAME)
 	{
 		Uninit();
 	}

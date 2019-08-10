@@ -16,25 +16,23 @@ using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
-//#define ENEMY_MODEL  "data/MODEL/airplane000.x"
-
-#define ENEMY_FALSE_CHANGE (300)				//falseの時間(方向が変えってから)
+#define ENEMY_FALSE_CHANGE	(300)				//falseの時間(方向が変えってから)
 #define ENEMY_FALSE_SNAKE	(900)
 
-#define	ENEMY_ATTENUATION (0.98f)				//減衰係数 
+#define	ENEMY_ATTENUATION	(0.98f)				//減衰係数 
 
-#define ENEMY_FRAME_SNAKE (200)
+#define ENEMY_FRAME_SNAKE	(200)
 
 //#define GET_RANDOM(a, b)		((a) + rand() / (RAND_MAX / ((b) - (a) + 1) + 1))
 
-#define STRAIGHT_SCL_MIN (D3DXVECTOR3(0.0f, 0.0f, 0.0f))  //スケールのアニメーションの最大値	
-#define STRAIGHT_SCL_SPEED (0.01f)						  //アニメーションの時間の増分
+#define STRAIGHT_SCL_MIN	(D3DXVECTOR3(0.0f, 0.0f, 0.0f))  //スケールのアニメーションの最大値	
+#define STRAIGHT_SCL_SPEED	(0.01f)							 //アニメーションの時間の増分
 
-#define CHANGE_SCL_MAX (D3DXVECTOR3(1.0f, 1.0f, 1.0f))
-#define CHANGE_SCL_MIN (D3DXVECTOR3(0.8f, 0.8f, 0.8f))
-#define CHANGE_SCL_SPEED (0.05f)
+#define CHANGE_SCL_MAX		(D3DXVECTOR3(1.0f, 1.0f, 1.0f))
+#define CHANGE_SCL_MIN		(D3DXVECTOR3(0.8f, 0.8f, 0.8f))
+#define CHANGE_SCL_SPEED	(0.05f)
 
-#define WAIT_TIME       (0.9)							  //サンプリング周期
+#define WAIT_TIME			(0.9)							 //サンプリング周期
 
 /****************************************
 static変数
@@ -104,7 +102,9 @@ HRESULT  EnemyStraight::VInit(void)
 
 	for (int i = 0; i < SHADOW_MAX; i++)
 	{
-		m_ShadowPos[i] = D3DXVECTOR3(500.0f, 0.0f, 0.0f);// m_Pos;// D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		m_ShadowPos[i] = D3DXVECTOR3(500.0f, 0.0f, 0.0f);
+		m_ShadowScl[i] = m_Scl;
+
 	}
 
 	return S_OK;
@@ -130,40 +130,32 @@ void EnemyStraight::VUpdate(void)
 			//ブレーキの手触り
 			m_Pos = Easing::EaseValue((float)m_CntFrame / m_FrameDest, m_Start,
 				m_PosDest, EaseType::InSine);
-
+			
 			//現れる時の拡大
-			//if (f < 1.0f)
+			if(m_SclTime < 1.0f)
 			{
 				m_Scl = Easing::EaseValue(m_SclTime, STRAIGHT_SCL_MIN,
 					D3DXVECTOR3(1.0f, 1.0f, 1.0f), EaseType::OutCubic);
-
 				m_SclTime += STRAIGHT_SCL_SPEED;
 
-				//if (f >= 1.0f)
-				//{
-				//	m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-				//}
+				//時間が一気に1.0を超えた場合
+				if (m_SclTime >= 1.0f)
+				{
+					m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+				}
 			}
-
 		}
 		else
 		{
-			//m_Active = false;
+			m_Active = false;
 		}
 
 		//countする.
 		m_CntFrame++;
 	}
 
-
-	//shadow
-	//for (int i = 0; i < SHADOW_MAX; i++)
-	//{
-		//m_ShadowPos[i] = m_Pos;
-	//}
 	if (m_CntFrame > position_history_timer + WAIT_TIME)
 	{
-
 		position_history_timer = m_CntFrame;
 		position_history_index++;
 
@@ -172,18 +164,15 @@ void EnemyStraight::VUpdate(void)
 			position_history_index = SHADOW_MAX - 1;
 			//キュー操作
 			for (int i = 1; i < SHADOW_MAX; i++)
+			{
 				m_ShadowPos[i - 1] = m_ShadowPos[i];
+				m_ShadowScl[i - 1] = m_ShadowScl[i];
+			}
+				
 		}
 		m_ShadowPos[position_history_index] = m_Pos;
-
+		m_ShadowScl[position_history_index] = m_Scl;
 	}
-
-#if 0
-	BeginDebugWindow("scl");
-	DebugText("%f,%f,%f", m_Scl.x, m_Scl.y, m_Scl.z);
-	DebugText("%f", m_SclTime);
-	EndDebugWindow("scl");
-#endif
 }
 
 /****************************************
@@ -193,10 +182,6 @@ void EnemyStraight::VDraw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, mtxWorld;
-
-	//0803
-	//pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, true);
-	//pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 
 	if (m_Active)
 	{
@@ -217,33 +202,18 @@ void EnemyStraight::VDraw(void)
 
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
-
-		//for (DWORD i = 0; i < m_pMesh->GetMaterialNum(); i++)
-		//{
-		//	D3DMATERIAL9 a;
-		//	m_pMesh->GetMaterial(i, &a);
-		//	a.Diffuse.a = 0.0f;
-		//	//m_pMesh->materials[i].Diffuse.a = 0.0f;
-		//	//pDevice->SetMaterial(&m_pMesh->materials[i]);
-		//	
-
-		//}
-		//m_pMesh->SetMaterialAlpha(0.0f);
-		//m_pMesh->SetMaterialAlpha(0.0f);
-
-		//m_pMesh->SetMaterialColor(D3DCOLOR_RGBA(0, 240, 240, 256));
-
 		m_pMesh->Draw();
-		//m_pMesh->SetMaterialAlpha(1.0f);
-
 
 	}
-
 
 	for (int n = 0; n < SHADOW_MAX; n++)
 	{
 		//ワールドマトリックスの初期化
 		D3DXMatrixIdentity(&mtxWorld);
+
+		// スケールを反映
+		D3DXMatrixScaling(&mtxScl, m_ShadowScl[n].y, m_ShadowScl[n].x, m_ShadowScl[n].z);
+		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScl);
 
 		// 移動を反映
 		D3DXMatrixTranslation(&mtxTranslate, m_ShadowPos[n].x, m_ShadowPos[n].y, m_ShadowPos[n].z);
@@ -252,14 +222,9 @@ void EnemyStraight::VDraw(void)
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
-		//m_pMesh->SetMaterialColor(D3DCOLOR_RGBA(0, 240, 240, 20 + n * 10));
 		m_pMesh->SetMaterialAlpha(float(0.07 + n * 0.039));
 		m_pMesh->Draw();
-
 		m_pMesh->SetMaterialAlpha(1.0f);
-		//BeginDebugWindow("pos");
-		//DebugText("%f,%f,%f", m_ShadowPos[n].x, m_ShadowPos[n].y, m_ShadowPos[n].z);
-		//EndDebugWindow("pos");
 	}
 
 }
@@ -278,8 +243,6 @@ void EnemyStraight::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame)
 
 	m_Active = true;
 }
-
-
 
 
 //EnemyChange
@@ -307,8 +270,7 @@ HRESULT EnemyChange::VInit(void)
 	m_WaitTime = 0.0f;
 	m_VecChange = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_SclTime = 0.0f;
-	g_mode = MODE_EXPANSION;
-
+	m_Expansion = true;
 	m_Active = false;
 
 
@@ -380,36 +342,31 @@ void EnemyChange::VUpdate()
 		}
 
 		//拡大と縮小の繰り返し
-		switch (g_mode)
+		if (m_Expansion)
 		{
-		case MODE_EXPANSION:
 			m_Scl = Easing::EaseValue(m_SclTime, CHANGE_SCL_MIN,
 				CHANGE_SCL_MAX, EaseType::Linear);
 			m_SclTime += CHANGE_SCL_SPEED;
 			if (m_SclTime >= 1.0f)
 			{
-				g_mode = MODE_SHRINK;
+				m_Expansion = false;
 			}
-			break;
-
-		case  MODE_SHRINK:
+		}
+		else
+		{
 			m_Scl = Easing::EaseValue(m_SclTime, CHANGE_SCL_MIN,
 				CHANGE_SCL_MAX, EaseType::Linear);
 			m_SclTime -= CHANGE_SCL_SPEED;
 			if (m_SclTime <= 0.0f)
 			{
-				g_mode = MODE_EXPANSION;
+				m_Expansion = true;
 			}
-			break;
 
 		}
+
 		//countする
 		m_CntFrame++;
 
-		//BeginDebugWindow("scl");
-		//DebugText("%f,%f,%f", m_Scl.x, m_Scl.y, m_Scl.z);
-		//DebugText("%f", m_SclTime);
-		//EndDebugWindow("scl");
 	}
 }
 
@@ -492,9 +449,9 @@ HRESULT EnemySnake::VInit()
 {
 	m_WaitTime = 0;
 	m_CurrentIndex = 0;
-	m_posDestMax = 0;
-	m_framePassed = 0;
-	m_waitcount = 0;
+	m_PosDestMax = 0;
+	m_FramePassed = 0;
+	m_WaitCount = 0;
 
 	m_Active = false;
 
@@ -538,17 +495,17 @@ void EnemySnake::VUpdate()
 
 
 	//最後の点のフレーム
-	int last = m_framePassed + m_FrameDestList[m_posDestMax - 2];
+	int last = m_FramePassed + m_FrameDestList[m_PosDestMax - 2];
 
 	if (m_Active)
 	{
-		if (m_CntFrame == last && m_CurrentIndex == m_posDestMax - 2)
+		if (m_CntFrame == last && m_CurrentIndex == m_PosDestMax - 2)
 		{
 			//そのまま進む
-			m_Move = (m_PosDestList[m_posDestMax - 1] - m_PosDestList[m_posDestMax - 2]) / ENEMY_FRAME_SNAKE;
+			m_Move = (m_PosDestList[m_PosDestMax - 1] - m_PosDestList[m_PosDestMax - 2]) / ENEMY_FRAME_SNAKE;
 
 		}
-		else if (m_CntFrame >= last && m_CurrentIndex == m_posDestMax - 2)
+		else if (m_CntFrame >= last && m_CurrentIndex == m_PosDestMax - 2)
 		{
 			//処理が終わったら
 			if (m_CntFrame >= last + ENEMY_FALSE_SNAKE)
@@ -557,28 +514,28 @@ void EnemySnake::VUpdate()
 			}
 			m_Pos += m_Move;
 		}//停止
-		else if ((m_CntFrame > (m_framePassed + m_FrameDestList[m_CurrentIndex])) && m_CurrentIndex <= m_posDestMax - 2)
+		else if ((m_CntFrame > (m_FramePassed + m_FrameDestList[m_CurrentIndex])) && m_CurrentIndex <= m_PosDestMax - 2)
 		{
 			//停止中のフレームを一時保存する
-			m_waitcount++;
+			m_WaitCount++;
 			//停止の時間が過ぎたら
-			if (m_waitcount == m_WaitTime)
+			if (m_WaitCount == m_WaitTime)
 			{
 				//停止の時間をカウンターに入れる
-				m_framePassed = m_CntFrame;
-				m_waitcount = 0;
+				m_FramePassed = m_CntFrame;
+				m_WaitCount = 0;
 			}
 		}//次の点に着いたら
-		else if ((m_CntFrame == (m_framePassed + m_FrameDestList[m_CurrentIndex])) && m_CurrentIndex <= m_posDestMax - 2)
+		else if ((m_CntFrame == (m_FramePassed + m_FrameDestList[m_CurrentIndex])) && m_CurrentIndex <= m_PosDestMax - 2)
 		{
 			//indexを次の点に指定
 			m_CurrentIndex++;
 			//今までの所要時間を記録
-			m_framePassed = m_CntFrame;
+			m_FramePassed = m_CntFrame;
 		}
-		else if (m_CurrentIndex <= m_posDestMax - 2)
+		else if (m_CurrentIndex <= m_PosDestMax - 2)
 		{
-			m_Pos = Easing::EaseValue((float(m_CntFrame - m_framePassed) / m_FrameDestList[m_CurrentIndex]),
+			m_Pos = Easing::EaseValue((float(m_CntFrame - m_FramePassed) / m_FrameDestList[m_CurrentIndex]),
 				m_PosDestList[m_CurrentIndex], m_PosDestList[m_CurrentIndex + 1], EaseType::OutCubic);
 		}
 
@@ -630,12 +587,11 @@ void EnemySnake::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end1, int frame)
 
 void EnemySnake::Set(vector<D3DXVECTOR3> posDestList, vector<int> frameDestList, int waitTime)
 {
-
 	m_PosDestList = posDestList;
 	m_FrameDestList = frameDestList;
 	m_WaitTime = waitTime;
 
-	m_posDestMax = m_PosDestList.size();
+	m_PosDestMax = m_PosDestList.size();
 
 	m_Active = true;
 }

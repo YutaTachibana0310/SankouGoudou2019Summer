@@ -15,17 +15,11 @@ using namespace std;
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define MAX_ENEMY (100)
 #define SHADOW_MAX      (8)						//シャドウ数
 //*****************************************************************************
 // 種類
 //*****************************************************************************
-typedef enum
-{
-	MODE_EXPANSION = 0,		//拡大
-	MODE_SHRINK,			//縮小
-	MODE_MAX
-} MODE;
+
 
 //*****************************************************************************
 // クラス定義
@@ -76,7 +70,8 @@ public:
 
 	int   position_history_index;					//シャドウワークのインデクス
 
-	D3DXVECTOR3			m_ShadowPos[SHADOW_MAX];	//キュー構造			
+	D3DXVECTOR3			m_ShadowPos[SHADOW_MAX];	//キュー構造		
+	D3DXVECTOR3			m_ShadowScl[SHADOW_MAX];
 
 	EnemyStraight();
 	~EnemyStraight();
@@ -96,8 +91,8 @@ public:
 	int				m_WaitTime;		//停止の時間
 	D3DXVECTOR3		m_VecChange;	//停止して以降のベクトル
 	float			m_SclTime;		//アニメーションの時間
-	MODE			g_mode;			//モード
-
+	bool			m_Expansion;	//true:拡大  false:縮小
+	
 	EnemyChange();
 	~EnemyChange();
 	HRESULT  VInit(void);
@@ -116,9 +111,9 @@ public:
 	int m_WaitTime;						//停止の時間
 	int m_CurrentIndex;					//現在、posDestListの何番へ向かっているかを入れる変数
 	int m_PrevIndex;					//1フレーム前はposDestListの何番へ向かっていたか
-	int m_posDestMax;					//m_FrameDestListの要素数
-	int m_framePassed;					//前の点を通過するのにの時間
-	int m_waitcount;					//停止状態のフレームをカウント
+	int m_PosDestMax;					//m_FrameDestListの要素数
+	int m_FramePassed;					//前の点を通過するのにの時間
+	int m_WaitCount;					//停止状態のフレームをカウント
 
 	vector<D3DXVECTOR3> m_PosDestList;  //移動先、m_PosDestList[0]はEからカウント
 	vector<int> m_FrameDestList;		//移動がいるフレーム数　m_PosDestList[1]にいる時、 m_FrameDestList[0]

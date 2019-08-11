@@ -22,6 +22,7 @@ enum class BoxCollider3DTag
 {
 	PlayerBomber,
 	Enemy,
+	Player,
 	Max
 };
 

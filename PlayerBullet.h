@@ -11,6 +11,7 @@
 #include "Framework\BaseObserver.h"
 #include "TrailCollider.h"
 #include "LineTrailModel.h"
+#include "Framework\BoxCollider3D.h"
 
 /**************************************
 É}ÉNÉçíËã`
@@ -41,9 +42,11 @@ public:
 private:
 	D3DXVECTOR3 pos;
 	TrailCollider *collider;
+	BoxCollider3D *colliderR, *colliderL;
 	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
 	int cntFrame;
 	D3DXVECTOR3 vtxUp;
+	D3DXVECTOR3 edgeR, edgeL;
 
 	void SetEdgePos(LineTrailModel model);
 };

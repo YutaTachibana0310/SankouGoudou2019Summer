@@ -16,7 +16,7 @@ using namespace std;
 /**************************************
 ƒ}ƒNƒ’è‹`
 ***************************************/
-#define ENEMY_COLLIDER_SIZE	(D3DXVECTOR3(50.0f, 50.0f, 50.0f))
+#define ENEMY_COLLIDER_SIZE	(D3DXVECTOR3(10.0f, 10.0f, 10.0f))
 #define ENEMY_FALSE_CHANGE	(300)				//false‚ÌŽžŠÔ(•ûŒü‚ª•Ï‚¦‚Á‚Ä‚©‚ç)
 #define ENEMY_FALSE_SNAKE	(900)
 
@@ -47,7 +47,6 @@ Enemy::Enemy()
 {
 	m_InstanceCount++;
 	ResourceManager::Instance()->GetMesh("Enemy", &m_pMesh);
-	collider = new BoxCollider3D(BoxCollider3DTag::Enemy, &m_Pos);
 }
 
 /****************************************
@@ -56,7 +55,6 @@ Enemy::Enemy()
 Enemy::~Enemy()
 {
 	m_InstanceCount--;
-	SAFE_DELETE(collider);
 }
 
 //EnemyStraight
@@ -434,7 +432,9 @@ void EnemyChange::VSetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int wai
 ****************************************/
 EnemySnake::EnemySnake()
 {
-
+	collider = new BoxCollider3D(BoxCollider3DTag::Enemy, &m_Pos);
+	collider->SetSize(ENEMY_COLLIDER_SIZE);
+	collider->active = false;
 }
 
 /****************************************
@@ -442,7 +442,7 @@ EnemySnake::EnemySnake()
 ****************************************/
 EnemySnake::~EnemySnake()
 {
-
+	SAFE_DELETE(collider);
 }
 
 /****************************************
@@ -476,6 +476,8 @@ HRESULT EnemySnake::VInit()
 	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	m_CntFrame = 0.0f;
+
+	collider->active = true;
 
 	return S_OK;
 }
@@ -577,6 +579,8 @@ void EnemySnake::VDraw()
 		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 		m_pMesh->Draw();
+
+		BoxCollider3D::DrawCollider(collider);
 	}
 }
 

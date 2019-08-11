@@ -9,6 +9,7 @@
 
 #include "main.h"
 #include "Framework/MeshContainer.h"
+#include "Framework\BoxCollider3D.h"
 #include <vector>
 
 using namespace std;
@@ -59,6 +60,9 @@ public:
 	//staticƒƒ“ƒo
 	MeshContainer *m_pMesh;
 	static UINT m_InstanceCount;
+
+	//“–‚½‚è”»’è
+	BoxCollider3D* collider;
 };
 
 class EnemyStraight : public Enemy

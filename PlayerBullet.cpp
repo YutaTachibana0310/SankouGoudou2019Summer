@@ -106,9 +106,6 @@ void PlayerBullet::Draw()
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
-
-	BoxCollider3D::DrawCollider(colliderL);
-	BoxCollider3D::DrawCollider(colliderR);
 }
 
 /****************************************

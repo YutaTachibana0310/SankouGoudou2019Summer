@@ -156,11 +156,6 @@ void SnakeEnemyModel::Draw()
 	{
 		enemy->VDraw();
 	}
-
-	for (auto& collider : colliderList)
-	{
-		TrailCollider::DrawCollider(collider);
-	}
 }
 
 /**************************************

@@ -109,16 +109,18 @@ PlayerBomber::PlayerBomber()
 PlayerBomber::~PlayerBomber()
 {
 	instanceCount--;
+	SAFE_DELETE(collider);
 }
 
 /**************************************
 ホーミング対象のアドレスを取得
 引数(ホーミング対象のアドレス、ボムのセット位置)
 ***************************************/
-void PlayerBomber::Set(D3DXVECTOR3 pos, D3DXVECTOR3 initpos)
+void PlayerBomber::Set(const D3DXVECTOR3 *target, D3DXVECTOR3 initpos)
 {
 	transform.pos = initpos;
-	targetPos = pos;
+	this->target = target;
+	targetPos = *target;
 	cntFrame = reachFrame = BOMBER_REACH_FRAME;
 }
 
@@ -130,6 +132,11 @@ void PlayerBomber::CalcBomber(void)
 	if (cntFrame <= 0)
 	{
 		return;
+	}
+
+	if (target != NULL)
+	{
+		targetPos = *target;
 	}
 
 	float time = (float)cntFrame;
@@ -149,4 +156,12 @@ void PlayerBomber::CalcBomber(void)
 void PlayerBomber::OnNotified(BoxCollider3DTag other)
 {
 	Uninit();
+}
+
+/***************************************
+ターゲット消失通知処理
+****************************************/
+void PlayerBomber::OnDisappearTarget()
+{
+	target = NULL;
 }

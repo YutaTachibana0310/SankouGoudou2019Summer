@@ -49,7 +49,7 @@ public:
 	virtual void Draw();
 
 	virtual void OnNotified(ObserveSubject *notifier);
-	virtual void GetEnemyPosition(std::vector<D3DXVECTOR3>& out);
+	virtual void GetEnemy(std::list<Enemy*>& out);
 	virtual void CheckDestroied();
 
 	int cntFrame;

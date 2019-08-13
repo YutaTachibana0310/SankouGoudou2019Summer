@@ -7,6 +7,7 @@
 #include "PlayerBomberController.h"
 #include <algorithm>
 #include "Framework\ResourceManager.h"
+#include "enemy.h"
 
 using namespace std;
 
@@ -69,6 +70,14 @@ PlayerBomberController::PlayerBomberController()
 
 	//ストックインターバル初期化
 	stockInterval = BOMBER_STOCK_INTERVAL;
+
+	Transform *test = new Transform();
+
+	D3DXVECTOR3& target = test->pos;
+
+	SAFE_DELETE(test);
+
+	target.x += 10.0f;
 }
 
 /*********************************************************
@@ -153,7 +162,7 @@ void PlayerBomberController::Draw()
 /***************************************************
 ボムセット処理
 ***************************************************/
-void PlayerBomberController::SetPlayerBomber(vector<D3DXVECTOR3>targetList, D3DXVECTOR3 initpos)
+void PlayerBomberController::SetPlayerBomber(list<Enemy*>targetList, D3DXVECTOR3 initpos)
 {
 	float rotAngle = 360.0f / targetList.size();
 	float radian = 0.0f;
@@ -171,15 +180,18 @@ void PlayerBomberController::SetPlayerBomber(vector<D3DXVECTOR3>targetList, D3DX
 
 		if (itr != bomberContainer.end())
 		{
-			(*itr)->Init(dir);
-			(*itr)->Set(target, initpos);
+			PlayerBomber* bomber = *itr;
+			bomber->Init(dir);
+			bomber->Set(&target->m_Pos, initpos);
+			target->AddTargeter(bomber);
 		}
 		else
 		{
 			PlayerBomber *bomber = new PlayerBomber();
 			bomber->Init(dir);
-			bomber->Set(target, initpos);
+			bomber->Set(&target->m_Pos, initpos);
 			bomberContainer.push_back(bomber);
+			target->AddTargeter(bomber);
 		}
 
 		radian += rotAngle;

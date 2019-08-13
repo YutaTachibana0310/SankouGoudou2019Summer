@@ -10,7 +10,9 @@
 #include "main.h"
 #include "PlayerBomber.h"
 #include <vector>
+#include <list>
 
+class Enemy;
 /***********************************
 É}ÉNÉçíËã`
 ************************************/
@@ -30,7 +32,7 @@ public:
 	void Update();
 	void Draw();
 
-	void SetPlayerBomber(std::vector<D3DXVECTOR3>targetList, D3DXVECTOR3 initpos);
+	void SetPlayerBomber(std::list<Enemy*>targetList, D3DXVECTOR3 initpos);
 
 	bool CanStock();
 	bool CanSet();

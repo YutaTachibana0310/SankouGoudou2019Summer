@@ -18,7 +18,6 @@
 構造体定義
 ***************************************/
 
-
 /**************************************
 プロトタイプ宣言
 ***************************************/
@@ -34,16 +33,21 @@ public:
 	void Update();				//更新処理
 	void Draw();				//描画処理
 
-	void Set(D3DXVECTOR3 pos,D3DXVECTOR3 initpos);
+	void Set(const D3DXVECTOR3* target, D3DXVECTOR3 initpos);
 	void CalcBomber(void);
 	void OnNotified(BoxCollider3DTag other);
 
+	void OnDisappearTarget();
+
+	bool active;
+
+private:
 	Transform transform;
 	D3DXVECTOR3 targetPos;
 	D3DXVECTOR3 velocity;
-	bool active;
 	int cntFrame;
 	int reachFrame;
+	const D3DXVECTOR3* target;
 
 	static int instanceCount;
 

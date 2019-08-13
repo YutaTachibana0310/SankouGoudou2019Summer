@@ -12,6 +12,7 @@
 #include "Framework\BoxCollider3D.h"
 #include "Framework\ColliderObserver.h"
 #include <vector>
+#include "PlayerBomber.h"
 
 using namespace std;
 //*****************************************************************************
@@ -52,6 +53,9 @@ public:
 	bool				m_FlgDestroyed;		//撃破判定
 	void OnNotified(BoxCollider3DTag other);//衝突判定通知レシーバー
 
+	PlayerBomber*		m_Targeter;			//自身を狙っているボンバー
+	void AddTargeter(PlayerBomber* targeter);	
+
 	//純粋仮想関数
 	virtual HRESULT  VInit(void) = 0;
 	virtual void VUninit(void) = 0;
@@ -65,7 +69,7 @@ public:
 	static UINT m_InstanceCount;
 
 protected:
-	BoxCollider3D* collider;
+	BoxCollider3D* m_Collider;
 };
 
 class EnemyStraight : public Enemy

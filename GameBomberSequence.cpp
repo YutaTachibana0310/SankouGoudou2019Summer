@@ -46,8 +46,8 @@ int GameBomberSequence::OnUpdate(GameScene* entity)
 	//発射タイミングであればボンバー発射
 	if (cntFrame == GAMEBOMBERSEQUENCE_LAUNCH_TIME)
 	{
-		vector<D3DXVECTOR3> targetList;
-		entity->enemyController->GetEnemyPositionList(targetList);
+		list<Enemy*> targetList;
+		entity->enemyController->GetEnemyList(targetList);
 		entity->playerObserver->FirePlayerBomber(targetList);
 	}
 

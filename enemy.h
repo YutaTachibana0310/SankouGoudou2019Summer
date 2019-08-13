@@ -56,6 +56,8 @@ public:
 	virtual void VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame) = 0;	//セット処理
 	virtual void VSetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int time, D3DXVECTOR3 vec) {};
 
+	void Animation(bool expansion, float sclTime);
+
 	//staticメンバ
 	MeshContainer *m_pMesh;
 	static UINT m_InstanceCount;
@@ -89,8 +91,6 @@ public:
 
 	int				m_WaitTime;		//停止の時間
 	D3DXVECTOR3		m_VecChange;	//停止して以降のベクトル
-	//float			m_SclTime;		//アニメーションの時間
-	//bool			m_Expansion;	//true:拡大  false:縮小
 	
 	EnemyChange();
 	~EnemyChange();
@@ -102,7 +102,6 @@ public:
 	void VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame);
 	void VSetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame,int waitTime, D3DXVECTOR3 vec);
 
-	void Animation(bool expansion, float sclTime);
 };
 
 class EnemySnake :public Enemy
@@ -114,9 +113,6 @@ public:
 	int				m_PosDestMax;					//m_FrameDestListの要素数
 	int				m_FramePassed;					//前の点を通過するのにの時間
 	int				m_WaitCount;					//停止状態のフレームをカウント
-
-	//float			m_SclTime;						//アニメーションの時間
-	//bool			m_Expansion;					//true:拡大  false:縮小
 
 	vector<D3DXVECTOR3> m_PosDestList;              //移動先、m_PosDestList[0]はEからカウント
 	vector<int>		    m_FrameDestList;		    //移動がいるフレーム数　m_PosDestList[1]にいる時、 m_FrameDestList[0]
@@ -135,7 +131,6 @@ public:
 	//[1]移動先ごとに設定、[2]posDestListの何番の移動がいるフレーム数に設定、[3]停止の時間
 	void Set(vector<D3DXVECTOR3> posDestList, vector<int> m_frameDestList,int m_waitTime);
 	
-	void Animation(bool expansion,float sclTime);
 };
 
 //*****************************************************************************

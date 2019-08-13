@@ -78,6 +78,27 @@ EnemyStraight::~EnemyStraight()
 }
 
 /****************************************
+拡大と縮小のアニメーション
+****************************************/
+void Enemy::Animation(bool expansion, float sclTime)
+{
+
+	if (expansion)
+	{
+		m_Scl = Easing::EaseValue(sclTime, SNAKE_SCL_MIN,
+			SNAKE_SCL_MAX, EaseType::Linear);
+	}
+	else
+	{
+		m_Scl = Easing::EaseValue(sclTime, SNAKE_SCL_MIN,
+			SNAKE_SCL_MAX, EaseType::Linear);
+
+	}
+}
+
+
+
+/****************************************
 初期化処理
 ****************************************/
 HRESULT  EnemyStraight::VInit(void)
@@ -247,6 +268,8 @@ void EnemyStraight::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame)
 
 	m_Active = true;
 }
+
+
 
 
 //EnemyChange
@@ -427,24 +450,6 @@ void EnemyChange::VSetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int wai
 	m_Active = true;
 }
 
-/****************************************
-拡大と縮小のアニメーション
-****************************************/
-void EnemyChange::Animation(bool expansion, float sclTime)
-{
-	
-	if (expansion)
-	{
-		m_Scl = Easing::EaseValue(sclTime, SNAKE_SCL_MIN,
-			SNAKE_SCL_MAX, EaseType::Linear);
-	}
-	else
-	{
-		m_Scl = Easing::EaseValue(sclTime, SNAKE_SCL_MIN,
-			SNAKE_SCL_MAX, EaseType::Linear);
-
-	}
-}
 
 
 //EnemySnake
@@ -622,20 +627,3 @@ void EnemySnake::Set(vector<D3DXVECTOR3> posDestList, vector<int> frameDestList,
 	m_Active = true;
 }
 
-/****************************************
-拡大と縮小のアニメーション
-****************************************/
-void EnemySnake::Animation(bool expansion, float sclTime)
-{
-	if (expansion)
-	{
-		m_Scl = Easing::EaseValue(sclTime, SNAKE_SCL_MIN,
-			SNAKE_SCL_MAX, EaseType::Linear);		
-	}
-	else
-	{
-		m_Scl = Easing::EaseValue(sclTime, SNAKE_SCL_MIN,
-			SNAKE_SCL_MAX, EaseType::Linear);
-
-	}
-}

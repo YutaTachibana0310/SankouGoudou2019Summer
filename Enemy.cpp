@@ -16,6 +16,7 @@ using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
+#define ENEMY_COLLIDER_SIZE	(D3DXVECTOR3(10.0f, 10.0f, 10.0f))
 #define ENEMY_FALSE_CHANGE	(300)				//falseの時間(方向が変えってから)
 #define ENEMY_FALSE_SNAKE	(900)
 
@@ -46,6 +47,11 @@ Enemy::Enemy()
 {
 	m_InstanceCount++;
 	ResourceManager::Instance()->GetMesh("Enemy", &m_pMesh);
+
+	collider = new BoxCollider3D(BoxCollider3DTag::Enemy, &m_Pos);
+	collider->SetSize(ENEMY_COLLIDER_SIZE);
+	collider->active = true;
+	collider->AddObserver(this);
 }
 
 /****************************************
@@ -54,6 +60,16 @@ Enemy::Enemy()
 Enemy::~Enemy()
 {
 	m_InstanceCount--;
+	SAFE_DELETE(collider);
+}
+
+/****************************************
+衝突判定通知レシーバー
+****************************************/
+void Enemy::OnNotified(BoxCollider3DTag other)
+{
+	m_FlgDestroyed = true;
+	m_Active = false;
 }
 
 //EnemyStraight
@@ -431,7 +447,7 @@ void EnemyChange::VSetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int wai
 ****************************************/
 EnemySnake::EnemySnake()
 {
-
+	collider->RegisterToCheckList(BoxCollider3DTag::SnakeEnemy);
 }
 
 /****************************************
@@ -574,6 +590,8 @@ void EnemySnake::VDraw()
 		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 		m_pMesh->Draw();
+
+		BoxCollider3D::DrawCollider(collider);
 	}
 }
 

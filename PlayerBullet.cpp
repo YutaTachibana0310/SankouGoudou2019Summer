@@ -16,6 +16,7 @@
 #define PLAYERBULLET_FADE_START		(PLAYERBULLET_LIFE_COUNT-PLAYERBULLET_FADE_FRAME)
 #define PLAYERBULLET_VTX_LENGTH		(2.0f)
 #define PLAYERBLLET_VTX_DELTA		(PLAYERBULLET_VTX_LENGTH / PLAYERBULLET_FADE_FRAME)
+#define PLAYERBULLET_COLLIDER_SIZE	(D3DXVECTOR3(5.0f, 5.0f, 5.0f))
 
 /**************************************
 構造体定義
@@ -34,6 +35,8 @@ void PlayerBullet::Init(LineTrailModel model)
 	collider->SetTrailIndex(model);
 	SetEdgePos(model);
 	collider->active = true;
+	colliderR->active = true;
+	colliderL->active = true;
 	active = true;
 }
 
@@ -43,6 +46,8 @@ void PlayerBullet::Init(LineTrailModel model)
 void PlayerBullet::Uninit()
 {
 	collider->active = false;
+	colliderL->active = false;
+	colliderR->active = false;
 	isDestroyed = false;
 	active = false;
 }
@@ -58,6 +63,8 @@ void PlayerBullet::Update()
 	//移動処理
 	const float Speed = 30.0f;
 	pos.z += Speed;
+	edgeL.z += Speed;
+	edgeR.z += Speed;
 
 	cntFrame++;
 
@@ -142,6 +149,12 @@ PlayerBullet::PlayerBullet()
 
 	//コライダーの観測者に自身を追加
 	collider->AddObserver(this);
+
+	//端点のコライダーインスタンス作成
+	colliderR = new BoxCollider3D(BoxCollider3DTag::PlayerBullet, &edgeR, PLAYERBULLET_COLLIDER_SIZE);
+	colliderL = new BoxCollider3D(BoxCollider3DTag::PlayerBullet, &edgeL, PLAYERBULLET_COLLIDER_SIZE);
+	colliderR->AddObserver(this);
+	colliderL->AddObserver(this);
 }
 
 /****************************************
@@ -158,9 +171,8 @@ PlayerBullet::~PlayerBullet()
 void PlayerBullet::SetEdgePos(LineTrailModel model)
 {
 	//始点と終点を結ぶ線分を計算し、長さを半分にする
-	D3DXVECTOR3 start, end;
-	model.GetEdgePos(&start, &end);
-	D3DXVECTOR3 diff = end- start;
+	model.GetEdgePos(&edgeR, &edgeL);
+	D3DXVECTOR3 diff = edgeR - edgeL;
 	diff /= 2.0f;
 
 	//線分に垂直なベクトルを求める
@@ -177,16 +189,21 @@ void PlayerBullet::SetEdgePos(LineTrailModel model)
 	vtxBuff->Unlock();
 
 	//ワールド座標を始点と終点の真ん中に設定
-	pos = start + diff;
+	pos = edgeL + diff;
 
 	//パーティクルセット
-	GameParticleManager::Instance()->SetPlayerBulletParticle(&pos, &active, &start, &end);
+	GameParticleManager::Instance()->SetPlayerBulletParticle(&pos, &active, &edgeR, &edgeL);
 }
 
 /****************************************
 衝突判定通知レシーバー
 *****************************************/
 void PlayerBullet::OnNotified(ObserveSubject *notifier)
+{
+	isDestroyed = true;
+}
+
+void PlayerBullet::OnNotified(BoxCollider3DTag other)
 {
 	isDestroyed = true;
 }

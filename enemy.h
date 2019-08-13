@@ -9,6 +9,8 @@
 
 #include "main.h"
 #include "Framework/MeshContainer.h"
+#include "Framework\BoxCollider3D.h"
+#include "Framework\ColliderObserver.h"
 #include <vector>
 
 using namespace std;
@@ -25,7 +27,7 @@ using namespace std;
 // クラス定義
 //*****************************************************************************
 //抽象クラス　さまざまな派生クラスのオブジェクトを一括管理のため
-class Enemy
+class Enemy : public ColliderObserver
 {
 public:
 	
@@ -47,6 +49,8 @@ public:
 	D3DXVECTOR3			m_RotDest;			//目的の向き
 	int					m_CntFrame;			//フレームカウント
 	
+	bool				m_FlgDestroyed;		//撃破判定
+	void OnNotified(BoxCollider3DTag other);//衝突判定通知レシーバー
 
 	//純粋仮想関数
 	virtual HRESULT  VInit(void) = 0;
@@ -59,6 +63,9 @@ public:
 	//staticメンバ
 	MeshContainer *m_pMesh;
 	static UINT m_InstanceCount;
+
+protected:
+	BoxCollider3D* collider;
 };
 
 class EnemyStraight : public Enemy

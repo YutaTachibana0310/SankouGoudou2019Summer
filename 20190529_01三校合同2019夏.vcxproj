@@ -170,6 +170,7 @@
     <ClInclude Include="EnemyWarpHole.h" />
     <ClInclude Include="EnemyWarpHoleController.h" />
     <ClInclude Include="Framework\BoardPolygon.h" />
+    <ClInclude Include="Framework\ColliderObserver.h" />
     <ClInclude Include="Framework\Gamepad.h" />
     <ClInclude Include="Framework\Keyboard.h" />
     <ClInclude Include="Framework\Mouse.h" />

@@ -8,6 +8,7 @@
 #include "GameParticleManager.h"
 #include "ScoreManager.h"
 #include "Framework\BaseEmitter.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -97,12 +98,7 @@ void EnemyModel::OnNotified(ObserveSubject *notifier)
 	//所属するすべてのエネミーにダメージ処理
 	for (auto& enemy : enemyList)
 	{
-		enemy->VUninit();
-		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
-
-		//スコア・コンボ加算
-		SetAddScore(100);
-		SetAddCombo(1);
+		enemy->m_FlgDestroyed = true;
 	}
 
 	//チャージエフェクト非表示
@@ -111,9 +107,39 @@ void EnemyModel::OnNotified(ObserveSubject *notifier)
 		if(emitter != NULL)
 			emitter->active = false;
 	}
+}
 
-	//非アクティブに
-	Uninit();
+/**************************************
+撃破済みエネミー確認処理
+***************************************/
+void EnemyModel::CheckDestroied()
+{
+	for (auto& enemy : enemyList)
+	{
+		if (!enemy->m_FlgDestroyed)
+			continue;
+
+		enemy->VUninit();
+		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
+
+		//スコア・コンボ加算
+		SetAddScore(100);
+		SetAddCombo(1);
+
+		SAFE_DELETE(enemy);
+	}
+
+	//消去
+	auto itrNewEnd = remove_if(enemyList.begin(), enemyList.end(), [](Enemy* enemy)
+	{
+		return enemy == NULL;
+	});
+	enemyList.erase(itrNewEnd, enemyList.end());
+
+	if (enemyList.empty())
+	{
+		Uninit();
+	}
 }
 
 /**************************************

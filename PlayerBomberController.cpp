@@ -155,8 +155,15 @@ void PlayerBomberController::Draw()
 ***************************************************/
 void PlayerBomberController::SetPlayerBomber(vector<D3DXVECTOR3>targetList, D3DXVECTOR3 initpos)
 {
+	float rotAngle = 360.0f / targetList.size();
+	float radian = 0.0f;
 	for (auto &target : targetList)
 	{
+		D3DXVECTOR3 dir;
+		ZeroMemory(&dir, sizeof(dir));
+		dir.x = sinf(radian);
+		dir.y = cosf(radian);
+
 		auto itr = find_if(bomberContainer.begin(), bomberContainer.end(), [](PlayerBomber* bomber)
 		{
 			return !bomber->active;
@@ -164,16 +171,18 @@ void PlayerBomberController::SetPlayerBomber(vector<D3DXVECTOR3>targetList, D3DX
 
 		if (itr != bomberContainer.end())
 		{
-			(*itr)->Init();
+			(*itr)->Init(dir);
 			(*itr)->Set(target, initpos);
 		}
 		else
 		{
 			PlayerBomber *bomber = new PlayerBomber();
-			bomber->Init();
+			bomber->Init(dir);
 			bomber->Set(target, initpos);
 			bomberContainer.push_back(bomber);
 		}
+
+		radian += rotAngle;
 	}
 
 	//ストックを消費

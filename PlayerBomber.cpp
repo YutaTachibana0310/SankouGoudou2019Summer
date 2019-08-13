@@ -35,7 +35,7 @@ int PlayerBomber::instanceCount = 0;				//インスタンスカウンタ
 /**************************************
 初期化処理
 ***************************************/
-void PlayerBomber::Init(void)
+void PlayerBomber::Init(const D3DXVECTOR3& moveDir)
 {
 	active = true;
 	cntFrame = 0;
@@ -44,12 +44,7 @@ void PlayerBomber::Init(void)
 	transform.pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
-	float x = RandomRangef(-1.0f, 1.0f);
-	float y = RandomRangef(-1.0f, 1.0f);
-	D3DXVECTOR3 dir = D3DXVECTOR3(x, y, 0.0f);
-	D3DXVec3Normalize(&dir, &dir);
-	velocity = dir * BOBMER_INIT_SPEED;
-
+	velocity = moveDir * BOBMER_INIT_SPEED;
 
 	GameParticleManager::Instance()->SetPlayerBomberParticle(&transform.pos, &active);
 
@@ -62,6 +57,7 @@ void PlayerBomber::Init(void)
 void PlayerBomber::Uninit(void)
 {
 	active = false;
+	collider->active = false;
 }
 
 /**************************************

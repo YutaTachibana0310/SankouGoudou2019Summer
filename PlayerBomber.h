@@ -26,9 +26,10 @@ class PlayerBomber : public ColliderObserver
 {
 public:
 	PlayerBomber();				//コンストラクタ
-	~PlayerBomber();				//デストラクタ
+	~PlayerBomber();			//デストラクタ
 
-	void Init();				//初期化処理
+	//初期化処理
+	void Init(const D3DXVECTOR3& moveDir);
 	void Uninit();				//終了処理
 	void Update();				//更新処理
 	void Draw();				//描画処理

@@ -188,17 +188,28 @@ void BoxCollider3D::SetPosAddress(D3DXVECTOR3 *pPos)
 void BoxCollider3D::UpdateCollision()
 {
 	//PlayerBomber‚ÆEnemy‚ÅÕ“Ë”»’è
-	for (auto &bomber : checkDictionary[BoxCollider3DTag::PlayerBomber])
+	CheckRoundRobin(BoxCollider3DTag::PlayerBomber, BoxCollider3DTag::Enemy);
+
+	//PlayerBullet‚ÆSnakeEnemy‚ÅÕ“Ë”»’è
+	CheckRoundRobin(BoxCollider3DTag::PlayerBullet, BoxCollider3DTag::SnakeEnemy);
+}
+
+/**************************************
+‘“–‚½‚è”»’è
+***************************************/
+void BoxCollider3D::CheckRoundRobin(BoxCollider3DTag tag1, BoxCollider3DTag tag2)
+{
+	for (auto& collider1 : checkDictionary[tag1])
 	{
-		if (!bomber->active)
+		if (!collider1->active)
 			continue;
 
-		for (auto &enemy : checkDictionary[BoxCollider3DTag::Enemy])
+		for (auto& collider2 : checkDictionary[tag2])
 		{
-			if (!enemy->active)
+			if (!collider2->active)
 				continue;
 
-			bomber->CheckCollision(enemy);
+			collider1->CheckCollision(collider2);
 		}
 	}
 }

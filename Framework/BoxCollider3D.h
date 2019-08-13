@@ -24,6 +24,7 @@ enum class BoxCollider3DTag
 	Enemy,
 	Player,
 	SnakeEnemy,
+	PlayerBullet,
 	Max
 };
 
@@ -67,7 +68,7 @@ private:
 	D3DXVECTOR3 offset;		//オフセット
 
 	static std::map<BoxCollider3DTag, std::list<BoxCollider3D*>> checkDictionary;
-
+	static void CheckRoundRobin(BoxCollider3DTag tag1, BoxCollider3DTag tag2);
 
 #ifdef BOXCOLLIDER3D_USE_DEBUG
 	static UINT instanceCount;		//インスタンスカウント

@@ -154,8 +154,10 @@ PlayerBullet::PlayerBullet()
 	collider->AddObserver(this);
 
 	//端点のコライダーインスタンス作成
-	colliderR = new BoxCollider3D(BoxCollider3DTag::Player, &edgeR, PLAYERBULLET_COLLIDER_SIZE);
-	colliderL = new BoxCollider3D(BoxCollider3DTag::Player, &edgeL, PLAYERBULLET_COLLIDER_SIZE);
+	colliderR = new BoxCollider3D(BoxCollider3DTag::PlayerBullet, &edgeR, PLAYERBULLET_COLLIDER_SIZE);
+	colliderL = new BoxCollider3D(BoxCollider3DTag::PlayerBullet, &edgeL, PLAYERBULLET_COLLIDER_SIZE);
+	colliderR->AddObserver(this);
+	colliderL->AddObserver(this);
 }
 
 /****************************************
@@ -200,6 +202,11 @@ void PlayerBullet::SetEdgePos(LineTrailModel model)
 衝突判定通知レシーバー
 *****************************************/
 void PlayerBullet::OnNotified(ObserveSubject *notifier)
+{
+	isDestroyed = true;
+}
+
+void PlayerBullet::OnNotified(BoxCollider3DTag other)
 {
 	isDestroyed = true;
 }

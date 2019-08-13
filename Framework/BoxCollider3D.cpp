@@ -163,11 +163,11 @@ bool BoxCollider3D::CheckCollision(BoxCollider3D *other)
 	//�Փ˒ʒm
 	for (auto observer : this->observerList)
 	{
-		observer->OnNotify(other->tag);
+		observer->OnNotified(other->tag);
 	}
 	for (auto observer : other->observerList)
 	{
-		observer->OnNotify(this->tag);
+		observer->OnNotified(this->tag);
 	}
 
 	return true;

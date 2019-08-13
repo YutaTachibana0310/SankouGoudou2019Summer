@@ -51,6 +51,7 @@ Enemy::Enemy()
 	collider = new BoxCollider3D(BoxCollider3DTag::Enemy, &m_Pos);
 	collider->SetSize(ENEMY_COLLIDER_SIZE);
 	collider->active = true;
+	collider->AddObserver(this);
 }
 
 /****************************************
@@ -60,6 +61,14 @@ Enemy::~Enemy()
 {
 	m_InstanceCount--;
 	SAFE_DELETE(collider);
+}
+
+/****************************************
+衝突判定通知レシーバー
+****************************************/
+void Enemy::OnNotified(BoxCollider3DTag other)
+{
+	flgDestroyed = true;
 }
 
 //EnemyStraight

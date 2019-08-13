@@ -9,6 +9,7 @@
 #include "EnemyController.h"
 #include "InputController.h"
 #include "PlayerObserver.h"
+#include "Framework\BoxCollider3D.h"
 #include "sound.h"
 
 /**************************************
@@ -49,6 +50,7 @@ int GameBattle::OnUpdate(GameScene *entity)
 
 	//Õ“Ë”»’è
 	TrailCollider::UpdateCollision();
+	BoxCollider3D::UpdateCollision();
 
 	//I—¹”»’è
 	if (entity->cntFrame == GAMEBATTLE_DURATION)

@@ -72,43 +72,10 @@ void ScoreParticleController::Init()
 ***************************************/
 void ScoreParticleController::Emit()
 {
-	int emitterMax = emitterContainer.size();
 
-	for (BaseEmitter *emitter : emitterContainer)
+	ForEachEmitter(SCOREPARTICLE_EMIT_NUM, [](BaseEmitter *emitter, BaseParticle *particle)
 	{
-		if (!emitter->active)
-			continue;
-
-		int emitCount = 0;
-		for (BaseParticle *p : particleContainer)
-		{
-			if (p->active)
-				continue;
-
-			ScoreParticle* entity = static_cast<ScoreParticle*>(p);
-
-			//移動方向設定
-			entity->moveDir.x = RandomRangef(-1.0f, 1.0f);
-			entity->moveDir.y = RandomRangef(-1.0f, 1.0f);
-			entity->moveDir.z = RandomRangef(-1.0f, 1.0f);
-
-			//寿命。スピード設定
-			entity->lifeFrame = SCOREPARTICLE_LIFEFRAME + RandomRange(-SCOREPARTICLE_LIFE_RANGE, SCOREPARTICLE_LIFE_RANGE);
-			entity->speed = SCOREPARTICLE_SPEED_INIT + RandomRangef(-SCOREPARTICLE_SPEED_RANGE, SCOREPARTICLE_SPEED_RANGE);
-
-			//座標設定、初期化
-			entity->transform.pos = emitter->transform.pos;
-			entity->Init();
-
-			emitCount++;
-
-			//既定数放出していればbreak
-			if (emitCount == SCOREPARTICLE_EMIT_NUM)
-				break;
-		}
-
-		//放出できるパーティクルが無いためリターン
-		if (emitCount < SCOREPARTICLE_EMIT_NUM)
-			return;
-	}
+		particle->transform.pos = emitter->transform.pos;
+		particle->Init();
+	});
 }

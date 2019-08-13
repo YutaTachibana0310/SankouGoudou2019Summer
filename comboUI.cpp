@@ -40,10 +40,10 @@ void UpdateNumberColor(void);
 // グローバル変数宣言
 //*****************************************************************************
 OBJECT	comboParts[COMBOPARTS_MAX];
-int		g_combo				= 0;	// コンボ
-int		g_combo_max			= 0;			
-static float radian			= 0;
-static bool	volumeUpEffectUsed  = false;
+int		g_combo;	// コンボ
+int		g_combo_max;
+static float radian;
+static bool	volumeUpEffectUsed;
 
 //=============================================================================
 // 初期化処理
@@ -83,6 +83,10 @@ HRESULT InitCombo(void)
 	{
 		g_combo_max += (BASE_NUMBER -1)* (int)powf(BASE_NUMBER, (float)nCntPlace);
 	}
+
+	g_combo = 0;
+	radian = 0;
+	volumeUpEffectUsed = false;
 
 	return S_OK;
 }

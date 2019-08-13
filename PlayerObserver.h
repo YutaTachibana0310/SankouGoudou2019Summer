@@ -49,10 +49,18 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void OnStartBomberSequence();
+	void OnFinishBomberSequence();
 
 	void CheckInput();
 	void PushInput(int num);
+
+	bool ShouldFireBomber();
+	void FirePlayerBomber(std::vector<D3DXVECTOR3> posList);
+	void OnStartAccel();
+
 	PlayerModel *model;
+	bool enableUpdateLogic;
 
 private:
 	Player *player;
@@ -67,6 +75,8 @@ private:
 	std::vector<D3DXVECTOR3> targetPos;
 
 	void ChangeStatePlayer(PlayerState next);
+	
+	void TryStockBomber();
 
 	void OnFinishPlayerMove();
 	void OnFinishPlayerWait();

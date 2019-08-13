@@ -12,7 +12,7 @@
 
 
 
-bool IsEntered(int m) {
+bool GetMoveInput(int m) {
 
 	//マウスクリックの検出があるか
 	if (IsMouseLeftTriggered())
@@ -35,6 +35,17 @@ bool IsEntered(int m) {
 	else if (m == MIDDLE_RIGHT) {
 		return GetKeyboardTrigger(DIK_D);
 	}
+
+	return false;
+}
+
+bool GetBomberInput()
+{
+	if (IsMouseRightTriggered())
+		return true;
+
+	if (GetKeyboardTrigger(DIK_SPACE) || GetKeyboardTrigger(DIK_LSHIFT))
+		return true;
 
 	return false;
 }

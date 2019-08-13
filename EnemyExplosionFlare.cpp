@@ -14,7 +14,7 @@
 #define ENEMYEXPLOSIONFLARE_LIFE_MIN		(10)
 #define ENEMYEXPLOSIONFLARE_LIFE_MAX		(30)
 
-#define ENEMYEXPLOSIONFLARE_MOVEDIR_END		(&D3DXVECTOR3(0.0f, -1.0f, 0.0f))
+#define ENEMYEXPLOSIONFLARE_MOVEDIR_END		(D3DXVECTOR3(0.0f, -1.0f, 0.0f))
 
 #define ENEMYEXPLOSIONFLARE_SPEED_MIN		(2.8f)
 #define ENEMYEXPLOSIONFLARE_SPEED_MAX		(3.5f)
@@ -57,13 +57,13 @@ void EnemyExplosionFlare::Update()
 
 	//移動方向に重力がかかってるっぽくする
 	float t = (float)cntFrame / (float)lifeFrame;
-	D3DXVECTOR3 moveDir = Easing<D3DXVECTOR3>::GetEasingValue(t, &initMoveDir, ENEMYEXPLOSIONFLARE_MOVEDIR_END, EasingType::InCubic);
+	D3DXVECTOR3 moveDir = Easing::EaseValue(t, initMoveDir, ENEMYEXPLOSIONFLARE_MOVEDIR_END, EaseType::InCubic);
 
 	//移動処理
 	transform.pos += moveDir * speed;
 
 	//スケール処理
-	transform.scale = Easing<D3DXVECTOR3>::GetEasingValue(t, &initScale, &D3DXVECTOR3(0.0f, 0.0f, 0.0f), EasingType::InExponential);
+	transform.scale = Easing::EaseValue(t, initScale, D3DXVECTOR3(0.0f, 0.0f, 0.0f), EaseType::InExpo);
 
 	//寿命判定
 	if (cntFrame == lifeFrame)

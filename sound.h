@@ -22,15 +22,19 @@ const char BGM[] = "data/SOUND/Win/BGM.xwb";
 const char SE[] = "data/SOUND/Win/SE.xwb";
 const char SOUND_BANK[] = "data/SOUND/Win/Sound Bank.xsb";
 
-const char TITLE_BGM[] = "Blue_LIGHT_Techno";
+const char TITLE_BGM[] = "Jackhammer";
+const char GAME_BGM[] = "Blue_LIGHT_Techno";
+
 const char ENTER_SE[] = "決定SE";
 const char TEST_SE[] = "発砲音";
+const char COMBO_SE[] = "combo";
 
 //ナンバーはWaveに登録した順番になること
 //名前は正式曲名ではなく、わかりやすく明示すること（例：ステージ1BGM）
 enum BGMNAME
 {
 	GAMEBGM = 0,
+	TITLEBGM,
 	MAXBGM
 };
 
@@ -38,6 +42,7 @@ enum SENAME
 {
 	ENTERSE = 0,
 	TESTSE,
+	COMBOSE,
 	MAXSE
 };
 class Sound {
@@ -68,6 +73,8 @@ public:
 	bool playsound;
 	bool pause;
 	int changepitch;
+	float changevol;
+	int UIcounta;
 
 	static Sound *GetInstance() {
 		return sound;

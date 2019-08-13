@@ -37,6 +37,9 @@ SpeedBlur::SpeedBlur()
 	hTU = effect->GetParameterByName(0, "tU");
 	hTV = effect->GetParameterByName(0, "tV");
 	hStartLength = effect->GetParameterByName(0, "startLength");
+	hAspectRatio = effect->GetParameterByName(0, "aspectRatio");
+
+	SetAspectRatio((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
 }
 
 /**************************************
@@ -112,5 +115,14 @@ void SpeedBlur::SetSurfaceSize(float width, float height)
 void SpeedBlur::SetStartLength(float length)
 {
 	effect->SetFloat(hStartLength, length);
+	effect->CommitChanges();
+}
+
+/**************************************
+アスペクト比設定処理
+***************************************/
+void SpeedBlur::SetAspectRatio(float width, float height)
+{
+	effect->SetFloat(hAspectRatio, height / width);
 	effect->CommitChanges();
 }

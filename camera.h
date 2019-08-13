@@ -22,7 +22,7 @@ typedef struct
 	D3DXVECTOR3 rot;
 	float dist;
 
-	D3DXMATRIX view, projection;
+	D3DXMATRIX view, projection, invView;
 	D3DXVECTOR3 posOffset;
 }Camera;
 
@@ -43,5 +43,7 @@ D3DXVECTOR3 GetCameraPos(void);
 Camera *GetCameraAdr(void);
 
 D3DXMATRIX GetPlayerMtxView(int targetPlayerID);
+
+D3DXMATRIX GetInvView();
 
 #endif

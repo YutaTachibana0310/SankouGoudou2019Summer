@@ -11,40 +11,63 @@
 #include "Framework/MeshContainer.h"
 #include "PlayerTrail.h"
 #include "IStateMachine.h"
+#include "TrailCollider.h"
+#include "Framework\BaseObserver.h"
+#include "Framework\AnimContainer.h"
+#include "BomberStockEffect.h"
 
 /**************************************
 マクロ定義
 ***************************************/
-
+enum PlayerAnimID
+{
+	Flying,
+	Attack,
+	FireBomber,
+	PlayerAnimMax
+};
 
 /**************************************
 プレイヤークラス定義
 ***************************************/
-class Player
+class Player : public BaseObserver
 {
 public:
 	Player();
 	~Player();
 
-	MeshContainer* mesh;
 	Transform transform;
+	TrailCollider *collider;
+	float hp;
 
 	bool active;
 	int	cntFrame;
-	int inputInterval;
+	int inputInterval;				//入力間隔
+
+	bool flgInvincible;				//無敵状態
+	int cntInvincible;				//無敵フレーム
 
 	D3DXVECTOR3	initpos;			// 移動前位置
 	D3DXVECTOR3	goalpos;			// 移動後位置
-
 
 	IStateMachine<Player> *state;
 
 	//関数
 	void ChangeState(IStateMachine<Player> *next);
+	void ChangeAnim(PlayerAnimID next);
 	void Init();
 	void Uninit();
 	int Update();
+	void Animation();
 	void Draw();
+
+	void OnNotified(ObserveSubject* notifier);
+	void ChargeBomber();
+	void StockBomber();
+
+private:
+	AnimContainer* animation;
+	BomberStockEffect* stockEffect;
 };
 
 #endif

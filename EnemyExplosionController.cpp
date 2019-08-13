@@ -53,34 +53,15 @@ void EnemyExplosionController::Init()
 ***************************************/
 void EnemyExplosionController::Emit()
 {
-	for (auto& emitter : emitterContainer)
+
+	Base::ForEachEmitter(ENEMYEXPLOSION_EMIT_NUM, 
+		[](BaseEmitter *emitter, BaseParticle *particle)
 	{
-		if (!emitter->active)
-			continue;
+		//座標設定
+		particle->transform.pos = emitter->transform.pos;
 
-		const int EmitNum = ENEMYEXPLOSION_EMIT_NUM;
-
-		int emitCount = 0;
-		for (auto& particle : particleContainer)
-		{
-			if (particle->active)
-				continue;
-
-			//座標設定
-			particle->transform.pos = emitter->transform.pos;
-
-			//初期化してカウント
-			particle->Init();
-			emitCount++;
-
-			//決まった数だけ放出していたらbreak
-			if (emitCount == EmitNum)
-				break;
-		}
-
-		//放出できるパーティクルが無いのでリターン
-		if (emitCount < EmitNum)
-			return;
-	}
+		//初期化してカウント
+		particle->Init();
+	});
 
 }

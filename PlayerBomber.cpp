@@ -41,15 +41,14 @@ void PlayerBomber::Init(void)
 
 	transform.pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	transform.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	float x = RandomRangef(-BOMBER_MOVE, BOMBER_MOVE);
 	float y = RandomRangef(-BOMBER_MOVE, BOMBER_MOVE);
 	velocity = D3DXVECTOR3(x, y, 0.0f);
 
 	GameParticleManager::Instance()->SetPlayerBomberParticle(&transform.pos, &active);
-
 }
+
 /**************************************
 終了処理
 ***************************************/
@@ -83,36 +82,9 @@ void PlayerBomber::Draw(void)
 		return;
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, quatMatrixs, mtxWorld, view, invView;
-	// ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&mtxWorld);
-
-	// スケールを反映
-	D3DXMatrixScaling(&mtxScl, transform.scale.y, transform.scale.x, transform.scale.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScl);
-
-	// 回転を反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, transform.rot.y, transform.rot.x, transform.rot.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRot);
-
-	//逆行列を掛ける
-	view = GetMtxView();
-	D3DXMatrixInverse(&invView, NULL, &view);
-	invView._41 = 0.0f;
-	invView._42 = 0.0f;
-	invView._43 = 0.0f;
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &invView);
-
-	// 移動を反映
-	D3DXMatrixTranslation(&mtxTranslate, transform.pos.x, transform.pos.y, transform.pos.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTranslate);
-
-	// ワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+	transform.SetWorld();
 
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
-
-
 }
 
 /**************************************
@@ -122,32 +94,22 @@ PlayerBomber::PlayerBomber()
 {
 	active = false;
 	instanceCount++;
-
 }
-
 
 /**************************************
 デストラクタ
 ***************************************/
 PlayerBomber::~PlayerBomber()
 {
-	
-
 	instanceCount--;
-	if (instanceCount == 0)
-	{
-		//インスタンスが残っていなければテクスチャ解放
-
-	}
 }
 
 /**************************************
 ホーミング対象のアドレスを取得
 引数(ホーミング対象のアドレス、ボムのセット位置)
 ***************************************/
-void PlayerBomber::Set(D3DXVECTOR3 *pos, D3DXVECTOR3 initpos)
+void PlayerBomber::Set(D3DXVECTOR3 pos, D3DXVECTOR3 initpos)
 {
-	//active = true;
 	transform.pos = initpos;
 	targetPos = pos;
 	cntFrame = reachFrame = 30;
@@ -159,16 +121,14 @@ void PlayerBomber::Set(D3DXVECTOR3 *pos, D3DXVECTOR3 initpos)
 ****************************************/
 void PlayerBomber::CalcBomber(void)
 {
-
-	
 	if (cntFrame <= 0)
 	{
 		return;
 	}
 
-	float time = cntFrame;
+	float time = (float)cntFrame;
 
-	D3DXVECTOR3 diff = *targetPos - transform.pos;
+	D3DXVECTOR3 diff = targetPos - transform.pos;
 
 	D3DXVECTOR3 acceleration = (diff - velocity * time) * 2.0f / (time * time);
 

@@ -6,6 +6,9 @@
 //=====================================
 #include "EnemyModel.h"
 #include "GameParticleManager.h"
+#include "ScoreManager.h"
+#include "Framework\BaseEmitter.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -14,8 +17,17 @@ using namespace std;
 ***************************************/
 
 /**************************************
-構造体定義
+static変数
 ***************************************/
+//五角形の外周を構成するLineModel
+const vector<LineTrailModel> EnemyModel::OuterLineModel = {
+	LineTrailModel(0, 1),
+	LineTrailModel(1, 2),
+	LineTrailModel(2, 3),
+	LineTrailModel(3, 4),
+	LineTrailModel(4, 0)
+};
+
 
 /**************************************
 コンストラクタ
@@ -35,6 +47,12 @@ EnemyModel::EnemyModel()
 EnemyModel::~EnemyModel()
 {
 	SAFE_DELETE(collider);
+
+	for (auto& enemy : enemyList)
+	{
+		SAFE_DELETE(enemy);
+	}
+	enemyList.clear();
 }
 
 /**************************************
@@ -53,19 +71,8 @@ void EnemyModel::Init(LineTrailModel model)
 ***************************************/
 void EnemyModel::Uninit()
 {
-	//エネミーリストクリア
-	enemyList.clear();
-
 	collider->active = false;
 	active = false;
-}
-
-/**************************************
-更新処理
-***************************************/
-int EnemyModel::Update()
-{
-	return state->OnUpdate(this);
 }
 
 /**************************************
@@ -73,6 +80,10 @@ int EnemyModel::Update()
 ***************************************/
 void EnemyModel::Draw()
 {
+	for (auto& enemy : enemyList)
+	{
+		enemy->VDraw();
+	}
 
 #ifdef TRAILCOLLIDER_USE_DEBUG
 	TrailCollider::DrawCollider(collider);
@@ -87,27 +98,57 @@ void EnemyModel::OnNotified(ObserveSubject *notifier)
 	//所属するすべてのエネミーにダメージ処理
 	for (auto& enemy : enemyList)
 	{
-		enemy->Uninit();
-		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->pos);
+		enemy->m_FlgDestroyed = true;
 	}
 
-	//非アクティブに
-	Uninit();
+	//チャージエフェクト非表示
+	for (auto& emitter : chageEffectList)
+	{
+		if(emitter != NULL)
+			emitter->active = false;
+	}
 }
 
 /**************************************
-状態遷移処理
+撃破済みエネミー確認処理
 ***************************************/
-void EnemyModel::ChangeState(IStateMachine<EnemyModel> *next)
+void EnemyModel::CheckDestroied()
 {
-	state = next;
-	state->OnStart(this);
+	for (auto& enemy : enemyList)
+	{
+		if (!enemy->m_FlgDestroyed)
+			continue;
+
+		enemy->VUninit();
+		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
+
+		//スコア・コンボ加算
+		SetAddScore(100);
+		SetAddCombo(1);
+
+		SAFE_DELETE(enemy);
+	}
+
+	//消去
+	auto itrNewEnd = remove_if(enemyList.begin(), enemyList.end(), [](Enemy* enemy)
+	{
+		return enemy == NULL;
+	});
+	enemyList.erase(itrNewEnd, enemyList.end());
+
+	if (enemyList.empty())
+	{
+		Uninit();
+	}
 }
 
 /**************************************
-エネミー追加処理
+エネミー座標取得処理
 ***************************************/
-void EnemyModel::AddEnemy(Enemy* enemy)
+void EnemyModel::GetEnemyPosition(vector<D3DXVECTOR3>& out)
 {
-	enemyList.push_back(enemy);
+	for (auto& enemy : enemyList)
+	{
+		out.push_back(enemy->m_Pos);
+	}
 }

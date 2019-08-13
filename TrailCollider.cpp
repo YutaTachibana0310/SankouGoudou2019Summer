@@ -121,6 +121,21 @@ void TrailCollider::UpdateCollision()
 			bullet->CheckCollision(enemy);
 		}
 	}
+
+	//プレイヤーとエネミーの衝突判定
+	for (TrailCollider* enemyBullet : checkDictionary[TrailColliderTag::EnemyBullet])
+	{
+		if (!enemyBullet->active)
+			continue;
+
+		for (TrailCollider *player : checkDictionary[TrailColliderTag::Player])
+		{
+			if (!player->active)
+				continue;
+
+			enemyBullet->CheckCollision(player);
+		}
+	}
 }
 
 /**************************************
@@ -155,12 +170,12 @@ void TrailCollider::RemoveFromCheckList()
 	checkList->erase(itr);
 }
 
-#ifdef TRAILCOLLIDER_USE_DEBUG
 /**************************************
 Collider描画処理
 ***************************************/
 void TrailCollider::DrawCollider(TrailCollider *collider)
 {
+#ifdef TRAILCOLLIDER_USE_DEBUG
 	if (!collider->active)
 		return;
 
@@ -176,7 +191,8 @@ void TrailCollider::DrawCollider(TrailCollider *collider)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 	pDevice->SetTexture(0, NULL);
+	pDevice->SetFVF(FVF_VERTEX_3D);
 
 	renderer->Draw();
-}
 #endif
+}

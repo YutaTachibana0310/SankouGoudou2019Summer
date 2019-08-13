@@ -11,6 +11,7 @@
 #include "BaseParticle.h"
 #include "BaseEmitter.h"
 #include <vector>
+#include <functional>
 
 /**************************************
 マクロ定義
@@ -36,7 +37,7 @@ public:
 	virtual void Init() = 0;
 	virtual void Emit() = 0;
 
-	virtual void SetEmitter(D3DXVECTOR3 *pos);	//エミッタセット処理
+	virtual BaseEmitter* SetEmitter(D3DXVECTOR3 *pos);	//エミッタセット処理
 	virtual void Uninit();						//終了処理
 	void Update();						//更新処理
 	bool Draw();						//描画処理
@@ -53,6 +54,9 @@ protected:
 
 	void MakeUnitBuffer(const D3DXVECTOR2* size, const D3DXVECTOR2* texDix);	//単位頂点バッファ作成処理
 	void LoadTexture(const char* filePath);			//テクスチャ読み込み処理
+
+	//全エミッタに対する放出命令
+	void ForEachEmitter(UINT emitNum, std::function<void(BaseEmitter *emitter, BaseParticle *particle)> func);
 
 private:
 	//インスタンシングに必要な静的メンバ

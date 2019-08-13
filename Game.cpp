@@ -12,11 +12,13 @@
 #include "debugTimer.h"
 #include "sound.h"
 #include "masktex.h"
+#include "Framework\ResourceManager.h"
 
 #include "IStateScene.h"
 #include "TitleScene.h"
 #include "GameScene.h"
 #include "ResultScene.h"
+#include "EditorScene.h"
 #include "InputController.h"
 
 #include "SoundStateScene.h"
@@ -58,11 +60,6 @@ static SoundStateScene* ssm[SceneMax];
 //現在のシーン
 static Scene currentScene = SceneGame;
 
-
-//シーンチェンジ用
-bool scenechange = false;
-int changecounta = 0;
-
 /**************************************
 初期化処理
 ***************************************/
@@ -83,6 +80,7 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	fsm[SceneTitle] = new TitleScene();
 	fsm[SceneGame] = new GameScene();
 	fsm[SceneResult] = new ResultScene();
+	fsm[SceneEditor] = new EditorScene();
 
 	ssm[SceneTitle] = new SoundTitleScene();
 	ssm[SceneGame] = new SoundGameScene();
@@ -117,8 +115,12 @@ void UpdateGame(HWND hWnd)
 	UpdateMask();
 
 	//念のためサウンドを最初に（渡邉）
-	Sound::GetInstance()->run();
-	ssm[currentScene]->Play();
+	if (ssm[currentScene] != nullptr)
+	{
+		Sound::GetInstance()->run();
+		ssm[currentScene]->Play();
+	}
+
 	UpdateDebugWindow();
 	UpdateInput();
 	UpdateLight();
@@ -149,8 +151,8 @@ void DrawGame()
 
 	//オブジェクトを描画
 	SetCamera();
-
 	fsm[currentScene]->Draw();
+
 
 	//マスク終了
 	DrawMaskTexEnd();
@@ -165,10 +167,20 @@ void DrawGame()
 	pDevice->SetFVF(FVF_VERTEX_2D);
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
 
-	//FPS表示
-#ifdef _DEBUG
+	//デバッグ表示
+//#ifdef _DEBUG
 	DebugLog("FPS:%d", GetCurrentFPS());
-#endif
+
+	static int debugCurrentScene = currentScene;
+	BeginDebugWindow("Scene");
+	if (DebugRadioButton("Title", (int*)&debugCurrentScene, SceneTitle)) ChangeScene(SceneTitle);
+	if (DebugRadioButton("Game", (int*)&debugCurrentScene, SceneGame)) ChangeScene(SceneGame);
+	if (DebugRadioButton("Result", (int*)&debugCurrentScene, SceneResult)) ChangeScene(SceneResult);
+	if (DebugRadioButton("Editor", (int*)&debugCurrentScene, SceneEditor)) ChangeScene(SceneEditor);
+	EndDebugWindow("Scene");
+//#endif
+
+
 
 	DrawDebugWindow();
 }
@@ -249,12 +261,12 @@ ChangeSceneへはMaskRunを実行すると呼び出されます
 **************************************************************************/
 void MaskRun(Scene next) {
 
-	//現在テスト用でエンターキーで切り替え
-	if (GetKeyboardTrigger(DIK_RETURN)) {
+	////現在テスト用でエンターキーで切り替え
+	//if (GetKeyboardTrigger(DIK_RETURN)) {
 
-		SceneChangeFlag(true, next);
+	//	SceneChangeFlag(true, next);
 
-	}
+	//}
 
 }
 /**************************************
@@ -263,7 +275,10 @@ void MaskRun(Scene next) {
 void ChangeScene(Scene next)
 {
 	fsm[currentScene]->Uninit();
-	ssm[currentScene]->Stop();
+	ResourceManager::Instance()->AllRelease();
+
+	if (ssm[currentScene] != NULL)
+		ssm[currentScene]->Stop();
 
 	currentScene = next;
 

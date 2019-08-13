@@ -10,6 +10,7 @@
 #include "titleLogoUI.h"
 #include "startButtonUI.h"
 #include "cursorUI.h"
+#include "soundUI.h"
 #include "TitleSceneUIManager.h"
 
 //=============================================================================
@@ -21,6 +22,7 @@ void InitTitleSceneUI(void)
 	InitCursor();
 	InitTitleLogo();
 	InitStartButton();
+	InitSoundUI();
 }
 
 //=============================================================================
@@ -32,6 +34,7 @@ void UninitTitleSceneUI(void)
 	UninitCursor();
 	UninitTitleLogo();
 	UninitStartButton();
+	UninitSoundUI();
 }
 
 //=============================================================================
@@ -43,6 +46,7 @@ void UpdateTitleSceneUI(HWND hWnd)
 	UpdateCursor(hWnd);
 	UpdateTitleLogo();
 	UpdateStartButton();
+	UpdateSoundUI();
 }
 
 //=============================================================================
@@ -59,6 +63,7 @@ void DrawTitleSceneUI(void)
 	DrawTitleBG();
 	DrawTitleLogo();
 	DrawStartButton();
+	DrawSoundUI();
 
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }

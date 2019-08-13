@@ -24,10 +24,12 @@ public:
 	~SpikeNoise();
 	void DrawEffect();
 	void SetLength(float length);
+	void SetBaseY(float f);
 
 private:
 	LPD3DXEFFECT effect;
 	D3DXHANDLE hndlLength;
+	D3DXHANDLE hBaseY;
 };
 
 

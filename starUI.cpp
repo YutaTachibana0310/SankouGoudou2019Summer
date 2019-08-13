@@ -50,11 +50,15 @@ HRESULT InitStar(void)
 	}
 
 	// ç¿ïWê›íË
-	star[TOP].position			= POSITION_STAR_TOP;
-	star[MIDDLE_LEFT].position	= POSITION_STAR_MIDDLE_LEFT;
-	star[LOWER_LEFT].position	= POSITION_STAR_LOWER_LEFT;
-	star[LOWER_RIGHT].position	= POSITION_STAR_LOWER_RIGHT;
-	star[MIDDLE_RIGHT].position = POSITION_STAR_MIDDLE_RIGHT;
+	const float Radius = 420.0f;								//ê≥å‹äpå`ÇÃîºåa
+	const float BaseAngle = D3DXToRadian(360.0f) / STAR_MAX;	//ê≥å‹äpå`ÇÃì‡äp
+	const float CenterX = (float)SCREEN_CENTER_X;
+	const float CenterY = (float)SCREEN_CENTER_Y + 40.0f;
+	for (int i = 0; i < STAR_MAX; i++)
+	{
+		star[i].position.x = sinf(i * BaseAngle) * -Radius + CenterX;
+		star[i].position.y = cosf(i * BaseAngle) * -Radius + CenterY;
+	}
 
 	//Å@êFê›íË
 	SetColorObject(&star[TOP],			SET_COLOR_NOT_COLORED);
@@ -127,7 +131,7 @@ void RotateStar(int num)
 	star[num].countFrame++;
 	float t = (float)star[num].countFrame / DURATION_ROTATION;
 	star[num].rotation = 
-		EaseOutExponentialVector(t, star[num].easingStartRotation, star[num].easingGoalRotation);
+		EaseOutExpoVector(t, star[num].easingStartRotation, star[num].easingGoalRotation);
 }
 
 //=============================================================================

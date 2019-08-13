@@ -8,13 +8,20 @@
 #define _ENEMYCONTROLLER_H_
 
 #include "main.h"
-#include "Framework\BaseObserver.h"
 #include "EnemyModel.h"
 #include "IStateMachine.h"
+#include "EnemyFactory.h"
 #include "enemy.h"
+#include "StageModel.h"
+#include "EnemyBulletController.h"
+#include "EnemyGuideArrowController.h"
+
+#include "Framework\BaseObserver.h"
+#include "picojson\picojson.h"
+
+#include <list>
 #include <vector>
 #include <map>
-
 /**************************************
 列挙子定義
 ***************************************/
@@ -47,19 +54,44 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void DrawGuide();
 
 	//エネミー生成処理
 	void SetEnemy();
 
+	//エネミー座標取得処理
+	void GetEnemyPositionList(std::vector<D3DXVECTOR3>& out);
+
+	//ボンバーシーケンスコールバック
+	void OnFinishBombSequence();
+
 private:
-	std::vector<EnemyModel*> modelContainer;
-	std::map<EnemyModelType, IStateMachine<EnemyModel>*> fsm;
-	std::map<EnemyType, std::vector<Enemy*>> enemyContainer;
+	std::list<EnemyModel*> modelList;
 	int cntFrame;
 
-	//エネミー生成処理(内部処理)
-	void _SetEnemy(EnemyModelType type, LineTrailModel trailModel);
-	void _SetEnemyChange(EnemyModel* model);
+	std::vector<StageModel> stageModelList;
+	int currentIndex;
+
+	EnemyBulletController* bulletController;
+	EnemyGuideArrowController* guideController;
+
+	//エネミー生成クラスコンテナ
+	std::map<std::string, EnemyFactory*> factoryContainer;
+
+	//test
+	EnemySnake *test;
+
+	//ステージデータ読み込み処理
+	bool LoadStageData();
+
+	//攻撃処理
+	void EnemyAttack(EnemyModel* model);
+
+	//攻撃チャージ処理
+	void SetChageEffect(EnemyModel *model);
+
+	//ガイド生成処理
+	void SetGuide();
 };
 
 #endif

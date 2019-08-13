@@ -30,7 +30,7 @@ void CameraShakerPlugin::OnUpdate(Camera *entity)
 	cntFrame++;
 
 	float t = (float)cntFrame / (float)ShakeDuration;
-	float length = Easing<float>::GetEasingValue(t, &this->length, &EndLength, EasingType::OutCubic);
+	float length = Easing::EaseValue(t, this->length, EndLength, EaseType::OutCubic);
 
 	D3DXVECTOR3 sideDir;
 	D3DXVec3Cross(&sideDir, &(entity->target - entity->pos), &entity->up);

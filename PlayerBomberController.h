@@ -30,13 +30,20 @@ public:
 	void Update();
 	void Draw();
 
-	void SetPlayerBomber(std::vector<D3DXVECTOR3*>targetList, D3DXVECTOR3 initpos);
+	void SetPlayerBomber(std::vector<D3DXVECTOR3>targetList, D3DXVECTOR3 initpos);
+
+	bool CanStock();
+	bool CanSet();
+	void AddStock();
 
 	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
 	//‰Â•Ï’·”z—ñ
 	std::vector<PlayerBomber*> bomberContainer;
 	LPDIRECT3DTEXTURE9 texture;
-
+	
+private:
+	int stockInterval;
+	int stock;
 };
 
 

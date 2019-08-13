@@ -14,7 +14,6 @@
 マクロ定義
 ***************************************/
 #define INTERBAL_GETTIMER		(20)
-#define USE_DEBUGFUNC _DEBUG
 
 /**************************************
 構造体定義
@@ -184,10 +183,14 @@ void SetActiveDebugWindow(bool state)
 /*************************************
 デバッグウィンドウ開始処理
 ***************************************/
-void BeginDebugWindow(const char *label)
+void BeginDebugWindow(const char *label, bool menuBar)
 {
 #ifdef USE_DEBUGFUNC
-	ImGui::Begin(label);
+	ImGuiWindowFlags flag = 0;
+
+	if (menuBar) flag |= ImGuiWindowFlags_MenuBar;
+
+	ImGui::Begin(label, nullptr, flag);
 #endif
 }
 
@@ -220,7 +223,7 @@ void DebugText(const char *str, ...)
 ***************************************/
 void DebugText(std::string str)
 {
-#ifdef USE_DEBUGWINDOW
+#ifdef USE_DEBUGFUNC
 	DebugText(str.c_str());
 #endif
 }
@@ -391,7 +394,7 @@ int型入力処理
 ***************************************/
 bool DebugInputInt(const char* label, int* val)
 {
-#ifdef USE_DEBUGWINDOW
+#ifdef USE_DEBUGFUNC
 	return ImGui::InputInt(label, val);
 #else
 	return false;
@@ -415,7 +418,7 @@ bool DebugInputText(const char* label, char *buf, size_t buf_size)
 ***************************************/
 bool DebugInputText(const char* label, std::string* pStr)
 {
-#ifdef USE_DEBUGWINDOW
+#ifdef USE_DEBUGFUNC
 	char tmp[128];
 	strcpy(tmp, pStr->c_str());
 	bool res = ImGui::InputText(label, tmp, 128);
@@ -434,7 +437,7 @@ bool DebugInputText(const char* label, std::string* pStr)
 ***************************************/
 bool DebugRadioButton(const char* label, int* output, int val)
 {
-#ifdef USE_DEBUGWINDOW
+#ifdef USE_DEBUGFUNC
 	return ImGui::RadioButton(label, output, val);
 #else
 	return false;
@@ -446,7 +449,7 @@ bool DebugRadioButton(const char* label, int* output, int val)
 ***************************************/
 bool DebugChechBox(const char* label, bool* val)
 {
-#ifdef USE_DEBUGWINDOW
+#ifdef USE_DEBUGFUNC
 	return ImGui::Checkbox(label, val);
 #else
 	return false;
@@ -458,7 +461,7 @@ bool DebugChechBox(const char* label, bool* val)
 ***************************************/
 void DebugDrawTexture(LPDIRECT3DTEXTURE9 texture, float sizeX, float sizeY)
 {
-#ifdef USE_DEBUGWINDOW
+#ifdef USE_DEBUGFUNC
 	ImGui::Image((void*)texture, ImVec2(sizeX, sizeY));
 #endif
 }
@@ -476,5 +479,85 @@ void DebugLog(const char *str, ...)
 	//ImGui::Text(str, ap);
 	va_end(ap);
 	EndDebugWindow("Console");
+#endif
+}
+
+/*************************************
+メニューバー設定開始処理
+***************************************/
+bool BeginMenuBar()
+{
+#ifdef USE_DEBUGFUNC
+	return ImGui::BeginMenuBar();
+#else
+	return false;
+#endif
+}
+
+/*************************************
+メニューバー設定終了処理
+***************************************/
+void EndMenuBar()
+{
+#ifdef USE_DEBUGFUNC
+	ImGui::EndMenuBar();
+#endif
+}
+
+/*************************************
+メニュー設定終了処理
+***************************************/
+bool BeginMenuItem(const char* label)
+{
+#ifdef USE_DEBUGFUNC
+	return ImGui::BeginMenu(label);
+#else
+	return false;
+#endif
+}
+
+/*************************************
+メニュー設定終了処理
+***************************************/
+void EndMenuItem()
+{
+#ifdef  USE_DEBUGFUNC
+	ImGui::EndMenu();
+#endif //  USE_DEBUGFUNC
+
+}
+
+/*************************************
+メニューアイテム設定処理
+***************************************/
+void MenuItem(const char* label, std::function<void(void)> func)
+{
+#ifdef USE_DEBUGFUNC
+	if (ImGui::MenuItem(label))
+	{
+		func();
+	}
+#endif
+}
+
+/*************************************
+子供開始処理
+***************************************/
+bool BeginChild(const char* id)
+{
+#ifdef USE_DEBUGFUNC
+	return ImGui::BeginChild(ImGui::GetID((void*)0));
+#else
+	return false;
+#endif
+}
+
+/*************************************
+子供終了処理
+***************************************/
+void EndChild()
+{
+#ifdef USE_DEBUGFUNC
+	ImGui::EndChild();
 #endif
 }

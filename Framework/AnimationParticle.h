@@ -16,6 +16,7 @@
 
 /**************************************
 AnimationParticleƒNƒ‰ƒX
+¦Œp³æ‚ÅInit(), Update()‚ğÀ‘•‚·‚é
 ***************************************/
 class AnimationParticle : public BaseParticle
 {

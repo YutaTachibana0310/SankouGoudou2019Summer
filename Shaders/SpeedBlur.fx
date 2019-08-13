@@ -13,6 +13,7 @@ float blurPower;			//ブラー強さ
 float tU;					//1テクセルの大きさ（X方向）
 float tV;					//1テクセルの大きさ（Y方向
 float startLength;			//ブラーをかけ始める距離
+float aspectRatio;			//アスペクト比
 
 /***************************************
 テクスチャサンプラー
@@ -51,6 +52,7 @@ float4 PS(VS_OUTPUT In) : COLOR0
 
 	//ブラー方向
 	float2 dir = float2(0.5f, 0.5f)-In.tex;
+	dir.y *= aspectRatio;
 
 	//距離を計算
 	float len = length(dir);

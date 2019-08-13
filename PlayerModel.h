@@ -9,6 +9,7 @@
 
 #include "main.h"
 #include "LineTrailModel.h"
+
 #include <queue>
 #include <vector>
 #include <deque>
@@ -28,11 +29,11 @@ public:
 	PlayerModel();
 	~PlayerModel();
 
-	void PushInput(int num);				//先行入力の保存
-	void PushMoveStack(int num);			//移動履歴のプッシュ
-	bool IsExistPrecedInput(int *pres);		//先行入力の確認
-	bool CheckOneStroke();					//一筆書きの判定
-	void Clear();							//先行入力、移動履歴のクリア
+	void PushInput(int num);						//先行入力の保存
+	void PushMoveStack(int num, bool canUpdate);	//移動履歴のプッシュ
+	bool IsExistPrecedInput(int *pres);				//先行入力の確認
+	bool CheckOneStroke();							//一筆書きの判定
+	void Clear();									//先行入力、移動履歴のクリア
 
 	bool GetPlayerTrail(LineTrailModel *pOut);						//プレイヤーの直近1件の軌跡の取得
 	size_t GetAllPlayerTrail(std::vector<LineTrailModel> *contaier);	//プレイヤーの全軌跡を取得

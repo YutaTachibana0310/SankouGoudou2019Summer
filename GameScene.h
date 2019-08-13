@@ -10,6 +10,7 @@
 #include "main.h"
 #include "IStateScene.h"
 #include "IStateMachine.h"
+#include "Framework\Polygon2D.h"
 
 #include  <map>
 /**************************************
@@ -18,6 +19,7 @@
 class EnemyController;
 class GameParticleManager;
 class PlayerObserver;
+class BackGroundController;
 
 /**************************************
 ƒNƒ‰ƒX’è‹`
@@ -30,6 +32,12 @@ public:
 	void Update(HWND hWnd);
 	void Draw();
 
+	void UpdateWhole();
+	void DrawWhole();
+
+	void OnAddCombo(int n);
+	void OnClearCombo();
+
 	GameScene() {};
 	~GameScene() {};
 
@@ -37,22 +45,29 @@ public:
 	EnemyController *enemyController;
 	GameParticleManager* particleManager;
 	PlayerObserver* playerObserver;
+	BackGroundController *bgController;
 
-private:
-	
-	enum class State
+	bool useDarkMask;
+
+	enum State
 	{
-		Idle,
 		Start,
 		Battle,
 		End,
+		BombSequence,
+		StateMax,
 	};
 
+private:
 	std::map<State, IStateMachine<GameScene>*> fsm;
 	IStateMachine<GameScene> *state;
 	State currentState;
+	Polygon2D* darkMask;
 
 	void ChangeState(int resultUpdate);
+
+
+	int currentCombo;
 };
 
 #endif

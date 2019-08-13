@@ -32,12 +32,12 @@ public:
 	void Update();				//XVˆ—
 	void Draw();				//•`‰æˆ—
 
-	void Set(D3DXVECTOR3 *pos,D3DXVECTOR3 initpos);
+	void Set(D3DXVECTOR3 pos,D3DXVECTOR3 initpos);
 	void CalcBomber(void);
 
 
 	Transform transform;
-	D3DXVECTOR3 *targetPos;
+	D3DXVECTOR3 targetPos;
 	D3DXVECTOR3 velocity;
 	bool active;
 	int cntFrame;

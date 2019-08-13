@@ -38,6 +38,15 @@ void ScoreParticle::Init()
 {
 	cntFrame = 0;
 	active = true;
+
+	//移動方向設定
+	moveDir.x = RandomRangef(-1.0f, 1.0f);
+	moveDir.y = RandomRangef(-1.0f, 1.0f);
+	moveDir.z = RandomRangef(-1.0f, 1.0f);
+
+	//寿命。スピード設定
+	lifeFrame = SCOREPARTICLE_LIFEFRAME + RandomRange(-SCOREPARTICLE_LIFE_RANGE, SCOREPARTICLE_LIFE_RANGE);
+	speed = SCOREPARTICLE_SPEED_INIT + RandomRangef(-SCOREPARTICLE_SPEED_RANGE, SCOREPARTICLE_SPEED_RANGE);
 }
 
 /**************************************
@@ -61,12 +70,12 @@ void ScoreParticle::Update()
 
 	//移動処理
 	float tSpeed = (float)cntFrame / (float)SCOREPARTICLE_SPEED_TIME;
-	float currentSpeed = Easing<float>::GetEasingValue(tSpeed, &speed, &EndSpeed, EasingType::InExponential);
+	float currentSpeed = Easing::EaseValue(tSpeed, speed, EndSpeed, EaseType::InExpo);
 	transform.pos += moveDir * currentSpeed;
 
 	//スケール処理
 	float tScale = (float)cntFrame / (float)lifeFrame;
-	float currentScale = Easing<float>::GetEasingValue(tScale, &InitScale, &EndScale, EasingType::OutExponential);
+	float currentScale = Easing::EaseValue(tScale, InitScale, EndScale, EaseType::OutExpo);
 	transform.scale = D3DXVECTOR3(currentScale, currentScale, currentScale);
 
 	//寿命判定
@@ -120,35 +129,3 @@ void ScoreParticleEmitter::Update()
 		active = false;
 	}
 }
-
-/**************************************
-ScoreParticleEmitter放出処理
-***************************************/
-//void ScoreParticleEmitter::Emit(vector<BaseParticle*>* container)
-//{
-//	if (!active)
-//		return;
-//
-//	for (int i = 0; i < SCOREPARTICLE_EMIT_NUM; i++)
-//	{
-//		auto particle = find_if(container->begin(), container->end(), [](BaseParticle* particle) {return !particle->active; });
-//
-//		if (particle == container->end())
-//			break;
-//
-//		ScoreParticle* entity = static_cast<ScoreParticle*>(*particle);
-//		D3DXVECTOR3 moveDir;
-//		moveDir.x = RandomRangef(-1.0f, 1.0f);
-//		moveDir.y = RandomRangef(-1.0f, 1.0f);
-//		moveDir.z = RandomRangef(-1.0f, 1.0f);
-//
-//		int lifeFrame = SCOREPARTICLE_LIFEFRAME + RandomRange(-SCOREPARTICLE_LIFE_RANGE, SCOREPARTICLE_LIFE_RANGE);
-//		float speed = SCOREPARTICLE_SPEED_INIT + RandomRangef(-SCOREPARTICLE_SPEED_RANGE, SCOREPARTICLE_SPEED_RANGE);
-//
-//		entity->SetParameter(speed, &moveDir, lifeFrame);
-//		entity->transform.pos = transform.pos;
-//		entity->Init();
-//
-//		break;
-//	}
-//}

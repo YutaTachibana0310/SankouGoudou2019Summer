@@ -36,11 +36,18 @@ typedef struct
 	D3DXVECTOR3			colliderSize;
 	D3DXVECTOR3			easingStartRotation;
 	D3DXVECTOR3			easingGoalRotation;
+	D3DXVECTOR3			easingStartPosition;
+	D3DXVECTOR3			easingGoalPosition;
+	D3DXVECTOR3			easingStartSize;
+	D3DXVECTOR3			easingGoalSize;
 
+	float				easingStart;
+	float				easingGoal;
 	int					countFrame;
 	float               baseAngle;
 	float				radius;
 	bool				isRotated;
+	bool				use;
 
 }OBJECT;
 
@@ -50,6 +57,15 @@ enum GUAGETYPE
 	RIGHT_GUAGEBAR,
 	UP_GUAGEBAR,
 	DOWN_GUAGEBAR
+};
+
+enum TELOP_ANIM_SCENE
+{
+	WAIT_BG_OPEN,
+	IN_TEXT,
+	STOP_TEXT,
+	OUT_TEXT,
+	WAIT_BG_CLOSE
 };
 
 //*****************************************************************************
@@ -67,10 +83,13 @@ void MakeVertexGuageBar		(OBJECT *object, float percentage, float flameWidth);
 void SetVertexObject		(OBJECT *object);
 void SetVertexRotateObject	(OBJECT *object);
 void SetVertexGuageBar		(OBJECT *object, float percentage, float flameWidth, int guageType);
+void SetVertexTelopBG		(OBJECT *object, float percentage);
 void SetVertexCounter		(OBJECT *object, int placeCount, float placeInterval);
 void SetTextureObject		(OBJECT *object, int divX, int divY, int pattern);
 void SetTextureCounter		(OBJECT *object, int number, float placeInterval);
 void SetAlphaObject			(OBJECT *object, float alpha);
 void SetColorObject			(OBJECT *object, D3DXCOLOR color);
+float GetCountObject		(OBJECT *object, float duration);
+
 #endif
 

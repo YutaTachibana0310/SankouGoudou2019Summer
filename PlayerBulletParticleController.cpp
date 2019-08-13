@@ -90,7 +90,7 @@ void PlayerBulletParticleController::Emit()
 
 			//座標設定
 			float t = RandomRangef(0.0f, 1.0f);
-			particle->transform.pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->edgeLeft, &entity->edgeRight, EasingType::Linear);
+			particle->transform.pos = Easing::EaseValue(t, entity->edgeLeft, entity->edgeRight, EaseType::Linear);
 			particle->transform.pos.z = entity->transform.pos.z;
 
 			//スケール設定

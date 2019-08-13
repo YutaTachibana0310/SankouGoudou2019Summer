@@ -17,6 +17,7 @@ bool StartAccel(D3DXVECTOR3 *currentPos, D3DXVECTOR3 *direction, float speed, in
 float SnipeTarget(D3DXVECTOR3 *pos, D3DXVECTOR3 *targetPos);							//設定座標から目標座標への角度を求める関数
 float RotateToTarget(D3DXVECTOR3 *pos, D3DXVECTOR3 *targetPos, float currentRot, float angle); //設定座標から目標座標の方向へ回転させる関数
 int WrapAround(int min, int max, int value);											//対象の数値をラップさせる関数
+float WrapAroundf(float min, float max, float value);									//対象の数値をラップさせる関数
 int Clamp(int min, int max, int value);													//対象の値を範囲内に制限する関数
 int Min(int val1, int val2);															//小さい方の値を返す関数
 int Max(int val1, int val2);															//大きい方の値を返す関数

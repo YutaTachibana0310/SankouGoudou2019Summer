@@ -6,6 +6,7 @@
 //=====================================
 #include "MeshContainer.h"
 #include <stdio.h>
+#include <vector>
 
 /**************************************
 マクロ定義
@@ -63,13 +64,18 @@ HRESULT MeshContainer::Load(const char* filePath)
 		return res;
 	}
 
+	//メッシュの隣接情報を作成して最適化
+	std::vector<DWORD> adjList;
+	adjList.resize(3 * mesh->GetNumFaces());
+	mesh->GenerateAdjacency(1.0f / 512, &adjList[0]);
+	mesh->OptimizeInplace(D3DXMESHOPT_ATTRSORT, &adjList[0], 0, 0, 0);
+
 	//マテリアルをD3DXMATERIALとして複写
 	materials = (D3DMATERIAL9*)malloc(sizeof(D3DMATERIAL9) * materialNum);
 	D3DXMATERIAL* matBuffer = (D3DXMATERIAL*)tmpMaterial->GetBufferPointer();
 	for (DWORD i = 0; i < materialNum; i++)
 	{
 		materials[i] = matBuffer[i].MatD3D;
-		//materials[i].Ambient = materials[i].Diffuse;		//これいる？
 	}
 
 	//テクスチャ読み込み
@@ -141,7 +147,7 @@ void MeshContainer::Draw()
 	{
 		//テクスチャの設定
 		pDevice->SetTexture(0, textures[i]);
-
+		
 		//マテリアル設定
 		pDevice->SetMaterial(&materials[i]);
 
@@ -181,4 +187,26 @@ void MeshContainer::GetTexture(unsigned id, LPDIRECT3DTEXTURE9 *pOut)
 DWORD MeshContainer::GetMaterialNum()
 {
 	return materialNum;
+}
+
+/**************************************
+マテリアルカラー設定処理
+***************************************/
+void MeshContainer::SetMaterialColor(const D3DXCOLOR& color)
+{
+	for (int i = 0; i < materialNum; i++)
+	{
+		materials[i].Diffuse = color;
+	}
+}
+
+/**************************************
+マテリアルアルファ設定処理
+***************************************/
+void MeshContainer::SetMaterialAlpha(float alpha)
+{
+	for (UINT i = 0; i < materialNum; i++)
+	{
+		materials[i].Diffuse.a = alpha;
+	}
 }

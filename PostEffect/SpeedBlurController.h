@@ -27,7 +27,10 @@ class SpeedBlurController : public BaseSingleton<SpeedBlurController>
 public:
 	friend class BaseSingleton<SpeedBlurController>;
 
+	void Update();
 	void Draw();
+	void SetPower(float power);
+	void AddPower(float power);
 
 private:
 	SpeedBlurController();
@@ -36,6 +39,9 @@ private:
 	SpeedBlur *speedBlur;
 	LPDIRECT3DTEXTURE9 texture;
 	LPDIRECT3DSURFACE9 surface;
+
+	float startPower, endPower;
+	int cntPower;
 };
 
 #endif

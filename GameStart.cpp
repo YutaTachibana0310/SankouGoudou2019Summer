@@ -28,9 +28,11 @@ void GameStart::OnStart(GameScene *entity)
 int GameStart::OnUpdate(GameScene *entity)
 {
 	entity->cntFrame++;
+
+	entity->UpdateWhole();
 	
 	if (entity->cntFrame == GAMESTART_DURATION)
-		return STATE_FINISHED;
+		return GameScene::State::Battle;
 	else
-		return STATE_CONTINUOUS;
+		return GameScene::State::Start;
 }

@@ -5,15 +5,18 @@
 //
 //============================================================
 #include "PlayerBomberController.h"
-#include<algorithm>
-
+#include <algorithm>
+#include "Framework\ResourceManager.h"
 
 using namespace std;
 
 /*********************************************************
 マクロ定義
 **********************************************************/
-#define BOMBER_SIZE		(30.0f)
+#define BOMBER_SIZE					(20.0f)
+#define BOMBER_STOCK_INTERVAL		(300)
+#define BOMBER_STOCK_MAX			(3)
+
 /********************************************************
 構造体定義
 *********************************************************/
@@ -21,7 +24,6 @@ using namespace std;
 /*********************************************************
 グローバル変数
 **********************************************************/
-
 
 /*********************************************************
 コンストラクタ
@@ -38,6 +40,7 @@ PlayerBomberController::PlayerBomberController()
 	
 	VERTEX_3D *pVtx;
 	vtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
 	//頂点座標の設定
 	pVtx[0].vtx = D3DXVECTOR3(-BOMBER_SIZE / 2.0f, BOMBER_SIZE / 2.0f, 0.0f);
 	pVtx[1].vtx = D3DXVECTOR3(BOMBER_SIZE / 2.0f, BOMBER_SIZE / 2.0f, 0.0f);
@@ -64,8 +67,10 @@ PlayerBomberController::PlayerBomberController()
 
 	vtxBuff->Unlock();
 
-
+	//ストックインターバル初期化
+	stockInterval = BOMBER_STOCK_INTERVAL;
 }
+
 /*********************************************************
 デストラクタ
 **********************************************************/
@@ -98,7 +103,6 @@ void PlayerBomberController::Uninit()
 	for (auto& bomber : bomberContainer)
 	{
 		bomber->Uninit();
-
 	}
 }
 
@@ -112,6 +116,9 @@ void PlayerBomberController::Update()
 	{
 		bomber->Update();
 	}
+
+	//ストックインターバルを更新
+	stockInterval = Min(BOMBER_STOCK_INTERVAL, stockInterval + 1);
 }
 
 /*********************************************
@@ -146,7 +153,7 @@ void PlayerBomberController::Draw()
 /***************************************************
 ボムセット処理
 ***************************************************/
-void PlayerBomberController::SetPlayerBomber(vector<D3DXVECTOR3*>targetList, D3DXVECTOR3 initpos)
+void PlayerBomberController::SetPlayerBomber(vector<D3DXVECTOR3>targetList, D3DXVECTOR3 initpos)
 {
 	for (auto &target : targetList)
 	{
@@ -168,7 +175,32 @@ void PlayerBomberController::SetPlayerBomber(vector<D3DXVECTOR3*>targetList, D3D
 			bomberContainer.push_back(bomber);
 		}
 	}
+
+	//ストックを消費
+	stock--;
 }
 
+/***************************************************
+ストックの可否判定
+***************************************************/
+bool PlayerBomberController::CanStock()
+{
+	return stockInterval >= BOMBER_STOCK_INTERVAL;
+}
 
+/***************************************************
+ボム発射の可否判定
+***************************************************/
+bool PlayerBomberController::CanSet()
+{
+	return stock > 0;
+}
 
+/***************************************************
+ストック追加処理
+***************************************************/
+void PlayerBomberController::AddStock()
+{
+	stock = Min(stock + 1, BOMBER_STOCK_MAX);
+	stockInterval = 0;
+}

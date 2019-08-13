@@ -16,7 +16,7 @@ using namespace std;
 É}ÉNÉçíËã`
 ***************************************/
 #define GAMEBOMBERSEQUENCE_DURATION		(120)
-#define GAMEBOMBERSEQUENCE_LAUNCH_TIME	(100)
+#define GAMEBOMBERSEQUENCE_LAUNCH_TIME	(80)
 
 /**************************************
 ì¸èÍèàóù

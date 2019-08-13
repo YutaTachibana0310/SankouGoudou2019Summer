@@ -109,6 +109,7 @@ void GameParticleManager::Update(void)
 ***************************************/
 void GameParticleManager::UpdateBombParticle()
 {
+	controllers[PlayerBomberParticle]->Update();
 	controllers[PlayerChargeParticle]->Update();
 	controllers[PlayerCharge]->Update();
 }

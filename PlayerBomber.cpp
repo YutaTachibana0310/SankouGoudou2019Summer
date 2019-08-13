@@ -11,7 +11,10 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define BOMBER_MOVE (10.0f)
+#define			BOMBER_MOVE			(10.0f)
+#define			BOMBER_REACH_FRAME	(60)
+#define			BOBMER_INIT_SPEED	(5.0f)
+
 /**************************************
 構造体定義
 ***************************************/
@@ -29,7 +32,6 @@ int PlayerBomber::instanceCount = 0;				//インスタンスカウンタ
 プロトタイプ宣言
 ***************************************/
 
-
 /**************************************
 初期化処理
 ***************************************/
@@ -42,9 +44,12 @@ void PlayerBomber::Init(void)
 	transform.pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
-	float x = RandomRangef(-BOMBER_MOVE, BOMBER_MOVE);
-	float y = RandomRangef(-BOMBER_MOVE, BOMBER_MOVE);
-	velocity = D3DXVECTOR3(x, y, 0.0f);
+	float x = RandomRangef(-1.0f, 1.0f);
+	float y = RandomRangef(-1.0f, 1.0f);
+	D3DXVECTOR3 dir = D3DXVECTOR3(x, y, 0.0f);
+	D3DXVec3Normalize(&dir, &dir);
+	velocity = dir * BOBMER_INIT_SPEED;
+
 
 	GameParticleManager::Instance()->SetPlayerBomberParticle(&transform.pos, &active);
 }
@@ -112,7 +117,7 @@ void PlayerBomber::Set(D3DXVECTOR3 pos, D3DXVECTOR3 initpos)
 {
 	transform.pos = initpos;
 	targetPos = pos;
-	cntFrame = reachFrame = 30;
+	cntFrame = reachFrame = BOMBER_REACH_FRAME;
 }
 
 

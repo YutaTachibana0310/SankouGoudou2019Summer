@@ -46,8 +46,8 @@ public:
 
 	//衝突判定
 	static void UpdateCollision();
-	void RegisterToCheckList();
-	void RemoveFromCheckList();
+	void RegisterToCheckList(BoxCollider3DTag tag);
+	void RemoveFromCheckList(BoxCollider3DTag tag);
 
 	//アクティブ判定
 	bool active;

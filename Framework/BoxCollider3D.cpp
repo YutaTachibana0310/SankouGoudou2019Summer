@@ -15,8 +15,27 @@ using namespace std;
 ***************************************/
 
 /**************************************
-構造体定義
+BoxCollider3DTag列挙子演算子
 ***************************************/
+BoxCollider3DTag begin(BoxCollider3DTag)
+{
+	return BoxCollider3DTag::PlayerBomber;
+}
+
+BoxCollider3DTag end(BoxCollider3DTag)
+{
+	return BoxCollider3DTag::Max;
+}
+
+BoxCollider3DTag operator*(BoxCollider3DTag tag)
+{
+	return tag;
+}
+
+BoxCollider3DTag operator++(BoxCollider3DTag& tag)
+{
+	return tag = BoxCollider3DTag(std::underlying_type<BoxCollider3DTag>::type(tag) + 1);
+}
 
 /**************************************
 static変数
@@ -33,7 +52,7 @@ BoxCollider3D::BoxCollider3D(BoxCollider3DTag tag, D3DXVECTOR3 *pPos)
 {
 	this->tag = tag;
 	this->pPos = pPos;
-	RegisterToCheckList();
+	RegisterToCheckList(tag);
 
 #ifdef BOXCOLLIDER3D_USE_DEBUG
 	instanceCount++;
@@ -71,7 +90,7 @@ BoxCollider3D::BoxCollider3D(BoxCollider3DTag tag, D3DXVECTOR3 *pPos, D3DXVECTOR
 	this->tag = tag;
 	this->size = size;
 	this->pPos = pPos;
-	RegisterToCheckList();
+	RegisterToCheckList(tag);
 
 #ifdef BOXCOLLIDER3D_USE_DEBUG
 	instanceCount++;
@@ -106,7 +125,10 @@ BoxCollider3D::BoxCollider3D(BoxCollider3DTag tag, D3DXVECTOR3 *pPos, D3DXVECTOR
 ***************************************/
 BoxCollider3D::~BoxCollider3D()
 {
-	RemoveFromCheckList();
+	for (const auto& tag : BoxCollider3DTag())
+	{
+		RemoveFromCheckList(tag);
+	}
 
 #ifdef BOXCOLLIDER3D_USE_DEBUG
 	instanceCount--;
@@ -184,7 +206,7 @@ void BoxCollider3D::UpdateCollision()
 /**************************************
 衝突リスト登録処理
 ***************************************/
-void BoxCollider3D::RegisterToCheckList()
+void BoxCollider3D::RegisterToCheckList(BoxCollider3DTag tag)
 {
 	list<BoxCollider3D*> *checkList = &checkDictionary[tag];
 
@@ -200,7 +222,7 @@ void BoxCollider3D::RegisterToCheckList()
 /**************************************
 衝突リスト離脱処理
 ***************************************/
-void BoxCollider3D::RemoveFromCheckList()
+void BoxCollider3D::RemoveFromCheckList(BoxCollider3DTag tag)
 {
 	list<BoxCollider3D*> *checkList = &checkDictionary[tag];
 

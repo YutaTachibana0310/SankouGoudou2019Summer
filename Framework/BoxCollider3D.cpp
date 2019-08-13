@@ -5,6 +5,7 @@
 //
 //=====================================
 #include "BoxCollider3D.h"
+#include "ColliderObserver.h"
 
 #include <list>
 
@@ -160,10 +161,24 @@ bool BoxCollider3D::CheckCollision(BoxCollider3D *other)
 		return false;
 
 	//Õ“Ë’Ê’m
-	this->NotifyObservers();
-	other->NotifyObservers();
+	for (auto observer : this->observerList)
+	{
+		observer->OnNotify(other->tag);
+	}
+	for (auto observer : other->observerList)
+	{
+		observer->OnNotify(this->tag);
+	}
 
 	return true;
+}
+
+/**************************************
+ŠÏ‘ªÒ’Ç‰Áˆ—
+***************************************/
+void BoxCollider3D::AddObserver(ColliderObserver* observer)
+{
+	observerList.push_back(observer);
 }
 
 /**************************************

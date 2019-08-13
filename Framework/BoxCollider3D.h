@@ -15,6 +15,8 @@
 
 #define BOXCOLLIDER3D_USE_DEBUG
 
+class ColliderObserver;
+
 /**************************************
 BoxCollider3DTag列挙子
 ***************************************/
@@ -31,7 +33,7 @@ enum class BoxCollider3DTag
 /**************************************
 BoxCollider3Dクラス
 ***************************************/
-class BoxCollider3D : public ObserveSubject
+class BoxCollider3D
 {
 public:
 	friend class BoxCollider3D;
@@ -51,6 +53,9 @@ public:
 	void RegisterToCheckList(BoxCollider3DTag tag);
 	void RemoveFromCheckList(BoxCollider3DTag tag);
 
+	//観測者追加
+	void AddObserver(ColliderObserver* observer);
+
 	//アクティブ判定
 	bool active;
 
@@ -66,6 +71,8 @@ private:
 	D3DXVECTOR3 *pPos;		//親の座標アドレス
 	D3DXVECTOR3 size;		//サイズ
 	D3DXVECTOR3 offset;		//オフセット
+
+	std::list<ColliderObserver*> observerList;	//観測者リスト
 
 	static std::map<BoxCollider3DTag, std::list<BoxCollider3D*>> checkDictionary;
 	static void CheckRoundRobin(BoxCollider3DTag tag1, BoxCollider3DTag tag2);

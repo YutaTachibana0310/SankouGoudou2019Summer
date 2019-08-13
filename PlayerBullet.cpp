@@ -190,7 +190,7 @@ void PlayerBullet::SetEdgePos(LineTrailModel model)
 	vtxBuff->Unlock();
 
 	//ワールド座標を始点と終点の真ん中に設定
-	pos = edgeR + diff;
+	pos = edgeL + diff;
 
 	//パーティクルセット
 	GameParticleManager::Instance()->SetPlayerBulletParticle(&pos, &active, &edgeR, &edgeL);

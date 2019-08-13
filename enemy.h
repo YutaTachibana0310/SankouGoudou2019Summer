@@ -60,6 +60,8 @@ public:
 	virtual void VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame) = 0;	//セット処理
 	virtual void VSetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int time, D3DXVECTOR3 vec) {};
 
+	void Animation(bool expansion, float sclTime);
+
 	//staticメンバ
 	MeshContainer *m_pMesh;
 	static UINT m_InstanceCount;
@@ -71,13 +73,12 @@ protected:
 class EnemyStraight : public Enemy
 {
 public:
-	float m_SclTime;								//アニメーションの時間
+	float				m_SclTime;								//アニメーションの時間
 
-	int	  position_history_timer;					//直前のフレームの時間
+	int					position_history_timer;					//直前のフレームの時間
+	int				    position_history_index;					//シャドウワークのインデクス
 
-	int   position_history_index;					//シャドウワークのインデクス
-
-	D3DXVECTOR3			m_ShadowPos[SHADOW_MAX];	//キュー構造		
+	D3DXVECTOR3			m_ShadowPos[SHADOW_MAX];	            //キュー構造		
 	D3DXVECTOR3			m_ShadowScl[SHADOW_MAX];
 
 	EnemyStraight();
@@ -97,8 +98,6 @@ public:
 
 	int				m_WaitTime;		//停止の時間
 	D3DXVECTOR3		m_VecChange;	//停止して以降のベクトル
-	float			m_SclTime;		//アニメーションの時間
-	bool			m_Expansion;	//true:拡大  false:縮小
 	
 	EnemyChange();
 	~EnemyChange();
@@ -115,15 +114,15 @@ public:
 class EnemySnake :public Enemy
 {
 public:
-	int m_WaitTime;						//停止の時間
-	int m_CurrentIndex;					//現在、posDestListの何番へ向かっているかを入れる変数
-	int m_PrevIndex;					//1フレーム前はposDestListの何番へ向かっていたか
-	int m_PosDestMax;					//m_FrameDestListの要素数
-	int m_FramePassed;					//前の点を通過するのにの時間
-	int m_WaitCount;					//停止状態のフレームをカウント
+	int				m_WaitTime;						//停止の時間
+	int				m_CurrentIndex;					//現在、posDestListの何番へ向かっているかを入れる変数
+	int				m_PrevIndex;					//1フレーム前はposDestListの何番へ向かっていたか
+	int				m_PosDestMax;					//m_FrameDestListの要素数
+	int				m_FramePassed;					//前の点を通過するのにの時間
+	int				m_WaitCount;					//停止状態のフレームをカウント
 
-	vector<D3DXVECTOR3> m_PosDestList;  //移動先、m_PosDestList[0]はEからカウント
-	vector<int> m_FrameDestList;		//移動がいるフレーム数　m_PosDestList[1]にいる時、 m_FrameDestList[0]
+	vector<D3DXVECTOR3> m_PosDestList;              //移動先、m_PosDestList[0]はEからカウント
+	vector<int>		    m_FrameDestList;		    //移動がいるフレーム数　m_PosDestList[1]にいる時、 m_FrameDestList[0]
 
 	EnemySnake();
 	~EnemySnake();

@@ -33,6 +33,10 @@ using namespace std;
 #define CHANGE_SCL_MIN		(D3DXVECTOR3(0.8f, 0.8f, 0.8f))
 #define CHANGE_SCL_SPEED	(0.05f)
 
+#define SNAKE_SCL_MAX		(D3DXVECTOR3(1.0f, 1.0f, 1.0f))
+#define SNAKE_SCL_MIN		(D3DXVECTOR3(0.8f, 0.8f, 0.8f))
+#define SNAKE_SCL_SPEED	(0.05f)
+
 #define WAIT_TIME			(0.9)							 //ƒTƒ“ƒvƒŠƒ“ƒOŽüŠú
 
 /****************************************
@@ -88,6 +92,27 @@ EnemyStraight::~EnemyStraight()
 {
 
 }
+
+/****************************************
+Šg‘å‚Æk¬‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
+****************************************/
+void Enemy::Animation(bool expansion, float sclTime)
+{
+
+	if (expansion)
+	{
+		m_Scl = Easing::EaseValue(sclTime, SNAKE_SCL_MIN,
+			SNAKE_SCL_MAX, EaseType::Linear);
+	}
+	else
+	{
+		m_Scl = Easing::EaseValue(sclTime, SNAKE_SCL_MIN,
+			SNAKE_SCL_MAX, EaseType::Linear);
+
+	}
+}
+
+
 
 /****************************************
 ‰Šú‰»ˆ—
@@ -261,6 +286,8 @@ void EnemyStraight::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame)
 }
 
 
+
+
 //EnemyChange
 /****************************************
 ƒRƒ“ƒXƒgƒ‰ƒNƒ^
@@ -285,8 +312,8 @@ HRESULT EnemyChange::VInit(void)
 {
 	m_WaitTime = 0.0f;
 	m_VecChange = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_SclTime = 0.0f;
-	m_Expansion = true;
+	//m_SclTime = 0.0f;
+	//m_Expansion = true;
 	m_Active = false;
 
 
@@ -357,28 +384,28 @@ void EnemyChange::VUpdate()
 
 		}
 
-		//Šg‘å‚Æk¬‚ÌŒJ‚è•Ô‚µ
-		if (m_Expansion)
-		{
-			m_Scl = Easing::EaseValue(m_SclTime, CHANGE_SCL_MIN,
-				CHANGE_SCL_MAX, EaseType::Linear);
-			m_SclTime += CHANGE_SCL_SPEED;
-			if (m_SclTime >= 1.0f)
-			{
-				m_Expansion = false;
-			}
-		}
-		else
-		{
-			m_Scl = Easing::EaseValue(m_SclTime, CHANGE_SCL_MIN,
-				CHANGE_SCL_MAX, EaseType::Linear);
-			m_SclTime -= CHANGE_SCL_SPEED;
-			if (m_SclTime <= 0.0f)
-			{
-				m_Expansion = true;
-			}
+		////Šg‘å‚Æk¬‚ÌŒJ‚è•Ô‚µ
+		//if (m_Expansion)
+		//{
+		//	m_Scl = Easing::EaseValue(m_SclTime, CHANGE_SCL_MIN,
+		//		CHANGE_SCL_MAX, EaseType::Linear);
+		//	m_SclTime += CHANGE_SCL_SPEED;
+		//	if (m_SclTime >= 1.0f)
+		//	{
+		//		m_Expansion = false;
+		//	}
+		//}
+		//else
+		//{
+		//	m_Scl = Easing::EaseValue(m_SclTime, CHANGE_SCL_MIN,
+		//		CHANGE_SCL_MAX, EaseType::Linear);
+		//	m_SclTime -= CHANGE_SCL_SPEED;
+		//	if (m_SclTime <= 0.0f)
+		//	{
+		//		m_Expansion = true;
+		//	}
 
-		}
+		//}
 
 		//count‚·‚é
 		m_CntFrame++;
@@ -463,6 +490,9 @@ EnemySnake::~EnemySnake()
 ****************************************/
 HRESULT EnemySnake::VInit()
 {
+	//m_SclTime = 0.0f;
+	//m_Expansion = true;
+
 	m_WaitTime = 0;
 	m_CurrentIndex = 0;
 	m_PosDestMax = 0;
@@ -555,6 +585,7 @@ void EnemySnake::VUpdate()
 				m_PosDestList[m_CurrentIndex], m_PosDestList[m_CurrentIndex + 1], EaseType::OutCubic);
 		}
 
+		
 		//count‚·‚é
 		m_CntFrame++;
 
@@ -613,3 +644,4 @@ void EnemySnake::Set(vector<D3DXVECTOR3> posDestList, vector<int> frameDestList,
 
 	m_Active = true;
 }
+

@@ -9,7 +9,11 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define BOMBER_PARTICLE_ROT	(2.0f)
+#define BOMBER_PARTICLE_ROT			(2.0f)
+#define BOMBERTRAIL_LIFE_MIN		(15)
+#define BOMBERTRAIL_LIFE_MAX		(25)
+#define BOMBERTRAIL_SPEED_MAX		(2.0f)
+#define BOMBERTRAIL_SPEED_MIN		(0.5f)
 
 /**************************************
 PlayerBomberParticle初期化処理
@@ -18,15 +22,10 @@ void PlayerBomberParticle::Init()
 {
 	active = true;
 	cntFrame = 0;
-	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-}
+	transform.scale = RandomRangef(0.3f, 1.0f) * D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
-/**************************************
-PlayerBomberParticle終了処理
-***************************************/
-void PlayerBomberParticle::Uninit()
-{
-	active = false;
+	speed = RandomRangef(BOMBERTRAIL_SPEED_MIN, BOMBERTRAIL_SPEED_MAX);
+	lifeFrame = RandomRange(BOMBERTRAIL_LIFE_MIN, BOMBERTRAIL_LIFE_MAX);
 }
 
 /**************************************
@@ -36,9 +35,6 @@ void PlayerBomberParticle::Update()
 {
 	//移動処理
 	transform.pos += moveDir * speed;
-	transform.rot.z += BOMBER_PARTICLE_ROT;
-	//transform.scale.x -= 0.01f;
-	//transform.scale.y -= 0.01f;
 
 	//寿命判定
 	cntFrame++;
@@ -54,11 +50,11 @@ void PlayerBomberParticle::Update()
 /**************************************
 PlayerBomberParticleパラメータ設定
 ***************************************/
-void PlayerBomberParticle::SetParameter(D3DXVECTOR3 *moveDir, int lifeFrame)
+void PlayerBomberParticle::SetMoveDir(const D3DXVECTOR3& moveDir)
 {
-	this->moveDir = *moveDir;
-	this->lifeFrame = lifeFrame;
+	this->moveDir = moveDir;
 }
+
 /**************************************
 PlayerBomberParticleEmitter初期化処理
 ***************************************/
@@ -83,6 +79,7 @@ PlayerBomberParticleEmitter更新処理
 ***************************************/
 void PlayerBomberParticleEmitter::Update()
 {
+	prevPos = transform.pos;
 	transform.pos = *parentPos;
 
 	if (!*parentActive)

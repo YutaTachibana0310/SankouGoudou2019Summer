@@ -755,9 +755,6 @@
     <ClCompile Include="PlayerReturn.cpp">
       <Filter>ソース ファイル\Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBomber.cpp">
-      <Filter>ソース ファイル\Player\State</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerBomberController.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
@@ -844,6 +841,9 @@
     </ClCompile>
     <ClCompile Include="PlayeBomberParticleController.cpp">
       <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBomber.cpp">
+      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

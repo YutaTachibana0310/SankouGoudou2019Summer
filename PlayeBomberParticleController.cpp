@@ -20,9 +20,6 @@
 #define PLAYERBOMBERPARTICLE_SIZE			(&D3DXVECTOR2(6.0f,6.0f))
 #define PLAYERBOMBERPARTICLE_TEX_DIV		(&D3DXVECTOR2(1.0f,1.0f))
 
-#define PLAYERBOMBERPARTICLE_LIFEFRAME		(50)
-#define PLAYERBOMBERPARTICLE_LIFE_RANGE		(3)
-
 /************************************************
 構造体定義
 *************************************************/
@@ -64,7 +61,7 @@ void PlayerBomberParticleController::Emit()
 		if (!emitter->active)
 			continue;
 
-		const int EmitNum = 4;		//１フレームの放出するパーティクル数
+		const int EmitNum = 8;		//１フレームの放出するパーティクル数
 		const float InitSpeed = 0.5f;
 
 		int emitCount = 0;
@@ -77,24 +74,12 @@ void PlayerBomberParticleController::Emit()
 			PlayerBomberParticle *particle = static_cast<PlayerBomberParticle*>(p);
 
 			////移動方向設定
-			//float t = (float)particle->cntFrame / (float)particle->lifeFrame;
-
-			//particle->moveDir.x = RandomRangef(-1.0f, 1.0f);
-			//particle->moveDir.y = RandomRangef(-1.0f, 1.0f);
-			//particle->moveDir.z = 1.0f;
-			particle->moveDir = entity->prevPos - emitter->transform.pos;
-			D3DXVec3Normalize(&particle->moveDir, &particle->moveDir);
-
-			//寿命、スピード設定
-			particle->lifeFrame = PLAYERBOMBERPARTICLE_LIFEFRAME + RandomRange(-PLAYERBOMBERPARTICLE_LIFE_RANGE, PLAYERBOMBERPARTICLE_LIFE_RANGE);
-			particle->speed = InitSpeed;
+			D3DXVECTOR3 dir = entity->prevPos - entity->transform.pos;
+			D3DXVec3Normalize(&dir, &dir);
+			particle->SetMoveDir(dir);
 
 			//座標設定
-			float t = RandomRangef(0.0f, 1.0f);
 			particle->transform.pos = entity->transform.pos;
-
-			//スケール設定
-			particle->transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
 			//初期化してカウント
 			particle->Init();

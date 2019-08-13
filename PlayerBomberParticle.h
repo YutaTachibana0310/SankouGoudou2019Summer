@@ -26,10 +26,10 @@ public:
 	~PlayerBomberParticle() {}
 
 	void Init();
-	void Uninit();
 	void Update();
-	void SetParameter(D3DXVECTOR3 *moveDir, int lifeFrame);
+	void SetMoveDir(const D3DXVECTOR3& moveDir);
 	
+private:
 	D3DXVECTOR3 moveDir;
 	float speed;
 };

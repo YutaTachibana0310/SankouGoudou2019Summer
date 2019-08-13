@@ -49,7 +49,7 @@ public:
 	D3DXVECTOR3			m_RotDest;			//目的の向き
 	int					m_CntFrame;			//フレームカウント
 	
-	bool				flgDestroyed;		//撃破判定
+	bool				m_FlgDestroyed;		//撃破判定
 	void OnNotified(BoxCollider3DTag other);//衝突判定通知レシーバー
 
 	//純粋仮想関数

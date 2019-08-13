@@ -173,12 +173,7 @@ void SnakeEnemyModel::OnNotified(ObserveSubject *notifier)
 	//当たり判定に属するエネミーすべてにダメージ処理
 	for (auto& enemy : colliderMap[entity])
 	{
-		enemy->VUninit();
-		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
-
-		//スコア・コンボ加算
-		SetAddScore(100);
-		SetAddCombo(1);
+		enemy->m_FlgDestroyed = true;
 	}
 
 	//所属エネミーリストをクリア

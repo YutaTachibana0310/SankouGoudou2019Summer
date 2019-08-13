@@ -68,7 +68,8 @@ Enemy::~Enemy()
 ****************************************/
 void Enemy::OnNotified(BoxCollider3DTag other)
 {
-	flgDestroyed = true;
+	m_FlgDestroyed = true;
+	m_Active = false;
 }
 
 //EnemyStraight

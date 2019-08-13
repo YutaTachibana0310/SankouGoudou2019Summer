@@ -140,9 +140,15 @@ void EnemyController::Update()
 
 	//バレット更新処理
 	bulletController->Update();
+	for (auto& model : modelList)
+	{
+		model->CheckDestroied();
+	}
 
 	//ガイド更新処理
 	guideController->Update();
+
+	//モデル内のエネミー撃墜確認
 
 	//終了したモデルを削除する
 	for (auto& model : modelList)

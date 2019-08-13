@@ -8,7 +8,7 @@
 #define _BOXCOLLIDER3D_H_
 
 #include "../main.h"
-#include "ObserveSubject.h"
+#include "ColliderObserver.h"
 
 #include <map>
 #include <list>

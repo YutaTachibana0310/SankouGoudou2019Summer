@@ -8,6 +8,7 @@
 #define _PLAYERBOMBER_H_
 
 #include "main.h"
+#include "Framework\BoxCollider3D.h"
 
 /**************************************
 マクロ定義
@@ -21,7 +22,7 @@
 /**************************************
 プロトタイプ宣言
 ***************************************/
-class PlayerBomber
+class PlayerBomber : public ColliderObserver
 {
 public:
 	PlayerBomber();				//コンストラクタ
@@ -34,7 +35,7 @@ public:
 
 	void Set(D3DXVECTOR3 pos,D3DXVECTOR3 initpos);
 	void CalcBomber(void);
-
+	void OnNotified(BoxCollider3DTag other);
 
 	Transform transform;
 	D3DXVECTOR3 targetPos;
@@ -44,6 +45,9 @@ public:
 	int reachFrame;
 
 	static int instanceCount;
+
+private:
+	BoxCollider3D* collider;
 
 };
 

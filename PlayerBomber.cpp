@@ -52,6 +52,8 @@ void PlayerBomber::Init(void)
 
 
 	GameParticleManager::Instance()->SetPlayerBomberParticle(&transform.pos, &active);
+
+	collider->active = true;
 }
 
 /**************************************
@@ -99,6 +101,10 @@ PlayerBomber::PlayerBomber()
 {
 	active = false;
 	instanceCount++;
+
+	collider = new BoxCollider3D(BoxCollider3DTag::PlayerBomber, &transform.pos);
+	collider->AddObserver(this);
+	collider->active = false;
 }
 
 /**************************************
@@ -120,7 +126,6 @@ void PlayerBomber::Set(D3DXVECTOR3 pos, D3DXVECTOR3 initpos)
 	cntFrame = reachFrame = BOMBER_REACH_FRAME;
 }
 
-
 /***************************************
 â¡ë¨ìxÇÃåvéZèàóù
 ****************************************/
@@ -140,4 +145,12 @@ void PlayerBomber::CalcBomber(void)
 	velocity += acceleration;
 
 	cntFrame--;
+}
+
+/***************************************
+è’ìÀí ímèàóù
+****************************************/
+void PlayerBomber::OnNotified(BoxCollider3DTag other)
+{
+	Uninit();
 }

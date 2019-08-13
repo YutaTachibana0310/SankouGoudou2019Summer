@@ -5,7 +5,6 @@
 //
 //=====================================
 #include "BoxCollider3D.h"
-#include "ColliderObserver.h"
 
 #include <list>
 

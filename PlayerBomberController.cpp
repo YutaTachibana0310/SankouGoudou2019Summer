@@ -32,7 +32,7 @@ PlayerBomberController::PlayerBomberController()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	const char* TextureName = "data/TEXTURE/Player/PlayerBullet.png";
+	const char* TextureName = "data/TEXTURE/Effect/PlayerBulletParticle.png";
 
 	texture = CreateTextureFromFile((LPSTR)TextureName, pDevice);
 
@@ -171,6 +171,7 @@ void PlayerBomberController::SetPlayerBomber(vector<D3DXVECTOR3>targetList, D3DX
 		{
 			PlayerBomber *bomber = new PlayerBomber();
 			bomber->Init();
+			bomber->Set(target, initpos);
 			bomberContainer.push_back(bomber);
 		}
 	}

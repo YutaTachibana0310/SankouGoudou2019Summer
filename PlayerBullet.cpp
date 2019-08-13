@@ -194,7 +194,6 @@ void PlayerBullet::SetEdgePos(LineTrailModel model)
 	//パーティクルセット
 	GameParticleManager::Instance()->SetPlayerBulletParticle(&pos, &active, &edgeR, &edgeL);
 }
-
 /****************************************
 衝突判定通知レシーバー
 *****************************************/

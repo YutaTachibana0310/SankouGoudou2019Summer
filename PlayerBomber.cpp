@@ -6,16 +6,12 @@
 //=====================================
 #include "PlayerBomber.h"
 #include "camera.h"
+#include "GameParticleManager.h"
 
 /**************************************
 マクロ定義
 ***************************************/
-#define PLAYERBOMBER_TEXTURE_NAME	"data/MODEL/airplane000.x"
-
-#define BOMBER_X		(30)
-#define BOMBER_Y		(30)
-#define BOMBER_Z		(30)
-
+#define BOMBER_MOVE (10.0f)
 /**************************************
 構造体定義
 ***************************************/
@@ -43,17 +39,22 @@ void PlayerBomber::Init(void)
 	cntFrame = 0;
 	reachFrame = 0;
 
-	velocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	transform.pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
+	float x = RandomRangef(-BOMBER_MOVE, BOMBER_MOVE);
+	float y = RandomRangef(-BOMBER_MOVE, BOMBER_MOVE);
+	velocity = D3DXVECTOR3(x, y, 0.0f);
+
+	GameParticleManager::Instance()->SetPlayerBomberParticle(&transform.pos, &active);
 }
+
 /**************************************
 終了処理
 ***************************************/
 void PlayerBomber::Uninit(void)
 {
 	active = false;
-	
-
 }
 
 /**************************************
@@ -81,11 +82,9 @@ void PlayerBomber::Draw(void)
 		return;
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
 	transform.SetWorld();
 
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
-
 }
 
 /**************************************
@@ -95,23 +94,14 @@ PlayerBomber::PlayerBomber()
 {
 	active = false;
 	instanceCount++;
-
 }
-
 
 /**************************************
 デストラクタ
 ***************************************/
 PlayerBomber::~PlayerBomber()
 {
-	
-
 	instanceCount--;
-	if (instanceCount == 0)
-	{
-		//インスタンスが残っていなければテクスチャ解放
-
-	}
 }
 
 /**************************************
@@ -120,11 +110,9 @@ PlayerBomber::~PlayerBomber()
 ***************************************/
 void PlayerBomber::Set(D3DXVECTOR3 pos, D3DXVECTOR3 initpos)
 {
-	//active = true;
-	Init();
 	transform.pos = initpos;
 	targetPos = pos;
-	cntFrame = reachFrame = 120;
+	cntFrame = reachFrame = 30;
 }
 
 
@@ -133,8 +121,6 @@ void PlayerBomber::Set(D3DXVECTOR3 pos, D3DXVECTOR3 initpos)
 ****************************************/
 void PlayerBomber::CalcBomber(void)
 {
-
-	
 	if (cntFrame <= 0)
 	{
 		return;

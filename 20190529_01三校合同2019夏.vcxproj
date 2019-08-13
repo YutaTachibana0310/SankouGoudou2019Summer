@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -207,6 +207,8 @@
     <ClInclude Include="GameStart.h" />
     <ClInclude Include="LineRenderer.h" />
     <ClInclude Include="LineTrailModel.h" />
+    <ClInclude Include="PlayerBomberParticle.h" />
+    <ClInclude Include="PlayerBomberParticleController.h" />
     <ClInclude Include="picojson\picojson.h" />
     <ClInclude Include="PlayerBulletController.h" />
     <ClInclude Include="PlayerIdle.h" />
@@ -399,9 +401,11 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="masktex.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
+    <ClCompile Include="PlayeBomberParticleController.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBomber.cpp" />
     <ClCompile Include="PlayerBomberController.cpp" />
+    <ClCompile Include="PlayerBomberParticle.cpp" />
     <ClCompile Include="PlayerBulletController.cpp" />
     <ClCompile Include="PlayerBulletParticle.cpp" />
     <ClCompile Include="PlayerBulletParticleController.cpp" />

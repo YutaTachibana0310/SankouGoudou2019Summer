@@ -26,6 +26,8 @@ using namespace std;
 /**************************************
 構造体定義
 ***************************************/
+//test用ターゲット
+static vector<D3DXVECTOR3> testTarget;
 
 /**************************************
 コンストラクタ
@@ -48,6 +50,12 @@ PlayerObserver::PlayerObserver()
 	for (UINT i = 0; i < targetPos.size(); i++)
 	{
 		targetPos[i] = LineTrailModel::GetEdgePos(i);
+	}
+
+	testTarget.resize(5);
+	for (auto& target : testTarget)
+	{
+		target = D3DXVECTOR3(RandomRangef(-200.0f, 200.0f), RandomRangef(-200.0f, 200.0f), 250.0f);
 	}
 
 	//moveTarget初期化
@@ -95,12 +103,20 @@ void PlayerObserver::Uninit()
 	bomberController->Uninit();
 	bulletController->Uninit();
 }
-
+#include "debugWindow.h"
 /**************************************
 更新処理
 ***************************************/
 void PlayerObserver::Update()
 {
+	BeginDebugWindow("GameScene");
+	if (DebugButton("Bomb"))
+	{
+		bomberController->SetPlayerBomber(testTarget, player->transform.pos);
+
+	}
+	EndDebugWindow("GaeScene");
+
 	if (enableUpdateLogic)
 	{
 		int stateResult = player->Update();

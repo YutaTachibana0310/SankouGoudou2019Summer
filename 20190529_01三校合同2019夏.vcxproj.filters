@@ -88,9 +88,6 @@
     <Filter Include="ヘッダー ファイル\Collider">
       <UniqueIdentifier>{6e5bcac6-9189-4e6c-b253-1ec550cf976a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Enemy">
-      <UniqueIdentifier>{8a4c5504-7a10-4568-b71e-60ddceb1b5f6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Enemy">
       <UniqueIdentifier>{5db6f869-6ad0-47f3-89be-225001326c0b}</UniqueIdentifier>
     </Filter>
@@ -121,9 +118,6 @@
     <Filter Include="ヘッダー ファイル\Enemy\Model">
       <UniqueIdentifier>{40296833-e7bf-47f8-a773-7eff874b2531}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Enemy\Model">
-      <UniqueIdentifier>{1b54fa04-28aa-4755-983c-c44af28dd54d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Effect\Controller">
       <UniqueIdentifier>{660e251e-3220-43df-9cd6-831b843dca70}</UniqueIdentifier>
     </Filter>
@@ -141,6 +135,12 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\GameController">
       <UniqueIdentifier>{8a8c568f-4f22-431d-8aba-9b24e028e899}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Enemy">
+      <UniqueIdentifier>{8a4c5504-7a10-4568-b71e-60ddceb1b5f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Enemy\Model">
+      <UniqueIdentifier>{1b54fa04-28aa-4755-983c-c44af28dd54d}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\System\Score">
       <UniqueIdentifier>{0178d064-3574-4ac9-9d54-23e54448d163}</UniqueIdentifier>
@@ -533,6 +533,12 @@
     </ClInclude>
     <ClInclude Include="GameEnd.h">
       <Filter>ヘッダー ファイル\GameController</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBomberParticle.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBomberParticleController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
     </ClInclude>
     <ClInclude Include="ScoreManager.h">
       <Filter>ヘッダー ファイル\System\Score</Filter>
@@ -1045,6 +1051,12 @@
     </ClCompile>
     <ClCompile Include="GameEnd.cpp">
       <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBomberParticle.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayeBomberParticleController.cpp">
+        <Filter>ソース ファイル\Effect\Controller</Filter>
     </ClCompile>
     <ClCompile Include="ScoreManager.cpp">
       <Filter>ソース ファイル\System\Score</Filter>

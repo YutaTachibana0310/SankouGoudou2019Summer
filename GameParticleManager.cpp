@@ -11,6 +11,7 @@
 #include "PlayerTrailParticleController.h"
 #include "EnemyExplosionController.h"
 #include "EnemyExplosionFlareController.h"
+#include "PlayerBomberParticleController.h"
 #include "EnemyWarpHoleController.h"
 #include "EnemyBulletTrailController.h"
 #include "EnemyBulletEffectController.h"
@@ -46,6 +47,7 @@ enum ParticleController
 	PlayerTrailParticle,
 	EnemyExplosion,
 	EnemyExplosionFlare,
+	PlayerBomberParticle,
 	EnemyWarpHole,
 	EnemyBulletTrail,
 	EnenyBulletEffect,
@@ -73,6 +75,7 @@ void GameParticleManager::Init()
 	controllers[PlayerTrailParticle] = new PlayerTrailParticleController();
 	controllers[EnemyExplosion] = new EnemyExplosionController();
 	controllers[EnemyExplosionFlare] = new EnemyExplosionFlareController();
+	controllers[PlayerBomberParticle] = new PlayerBomberParticleController();
 	controllers[EnemyWarpHole] = new EnemyWarpHoleController();
 	controllers[EnemyBulletTrail] = new EnemyBulletTrailController();
 	controllers[EnenyBulletEffect] = new EnemyBulletEffectController();
@@ -147,6 +150,17 @@ void GameParticleManager::SetEnemyExplosion(D3DXVECTOR3 *pos)
 {
 	controllers[EnemyExplosion]->SetEmitter(pos);
 	controllers[EnemyExplosionFlare]->SetEmitter(pos);
+}
+
+/**************************************
+プレイヤーボンバーパーティクル処理
+***************************************/
+void GameParticleManager::SetPlayerBomberParticle(D3DXVECTOR3 *pPos, bool *pActive)
+{
+	PlayerBomberParticleController *controller
+		= static_cast<PlayerBomberParticleController*>(controllers[PlayerBomberParticle]);
+
+	controller->SetEmitter(pPos, pActive);
 }
 
 /**************************************

@@ -7,6 +7,7 @@
 #include "PlayerBomber.h"
 #include "camera.h"
 #include "GameParticleManager.h"
+#include "Framework\CameraShakePlugin.h"
 
 /**************************************
 マクロ定義
@@ -15,6 +16,8 @@
 #define	BOMBER_REACH_FRAME		(45)
 #define	BOBMER_INIT_SPEED		(5.0f)
 #define	BOMBER_COLLIDER_SIZE	(D3DXVECTOR3(10.0f, 10.0f, 10.0f))
+#define BOMBER_HIT_AMPLITUDE	(D3DXVECTOR3(10.0f, 10.0f, 0.0f))
+#define BOMBER_HIT_DURATION		(60)
 
 /**************************************
 構造体定義
@@ -75,7 +78,10 @@ void PlayerBomber::Update(void)
 	if (cntFrame == 0)
 	{
 		if (target != NULL)
+		{
+			Camera::ShakePlugin::Instance()->Set(BOMBER_HIT_AMPLITUDE, BOMBER_HIT_DURATION);
 			target->OnHitBomber();
+		}
 		
 		Uninit();
 	}

@@ -65,19 +65,11 @@ PlayerBomberController::PlayerBomberController()
 	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
 	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
 
-
 	vtxBuff->Unlock();
 
 	//ストックインターバル初期化
 	stockInterval = BOMBER_STOCK_INTERVAL;
-
-	Transform *test = new Transform();
-
-	D3DXVECTOR3& target = test->pos;
-
-	SAFE_DELETE(test);
-
-	target.x += 10.0f;
+	stock = 5;
 }
 
 /*********************************************************
@@ -164,7 +156,7 @@ void PlayerBomberController::Draw()
 ***************************************************/
 void PlayerBomberController::SetPlayerBomber(list<Enemy*>targetList, D3DXVECTOR3 initpos)
 {
-	float rotAngle = 360.0f / targetList.size();
+	float rotAngle = D3DXToRadian(360.0f / targetList.size());
 	float radian = 0.0f;
 	for (auto &target : targetList)
 	{

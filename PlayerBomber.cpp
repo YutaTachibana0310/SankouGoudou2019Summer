@@ -11,9 +11,10 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define			BOMBER_MOVE			(10.0f)
-#define			BOMBER_REACH_FRAME	(60)
-#define			BOBMER_INIT_SPEED	(5.0f)
+#define BOMBER_MOVE				(10.0f)
+#define	BOMBER_REACH_FRAME		(60)
+#define	BOBMER_INIT_SPEED		(5.0f)
+#define	BOMBER_COLLIDER_SIZE	(D3DXVECTOR3(10.0f, 10.0f, 10.0f))
 
 /**************************************
 構造体定義
@@ -99,6 +100,7 @@ PlayerBomber::PlayerBomber()
 	instanceCount++;
 
 	collider = new BoxCollider3D(BoxCollider3DTag::PlayerBomber, &transform.pos);
+	collider->SetSize(BOMBER_COLLIDER_SIZE);
 	collider->AddObserver(this);
 	collider->active = false;
 }

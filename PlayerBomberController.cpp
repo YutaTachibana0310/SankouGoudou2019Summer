@@ -156,8 +156,10 @@ void PlayerBomberController::Draw()
 ***************************************************/
 void PlayerBomberController::SetPlayerBomber(list<Enemy*>targetList, D3DXVECTOR3 initpos)
 {
+	const D3DXVECTOR3 setPos = initpos + D3DXVECTOR3(0.0f, 10.0f, 50.0f);
 	float rotAngle = D3DXToRadian(360.0f / targetList.size());
 	float radian = 0.0f;
+
 	for (auto &target : targetList)
 	{
 		D3DXVECTOR3 dir;
@@ -174,14 +176,14 @@ void PlayerBomberController::SetPlayerBomber(list<Enemy*>targetList, D3DXVECTOR3
 		{
 			PlayerBomber* bomber = *itr;
 			bomber->Init(dir);
-			bomber->Set(target, initpos);
+			bomber->Set(target, setPos);
 			target->AddTargeter(bomber);
 		}
 		else
 		{
 			PlayerBomber *bomber = new PlayerBomber();
 			bomber->Init(dir);
-			bomber->Set(target, initpos);
+			bomber->Set(target, setPos);
 			bomberContainer.push_back(bomber);
 			target->AddTargeter(bomber);
 		}

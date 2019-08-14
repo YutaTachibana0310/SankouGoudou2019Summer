@@ -12,7 +12,7 @@
 É}ÉNÉçíËã`
 ***************************************/
 #define BOMBER_MOVE				(10.0f)
-#define	BOMBER_REACH_FRAME		(60)
+#define	BOMBER_REACH_FRAME		(45)
 #define	BOBMER_INIT_SPEED		(5.0f)
 #define	BOMBER_COLLIDER_SIZE	(D3DXVECTOR3(10.0f, 10.0f, 10.0f))
 

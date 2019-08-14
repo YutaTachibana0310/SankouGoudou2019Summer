@@ -21,6 +21,7 @@
 #include "PlayerChargeEffectController.h"
 #include "PlayerChargeParticleController.h"
 #include "AccelEffectController.h"
+#include "BomberFireController.h"
 
 #include "LineTrailModel.h"
 
@@ -56,6 +57,7 @@ enum ParticleController
 	PlayerCharge,
 	PlayerChargeParticle,
 	AccelEffect,
+	BomberFire,
 	ControllerMax
 };
 
@@ -84,6 +86,7 @@ void GameParticleManager::Init()
 	controllers[PlayerCharge] = new PlayerChargeEffectController();
 	controllers[PlayerChargeParticle] = new PlayerChargeParticleController();
 	controllers[AccelEffect] = new AccelEffectController();
+	controllers[BomberFire] = new BomberFireController();
 
 	//各パーティクル初期化
 	for (auto& controller : controllers)
@@ -109,6 +112,7 @@ void GameParticleManager::Update(void)
 ***************************************/
 void GameParticleManager::UpdateBombParticle()
 {
+	controllers[BomberFire]->Update();
 	controllers[PlayerBomberParticle]->Update();
 	controllers[PlayerChargeParticle]->Update();
 	controllers[PlayerCharge]->Update();
@@ -221,6 +225,14 @@ void GameParticleManager::SetPlayerCharge(D3DXVECTOR3 *pos)
 void GameParticleManager::SetAccelEffect(D3DXVECTOR3 *pos)
 {
 	controllers[AccelEffect]->SetEmitter(pos);
+}
+
+/**************************************
+ボンバー発射エフェクトセット処理
+***************************************/
+void GameParticleManager::SetBomberFire(D3DXVECTOR3* pos)
+{
+	controllers[BomberFire]->SetEmitter(pos);
 }
 
 #ifdef GAMEPARTICLE_USE_DEBUG

@@ -8,6 +8,7 @@
 #include <algorithm>
 #include "Framework\ResourceManager.h"
 #include "enemy.h"
+#include "GameParticleManager.h"
 
 using namespace std;
 
@@ -156,7 +157,7 @@ void PlayerBomberController::Draw()
 ***************************************************/
 void PlayerBomberController::SetPlayerBomber(list<Enemy*>targetList, D3DXVECTOR3 initpos)
 {
-	const D3DXVECTOR3 setPos = initpos + D3DXVECTOR3(0.0f, 10.0f, 50.0f);
+	D3DXVECTOR3 setPos = initpos + D3DXVECTOR3(0.0f, 10.0f, 50.0f);
 	float rotAngle = D3DXToRadian(360.0f / targetList.size());
 	float radian = 0.0f;
 
@@ -193,6 +194,9 @@ void PlayerBomberController::SetPlayerBomber(list<Enemy*>targetList, D3DXVECTOR3
 
 	//ストックを消費
 	stock--;
+
+	//発射エフェクトセット
+	GameParticleManager::Instance()->SetBomberFire(&setPos);
 }
 
 /***************************************************

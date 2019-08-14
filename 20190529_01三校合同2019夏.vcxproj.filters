@@ -198,9 +198,6 @@
     <ClInclude Include="Framework\BaseCameraPlugin.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\CameraShakerPlugin.h">
-      <Filter>ヘッダー ファイル\Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\MeshContainer.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
@@ -726,6 +723,15 @@
     <ClInclude Include="Framework\ColliderObserver.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\CameraShakePlugin.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="BomberFire.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="BomberFireController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -744,9 +750,6 @@
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="Framework\BaseCameraPlugin.cpp">
-      <Filter>ソース ファイル\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\CameraShakerPlugin.cpp">
       <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Framework\EasingVector.cpp">
@@ -1056,7 +1059,7 @@
       <Filter>ソース ファイル\Effect\Particle</Filter>
     </ClCompile>
     <ClCompile Include="PlayeBomberParticleController.cpp">
-        <Filter>ソース ファイル\Effect\Controller</Filter>
+      <Filter>ソース ファイル\Effect\Controller</Filter>
     </ClCompile>
     <ClCompile Include="ScoreManager.cpp">
       <Filter>ソース ファイル\System\Score</Filter>
@@ -1219,6 +1222,15 @@
     </ClCompile>
     <ClCompile Include="BomberStockEffect.cpp">
       <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\CameraShakePlugin.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="BomberFire.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="BomberFireController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

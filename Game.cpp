@@ -71,7 +71,7 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	CreateRenderTarget();
 
 	InitInput(hInstance, hWnd);
-	InitCamera();
+	Camera::Instance()->Init();
 	InitLight();
 	InitDebugWindow(hWnd, pDevice);
 	InitMask(MASK_SIZE, MASK_SIZE, 0);
@@ -124,7 +124,7 @@ void UpdateGame(HWND hWnd)
 	UpdateDebugWindow();
 	UpdateInput();
 	UpdateLight();
-	UpdateCamera();
+	Camera::Instance()->Update();
 
 	fsm[currentScene]->Update(hWnd);
 }
@@ -150,9 +150,8 @@ void DrawGame()
 	DrawMaskTexSet();
 
 	//オブジェクトを描画
-	SetCamera();
+	Camera::Instance()->Set();
 	fsm[currentScene]->Draw();
-
 
 	//マスク終了
 	DrawMaskTexEnd();

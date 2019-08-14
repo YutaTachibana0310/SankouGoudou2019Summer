@@ -1,49 +1,70 @@
-//=============================================================================
+//=====================================
 //
-// カメラ処理 [camera.h]
-// Author : 
+//カメラヘッダ[Camera.h]
+//Author:GP12B332 21 立花雄太
 //
-//=============================================================================
+//=====================================
 #ifndef _CAMERA_H_
 #define _CAMERA_H_
 
 #include "main.h"
+#include "Framework/BaseSingleton.h"
+#include "Framework/Transform.h"
 
-//*****************************************************************************
-// 構造体定義
-//*****************************************************************************
-typedef struct
+#include <vector>
+
+class BaseCameraPlugin;
+/**************************************
+Cameraクラス
+***************************************/
+class Camera : public BaseSingleton<Camera>
 {
-	D3DXVECTOR3 pos;
+	friend class BaseSingleton<Camera>;
+public:
+	void Init();		//初期化
+	void Update();		//更新
+	void Set();			//カメラ情報反映処理
+
+protected:
+	//SRT情報
+	Transform transform;
+
+	//注視点
 	D3DXVECTOR3 target;
-	D3DXVECTOR3 up;
-	D3DXVECTOR3 destPos;
-	D3DXVECTOR3 destTarget;
-	D3DXVECTOR3 rot;
-	float dist;
 
-	D3DXMATRIX view, projection, invView;
-	D3DXVECTOR3 posOffset;
-}Camera;
+	//視点、注視点、上方向（作業用領域）
+	D3DXVECTOR3 eyeWork;
+	D3DXVECTOR3 targetWork;
+	D3DXVECTOR3 upWork;
 
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-HRESULT InitCamera(void);
-void UninitCamera(void);
-void UpdateCamera(void);
+	//視野角、アスペクト比、ニア値、ファー値
+	float viewAngle;
+	float viewAspect;
+	float viewNear;
+	float viewFar;
 
-void SetCamera(void);
+	//プラグインリスト
+	std::vector<BaseCameraPlugin*> pluginList;
 
-D3DXVECTOR3 GetRotCamera(void);
-D3DXMATRIX GetMtxView(void);
-D3DXMATRIX GetMtxProjection(void);
-void GetInvCameraRotMtx(D3DXMATRIX *mtx, const D3DXVECTOR3* objPos = NULL);
-D3DXVECTOR3 GetCameraPos(void);
-Camera *GetCameraAdr(void);
+private:
+	Camera();
+	Camera(const Camera&) {}
+	~Camera() {}
 
-D3DXMATRIX GetPlayerMtxView(int targetPlayerID);
+public:
+	//カメラを揺らすプラグイン
+	class ShakePlugin;
 
-D3DXMATRIX GetInvView();
+};
+
+/**************************************
+カメラプラグイン基底クラス
+***************************************/
+class BaseCameraPlugin
+{
+public:
+	virtual void Update() = 0;
+	virtual void Apply(Camera& camera) = 0;
+};
 
 #endif

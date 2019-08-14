@@ -170,6 +170,7 @@
     <ClInclude Include="EnemyWarpHole.h" />
     <ClInclude Include="EnemyWarpHoleController.h" />
     <ClInclude Include="Framework\BoardPolygon.h" />
+    <ClInclude Include="Framework\CameraShakePlugin.h" />
     <ClInclude Include="Framework\ColliderObserver.h" />
     <ClInclude Include="Framework\Gamepad.h" />
     <ClInclude Include="Framework\Keyboard.h" />
@@ -236,7 +237,6 @@
     <ClInclude Include="Framework\BaseParticle.h" />
     <ClInclude Include="Framework\BaseParticleController.h" />
     <ClInclude Include="Framework\BaseSingleton.h" />
-    <ClInclude Include="Framework\CameraShakerPlugin.h" />
     <ClInclude Include="Framework\Easing.h" />
     <ClInclude Include="Framework\EasingVector.h" />
     <ClInclude Include="Framework\InstancingMeshContainer.h" />
@@ -341,6 +341,7 @@
     <ClCompile Include="EnemyWarpHole.cpp" />
     <ClCompile Include="EnemyWarpHoleController.cpp" />
     <ClCompile Include="Framework\BoardPolygon.cpp" />
+    <ClCompile Include="Framework\CameraShakePlugin.cpp" />
     <ClCompile Include="Framework\Gamepad.cpp" />
     <ClCompile Include="Framework\Keyboard.cpp" />
     <ClCompile Include="Framework\Mouse.cpp" />
@@ -372,7 +373,6 @@
     <ClCompile Include="Framework\BaseParticle.cpp" />
     <ClCompile Include="Framework\BaseParticleController.cpp" />
     <ClCompile Include="Framework\BoxCollider3D.cpp" />
-    <ClCompile Include="Framework\CameraShakerPlugin.cpp" />
     <ClCompile Include="Framework\EasingVector.cpp" />
     <ClCompile Include="Framework\InstancingMeshContainer.cpp" />
     <ClCompile Include="Framework\MeshContainer.cpp" />

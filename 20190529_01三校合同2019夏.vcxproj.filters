@@ -726,6 +726,12 @@
     <ClInclude Include="Framework\CameraShakePlugin.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
+    <ClInclude Include="BomberFire.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="BomberFireController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1219,6 +1225,12 @@
     </ClCompile>
     <ClCompile Include="Framework\CameraShakePlugin.cpp">
       <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="BomberFire.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="BomberFireController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

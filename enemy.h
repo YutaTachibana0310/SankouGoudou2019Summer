@@ -12,17 +12,17 @@
 #include "Framework\BoxCollider3D.h"
 #include "Framework\ColliderObserver.h"
 #include <vector>
-#include "PlayerBomber.h"
 
 using namespace std;
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
 #define SHADOW_MAX      (8)						//シャドウ数
+
 //*****************************************************************************
 // 種類
 //*****************************************************************************
-
+class PlayerBomber;
 
 //*****************************************************************************
 // クラス定義
@@ -55,6 +55,7 @@ public:
 
 	PlayerBomber*		m_Targeter;			//自身を狙っているボンバー
 	void AddTargeter(PlayerBomber* targeter);	
+	void OnHitBomber();						//ボンバー着弾時のコールバック
 
 	//純粋仮想関数
 	virtual HRESULT  VInit(void) = 0;

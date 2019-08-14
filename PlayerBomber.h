@@ -9,6 +9,7 @@
 
 #include "main.h"
 #include "Framework\BoxCollider3D.h"
+#include "enemy.h"
 
 /**************************************
 マクロ定義
@@ -33,7 +34,7 @@ public:
 	void Update();				//更新処理
 	void Draw();				//描画処理
 
-	void Set(const D3DXVECTOR3* target, D3DXVECTOR3 initpos);
+	void Set(Enemy* target, D3DXVECTOR3 initpos);
 	void CalcBomber(void);
 	void OnNotified(BoxCollider3DTag other);
 
@@ -47,7 +48,7 @@ private:
 	D3DXVECTOR3 velocity;
 	int cntFrame;
 	int reachFrame;
-	const D3DXVECTOR3* target;
+	Enemy* target;
 
 	static int instanceCount;
 

@@ -174,14 +174,14 @@ void PlayerBomberController::SetPlayerBomber(list<Enemy*>targetList, D3DXVECTOR3
 		{
 			PlayerBomber* bomber = *itr;
 			bomber->Init(dir);
-			bomber->Set(&target->m_Pos, initpos);
+			bomber->Set(target, initpos);
 			target->AddTargeter(bomber);
 		}
 		else
 		{
 			PlayerBomber *bomber = new PlayerBomber();
 			bomber->Init(dir);
-			bomber->Set(&target->m_Pos, initpos);
+			bomber->Set(target, initpos);
 			bomberContainer.push_back(bomber);
 			target->AddTargeter(bomber);
 		}

@@ -73,7 +73,12 @@ void PlayerBomber::Update(void)
 	transform.pos += velocity;
 	
 	if (cntFrame == 0)
+	{
+		if (target != NULL)
+			target->OnHitBomber();
+		
 		Uninit();
+	}
 
 }
 
@@ -118,11 +123,11 @@ PlayerBomber::~PlayerBomber()
 ホーミング対象のアドレスを取得
 引数(ホーミング対象のアドレス、ボムのセット位置)
 ***************************************/
-void PlayerBomber::Set(const D3DXVECTOR3 *target, D3DXVECTOR3 initpos)
+void PlayerBomber::Set(Enemy *target, D3DXVECTOR3 initpos)
 {
 	transform.pos = initpos;
 	this->target = target;
-	targetPos = *target;
+	targetPos = target->m_Pos;
 	cntFrame = reachFrame = BOMBER_REACH_FRAME;
 }
 
@@ -138,7 +143,7 @@ void PlayerBomber::CalcBomber(void)
 
 	if (target != NULL)
 	{
-		targetPos = *target;
+		targetPos = target->m_Pos;
 	}
 
 	float time = (float)cntFrame;

@@ -10,6 +10,7 @@
 #include  <math.h>
 #include "Framework\Easing.h"
 #include "Framework\ResourceManager.h"
+#include "PlayerBomber.h"
 
 using namespace std;
 
@@ -83,6 +84,14 @@ void Enemy::OnNotified(BoxCollider3DTag other)
 void Enemy::AddTargeter(PlayerBomber *targeter)
 {
 	m_Targeter = targeter;
+}
+
+/****************************************
+ボンバー着弾コールバック
+****************************************/
+void Enemy::OnHitBomber()
+{
+	m_FlgDestroyed = true;
 }
 
 //EnemyStraight

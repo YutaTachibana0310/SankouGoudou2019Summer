@@ -9,6 +9,7 @@
 #include "Framework\ResourceManager.h"
 #include "enemy.h"
 #include "GameParticleManager.h"
+#include "debugWindow.h"
 
 using namespace std;
 
@@ -16,8 +17,8 @@ using namespace std;
 マクロ定義
 **********************************************************/
 #define BOMBER_SIZE					(20.0f)
-#define BOMBER_STOCK_INTERVAL		(300)
-#define BOMBER_STOCK_MAX			(3)
+#define BOMBER_STOCK_INTERVAL		(600)
+#define BOMBER_STOCK_MAX			(1)
 
 /********************************************************
 構造体定義
@@ -70,7 +71,7 @@ PlayerBomberController::PlayerBomberController()
 
 	//ストックインターバル初期化
 	stockInterval = BOMBER_STOCK_INTERVAL;
-	stock = 5;
+	stock = 1;
 }
 
 /*********************************************************
@@ -121,6 +122,9 @@ void PlayerBomberController::Update()
 
 	//ストックインターバルを更新
 	stockInterval = Min(BOMBER_STOCK_INTERVAL, stockInterval + 1);
+
+	DebugLog("BombStock : %d", stock);
+	DebugLog("BomInterval : %d", stockInterval);
 }
 
 /*********************************************
@@ -194,6 +198,7 @@ void PlayerBomberController::SetPlayerBomber(list<Enemy*>targetList, D3DXVECTOR3
 
 	//ストックを消費
 	stock--;
+	stockInterval = 0;
 
 	//発射エフェクトセット
 	GameParticleManager::Instance()->SetBomberFire(&setPos);
@@ -204,7 +209,8 @@ void PlayerBomberController::SetPlayerBomber(list<Enemy*>targetList, D3DXVECTOR3
 ***************************************************/
 bool PlayerBomberController::CanStock()
 {
-	return stockInterval >= BOMBER_STOCK_INTERVAL;
+	//return stockInterval >= BOMBER_STOCK_INTERVAL;
+	return true;
 }
 
 /***************************************************
@@ -212,7 +218,13 @@ bool PlayerBomberController::CanStock()
 ***************************************************/
 bool PlayerBomberController::CanSet()
 {
-	return stock > 0;
+	if (stock <= 0)
+		return false;
+
+	if (stockInterval < BOMBER_STOCK_INTERVAL)
+		return false;
+
+	return true;
 }
 
 /***************************************************
@@ -221,5 +233,5 @@ bool PlayerBomberController::CanSet()
 void PlayerBomberController::AddStock()
 {
 	stock = Min(stock + 1, BOMBER_STOCK_MAX);
-	stockInterval = 0;
+	//stockInterval = 0;
 }

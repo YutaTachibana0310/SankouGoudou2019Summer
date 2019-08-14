@@ -26,8 +26,6 @@ using namespace std;
 /**************************************
 構造体定義
 ***************************************/
-//test用ターゲット
-static vector<D3DXVECTOR3> testTarget;
 
 /**************************************
 コンストラクタ
@@ -52,12 +50,6 @@ PlayerObserver::PlayerObserver()
 		targetPos[i] = LineTrailModel::GetEdgePos(i);
 	}
 
-	testTarget.resize(5);
-	for (auto& target : testTarget)
-	{
-		target = D3DXVECTOR3(RandomRangef(-200.0f, 200.0f), RandomRangef(-200.0f, 200.0f), 250.0f);
-	}
-
 	//moveTarget初期化
 	moveTarget = MOVETARGET_DEFAULT;
 
@@ -76,12 +68,6 @@ PlayerObserver::~PlayerObserver()
 
 	SAFE_DELETE(bomberController);
 	SAFE_DELETE(bulletController);
-
-	for (auto stateMachine : fsm)
-	{
-		SAFE_DELETE(stateMachine.second);
-	}
-	fsm.clear();
 }
 
 /**************************************
@@ -103,20 +89,12 @@ void PlayerObserver::Uninit()
 	bomberController->Uninit();
 	bulletController->Uninit();
 }
-#include "debugWindow.h"
+
 /**************************************
 更新処理
 ***************************************/
 void PlayerObserver::Update()
 {
-	BeginDebugWindow("GameScene");
-	if (DebugButton("Bomb"))
-	{
-		bomberController->SetPlayerBomber(testTarget, player->transform.pos);
-
-	}
-	EndDebugWindow("GaeScene");
-
 	if (enableUpdateLogic)
 	{
 		int stateResult = player->Update();
@@ -352,10 +330,10 @@ bool PlayerObserver::ShouldFireBomber()
 /**************************************
 ボンバー発射処理
 ***************************************/
-void PlayerObserver::FirePlayerBomber(vector<D3DXVECTOR3> posList)
+void PlayerObserver::FirePlayerBomber(list<Enemy*> targetList)
 {
 	if(bomberController->CanSet())
-		bomberController->SetPlayerBomber(posList, player->transform.pos);
+		bomberController->SetPlayerBomber(targetList, player->transform.pos);
 }
 
 /**************************************

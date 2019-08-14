@@ -145,10 +145,10 @@ void EnemyModel::CheckDestroied()
 /**************************************
 エネミー座標取得処理
 ***************************************/
-void EnemyModel::GetEnemyPosition(vector<D3DXVECTOR3>& out)
+void EnemyModel::GetEnemy(list<Enemy*>& out)
 {
 	for (auto& enemy : enemyList)
 	{
-		out.push_back(enemy->m_Pos);
+		out.push_back(enemy);
 	}
 }

@@ -5,7 +5,6 @@
 //
 //=====================================
 #include "BoxCollider3D.h"
-#include "ColliderObserver.h"
 
 #include <list>
 
@@ -203,7 +202,7 @@ void BoxCollider3D::SetPosAddress(D3DXVECTOR3 *pPos)
 void BoxCollider3D::UpdateCollision()
 {
 	//PlayerBomber‚ÆEnemy‚ÅÕ“Ë”»’è
-	CheckRoundRobin(BoxCollider3DTag::PlayerBomber, BoxCollider3DTag::Enemy);
+	//CheckRoundRobin(BoxCollider3DTag::PlayerBomber, BoxCollider3DTag::Enemy);
 
 	//PlayerBullet‚ÆSnakeEnemy‚ÅÕ“Ë”»’è
 	CheckRoundRobin(BoxCollider3DTag::PlayerBullet, BoxCollider3DTag::SnakeEnemy);

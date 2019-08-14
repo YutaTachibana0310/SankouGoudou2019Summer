@@ -7,6 +7,7 @@
 #include "PlayerBomberController.h"
 #include <algorithm>
 #include "Framework\ResourceManager.h"
+#include "enemy.h"
 
 using namespace std;
 
@@ -64,11 +65,11 @@ PlayerBomberController::PlayerBomberController()
 	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
 	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
 
-
 	vtxBuff->Unlock();
 
 	//ストックインターバル初期化
 	stockInterval = BOMBER_STOCK_INTERVAL;
+	stock = 5;
 }
 
 /*********************************************************
@@ -153,10 +154,19 @@ void PlayerBomberController::Draw()
 /***************************************************
 ボムセット処理
 ***************************************************/
-void PlayerBomberController::SetPlayerBomber(vector<D3DXVECTOR3>targetList, D3DXVECTOR3 initpos)
+void PlayerBomberController::SetPlayerBomber(list<Enemy*>targetList, D3DXVECTOR3 initpos)
 {
+	const D3DXVECTOR3 setPos = initpos + D3DXVECTOR3(0.0f, 10.0f, 50.0f);
+	float rotAngle = D3DXToRadian(360.0f / targetList.size());
+	float radian = 0.0f;
+
 	for (auto &target : targetList)
 	{
+		D3DXVECTOR3 dir;
+		ZeroMemory(&dir, sizeof(dir));
+		dir.x = sinf(radian);
+		dir.y = cosf(radian);
+
 		auto itr = find_if(bomberContainer.begin(), bomberContainer.end(), [](PlayerBomber* bomber)
 		{
 			return !bomber->active;
@@ -164,16 +174,21 @@ void PlayerBomberController::SetPlayerBomber(vector<D3DXVECTOR3>targetList, D3DX
 
 		if (itr != bomberContainer.end())
 		{
-			(*itr)->Init();
-			(*itr)->Set(target, initpos);
+			PlayerBomber* bomber = *itr;
+			bomber->Init(dir);
+			bomber->Set(target, setPos);
+			target->AddTargeter(bomber);
 		}
 		else
 		{
 			PlayerBomber *bomber = new PlayerBomber();
-			bomber->Init();
-			bomber->Set(target, initpos);
+			bomber->Init(dir);
+			bomber->Set(target, setPos);
 			bomberContainer.push_back(bomber);
+			target->AddTargeter(bomber);
 		}
+
+		radian += rotAngle;
 	}
 
 	//ストックを消費

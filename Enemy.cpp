@@ -10,6 +10,7 @@
 #include  <math.h>
 #include "Framework\Easing.h"
 #include "Framework\ResourceManager.h"
+#include "PlayerBomber.h"
 
 using namespace std;
 
@@ -52,10 +53,12 @@ Enemy::Enemy()
 	m_InstanceCount++;
 	ResourceManager::Instance()->GetMesh("Enemy", &m_pMesh);
 
-	collider = new BoxCollider3D(BoxCollider3DTag::Enemy, &m_Pos);
-	collider->SetSize(ENEMY_COLLIDER_SIZE);
-	collider->active = true;
-	collider->AddObserver(this);
+	m_Collider = new BoxCollider3D(BoxCollider3DTag::Enemy, &m_Pos);
+	m_Collider->SetSize(ENEMY_COLLIDER_SIZE);
+	m_Collider->active = true;
+	m_Collider->AddObserver(this);
+
+	m_Targeter = NULL;
 }
 
 /****************************************
@@ -64,7 +67,10 @@ Enemy::Enemy()
 Enemy::~Enemy()
 {
 	m_InstanceCount--;
-	SAFE_DELETE(collider);
+	SAFE_DELETE(m_Collider);
+	
+	if (m_Targeter != NULL)
+		m_Targeter->OnDisappearTarget();
 }
 
 /****************************************
@@ -74,6 +80,22 @@ void Enemy::OnNotified(BoxCollider3DTag other)
 {
 	m_FlgDestroyed = true;
 	m_Active = false;
+}
+
+/****************************************
+ターゲッター追加処理
+****************************************/
+void Enemy::AddTargeter(PlayerBomber *targeter)
+{
+	m_Targeter = targeter;
+}
+
+/****************************************
+ボンバー着弾コールバック
+****************************************/
+void Enemy::OnHitBomber()
+{
+	m_FlgDestroyed = true;
 }
 
 //EnemyStraight
@@ -474,7 +496,7 @@ void EnemyChange::VSetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int wai
 ****************************************/
 EnemySnake::EnemySnake()
 {
-	collider->RegisterToCheckList(BoxCollider3DTag::SnakeEnemy);
+	m_Collider->RegisterToCheckList(BoxCollider3DTag::SnakeEnemy);
 }
 
 /****************************************
@@ -622,7 +644,7 @@ void EnemySnake::VDraw()
 
 		m_pMesh->Draw();
 
-		BoxCollider3D::DrawCollider(collider);
+		BoxCollider3D::DrawCollider(m_Collider);
 	}
 }
 

@@ -22,10 +22,14 @@ void PlayerBomberParticle::Init()
 {
 	active = true;
 	cntFrame = 0;
+	transform.Rotate(0.0f, 0.0f, RandomRangef(0.0f, 360.0f));
 	transform.scale = RandomRangef(0.3f, 1.0f) * D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
 	speed = RandomRangef(BOMBERTRAIL_SPEED_MIN, BOMBERTRAIL_SPEED_MAX);
 	lifeFrame = RandomRange(BOMBERTRAIL_LIFE_MIN, BOMBERTRAIL_LIFE_MAX);
+
+	moveDir.x += RandomRangef(-0.1f, 0.1f);
+	moveDir.y += RandomRangef(-0.1f, 0.1f);
 }
 
 /**************************************

@@ -11,7 +11,11 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define BOMBER_MOVE (10.0f)
+#define BOMBER_MOVE				(10.0f)
+#define	BOMBER_REACH_FRAME		(45)
+#define	BOBMER_INIT_SPEED		(5.0f)
+#define	BOMBER_COLLIDER_SIZE	(D3DXVECTOR3(10.0f, 10.0f, 10.0f))
+
 /**************************************
 構造体定義
 ***************************************/
@@ -29,11 +33,10 @@ int PlayerBomber::instanceCount = 0;				//インスタンスカウンタ
 プロトタイプ宣言
 ***************************************/
 
-
 /**************************************
 初期化処理
 ***************************************/
-void PlayerBomber::Init(void)
+void PlayerBomber::Init(const D3DXVECTOR3& moveDir)
 {
 	active = true;
 	cntFrame = 0;
@@ -42,11 +45,11 @@ void PlayerBomber::Init(void)
 	transform.pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
-	float x = RandomRangef(-BOMBER_MOVE, BOMBER_MOVE);
-	float y = RandomRangef(-BOMBER_MOVE, BOMBER_MOVE);
-	velocity = D3DXVECTOR3(x, y, 0.0f);
+	velocity = moveDir * BOBMER_INIT_SPEED;
 
 	GameParticleManager::Instance()->SetPlayerBomberParticle(&transform.pos, &active);
+
+	collider->active = true;
 }
 
 /**************************************
@@ -55,6 +58,7 @@ void PlayerBomber::Init(void)
 void PlayerBomber::Uninit(void)
 {
 	active = false;
+	collider->active = false;
 }
 
 /**************************************
@@ -69,7 +73,12 @@ void PlayerBomber::Update(void)
 	transform.pos += velocity;
 	
 	if (cntFrame == 0)
+	{
+		if (target != NULL)
+			target->OnHitBomber();
+		
 		Uninit();
+	}
 
 }
 
@@ -94,6 +103,11 @@ PlayerBomber::PlayerBomber()
 {
 	active = false;
 	instanceCount++;
+
+	collider = new BoxCollider3D(BoxCollider3DTag::PlayerBomber, &transform.pos);
+	collider->SetSize(BOMBER_COLLIDER_SIZE);
+	collider->AddObserver(this);
+	collider->active = false;
 }
 
 /**************************************
@@ -102,19 +116,20 @@ PlayerBomber::PlayerBomber()
 PlayerBomber::~PlayerBomber()
 {
 	instanceCount--;
+	SAFE_DELETE(collider);
 }
 
 /**************************************
 ホーミング対象のアドレスを取得
 引数(ホーミング対象のアドレス、ボムのセット位置)
 ***************************************/
-void PlayerBomber::Set(D3DXVECTOR3 pos, D3DXVECTOR3 initpos)
+void PlayerBomber::Set(Enemy *target, D3DXVECTOR3 initpos)
 {
 	transform.pos = initpos;
-	targetPos = pos;
-	cntFrame = reachFrame = 30;
+	this->target = target;
+	targetPos = target->m_Pos;
+	cntFrame = reachFrame = BOMBER_REACH_FRAME;
 }
-
 
 /***************************************
 加速度の計算処理
@@ -126,6 +141,11 @@ void PlayerBomber::CalcBomber(void)
 		return;
 	}
 
+	if (target != NULL)
+	{
+		targetPos = target->m_Pos;
+	}
+
 	float time = (float)cntFrame;
 
 	D3DXVECTOR3 diff = targetPos - transform.pos;
@@ -135,4 +155,20 @@ void PlayerBomber::CalcBomber(void)
 	velocity += acceleration;
 
 	cntFrame--;
+}
+
+/***************************************
+衝突通知処理
+****************************************/
+void PlayerBomber::OnNotified(BoxCollider3DTag other)
+{
+	Uninit();
+}
+
+/***************************************
+ターゲット消失通知処理
+****************************************/
+void PlayerBomber::OnDisappearTarget()
+{
+	target = NULL;
 }

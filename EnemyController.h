@@ -60,7 +60,7 @@ public:
 	void SetEnemy();
 
 	//エネミー座標取得処理
-	void GetEnemyPositionList(std::vector<D3DXVECTOR3>& out);
+	void GetEnemyList(std::list<Enemy*>& out);
 
 	//ボンバーシーケンスコールバック
 	void OnFinishBombSequence();

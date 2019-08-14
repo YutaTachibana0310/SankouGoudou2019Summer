@@ -17,8 +17,8 @@
 #define PLAYERBOMBERPARTICLE_NUM_MAX		(1024)
 #define PLAYERBOMBERPARTICLE_EMITTER_MAX	(24)
 
-#define PLAYERBOMBERPARTICLE_SIZE			(&D3DXVECTOR2(6.0f,6.0f))
-#define PLAYERBOMBERPARTICLE_TEX_DIV		(&D3DXVECTOR2(1.0f,1.0f))
+#define PLAYERBOMBERPARTICLE_SIZE			(&D3DXVECTOR2(7.5f, 7.5f))
+#define PLAYERBOMBERPARTICLE_TEX_DIV		(&D3DXVECTOR2(1.0f, 1.0f))
 
 /************************************************
 構造体定義
@@ -61,7 +61,7 @@ void PlayerBomberParticleController::Emit()
 		if (!emitter->active)
 			continue;
 
-		const int EmitNum = 8;		//１フレームの放出するパーティクル数
+		const int EmitNum = 4;		//１フレームの放出するパーティクル数
 		const float InitSpeed = 0.5f;
 
 		int emitCount = 0;

@@ -16,7 +16,7 @@ using namespace std;
 マクロ定義
 ***************************************/
 #define GAMEBOMBERSEQUENCE_DURATION		(120)
-#define GAMEBOMBERSEQUENCE_LAUNCH_TIME	(100)
+#define GAMEBOMBERSEQUENCE_LAUNCH_TIME	(80)
 
 /**************************************
 入場処理
@@ -46,8 +46,8 @@ int GameBomberSequence::OnUpdate(GameScene* entity)
 	//発射タイミングであればボンバー発射
 	if (cntFrame == GAMEBOMBERSEQUENCE_LAUNCH_TIME)
 	{
-		vector<D3DXVECTOR3> targetList;
-		entity->enemyController->GetEnemyPositionList(targetList);
+		list<Enemy*> targetList;
+		entity->enemyController->GetEnemyList(targetList);
 		entity->playerObserver->FirePlayerBomber(targetList);
 	}
 

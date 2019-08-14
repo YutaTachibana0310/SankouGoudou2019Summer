@@ -262,13 +262,14 @@ void GameScene::UpdateWhole()
 	bgController->Update();
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateBG");
 
+	//エネミーの更新
+	enemyController->Update();
+
 	//プレイヤーの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
 	playerObserver->Update();
 	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
 
-	//エネミーの更新
-	enemyController->Update();
 
 	//パーティクルの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateParticle");

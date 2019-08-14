@@ -23,6 +23,7 @@
 /**************************************
 プロトタイプ宣言
 ***************************************/
+class Enemy;
 
 /**************************************
 PlayerState列挙子
@@ -56,7 +57,7 @@ public:
 	void PushInput(int num);
 
 	bool ShouldFireBomber();
-	void FirePlayerBomber(std::vector<D3DXVECTOR3> posList);
+	void FirePlayerBomber(std::list<Enemy*> targetList);
 	void OnStartAccel();
 
 	PlayerModel *model;

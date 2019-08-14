@@ -53,6 +53,12 @@ EnemyModel::~EnemyModel()
 		SAFE_DELETE(enemy);
 	}
 	enemyList.clear();
+
+	for (auto& emitter : chageEffectList)
+	{
+		if (emitter != NULL)
+			emitter->active = false;
+	}
 }
 
 /**************************************

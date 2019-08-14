@@ -131,8 +131,6 @@ void GameScene::Uninit()
 	UninitBackGroundField();
 	bgController->Uninit();
 
-	//パーティクル終了
-	particleManager->Uninit();
 
 	//プレイヤー終了
 	playerObserver->Uninit();
@@ -145,6 +143,9 @@ void GameScene::Uninit()
 
 	//障害物終了
 	UninitRebarOb();
+
+	//パーティクル終了
+	particleManager->Uninit();
 
 	//インスタンス削除
 	SAFE_DELETE(enemyController);

@@ -322,3 +322,11 @@ void GameScene::OnClearCombo()
 	SpeedBlurController::Instance()->SetPower(InitPower);
 	bgController->InitScroolSpeed();
 }
+
+/**************************************
+ƒ{ƒ“ƒo[”­Ë”»’è
+***************************************/
+bool GameScene::ShouldFireBomber()
+{
+	return playerObserver->ShouldFireBomber() && enemyController->ExistsAcitveEnemy();
+}

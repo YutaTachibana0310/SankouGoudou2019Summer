@@ -38,6 +38,8 @@ public:
 	void OnAddCombo(int n);
 	void OnClearCombo();
 
+	bool ShouldFireBomber();
+
 	GameScene() {};
 	~GameScene() {};
 

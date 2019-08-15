@@ -65,6 +65,9 @@ public:
 	//ボンバーシーケンスコールバック
 	void OnFinishBombSequence();
 
+	//アクティブなエネミーがいるか
+	bool ExistsAcitveEnemy();
+
 private:
 	std::list<EnemyModel*> modelList;
 	int cntFrame;

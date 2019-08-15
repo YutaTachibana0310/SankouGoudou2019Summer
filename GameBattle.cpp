@@ -45,7 +45,7 @@ int GameBattle::OnUpdate(GameScene *entity)
 	entity->UpdateWhole();
 
 	//ƒ{ƒ“ƒo[”­Ë”»’è
-	if (entity->playerObserver->ShouldFireBomber())
+	if (entity->ShouldFireBomber())
 		result = GameScene::State::BombSequence;
 
 	//Õ“Ë”»’è

@@ -216,6 +216,13 @@ void EnemyController::SetEnemy()
 
 		currentIndex++;
 	}
+
+	//デバッグ用ループ処理
+	if (cntFrame > (*(stageModelList.end() - 1)).frame + 300)
+	{
+		cntFrame = 0;
+		currentIndex = 0;
+	}
 }
 
 /**************************************
@@ -328,4 +335,12 @@ void EnemyController::GetEnemyList(list<Enemy*>& out)
 void EnemyController::OnFinishBombSequence()
 {
 	bulletController->DisableAll();
+}
+
+/**************************************
+エネミー存在判定
+***************************************/
+bool EnemyController::ExistsAcitveEnemy()
+{
+	return !modelList.empty();
 }

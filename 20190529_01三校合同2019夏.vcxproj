@@ -149,6 +149,8 @@
     <ClInclude Include="BomberFire.h" />
     <ClInclude Include="BomberFireController.h" />
     <ClInclude Include="BomberStockEffect.h" />
+    <ClInclude Include="BossEnemyActor.h" />
+    <ClInclude Include="BossEnemyModel.h" />
     <ClInclude Include="ChangeEditWindow.h" />
     <ClInclude Include="ChangeEnemyFactory.h" />
     <ClInclude Include="DataEditWindow.h" />
@@ -327,6 +329,8 @@
     <ClCompile Include="BomberFire.cpp" />
     <ClCompile Include="BomberFireController.cpp" />
     <ClCompile Include="BomberStockEffect.cpp" />
+    <ClCompile Include="BossEnemyActor.cpp" />
+    <ClCompile Include="BossEnemyModel.cpp" />
     <ClCompile Include="ChangeEditWindow.cpp" />
     <ClCompile Include="ChangeEnemyFactory.cpp" />
     <ClCompile Include="EditorScene.cpp" />

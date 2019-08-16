@@ -525,5 +525,5 @@ UINT AnimContainer::GetNumAnimationSets()
 ***************************************/
 float AnimContainer::GetPeriodAnimation()
 {
-	return status[currentAnimID].animSet->GetPeriod();
+	return (float)status[currentAnimID].animSet->GetPeriod();
 }

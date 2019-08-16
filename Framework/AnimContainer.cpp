@@ -511,3 +511,19 @@ HRESULT AnimContainer::SetupCallbackKeyFrames(LPCSTR setName)
 
 	return S_OK;
 }
+
+/**************************************
+アニメーションセット数取得処理
+***************************************/
+UINT AnimContainer::GetNumAnimationSets()
+{
+	return (UINT)animSetNum;
+}
+
+/**************************************
+アニメーション中断イベントのKeyFramesを設置する
+***************************************/
+float AnimContainer::GetPeriodAnimation()
+{
+	return status[currentAnimID].animSet->GetPeriod();
+}

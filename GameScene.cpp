@@ -213,14 +213,14 @@ void GameScene::Draw()
 		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 	}
 
+	//エネミーの描画
+	enemyController->Draw();
+	enemyController->DrawGuide();
+
 	//プレイヤーの描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
 	playerObserver->Draw();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
-
-	//エネミーの描画
-	enemyController->Draw();
-	enemyController->DrawGuide();
 
 	//パーティクル描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawParticle");
@@ -270,7 +270,6 @@ void GameScene::UpdateWhole()
 	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
 	playerObserver->Update();
 	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
-
 
 	//パーティクルの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateParticle");

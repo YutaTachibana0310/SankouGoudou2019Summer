@@ -41,6 +41,9 @@ public:
 	HRESULT SetupCallbackKeyFrames(LPCSTR setName);
 	D3DXMATRIX GetBoneMatrix(const char* boneName);
 
+	UINT GetNumAnimationSets();
+	float GetPeriodAnimation();
+
 	int keyFrameCount;							//Callback KeyFramesを処理した数
 	bool isMotionEnd;							//今再生しているアニメーションが最後かどうか
 	bool isStopMove;							//キャラが移動を停止しているかどうか	

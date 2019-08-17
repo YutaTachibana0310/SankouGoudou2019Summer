@@ -149,6 +149,9 @@
     <ClInclude Include="BomberFire.h" />
     <ClInclude Include="BomberFireController.h" />
     <ClInclude Include="BomberStockEffect.h" />
+    <ClInclude Include="BossEnemyActor.h" />
+    <ClInclude Include="BossEnemyModel.h" />
+    <ClInclude Include="BossInit.h" />
     <ClInclude Include="ChangeEditWindow.h" />
     <ClInclude Include="ChangeEnemyFactory.h" />
     <ClInclude Include="DataEditWindow.h" />
@@ -171,6 +174,7 @@
     <ClInclude Include="EnemyGuideArrowController.h" />
     <ClInclude Include="EnemyWarpHole.h" />
     <ClInclude Include="EnemyWarpHoleController.h" />
+    <ClInclude Include="Framework\AnimationManager.h" />
     <ClInclude Include="Framework\BoardPolygon.h" />
     <ClInclude Include="Framework\CameraShakePlugin.h" />
     <ClInclude Include="Framework\ColliderObserver.h" />
@@ -181,6 +185,7 @@
     <ClInclude Include="Framework\ResourceManager.h" />
     <ClInclude Include="Framework\TMath.h" />
     <ClInclude Include="Framework\Transform.h" />
+    <ClInclude Include="Framework\Vector3.h" />
     <ClInclude Include="GameBomberSequence.h" />
     <ClInclude Include="PlayerChargeEffect.h" />
     <ClInclude Include="PlayerChargeEffectController.h" />
@@ -326,6 +331,9 @@
     <ClCompile Include="BomberFire.cpp" />
     <ClCompile Include="BomberFireController.cpp" />
     <ClCompile Include="BomberStockEffect.cpp" />
+    <ClCompile Include="BossEnemyActor.cpp" />
+    <ClCompile Include="BossEnemyModel.cpp" />
+    <ClCompile Include="BossInit.cpp" />
     <ClCompile Include="ChangeEditWindow.cpp" />
     <ClCompile Include="ChangeEnemyFactory.cpp" />
     <ClCompile Include="EditorScene.cpp" />
@@ -344,6 +352,7 @@
     <ClCompile Include="EnemyGuideArrowController.cpp" />
     <ClCompile Include="EnemyWarpHole.cpp" />
     <ClCompile Include="EnemyWarpHoleController.cpp" />
+    <ClCompile Include="Framework\AnimationManager.cpp" />
     <ClCompile Include="Framework\BoardPolygon.cpp" />
     <ClCompile Include="Framework\CameraShakePlugin.cpp" />
     <ClCompile Include="Framework\Gamepad.cpp" />
@@ -352,6 +361,7 @@
     <ClCompile Include="Framework\Polygon2D.cpp" />
     <ClCompile Include="Framework\ResourceManager.cpp" />
     <ClCompile Include="Framework\Transform.cpp" />
+    <ClCompile Include="Framework\Vector3.cpp" />
     <ClCompile Include="GameBomberSequence.cpp" />
     <ClCompile Include="PlayerChargeEffect.cpp" />
     <ClCompile Include="PlayerChargeEffectController.cpp" />

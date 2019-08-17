@@ -181,6 +181,12 @@
     <Filter Include="ヘッダー ファイル\Enemy\Factory">
       <UniqueIdentifier>{e0d44abe-09c8-49d1-9d5d-c3175ed7bd54}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Enemy\Model\State">
+      <UniqueIdentifier>{c61f044a-6561-4b82-920b-08f95d28823f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Enemy\State">
+      <UniqueIdentifier>{68212930-f43b-4ee7-9b69-617aa999841f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -744,6 +750,9 @@
     <ClInclude Include="Framework\Vector3.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
+    <ClInclude Include="BossInit.h">
+      <Filter>ヘッダー ファイル\Enemy\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1255,6 +1264,9 @@
     </ClCompile>
     <ClCompile Include="Framework\Vector3.cpp">
       <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="BossInit.cpp">
+      <Filter>ソース ファイル\Enemy\Model\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

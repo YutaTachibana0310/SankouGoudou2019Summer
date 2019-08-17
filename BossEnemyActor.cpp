@@ -13,7 +13,7 @@
 マクロ定義
 ***************************************/
 static const char* AnimationSetName[] = {
-	"Attack01", "Attack02", "Damage", "Death", "Flying", "Idle"
+	"Flying", "Attack01", "Attack02", "Damage", "Death", "Idle"
 };
 
 static const char* ModelFileName = "data/MODEL/Boss.x";
@@ -31,14 +31,14 @@ BossEnemyActor::BossEnemyActor()
 	//アニメーション読み込み
 	for (UINT i = 0; i < AnimID::Max; i++)
 	{
-		animManager->LoadAnimation(AnimationSetName[i], i);
+		animManager->LoadAnimation(AnimationSetName[i], i, 0.3f);
 	}
 
 	//遷移関係設定
 	animManager->SetFinishTransition(AnimID::Attack01, AnimID::Idle);
 	animManager->SetFinishTransition(AnimID::Attack02, AnimID::Idle);
 	animManager->SetFinishTransition(AnimID::Damage, AnimID::Idle);
-	
+
 	//フラグ初期化
 	inMoving = false;
 	inRotaiton = false;
@@ -124,7 +124,7 @@ void BossEnemyActor::_Move()
 	cntMove++;
 
 	float t = (float)cntMove / durationMove;
-	transform.pos = Easing::EaseValue(t, prevPos, targetPos, EaseType::OutCirc);
+	transform.pos = Easing::EaseValue(t, prevPos, targetPos, EaseType::OutBack);
 
 	if (cntMove == durationMove)
 		inMoving = false;

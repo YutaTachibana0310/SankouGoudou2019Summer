@@ -26,11 +26,11 @@ class BossEnemyActor
 public:
 	enum AnimID
 	{
+		Flying,
 		Attack01,
 		Attack02,
 		Damage,
 		Death,
-		Flying,
 		Idle,
 		Max
 

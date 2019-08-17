@@ -6,7 +6,9 @@
 //=====================================
 #include "BossEnemyModel.h"
 #include "BossEnemyActor.h"
+#include "BossInit.h"
 
+using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
@@ -18,12 +20,12 @@ BossEnemyModel::BossEnemyModel()
 {
 	actor = new BossEnemyActor();
 
-	actor->transform.pos = D3DXVECTOR3(0.0f, -200.0f, -2000.0f);
-	actor->transform.Rotate(0.0f, 180.0f, 0.0f);
-	actor->Move(D3DXVECTOR3(0.0f, -200.0f, 1500.0f), 300);
+	//ステートマシン作成
+	fsm[State::Init] = new BossInit();
 
-	actor->ChangeAnimation(BossEnemyActor::AnimID::Flying);
-}
+	//Initステートへ遷移
+	ChangeState(State::Init);
+ }
 
 /**************************************
 デストラクタ
@@ -38,6 +40,8 @@ BossEnemyModel::~BossEnemyModel()
 ***************************************/
 int BossEnemyModel::Update()
 {
+	state->OnUpdate(this);
+
 	actor->Update();
 	return 0;
 }
@@ -48,4 +52,16 @@ int BossEnemyModel::Update()
 void BossEnemyModel::Draw()
 {
 	actor->Draw();
+}
+
+/**************************************
+状態遷移処理
+***************************************/
+void BossEnemyModel::ChangeState(State next)
+{
+	state = fsm[next];
+	state->OnStart(this);
+
+	prevState = currentState;
+	currentState = next;
 }

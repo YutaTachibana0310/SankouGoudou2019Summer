@@ -9,6 +9,8 @@
 
 #include "main.h"
 #include "EnemyModel.h"
+#include "IStateMachine.h"
+#include <unordered_map>
 
 /**************************************
 É}ÉNÉçíËã`
@@ -21,14 +23,32 @@ class BossEnemyActor;
 class BossEnemyModel : public EnemyModel
 {
 public:
+	enum State
+	{
+		Init,
+		RaborAttack,
+		HomingAttack,
+		Idle
+	};
+
 	BossEnemyModel();
 	~BossEnemyModel();
 
 	int Update();
 	void Draw();
 
+	void ChangeState(State next);
+
 private:
 	BossEnemyActor* actor;
+	std::unordered_map < State, IStateMachine<BossEnemyModel>*> fsm;
+	IStateMachine<BossEnemyModel>* state;
+	State currentState, prevState;
+
+	class BossInit;
+	class BossRaborAttack;
+	class BossHomingAttack;
+	class BossIdle;
 };
 
 #endif

@@ -7,6 +7,7 @@
 #include "BossEnemyActor.h"
 #include "Framework\AnimationManager.h"
 #include "Framework\Easing.h"
+#include "Framework\Vector3.h"
 
 /**************************************
 マクロ定義
@@ -94,14 +95,22 @@ void BossEnemyActor::Move(const D3DXVECTOR3& target, int duration)
 /**************************************
 回転処理
 ***************************************/
-void BossEnemyActor::Rotate(float angle, int duration)
+void BossEnemyActor::Rotate(const D3DXVECTOR3& target, float magnitude)
 {
 	if (inRotaiton)
 		return;
 
-	rotAngle = angle;
-	cntRotate = 0;
+	targetForward = target;
+	magnitudeRotate = magnitude;
 	inRotaiton = true;
+}
+
+/**************************************
+アニメーション変更処理
+***************************************/
+void BossEnemyActor::ChangeAnimation(AnimID next)
+{
+	animManager->ChangeAnim(next, true);
 }
 
 /**************************************
@@ -126,5 +135,13 @@ void BossEnemyActor::_Move()
 ***************************************/
 void BossEnemyActor::_Rotate()
 {
+	if (!inRotaiton)
+		return;
 
+	float angle = Vector3::Angle(transform.Forward(), targetForward);
+	D3DXVECTOR3 axis = Vector3::Axis(transform.Forward(), targetForward);
+	transform.RotateByAxis(angle * magnitudeRotate, axis);
+
+	if (angle < 0.01f)
+		inRotaiton = false;
 }

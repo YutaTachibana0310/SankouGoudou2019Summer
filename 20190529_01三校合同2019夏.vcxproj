@@ -184,6 +184,7 @@
     <ClInclude Include="Framework\ResourceManager.h" />
     <ClInclude Include="Framework\TMath.h" />
     <ClInclude Include="Framework\Transform.h" />
+    <ClInclude Include="Framework\Vector3.h" />
     <ClInclude Include="GameBomberSequence.h" />
     <ClInclude Include="PlayerChargeEffect.h" />
     <ClInclude Include="PlayerChargeEffectController.h" />
@@ -358,6 +359,7 @@
     <ClCompile Include="Framework\Polygon2D.cpp" />
     <ClCompile Include="Framework\ResourceManager.cpp" />
     <ClCompile Include="Framework\Transform.cpp" />
+    <ClCompile Include="Framework\Vector3.cpp" />
     <ClCompile Include="GameBomberSequence.cpp" />
     <ClCompile Include="PlayerChargeEffect.cpp" />
     <ClCompile Include="PlayerChargeEffectController.cpp" />

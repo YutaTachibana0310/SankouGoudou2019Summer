@@ -24,33 +24,6 @@ class AnimationManager;
 class BossEnemyActor
 {
 public:
-	BossEnemyActor();
-	~BossEnemyActor();
-
-	void Update();
-	void Draw();
-
-	void Move(const D3DXVECTOR3& target, int duration);
-	void Rotate(float angle, int duration);
-
-private:
-	AnimationManager* animManager;
-	Transform transform;
-	int cntFrame;
-
-	bool inMoving;
-	D3DXVECTOR3 prevPos, targetPos;
-	int cntMove, durationMove;
-
-	bool inRotaiton;
-	float rotAngle;
-	int cntRotate, durationRotate;
-
-	void _Move();
-
-	void _Rotate();
-
-public:
 	enum AnimID
 	{
 		Attack01,
@@ -60,7 +33,40 @@ public:
 		Flying,
 		Idle,
 		Max
+
 	};
+
+	BossEnemyActor();
+	~BossEnemyActor();
+
+	void Update();
+	void Draw();
+
+	void Move(const D3DXVECTOR3& target, int duration);
+	void Rotate(const D3DXVECTOR3& target, float magnitude);
+
+	void ChangeAnimation(AnimID next);
+
+	Transform transform;
+
+private:
+	AnimationManager* animManager;
+	int cntFrame;
+
+	bool inMoving;
+	D3DXVECTOR3 prevPos, targetPos;
+	int cntMove, durationMove;
+
+	bool inRotaiton;
+	D3DXVECTOR3 targetForward;
+	float magnitudeRotate;
+
+	void _Move();
+
+	void _Rotate();
+
+public:
+
 };
 
 #endif

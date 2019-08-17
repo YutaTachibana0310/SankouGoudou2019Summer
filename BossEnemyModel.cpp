@@ -17,7 +17,12 @@
 BossEnemyModel::BossEnemyModel()
 {
 	actor = new BossEnemyActor();
-	actor->Move(D3DXVECTOR3(0.0f, -200.0f, 1500.0f), 120);
+
+	actor->transform.pos = D3DXVECTOR3(0.0f, -200.0f, -2000.0f);
+	actor->transform.Rotate(0.0f, 180.0f, 0.0f);
+	actor->Move(D3DXVECTOR3(0.0f, -200.0f, 1500.0f), 300);
+
+	actor->ChangeAnimation(BossEnemyActor::AnimID::Flying);
 }
 
 /**************************************

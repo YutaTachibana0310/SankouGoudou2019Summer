@@ -10,7 +10,10 @@
 #include "main.h"
 #include "EnemyModel.h"
 #include "IStateMachine.h"
+#include "RebarOb.h"
+
 #include <unordered_map>
+#include <list>
 
 /**************************************
 É}ÉNÉçíËã`
@@ -26,7 +29,7 @@ public:
 	enum State
 	{
 		Init,
-		RaborAttack,
+		RebarAttack,
 		HomingAttack,
 		Idle
 	};
@@ -39,14 +42,21 @@ public:
 
 	void ChangeState(State next);
 
+	void SetRebar();
+	void ThrowRebar();
+
 private:
 	BossEnemyActor* actor;
 	std::unordered_map < State, IStateMachine<BossEnemyModel>*> fsm;
 	IStateMachine<BossEnemyModel>* state;
 	State currentState, prevState;
 
+	std::list<RebarObstacle*> rebarList;
+
+	int cntAttack;
+
 	class BossInit;
-	class BossRaborAttack;
+	class BossRebarAttack;
 	class BossHomingAttack;
 	class BossIdle;
 };

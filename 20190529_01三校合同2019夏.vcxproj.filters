@@ -753,6 +753,9 @@
     <ClInclude Include="BossInit.h">
       <Filter>ヘッダー ファイル\Enemy\State</Filter>
     </ClInclude>
+    <ClInclude Include="BossRebarAttack.h">
+      <Filter>ヘッダー ファイル\Enemy\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1266,6 +1269,9 @@
       <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
     <ClCompile Include="BossInit.cpp">
+      <Filter>ソース ファイル\Enemy\Model\State</Filter>
+    </ClCompile>
+    <ClCompile Include="BossRebarAttack.cpp">
       <Filter>ソース ファイル\Enemy\Model\State</Filter>
     </ClCompile>
   </ItemGroup>

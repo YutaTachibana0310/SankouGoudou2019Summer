@@ -97,9 +97,6 @@ void GameScene::Init()
 	//エネミー初期化
 	enemyController->Init();
 
-	//障害物初期化
-	InitRebarOb();
-
 	//プロファイラにGameSceneを登録
 	RegisterDebugTimer(GAMESCENE_LABEL);
 
@@ -140,9 +137,6 @@ void GameScene::Uninit()
 
 	//UI終了
 	UninitGameSceneUI();
-
-	//障害物終了
-	UninitRebarOb();
 
 	//パーティクル終了
 	particleManager->Uninit();
@@ -198,9 +192,6 @@ void GameScene::Draw()
 	//DrawBackGroundField();
 	bgController->Draw();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
-
-	//障害物の描画
-	DrawRebarOb();
 
 	//暗転用ポリゴンの描画
 	if (useDarkMask)
@@ -278,9 +269,6 @@ void GameScene::UpdateWhole()
 
 	//ポストエフェクトの更新
 	PostEffectManager::Instance()->Update();
-
-	//障害物の更新
-	UpdateRebarOb();
 }
 
 /**************************************

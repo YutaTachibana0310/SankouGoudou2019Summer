@@ -12,11 +12,6 @@
 /**************************************
 マクロ定義
 ***************************************/
-static const char* AnimationSetName[] = {
-	"Flying", "Attack01", "Attack02", "Damage", "Death", "Idle"
-};
-
-static const char* ModelFileName = "data/MODEL/Boss.x";
 
 /**************************************
 コンストラクタ
@@ -26,12 +21,25 @@ BossEnemyActor::BossEnemyActor()
 	animManager = new AnimationManager();
 
 	//モデルファイル読み込み
+	const char* ModelFileName = "data/MODEL/Boss.x";
 	animManager->LoadXFile(ModelFileName, "Boss");
 
 	//アニメーション読み込み
+	const char* AnimationSetName[] = {
+		"Flying", "Attack01", "Attack02", "Damage", "Death", "Idle"
+	};
 	for (UINT i = 0; i < AnimID::Max; i++)
 	{
 		animManager->LoadAnimation(AnimationSetName[i], i, 0.3f);
+	}
+
+	//アニメーションスピード設定
+	const float AnimationPlaySpeed[] = {
+		1.0f, 1.0f, 0.6f, 1.0f, 1.0f, 1.0f
+	};
+	for (UINT i = 0; i < AnimID::Max; i++)
+	{
+		animManager->SetPlaySpeed(i, AnimationPlaySpeed[i]);
 	}
 
 	//遷移関係設定

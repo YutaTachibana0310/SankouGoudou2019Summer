@@ -87,6 +87,7 @@ void BossEnemyModel::ChangeState(State next)
 
 	prevState = currentState;
 	currentState = next;
+	cntAttack = 0;
 }
 
 /**************************************

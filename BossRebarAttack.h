@@ -30,6 +30,7 @@ public:
 
 private:
 	int cntFrame;
+	int cntLoop;
 };
 
 #endif

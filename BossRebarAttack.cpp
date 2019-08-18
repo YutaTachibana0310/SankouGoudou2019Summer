@@ -31,8 +31,11 @@ int BossEnemyModel::BossRebarAttack::OnUpdate(BossEnemyModel* entity)
 	const int RebarMoveDuration = 85;
 	const int RebarAttackTime = 200;
 	const int RebarThrowDuration = 180;
+	const int FinishTime = 300;
 
 	cntFrame++;
+
+	int result = BossEnemyModel::State::RebarAttack;
 
 	if (cntFrame == RebarSetTime)
 	{
@@ -42,6 +45,19 @@ int BossEnemyModel::BossRebarAttack::OnUpdate(BossEnemyModel* entity)
 	if (cntFrame == RebarAttackTime)
 	{
 		entity->ThrowRebar();
+	}
+
+	if (cntFrame == FinishTime)
+	{
+		entity->cntAttack++;
+		if (entity->cntAttack == 3)
+		{
+			result = BossEnemyModel::State::Idle;
+		}
+		else
+		{
+			OnStart(entity);
+		}
 	}
 
 	return 0;

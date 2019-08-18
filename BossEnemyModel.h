@@ -53,6 +53,8 @@ private:
 
 	std::list<RebarObstacle*> rebarList;
 
+	int cntAttack;
+
 	class BossInit;
 	class BossRebarAttack;
 	class BossHomingAttack;

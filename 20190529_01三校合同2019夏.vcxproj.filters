@@ -768,6 +768,15 @@
     <ClInclude Include="BossChargeEffect.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="BossColliderGuide.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BossColliderController.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BossDamageable.h">
+      <Filter>ヘッダー ファイル\Enemy\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1297,6 +1306,15 @@
     </ClCompile>
     <ClCompile Include="BossChargeEffect.cpp">
       <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="BossColliderGuide.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BossColliderController.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BossDamageable.cpp">
+      <Filter>ソース ファイル\Enemy\Model\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

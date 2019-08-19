@@ -9,6 +9,8 @@
 #include "BossInit.h"
 #include "BossRebarAttack.h"
 #include "BossHomingAttack.h"
+#include "BossDamageable.h"
+
 #include "EnemyBulletController.h"
 
 #include "Framework\ResourceManager.h"
@@ -26,11 +28,13 @@ BossEnemyModel::BossEnemyModel()
 {
 	actor = new BossEnemyActor();
 	bulletController = new EnemyBulletController();
+	colliderController = new BossColliderController();
 
 	//ステートマシン作成
 	fsm[State::Init] = new BossInit();
 	fsm[State::RebarAttack] = new BossRebarAttack();
 	fsm[State::HomingAttack] = new BossHomingAttack();
+	fsm[State::Damageable] = new BossDamageable();
 
 	//鉄筋のモデルをロード
 	ResourceManager::Instance()->LoadMesh("RebarObstacle", "data/MODEL/rebar.x");
@@ -66,6 +70,8 @@ int BossEnemyModel::Update()
 
 	bulletController->Update();
 
+	colliderController->Update();
+
 	rebarList.remove_if([](auto&& rebar)
 	{
 		return rebar->IsDestroyed();
@@ -87,6 +93,8 @@ void BossEnemyModel::Draw()
 	actor->Draw();
 
 	bulletController->Draw();
+
+	colliderController->Draw();
 }
 
 /**************************************
@@ -159,4 +167,32 @@ void BossEnemyModel::FireBullet()
 	static std::vector<D3DXVECTOR3> Emitter = { D3DXVECTOR3(0.0f, 0.0f, 500.0f),  D3DXVECTOR3(0.0f, 0.0f, 500.0f), D3DXVECTOR3(0.0f, 0.0f, 500.0f) };
 
 	bulletController->Set(Emitter, LineTrailModel(0, 1), 60, D3DXVECTOR3(2.0f, 2.0f, 2.0f));
+}
+
+/**************************************
+コライダーセット処理
+**************************************/
+void BossEnemyModel::SetCollider()
+{
+	const UINT EdgeMax = 3;
+	int prevStart = 5;
+	int prevEnd = RandomRange(0, 5);
+
+	std::vector<int> edgeList;
+	edgeList.reserve(EdgeMax);
+
+	for (UINT i = 0; i < EdgeMax; i++)
+	{
+		int start = prevEnd;
+		edgeList.push_back(start);
+
+		int end = prevStart;
+		while (end == prevStart)
+		{
+			end = WrapAround(0, 5, start + RandomRange(1, 5));
+		}
+		prevEnd = end;
+	}
+
+	colliderController->SetCollider(edgeList);
 }

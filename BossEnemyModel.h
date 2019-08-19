@@ -11,6 +11,7 @@
 #include "EnemyModel.h"
 #include "IStateMachine.h"
 #include "RebarOb.h"
+#include "BossColliderController.h"
 
 #include <unordered_map>
 #include <list>
@@ -24,7 +25,7 @@ class EnemyBulletController;
 /**************************************
 ƒNƒ‰ƒX’è‹`
 ***************************************/
-class BossEnemyModel : public EnemyModel
+class BossEnemyModel
 {
 public:
 	enum State
@@ -32,6 +33,7 @@ public:
 		Init,
 		RebarAttack,
 		HomingAttack,
+		Damageable,
 		Idle
 	};
 
@@ -49,6 +51,8 @@ public:
 	void StartBulletCharge();
 	void FireBullet();
 
+	void SetCollider();
+
 private:
 	BossEnemyActor* actor;
 	std::unordered_map < State, IStateMachine<BossEnemyModel>*> fsm;
@@ -58,6 +62,8 @@ private:
 	std::list<RebarObstacle*> rebarList;
 
 	EnemyBulletController *bulletController;
+
+	BossColliderController *colliderController;
 
 	int cntAttack;
 	int updateResult;

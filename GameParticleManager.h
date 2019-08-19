@@ -48,6 +48,7 @@ public:
 	void SetAccelEffect(D3DXVECTOR3 *pos);
 	void SetEnemyBulletExplosion(D3DXVECTOR3 *pos);
 	void SetBomberFire(D3DXVECTOR3 *pos);
+	void SetBossCharge(D3DXVECTOR3 *pos);
 
 private:
 	GameParticleManager() {}

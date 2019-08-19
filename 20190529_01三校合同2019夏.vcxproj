@@ -149,8 +149,11 @@
     <ClInclude Include="BomberFire.h" />
     <ClInclude Include="BomberFireController.h" />
     <ClInclude Include="BomberStockEffect.h" />
+    <ClInclude Include="BossChargeEffect.h" />
+    <ClInclude Include="BossController.h" />
     <ClInclude Include="BossEnemyActor.h" />
     <ClInclude Include="BossEnemyModel.h" />
+    <ClInclude Include="BossHomingAttack.h" />
     <ClInclude Include="BossInit.h" />
     <ClInclude Include="BossRebarAttack.h" />
     <ClInclude Include="ChangeEditWindow.h" />
@@ -188,6 +191,7 @@
     <ClInclude Include="Framework\Transform.h" />
     <ClInclude Include="Framework\Vector3.h" />
     <ClInclude Include="GameBomberSequence.h" />
+    <ClInclude Include="GameBossBattle.h" />
     <ClInclude Include="PlayerChargeEffect.h" />
     <ClInclude Include="PlayerChargeEffectController.h" />
     <ClInclude Include="PlayerChargeParticle.h" />
@@ -332,8 +336,11 @@
     <ClCompile Include="BomberFire.cpp" />
     <ClCompile Include="BomberFireController.cpp" />
     <ClCompile Include="BomberStockEffect.cpp" />
+    <ClCompile Include="BossChargeEffect.cpp" />
+    <ClCompile Include="BossController.cpp" />
     <ClCompile Include="BossEnemyActor.cpp" />
     <ClCompile Include="BossEnemyModel.cpp" />
+    <ClCompile Include="BossHomingAttack.cpp" />
     <ClCompile Include="BossInit.cpp" />
     <ClCompile Include="BossRebarAttack.cpp" />
     <ClCompile Include="ChangeEditWindow.cpp" />
@@ -365,6 +372,7 @@
     <ClCompile Include="Framework\Transform.cpp" />
     <ClCompile Include="Framework\Vector3.cpp" />
     <ClCompile Include="GameBomberSequence.cpp" />
+    <ClCompile Include="GameBossBatlle.cpp" />
     <ClCompile Include="PlayerChargeEffect.cpp" />
     <ClCompile Include="PlayerChargeEffectController.cpp" />
     <ClCompile Include="PlayerChargeParticle.cpp" />

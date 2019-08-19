@@ -36,13 +36,14 @@ EnemyBullet::~EnemyBullet()
 /**************************************
 èâä˙âªèàóù
 ***************************************/
-void EnemyBullet::Init(D3DXVECTOR3 setPos, D3DXVECTOR3 target, int reachFrame)
+void EnemyBullet::Init(D3DXVECTOR3 setPos, D3DXVECTOR3 target, int reachFrame, const D3DXVECTOR3& scale)
 {
 	active = true;
 	targetPos = target;
 	cntFrame = reachFrame;
 
 	transform.pos = setPos;
+	transform.scale = scale;
 
 	velocity.x = RandomRangef(-1.0f, 1.0f);
 	velocity.y = RandomRangef(-1.0f, 1.0f);

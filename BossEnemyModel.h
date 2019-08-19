@@ -19,6 +19,7 @@
 マクロ定義
 ***************************************/
 class BossEnemyActor;
+class EnemyBulletController;
 
 /**************************************
 クラス定義
@@ -45,6 +46,9 @@ public:
 	void SetRebar();
 	void ThrowRebar();
 
+	void StartBulletCharge();
+	void FireBullet();
+
 private:
 	BossEnemyActor* actor;
 	std::unordered_map < State, IStateMachine<BossEnemyModel>*> fsm;
@@ -53,7 +57,10 @@ private:
 
 	std::list<RebarObstacle*> rebarList;
 
+	EnemyBulletController *bulletController;
+
 	int cntAttack;
+	int updateResult;
 
 	class BossInit;
 	class BossRebarAttack;

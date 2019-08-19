@@ -8,8 +8,11 @@
 #include "BossEnemyActor.h"
 #include "BossInit.h"
 #include "BossRebarAttack.h"
+#include "BossHomingAttack.h"
+#include "EnemyBulletController.h"
 
 #include "Framework\ResourceManager.h"
+#include "GameParticleManager.h"
 
 using namespace std;
 /**************************************
@@ -22,10 +25,12 @@ using namespace std;
 BossEnemyModel::BossEnemyModel()
 {
 	actor = new BossEnemyActor();
+	bulletController = new EnemyBulletController();
 
 	//ステートマシン作成
 	fsm[State::Init] = new BossInit();
 	fsm[State::RebarAttack] = new BossRebarAttack();
+	fsm[State::HomingAttack] = new BossHomingAttack();
 
 	//鉄筋のモデルをロード
 	ResourceManager::Instance()->LoadMesh("RebarObstacle", "data/MODEL/rebar.x");
@@ -40,6 +45,7 @@ BossEnemyModel::BossEnemyModel()
 BossEnemyModel::~BossEnemyModel()
 {
 	SAFE_DELETE(actor);
+	SAFE_DELETE(bulletController);
 }
 
 /**************************************
@@ -47,6 +53,8 @@ BossEnemyModel::~BossEnemyModel()
 ***************************************/
 int BossEnemyModel::Update()
 {
+	updateResult = StateContinuous;
+
 	state->OnUpdate(this);
 
 	for (auto&& rebar : rebarList)
@@ -55,6 +63,8 @@ int BossEnemyModel::Update()
 	}
 
 	actor->Update();
+
+	bulletController->Update();
 
 	rebarList.remove_if([](auto&& rebar)
 	{
@@ -75,6 +85,8 @@ void BossEnemyModel::Draw()
 	}
 
 	actor->Draw();
+
+	bulletController->Draw();
 }
 
 /**************************************
@@ -127,4 +139,24 @@ void BossEnemyModel::ThrowRebar()
 	{
 		rebar->Move(D3DXVECTOR3(0.0f, 0.0f, -2000.0f), 300, EaseType::InOutCubic);
 	}
+}
+
+/**************************************
+チャージ開始処理
+***************************************/
+void BossEnemyModel::StartBulletCharge()
+{
+	D3DXVECTOR3 SetPos = D3DXVECTOR3(0.0f, 0.0f, 500.0f);
+
+	GameParticleManager::Instance()->SetBossCharge(&SetPos);
+}
+
+/**************************************
+バレット発射処理
+**************************************/
+void BossEnemyModel::FireBullet()
+{
+	static std::vector<D3DXVECTOR3> Emitter = { D3DXVECTOR3(0.0f, 0.0f, 500.0f),  D3DXVECTOR3(0.0f, 0.0f, 500.0f), D3DXVECTOR3(0.0f, 0.0f, 500.0f) };
+
+	bulletController->Set(Emitter, LineTrailModel(0, 1), 60, D3DXVECTOR3(2.0f, 2.0f, 2.0f));
 }

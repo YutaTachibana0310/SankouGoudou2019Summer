@@ -756,6 +756,18 @@
     <ClInclude Include="BossRebarAttack.h">
       <Filter>ヘッダー ファイル\Enemy\State</Filter>
     </ClInclude>
+    <ClInclude Include="BossHomingAttack.h">
+      <Filter>ヘッダー ファイル\Enemy\State</Filter>
+    </ClInclude>
+    <ClInclude Include="BossController.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameBossBattle.h">
+      <Filter>ヘッダー ファイル\GameController</Filter>
+    </ClInclude>
+    <ClInclude Include="BossChargeEffect.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1273,6 +1285,18 @@
     </ClCompile>
     <ClCompile Include="BossRebarAttack.cpp">
       <Filter>ソース ファイル\Enemy\Model\State</Filter>
+    </ClCompile>
+    <ClCompile Include="BossHomingAttack.cpp">
+      <Filter>ソース ファイル\Enemy\Model\State</Filter>
+    </ClCompile>
+    <ClCompile Include="BossController.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameBossBatlle.cpp">
+      <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="BossChargeEffect.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

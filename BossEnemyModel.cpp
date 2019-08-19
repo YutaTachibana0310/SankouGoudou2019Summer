@@ -59,7 +59,11 @@ int BossEnemyModel::Update()
 {
 	updateResult = StateContinuous;
 
-	state->OnUpdate(this);
+	int nextState = state->OnUpdate(this);
+	if (nextState != currentState)
+	{
+		ChangeState((State)nextState);
+	}
 
 	for (auto&& rebar : rebarList)
 	{
@@ -67,6 +71,7 @@ int BossEnemyModel::Update()
 	}
 
 	actor->Update();
+
 
 	bulletController->Update();
 
@@ -145,7 +150,7 @@ void BossEnemyModel::ThrowRebar()
 {
 	for (auto&& rebar : rebarList)
 	{
-		rebar->Move(D3DXVECTOR3(0.0f, 0.0f, -2000.0f), 300, EaseType::InOutCubic);
+		rebar->Move(D3DXVECTOR3(0.0f, 0.0f, -2000.0f), 180, EaseType::InSine);
 	}
 }
 
@@ -192,6 +197,7 @@ void BossEnemyModel::SetCollider()
 			end = WrapAround(0, 5, start + RandomRange(1, 5));
 		}
 		prevEnd = end;
+		prevStart = start;
 	}
 
 	colliderController->SetCollider(edgeList);

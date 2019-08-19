@@ -24,5 +24,5 @@ void BossDamageable::OnStart(BossEnemyModel* entity)
 ***************************************/
 int BossDamageable::OnUpdate(BossEnemyModel* entity)
 {
-	return 0;
+	return BossEnemyModel::State::Damageable;
 }

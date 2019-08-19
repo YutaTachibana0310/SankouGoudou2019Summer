@@ -20,8 +20,8 @@ using namespace std;
 BossColliderController::BossColliderController(BossEnemyModel& model) : posZ(500.0f), model(model)
 {
 	//ƒ|ƒŠƒSƒ“€”õ
-	ResourceManager::Instance()->MakePolygon("BossColliderEdge", "data/TEXTURE/Enemy/BossColliderEdge.png", D3DXVECTOR2(20.0f, 20.0f));
-	ResourceManager::Instance()->MakePolygon("BossColliderLine", "data/TEXTURE/Enemy/BossCollider.png", D3DXVECTOR2(0.5f, 10.0f));
+	ResourceManager::Instance()->MakePolygon("BossColliderEdge", "data/TEXTURE/Enemy/BossColliderEdge.png", D3DXVECTOR2(40.0f, 40.0f));
+	ResourceManager::Instance()->MakePolygon("BossColliderLine", "data/TEXTURE/Enemy/BossCollider.png", D3DXVECTOR2(0.5f, 20.0f));
 }
 
 /**************************************

@@ -50,9 +50,9 @@ int BossEnemyModel::BossRebarAttack::OnUpdate(BossEnemyModel* entity)
 	if (cntFrame == FinishTime)
 	{
 		entity->cntAttack++;
-		if (entity->cntAttack == 3)
+		if (entity->cntAttack == 1)
 		{
-			result = BossEnemyModel::State::Idle;
+			result = BossEnemyModel::State::HomingAttack;
 		}
 		else
 		{
@@ -60,5 +60,5 @@ int BossEnemyModel::BossRebarAttack::OnUpdate(BossEnemyModel* entity)
 		}
 	}
 
-	return 0;
+	return result;
 }

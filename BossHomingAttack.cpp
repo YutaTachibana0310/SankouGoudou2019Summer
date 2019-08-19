@@ -32,10 +32,16 @@ int BossEnemyModel::BossHomingAttack::OnUpdate(BossEnemyModel* entity)
 {
 	cntFrame++;
 
+	int result = BossEnemyModel::State::HomingAttack;
+
 	if (cntFrame == 120)
 	{
 		entity->FireBullet();
 	}
 
-	return BossEnemyModel::State::HomingAttack;
+	if (cntFrame == 300)
+	{
+		result = BossEnemyModel::State::Damageable;
+	}
+	return result;
 }

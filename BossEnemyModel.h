@@ -53,6 +53,8 @@ public:
 
 	void SetCollider();
 
+	void OnDamage();
+
 private:
 	BossEnemyActor* actor;
 	std::unordered_map < State, IStateMachine<BossEnemyModel>*> fsm;

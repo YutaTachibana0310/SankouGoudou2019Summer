@@ -28,7 +28,7 @@ BossEnemyModel::BossEnemyModel()
 {
 	actor = new BossEnemyActor();
 	bulletController = new EnemyBulletController();
-	colliderController = new BossColliderController();
+	colliderController = new BossColliderController(*this);
 
 	//ステートマシン作成
 	fsm[State::Init] = new BossInit();
@@ -195,4 +195,12 @@ void BossEnemyModel::SetCollider()
 	}
 
 	colliderController->SetCollider(edgeList);
+}
+
+/**************************************
+ダメージ処理
+**************************************/
+void BossEnemyModel::OnDamage()
+{
+	actor->ChangeAnimation(BossEnemyActor::AnimID::Damage);
 }

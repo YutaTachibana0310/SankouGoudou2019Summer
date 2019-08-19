@@ -35,7 +35,7 @@ BossEnemyActor::BossEnemyActor()
 
 	//アニメーションスピード設定
 	const float AnimationPlaySpeed[] = {
-		1.0f, 0.6f, 0.6f, 1.0f, 1.0f, 1.0f
+		1.0f, 0.6f, 0.6f, 1.5f, 1.0f, 1.0f
 	};
 	for (UINT i = 0; i < AnimID::Max; i++)
 	{

@@ -7,6 +7,7 @@
 #include "BossColliderController.h"
 #include "Framework\ResourceManager.h"
 #include "BossColliderGuide.h"
+#include "BossEnemyModel.h"
 
 using namespace std;
 /**************************************
@@ -16,7 +17,7 @@ using namespace std;
 /**************************************
 コンストラクタ
 ***************************************/
-BossColliderController::BossColliderController() : posZ(500.0f)
+BossColliderController::BossColliderController(BossEnemyModel& model) : posZ(500.0f), model(model)
 {
 	//ポリゴン準備
 	ResourceManager::Instance()->MakePolygon("BossColliderEdge", "data/TEXTURE/Enemy/BossColliderEdge.png", D3DXVECTOR2(20.0f, 20.0f));
@@ -91,6 +92,7 @@ void BossColliderController::SetCollider(const std::vector<int>& edgeList)
 		collider->SetAddressZ(&posZ);
 
 		//TODO：コライダーの有効化とオブザーバーの追加
+		collider->AddObserver(this);
 	}
 }
 
@@ -110,4 +112,12 @@ void BossColliderController::DeleteAll()
 		SAFE_DELETE(collider);
 	}
 	colliderList.clear();
+}
+
+/**************************************
+当たり判定通知処理
+***************************************/
+void BossColliderController::OnNotified(ObserveSubject* notifier)
+{
+	model.OnDamage();
 }

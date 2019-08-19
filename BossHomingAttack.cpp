@@ -30,5 +30,12 @@ void BossEnemyModel::BossHomingAttack::OnStart(BossEnemyModel *entity)
 ***************************************/
 int BossEnemyModel::BossHomingAttack::OnUpdate(BossEnemyModel* entity)
 {
+	cntFrame++;
+
+	if (cntFrame == 120)
+	{
+		entity->FireBullet();
+	}
+
 	return BossEnemyModel::State::HomingAttack;
 }

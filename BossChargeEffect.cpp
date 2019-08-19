@@ -58,7 +58,7 @@ void BossChargeEmitter::Init()
 {
 	cntFrame = 0;
 	active = true;
-	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	transform.scale = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	duration = 90;
 }
@@ -70,7 +70,7 @@ void BossChargeEmitter::Update()
 {
 	cntFrame++;
 
-	const float DeltaScale = 0.05f;
+	const float DeltaScale = 0.02f;
 	transform.scale += D3DXVECTOR3(1.0f, 1.0f, 1.0f) * DeltaScale;
 
 	if (cntFrame == duration)

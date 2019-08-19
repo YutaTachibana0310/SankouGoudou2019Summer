@@ -300,7 +300,7 @@ void EnemyController::EnemyAttack(EnemyModel *enermyModel)
 		emitPos.push_back(enemy->m_Pos + ENEMY_SHOTPOS_OFFSET);
 	}
 
-	bulletController->SetEnemyBullet(emitPos, enermyModel->model);
+	bulletController->Set(emitPos, enermyModel->model);
 }
 
 /**************************************

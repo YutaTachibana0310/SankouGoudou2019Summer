@@ -16,7 +16,6 @@
 BossController::BossController()
 {
 	bossModel = new BossEnemyModel();
-	bulletController = new EnemyBulletController();
 }
 
 /**************************************
@@ -24,7 +23,6 @@ BossController::BossController()
 ***************************************/
 BossController::~BossController()
 {
-	SAFE_DELETE(bulletController);
 	SAFE_DELETE(bossModel);
 }
 
@@ -37,8 +35,6 @@ void BossController::Update()
 		return;
 
 	bossModel->Update();
-
-	bulletController->Update();
 }
 
 /**************************************

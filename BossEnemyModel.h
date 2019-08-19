@@ -45,6 +45,8 @@ public:
 	void SetRebar();
 	void ThrowRebar();
 
+	void StartBulletCharge();
+
 private:
 	BossEnemyActor* actor;
 	std::unordered_map < State, IStateMachine<BossEnemyModel>*> fsm;
@@ -54,6 +56,7 @@ private:
 	std::list<RebarObstacle*> rebarList;
 
 	int cntAttack;
+	int updateResult;
 
 	class BossInit;
 	class BossRebarAttack;

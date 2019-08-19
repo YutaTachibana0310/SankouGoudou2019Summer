@@ -765,6 +765,9 @@
     <ClInclude Include="GameBossBattle.h">
       <Filter>ヘッダー ファイル\GameController</Filter>
     </ClInclude>
+    <ClInclude Include="BossChargeEffect.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1291,6 +1294,9 @@
     </ClCompile>
     <ClCompile Include="GameBossBatlle.cpp">
       <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="BossChargeEffect.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

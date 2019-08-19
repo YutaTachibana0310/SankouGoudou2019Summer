@@ -24,11 +24,13 @@
 #include "masktex.h"
 #include "ScoreManager.h"
 #include "PostEffect\SpeedBlurController.h"
+#include "BossController.h"
 
 #include "GameStart.h"
 #include "GameBattle.h"
 #include "GameEnd.h"
 #include "GameBomberSequence.h"
+#include "GameBossBattle.h"
 
 #include "RebarOb.h"
 #include <functional>
@@ -59,6 +61,7 @@ void GameScene::Init()
 	fsm[State::Battle] = new GameBattle();
 	fsm[State::End] = new GameEnd();
 	fsm[State::BombSequence] = new GameBomberSequence();
+	fsm[State::BossBattle] = new GameBossBattle();
 
 	//暗転用ポリゴン作成
 	darkMask = new Polygon2D();
@@ -77,6 +80,7 @@ void GameScene::Init()
 	particleManager = GameParticleManager::Instance();
 	playerObserver = new PlayerObserver();
 	bgController = new BackGroundController();
+	bossController = new BossController();
 
 	SetPlayerObserverAdr(playerObserver);
 
@@ -101,7 +105,7 @@ void GameScene::Init()
 	RegisterDebugTimer(GAMESCENE_LABEL);
 
 	//ステート初期化
-	currentState = State::Start;
+	currentState = State::BossBattle;
 	state = fsm[currentState];
 	state->OnStart(this);
 
@@ -208,6 +212,9 @@ void GameScene::Draw()
 	enemyController->Draw();
 	enemyController->DrawGuide();
 
+	//ボスの描画
+	bossController->Draw();
+
 	//プレイヤーの描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
 	playerObserver->Draw();
@@ -256,6 +263,9 @@ void GameScene::UpdateWhole()
 
 	//エネミーの更新
 	enemyController->Update();
+
+	//ボスの更新
+	bossController->Update();
 
 	//プレイヤーの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");

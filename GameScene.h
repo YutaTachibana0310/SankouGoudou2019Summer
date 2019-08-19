@@ -20,6 +20,7 @@ class EnemyController;
 class GameParticleManager;
 class PlayerObserver;
 class BackGroundController;
+class BossController;
 
 /**************************************
 ƒNƒ‰ƒX’è‹`
@@ -48,6 +49,7 @@ public:
 	GameParticleManager* particleManager;
 	PlayerObserver* playerObserver;
 	BackGroundController *bgController;
+	BossController* bossController;
 
 	bool useDarkMask;
 
@@ -57,6 +59,7 @@ public:
 		Battle,
 		End,
 		BombSequence,
+		BossBattle,
 		StateMax,
 	};
 

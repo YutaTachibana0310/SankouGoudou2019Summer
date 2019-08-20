@@ -777,6 +777,9 @@
     <ClInclude Include="BossDamageable.h">
       <Filter>ヘッダー ファイル\Enemy\State</Filter>
     </ClInclude>
+    <ClInclude Include="BossHitParticle.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1315,6 +1318,9 @@
     </ClCompile>
     <ClCompile Include="BossDamageable.cpp">
       <Filter>ソース ファイル\Enemy\Model\State</Filter>
+    </ClCompile>
+    <ClCompile Include="BossHitParticle.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

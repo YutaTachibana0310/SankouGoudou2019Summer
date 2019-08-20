@@ -14,6 +14,7 @@
 
 #include <list>
 #include <vector>
+#include <unordered_map>
 
 /**************************************
 ‘O•ûéŒ¾
@@ -43,8 +44,9 @@ public:
 	void OnNotified(ObserveSubject* notifier);
 
 private:
-	std::list<BossColliderGuide*> guideList;
 	std::list<TrailCollider*> colliderList;
+	std::unordered_map<ObserveSubject*, BossColliderGuide*> guideMap;
+	std::unordered_map<ObserveSubject*, LineTrailModel> modelMap;
 	BossEnemyModel& model;
 
 	float posZ;

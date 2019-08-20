@@ -8,6 +8,7 @@
 #include "Framework\ResourceManager.h"
 #include "BossColliderGuide.h"
 #include "BossEnemyModel.h"
+#include "GameParticleManager.h"
 
 using namespace std;
 /**************************************
@@ -29,11 +30,11 @@ BossColliderController::BossColliderController(BossEnemyModel& model) : posZ(500
 ***************************************/
 BossColliderController::~BossColliderController()
 {
-	for (auto&& guide : guideList)
+	for (auto&& guide : guideMap)
 	{
-		SAFE_DELETE(guide);
+		SAFE_DELETE(guide.second);
 	}
-	guideList.clear();
+	guideMap.clear();
 
 	for (auto&& collider : colliderList)
 	{
@@ -47,9 +48,9 @@ BossColliderController::~BossColliderController()
 ***************************************/
 void BossColliderController::Update()
 {
-	for (auto&& guide : guideList)
+	for (auto&& guide : guideMap)
 	{
-		guide->Update();
+		guide.second->Update();
 	}
 }
 
@@ -64,16 +65,18 @@ void BossColliderController::Draw()
 	pDevice->SetRenderState(D3DRS_ZENABLE, false);
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 	pDevice->SetRenderState(D3DRS_LIGHTING, false);
+	pDevice->SetRenderState(D3DRS_CULLMODE, false);
 
-	for (auto&& guide : guideList)
+	for (auto&& guide : guideMap)
 	{
-		guide->Draw();
+		guide.second->Draw();
 	}
 
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 	pDevice->SetRenderState(D3DRS_ZENABLE, true);
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	pDevice->SetRenderState(D3DRS_LIGHTING, true);
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 /**************************************
@@ -85,14 +88,17 @@ void BossColliderController::SetCollider(const std::vector<int>& edgeList)
 	for (UINT i = 0; i < EdgeMax; i++)
 	{
 		LineTrailModel model = LineTrailModel(edgeList[i], edgeList[i + 1]);
-		guideList.push_back(new BossColliderGuide(model));
-	
+
 		TrailCollider *collider = new TrailCollider(TrailColliderTag::Enemy);
 		collider->SetTrailIndex(model);
 		collider->SetAddressZ(&posZ);
-
-		//TODO：コライダーの有効化とオブザーバーの追加
 		collider->AddObserver(this);
+
+		guideMap[collider] = new BossColliderGuide(model);
+
+		modelMap[collider] = model;
+
+		colliderList.push_back(collider);
 	}
 }
 
@@ -101,11 +107,11 @@ void BossColliderController::SetCollider(const std::vector<int>& edgeList)
 ***************************************/
 void BossColliderController::DeleteAll()
 {
-	for (auto&& guide : guideList)
+	for (auto&& pair : guideMap)
 	{
-		SAFE_DELETE(guide);
+		SAFE_DELETE(pair.second);
 	}
-	guideList.clear();
+	guideMap.clear();
 
 	for (auto&& collider : colliderList)
 	{
@@ -120,4 +126,26 @@ void BossColliderController::DeleteAll()
 void BossColliderController::OnNotified(ObserveSubject* notifier)
 {
 	model.OnDamage();
+
+	LineTrailModel model = modelMap[notifier];
+
+	D3DXVECTOR3 right, left;
+	model.GetEdgePos(&right, &left);
+	right.z = left.z = posZ;
+	D3DXVECTOR3 offset = right - left;
+	offset /= 10.0f;
+
+	for (int i = 0; i < 10; i++)
+	{
+		GameParticleManager::Instance()->SetBossHit(&(left + offset));
+		left += offset;
+	}
+
+	modelMap.erase(notifier);
+
+	SAFE_DELETE(guideMap[notifier]);
+	guideMap.erase(notifier);
+
+	auto& itr = std::find(colliderList.begin(), colliderList.end(), notifier);
+	(*itr)->active = false;
 }

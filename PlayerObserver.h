@@ -60,6 +60,8 @@ public:
 	void FirePlayerBomber(std::list<Enemy*> targetList);
 	void OnStartAccel();
 
+	const Transform& GetPlayerTransform() const;
+
 	PlayerModel *model;
 	bool enableUpdateLogic;
 

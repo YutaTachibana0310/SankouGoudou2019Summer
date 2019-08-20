@@ -24,7 +24,7 @@ using namespace std;
 /**************************************
 コンストラクタ
 ***************************************/
-BossEnemyModel::BossEnemyModel()
+BossEnemyModel::BossEnemyModel(const Transform& player) : player(player)
 {
 	actor = new BossEnemyActor();
 	bulletController = new EnemyBulletController();
@@ -150,7 +150,7 @@ void BossEnemyModel::ThrowRebar()
 {
 	for (auto&& rebar : rebarList)
 	{
-		rebar->Move(D3DXVECTOR3(0.0f, 0.0f, -2000.0f), 180, EaseType::InSine);
+		rebar->Move(player, 2500.0f, 180, EaseType::InSine);
 	}
 }
 

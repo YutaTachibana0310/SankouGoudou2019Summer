@@ -29,6 +29,7 @@ public:
 	void Update();
 	void Draw();
 	void Move(const D3DXVECTOR3& offset, int duration, EaseType type);
+	void Move(const Transform& target, float length, int duration, EaseType type);
 
 	bool IsDestroyed();
 

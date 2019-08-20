@@ -122,3 +122,19 @@ bool RebarObstacle::IsDestroyed()
 {
 	return isDestroyed;
 }
+
+/**************************************
+Moveˆ—
+***************************************/
+void RebarObstacle::Move(const Transform& target, float length, int duration, EaseType type)
+{
+	startPos = transform->pos;
+
+	D3DXVECTOR3 diff = target.pos - transform->pos;
+	D3DXVec3Normalize(&diff, &diff);
+	endPos = transform->pos + diff * length;
+	moveDuration = duration;
+	cntFrame = 0;
+	moveEaseType = type;
+	inMoving = true;
+}

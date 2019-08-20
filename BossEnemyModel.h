@@ -37,7 +37,7 @@ public:
 		Idle
 	};
 
-	BossEnemyModel();
+	BossEnemyModel(const Transform& player);
 	~BossEnemyModel();
 
 	int Update();
@@ -66,6 +66,8 @@ private:
 	EnemyBulletController *bulletController;
 
 	BossColliderController *colliderController;
+
+	const Transform& player;
 
 	int cntAttack;
 	int updateResult;

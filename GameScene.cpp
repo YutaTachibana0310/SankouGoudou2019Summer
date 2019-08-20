@@ -80,7 +80,7 @@ void GameScene::Init()
 	particleManager = GameParticleManager::Instance();
 	playerObserver = new PlayerObserver();
 	bgController = new BackGroundController();
-	bossController = new BossController();
+	bossController = new BossController(playerObserver->GetPlayerTransform());
 
 	SetPlayerObserverAdr(playerObserver);
 

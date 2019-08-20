@@ -364,3 +364,11 @@ void PlayerObserver::TryStockBomber()
 	//エフェクト再生
 	player->StockBomber();
 }
+
+/**************************************
+PlayerTransform取得処理
+***************************************/
+const Transform& PlayerObserver::GetPlayerTransform() const
+{
+	return player->transform;
+}

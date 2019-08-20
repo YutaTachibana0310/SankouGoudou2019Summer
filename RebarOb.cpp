@@ -37,12 +37,13 @@ RebarObstacle::RebarObstacle(const D3DXVECTOR3& pos, LineTrailModel& model)
 
 	D3DXVECTOR3 right, left;
 	model.GetEdgePos(&right, &left);
-	float angle = Vector3::Angle(Vector3::Right, right - left);
-	D3DXVECTOR3 axis = Vector3::Axis(Vector3::Right, right - left);
+	D3DXVECTOR3 diff = right - left;
+	float angle = Vector3::Angle(Vector3::Right, diff);
+	D3DXVECTOR3 axis = Vector3::Axis(Vector3::Right, diff);
 	transform->RotateByAxis(angle, axis);
 
 	////‰ñ“]²Œˆ’è
-	rotateAxis = Vector3::Axis(Vector3::Forward, right - left);
+	rotateAxis = Vector3::Axis(Vector3::Forward, diff);
 
 	//ƒtƒ‰ƒO‰Šú‰»
 	isDestroyed = false;

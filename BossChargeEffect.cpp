@@ -32,7 +32,7 @@ void BossChargeParticle::Init()
 	transform.pos.x += RandomRangef(-PosRange, PosRange);
 	transform.pos.y += RandomRangef(-PosRange, PosRange);
 
-	lifeFrame = 120;
+	lifeFrame = 60;
 }
 
 /**************************************

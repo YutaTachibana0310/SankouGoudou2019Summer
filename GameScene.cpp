@@ -150,6 +150,7 @@ void GameScene::Uninit()
 	SAFE_DELETE(playerObserver);
 	SAFE_DELETE(bgController);
 	SAFE_DELETE(darkMask);
+	SAFE_DELETE(bossController);
 
 	//ステートマシン削除
 	for (auto& pair : fsm)

@@ -15,6 +15,7 @@
 
 #include <unordered_map>
 #include <list>
+#include <memory>
 
 /**************************************
 ƒ}ƒNƒ’è‹`
@@ -62,7 +63,7 @@ private:
 	IStateMachine<BossEnemyModel>* state;
 	State currentState, prevState;
 
-	std::list<RebarObstacle*> rebarList;
+	std::list<std::unique_ptr<RebarObstacle>> rebarList;
 
 	EnemyBulletController *bulletController;
 

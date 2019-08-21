@@ -61,6 +61,13 @@ BossEnemyModel::~BossEnemyModel()
 		SAFE_DELETE(pair.second);
 	}
 	fsm.clear();
+
+	
+	for (auto&& rebar : rebarList)
+	{
+		rebar.reset();
+	}
+	rebarList.clear();
 }
 
 /**************************************
@@ -147,7 +154,7 @@ void BossEnemyModel::SetRebar()
 		RebarObstacle *rebar = new RebarObstacle(pos, model);
 		rebar->Move(D3DXVECTOR3(0.0f, 500.0f, 0.0f), 120, EaseType::OutCubic);
 
-		rebarList.push_back(rebar);
+		rebarList.push_back(unique_ptr<RebarObstacle>(rebar));
 
 		z += 100.0f;
 	}

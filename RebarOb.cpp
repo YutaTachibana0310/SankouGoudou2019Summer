@@ -48,6 +48,7 @@ RebarObstacle::RebarObstacle(const D3DXVECTOR3& pos, LineTrailModel& model)
 	//ƒtƒ‰ƒO‰Šú‰»
 	isDestroyed = false;
 	inMoving = false;
+	reserveDestroy = false;
 }
 
 /**************************************
@@ -113,6 +114,9 @@ void RebarObstacle::_Move()
 	if (cntFrame == moveDuration)
 	{
 		inMoving = false;
+
+		if (reserveDestroy)
+			isDestroyed = true;
 	}
 }
 
@@ -138,4 +142,5 @@ void RebarObstacle::Move(const Transform& target, float length, int duration, Ea
 	cntFrame = 0;
 	moveEaseType = type;
 	inMoving = true;
+	reserveDestroy = true;
 }

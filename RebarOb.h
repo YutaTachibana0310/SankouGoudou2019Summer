@@ -36,6 +36,7 @@ public:
 private:
 	int cntFrame;
 	bool isDestroyed;
+	bool reserveDestroy;
 
 	Transform* transform;
 	TrailCollider* collider;

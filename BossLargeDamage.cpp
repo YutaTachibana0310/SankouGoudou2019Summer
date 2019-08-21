@@ -17,7 +17,8 @@
 void BossEnemyModel::BossLargeDamage::OnStart(BossEnemyModel * entity)
 {
 	cntFrame = 0;
-	entity->actor->ChangeAnimation(BossEnemyActor::AnimID::LargeDamage);
+
+	entity->level = Clamp(0, 2, entity->level + 1);
 }
 
 /**************************************
@@ -29,7 +30,12 @@ int BossEnemyModel::BossLargeDamage::OnUpdate(BossEnemyModel * entity)
 
 	int result = BossEnemyModel::State::LargeDamage;
 
-	if(cntFrame == 120)
+	if (cntFrame == 15)
+	{
+		entity->actor->ChangeAnimation(BossEnemyActor::AnimID::LargeDamage);
+	}
+
+	if(cntFrame == 150)
 	{
 		result = RandomRange(0, 100) < 50 ? BossEnemyModel::State::HomingAttack : BossEnemyModel::State::RebarAttack;
 	}

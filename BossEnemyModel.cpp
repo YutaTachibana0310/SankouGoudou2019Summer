@@ -41,6 +41,9 @@ BossEnemyModel::BossEnemyModel(const Transform& player) : player(player)
 	//鉄筋のモデルをロード
 	ResourceManager::Instance()->LoadMesh("RebarObstacle", "data/MODEL/rebar.x");
 
+	//レベル初期化
+	level = 0;
+
 	//Initステートへ遷移
 	ChangeState(State::Init);
  }
@@ -65,8 +68,6 @@ BossEnemyModel::~BossEnemyModel()
 ***************************************/
 int BossEnemyModel::Update()
 {
-	updateResult = StateContinuous;
-
 	int nextState = state->OnUpdate(this);
 	if (nextState != currentState)
 	{
@@ -129,7 +130,8 @@ void BossEnemyModel::ChangeState(State next)
 void BossEnemyModel::SetRebar()
 {
 	float z = 300.0f;
-	//for (int i = 0; i < 5; i++)
+	const int LoopMax[] = { 2, 3, 5 };
+	for (int i = 0; i < LoopMax[level]; i++)
 	{
 		int start = Math::RandomRange(0, 5);
 		int end = Math::WrapAround(0, 5, start + Math::RandomRange(1, 4));
@@ -178,8 +180,14 @@ void BossEnemyModel::StartBulletCharge()
 void BossEnemyModel::FireBullet()
 {
 	static std::vector<D3DXVECTOR3> Emitter = { D3DXVECTOR3(0.0f, 0.0f, 500.0f),  D3DXVECTOR3(0.0f, 0.0f, 500.0f), D3DXVECTOR3(0.0f, 0.0f, 500.0f) };
+	static const int LoopMax[] = { 1, 2, 3 };
 
-	bulletController->Set(Emitter, LineTrailModel(0, 1), 60, D3DXVECTOR3(2.0f, 2.0f, 2.0f));
+	for (int i = 0; i < LoopMax[level]; i++)
+	{
+		int start = RandomRange(0, 5);
+		int end = WrapAround(0, 5, start + RandomRange(1, 5));
+		bulletController->Set(Emitter, LineTrailModel(start, end), 60, D3DXVECTOR3(2.0f, 2.0f, 2.0f));
+	}
 }
 
 /**************************************

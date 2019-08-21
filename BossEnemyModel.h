@@ -71,8 +71,8 @@ private:
 	const Transform& player;
 
 	int cntAttack;
-	int updateResult;
-
+	int level;
+	
 	class BossInit;
 	class BossRebarAttack;
 	class BossHomingAttack;

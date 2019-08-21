@@ -84,6 +84,8 @@ void BossColliderController::Draw()
 ***************************************/
 void BossColliderController::SetCollider(const std::vector<int>& edgeList)
 {
+	DeleteAll();
+
 	const UINT EdgeMax = edgeList.size() - 1;
 	for (UINT i = 0; i < EdgeMax; i++)
 	{
@@ -100,6 +102,8 @@ void BossColliderController::SetCollider(const std::vector<int>& edgeList)
 
 		colliderList.push_back(collider);
 	}
+
+	cntHit = 0;
 }
 
 /**************************************
@@ -148,4 +152,11 @@ void BossColliderController::OnNotified(ObserveSubject* notifier)
 
 	auto& itr = std::find(colliderList.begin(), colliderList.end(), notifier);
 	(*itr)->active = false;
+
+	//
+	cntHit++;
+	if (cntHit == colliderList.size())
+	{
+		this->model.ChangeState(BossEnemyModel::State::LargeDamage);
+	}
 }

@@ -49,6 +49,7 @@ private:
 	std::unordered_map<ObserveSubject*, LineTrailModel> modelMap;
 	BossEnemyModel& model;
 
+	int cntHit;
 	float posZ;
 };
 

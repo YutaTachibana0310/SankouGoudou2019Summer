@@ -26,7 +26,7 @@ BossEnemyActor::BossEnemyActor()
 
 	//アニメーション読み込み
 	const char* AnimationSetName[] = {
-		"Flying", "Attack01", "Attack02", "Damage", "Death", "Idle"
+		"Flying", "Attack01", "Attack02", "Damage", "Death", "Idle", "LargeDamage"
 	};
 	for (UINT i = 0; i < AnimID::Max; i++)
 	{
@@ -35,7 +35,7 @@ BossEnemyActor::BossEnemyActor()
 
 	//アニメーションスピード設定
 	const float AnimationPlaySpeed[] = {
-		1.0f, 0.6f, 0.6f, 1.5f, 1.0f, 1.0f
+		1.0f, 0.6f, 0.6f, 1.5f, 1.0f, 1.0f, 1.5f
 	};
 	for (UINT i = 0; i < AnimID::Max; i++)
 	{
@@ -46,6 +46,7 @@ BossEnemyActor::BossEnemyActor()
 	animManager->SetFinishTransition(AnimID::Attack01, AnimID::Idle);
 	animManager->SetFinishTransition(AnimID::Attack02, AnimID::Idle);
 	animManager->SetFinishTransition(AnimID::Damage, AnimID::Idle);
+	animManager->SetFinishTransition(AnimID::LargeDamage, AnimID::Idle);
 
 	//フラグ初期化
 	inMoving = false;

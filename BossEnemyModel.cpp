@@ -10,6 +10,7 @@
 #include "BossRebarAttack.h"
 #include "BossHomingAttack.h"
 #include "BossDamageable.h"
+#include "BossLargeDamage.h"
 
 #include "EnemyBulletController.h"
 
@@ -35,6 +36,7 @@ BossEnemyModel::BossEnemyModel(const Transform& player) : player(player)
 	fsm[State::RebarAttack] = new BossRebarAttack();
 	fsm[State::HomingAttack] = new BossHomingAttack();
 	fsm[State::Damageable] = new BossDamageable();
+	fsm[State::LargeDamage] = new BossLargeDamage();
 
 	//“S‹Ø‚Ìƒ‚ƒfƒ‹‚ðƒ[ƒh
 	ResourceManager::Instance()->LoadMesh("RebarObstacle", "data/MODEL/rebar.x");
@@ -50,6 +52,12 @@ BossEnemyModel::~BossEnemyModel()
 {
 	SAFE_DELETE(actor);
 	SAFE_DELETE(bulletController);
+
+	for (auto&& pair : fsm)
+	{
+		SAFE_DELETE(pair.second);
+	}
+	fsm.clear();
 }
 
 /**************************************

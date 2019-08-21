@@ -32,6 +32,7 @@ public:
 		Damage,
 		Death,
 		Idle,
+		LargeDamage,
 		Max
 
 	};

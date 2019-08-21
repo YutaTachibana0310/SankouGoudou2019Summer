@@ -34,6 +34,7 @@ public:
 		RebarAttack,
 		HomingAttack,
 		Damageable,
+		LargeDamage,
 		Idle
 	};
 
@@ -76,6 +77,7 @@ private:
 	class BossRebarAttack;
 	class BossHomingAttack;
 	class BossIdle;
+	class BossLargeDamage;
 };
 
 #endif

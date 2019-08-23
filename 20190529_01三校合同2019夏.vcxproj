@@ -185,6 +185,8 @@
     <ClInclude Include="EnemyWarpHole.h" />
     <ClInclude Include="EnemyWarpHoleController.h" />
     <ClInclude Include="ExplosionFire.h" />
+    <ClInclude Include="ExplosionFireCharge.h" />
+    <ClInclude Include="ExplosionFireCore.h" />
     <ClInclude Include="Framework\AnimationManager.h" />
     <ClInclude Include="Framework\BoardPolygon.h" />
     <ClInclude Include="Framework\CameraShakePlugin.h" />
@@ -375,6 +377,8 @@
     <ClCompile Include="EnemyWarpHole.cpp" />
     <ClCompile Include="EnemyWarpHoleController.cpp" />
     <ClCompile Include="ExplosionFire.cpp" />
+    <ClCompile Include="ExplosionFireCharge.cpp" />
+    <ClCompile Include="ExplosionFireCore.cpp" />
     <ClCompile Include="Framework\AnimationManager.cpp" />
     <ClCompile Include="Framework\BoardPolygon.cpp" />
     <ClCompile Include="Framework\CameraShakePlugin.cpp" />

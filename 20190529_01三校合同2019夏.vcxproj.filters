@@ -789,6 +789,12 @@
     <ClInclude Include="ExplosionFire.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="ExplosionFireCharge.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionFireCore.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1338,6 +1344,12 @@
       <Filter>ソース ファイル\Enemy\Model\State</Filter>
     </ClCompile>
     <ClCompile Include="ExplosionFire.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionFireCharge.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionFireCore.cpp">
       <Filter>ソース ファイル\Effect\Controller</Filter>
     </ClCompile>
   </ItemGroup>

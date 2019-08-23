@@ -16,13 +16,13 @@ ExplosionFireコンストラクタ
 ExplosionFire::ExplosionFire()
 {
 	SetAnimParameter(&D3DXVECTOR2(8.0f, 8.0f));
-	speed = RandomRangef(2.0f, 5.0f);
+	speed = RandomRangef(5.0f, 20.0f);
 	moveDir.x = RandomRangef(-1.0f, 1.0f);
 	moveDir.y = RandomRangef(-1.0f, 1.0f);
 	moveDir.z = RandomRangef(-1.0f, 1.0f);
 	D3DXVec3Normalize(&moveDir, &moveDir);
 
-	lifeFrame = RandomRange(120, 240);
+	lifeFrame = RandomRange(60, 360);
 }
 
 /**************************************
@@ -36,6 +36,8 @@ void ExplosionFire::Init()
 	transform.pos.x += RandomRangef(-PosRange, PosRange);
 	transform.pos.y += RandomRangef(-PosRange, PosRange);
 	transform.pos.z += RandomRangef(-PosRange, PosRange);
+
+	transform.pos += moveDir * 500.0f;
 
 	cntFrame = 0;
 	active = true;

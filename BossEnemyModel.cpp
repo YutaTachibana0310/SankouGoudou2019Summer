@@ -125,12 +125,12 @@ void BossEnemyModel::Draw()
 ***************************************/
 void BossEnemyModel::ChangeState(State next)
 {
-	state = fsm[next];
-	state->OnStart(this);
-
 	prevState = currentState;
 	currentState = next;
 	cntAttack = 0;
+
+	state = fsm[next];
+	state->OnStart(this);
 }
 
 /**************************************
@@ -241,6 +241,22 @@ void BossEnemyModel::OnDamage()
 **************************************/
 void BossEnemyModel::Explode()
 {
+	actor->SetActive(false);
 	D3DXVECTOR3 actorPos = actor->GetActorPosition();
 	GameParticleManager::Instance()->SetBossExplosion(&actorPos);
+}
+
+/**************************************
+”š”­ƒ`ƒƒ[ƒWˆ—
+**************************************/
+void BossEnemyModel::ChargeExplode(Transform*& charge, Transform*& core)
+{
+	D3DXVECTOR3 actorPos = actor->GetActorPosition();
+	BaseEmitter* emitter = GameParticleManager::Instance()->SetBossExplosionCharge(&actorPos);
+	charge = &emitter->transform;
+
+	emitter = GameParticleManager::Instance()->SetBossExplosionCore(&actorPos);
+	core = &emitter->transform;
+
+	actor->SetWriteableZ(false);
 }

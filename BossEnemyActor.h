@@ -48,6 +48,9 @@ public:
 
 	void ChangeAnimation(AnimID next);
 
+	void SetWriteableZ(bool state);
+	void SetActive(bool state);
+
 	D3DXVECTOR3 GetActorPosition();
 
 	Transform transform;
@@ -63,6 +66,10 @@ private:
 	bool inRotaiton;
 	D3DXVECTOR3 targetForward;
 	float magnitudeRotate;
+
+	bool writeableZ;
+
+	bool active;
 
 	void _Move();
 

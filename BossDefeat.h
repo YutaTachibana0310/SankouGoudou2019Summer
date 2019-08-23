@@ -30,6 +30,8 @@ public:
 
 private:
 	int cntFrame;
+	Transform* effect;
+	Transform* core;
 };
 
 #endif

@@ -17,7 +17,7 @@
 void BossEnemyModel::BossDefeat::OnStart(BossEnemyModel* entity)
 {
 	cntFrame = 0;
-	entity->Explode();
+	entity->ChargeExplode(effect, core);
 }
 
 /**************************************
@@ -27,8 +27,14 @@ int BossEnemyModel::BossDefeat::OnUpdate(BossEnemyModel* entity)
 {
 	cntFrame++;
 
+	effect->pos = entity->actor->GetActorPosition();
+	core->pos = entity->actor->GetActorPosition();
+
 	if(cntFrame == 10)
 		entity->actor->ChangeAnimation(BossEnemyActor::AnimID::Defeat);
+
+	if (cntFrame == 240)
+		entity->Explode();
 
 	return BossEnemyModel::State::Defeat;
 }

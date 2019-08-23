@@ -16,7 +16,9 @@
 /**************************************
 コンストラクタ
 ***************************************/
-BossEnemyActor::BossEnemyActor()
+BossEnemyActor::BossEnemyActor() :
+	writeableZ(true),
+	active(true)
 {
 	animManager = new AnimationManager();
 
@@ -68,6 +70,9 @@ BossEnemyActor::~BossEnemyActor()
 ***************************************/
 void BossEnemyActor::Update()
 {
+	if (!active)
+		return;
+
 	_Move();
 	
 	_Rotate();
@@ -80,10 +85,19 @@ void BossEnemyActor::Update()
 ***************************************/
 void BossEnemyActor::Draw()
 {
+	if (!active)
+		return;
+
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, writeableZ);
+
 	transform.SetWorld();
 
 	D3DXMATRIX world = transform.GetMatrix();
 	animManager->Draw(&world);
+
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 }
 
 /**************************************
@@ -120,6 +134,22 @@ void BossEnemyActor::Rotate(const D3DXVECTOR3& target, float magnitude)
 void BossEnemyActor::ChangeAnimation(AnimID next)
 {
 	animManager->ChangeAnim(next, true);
+}
+
+/**************************************
+Zバッファ書き込み設定処理
+***************************************/
+void BossEnemyActor::SetWriteableZ(bool state)
+{
+	writeableZ = state;
+}
+
+/**************************************
+アクティブ設定処理
+***************************************/
+void BossEnemyActor::SetActive(bool state)
+{
+	active = state;
 }
 
 /**************************************

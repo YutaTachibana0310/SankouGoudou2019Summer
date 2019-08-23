@@ -59,6 +59,7 @@ public:
 	void OnDamage();
 
 	void Explode();
+	void ChargeExplode(Transform*& charge, Transform*& core);
 
 private:
 	BossEnemyActor* actor;

@@ -152,3 +152,11 @@ bool AnimationManager::ShouldTransition()
 
 	return true;
 }
+
+/**************************************
+ƒ{[ƒ“s—ñŽæ“¾ˆ—
+***************************************/
+void AnimationManager::GetBoneMatrix(const char* boneName, D3DXMATRIX& out)
+{
+	out = container->GetBoneMatrix(boneName);
+}

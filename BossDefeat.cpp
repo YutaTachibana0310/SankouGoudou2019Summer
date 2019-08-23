@@ -6,7 +6,6 @@
 //=====================================
 #include "BossDefeat.h"
 #include "BossEnemyActor.h"
-#include "GameParticleManager.h"
 
 /**************************************
 ƒ}ƒNƒ’è‹`
@@ -18,8 +17,7 @@
 void BossEnemyModel::BossDefeat::OnStart(BossEnemyModel* entity)
 {
 	cntFrame = 0;
-	
-	GameParticleManager::Instance()->SetBossExplosion(&entity->actor->transform.pos);
+	entity->Explode();
 }
 
 /**************************************

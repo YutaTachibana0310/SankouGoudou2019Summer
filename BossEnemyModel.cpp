@@ -235,3 +235,12 @@ void BossEnemyModel::OnDamage()
 {
 	actor->ChangeAnimation(BossEnemyActor::AnimID::Damage);
 }
+
+/**************************************
+”š”­ˆ—
+**************************************/
+void BossEnemyModel::Explode()
+{
+	D3DXVECTOR3 actorPos = actor->GetActorPosition();
+	GameParticleManager::Instance()->SetBossExplosion(&actorPos);
+}

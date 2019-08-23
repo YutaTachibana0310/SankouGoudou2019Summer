@@ -58,6 +58,8 @@ public:
 
 	void OnDamage();
 
+	void Explode();
+
 private:
 	BossEnemyActor* actor;
 	std::unordered_map < State, IStateMachine<BossEnemyModel>*> fsm;

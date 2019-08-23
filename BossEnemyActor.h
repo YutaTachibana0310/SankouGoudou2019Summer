@@ -48,6 +48,8 @@ public:
 
 	void ChangeAnimation(AnimID next);
 
+	D3DXVECTOR3 GetActorPosition();
+
 	Transform transform;
 
 private:

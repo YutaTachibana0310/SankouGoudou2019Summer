@@ -123,6 +123,19 @@ void BossEnemyActor::ChangeAnimation(AnimID next)
 }
 
 /**************************************
+À•Wæ“¾ˆ—
+***************************************/
+D3DXVECTOR3 BossEnemyActor::GetActorPosition()
+{
+	D3DXVECTOR3 position;
+	D3DXMATRIX mtxBone;
+
+	animManager->GetBoneMatrix("Armature_mixamorig_Spine2", mtxBone);
+	D3DXVec3TransformCoord(&position, &transform.pos, &mtxBone);
+	return D3DXVECTOR3(mtxBone._41, mtxBone._42, mtxBone._43);
+}
+
+/**************************************
 ˆÚ“®ˆ—i“à•”j
 ***************************************/
 void BossEnemyActor::_Move()

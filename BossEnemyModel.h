@@ -36,7 +36,8 @@ public:
 		HomingAttack,
 		Damageable,
 		LargeDamage,
-		Idle
+		Idle,
+		Defeat
 	};
 
 	BossEnemyModel(const Transform& player);
@@ -79,6 +80,7 @@ private:
 	class BossHomingAttack;
 	class BossIdle;
 	class BossLargeDamage;
+	class BossDefeat;
 };
 
 #endif

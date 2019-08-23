@@ -24,6 +24,7 @@
 #include "BomberFireController.h"
 #include "BossChargeEffect.h"
 #include "BossHitParticle.h"
+#include "ExplosionFire.h"
 
 #include "LineTrailModel.h"
 
@@ -62,6 +63,7 @@ enum ParticleController
 	BomberFire,
 	BossCharge,
 	BossHit,
+	BossExplosion,
 	ControllerMax
 };
 
@@ -93,6 +95,7 @@ void GameParticleManager::Init()
 	controllers[BomberFire] = new BomberFireController();
 	controllers[BossCharge] = new BossChargeParticleController();
 	controllers[BossHit] = new BossHitParticleController();
+	controllers[BossExplosion] = new ExplosionFireController();
 
 	//各パーティクル初期化
 	for (auto& controller : controllers)
@@ -255,6 +258,14 @@ void GameParticleManager::SetBossCharge(D3DXVECTOR3 *pos)
 void GameParticleManager::SetBossHit(D3DXVECTOR3 *pos)
 {
 	controllers[BossHit]->SetEmitter(pos);
+}
+
+/**************************************
+ボス爆発エフェクト
+***************************************/
+void GameParticleManager::SetBossExplosion(D3DXVECTOR3 *pos)
+{
+	controllers[BossExplosion]->SetEmitter(pos);
 }
 
 #ifdef GAMEPARTICLE_USE_DEBUG

@@ -30,7 +30,7 @@ public:
 		Attack01,
 		Attack02,
 		Damage,
-		Death,
+		Defeat,
 		Idle,
 		LargeDamage,
 		Max

@@ -783,6 +783,12 @@
     <ClInclude Include="BossLargeDamage.h">
       <Filter>ヘッダー ファイル\Enemy\State</Filter>
     </ClInclude>
+    <ClInclude Include="BossDefeat.h">
+      <Filter>ヘッダー ファイル\Enemy\State</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionFire.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1327,6 +1333,12 @@
     </ClCompile>
     <ClCompile Include="BossLargeDamage.cpp">
       <Filter>ソース ファイル\Enemy\Model\State</Filter>
+    </ClCompile>
+    <ClCompile Include="BossDefeat.cpp">
+      <Filter>ソース ファイル\Enemy\Model\State</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionFire.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

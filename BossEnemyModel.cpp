@@ -11,6 +11,7 @@
 #include "BossHomingAttack.h"
 #include "BossDamageable.h"
 #include "BossLargeDamage.h"
+#include "BossDefeat.h"
 
 #include "EnemyBulletController.h"
 
@@ -37,6 +38,7 @@ BossEnemyModel::BossEnemyModel(const Transform& player) : player(player)
 	fsm[State::HomingAttack] = new BossHomingAttack();
 	fsm[State::Damageable] = new BossDamageable();
 	fsm[State::LargeDamage] = new BossLargeDamage();
+	fsm[State::Defeat] = new BossDefeat;
 
 	//“S‹Ø‚Ìƒ‚ƒfƒ‹‚ðƒ[ƒh
 	ResourceManager::Instance()->LoadMesh("RebarObstacle", "data/MODEL/rebar.x");

@@ -154,6 +154,7 @@
     <ClInclude Include="BossColliderGuide.h" />
     <ClInclude Include="BossController.h" />
     <ClInclude Include="BossDamageable.h" />
+    <ClInclude Include="BossDefeat.h" />
     <ClInclude Include="BossEnemyActor.h" />
     <ClInclude Include="BossEnemyModel.h" />
     <ClInclude Include="BossHitParticle.h" />
@@ -183,6 +184,7 @@
     <ClInclude Include="EnemyGuideArrowController.h" />
     <ClInclude Include="EnemyWarpHole.h" />
     <ClInclude Include="EnemyWarpHoleController.h" />
+    <ClInclude Include="ExplosionFire.h" />
     <ClInclude Include="Framework\AnimationManager.h" />
     <ClInclude Include="Framework\BoardPolygon.h" />
     <ClInclude Include="Framework\CameraShakePlugin.h" />
@@ -346,6 +348,7 @@
     <ClCompile Include="BossColliderGuide.cpp" />
     <ClCompile Include="BossController.cpp" />
     <ClCompile Include="BossDamageable.cpp" />
+    <ClCompile Include="BossDefeat.cpp" />
     <ClCompile Include="BossEnemyActor.cpp" />
     <ClCompile Include="BossEnemyModel.cpp" />
     <ClCompile Include="BossHitParticle.cpp" />
@@ -371,6 +374,7 @@
     <ClCompile Include="EnemyGuideArrowController.cpp" />
     <ClCompile Include="EnemyWarpHole.cpp" />
     <ClCompile Include="EnemyWarpHoleController.cpp" />
+    <ClCompile Include="ExplosionFire.cpp" />
     <ClCompile Include="Framework\AnimationManager.cpp" />
     <ClCompile Include="Framework\BoardPolygon.cpp" />
     <ClCompile Include="Framework\CameraShakePlugin.cpp" />

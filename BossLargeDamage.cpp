@@ -18,7 +18,10 @@ void BossEnemyModel::BossLargeDamage::OnStart(BossEnemyModel * entity)
 {
 	cntFrame = 0;
 
-	entity->level = Clamp(0, 2, entity->level + 1);
+	entity->level++;
+
+	if (entity->level == 1)
+		entity->ChangeState(BossEnemyModel::State::Defeat);
 }
 
 /**************************************

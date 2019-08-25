@@ -20,7 +20,7 @@ void BossEnemyModel::BossLargeDamage::OnStart(BossEnemyModel * entity)
 
 	entity->level++;
 
-	if (entity->level == 1)
+	if (entity->level == 3)
 		entity->ChangeState(BossEnemyModel::State::Defeat);
 }
 

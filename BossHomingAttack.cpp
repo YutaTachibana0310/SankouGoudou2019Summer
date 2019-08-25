@@ -42,6 +42,7 @@ int BossEnemyModel::BossHomingAttack::OnUpdate(BossEnemyModel* entity)
 	if (cntFrame == 300)
 	{
 		result = BossEnemyModel::State::Idle;
+		entity->cntLoop++;
 	}
 	return result;
 }

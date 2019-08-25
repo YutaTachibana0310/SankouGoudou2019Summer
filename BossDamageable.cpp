@@ -13,7 +13,7 @@
 /**************************************
 “üêˆ—
 ***************************************/
-void BossDamageable::OnStart(BossEnemyModel* entity)
+void BossEnemyModel::BossDamageable::OnStart(BossEnemyModel* entity)
 {
 	cntFrame = 0;
 	entity->SetCollider();
@@ -22,7 +22,17 @@ void BossDamageable::OnStart(BossEnemyModel* entity)
 /**************************************
 XVˆ—
 ***************************************/
-int BossDamageable::OnUpdate(BossEnemyModel* entity)
+int BossEnemyModel::BossDamageable::OnUpdate(BossEnemyModel* entity)
 {
-	return BossEnemyModel::State::Damageable;
+	cntFrame++;
+
+	int result = BossEnemyModel::State::Damageable;
+
+	if (cntFrame == 360)
+	{
+		result = BossEnemyModel::State::Idle;
+		entity->colliderController->DeleteAll();
+	}
+
+	return result;
 }

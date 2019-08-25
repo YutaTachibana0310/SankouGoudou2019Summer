@@ -18,6 +18,12 @@ void BossEnemyModel::BossIdle::OnStart(BossEnemyModel * entity)
 {
 	entity->actor->ChangeAnimation(BossEnemyActor::AnimID::Idle);
 	cntFrame = 0;
+
+	if (entity->cntLoop == 3)
+	{
+		entity->cntLoop = 0;
+		entity->ChangeState(BossEnemyModel::State::Damageable);
+	}
 }
 
 /**************************************

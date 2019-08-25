@@ -77,6 +77,7 @@ private:
 
 	int cntAttack;
 	int level;
+	int cntLoop;
 	
 	class BossInit;
 	class BossRebarAttack;
@@ -85,6 +86,7 @@ private:
 	class BossLargeDamage;
 	class BossDefeat;
 	class BossIdle;
+	class BossDamageable;
 };
 
 #endif

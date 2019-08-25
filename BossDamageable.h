@@ -22,7 +22,7 @@
 /**************************************
 ƒNƒ‰ƒX’è‹`
 ***************************************/
-class BossDamageable : public IStateMachine<BossEnemyModel>
+class BossEnemyModel::BossDamageable: public IStateMachine<BossEnemyModel>
 {
 public:
 	void OnStart(BossEnemyModel *entity);

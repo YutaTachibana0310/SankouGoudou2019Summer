@@ -12,6 +12,7 @@
 #include "BossDamageable.h"
 #include "BossLargeDamage.h"
 #include "BossDefeat.h"
+#include "BossIdle.h"
 
 #include "EnemyBulletController.h"
 
@@ -39,8 +40,9 @@ BossEnemyModel::BossEnemyModel(const Transform& player) : player(player)
 	fsm[State::Damageable] = new BossDamageable();
 	fsm[State::LargeDamage] = new BossLargeDamage();
 	fsm[State::Defeat] = new BossDefeat;
+	fsm[State::Idle] = new BossIdle();
 
-	//鉄筋のモデルをロード
+ 	//鉄筋のモデルをロード
 	ResourceManager::Instance()->LoadMesh("RebarObstacle", "data/MODEL/rebar.x");
 
 	//レベル初期化

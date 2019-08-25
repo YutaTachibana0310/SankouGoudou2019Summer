@@ -52,7 +52,7 @@ int BossEnemyModel::BossRebarAttack::OnUpdate(BossEnemyModel* entity)
 		entity->cntAttack++;
 		if (entity->cntAttack == 1)
 		{
-			result = BossEnemyModel::State::HomingAttack;
+			result = BossEnemyModel::State::Idle;
 		}
 		else
 		{

@@ -184,7 +184,7 @@
     <Filter Include="ソース ファイル\Enemy\Model\State">
       <UniqueIdentifier>{c61f044a-6561-4b82-920b-08f95d28823f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Enemy\State">
+    <Filter Include="ヘッダー ファイル\Enemy\Model\State">
       <UniqueIdentifier>{68212930-f43b-4ee7-9b69-617aa999841f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -751,13 +751,13 @@
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
     <ClInclude Include="BossInit.h">
-      <Filter>ヘッダー ファイル\Enemy\State</Filter>
+      <Filter>ヘッダー ファイル\Enemy\Model\State</Filter>
     </ClInclude>
     <ClInclude Include="BossRebarAttack.h">
-      <Filter>ヘッダー ファイル\Enemy\State</Filter>
+      <Filter>ヘッダー ファイル\Enemy\Model\State</Filter>
     </ClInclude>
     <ClInclude Include="BossHomingAttack.h">
-      <Filter>ヘッダー ファイル\Enemy\State</Filter>
+      <Filter>ヘッダー ファイル\Enemy\Model\State</Filter>
     </ClInclude>
     <ClInclude Include="BossController.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
@@ -775,16 +775,16 @@
       <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="BossDamageable.h">
-      <Filter>ヘッダー ファイル\Enemy\State</Filter>
+      <Filter>ヘッダー ファイル\Enemy\Model\State</Filter>
     </ClInclude>
     <ClInclude Include="BossHitParticle.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
     </ClInclude>
     <ClInclude Include="BossLargeDamage.h">
-      <Filter>ヘッダー ファイル\Enemy\State</Filter>
+      <Filter>ヘッダー ファイル\Enemy\Model\State</Filter>
     </ClInclude>
     <ClInclude Include="BossDefeat.h">
-      <Filter>ヘッダー ファイル\Enemy\State</Filter>
+      <Filter>ヘッダー ファイル\Enemy\Model\State</Filter>
     </ClInclude>
     <ClInclude Include="ExplosionFire.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
@@ -794,6 +794,9 @@
     </ClInclude>
     <ClInclude Include="ExplosionFireCore.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="BossIdle.h">
+      <Filter>ヘッダー ファイル\Enemy\Model\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1351,6 +1354,9 @@
     </ClCompile>
     <ClCompile Include="ExplosionFireCore.cpp">
       <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="BossIdle.cpp">
+      <Filter>ソース ファイル\Enemy\Model\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

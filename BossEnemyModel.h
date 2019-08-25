@@ -84,6 +84,7 @@ private:
 	class BossIdle;
 	class BossLargeDamage;
 	class BossDefeat;
+	class BossIdle;
 };
 
 #endif

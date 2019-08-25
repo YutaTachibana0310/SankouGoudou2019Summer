@@ -159,6 +159,7 @@
     <ClInclude Include="BossEnemyModel.h" />
     <ClInclude Include="BossHitParticle.h" />
     <ClInclude Include="BossHomingAttack.h" />
+    <ClInclude Include="BossIdle.h" />
     <ClInclude Include="BossInit.h" />
     <ClInclude Include="BossLargeDamage.h" />
     <ClInclude Include="BossRebarAttack.h" />
@@ -355,6 +356,7 @@
     <ClCompile Include="BossEnemyModel.cpp" />
     <ClCompile Include="BossHitParticle.cpp" />
     <ClCompile Include="BossHomingAttack.cpp" />
+    <ClCompile Include="BossIdle.cpp" />
     <ClCompile Include="BossInit.cpp" />
     <ClCompile Include="BossLargeDamage.cpp" />
     <ClCompile Include="BossRebarAttack.cpp" />

@@ -38,8 +38,7 @@ int BossEnemyModel::BossInit::OnUpdate(BossEnemyModel *entity)
 	int result = BossEnemyModel::Init;
 	if (cntFrame == BOSSINIT_MOVE_DURATION)
 	{
-		entity->actor->ChangeAnimation(BossEnemyActor::AnimID::Idle);
-		result = BossEnemyModel::State::Damageable;
+		result = BossEnemyModel::State::Idle;
 	}
 
 	return result;

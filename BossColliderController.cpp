@@ -150,7 +150,7 @@ void BossColliderController::OnNotified(ObserveSubject* notifier)
 	SAFE_DELETE(guideMap[notifier]);
 	guideMap.erase(notifier);
 
-	auto& itr = std::find(colliderList.begin(), colliderList.end(), notifier);
+	auto itr = std::find(colliderList.begin(), colliderList.end(), notifier);
 	(*itr)->active = false;
 
 	//

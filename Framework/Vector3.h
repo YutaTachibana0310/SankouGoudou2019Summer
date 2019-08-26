@@ -7,7 +7,7 @@
 #ifndef _VECTOR3_H_
 #define _VECTOR3_H_
 
-#include "../../main.h"
+#include "../main.h"
 
 /**************************************
 É}ÉNÉçíËã`

@@ -15,7 +15,7 @@
 /**************************************
 “üêˆ—
 ***************************************/
-void GameBossBattle::OnStart(GameScene* entity)
+void GameScene::GameBossBattle::OnStart(GameScene* entity)
 {
 	entity->bossController->SetActive(true);
 }
@@ -23,9 +23,9 @@ void GameBossBattle::OnStart(GameScene* entity)
 /**************************************
 XVˆ—
 ***************************************/
-int GameBossBattle::OnUpdate(GameScene* entity)
+int GameScene::GameBossBattle::OnUpdate(GameScene* entity)
 {
-	int result = GameScene::State::Battle;
+	int result = GameScene::State::BossBattle;
 
 	entity->cntFrame++;
 

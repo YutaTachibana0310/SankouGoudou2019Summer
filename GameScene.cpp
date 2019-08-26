@@ -245,6 +245,7 @@ void GameScene::ChangeState(int next)
 	if (next < 0 || next >= State::StateMax)
 		return;
 
+	prevState = currentState;
 	currentState = (State)next;
 	state = fsm[currentState];
 	state->OnStart(this);

@@ -14,7 +14,7 @@
 /**************************************
 “üêˆ—
 ***************************************/
-void GameStart::OnStart(GameScene *entity)
+void GameScene::GameStart::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
 
@@ -25,7 +25,7 @@ void GameStart::OnStart(GameScene *entity)
 /**************************************
 XVˆ—
 ***************************************/
-int GameStart::OnUpdate(GameScene *entity)
+int GameScene::GameStart::OnUpdate(GameScene *entity)
 {
 	entity->cntFrame++;
 

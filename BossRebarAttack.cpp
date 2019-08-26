@@ -31,7 +31,7 @@ int BossEnemyModel::BossRebarAttack::OnUpdate(BossEnemyModel* entity)
 	const int RebarMoveDuration = 85;
 	const int RebarAttackTime = 200;
 	const int RebarThrowDuration = 180;
-	const int FinishTime = 300;
+	const int FinishTime = 240;
 
 	cntFrame++;
 

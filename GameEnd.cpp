@@ -15,7 +15,7 @@
 /**************************************
 “üêˆ—
 ***************************************/
-void GameEnd::OnStart(GameScene *entity)
+void GameScene::GameEnd::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
 	SceneChangeFlag(true, Scene::SceneResult);
@@ -26,7 +26,7 @@ void GameEnd::OnStart(GameScene *entity)
 /**************************************
 XVˆ—
 ***************************************/
-int GameEnd::OnUpdate(GameScene *entity)
+int GameScene::GameEnd::OnUpdate(GameScene *entity)
 {
 	entity->cntFrame++;
 

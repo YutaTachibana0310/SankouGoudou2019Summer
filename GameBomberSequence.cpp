@@ -21,7 +21,7 @@ using namespace std;
 /**************************************
 “üêˆ—
 ***************************************/
-void GameBomberSequence::OnStart(GameScene* entity)
+void GameScene::GameBomberSequence::OnStart(GameScene* entity)
 {
 	entity->playerObserver->OnStartBomberSequence();
 	entity->useDarkMask = true;
@@ -31,7 +31,7 @@ void GameBomberSequence::OnStart(GameScene* entity)
 /**************************************
 XVˆ—
 ***************************************/
-int GameBomberSequence::OnUpdate(GameScene* entity)
+int GameScene::GameBomberSequence::OnUpdate(GameScene* entity)
 {
 	cntFrame++;
 
@@ -58,7 +58,7 @@ int GameBomberSequence::OnUpdate(GameScene* entity)
 		entity->enemyController->OnFinishBombSequence();
 		entity->useDarkMask = false;
 
-		result = GameScene::State::Battle;
+		result = entity->prevState;
 	}
 
 	return result;	

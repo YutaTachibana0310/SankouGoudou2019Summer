@@ -16,6 +16,7 @@
 BossController::BossController(const Transform& player)
 {
 	bossModel = new BossEnemyModel(player);
+	active = false;
 }
 
 /**************************************

@@ -22,7 +22,7 @@
 /**************************************
 ƒNƒ‰ƒX’è‹`
 ***************************************/
-class GameBossBattle : public IStateMachine<GameScene>
+class GameScene::GameBossBattle : public IStateMachine<GameScene>
 {
 public:
 	void OnStart(GameScene* entity);

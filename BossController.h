@@ -32,6 +32,7 @@ public:
 	void Draw();
 
 	void SetActive(bool state);
+	bool IsActive();
 
 private:
 	bool active;

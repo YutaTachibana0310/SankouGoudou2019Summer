@@ -44,6 +44,10 @@ int GameScene::GameBossBattle::OnUpdate(GameScene* entity)
 	BoxCollider3D::UpdateCollision();
 
 	//ƒ{ƒX‚ÌŒ‚”j”»’è
+	if (!entity->bossController->IsActive())
+	{
+		result = GameScene::State::End;
+	}
 
 	return result;
 }

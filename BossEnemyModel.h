@@ -61,6 +61,8 @@ public:
 	void Explode();
 	void ChargeExplode(Transform*& charge, Transform*& core);
 
+	bool IsDesteoyed();
+
 private:
 	BossEnemyActor* actor;
 	std::unordered_map < State, IStateMachine<BossEnemyModel>*> fsm;
@@ -78,6 +80,7 @@ private:
 	int cntAttack;
 	int level;
 	int cntLoop;
+	bool isDestroyed;
 	
 	class BossInit;
 	class BossRebarAttack;

@@ -36,6 +36,9 @@ void BossController::Update()
 		return;
 
 	bossModel->Update();
+
+	if (bossModel->IsDesteoyed())
+		SetActive(false);
 }
 
 /**************************************
@@ -55,4 +58,9 @@ void BossController::Draw()
 void BossController::SetActive(bool state)
 {
 	active = state;
+}
+
+bool BossController::IsActive()
+{
+	return active;
 }

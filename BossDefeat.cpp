@@ -34,7 +34,10 @@ int BossEnemyModel::BossDefeat::OnUpdate(BossEnemyModel* entity)
 		entity->actor->ChangeAnimation(BossEnemyActor::AnimID::Defeat);
 
 	if (cntFrame == 240)
+	{
+		entity->isDestroyed = true;
 		entity->Explode();
+	}
 
 	return BossEnemyModel::State::Defeat;
 }

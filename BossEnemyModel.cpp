@@ -27,7 +27,9 @@ using namespace std;
 /**************************************
 コンストラクタ
 ***************************************/
-BossEnemyModel::BossEnemyModel(const Transform& player) : player(player)
+BossEnemyModel::BossEnemyModel(const Transform& player) :
+	player(player),
+	isDestroyed(false)
 {
 	actor = new BossEnemyActor();
 	bulletController = new EnemyBulletController();
@@ -261,4 +263,9 @@ void BossEnemyModel::ChargeExplode(Transform*& charge, Transform*& core)
 	core = &emitter->transform;
 
 	actor->SetWriteableZ(false);
+}
+
+bool BossEnemyModel::IsDesteoyed()
+{
+	return isDestroyed;
 }

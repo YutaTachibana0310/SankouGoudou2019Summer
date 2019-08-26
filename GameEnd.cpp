@@ -18,7 +18,6 @@
 void GameScene::GameEnd::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
-	SceneChangeFlag(true, Scene::SceneResult);
 
 	//TODO：ここでゲーム終了テロップを再生する
 }
@@ -31,6 +30,11 @@ int GameScene::GameEnd::OnUpdate(GameScene *entity)
 	entity->cntFrame++;
 
 	entity->UpdateWhole();
+
+	if (entity->cntFrame == 300)
+	{
+		SceneChangeFlag(true, Scene::SceneResult);
+	}
 
 	return GameScene::State::End;
 }

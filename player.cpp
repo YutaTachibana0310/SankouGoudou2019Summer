@@ -10,6 +10,7 @@
 #include "player.h"
 #include "PlayerController.h"
 #include "GameParticleManager.h"
+#include "Framework\BoxCollider3D.h"
 
 #include "starUI.h"
 #include "debugWindow.h"
@@ -54,11 +55,20 @@ Player::Player()
 	animation->SetShiftTime(PlayerAnimID::Attack, 0.2f);
 	animation->SetShiftTime(PlayerAnimID::FireBomber, 0.2f);
 
+	//トレイルコライダー作成
 	collider = new TrailCollider(TrailColliderTag::Player);
 	collider->active = false;
 	collider->SetAddressZ(&transform.pos.z);
 	collider->AddObserver(this);
 
+	//ボックスコライダー作成
+	const float ColliderSize = 5.0f;
+	boxCollider = new BoxCollider3D(BoxCollider3DTag::Player, &transform.pos);
+	boxCollider->SetSize(D3DXVECTOR3(ColliderSize, ColliderSize, ColliderSize));
+	boxCollider->AddObserver(this);
+	boxCollider->active = true;
+
+	//アニメーション遷移
 	animation->ChangeAnim(PlayerAnimID::Flying, 1.5f, true);
 
 	//ストックエフェクト作成
@@ -72,7 +82,7 @@ Player::~Player()
 {
 	SAFE_DELETE(animation);
 	SAFE_DELETE(collider);
-
+	SAFE_DELETE(boxCollider);
 	SAFE_DELETE(stockEffect);
 }
 
@@ -153,6 +163,8 @@ void Player::Draw()
 	transform.SetWorld();
 	animation->Draw(&mtxWorld);
 
+	BoxCollider3D::DrawCollider(boxCollider);
+
 	pDevice->SetMaterial(&matDef);
 
 	TrailCollider::DrawCollider(collider);
@@ -212,4 +224,18 @@ void Player::ChargeBomber()
 void Player::StockBomber()
 {
 	stockEffect->Init();
+}
+
+/*****************************************
+衝突通知処理
+******************************************/
+void Player::OnNotified(BoxCollider3DTag other)
+{
+	SpikeNoiseController::Instance()->SetNoise(0.5f, 20);
+	hp -= PLAYER_DAMAGE;
+
+	//無敵時間開始
+	cntInvincible = PLAYER_INVINCIBLE_DURATION;
+	collider->active = false;
+	flgInvincible = true;
 }

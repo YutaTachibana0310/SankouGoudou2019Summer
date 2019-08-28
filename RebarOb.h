@@ -8,7 +8,7 @@
 #define _REBAROB_H_
 
 #include "main.h"
-#include "TrailCollider.h"
+#include "Framework\BoxCollider3D.h"
 #include "LineTrailModel.h"
 #include "Framework\MeshContainer.h"
 #include "Framework\Easing.h"
@@ -39,7 +39,7 @@ private:
 	bool reserveDestroy;
 
 	Transform* transform;
-	TrailCollider* collider;
+	BoxCollider3D* collider;
 
 	MeshContainer *mesh;
 

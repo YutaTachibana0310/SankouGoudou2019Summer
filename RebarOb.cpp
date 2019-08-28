@@ -22,11 +22,11 @@ RebarObstacle::RebarObstacle(const D3DXVECTOR3& pos, LineTrailModel& model)
 {
 	//インスタンス作成
 	transform = new Transform();
-	collider = new TrailCollider(TrailColliderTag::EnemyBullet);
+	collider = new BoxCollider3D(BoxCollider3DTag::Rebar, &transform->pos);
 
 	//コライダー初期化
-	collider->SetTrailIndex(model);
-	collider->SetAddressZ(&transform->pos.z);
+	const float colliderSize = 10.0f;
+	collider->SetSize(D3DXVECTOR3(colliderSize, colliderSize, colliderSize));
 	collider->active = true;
 
 	//メッシュ取得
@@ -82,7 +82,7 @@ void RebarObstacle::Draw()
 	transform->SetWorld();
 	mesh->Draw();
 
-	TrailCollider::DrawCollider(collider);
+	BoxCollider3D::DrawCollider(collider);
 }
 
 /**************************************

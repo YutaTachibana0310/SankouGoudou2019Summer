@@ -22,6 +22,11 @@
 #include "PlayerChargeParticleController.h"
 #include "AccelEffectController.h"
 #include "BomberFireController.h"
+#include "BossChargeEffect.h"
+#include "BossHitParticle.h"
+#include "ExplosionFire.h"
+#include "ExplosionFireCharge.h"
+#include "ExplosionFireCore.h"
 
 #include "LineTrailModel.h"
 
@@ -58,6 +63,11 @@ enum ParticleController
 	PlayerChargeParticle,
 	AccelEffect,
 	BomberFire,
+	BossCharge,
+	BossHit,
+	BossExplosion,
+	BossExplosionCharge,
+	BossExplosionCore,
 	ControllerMax
 };
 
@@ -87,6 +97,11 @@ void GameParticleManager::Init()
 	controllers[PlayerChargeParticle] = new PlayerChargeParticleController();
 	controllers[AccelEffect] = new AccelEffectController();
 	controllers[BomberFire] = new BomberFireController();
+	controllers[BossCharge] = new BossChargeParticleController();
+	controllers[BossHit] = new BossHitParticleController();
+	controllers[BossExplosion] = new ExplosionFireController();
+	controllers[BossExplosionCharge] = new ExplosionFireChargeController();
+	controllers[BossExplosionCore] = new ExplosionFireCoreController();
 
 	//各パーティクル初期化
 	for (auto& controller : controllers)
@@ -233,6 +248,46 @@ void GameParticleManager::SetAccelEffect(D3DXVECTOR3 *pos)
 void GameParticleManager::SetBomberFire(D3DXVECTOR3* pos)
 {
 	controllers[BomberFire]->SetEmitter(pos);
+}
+
+/**************************************
+ボスチャージエフェクト
+***************************************/
+void GameParticleManager::SetBossCharge(D3DXVECTOR3 *pos)
+{
+	controllers[BossCharge]->SetEmitter(pos);
+}
+
+/**************************************
+ボスヒットエフェクト
+***************************************/
+void GameParticleManager::SetBossHit(D3DXVECTOR3 *pos)
+{
+	controllers[BossHit]->SetEmitter(pos);
+}
+
+/**************************************
+ボス爆発エフェクト
+***************************************/
+void GameParticleManager::SetBossExplosion(D3DXVECTOR3 *pos)
+{
+	controllers[BossExplosion]->SetEmitter(pos);
+}
+
+/**************************************
+ボス爆発チャージ
+***************************************/
+BaseEmitter* GameParticleManager::SetBossExplosionCharge(D3DXVECTOR3 *pos)
+{
+	return controllers[BossExplosionCharge]->SetEmitter(pos);
+}
+
+/**************************************
+ボス爆発コア
+***************************************/
+BaseEmitter * GameParticleManager::SetBossExplosionCore(D3DXVECTOR3 * pos)
+{
+	return controllers[BossExplosionCore]->SetEmitter(pos);
 }
 
 #ifdef GAMEPARTICLE_USE_DEBUG

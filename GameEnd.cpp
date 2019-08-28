@@ -15,10 +15,9 @@
 /**************************************
 入場処理
 ***************************************/
-void GameEnd::OnStart(GameScene *entity)
+void GameScene::GameEnd::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
-	SceneChangeFlag(true, Scene::SceneResult);
 
 	//TODO：ここでゲーム終了テロップを再生する
 }
@@ -26,11 +25,16 @@ void GameEnd::OnStart(GameScene *entity)
 /**************************************
 更新処理
 ***************************************/
-int GameEnd::OnUpdate(GameScene *entity)
+int GameScene::GameEnd::OnUpdate(GameScene *entity)
 {
 	entity->cntFrame++;
 
 	entity->UpdateWhole();
+
+	if (entity->cntFrame == 300)
+	{
+		SceneChangeFlag(true, Scene::SceneResult);
+	}
 
 	return GameScene::State::End;
 }

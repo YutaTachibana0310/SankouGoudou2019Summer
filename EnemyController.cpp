@@ -38,7 +38,6 @@ using namespace std;
 グローバル変数
 ***************************************/
 
-//static BossEnemyModel* boss;
 /**************************************
 コンストラクタ
 ***************************************/
@@ -59,8 +58,6 @@ EnemyController::EnemyController()
 
 	//ステージデータ読み込み
 	LoadStageData();
-
-	//boss = new BossEnemyModel();
 }
 
 /**************************************
@@ -88,8 +85,6 @@ EnemyController::~EnemyController()
 
 	//ステージデータクリア
 	stageModelList.clear();
-
-	//SAFE_DELETE(boss);
 }
 
 /**************************************
@@ -130,7 +125,7 @@ void EnemyController::Update()
 {
 	//新しく作るEnemyの更新テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	//boss->Update();
+
 #endif
 
 	//モデル更新処理
@@ -186,7 +181,7 @@ void EnemyController::Draw()
 
 	//新しく作るEnemyの描画テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	//boss->Draw();
+
 #endif
 }
 
@@ -304,7 +299,7 @@ void EnemyController::EnemyAttack(EnemyModel *enermyModel)
 		emitPos.push_back(enemy->m_Pos + ENEMY_SHOTPOS_OFFSET);
 	}
 
-	bulletController->SetEnemyBullet(emitPos, enermyModel->model);
+	bulletController->Set(emitPos, enermyModel->model);
 }
 
 /**************************************
@@ -350,3 +345,18 @@ bool EnemyController::ExistsAcitveEnemy()
 {
 	return !modelList.empty();
 }
+
+/**************************************
+通常バトル終了判定
+***************************************/
+bool EnemyController::IsFinishedEnemy()
+{
+	if (currentIndex < stageModelList.size())
+		return false;
+
+	if (!modelList.empty())
+		return false;
+
+	return true;
+}
+

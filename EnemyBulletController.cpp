@@ -88,7 +88,7 @@ void EnemyBulletController::Draw()
 /**************************************
 セット処理
 ***************************************/
-void EnemyBulletController::SetEnemyBullet(vector<D3DXVECTOR3> emitters, LineTrailModel target)
+void EnemyBulletController::Set(vector<D3DXVECTOR3> emitters, LineTrailModel target)
 {
 	auto itr = find_if(modelContainer.begin(), modelContainer.end(),
 		[](EnemyBulletModel* model)
@@ -117,4 +117,24 @@ void EnemyBulletController::DisableAll()
 
 		model->Disable();
 	}
+}
+
+/**************************************
+非アクティブ処理
+***************************************/
+void EnemyBulletController::Set(vector<D3DXVECTOR3> emitters, LineTrailModel target, int duration, const D3DXVECTOR3 scale)
+{
+	auto itr = find_if(modelContainer.begin(), modelContainer.end(),
+		[](EnemyBulletModel* model)
+	{
+		return !model->active;
+	});
+
+	if (itr == modelContainer.end())
+	{
+		modelContainer.push_back(new EnemyBulletModel());
+		itr = modelContainer.end() - 1;
+	}
+
+	(*itr)->Init(emitters, target, duration, scale);
 }

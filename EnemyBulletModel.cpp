@@ -70,6 +70,38 @@ void EnemyBulletModel::Init(std::vector<D3DXVECTOR3> emitters, LineTrailModel ta
 		targetPos += diff;
 	}
 
+	reachFrame = ENEMYBULLET_REACH_DEFAULT;
+	active = true;
+}
+
+/**************************************
+èâä˙âªèàóù
+***************************************/
+void EnemyBulletModel::Init(std::vector<D3DXVECTOR3> emitters, LineTrailModel target, int duration, const D3DXVECTOR3& scale)
+{
+	cntFrame = 0;
+
+	targetLine = target;
+	collider->SetTrailIndex(target);
+
+	bullets.reserve(emitters.size());
+
+	//íeÇÃíÖíeì_ÇåvéZ
+	D3DXVECTOR3 edgeR, edgeL;
+	target.GetEdgePos(&edgeR, &edgeL);
+	D3DXVECTOR3 diff = edgeL - edgeR;
+	diff /= (float)(emitters.size() + 1);
+
+
+	D3DXVECTOR3 targetPos = edgeR + diff;
+	for (UINT cnt = 0; cnt < emitters.size(); cnt++)
+	{
+		bullets.push_back(new EnemyBullet());
+		bullets[cnt]->Init(emitters[cnt], targetPos, duration, scale);
+		targetPos += diff;
+	}
+
+	reachFrame = duration;
 	active = true;
 }
 
@@ -106,13 +138,13 @@ void EnemyBulletModel::Update()
 		bullet->Update();
 	}
 
-	if (cntFrame == ENEMYBULLET_REACH_DEFAULT)
+	if (cntFrame == reachFrame)
 	{
 		collider->active = true;
 		effect = GameParticleManager::Instance()->SetEnemyBulletEffect(targetLine);
 	}
 
-	if (cntFrame == ENeMYBULLET_EFFECTIVE_FRAME + ENEMYBULLET_REACH_DEFAULT)
+	if (cntFrame == reachFrame + ENEMYBULLET_REACH_DEFAULT)
 	{
 		Uninit();
 	}

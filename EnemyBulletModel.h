@@ -29,6 +29,7 @@ public:
 	~EnemyBulletModel();
 
 	void Init(std::vector<D3DXVECTOR3> emitters, LineTrailModel target);
+	void Init(std::vector<D3DXVECTOR3> emitters, LineTrailModel target, int duration, const D3DXVECTOR3& scale);
 	void Uninit();
 	void Update();
 	void Draw();
@@ -39,6 +40,7 @@ public:
 private:
 	std::vector<EnemyBullet*> bullets;
 	int cntFrame;
+	int reachFrame;
 	TrailCollider *collider;
 	float posZ;
 	LineTrailModel targetLine;

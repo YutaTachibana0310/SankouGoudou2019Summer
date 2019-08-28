@@ -20,6 +20,7 @@ class EnemyController;
 class GameParticleManager;
 class PlayerObserver;
 class BackGroundController;
+class BossController;
 
 /**************************************
 クラス定義
@@ -43,33 +44,40 @@ public:
 	GameScene() {};
 	~GameScene() {};
 
-	int cntFrame;
-	EnemyController *enemyController;
-	GameParticleManager* particleManager;
-	PlayerObserver* playerObserver;
-	BackGroundController *bgController;
-
-	bool useDarkMask;
-
 	enum State
 	{
 		Start,
 		Battle,
 		End,
 		BombSequence,
+		BossBattle,
 		StateMax,
 	};
 
 private:
 	std::map<State, IStateMachine<GameScene>*> fsm;
 	IStateMachine<GameScene> *state;
-	State currentState;
+	State currentState, prevState;
 	Polygon2D* darkMask;
+
+	int cntFrame;
+	EnemyController *enemyController;
+	GameParticleManager* particleManager;
+	PlayerObserver* playerObserver;
+	BackGroundController *bgController;
+	BossController* bossController;
+	bool useDarkMask;
 
 	void ChangeState(int resultUpdate);
 
-
 	int currentCombo;
+
+	//各ステートクラス
+	class GameBattle;
+	class GameBomberSequence;
+	class GameBossBattle;
+	class GameEnd;
+	class GameStart;
 };
 
 #endif

@@ -68,6 +68,9 @@ public:
 	//アクティブなエネミーがいるか
 	bool ExistsAcitveEnemy();
 
+	//通常バトルの終了判定
+	bool IsFinishedEnemy();
+
 private:
 	std::list<EnemyModel*> modelList;
 	int cntFrame;

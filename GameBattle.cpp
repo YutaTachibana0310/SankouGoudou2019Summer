@@ -53,8 +53,8 @@ int GameScene::GameBattle::OnUpdate(GameScene *entity)
 	BoxCollider3D::UpdateCollision();
 
 	//I—¹”»’è
-	if (entity->cntFrame == GAMEBATTLE_DURATION)
-		result = GameScene::State::End;
+	if (entity->enemyController->IsFinishedEnemy())
+		result = GameScene::State::BossBattle;
 
 	return result;
 	

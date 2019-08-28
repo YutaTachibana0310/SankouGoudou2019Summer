@@ -198,7 +198,6 @@ void EnemyController::DrawGuide()
 ***************************************/
 void EnemyController::SetEnemy()
 {
-	return;
 	cntFrame++;
 
 	//ガイド生成
@@ -346,3 +345,18 @@ bool EnemyController::ExistsAcitveEnemy()
 {
 	return !modelList.empty();
 }
+
+/**************************************
+通常バトル終了判定
+***************************************/
+bool EnemyController::IsFinishedEnemy()
+{
+	if (currentIndex < stageModelList.size())
+		return false;
+
+	if (!modelList.empty())
+		return false;
+
+	return true;
+}
+

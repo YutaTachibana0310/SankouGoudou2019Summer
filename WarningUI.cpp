@@ -16,7 +16,9 @@
 WarningUIコンストラクタ
 ***************************************/
 WarningUI::WarningUI() :
-	active(false)
+	active(false),
+	TextSetInterval(5),
+	Duration(300)
 {
 	upperBelt = new WarningBelt(1.0f);
 	upperBelt->transform.pos = D3DXVECTOR3(SCREEN_CENTER_X, 0.0f, 0.0f);
@@ -41,7 +43,7 @@ WarningUI::WarningUI() :
 		textContainer[i] = new WarningText(index[i]);
 
 		const float Offset = 150.0f;
-		const float InitX = SCREEN_CENTER_X - Offset * textContainer.size() / 2;
+		const float InitX = SCREEN_CENTER_X - Offset * (textContainer.size() - 1) / 2;
 		textContainer[i]->transform.pos = D3DXVECTOR3(InitX + Offset * i, SCREEN_CENTER_Y, 0.0f);
 	}
 }
@@ -69,17 +71,9 @@ void WarningUI::Update()
 	if (!active)
 		return;
 
-	cntFrame++;
-	const float Duration = 300;
-	if (cntFrame == Duration - 30)
-	{
-		upperBelt->SetFade(false);
-		lowerBelt->SetFade(false);
-	}
-	if (cntFrame == Duration)
-	{
-		active = false;
-	}
+
+	CheckFinish();
+	SetTextIn();
 
 	upperBelt->Update();
 	lowerBelt->Update();
@@ -88,6 +82,8 @@ void WarningUI::Update()
 	{
 		text->Update();
 	}
+
+	cntFrame++;
 }
 
 /**************************************
@@ -115,13 +111,44 @@ void WarningUI::StartFade(bool isFadein)
 	upperBelt->SetFade(isFadein);
 	lowerBelt->SetFade(isFadein);
 
-	for (auto&& text : textContainer)
-	{
-		text->StartAnimation(true);
-	}
-
 	cntFrame = 0;
 
 	if (isFadein)
 		active = true;
+
+	itrText = textContainer.begin();
+}
+
+/**************************************
+終了確認
+***************************************/
+void WarningUI::CheckFinish()
+{
+	if (cntFrame == Duration - 30)
+	{
+		upperBelt->SetFade(false);
+		lowerBelt->SetFade(false);
+	}
+	if (cntFrame == Duration)
+	{
+		active = false;
+	}
+}
+
+/**************************************
+テキストイン
+***************************************/
+void WarningUI::SetTextIn()
+{
+	if (cntFrame >= textContainer.size() * TextSetInterval)
+		return;
+
+	if (cntFrame % TextSetInterval != 0)
+		return;
+
+	(*itrText)->StartAnimation(true);
+	itrText++;
+
+	if (itrText == textContainer.end())
+		itrText = textContainer.begin();
 }

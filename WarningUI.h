@@ -37,9 +37,16 @@ public:
 private:
 	WarningBelt *upperBelt, *lowerBelt;
 	std::vector<WarningText*> textContainer;
+	std::vector<WarningText*>::iterator itrText;
 
 	bool active;
 	int cntFrame;
+
+	void CheckFinish();
+	void SetTextIn();
+
+	const int TextSetInterval;
+	const int Duration;
 };
 
 #endif

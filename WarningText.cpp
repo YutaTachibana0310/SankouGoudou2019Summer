@@ -22,6 +22,9 @@ WarningText::WarningText(Index index) :
 {
 	SetUV(index);
 	LoadTexture("data/TEXTURE/UI/Boss/warningText.png");
+
+	vtxPos[2].y = vtxPos[0].y;
+	vtxPos[3].y = vtxPos[1].y;
 }
 
 /**************************************
@@ -46,6 +49,11 @@ void WarningText::Update()
 		vtxPos[1].y = vtxPos[3].y - Size * scale * 2.0f;
 	}
 
+	const int OutTiming = 240;
+	if (cntFrame == OutTiming)
+	{
+		StartAnimation(false);
+	}
 }
 
 /**************************************

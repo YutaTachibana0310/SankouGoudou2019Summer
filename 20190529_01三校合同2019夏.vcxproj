@@ -336,6 +336,7 @@
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="WarningBelt.h" />
+    <ClInclude Include="WarningText.h" />
     <ClInclude Include="WarningUI.h" />
   </ItemGroup>
   <ItemGroup>
@@ -523,6 +524,7 @@
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="WarningBelt.cpp" />
+    <ClCompile Include="WarningText.cpp" />
     <ClCompile Include="WarningUI.cpp" />
   </ItemGroup>
   <ItemGroup>

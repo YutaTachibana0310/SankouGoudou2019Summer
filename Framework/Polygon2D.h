@@ -20,6 +20,7 @@ class Polygon2D
 {
 public:
 	Polygon2D();
+	Polygon2D(float sizeX, float sizeY);
 	Polygon2D(float sizeX, float sizeY, float texU, float texV);
 	virtual ~Polygon2D();
 
@@ -30,6 +31,9 @@ public:
 	virtual void SetUV(float left, float top, float width, float height);
 
 	virtual void LoadTexture(const char* path);
+
+	virtual void InitDiffuse();
+	virtual void InitRHW();
 
 	Transform transform;
 

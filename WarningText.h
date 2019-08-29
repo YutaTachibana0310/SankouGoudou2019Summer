@@ -1,20 +1,18 @@
 //=====================================
 //
-//ワーニングUIヘッダ[WarningUI.h]
+//ワーニングテキストヘッダ[WarningText.h]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#ifndef _WARNINGUI_H_
-#define _WARNINGUI_H_
+#ifndef _WARNINGTEXT_H_
+#define _WARNINGTEXT_H_
 
 #include "main.h"
-#include <vector>
+#include "Framework\Polygon2D.h"
 
 /**************************************
 前方宣言
 ***************************************/
-class WarningBelt;
-class WarningText;
 
 /**************************************
 マクロ・列挙子定義
@@ -23,23 +21,39 @@ class WarningText;
 /**************************************
 クラス定義
 ***************************************/
-class WarningUI
+class WarningText : public Polygon2D
 {
 public:
-	WarningUI();
-	~WarningUI();
+	enum Index
+	{
+		W,
+		A,
+		R,
+		N,
+		I,
+		G,
+		EXCLAMATION,		
+	};
+
+	WarningText(Index index);
 
 	void Update();
-	void Draw();
-
-	void StartFade(bool isFadein);
+	void StartAnimation(bool isIn);
 
 private:
-	WarningBelt *upperBelt, *lowerBelt;
-	std::vector<WarningText*> textContainer;
+	enum State
+	{
+		In,
+		Out,
+		Idle
+	};
 
-	bool active;
+	State currentState;
 	int cntFrame;
-};
+	float startScale, endScale;
 
+	static const float Size;
+
+	void SetUV(int index);
+};
 #endif

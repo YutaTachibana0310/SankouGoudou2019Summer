@@ -20,19 +20,21 @@ class Polygon2D
 {
 public:
 	Polygon2D();
-	~Polygon2D();
+	Polygon2D(float sizeX, float sizeY, float texU, float texV);
+	virtual ~Polygon2D();
 
-	void Draw();
+	virtual void Draw();
 
-	void SetSize(float x, float y);
-	void SetColor(D3DXCOLOR color);
-	void SetUV(float left, float top, float width, float height);
+	virtual void SetSize(float x, float y);
+	virtual void SetColor(D3DXCOLOR color);
+	virtual void SetUV(float left, float top, float width, float height);
 
-	void LoadTexture(const char* path);
+	virtual void LoadTexture(const char* path);
 
 	Transform transform;
 
-private:
+protected:
+
 	VERTEX_2D vtxWk[NUM_VERTEX];
 	LPDIRECT3DTEXTURE9 texture;
 
@@ -40,7 +42,7 @@ private:
 
 	LPDIRECT3DDEVICE9 pDevice;
 
-	void SetVertex();
+	virtual void SetVertex();
 };
 
 #endif

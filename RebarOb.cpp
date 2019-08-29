@@ -30,7 +30,7 @@ RebarObstacle::RebarObstacle(const D3DXVECTOR3& pos, LineTrailModel& model)
 	collider->active = true;
 
 	//メッシュ取得
-	ResourceManager::Instance()->GetMesh("RebarObstacle", &mesh);
+	ResourceManager::Instance()->GetMesh("RebarObstacle", mesh);
 
 	//トランスフォーム初期化
 	transform->pos = pos;

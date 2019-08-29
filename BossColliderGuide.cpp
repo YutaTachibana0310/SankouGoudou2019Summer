@@ -61,7 +61,7 @@ BossColliderGuideLineコンストラクタ
 ***************************************/
 BossColliderLine::BossColliderLine(const D3DXVECTOR3& edgeR, const D3DXVECTOR3& edgeL)
 {
-	ResourceManager::Instance()->GetPolygon("BossColliderLine", &polygon);
+	ResourceManager::Instance()->GetPolygon("BossColliderLine", polygon);
 
 	D3DXVECTOR3 diff = edgeL - edgeR;
 
@@ -99,7 +99,7 @@ BossColliderGuideEdgeコンストラクタ
 ***************************************/
 BossColliderEdge::BossColliderEdge(const D3DXVECTOR3& pos)
 {
-	ResourceManager::Instance()->GetPolygon("BossColliderEdge", &polygon);
+	ResourceManager::Instance()->GetPolygon("BossColliderEdge", polygon);
 
 	transform = new Transform();
 	transform->pos = pos;

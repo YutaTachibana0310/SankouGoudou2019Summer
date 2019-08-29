@@ -163,6 +163,7 @@
     <ClInclude Include="BossInit.h" />
     <ClInclude Include="BossLargeDamage.h" />
     <ClInclude Include="BossRebarAttack.h" />
+    <ClInclude Include="BossUIManager.h" />
     <ClInclude Include="ChangeEditWindow.h" />
     <ClInclude Include="ChangeEnemyFactory.h" />
     <ClInclude Include="DataEditWindow.h" />
@@ -202,6 +203,7 @@
     <ClInclude Include="Framework\Vector3.h" />
     <ClInclude Include="GameBomberSequence.h" />
     <ClInclude Include="GameBossBattle.h" />
+    <ClInclude Include="GameBossStart.h" />
     <ClInclude Include="PlayerChargeEffect.h" />
     <ClInclude Include="PlayerChargeEffectController.h" />
     <ClInclude Include="PlayerChargeParticle.h" />
@@ -333,6 +335,8 @@
     <ClInclude Include="GameSceneUIManager.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="WarningBelt.h" />
+    <ClInclude Include="WarningUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AccelEffectController.cpp" />
@@ -360,6 +364,7 @@
     <ClCompile Include="BossInit.cpp" />
     <ClCompile Include="BossLargeDamage.cpp" />
     <ClCompile Include="BossRebarAttack.cpp" />
+    <ClCompile Include="BossUIManager.cpp" />
     <ClCompile Include="ChangeEditWindow.cpp" />
     <ClCompile Include="ChangeEnemyFactory.cpp" />
     <ClCompile Include="EditorScene.cpp" />
@@ -393,6 +398,7 @@
     <ClCompile Include="Framework\Vector3.cpp" />
     <ClCompile Include="GameBomberSequence.cpp" />
     <ClCompile Include="GameBossBatlle.cpp" />
+    <ClCompile Include="GameBossStart.cpp" />
     <ClCompile Include="PlayerChargeEffect.cpp" />
     <ClCompile Include="PlayerChargeEffectController.cpp" />
     <ClCompile Include="PlayerChargeParticle.cpp" />
@@ -516,6 +522,8 @@
     <ClCompile Include="GameSceneUIManager.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="WarningBelt.cpp" />
+    <ClCompile Include="WarningUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\BloomFilter.fx">

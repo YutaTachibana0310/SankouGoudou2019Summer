@@ -51,7 +51,7 @@ UINT Enemy::m_InstanceCount;
 Enemy::Enemy()
 {
 	m_InstanceCount++;
-	ResourceManager::Instance()->GetMesh("Enemy", &m_pMesh);
+	ResourceManager::Instance()->GetMesh("Enemy", m_pMesh);
 
 	m_Collider = new BoxCollider3D(BoxCollider3DTag::Enemy, &m_Pos);
 	m_Collider->SetSize(ENEMY_COLLIDER_SIZE);

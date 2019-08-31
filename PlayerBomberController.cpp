@@ -10,6 +10,7 @@
 #include "enemy.h"
 #include "GameParticleManager.h"
 #include "debugWindow.h"
+#include "sound.h"
 
 using namespace std;
 
@@ -232,6 +233,10 @@ bool PlayerBomberController::CanSet()
 ***************************************************/
 void PlayerBomberController::AddStock()
 {
-	stock = Min(stock + 1, BOMBER_STOCK_MAX);
+	if (stock < BOMBER_STOCK_MAX) {
+		stock = Min(stock + 1, BOMBER_STOCK_MAX);
+		//ƒVƒ‡ƒbƒgSE
+		Sound::GetInstance()->SetPlaySE(BOMBSTOCK, true, 0.5f);
+	}
 	//stockInterval = 0;
 }

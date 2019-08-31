@@ -6,6 +6,7 @@
 //=====================================
 #include "PlayerBulletController.h"
 #include <algorithm>
+#include "sound.h"
 
 using namespace std;
 /**************************************
@@ -121,11 +122,15 @@ void PlayerBulletController::SetPlayerBullet(LineTrailModel model)
 	if (itr != bulletContainer.end())
 	{
 		(*itr)->Init(model);
+		//ショットSE
+		Sound::GetInstance()->SetPlaySE(PLAYERSHOT, true, 0.05f);
 	}
 	else
 	{
 		PlayerBullet *bullet = new PlayerBullet();
 		bullet->Init(model);
 		bulletContainer.push_back(bullet);
+		//ショットSE
+		Sound::GetInstance()->SetPlaySE(PLAYERSHOT, true, 0.05f);
 	}
 }

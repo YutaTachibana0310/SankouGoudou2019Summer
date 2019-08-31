@@ -6,6 +6,10 @@
 //=====================================
 #include "BossUIManager.h"
 #include "WarningUI.h"
+#include "BossBulletGuide.h"
+#include "LineTrailModel.h"
+#include "camera.h"
+#include <algorithm>
 
 /**************************************
 マクロ定義
@@ -25,6 +29,11 @@ BossUImanager::BossUImanager()
 BossUImanager::~BossUImanager()
 {
 	SAFE_DELETE(warning);
+
+	for (auto&& guide : bulletGuide)
+	{
+		SAFE_DELETE(guide);
+	}
 }
 
 /**************************************
@@ -33,6 +42,11 @@ BossUImanager::~BossUImanager()
 void BossUImanager::Update()
 {
 	warning->Update();
+
+	for (auto&& guide : bulletGuide)
+	{
+		guide->Update();
+	}
 }
 
 /**************************************
@@ -41,6 +55,12 @@ void BossUImanager::Update()
 void BossUImanager::Draw()
 {
 	warning->Draw();
+
+	for (auto&& guide : bulletGuide)
+	{
+		if(guide->IsActive())	
+			guide->Draw();
+	}
 }
 
 /**************************************
@@ -49,4 +69,41 @@ void BossUImanager::Draw()
 void BossUImanager::SetWarning()
 {
 	warning->StartFade(true);
+}
+
+/**************************************
+バレットガイドセット処理
+***************************************/
+void BossUImanager::SetBulletGuide(LineTrailModel & model)
+{
+	D3DXVECTOR3 right, left;
+	model.GetEdgePos(&right, &left);
+
+	D3DXVECTOR3 edgeR, edgeL;
+	Camera::Instance()->Projection(edgeR, right);
+	Camera::Instance()->Projection(edgeL, left);
+
+	const int SetNum = 5;
+	D3DXVECTOR3 offset = (edgeR - edgeL) / (SetNum + 1);
+	edgeL += offset;
+
+	for (int i = 0; i < SetNum; i++)
+	{
+		auto itr = find_if(bulletGuide.begin(), bulletGuide.end(), [](auto&& guide)
+		{
+			return !guide->IsActive();
+		});
+
+		if (itr == bulletGuide.end())
+		{
+			BossBulletGuide* ptr = new BossBulletGuide();
+			ptr->Set(edgeL);
+			bulletGuide.push_back(ptr);
+		}
+		else
+		{
+			(*itr)->Set(edgeL);
+		}
+		edgeL += offset;
+	}
 }

@@ -13,6 +13,7 @@
 #include "BossLargeDamage.h"
 #include "BossDefeat.h"
 #include "BossIdle.h"
+#include "BossUIManager.h"
 
 #include "EnemyBulletController.h"
 
@@ -27,9 +28,10 @@ using namespace std;
 /**************************************
 コンストラクタ
 ***************************************/
-BossEnemyModel::BossEnemyModel(const Transform& player) :
+BossEnemyModel::BossEnemyModel(const Transform& player, BossUImanager& uiManager) :
 	player(player),
-	isDestroyed(false)
+	isDestroyed(false),
+	uiManager(uiManager)
 {
 	actor = new BossEnemyActor();
 	bulletController = new EnemyBulletController();
@@ -199,6 +201,7 @@ void BossEnemyModel::FireBullet()
 	{
 		int start = RandomRange(0, 5);
 		int end = WrapAround(0, 5, start + RandomRange(1, 5));
+		uiManager.SetBulletGuide(LineTrailModel(start, end));
 		bulletController->Set(Emitter, LineTrailModel(start, end), 60, D3DXVECTOR3(2.0f, 2.0f, 2.0f));
 	}
 }

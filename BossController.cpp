@@ -13,9 +13,9 @@
 /**************************************
 コンストラクタ
 ***************************************/
-BossController::BossController(const Transform& player)
+BossController::BossController(const Transform& player, BossUImanager& manager)
 {
-	bossModel = new BossEnemyModel(player);
+	bossModel = new BossEnemyModel(player, manager);
 	active = false;
 }
 

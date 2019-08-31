@@ -25,7 +25,7 @@
 class BossController
 {
 public:
-	BossController(const Transform& player);
+	BossController(const Transform& player, BossUImanager& manager);
 	~BossController();
 
 	void Update();

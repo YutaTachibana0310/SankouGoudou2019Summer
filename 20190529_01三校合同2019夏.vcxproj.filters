@@ -819,6 +819,9 @@
     <ClInclude Include="WarningText.h">
       <Filter>ヘッダー ファイル\Enemy\BossUI</Filter>
     </ClInclude>
+    <ClInclude Include="BossBulletGuide.h">
+      <Filter>ヘッダー ファイル\Enemy\BossUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1392,6 +1395,9 @@
       <Filter>ソース ファイル\GameController</Filter>
     </ClCompile>
     <ClCompile Include="WarningText.cpp">
+      <Filter>ソース ファイル\Enemy\BossUI</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBulletGuide.cpp">
       <Filter>ソース ファイル\Enemy\BossUI</Filter>
     </ClCompile>
   </ItemGroup>

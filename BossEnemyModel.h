@@ -22,6 +22,7 @@
 ***************************************/
 class BossEnemyActor;
 class EnemyBulletController;
+class BossUImanager;
 
 /**************************************
 ƒNƒ‰ƒX’è‹`
@@ -40,7 +41,7 @@ public:
 		Defeat
 	};
 
-	BossEnemyModel(const Transform& player);
+	BossEnemyModel(const Transform& player, BossUImanager& uiManager);
 	~BossEnemyModel();
 
 	int Update();
@@ -76,6 +77,7 @@ private:
 	BossColliderController *colliderController;
 
 	const Transform& player;
+	BossUImanager& uiManager;
 
 	int cntAttack;
 	int level;

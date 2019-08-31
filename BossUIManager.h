@@ -8,11 +8,14 @@
 #define _BOSSUIMANAGER_H_
 
 #include "main.h"
+#include <vector>
 
 /**************************************
 前方宣言
 ***************************************/
 class WarningUI;
+class BossBulletGuide;
+class LineTrailModel;
 
 /**************************************
 マクロ・列挙子定義
@@ -31,9 +34,11 @@ public:
 	void Draw();
 
 	void SetWarning();
+	void SetBulletGuide(LineTrailModel& model);
 
 private:
 	WarningUI *warning;
+	std::vector<BossBulletGuide*> bulletGuide;
 };
 
 #endif

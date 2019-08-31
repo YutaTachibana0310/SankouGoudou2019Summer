@@ -38,6 +38,14 @@ void Camera::Init()
 	viewNear = InitViewNear;
 	viewFar = InitViewFar;
 
+	D3DXMatrixIdentity(&viewport);
+	viewport._11 = SCREEN_WIDTH / 2.0f;
+	viewport._22 = -SCREEN_HEIGHT / 2.0f;
+	viewport._41 = SCREEN_WIDTH / 2.0f;
+	viewport._42 = SCREEN_HEIGHT / 2.0f;
+
+	D3DXMatrixInverse(&invVPV, NULL, &VPV);
+
 	Set();
 }
 
@@ -57,7 +65,6 @@ void Camera::Set()
 		plugin->Apply(*this);
 	}
 
-	D3DXMATRIX view, projection;
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	//ビュー行列作成
@@ -80,6 +87,14 @@ void Camera::Set()
 
 	//プロジェクション行列設定
 	pDevice->SetTransform(D3DTS_PROJECTION, &projection);
+
+	//変換行列を計算
+	VPV = view * projection * viewport;
+
+	//逆行列を計算
+	D3DXMatrixInverse(&invView, NULL, &view);
+	D3DXMatrixInverse(&invProjection, NULL, &projection);
+	D3DXMatrixInverse(&invVPV, NULL, &VPV);
 }
 
 /**************************************
@@ -92,4 +107,21 @@ void Camera::Update()
 	{
 		plugin->Update();
 	}
+}
+
+/**************************************
+スクリーン投影処理
+***************************************/
+void Camera::Projection(D3DXVECTOR3& out, const D3DXVECTOR3& pos)
+{
+	D3DXVec3TransformCoord(&out, &pos, &VPV);
+	out.z = 0.0f;
+}
+
+/**************************************
+スクリーン逆投影処理
+***************************************/
+void Camera::UnProjection(D3DXVECTOR3& out, const D3DXVECTOR3& pos, float z)
+{
+	D3DXVec3TransformCoord(&out, &D3DXVECTOR3(pos.x, pos.y, z), &invVPV);
 }

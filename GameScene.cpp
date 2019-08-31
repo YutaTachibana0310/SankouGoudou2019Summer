@@ -142,15 +142,15 @@ void GameScene::Uninit()
 	//UI終了
 	UninitGameSceneUI();
 
-	//パーティクル終了
-	particleManager->Uninit();
-
 	//インスタンス削除
 	SAFE_DELETE(enemyController);
 	SAFE_DELETE(playerObserver);
 	SAFE_DELETE(bgController);
 	SAFE_DELETE(darkMask);
 	SAFE_DELETE(bossController);
+
+	//パーティクル終了
+	particleManager->Uninit();
 
 	//ステートマシン削除
 	for (auto& pair : fsm)

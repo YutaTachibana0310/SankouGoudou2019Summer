@@ -53,6 +53,7 @@ public:
 	void ThrowRebar();
 
 	void StartBulletCharge();
+	void NotifyBullet();
 	void FireBullet();
 
 	void SetCollider();
@@ -73,6 +74,7 @@ private:
 	std::list<std::unique_ptr<RebarObstacle>> rebarList;
 
 	EnemyBulletController *bulletController;
+	std::vector<LineTrailModel> bulletReserve;
 
 	BossColliderController *colliderController;
 
@@ -83,6 +85,8 @@ private:
 	int level;
 	int cntLoop;
 	bool isDestroyed;
+
+	void MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList);
 	
 	class BossInit;
 	class BossRebarAttack;

@@ -23,12 +23,21 @@ public:
 	BossBulletGuide();
 
 	void Update();
-	void Set(const D3DXVECTOR3& pos);
+	void Set(const D3DXVECTOR3& pos, bool isFadein = true);
 	bool IsActive();
 
 private:
+	enum State
+	{
+		Fadein,
+		Fadeout,
+		Idle
+	};
+
 	int cntFrame;
 	const int Duration;
+	State currentState;
+	const int FadeDuration;
 };
 
 #endif

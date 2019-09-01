@@ -76,7 +76,7 @@ private:
 	int cntFrame;
 
 	std::vector<StageModel> stageModelList;
-	int currentIndex;
+	UINT currentIndex;
 
 	EnemyBulletController* bulletController;
 	EnemyGuideArrowController* guideController;

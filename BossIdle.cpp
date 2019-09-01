@@ -19,7 +19,7 @@ void BossEnemyModel::BossIdle::OnStart(BossEnemyModel * entity)
 	entity->actor->ChangeAnimation(BossEnemyActor::AnimID::Idle);
 	cntFrame = 0;
 
-	if (entity->cntLoop == 3)
+	if (entity->cntLoop == 2)
 	{
 		entity->cntLoop = 0;
 		entity->ChangeState(BossEnemyModel::State::Damageable);
@@ -33,9 +33,10 @@ int BossEnemyModel::BossIdle::OnUpdate(BossEnemyModel * entity)
 {
 	cntFrame++;
 
+	const int Duration = 60;
 	int next = BossEnemyModel::State::Idle;
 
-	if (cntFrame == 120)
+	if (cntFrame == Duration)
 	{
 		if (entity->prevState == BossEnemyModel::State::HomingAttack)
 			next = BossEnemyModel::State::RebarAttack;

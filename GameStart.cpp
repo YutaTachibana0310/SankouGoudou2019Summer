@@ -32,7 +32,7 @@ int GameScene::GameStart::OnUpdate(GameScene *entity)
 	entity->UpdateWhole();
 	
 	if (entity->cntFrame == GAMESTART_DURATION)
-		return GameScene::State::BossStart;
+		return GameScene::State::Battle;
 	else
 		return GameScene::State::Start;
 }

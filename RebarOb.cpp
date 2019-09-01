@@ -18,7 +18,8 @@
 /**************************************
 コンストラクタ
 ***************************************/
-RebarObstacle::RebarObstacle(const D3DXVECTOR3& pos, LineTrailModel& model)
+RebarObstacle::RebarObstacle(const D3DXVECTOR3& pos, LineTrailModel& model, const Transform& player) :
+	player(player)
 {
 	//インスタンス作成
 	transform = new Transform();
@@ -67,6 +68,21 @@ RebarObstacle::~RebarObstacle()
 ***************************************/
 void RebarObstacle::Update()
 {
+
+	if (cntFrame == delay)
+	{
+		inMoving = true;
+		if (reserveDestroy)
+		{
+			D3DXVECTOR3 noise = D3DXVECTOR3(RandomRangef(-20.0f, 20.0f), RandomRangef(-20.0f, 20.0f), RandomRangef(-20.0f, 20.0f));
+			D3DXVECTOR3 diff = player.pos + noise - transform->pos;
+			D3DXVec3Normalize(&diff, &diff);
+			endPos = transform->pos + diff * moveLength;
+		}
+	}
+
+	cntFrame++;
+
 	//移動処理
 	_Move();
 
@@ -96,6 +112,7 @@ void RebarObstacle::Move(const D3DXVECTOR3& offset, int duration, EaseType type)
 	cntFrame = 0;
 	moveEaseType = type;
 	inMoving = true;
+	delay = 0;
 }
 
 /**************************************
@@ -106,9 +123,7 @@ void RebarObstacle::_Move()
 	if (!inMoving)
 		return;
 
-	cntFrame++;
-
-	float t = (float)cntFrame / moveDuration;
+	float t = (float)(cntFrame - delay) / moveDuration;
 	transform->pos = Easing::EaseValue(t, startPos, endPos, moveEaseType);
 
 	if (cntFrame == moveDuration)
@@ -131,16 +146,14 @@ bool RebarObstacle::IsDestroyed()
 /**************************************
 Move処理
 ***************************************/
-void RebarObstacle::Move(const Transform& target, float length, int duration, EaseType type)
+void RebarObstacle::Move(float length, int duration, EaseType type, int delay)
 {
 	startPos = transform->pos;
-
-	D3DXVECTOR3 diff = target.pos - transform->pos;
-	D3DXVec3Normalize(&diff, &diff);
-	endPos = transform->pos + diff * length;
+	moveLength = length;
 	moveDuration = duration;
 	cntFrame = 0;
 	moveEaseType = type;
-	inMoving = true;
+	inMoving = false;
 	reserveDestroy = true;
+	this->delay = delay;
 }

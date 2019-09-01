@@ -23,13 +23,13 @@
 class RebarObstacle
 {
 public:
-	RebarObstacle(const D3DXVECTOR3& pos, LineTrailModel& model);
+	RebarObstacle(const D3DXVECTOR3& pos, LineTrailModel& model, const Transform& player);
 	~RebarObstacle();
 
 	void Update();
 	void Draw();
 	void Move(const D3DXVECTOR3& offset, int duration, EaseType type);
-	void Move(const Transform& target, float length, int duration, EaseType type);
+	void Move(float length, int duration, EaseType type, int delay);
 
 	bool IsDestroyed();
 
@@ -37,6 +37,7 @@ private:
 	int cntFrame;
 	bool isDestroyed;
 	bool reserveDestroy;
+	int delay;
 
 	Transform* transform;
 	BoxCollider3D* collider;
@@ -49,6 +50,8 @@ private:
 	int moveDuration;
 	EaseType moveEaseType;
 	bool inMoving;
+	const Transform& player;
+	float moveLength;
 
 	void _Move();
 };

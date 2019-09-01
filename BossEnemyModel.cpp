@@ -20,6 +20,9 @@
 #include "Framework\ResourceManager.h"
 #include "GameParticleManager.h"
 
+#include <random>
+#include <algorithm>
+
 using namespace std;
 /**************************************
 マクロ定義
@@ -142,11 +145,10 @@ void BossEnemyModel::ChangeState(State next)
 /**************************************
 鉄筋セット処理
 ***************************************/
-void BossEnemyModel::SetRebar()
+void BossEnemyModel::SetRebar(int num)
 {
 	float z = 300.0f;
-	const int LoopMax[] = { 2, 3, 5 };
-	for (int i = 0; i < LoopMax[level]; i++)
+	for (int i = 0; i < num; i++)
 	{
 		int start = Math::RandomRange(0, 5);
 		int end = Math::WrapAround(0, 5, start + Math::RandomRange(1, 4));
@@ -159,7 +161,7 @@ void BossEnemyModel::SetRebar()
 		pos.z = z;
 		pos.y -= 500.0f;
 
-		RebarObstacle *rebar = new RebarObstacle(pos, model);
+		RebarObstacle *rebar = new RebarObstacle(pos, model, player);
 		rebar->Move(D3DXVECTOR3(0.0f, 500.0f, 0.0f), 120, EaseType::OutCubic);
 
 		rebarList.push_back(unique_ptr<RebarObstacle>(rebar));
@@ -173,9 +175,12 @@ void BossEnemyModel::SetRebar()
 ***************************************/
 void BossEnemyModel::ThrowRebar()
 {
+	const int DelayDelta = 20;
+	int delay = 0;
 	for (auto&& rebar : rebarList)
 	{
-		rebar->Move(player, 2500.0f, 180, EaseType::InSine);
+		rebar->Move(2500.0f, 180, EaseType::InSine, delay);
+		delay += DelayDelta;
 	}
 }
 
@@ -194,7 +199,7 @@ void BossEnemyModel::StartBulletCharge()
 ***************************************/
 void BossEnemyModel::NotifyBullet()
 {
-	const int EdgeMax[] = { 3, 3, 4, 4 };
+	const int EdgeMax[Const::LevelMax] = { 3, 3, 4 };
 	
 	std::vector<int> edgeList;
 	MakeOneStrokeEdge(EdgeMax[level], edgeList);
@@ -227,10 +232,10 @@ void BossEnemyModel::FireBullet()
 **************************************/
 void BossEnemyModel::SetCollider()
 {
-	const UINT EdgeMax = 3;
+	const int EdgeMax[Const::LevelMax] = {4, 5, 6};
 	vector<int> edgeList;
 
-	MakeOneStrokeEdge(EdgeMax, edgeList);
+	MakeOneStrokeEdge(EdgeMax[level], edgeList);
 
 	colliderController->SetCollider(edgeList);
 }
@@ -284,20 +289,16 @@ void BossEnemyModel::MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList)
 	int prevStart = 5;
 	int prevEnd = RandomRange(0, 5);
 
-	 edgeList.clear();
+	edgeList.clear();
 	edgeList.reserve(edgeNum);
 
-	for (UINT i = 0; i < edgeNum; i++)
-	{
-		int start = prevEnd;
-		edgeList.push_back(start);
+	vector<int> numberList = { 0, 1, 2, 3, 4 };
+	random_device randDevice;
+	mt19937_64 getRandMt(randDevice());
+	shuffle(numberList.begin(), numberList.end(), getRandMt);
 
-		int end = prevStart;
-		while (end == prevStart)
-		{
-			end = WrapAround(0, 5, start + RandomRange(1, 5));
-		}
-		prevEnd = end;
-		prevStart = start;
+	for (int i = 0; i < edgeNum; i++)
+	{
+		edgeList.push_back(numberList[Clamp(0, numberList.size(), i)]);
 	}
 }

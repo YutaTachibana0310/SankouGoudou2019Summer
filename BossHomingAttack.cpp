@@ -34,6 +34,11 @@ int BossEnemyModel::BossHomingAttack::OnUpdate(BossEnemyModel* entity)
 
 	int result = BossEnemyModel::State::HomingAttack;
 
+	if (cntFrame == 90)
+	{
+		entity->NotifyBullet();
+	}
+
 	if (cntFrame == 120)
 	{
 		entity->FireBullet();

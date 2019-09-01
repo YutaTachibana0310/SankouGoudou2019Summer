@@ -21,6 +21,7 @@ class GameParticleManager;
 class PlayerObserver;
 class BackGroundController;
 class BossController;
+class BossUImanager;
 
 /**************************************
 ƒNƒ‰ƒX’è‹`
@@ -51,6 +52,7 @@ public:
 		End,
 		BombSequence,
 		BossBattle,
+		BossStart,
 		StateMax,
 	};
 
@@ -66,6 +68,8 @@ private:
 	PlayerObserver* playerObserver;
 	BackGroundController *bgController;
 	BossController* bossController;
+	BossUImanager* bossUI;
+
 	bool useDarkMask;
 
 	void ChangeState(int resultUpdate);
@@ -78,6 +82,7 @@ private:
 	class GameBossBattle;
 	class GameEnd;
 	class GameStart;
+	class GameBossStart;
 };
 
 #endif

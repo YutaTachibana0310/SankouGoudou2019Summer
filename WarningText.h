@@ -1,15 +1,14 @@
 //=====================================
 //
-//ボスコントローラヘッダ[BossController.h]
+//ワーニングテキストヘッダ[WarningText.h]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#ifndef _BOSSCONTROLLER_H_
-#define _BOSSCONTROLLER_H_
+#ifndef _WARNINGTEXT_H_
+#define _WARNINGTEXT_H_
 
 #include "main.h"
-#include "BossEnemyModel.h"
-#include "EnemyBulletController.h"
+#include "Framework\Polygon2D.h"
 
 /**************************************
 前方宣言
@@ -22,21 +21,39 @@
 /**************************************
 クラス定義
 ***************************************/
-class BossController
+class WarningText : public Polygon2D
 {
 public:
-	BossController(const Transform& player, BossUImanager& manager);
-	~BossController();
+	enum Index
+	{
+		W,
+		A,
+		R,
+		N,
+		I,
+		G,
+		EXCLAMATION,		
+	};
+
+	WarningText(Index index);
 
 	void Update();
-	void Draw();
-
-	void SetActive(bool state);
-	bool IsActive();
+	void StartAnimation(bool isIn);
 
 private:
-	bool active;
-	BossEnemyModel *bossModel;
-};
+	enum State
+	{
+		In,
+		Out,
+		Idle
+	};
 
+	State currentState;
+	int cntFrame;
+	float startScale, endScale;
+
+	static const float Size;
+
+	void SetUV(int index);
+};
 #endif

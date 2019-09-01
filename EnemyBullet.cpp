@@ -20,7 +20,7 @@
 ***************************************/
 EnemyBullet::EnemyBullet()
 {
-	ResourceManager::Instance()->GetPolygon(RESOURCE_ENEMYBULLET_TAG, &polygon);
+	ResourceManager::Instance()->GetPolygon(RESOURCE_ENEMYBULLET_TAG, polygon);
 
 	active = false;
 }

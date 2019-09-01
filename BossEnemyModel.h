@@ -22,6 +22,7 @@
 ***************************************/
 class BossEnemyActor;
 class EnemyBulletController;
+class BossUImanager;
 
 /**************************************
 ƒNƒ‰ƒX’è‹`
@@ -40,7 +41,7 @@ public:
 		Defeat
 	};
 
-	BossEnemyModel(const Transform& player);
+	BossEnemyModel(const Transform& player, BossUImanager& uiManager);
 	~BossEnemyModel();
 
 	int Update();
@@ -52,6 +53,7 @@ public:
 	void ThrowRebar();
 
 	void StartBulletCharge();
+	void NotifyBullet();
 	void FireBullet();
 
 	void SetCollider();
@@ -72,15 +74,19 @@ private:
 	std::list<std::unique_ptr<RebarObstacle>> rebarList;
 
 	EnemyBulletController *bulletController;
+	std::vector<LineTrailModel> bulletReserve;
 
 	BossColliderController *colliderController;
 
 	const Transform& player;
+	BossUImanager& uiManager;
 
 	int cntAttack;
 	int level;
 	int cntLoop;
 	bool isDestroyed;
+
+	void MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList);
 	
 	class BossInit;
 	class BossRebarAttack;

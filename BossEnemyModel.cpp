@@ -13,6 +13,7 @@
 #include "BossLargeDamage.h"
 #include "BossDefeat.h"
 #include "BossIdle.h"
+#include "BossUIManager.h"
 
 #include "EnemyBulletController.h"
 
@@ -27,9 +28,10 @@ using namespace std;
 /**************************************
 コンストラクタ
 ***************************************/
-BossEnemyModel::BossEnemyModel(const Transform& player) :
+BossEnemyModel::BossEnemyModel(const Transform& player, BossUImanager& uiManager) :
 	player(player),
-	isDestroyed(false)
+	isDestroyed(false),
+	uiManager(uiManager)
 {
 	actor = new BossEnemyActor();
 	bulletController = new EnemyBulletController();
@@ -188,19 +190,36 @@ void BossEnemyModel::StartBulletCharge()
 }
 
 /**************************************
+バレット通知
+***************************************/
+void BossEnemyModel::NotifyBullet()
+{
+	const int EdgeMax[] = { 3, 3, 4, 4 };
+	
+	std::vector<int> edgeList;
+	MakeOneStrokeEdge(EdgeMax[level], edgeList);
+
+	bulletReserve.clear();
+	for (UINT i = 0; i < edgeList.size() - 1; i++)
+	{
+		LineTrailModel model = LineTrailModel(edgeList[i], edgeList[i + 1]);
+		bulletReserve.push_back(model);
+		uiManager.SetBulletGuide(model);
+	}
+}
+
+/**************************************
 バレット発射処理
 **************************************/
 void BossEnemyModel::FireBullet()
 {
 	static std::vector<D3DXVECTOR3> Emitter = { D3DXVECTOR3(0.0f, 0.0f, 500.0f),  D3DXVECTOR3(0.0f, 0.0f, 500.0f), D3DXVECTOR3(0.0f, 0.0f, 500.0f) };
-	static const int LoopMax[] = { 1, 2, 3 };
 
-	for (int i = 0; i < LoopMax[level]; i++)
+	for (auto&& model : bulletReserve)
 	{
-		int start = RandomRange(0, 5);
-		int end = WrapAround(0, 5, start + RandomRange(1, 5));
-		bulletController->Set(Emitter, LineTrailModel(start, end), 60, D3DXVECTOR3(2.0f, 2.0f, 2.0f));
+		bulletController->Set(Emitter, model, 60, D3DXVECTOR3(2.0f, 2.0f, 2.0f));
 	}
+	bulletReserve.clear();
 }
 
 /**************************************
@@ -209,25 +228,9 @@ void BossEnemyModel::FireBullet()
 void BossEnemyModel::SetCollider()
 {
 	const UINT EdgeMax = 3;
-	int prevStart = 5;
-	int prevEnd = RandomRange(0, 5);
+	vector<int> edgeList;
 
-	std::vector<int> edgeList;
-	edgeList.reserve(EdgeMax);
-
-	for (UINT i = 0; i < EdgeMax; i++)
-	{
-		int start = prevEnd;
-		edgeList.push_back(start);
-
-		int end = prevStart;
-		while (end == prevStart)
-		{
-			end = WrapAround(0, 5, start + RandomRange(1, 5));
-		}
-		prevEnd = end;
-		prevStart = start;
-	}
+	MakeOneStrokeEdge(EdgeMax, edgeList);
 
 	colliderController->SetCollider(edgeList);
 }
@@ -265,7 +268,36 @@ void BossEnemyModel::ChargeExplode(Transform*& charge, Transform*& core)
 	actor->SetWriteableZ(false);
 }
 
+/**************************************
+撃墜判定
+**************************************/
 bool BossEnemyModel::IsDesteoyed()
 {
 	return isDestroyed;
+}
+
+/**************************************
+一筆書きの軌跡作成処理
+**************************************/
+void BossEnemyModel::MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList)
+{
+	int prevStart = 5;
+	int prevEnd = RandomRange(0, 5);
+
+	 edgeList.clear();
+	edgeList.reserve(edgeNum);
+
+	for (UINT i = 0; i < edgeNum; i++)
+	{
+		int start = prevEnd;
+		edgeList.push_back(start);
+
+		int end = prevStart;
+		while (end == prevStart)
+		{
+			end = WrapAround(0, 5, start + RandomRange(1, 5));
+		}
+		prevEnd = end;
+		prevStart = start;
+	}
 }

@@ -25,12 +25,14 @@
 #include "ScoreManager.h"
 #include "PostEffect\SpeedBlurController.h"
 #include "BossController.h"
+#include "BossUIManager.h"
 
 #include "GameStart.h"
 #include "GameBattle.h"
 #include "GameEnd.h"
 #include "GameBomberSequence.h"
 #include "GameBossBattle.h"
+#include "GameBossStart.h"
 
 #include "RebarOb.h"
 #include <functional>
@@ -62,6 +64,7 @@ void GameScene::Init()
 	fsm[State::End] = new GameEnd();
 	fsm[State::BombSequence] = new GameBomberSequence();
 	fsm[State::BossBattle] = new GameBossBattle();
+	fsm[State::BossStart] = new GameBossStart();
 
 	//暗転用ポリゴン作成
 	darkMask = new Polygon2D();
@@ -80,7 +83,8 @@ void GameScene::Init()
 	particleManager = GameParticleManager::Instance();
 	playerObserver = new PlayerObserver();
 	bgController = new BackGroundController();
-	bossController = new BossController(playerObserver->GetPlayerTransform());
+	bossUI = new BossUImanager();
+	bossController = new BossController(playerObserver->GetPlayerTransform(), *bossUI);
 
 	SetPlayerObserverAdr(playerObserver);
 
@@ -148,6 +152,7 @@ void GameScene::Uninit()
 	SAFE_DELETE(bgController);
 	SAFE_DELETE(darkMask);
 	SAFE_DELETE(bossController);
+	SAFE_DELETE(bossUI);
 
 	//パーティクル終了
 	particleManager->Uninit();
@@ -176,6 +181,7 @@ void GameScene::Update(HWND hWnd)
 
 	//UIの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
+	bossUI->Update();
 	UpdateGameSceneUI(hWnd);
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
 
@@ -233,6 +239,7 @@ void GameScene::Draw()
 
 	//UI描画
 	DrawGameSceneUI();
+	bossUI->Draw();
 
 	DrawDebugTimer(GAMESCENE_LABEL);
 }

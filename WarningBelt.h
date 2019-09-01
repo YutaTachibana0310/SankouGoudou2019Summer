@@ -1,15 +1,14 @@
 //=====================================
 //
-//ボスコントローラヘッダ[BossController.h]
+//ワーニングベルトヘッダ[WarningBelt.h]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#ifndef _BOSSCONTROLLER_H_
-#define _BOSSCONTROLLER_H_
+#ifndef _WARNINGBELT_H_
+#define _WARNINGBELT_H_
 
 #include "main.h"
-#include "BossEnemyModel.h"
-#include "EnemyBulletController.h"
+#include "Framework\Polygon2D.h"
 
 /**************************************
 前方宣言
@@ -22,21 +21,27 @@
 /**************************************
 クラス定義
 ***************************************/
-class BossController
+class WarningBelt : public Polygon2D
 {
+	using Polygon2D::Polygon2D;
 public:
-	BossController(const Transform& player, BossUImanager& manager);
-	~BossController();
-
+	WarningBelt(float scrollDir);
+	
 	void Update();
-	void Draw();
-
-	void SetActive(bool state);
-	bool IsActive();
+	void SetFade(bool isFadein);
 
 private:
-	bool active;
-	BossEnemyModel *bossModel;
+	enum State
+	{
+		FadeIn,
+		FadeOut,
+		Idle
+	};
+
+	const float scrollDir;
+	int cntFrame;
+	float startAlpha, endAlpha;
+	State currentState;
 };
 
 #endif

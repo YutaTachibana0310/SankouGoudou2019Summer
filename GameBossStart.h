@@ -1,15 +1,15 @@
 //=====================================
 //
-//ボスコントローラヘッダ[BossController.h]
+//ゲームボススタートヘッダ[GameBossStart.h]
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#ifndef _BOSSCONTROLLER_H_
-#define _BOSSCONTROLLER_H_
+#ifndef _GAMEBOSSSTART_H_
+#define _GAMEBOSSSTART_H_
 
 #include "main.h"
-#include "BossEnemyModel.h"
-#include "EnemyBulletController.h"
+#include "IStateMachine.h"
+#include "GameScene.h"
 
 /**************************************
 前方宣言
@@ -22,21 +22,11 @@
 /**************************************
 クラス定義
 ***************************************/
-class BossController
+class GameScene::GameBossStart : public IStateMachine<GameScene>
 {
 public:
-	BossController(const Transform& player, BossUImanager& manager);
-	~BossController();
-
-	void Update();
-	void Draw();
-
-	void SetActive(bool state);
-	bool IsActive();
-
-private:
-	bool active;
-	BossEnemyModel *bossModel;
+	void OnStart(GameScene* entity);
+	int OnUpdate(GameScene* entity);
 };
 
 #endif

@@ -227,10 +227,10 @@ void BossEnemyModel::FireBullet()
 **************************************/
 void BossEnemyModel::SetCollider()
 {
-	const UINT EdgeMax = 3;
+	const int EdgeMax[Const::LevelMax] = {3, 4, 5, 6};
 	vector<int> edgeList;
 
-	MakeOneStrokeEdge(EdgeMax, edgeList);
+	MakeOneStrokeEdge(EdgeMax[level], edgeList);
 
 	colliderController->SetCollider(edgeList);
 }

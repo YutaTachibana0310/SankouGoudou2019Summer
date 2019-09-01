@@ -33,9 +33,10 @@ int BossEnemyModel::BossIdle::OnUpdate(BossEnemyModel * entity)
 {
 	cntFrame++;
 
+	const int Duration = 60;
 	int next = BossEnemyModel::State::Idle;
 
-	if (cntFrame == 120)
+	if (cntFrame == Duration)
 	{
 		if (entity->prevState == BossEnemyModel::State::HomingAttack)
 			next = BossEnemyModel::State::RebarAttack;

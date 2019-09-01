@@ -31,6 +31,7 @@ void BossEnemyModel::BossHomingAttack::OnStart(BossEnemyModel *entity)
 int BossEnemyModel::BossHomingAttack::OnUpdate(BossEnemyModel* entity)
 {
 	cntFrame++;
+	const int LoopMax[BossEnemyModel::Const::LevelMax] = { 2, 3, 3, 4 };
 
 	int result = BossEnemyModel::State::HomingAttack;
 
@@ -44,10 +45,15 @@ int BossEnemyModel::BossHomingAttack::OnUpdate(BossEnemyModel* entity)
 		entity->FireBullet();
 	}
 
+	if (cntFrame == 150 && entity->cntLoop < LoopMax[entity->level])
+	{
+		entity->cntLoop++;
+		OnStart(entity);
+	}
+
 	if (cntFrame == 300)
 	{
 		result = BossEnemyModel::State::Idle;
-		entity->cntLoop++;
 	}
 	return result;
 }

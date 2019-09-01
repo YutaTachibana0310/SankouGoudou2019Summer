@@ -96,6 +96,11 @@ private:
 	class BossDefeat;
 	class BossIdle;
 	class BossDamageable;
+
+	enum Const
+	{
+		LevelMax = 4
+	};
 };
 
 #endif

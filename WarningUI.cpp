@@ -140,7 +140,7 @@ void WarningUI::CheckFinish()
 ***************************************/
 void WarningUI::SetTextIn()
 {
-	if (cntFrame >= textContainer.size() * TextSetInterval)
+	if (cntFrame >= (int)textContainer.size() * TextSetInterval)
 		return;
 
 	if (cntFrame % TextSetInterval != 0)

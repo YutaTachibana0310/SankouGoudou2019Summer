@@ -7,7 +7,7 @@
 #ifndef _RESOURCEMANAGER_H_
 #define _RESOURCEMANAGER_H_
 
-#include "..\..\main.h"
+#include "..\main.h"
 #include "BaseSingleton.h"
 #include <map>
 

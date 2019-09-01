@@ -32,13 +32,15 @@ int BossEnemyModel::BossLargeDamage::OnUpdate(BossEnemyModel * entity)
 	cntFrame++;
 
 	int result = BossEnemyModel::State::LargeDamage;
+	const int AnimationChangeTiming = 15;
+	const int FinishTiming = 150;
 
-	if (cntFrame == 15)
+	if (cntFrame == AnimationChangeTiming)
 	{
 		entity->actor->ChangeAnimation(BossEnemyActor::AnimID::LargeDamage);
 	}
 
-	if(cntFrame == 150)
+	if(cntFrame == FinishTiming)
 	{
 		result = RandomRange(0, 100) < 50 ? BossEnemyModel::State::HomingAttack : BossEnemyModel::State::RebarAttack;
 	}

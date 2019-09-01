@@ -219,11 +219,11 @@ void EnemyController::SetEnemy()
 	}
 
 	//デバッグ用ループ処理
-	if (cntFrame > (*(stageModelList.end() - 1)).frame + 300)
-	{
-		cntFrame = 0;
-		currentIndex = 0;
-	}
+	//if (cntFrame > (*(stageModelList.end() - 1)).frame + 300)
+	//{
+	//	cntFrame = 0;
+	//	currentIndex = 0;
+	//}
 }
 
 /**************************************

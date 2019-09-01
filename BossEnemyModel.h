@@ -49,7 +49,7 @@ public:
 
 	void ChangeState(State next);
 
-	void SetRebar();
+	void SetRebar(int num);
 	void ThrowRebar();
 
 	void StartBulletCharge();

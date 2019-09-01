@@ -145,7 +145,7 @@ void BossEnemyModel::ChangeState(State next)
 void BossEnemyModel::SetRebar()
 {
 	float z = 300.0f;
-	const int LoopMax[] = { 2, 3, 5 };
+	const int LoopMax[Const::LevelMax] = { 3, 4, 5 };
 	for (int i = 0; i < LoopMax[level]; i++)
 	{
 		int start = Math::RandomRange(0, 5);
@@ -194,7 +194,7 @@ void BossEnemyModel::StartBulletCharge()
 ***************************************/
 void BossEnemyModel::NotifyBullet()
 {
-	const int EdgeMax[] = { 3, 3, 4, 4 };
+	const int EdgeMax[Const::LevelMax] = { 3, 3, 4 };
 	
 	std::vector<int> edgeList;
 	MakeOneStrokeEdge(EdgeMax[level], edgeList);
@@ -227,7 +227,7 @@ void BossEnemyModel::FireBullet()
 **************************************/
 void BossEnemyModel::SetCollider()
 {
-	const int EdgeMax[Const::LevelMax] = {3, 4, 5, 6};
+	const int EdgeMax[Const::LevelMax] = {4, 5, 6};
 	vector<int> edgeList;
 
 	MakeOneStrokeEdge(EdgeMax[level], edgeList);
@@ -287,7 +287,7 @@ void BossEnemyModel::MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList)
 	 edgeList.clear();
 	edgeList.reserve(edgeNum);
 
-	for (UINT i = 0; i < edgeNum; i++)
+	for (int i = 0; i < edgeNum; i++)
 	{
 		int start = prevEnd;
 		edgeList.push_back(start);

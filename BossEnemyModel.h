@@ -99,7 +99,7 @@ private:
 
 	enum Const
 	{
-		LevelMax = 4
+		LevelMax = 3
 	};
 };
 

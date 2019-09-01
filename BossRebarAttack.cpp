@@ -31,7 +31,9 @@ int BossEnemyModel::BossRebarAttack::OnUpdate(BossEnemyModel* entity)
 	const int RebarMoveDuration = 85;
 	const int RebarAttackTime = 200;
 	const int RebarThrowDuration = 180;
+	const int LoopTime = 210;
 	const int FinishTime = 240;
+	const int LoopMax[BossEnemyModel::Const::LevelMax] = { 1, 2, 3 };
 
 	cntFrame++;
 
@@ -47,18 +49,17 @@ int BossEnemyModel::BossRebarAttack::OnUpdate(BossEnemyModel* entity)
 		entity->ThrowRebar();
 	}
 
-	if (cntFrame == FinishTime)
+	if (cntFrame == LoopTime && entity->cntAttack < LoopMax[entity->level])
 	{
 		entity->cntAttack++;
-		if (entity->cntAttack == 1)
-		{
-			result = BossEnemyModel::State::Idle;
-			entity->cntLoop++;
-		}
-		else
-		{
-			OnStart(entity);
-		}
+		OnStart(entity);
+	}
+
+	if (cntFrame == FinishTime)
+	{
+		result = BossEnemyModel::State::Idle;
+		entity->cntLoop++;
+
 	}
 
 	return result;

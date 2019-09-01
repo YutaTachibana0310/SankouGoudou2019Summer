@@ -135,7 +135,8 @@ void RebarObstacle::Move(const Transform& target, float length, int duration, Ea
 {
 	startPos = transform->pos;
 
-	D3DXVECTOR3 diff = target.pos - transform->pos;
+	D3DXVECTOR3 noise = D3DXVECTOR3(RandomRangef(-20.0f, 20.0f), RandomRangef(-20.0f, 20.0f), RandomRangef(-20.0f, 20.0f));
+	D3DXVECTOR3 diff = target.pos + noise - transform->pos;
 	D3DXVec3Normalize(&diff, &diff);
 	endPos = transform->pos + diff * length;
 	moveDuration = duration;

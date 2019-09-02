@@ -204,7 +204,9 @@
     <ClInclude Include="Framework\Vector3.h" />
     <ClInclude Include="GameBomberSequence.h" />
     <ClInclude Include="GameBossBattle.h" />
+    <ClInclude Include="GameBossBombSequence.h" />
     <ClInclude Include="GameBossStart.h" />
+    <ClInclude Include="PlayerBomberEnemy.h" />
     <ClInclude Include="PlayerChargeEffect.h" />
     <ClInclude Include="PlayerChargeEffectController.h" />
     <ClInclude Include="PlayerChargeParticle.h" />
@@ -401,7 +403,9 @@
     <ClCompile Include="Framework\Vector3.cpp" />
     <ClCompile Include="GameBomberSequence.cpp" />
     <ClCompile Include="GameBossBatlle.cpp" />
+    <ClCompile Include="GameBossBombSequence.cpp" />
     <ClCompile Include="GameBossStart.cpp" />
+    <ClCompile Include="PlayerBomberEnemy.cpp" />
     <ClCompile Include="PlayerChargeEffect.cpp" />
     <ClCompile Include="PlayerChargeEffectController.cpp" />
     <ClCompile Include="PlayerChargeParticle.cpp" />

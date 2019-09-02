@@ -49,7 +49,7 @@ void StraightEnemyModel::Init(LineTrailModel model, int enemyNum)
 	//エネミー生成
 	for (int i = 0; i < enemyNum; i++)
 	{
-		enemyList.push_back(new EnemyStraight());
+		enemyList.push_back(std::make_shared<EnemyStraight>());
 	}
 
 	//Enemyの初期化

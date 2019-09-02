@@ -48,7 +48,8 @@ UINT Enemy::m_InstanceCount;
 /****************************************
 コンストラクタ
 ****************************************/
-Enemy::Enemy()
+Enemy::Enemy() : 
+	m_FlgDestroyed(false)
 {
 	m_InstanceCount++;
 	ResourceManager::Instance()->GetMesh("Enemy", m_pMesh);
@@ -57,8 +58,6 @@ Enemy::Enemy()
 	m_Collider->SetSize(ENEMY_COLLIDER_SIZE);
 	m_Collider->active = true;
 	m_Collider->AddObserver(this);
-
-	m_Targeter = NULL;
 }
 
 /****************************************
@@ -68,9 +67,6 @@ Enemy::~Enemy()
 {
 	m_InstanceCount--;
 	SAFE_DELETE(m_Collider);
-	
-	if (m_Targeter != NULL)
-		m_Targeter->OnDisappearTarget();
 }
 
 /****************************************
@@ -80,14 +76,6 @@ void Enemy::OnNotified(BoxCollider3DTag other)
 {
 	m_FlgDestroyed = true;
 	m_Active = false;
-}
-
-/****************************************
-ターゲッター追加処理
-****************************************/
-void Enemy::AddTargeter(PlayerBomber *targeter)
-{
-	m_Targeter = targeter;
 }
 
 /****************************************
@@ -528,7 +516,7 @@ HRESULT EnemySnake::VInit()
 	m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	m_Dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
+	m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	m_FrameDest = 0;
 	m_Dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);

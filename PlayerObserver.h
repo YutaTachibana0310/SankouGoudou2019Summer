@@ -19,6 +19,7 @@
 #include <map>
 #include <functional>
 #include <vector>
+#include <memory>
 
 /**************************************
 プロトタイプ宣言
@@ -57,7 +58,8 @@ public:
 	void PushInput(int num);
 
 	bool ShouldFireBomber();
-	void FirePlayerBomber(std::list<Enemy*> targetList);
+	void FirePlayerBomber(std::list<std::shared_ptr<Enemy>>& targetList);
+	void FirePlayerBomber(std::list <std::shared_ptr<Transform>>& targetList);
 	void OnStartAccel();
 
 	const Transform& GetPlayerTransform() const;

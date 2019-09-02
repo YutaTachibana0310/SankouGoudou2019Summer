@@ -10,6 +10,7 @@
 #include "enemy.h"
 #include "GameParticleManager.h"
 #include "debugWindow.h"
+#include "PlayerBomberEnemy.h"
 
 using namespace std;
 
@@ -40,7 +41,7 @@ PlayerBomberController::PlayerBomberController()
 	texture = CreateTextureFromFile((LPSTR)TextureName, pDevice);
 
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D)* NUM_VERTEX, D3DUSAGE_WRITEONLY, FVF_VERTEX_3D, D3DPOOL_MANAGED, &vtxBuff, 0);
-	
+
 	VERTEX_3D *pVtx;
 	vtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
@@ -79,10 +80,6 @@ PlayerBomberController::PlayerBomberController()
 **********************************************************/
 PlayerBomberController::~PlayerBomberController()
 {
-	for (auto &bomber : bomberContainer)
-	{
-		SAFE_DELETE(bomber);
-	}
 	bomberContainer.clear();
 
 	SAFE_RELEASE(texture);
@@ -119,6 +116,12 @@ void PlayerBomberController::Update()
 	{
 		bomber->Update();
 	}
+
+	//終了したボンバーをコンテナから削除
+	bomberContainer.remove_if([](auto&& bomber)
+	{
+		return !bomber->active;
+	});
 
 	//ストックインターバルを更新
 	stockInterval = Min(BOMBER_STOCK_INTERVAL, stockInterval + 1);
@@ -159,7 +162,7 @@ void PlayerBomberController::Draw()
 /***************************************************
 ボムセット処理
 ***************************************************/
-void PlayerBomberController::SetPlayerBomber(list<Enemy*>targetList, D3DXVECTOR3 initpos)
+void PlayerBomberController::SetPlayerBomber(list<std::shared_ptr<Enemy>>& targetList, D3DXVECTOR3 initpos)
 {
 	D3DXVECTOR3 setPos = initpos + D3DXVECTOR3(0.0f, 10.0f, 50.0f);
 	float rotAngle = D3DXToRadian(360.0f / targetList.size());
@@ -172,26 +175,10 @@ void PlayerBomberController::SetPlayerBomber(list<Enemy*>targetList, D3DXVECTOR3
 		dir.x = sinf(radian);
 		dir.y = cosf(radian);
 
-		auto itr = find_if(bomberContainer.begin(), bomberContainer.end(), [](PlayerBomber* bomber)
-		{
-			return !bomber->active;
-		});
-
-		if (itr != bomberContainer.end())
-		{
-			PlayerBomber* bomber = *itr;
-			bomber->Init(dir);
-			bomber->Set(target, setPos);
-			target->AddTargeter(bomber);
-		}
-		else
-		{
-			PlayerBomber *bomber = new PlayerBomber();
-			bomber->Init(dir);
-			bomber->Set(target, setPos);
-			bomberContainer.push_back(bomber);
-			target->AddTargeter(bomber);
-		}
+		PlayerBomberEnemy *ptr = new PlayerBomberEnemy();
+		ptr->Init(dir);
+		ptr->Set(target, setPos);
+		bomberContainer.push_back(std::unique_ptr<PlayerBomber>(ptr));
 
 		radian += rotAngle;
 	}
@@ -202,6 +189,10 @@ void PlayerBomberController::SetPlayerBomber(list<Enemy*>targetList, D3DXVECTOR3
 
 	//発射エフェクトセット
 	GameParticleManager::Instance()->SetBomberFire(&setPos);
+}
+
+void PlayerBomberController::SetPlayerBomber(std::list<std::shared_ptr<Transform>>& targetList, D3DXVECTOR3 initPos)
+{
 }
 
 /***************************************************

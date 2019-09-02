@@ -65,6 +65,8 @@ public:
 
 	bool IsDesteoyed();
 
+	D3DXVECTOR3 GetPosition();
+
 private:
 	BossEnemyActor* actor;
 	std::unordered_map < State, IStateMachine<BossEnemyModel>*> fsm;

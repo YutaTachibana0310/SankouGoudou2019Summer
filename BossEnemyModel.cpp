@@ -282,6 +282,14 @@ bool BossEnemyModel::IsDesteoyed()
 }
 
 /**************************************
+À•Wæ“¾ˆ—
+**************************************/
+D3DXVECTOR3 BossEnemyModel::GetPosition()
+{
+	return actor->GetActorPosition();
+}
+
+/**************************************
 ˆê•M‘‚«‚Ì‹OÕì¬ˆ—
 **************************************/
 void BossEnemyModel::MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList)

@@ -41,6 +41,7 @@ public:
 	void OnClearCombo();
 
 	bool ShouldFireBomber();
+	bool ShouldFireBomberOnBossBattle();
 
 	GameScene() {};
 	~GameScene() {};

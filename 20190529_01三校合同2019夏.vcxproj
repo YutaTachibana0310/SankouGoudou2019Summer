@@ -206,6 +206,7 @@
     <ClInclude Include="GameBossBattle.h" />
     <ClInclude Include="GameBossBombSequence.h" />
     <ClInclude Include="GameBossStart.h" />
+    <ClInclude Include="PlayerBomberBoss.h" />
     <ClInclude Include="PlayerBomberEnemy.h" />
     <ClInclude Include="PlayerChargeEffect.h" />
     <ClInclude Include="PlayerChargeEffectController.h" />
@@ -405,6 +406,7 @@
     <ClCompile Include="GameBossBatlle.cpp" />
     <ClCompile Include="GameBossBombSequence.cpp" />
     <ClCompile Include="GameBossStart.cpp" />
+    <ClCompile Include="PlayerBomberBoss.cpp" />
     <ClCompile Include="PlayerBomberEnemy.cpp" />
     <ClCompile Include="PlayerChargeEffect.cpp" />
     <ClCompile Include="PlayerChargeEffectController.cpp" />

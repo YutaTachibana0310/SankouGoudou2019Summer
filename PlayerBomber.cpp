@@ -129,12 +129,3 @@ void PlayerBomber::OnNotified(BoxCollider3DTag other)
 {
 	Uninit();
 }
-
-/***************************************
-ÉZÉbÉgèàóù
-****************************************/
-void PlayerBomber::Set(D3DXVECTOR3 initPos)
-{
-	transform.pos = initPos;
-	cntFrame = reachFrame = BOMBER_REACH_FRAME;
-}

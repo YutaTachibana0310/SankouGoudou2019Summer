@@ -34,7 +34,8 @@ using namespace std;
 BossEnemyModel::BossEnemyModel(const Transform& player, BossUImanager& uiManager) :
 	player(player),
 	isDestroyed(false),
-	uiManager(uiManager)
+	uiManager(uiManager),
+	flgBomberHit(false)
 {
 	actor = new BossEnemyActor();
 	bulletController = new EnemyBulletController();
@@ -86,6 +87,12 @@ BossEnemyModel::~BossEnemyModel()
 ***************************************/
 int BossEnemyModel::Update()
 {
+	if (flgBomberHit)
+	{
+		ChangeState(State::LargeDamage);
+		flgBomberHit = false;
+	}
+
 	int nextState = state->OnUpdate(this);
 	if (nextState != currentState)
 	{
@@ -161,10 +168,10 @@ void BossEnemyModel::SetRebar(int num)
 		pos.z = z;
 		pos.y -= 500.0f;
 
-		RebarObstacle *rebar = new RebarObstacle(pos, model, player);
+		std::shared_ptr<RebarObstacle> rebar = std::make_shared<RebarObstacle>(pos, model, player);
 		rebar->Move(D3DXVECTOR3(0.0f, 500.0f, 0.0f), 120, EaseType::OutCubic);
 
-		rebarList.push_back(unique_ptr<RebarObstacle>(rebar));
+		rebarList.push_back(rebar);
 
 		z += 100.0f;
 	}
@@ -279,6 +286,14 @@ void BossEnemyModel::ChargeExplode(Transform*& charge, Transform*& core)
 bool BossEnemyModel::IsDesteoyed()
 {
 	return isDestroyed;
+}
+
+/**************************************
+ƒ{ƒ“ƒo[’…’eˆ—
+**************************************/
+void BossEnemyModel::OnHitBomber()
+{
+	flgBomberHit = true;
 }
 
 /**************************************

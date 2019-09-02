@@ -339,8 +339,10 @@ void PlayerObserver::FirePlayerBomber(std::list<std::shared_ptr<Enemy>>& targetL
 /**************************************
 ƒ{ƒ“ƒo[”­Ëˆ—
 ***************************************/
-void PlayerObserver::FirePlayerBomber(std::list<std::shared_ptr<Transform>>& targetList)
+void PlayerObserver::FirePlayerBomber(std::shared_ptr<BossEnemyModel>& targetList)
 {
+	if (bomberController->CanSet())
+		bomberController->SetPlayerBomber(targetList, player->transform.pos);
 }
 
 /**************************************

@@ -34,9 +34,11 @@ public:
 	void SetActive(bool state);
 	bool IsActive();
 
+	std::shared_ptr<BossEnemyModel> GetBoss();
+
 private:
 	bool active;
-	BossEnemyModel *bossModel;
+	std::shared_ptr<BossEnemyModel> bossModel;
 };
 
 #endif

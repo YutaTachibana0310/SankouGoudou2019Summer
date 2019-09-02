@@ -49,8 +49,6 @@ protected:
 
 	static int instanceCount;
 
-	void Set(D3DXVECTOR3 initPos);
-
 private:
 	BoxCollider3D* collider;
 

@@ -13,11 +13,12 @@
 #include <list>
 #include <memory>
 
-class Enemy;
 /***********************************
 ‘O•ûéŒ¾
 ************************************/
-class PlayerBomberEnemy;
+class Enemy;
+class BossEnemyModel;
+class RebarObstacle;
 
 /*************************************
 PlayerBomberControllerƒNƒ‰ƒX
@@ -35,7 +36,8 @@ public:
 	void Draw();
 
 	void SetPlayerBomber(std::list<std::shared_ptr<Enemy>>& targetList, D3DXVECTOR3 initpos);
-	void SetPlayerBomber(std::list<std::shared_ptr<Transform>>& targetList, D3DXVECTOR3 initPos);
+	void SetPlayerBomber(std::shared_ptr<BossEnemyModel> targett, D3DXVECTOR3 initPos);
+	void SetPlayerBomber(std::list<std::shared_ptr<RebarObstacle>>& targetList, D3DXVECTOR3 initPos);
 
 	bool CanStock();
 	bool CanSet();

@@ -59,7 +59,8 @@ public:
 
 	bool ShouldFireBomber();
 	void FirePlayerBomber(std::list<std::shared_ptr<Enemy>>& targetList);
-	void FirePlayerBomber(std::list <std::shared_ptr<Transform>>& targetList);
+	void FirePlayerBomber(std::shared_ptr<BossEnemyModel>& targetList);
+
 	void OnStartAccel();
 
 	const Transform& GetPlayerTransform() const;

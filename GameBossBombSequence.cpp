@@ -42,9 +42,10 @@ int GameScene::GameBossBombSequence::OnUpdate(GameScene * entity)
 	entity->particleManager->UpdateBombParticle();
 
 	//発射タイミングであれば発射
-	if (entity->cntFrame == BomberFireTiming)
+	if (cntFrame == BomberFireTiming)
 	{
-
+		std::shared_ptr<BossEnemyModel> target = entity->bossController->GetBoss();
+		entity->playerObserver->FirePlayerBomber(target);
 	}
 
 	//終了判定

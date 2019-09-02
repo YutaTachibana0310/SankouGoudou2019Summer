@@ -1,11 +1,12 @@
 //=====================================
 //
-//エネミーを追尾するボンバー処理[PlayerBomberEnemy.cpp]
+//PlayerBomberBoss.cpp
+//機能:ボスを追尾するボンバー
 //Author:GP12B332 21 立花雄太
 //
 //=====================================
-#include "PlayerBomberEnemy.h"
-#include "enemy.h"
+#include "PlayerBomberBoss.h"
+#include "BossEnemyModel.h"
 #include "Framework\CameraShakePlugin.h"
 
 /**************************************
@@ -15,17 +16,17 @@
 /**************************************
 更新処理
 ***************************************/
-void PlayerBomberEnemy::Update()
+void PlayerBomberBoss::Update()
 {
 	if (!active)
 		return;
 
-	std::shared_ptr<Enemy> ptr = target.lock();
+	std::shared_ptr<BossEnemyModel> ptr = target.lock();
 
 	//参照先が有効であればターゲット座標を更新
 	if (ptr)
 	{
-		targetPos = ptr->m_Pos;
+		targetPos = ptr->GetPosition();
 	}
 
 	//追尾処理
@@ -47,16 +48,17 @@ void PlayerBomberEnemy::Update()
 
 		Uninit();
 	}
+
 }
 
 /**************************************
 セット処理
 ***************************************/
-void PlayerBomberEnemy::Set(std::shared_ptr<Enemy>& target, D3DXVECTOR3 initPos)
+void PlayerBomberBoss::Set(std::shared_ptr<BossEnemyModel>& target, D3DXVECTOR3 initPos)
 {
-	const int ReachFrame = 40;
+	const int ReachFrame = 80;
 
 	this->target = target;
 	transform.pos = initPos;
-	cntFrame = reachFrame = reachFrame;
+	cntFrame = reachFrame = ReachFrame;
 }

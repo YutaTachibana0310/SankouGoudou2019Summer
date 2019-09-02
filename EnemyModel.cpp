@@ -134,7 +134,7 @@ void EnemyModel::CheckDestroied()
 		SetAddCombo(1);
 
 		//Á–ÅSE
-		Sound::GetInstance()->SetPlaySE(ENEMYDOWN1, true, 0.02f);
+		Sound::GetInstance()->SetPlaySE(ENEMYDOWN1, true, (Sound::GetInstance()->changevol / 100.0f));
 
 		SAFE_DELETE(enemy);
 	}

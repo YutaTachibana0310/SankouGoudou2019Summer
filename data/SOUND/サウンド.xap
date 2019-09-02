@@ -16,8 +16,8 @@ Global Settings
     Header File = サウンド.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 96823632;
-    Last Modified High = 30760516;
+    Last Modified Low = 3528243935;
+    Last Modified High = 30760908;
 
     Category
     {
@@ -229,6 +229,8 @@ Wave Bank
     Xbox Bank Last Modified High = 0;
     PC Bank Last Modified Low = 96883467;
     PC Bank Last Modified High = 30760516;
+    Header Last Modified Low = 0;
+    Header Last Modified High = 0;
     Bank Last Revised Low = 397430700;
     Bank Last Revised High = 30755650;
 
@@ -290,10 +292,10 @@ Wave Bank
     Compression Preset Name = <none>;
     Xbox Bank Last Modified Low = 0;
     Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 99900864;
-    PC Bank Last Modified High = 30760516;
-    Bank Last Revised Low = 1353137062;
-    Bank Last Revised High = 30760517;
+    PC Bank Last Modified Low = 3528273867;
+    PC Bank Last Modified High = 30760908;
+    Bank Last Revised Low = 3528273867;
+    Bank Last Revised High = 30760908;
 
     Wave
     {
@@ -493,12 +495,12 @@ Wave Bank
             Sampling Rate = 44100;
             Bits Per Sample = 1;
             Play Region Offset = 78;
-            Play Region Length = 577568;
+            Play Region Length = 432160;
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1621268914;
-            Last Modified High = 30760515;
+            Last Modified Low = 2722787236;
+            Last Modified High = 30760908;
         }
     }
 
@@ -556,8 +558,8 @@ Sound Bank
     Windows File = Win\Sound Bank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
-    Bank Last Modified Low = 100030868;
-    Bank Last Modified High = 30760516;
+    Bank Last Modified Low = 3528461869;
+    Bank Last Modified High = 30760908;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
 
@@ -1003,53 +1005,6 @@ Sound Bank
 
     Sound
     {
-        Name = bomb;
-        Volume = -1200;
-        Pitch = 0;
-        Priority = 0;
-
-        Category Entry
-        {
-            Name = Default;
-        }
-
-        Track
-        {
-            Volume = 0;
-            Use Filter = 0;
-
-            Play Wave Event
-            {
-                Break Loop = 0;
-                Use Speaker Position = 0;
-                Use Center Speaker = 1;
-                New Speaker Position On Loop = 1;
-                Speaker Position Angle = 0.000000;
-                Speaker Position Arc = 0.000000;
-
-                Event Header
-                {
-                    Timestamp = 0;
-                    Relative = 0;
-                    Random Recurrence = 0;
-                    Random Offset = 0;
-                }
-
-                Wave Entry
-                {
-                    Bank Name = SE;
-                    Bank Index = 1;
-                    Entry Name = bomb;
-                    Entry Index = 8;
-                    Weight = 255;
-                    Weight Min = 0;
-                }
-            }
-        }
-    }
-
-    Sound
-    {
         Name = エネミー出現予告;
         Volume = -1200;
         Pitch = 0;
@@ -1283,6 +1238,53 @@ Sound Bank
         }
     }
 
+    Sound
+    {
+        Name = bomb;
+        Volume = -1200;
+        Pitch = 0;
+        Priority = 0;
+
+        Category Entry
+        {
+            Name = Default;
+        }
+
+        Track
+        {
+            Volume = 0;
+            Use Filter = 0;
+
+            Play Wave Event
+            {
+                Break Loop = 0;
+                Use Speaker Position = 0;
+                Use Center Speaker = 1;
+                New Speaker Position On Loop = 1;
+                Speaker Position Angle = 0.000000;
+                Speaker Position Arc = 0.000000;
+
+                Event Header
+                {
+                    Timestamp = 0;
+                    Relative = 0;
+                    Random Recurrence = 0;
+                    Random Offset = 0;
+                }
+
+                Wave Entry
+                {
+                    Bank Name = SE;
+                    Bank Index = 1;
+                    Entry Name = bomb;
+                    Entry Index = 8;
+                    Weight = 255;
+                    Weight Min = 0;
+                }
+            }
+        }
+    }
+
     Cue
     {
         Name = 決定SE;
@@ -1397,7 +1399,7 @@ Sound Bank
         Sound Entry
         {
             Name = 小エネミー爆発;
-            Index = 12;
+            Index = 11;
             Weight Min = 0;
             Weight Max = 255;
         }
@@ -1417,7 +1419,7 @@ Sound Bank
         Sound Entry
         {
             Name = 中エネミー爆発 2;
-            Index = 11;
+            Index = 10;
             Weight Min = 0;
             Weight Max = 255;
         }
@@ -1437,7 +1439,7 @@ Sound Bank
         Sound Entry
         {
             Name = Eショット着弾;
-            Index = 10;
+            Index = 9;
             Weight Min = 0;
             Weight Max = 255;
         }
@@ -1457,7 +1459,7 @@ Sound Bank
         Sound Entry
         {
             Name = Pショット発射音;
-            Index = 9;
+            Index = 8;
             Weight Min = 0;
             Weight Max = 255;
         }
@@ -1477,26 +1479,6 @@ Sound Bank
         Sound Entry
         {
             Name = エネミー出現予告;
-            Index = 8;
-            Weight Min = 0;
-            Weight Max = 255;
-        }
-    }
-
-    Cue
-    {
-        Name = bomb;
-
-        Variation
-        {
-            Variation Type = 3;
-            Variation Table Type = 1;
-            New Variation on Loop = 0;
-        }
-
-        Sound Entry
-        {
-            Name = bomb;
             Index = 7;
             Weight Min = 0;
             Weight Max = 255;
@@ -1538,6 +1520,26 @@ Sound Bank
         {
             Name = ENTERSE;
             Index = 5;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = bomb;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = bomb;
+            Index = 12;
             Weight Min = 0;
             Weight Max = 255;
         }

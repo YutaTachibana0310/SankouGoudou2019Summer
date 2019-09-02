@@ -50,9 +50,4 @@ bool GetBomberInput()
 	return false;
 }
 
-void InputSound() {
-
-
-
-}
 

@@ -26,10 +26,10 @@ Sound::Sound()
 	}
 
 	pauseflag = false;
-	playsound = false;
+	playsound = true;
 	pause = false;
 	changepitch = 0;
-	
+	fadecounta = 0.0f;
 
 }
 
@@ -325,20 +325,38 @@ void Sound::FadeIn(int wavenum, float fadesec,float setvol,bool inflag) {
 	//0.25 / 60 = 1フレームに上がる音量(4秒の場合0.00416…)
 	//0.004 * 240 = 0.96(最大vol1）
 
-	if (fadevolume[wavenum] <= changevol && !pauseflag) {
+	if (playsound == true) {
+		fadecounta++;
+	}
+
+	//if (fadevolume[wavenum] <= changevol && !pauseflag) {
+	if (fadecounta / 60 <= fadesec && playsound == true) {
 		maxvol_BGM[wavenum] = setvol;
 		fadevolume[wavenum] += (maxvol_BGM[wavenum] / fadesec) / FLAME;
 		Sound::ChangeBGMVolume(wavenum, fadevolume[wavenum]);
 	}
+	else {
+		playsound = false;
+		fadecounta = 0;
+	}
+
 
 }
 void Sound::FadeOut(int wavenum, float fadesec, float setvol, bool outflag) {
 
+	if (playsound == true) {
+		fadecounta++;
+	}
 
-	if (fadevolume[wavenum] >= 0 && !pauseflag) {
+	//if (fadevolume[wavenum] >= 0 && !pauseflag) {
+	if (fadecounta / 60 <= fadesec && playsound == true) {
 		maxvol_BGM[wavenum] = setvol;
 		fadevolume[wavenum] -= (maxvol_BGM[wavenum] / fadesec) / FLAME;
 		Sound::ChangeBGMVolume(wavenum, fadevolume[wavenum]);
+	}
+	else {
+		playsound = false;
+		fadecounta = 0;
 	}
 }
 

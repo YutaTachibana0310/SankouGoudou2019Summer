@@ -15,15 +15,17 @@
 ***************************************/
 void SoundTitleScene::Play() {
 	//サウンドの再生
-	if (!Sound::GetInstance()->playsound) {
+	//if (!Sound::GetInstance()->playsound) {
 		//ゲーム開始と同時に再生、フェードイン
 		Sound::GetInstance()->SetPlayBGM(TITLEBGM, true, (Sound::GetInstance()->changevol / 10.0f));
-		Sound::GetInstance()->FadeIn(TITLEBGM, 10.0f, Sound::GetInstance()->changevol, true);
-	}
-	else {
-		//フェードアウトの開始
-		Sound::GetInstance()->FadeOut(TITLEBGM, 4.5f, 1.0f, true);
-	}
+		Sound::GetInstance()->ChangeBGMVolume(TITLEBGM, Sound::GetInstance()->changevol / 10.0f);
+
+		//Sound::GetInstance()->FadeIn(TITLEBGM, 10.0f, Sound::GetInstance()->changevol / 10.0f, Sound::GetInstance()->playsound);
+	//}
+	//else {
+	//	//フェードアウトの開始
+	//	Sound::GetInstance()->FadeOut(TITLEBGM, 4.5f, 1.0f, true);
+	//}
 
 	if (Sound::GetInstance()->changevol < 1.0f &&
 		GetKeyboardTrigger(DIK_UP)) {
@@ -56,7 +58,6 @@ void SoundTitleScene::Play() {
 
 	}
 
-	Sound::GetInstance()->ChangeBGMVolume(TITLEBGM, Sound::GetInstance()->changevol);
 
 }
 

@@ -123,7 +123,7 @@ void PlayerBulletController::SetPlayerBullet(LineTrailModel model)
 	{
 		(*itr)->Init(model);
 		//ショットSE
-		Sound::GetInstance()->SetPlaySE(PLAYERSHOT, true, 0.05f);
+		Sound::GetInstance()->SetPlaySE(PLAYERSHOT, true, (Sound::GetInstance()->changevol / 13.0f));
 	}
 	else
 	{
@@ -131,6 +131,6 @@ void PlayerBulletController::SetPlayerBullet(LineTrailModel model)
 		bullet->Init(model);
 		bulletContainer.push_back(bullet);
 		//ショットSE
-		Sound::GetInstance()->SetPlaySE(PLAYERSHOT, true, 0.05f);
+		Sound::GetInstance()->SetPlaySE(PLAYERSHOT, true, (Sound::GetInstance()->changevol / 13.0f));
 	}
 }

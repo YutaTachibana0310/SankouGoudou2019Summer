@@ -36,7 +36,7 @@ void SetAddCombo(int n) {
 
 	AddCombo(n);
 
-	Sound::GetInstance()->SetPlaySE(COMBOSE, true, 1.0f);
+	Sound::GetInstance()->SetPlaySE(COMBOSE, true, (Sound::GetInstance()->changevol / 10.0f));
 	Sound::GetInstance()->changepitch += n * 100;
 	if (Sound::GetInstance()->changepitch > 1200) {
 		Sound::GetInstance()->changepitch = 1200;

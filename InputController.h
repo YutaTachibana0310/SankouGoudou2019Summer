@@ -12,6 +12,5 @@
 
 bool GetMoveInput(int m);
 bool GetBomberInput();
-void InputSound();
 
 #endif

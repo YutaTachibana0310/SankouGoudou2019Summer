@@ -92,6 +92,7 @@ public:
 	int changepitch;
 	float changevol;
 	int UIcounta;
+	float fadecounta;
 
 	static Sound *GetInstance() {
 		return sound;

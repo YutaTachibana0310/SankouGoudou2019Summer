@@ -165,8 +165,6 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
-	//サウンド再生(テスト）
-	InputSound();
 
 	//ステート更新処理
 	int result = state->OnUpdate(this);

@@ -10,6 +10,7 @@
 #include "cursorUI.h"
 #include "masktex.h"
 #include "UIdrawer.h"
+#include "sound.h"
 
 //*****************************************************************************
 // ƒ}ƒNƒ’è‹`
@@ -83,6 +84,8 @@ void UpdateStartButton(void)
 		if (IsMouseLeftTriggered())
 		{
 			SceneChangeFlag(true, SceneGame);
+			//SE
+			Sound::GetInstance()->SetPlaySE(ENTERSE, true, (Sound::GetInstance()->changevol / 5.0f));
 		}
 
 		for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)

@@ -23,7 +23,7 @@
 void GameScene::GameBattle::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
-	Sound::GetInstance()->playsound = true;
+	//Sound::GetInstance()->playsound = true;
 }
 
 /**************************************
@@ -55,6 +55,7 @@ int GameScene::GameBattle::OnUpdate(GameScene *entity)
 	//I—¹”»’è
 	if (entity->enemyController->IsFinishedEnemy())
 		result = GameScene::State::BossBattle;
+
 
 	return result;
 	

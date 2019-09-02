@@ -284,8 +284,8 @@ void PlayerObserver::OnFinishPlayerReturn()
 ***************************************/
 void PlayerObserver::OnStartBomberSequence()
 {
-	//ショットSE
-	Sound::GetInstance()->SetPlaySE(BOMB, true, 0.5f);
+	//ボンバーSE
+	Sound::GetInstance()->SetPlaySE(BOMB, true, (Sound::GetInstance()->changevol / 5.0f));
 	enableUpdateLogic = false;
 	player->ChangeAnim(PlayerAnimID::FireBomber);
 	player->ChargeBomber();

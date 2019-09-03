@@ -208,7 +208,7 @@ void BoxCollider3D::UpdateCollision()
 	CheckRoundRobin(BoxCollider3DTag::PlayerBullet, BoxCollider3DTag::SnakeEnemy);
 
 	//Player‚ÆRebar‚ÅÕ“Ë”»’è
-	CheckRoundRobin(BoxCollider3DTag::Rebar, BoxCollider3DTag::Player);
+	CheckRoundRobin(BoxCollider3DTag::EnemyBullet, BoxCollider3DTag::Player);
 }
 
 /**************************************

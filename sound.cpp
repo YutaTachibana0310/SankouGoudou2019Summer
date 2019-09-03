@@ -220,7 +220,7 @@ void Sound::SetPlayBGM(int wavenum,bool playflag,float vol) {
 	}
 	//再生フラグがfalseの場合に再生
 	if (!BGMplayflag[wavenum] && !pauseflag) {
-		BGMwaveBank->Play(wavenum, XACT_FLAG_UNITS_MS, 0, 0, &BGMwave[wavenum]);
+		BGMwaveBank->Play(wavenum, XACT_FLAG_UNITS_MS, 0, 99, &BGMwave[wavenum]);
 		Sound::ChangeBGMVolume(wavenum, vol);
 	}
 	//再生フラグをtreuにし多重再生しないように
@@ -258,7 +258,7 @@ void Sound::SetPlaySE(int wavenum, bool playflag, float vol) {
 // 指定されたサウンドをウェイブバンクで停止
 // サウンドが存在しない場合、エラーは発生しない
 //=============================================================================
-void Sound::SetStopSound() {
+void Sound::SetStopSoundOll() {
 
 	if (BGMwaveBank == NULL)
 	{
@@ -277,6 +277,25 @@ void Sound::SetStopSound() {
 		SEwaveBank->Stop(i, XACT_FLAG_STOP_IMMEDIATE);
 		SEplayflag[i] = false;
 	}
+}
+//=============================================================================
+// 指定されたサウンドをウェイブバンクで停止（個別）
+// サウンドが存在しない場合、エラーは発生しない
+//=============================================================================
+void Sound::SetStopSound(int wavenum) {
+
+	if (BGMwaveBank == NULL)
+	{
+		return;
+	}
+	if (SEwaveBank == NULL)
+	{
+		return;
+	}
+
+	BGMwaveBank->Stop(wavenum, XACT_FLAG_STOP_IMMEDIATE);
+	BGMplayflag[wavenum] = false;
+
 }
 
 //=============================================================================
@@ -325,18 +344,14 @@ void Sound::FadeIn(int wavenum, float fadesec,float setvol,bool inflag) {
 	//0.25 / 60 = 1フレームに上がる音量(4秒の場合0.00416…)
 	//0.004 * 240 = 0.96(最大vol1）
 
-	if (playsound == true) {
+	if (maxvol_BGM[wavenum] >= fadevolume[wavenum]) {
 		fadecounta++;
-	}
 
-	//if (fadevolume[wavenum] <= changevol && !pauseflag) {
-	if (fadecounta / 60 <= fadesec && playsound == true) {
 		maxvol_BGM[wavenum] = setvol;
 		fadevolume[wavenum] += (maxvol_BGM[wavenum] / fadesec) / FLAME;
 		Sound::ChangeBGMVolume(wavenum, fadevolume[wavenum]);
 	}
 	else {
-		playsound = false;
 		fadecounta = 0;
 	}
 
@@ -344,18 +359,16 @@ void Sound::FadeIn(int wavenum, float fadesec,float setvol,bool inflag) {
 }
 void Sound::FadeOut(int wavenum, float fadesec, float setvol, bool outflag) {
 
-	if (playsound == true) {
+	if (fadevolume[wavenum] >= 0) {
 		fadecounta++;
 	}
 
-	//if (fadevolume[wavenum] >= 0 && !pauseflag) {
-	if (fadecounta / 60 <= fadesec && playsound == true) {
+	if (fadecounta / 60 <= fadesec && fadevolume[wavenum] >= 0) {
 		maxvol_BGM[wavenum] = setvol;
 		fadevolume[wavenum] -= (maxvol_BGM[wavenum] / fadesec) / FLAME;
 		Sound::ChangeBGMVolume(wavenum, fadevolume[wavenum]);
 	}
 	else {
-		playsound = false;
 		fadecounta = 0;
 	}
 }

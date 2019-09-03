@@ -7,19 +7,34 @@
 
 #include "sound.h"
 #include "SoundGameScene.h"
+#include "GameScene.h"
 #include "input.h"
+
+int CurrentGameScene = GameScene::State::Battle;
 
 /**************************************
 再生処理
 ***************************************/
 void SoundGameScene::Play() {
 
+
 	//サウンドの再生
 	//if (!Sound::GetInstance()->playsound) {
 		//ゲーム開始と同時に再生、フェードイン
-		Sound::GetInstance()->SetPlayBGM(GAMEBGM, true, (Sound::GetInstance()->changevol));
-		Sound::GetInstance()->FadeIn(GAMEBGM, 10.0f, Sound::GetInstance()->changevol / 10.0f, Sound::GetInstance()->playsound);
 
+	if (CurrentGameScene == GameScene::State::Battle) {
+		Sound::GetInstance()->SetStopSound(BOSSBGM);
+		Sound::GetInstance()->SetPlayBGM(GAMEBGM, true, Sound::GetInstance()->changevol / 8.0f);
+		Sound::GetInstance()->FadeIn(GAMEBGM, 10.0f, Sound::GetInstance()->changevol / 8.0f, true);
+	}
+	else if (CurrentGameScene == GameScene::State::BossBattle) {
+		//ゲームBGMフェードアウト
+		Sound::GetInstance()->FadeOut(GAMEBGM, 10.0f, Sound::GetInstance()->changevol / 8.0f, true);
+		//ボスBGM
+		Sound::GetInstance()->SetPlayBGM(BOSSBGM, true, Sound::GetInstance()->changevol / 5.0f);
+		Sound::GetInstance()->FadeIn(BOSSBGM, 5.0f, Sound::GetInstance()->changevol / 5.0f, true);
+	}
+		
 	//}
 	//else {
 		//フェードアウトの開始
@@ -75,5 +90,13 @@ void SoundGameScene::Play() {
 停止処理
 ***************************************/
 void SoundGameScene::Stop() {
-	Sound::GetInstance()->SetStopSound();
+	Sound::GetInstance()->SetStopSoundOll();
+
+}
+
+/**************************************
+シーン取得処理
+***************************************/
+void SoundGameScene::SetScene(int gamescene) {
+	CurrentGameScene = gamescene;
 }

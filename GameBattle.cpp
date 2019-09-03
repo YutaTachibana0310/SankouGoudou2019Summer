@@ -12,6 +12,7 @@
 #include "Framework\BoxCollider3D.h"
 #include "sound.h"
 
+
 /**************************************
 マクロ定義
 ***************************************/
@@ -55,6 +56,8 @@ int GameScene::GameBattle::OnUpdate(GameScene *entity)
 	//終了判定
 	if (entity->enemyController->IsFinishedEnemy())
 		result = GameScene::State::BossBattle;
+		
+	
 
 
 	return result;

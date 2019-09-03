@@ -24,6 +24,7 @@ const char SOUND_BANK[] = "data/SOUND/Win/Sound Bank.xsb";
 
 const char TITLE_BGM[] = "Jackhammer";
 const char GAME_BGM[] = "Blue_LIGHT_Techno";
+const char BOSS_BGM[] = "ダーティーファイト";
 
 const char ENTER_SE_NOTUSE[] = "決定SE";
 const char TEST_SE[] = "発砲音";
@@ -44,6 +45,7 @@ enum BGMNAME
 {
 	GAMEBGM = 0,
 	TITLEBGM,
+	BOSSBGM,
 	MAXBGM
 };
 
@@ -118,7 +120,9 @@ public:
 
 	void SetPlaySE(int wavenum, bool playflag, float vol);
 
-	void SetStopSound();
+	void SetStopSoundOll();
+
+	void SetStopSound(int wavenum);
 
 	void ChangePauseSound(bool b);
 

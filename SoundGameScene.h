@@ -22,6 +22,7 @@ class SoundGameScene : public SoundStateScene
 public:
 	void Play();
 	void Stop();
+	static void SetScene(int gamescene);
 
 	SoundGameScene() {};
 	~SoundGameScene() {};

@@ -337,6 +337,8 @@
     <ClInclude Include="TitleSceneUIManager.h" />
     <ClInclude Include="trailUI.h" />
     <ClInclude Include="TrailCollider.h" />
+    <ClInclude Include="TutorialBG.h" />
+    <ClInclude Include="TutorialScene.h" />
     <ClInclude Include="UIdrawer.h" />
     <ClInclude Include="GameSceneUIManager.h" />
     <ClInclude Include="ResultScene.h" />
@@ -532,6 +534,8 @@
     <ClCompile Include="TitleSceneUIManager.cpp" />
     <ClCompile Include="trailUI.cpp" />
     <ClCompile Include="TrailCollider.cpp" />
+    <ClCompile Include="TutorialBG.cpp" />
+    <ClCompile Include="TutorialScene.cpp" />
     <ClCompile Include="UIdrawer.cpp" />
     <ClCompile Include="GameSceneUIManager.cpp" />
     <ClCompile Include="ResultScene.cpp" />

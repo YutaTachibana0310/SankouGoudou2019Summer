@@ -126,12 +126,6 @@ void BackGroundController::Update()
 	{
 		city->Update(scroolSpeed);
 	}
-
-	//スカイボックスを更新
-	for (auto &box : skyBoxies)
-	{
-		box->Update();
-	}
 }
 
 /**************************************

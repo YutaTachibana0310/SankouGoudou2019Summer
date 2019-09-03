@@ -20,6 +20,7 @@
 #include "ResultScene.h"
 #include "EditorScene.h"
 #include "InputController.h"
+#include "TutorialScene.h"
 
 #include "SoundStateScene.h"
 #include "SoundTitleScene.h"
@@ -58,7 +59,7 @@ static IStateScene* fsm[SceneMax];
 static SoundStateScene* ssm[SceneMax];
 
 //åªç›ÇÃÉVÅ[Éì
-static Scene currentScene = SceneGame;
+static Scene currentScene = Scene::SceneTutorial;
 
 /**************************************
 èâä˙âªèàóù
@@ -81,6 +82,7 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	fsm[SceneGame] = new GameScene();
 	fsm[SceneResult] = new ResultScene();
 	fsm[SceneEditor] = new EditorScene();
+	fsm[SceneTutorial] = new TutorialScene();
 
 	ssm[SceneTitle] = new SoundTitleScene();
 	ssm[SceneGame] = new SoundGameScene();

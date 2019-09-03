@@ -1,13 +1,13 @@
 //=============================================================================
 //
 // リザルト背景画面処理 [resultBGUI.cpp]
-// Author : 渡邉良則（おおはま変更）
+// Author : 渡邉良則
 //
 //=============================================================================
 #include "main.h"
 #include "input.h"
 #include "resultBGUI.h"
-#include "UIdrawer.h"
+#include "UIdrawerC.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -16,43 +16,52 @@
 #define POSITION_RESULTBG	(D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,0.0f))
 
 //*****************************************************************************
-// コンストラクタ
+// グローバル変数
 //*****************************************************************************
-ResultBG::ResultBG()
+OBJECT	resultBG;
+
+//=============================================================================
+// 初期化処理
+//=============================================================================
+HRESULT InitResultBG(void)
 {
-	resultBG = new Object();
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	resultBG->LoadTexture("data/TEXTURE/UI/Result/ブラック.jpg");
-	resultBG->MakeVertex();
+	LoadTexture(pDevice, ADRESS_TEXTURE_RESULTBG, &resultBG);
+	InitialTexture(&resultBG);
+	MakeVertexObject(&resultBG);
 
-	resultBG->position = POSITION_RESULTBG;
-	resultBG->size = SIZE_RESULTBG;
-	resultBG->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	resultBG.position = POSITION_RESULTBG;
+	resultBG.size = SIZE_RESULTBG;
+	resultBG.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	resultBG->SetColorObject(SET_COLOR_NOT_COLORED);
+	SetColorObject(&resultBG, SET_COLOR_NOT_COLORED);
+
+	return S_OK;
 }
 
-//*****************************************************************************
-// デストラクタ
-//*****************************************************************************
-ResultBG::~ResultBG()
+//=============================================================================
+// 終了処理
+//=============================================================================
+void UninitResultBG(void)
 {
-	delete resultBG;
-	resultBG = NULL;
+	ReleaseTexture(&resultBG);
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void ResultBG::Update(void)
+void UpdateResultBG(void)
 {
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
-void ResultBG::Draw(void)
+void DrawResultBG(void)
 {
-	resultBG->Draw();
-	resultBG->SetVertex();
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	DrawObject(pDevice, resultBG);
+	SetVertexObject(&resultBG);
 }

@@ -645,6 +645,9 @@
     <ClInclude Include="lineUI.h">
       <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
     </ClInclude>
+    <ClInclude Include="UIdrawerC.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1075,6 +1078,9 @@
     </ClCompile>
     <ClCompile Include="ResultSceneUIManager.cpp">
       <Filter>ソース ファイル\UI\SceneUIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UIdrawerC.cpp">
+      <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

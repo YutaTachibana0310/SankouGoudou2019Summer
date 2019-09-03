@@ -27,9 +27,8 @@
 ***************************************/
 void ResultScene::Init()
 {
-	resultSceneUIManager = new ResultSceneUIManager;
+	InitResultSceneUI();
 
-	resultSceneUIManager->Init();
 }
 
 /**************************************
@@ -37,8 +36,7 @@ void ResultScene::Init()
 ***************************************/
 void ResultScene::Uninit()
 {
-	SAFE_DELETE(resultSceneUIManager);
-	resultSceneUIManager->Uninit();
+	UninitResultSceneUI();
 }
 
 /**************************************
@@ -46,7 +44,7 @@ void ResultScene::Uninit()
 ***************************************/
 void ResultScene::Update(HWND hWnd)
 {
-	resultSceneUIManager->Update(hWnd);
+	UpdateResultSceneUI(hWnd);
 }
 
 /**************************************
@@ -54,5 +52,5 @@ void ResultScene::Update(HWND hWnd)
 ***************************************/
 void ResultScene::Draw()
 {
-	resultSceneUIManager->Draw();
+	DrawResultSceneUI();
 }

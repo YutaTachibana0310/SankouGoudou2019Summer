@@ -20,4 +20,6 @@ void SetAddCombo(int n);
 
 void ClearCombo(void);
 
+int GetCurrentGameScore();
+void SetCurrentGameScore(int score);
 #endif

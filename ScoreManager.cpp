@@ -11,6 +11,7 @@
 #include "sound.h"
 #include "GameSceneUIManager.h"
 
+static int currentStageScore;
 
 void SetAddScore(int n) {
 
@@ -37,3 +38,12 @@ void ClearCombo(void) {
 
 }
 
+int GetCurrentGameScore()
+{
+	return currentStageScore;
+}
+
+void SetCurrentGameScore(int score)
+{
+	currentStageScore = score;
+}

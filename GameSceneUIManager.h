@@ -7,14 +7,6 @@
 #ifndef _GAMESCENEUIMANAGER_H_
 #define _GAMESCENEUIMANAGER_H_
 
-#include "comboUI.h"
-#include "scoreUI.h"
-#include "battleStartTelop.h"
-#include "stageClearTelop.h"
-#include "guageUI.h"
-#include "cursorUI.h"
-#include "starUI.h"
-
 /**************************************
 ëOï˚êÈåæ
 ***************************************/

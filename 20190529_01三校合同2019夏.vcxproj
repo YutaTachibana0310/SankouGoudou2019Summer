@@ -287,6 +287,7 @@
     <ClInclude Include="GameSceneUIManager.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="UIdrawerC.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BackGroundCity.cpp" />
@@ -427,6 +428,7 @@
     <ClCompile Include="GameSceneUIManager.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="UIdrawerC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\BloomFilter.fx">

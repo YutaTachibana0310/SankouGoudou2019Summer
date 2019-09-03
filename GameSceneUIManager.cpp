@@ -210,3 +210,4 @@ void GameSceneUIManager::UpdateCursorColor()
 		cursor->PaintCursorYellow();
 	}
 }
+

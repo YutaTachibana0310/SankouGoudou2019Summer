@@ -7,30 +7,12 @@
 #ifndef _RESULTSCENEUIMANAGER_H_
 #define _RESULTSCENEUIMANAGER_H_
 
-#include "UIdrawer.h"
-
-/**************************************
-前方宣言
-***************************************/
-class Object;
-class Rank;
-class ResultBG;
-
-/**************************************
-構造体定義
-***************************************/
-class ResultSceneUIManager
-{
-public:
-	ResultSceneUIManager();
-	~ResultSceneUIManager();
-
-	ResultBG *resultBG;
-	Rank * rank;
-	void Init(void);
-	void Uninit(void);
-	void Update(HWND hwnd);
-	void Draw(void);
-};
+//*****************************************************************************
+// プロトタイプ宣言
+//*****************************************************************************
+void InitResultSceneUI(void);
+void UninitResultSceneUI(void);
+void UpdateResultSceneUI(HWND hwnd);
+void DrawResultSceneUI(void);
 
 #endif

@@ -15,11 +15,6 @@
 ***************************************/
 
 /**************************************
-前方宣言
-***************************************/
-class ResultSceneUIManager;
-
-/**************************************
 クラス定義
 ***************************************/
 class ResultScene : public IStateScene
@@ -32,8 +27,6 @@ public:
 
 	ResultScene() {}
 	~ResultScene() {}
-
-	ResultSceneUIManager*resultSceneUIManager;
 };
 
 #endif

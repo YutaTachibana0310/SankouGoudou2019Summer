@@ -12,32 +12,43 @@
 /**************************************
 マクロ定義
 ***************************************/
-static const char* AnimationSetName[] = {
-	"Flying", "Attack01", "Attack02", "Damage", "Death", "Idle"
-};
-
-static const char* ModelFileName = "data/MODEL/Boss.x";
 
 /**************************************
 コンストラクタ
 ***************************************/
-BossEnemyActor::BossEnemyActor()
+BossEnemyActor::BossEnemyActor() :
+	writeableZ(true),
+	active(true)
 {
 	animManager = new AnimationManager();
 
 	//モデルファイル読み込み
+	const char* ModelFileName = "data/MODEL/Boss.x";
 	animManager->LoadXFile(ModelFileName, "Boss");
 
 	//アニメーション読み込み
+	const char* AnimationSetName[] = {
+		"Flying", "Attack01", "Attack02", "Damage", "Death", "Idle", "LargeDamage"
+	};
 	for (UINT i = 0; i < AnimID::Max; i++)
 	{
 		animManager->LoadAnimation(AnimationSetName[i], i, 0.3f);
+	}
+
+	//アニメーションスピード設定
+	const float AnimationPlaySpeed[] = {
+		1.0f, 0.6f, 0.6f, 1.5f, 0.4f, 1.0f, 1.5f
+	};
+	for (UINT i = 0; i < AnimID::Max; i++)
+	{
+		animManager->SetPlaySpeed(i, AnimationPlaySpeed[i]);
 	}
 
 	//遷移関係設定
 	animManager->SetFinishTransition(AnimID::Attack01, AnimID::Idle);
 	animManager->SetFinishTransition(AnimID::Attack02, AnimID::Idle);
 	animManager->SetFinishTransition(AnimID::Damage, AnimID::Idle);
+	animManager->SetFinishTransition(AnimID::LargeDamage, AnimID::Idle);
 
 	//フラグ初期化
 	inMoving = false;
@@ -59,6 +70,9 @@ BossEnemyActor::~BossEnemyActor()
 ***************************************/
 void BossEnemyActor::Update()
 {
+	if (!active)
+		return;
+
 	_Move();
 	
 	_Rotate();
@@ -71,10 +85,19 @@ void BossEnemyActor::Update()
 ***************************************/
 void BossEnemyActor::Draw()
 {
+	if (!active)
+		return;
+
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, writeableZ);
+
 	transform.SetWorld();
 
 	D3DXMATRIX world = transform.GetMatrix();
 	animManager->Draw(&world);
+
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 }
 
 /**************************************
@@ -111,6 +134,35 @@ void BossEnemyActor::Rotate(const D3DXVECTOR3& target, float magnitude)
 void BossEnemyActor::ChangeAnimation(AnimID next)
 {
 	animManager->ChangeAnim(next, true);
+}
+
+/**************************************
+Zバッファ書き込み設定処理
+***************************************/
+void BossEnemyActor::SetWriteableZ(bool state)
+{
+	writeableZ = state;
+}
+
+/**************************************
+アクティブ設定処理
+***************************************/
+void BossEnemyActor::SetActive(bool state)
+{
+	active = state;
+}
+
+/**************************************
+座標取得処理
+***************************************/
+D3DXVECTOR3 BossEnemyActor::GetActorPosition()
+{
+	D3DXVECTOR3 position;
+	D3DXMATRIX mtxBone;
+
+	animManager->GetBoneMatrix("Armature_mixamorig_Spine2", mtxBone);
+	D3DXVec3TransformCoord(&position, &transform.pos, &mtxBone);
+	return D3DXVECTOR3(mtxBone._41, mtxBone._42, mtxBone._43);
 }
 
 /**************************************

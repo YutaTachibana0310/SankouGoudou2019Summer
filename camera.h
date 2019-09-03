@@ -25,6 +25,12 @@ public:
 	void Update();		//更新
 	void Set();			//カメラ情報反映処理
 
+	//与えたワールド座標をスクリーン座標に変換する関数
+	void Projection(D3DXVECTOR3& out, const D3DXVECTOR3& pos);
+
+	//与えたスクリーン座標をワールド座標に変換する関数
+	void UnProjection(D3DXVECTOR3& out, const D3DXVECTOR3& pos, float z);
+
 protected:
 	//SRT情報
 	Transform transform;
@@ -42,6 +48,14 @@ protected:
 	float viewAspect;
 	float viewNear;
 	float viewFar;
+
+	//ビュー、プロジェクション行列、ビューポート行列
+	D3DXMATRIX view, projection, viewport;
+	D3DXMATRIX VPV;
+
+	//ビュー、プロジェクション、ビューポート逆行列
+	D3DXMATRIX invView, invProjection, intViewport;
+	D3DXMATRIX invVPV;
 
 	//プラグインリスト
 	std::vector<BaseCameraPlugin*> pluginList;

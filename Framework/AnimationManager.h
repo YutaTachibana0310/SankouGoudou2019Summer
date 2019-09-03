@@ -37,6 +37,8 @@ public:
 	void ChangeAnim(UINT next, bool forceChange = false);
 	void SetFinishTransition(UINT srcID, UINT destID);
 
+	void GetBoneMatrix(const char* boneName, D3DXMATRIX& out);
+
 private:
 	AnimContainer *container;
 	UINT currentAnimID;

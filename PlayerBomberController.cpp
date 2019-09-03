@@ -10,6 +10,9 @@
 #include "enemy.h"
 #include "GameParticleManager.h"
 #include "debugWindow.h"
+#include "PlayerBomberEnemy.h"
+#include "PlayerBomberBoss.h"
+#include "PlayerBomberRebar.h"
 
 using namespace std;
 
@@ -40,7 +43,7 @@ PlayerBomberController::PlayerBomberController()
 	texture = CreateTextureFromFile((LPSTR)TextureName, pDevice);
 
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D)* NUM_VERTEX, D3DUSAGE_WRITEONLY, FVF_VERTEX_3D, D3DPOOL_MANAGED, &vtxBuff, 0);
-	
+
 	VERTEX_3D *pVtx;
 	vtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
@@ -79,10 +82,6 @@ PlayerBomberController::PlayerBomberController()
 **********************************************************/
 PlayerBomberController::~PlayerBomberController()
 {
-	for (auto &bomber : bomberContainer)
-	{
-		SAFE_DELETE(bomber);
-	}
 	bomberContainer.clear();
 
 	SAFE_RELEASE(texture);
@@ -119,6 +118,12 @@ void PlayerBomberController::Update()
 	{
 		bomber->Update();
 	}
+
+	//終了したボンバーをコンテナから削除
+	bomberContainer.remove_if([](auto&& bomber)
+	{
+		return !bomber->active;
+	});
 
 	//ストックインターバルを更新
 	stockInterval = Min(BOMBER_STOCK_INTERVAL, stockInterval + 1);
@@ -157,9 +162,9 @@ void PlayerBomberController::Draw()
 }
 
 /***************************************************
-ボムセット処理
+ボムセット処理（エネミー対象）
 ***************************************************/
-void PlayerBomberController::SetPlayerBomber(list<Enemy*>targetList, D3DXVECTOR3 initpos)
+void PlayerBomberController::SetPlayerBomber(list<std::shared_ptr<Enemy>>& targetList, D3DXVECTOR3 initpos)
 {
 	D3DXVECTOR3 setPos = initpos + D3DXVECTOR3(0.0f, 10.0f, 50.0f);
 	float rotAngle = D3DXToRadian(360.0f / targetList.size());
@@ -172,26 +177,10 @@ void PlayerBomberController::SetPlayerBomber(list<Enemy*>targetList, D3DXVECTOR3
 		dir.x = sinf(radian);
 		dir.y = cosf(radian);
 
-		auto itr = find_if(bomberContainer.begin(), bomberContainer.end(), [](PlayerBomber* bomber)
-		{
-			return !bomber->active;
-		});
-
-		if (itr != bomberContainer.end())
-		{
-			PlayerBomber* bomber = *itr;
-			bomber->Init(dir);
-			bomber->Set(target, setPos);
-			target->AddTargeter(bomber);
-		}
-		else
-		{
-			PlayerBomber *bomber = new PlayerBomber();
-			bomber->Init(dir);
-			bomber->Set(target, setPos);
-			bomberContainer.push_back(bomber);
-			target->AddTargeter(bomber);
-		}
+		PlayerBomberEnemy *ptr = new PlayerBomberEnemy();
+		ptr->Init(dir);
+		ptr->Set(target, setPos);
+		bomberContainer.push_back(std::unique_ptr<PlayerBomber>(ptr));
 
 		radian += rotAngle;
 	}
@@ -199,6 +188,71 @@ void PlayerBomberController::SetPlayerBomber(list<Enemy*>targetList, D3DXVECTOR3
 	//ストックを消費
 	stock--;
 	stockInterval = 0;
+
+	//発射エフェクトセット
+	GameParticleManager::Instance()->SetBomberFire(&setPos);
+}
+
+/***************************************************
+ボムセット処理（ボス対象）
+***************************************************/
+void PlayerBomberController::SetPlayerBomber(std::shared_ptr<BossEnemyModel> target, D3DXVECTOR3 initPos)
+{
+	const int EmitNum = 5;
+
+	D3DXVECTOR3 setPos = initPos + D3DXVECTOR3(0.0f, 10.0f, 50.0f);
+	float rotAngle = D3DXToRadian(360.0f / EmitNum);
+	float radian = 0.0f;
+
+	for(int i = 0; i < EmitNum; i++)
+	{
+		D3DXVECTOR3 dir;
+		ZeroMemory(&dir, sizeof(dir));
+		dir.x = sinf(radian);
+		dir.y = cosf(radian);
+
+		PlayerBomberBoss *ptr = new PlayerBomberBoss();
+		ptr->Init(dir);
+		ptr->Set(target, setPos);
+		bomberContainer.push_back(std::unique_ptr<PlayerBomber>(ptr));
+
+		radian += rotAngle;
+	}
+
+	//ストックを消費
+	stock--;
+	stockInterval = 0;
+
+	//発射エフェクトセット
+	GameParticleManager::Instance()->SetBomberFire(&setPos);
+}
+
+/***************************************************
+ボム発射（鉄骨対象）
+***************************************************/
+void PlayerBomberController::SetPlayerBomber(std::list<std::shared_ptr<RebarObstacle>>& targetList, D3DXVECTOR3 initPos)
+{
+	D3DXVECTOR3 setPos = initPos + D3DXVECTOR3(0.0f, 10.0f, 50.0f);
+	float rotAngle = D3DXToRadian(360.0f / targetList.size());
+	float radian = 0.0f;
+
+	for (auto &target : targetList)
+	{
+		D3DXVECTOR3 dir;
+		ZeroMemory(&dir, sizeof(dir));
+		dir.x = sinf(radian);
+		dir.y = cosf(radian);
+
+		PlayerBomberRebar *ptr = new PlayerBomberRebar();
+		ptr->Init(dir);
+		ptr->Set(target, setPos);
+		bomberContainer.push_back(std::unique_ptr<PlayerBomber>(ptr));
+
+		radian += rotAngle;
+	}
+
+	//NOTE : ボス戦時、鉄骨とボスに同時にボンバーを発射するので
+	//ここではストックを消費せず、ボスへの発射で消費する
 
 	//発射エフェクトセット
 	GameParticleManager::Instance()->SetBomberFire(&setPos);

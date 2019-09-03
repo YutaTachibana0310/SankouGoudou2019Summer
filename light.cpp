@@ -48,6 +48,7 @@ HRESULT InitLight(void)
 		// ÉâÉCÉg0ÇÃê›íË
 		g_aLight[0].Type = D3DLIGHT_DIRECTIONAL;
 		g_aLight[0].Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		g_aLight[0].Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 		g_aLight[0].Ambient = D3DXCOLOR(0.1f, 0.1f, 0.5f, 1.0f);
 		vecDir = D3DXVECTOR3(0.80f, -1.0f, 0.80f);
 		D3DXVec3Normalize((D3DXVECTOR3*)&g_aLight[0].Direction, &vecDir);
@@ -56,6 +57,7 @@ HRESULT InitLight(void)
 		g_aLight[1].Type = D3DLIGHT_DIRECTIONAL;
 		g_aLight[1].Diffuse = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
 		g_aLight[1].Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.0f);
+		g_aLight[1].Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 		vecDir = D3DXVECTOR3(-0.0f, 1.00f, -0.50f);
 		D3DXVec3Normalize((D3DXVECTOR3*)&g_aLight[1].Direction, &vecDir);
 
@@ -63,6 +65,7 @@ HRESULT InitLight(void)
 		g_aLight[2].Type = D3DLIGHT_DIRECTIONAL;
 		g_aLight[2].Diffuse = D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.0f);
 		g_aLight[2].Ambient = D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.0f);
+		g_aLight[2].Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 		vecDir = D3DXVECTOR3(-0.40f, -0.5f, 0.80f);
 		D3DXVec3Normalize((D3DXVECTOR3*)&g_aLight[2].Direction, &vecDir);
 	}

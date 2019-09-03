@@ -20,7 +20,7 @@
 /**************************************
 “üêˆ—
 ***************************************/
-void GameBattle::OnStart(GameScene *entity)
+void GameScene::GameBattle::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
 	Sound::GetInstance()->playsound = true;
@@ -29,7 +29,7 @@ void GameBattle::OnStart(GameScene *entity)
 /**************************************
 XVˆ—
 ***************************************/
-int GameBattle::OnUpdate(GameScene *entity)
+int GameScene::GameBattle::OnUpdate(GameScene *entity)
 {
 	int result = GameScene::State::Battle;
 
@@ -53,8 +53,8 @@ int GameBattle::OnUpdate(GameScene *entity)
 	BoxCollider3D::UpdateCollision();
 
 	//I—¹”»’è
-	if (entity->cntFrame == GAMEBATTLE_DURATION)
-		result = GameScene::State::End;
+	if (entity->enemyController->IsFinishedEnemy())
+		result = GameScene::State::BossStart;
 
 	return result;
 	

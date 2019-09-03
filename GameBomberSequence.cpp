@@ -10,6 +10,7 @@
 #include "EnemyController.h"
 
 #include <vector>
+#include <memory>
 
 using namespace std;
 /**************************************
@@ -21,7 +22,7 @@ using namespace std;
 /**************************************
 入場処理
 ***************************************/
-void GameBomberSequence::OnStart(GameScene* entity)
+void GameScene::GameBomberSequence::OnStart(GameScene* entity)
 {
 	entity->playerObserver->OnStartBomberSequence();
 	entity->useDarkMask = true;
@@ -31,7 +32,7 @@ void GameBomberSequence::OnStart(GameScene* entity)
 /**************************************
 更新処理
 ***************************************/
-int GameBomberSequence::OnUpdate(GameScene* entity)
+int GameScene::GameBomberSequence::OnUpdate(GameScene* entity)
 {
 	cntFrame++;
 
@@ -46,7 +47,7 @@ int GameBomberSequence::OnUpdate(GameScene* entity)
 	//発射タイミングであればボンバー発射
 	if (cntFrame == GAMEBOMBERSEQUENCE_LAUNCH_TIME)
 	{
-		list<Enemy*> targetList;
+		list<shared_ptr<Enemy>> targetList;
 		entity->enemyController->GetEnemyList(targetList);
 		entity->playerObserver->FirePlayerBomber(targetList);
 	}
@@ -58,7 +59,7 @@ int GameBomberSequence::OnUpdate(GameScene* entity)
 		entity->enemyController->OnFinishBombSequence();
 		entity->useDarkMask = false;
 
-		result = GameScene::State::Battle;
+		result = entity->prevState;
 	}
 
 	return result;	

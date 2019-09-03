@@ -30,8 +30,9 @@ public:
 		Attack01,
 		Attack02,
 		Damage,
-		Death,
+		Defeat,
 		Idle,
+		LargeDamage,
 		Max
 
 	};
@@ -47,6 +48,11 @@ public:
 
 	void ChangeAnimation(AnimID next);
 
+	void SetWriteableZ(bool state);
+	void SetActive(bool state);
+
+	D3DXVECTOR3 GetActorPosition();
+
 	Transform transform;
 
 private:
@@ -60,6 +66,10 @@ private:
 	bool inRotaiton;
 	D3DXVECTOR3 targetForward;
 	float magnitudeRotate;
+
+	bool writeableZ;
+
+	bool active;
 
 	void _Move();
 

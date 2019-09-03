@@ -1,1 +1,139 @@
-{"StageData":[{"data":{"end":1,"start":0},"frame":60,"id":0,"type":"Change"},{"data":{"end":2,"start":1},"frame":120,"id":1,"type":"Change"},{"data":{"end":3,"start":2},"frame":180,"id":2,"type":"Change"},{"data":{"end":4,"start":3},"frame":240,"id":3,"type":"Change"},{"data":{"end":0,"start":4},"frame":300,"id":4,"type":"Change"},{"data":{"end":2,"start":0},"frame":420,"id":5,"type":"Straight"},{"data":{"end":4,"start":2},"frame":480,"id":6,"type":"Straight"},{"data":{"end":1,"start":4},"frame":540,"id":7,"type":"Straight"},{"data":{"end":3,"start":1},"frame":600,"id":8,"type":"Straight"},{"data":{"end":0,"start":3},"frame":660,"id":9,"type":"Straight"},{"data":{"destList":[{"dest":3},{"dest":2},{"dest":4},{"dest":1}]},"frame":780,"id":10,"type":"Snake"},{"data":{"destList":[{"dest":0},{"dest":1},{"dest":2},{"dest":3},{"dest":4}]},"frame":960,"id":11,"type":"Snake"}]}
+{
+  "StageData": [
+    {
+      "data": {
+        "end": 1,
+        "start": 0
+      },
+      "frame": 60,
+      "id": 0,
+      "type": "Change"
+    },
+    {
+      "data": {
+        "end": 2,
+        "start": 1
+      },
+      "frame": 120,
+      "id": 1,
+      "type": "Change"
+    },
+    {
+      "data": {
+        "end": 3,
+        "start": 2
+      },
+      "frame": 180,
+      "id": 2,
+      "type": "Change"
+    },
+    {
+      "data": {
+        "end": 4,
+        "start": 3
+      },
+      "frame": 240,
+      "id": 3,
+      "type": "Change"
+    },
+    {
+      "data": {
+        "end": 0,
+        "start": 4
+      },
+      "frame": 300,
+      "id": 4,
+      "type": "Change"
+    },
+    {
+      "data": {
+        "end": 2,
+        "start": 0
+      },
+      "frame": 420,
+      "id": 5,
+      "type": "Straight"
+    },
+    {
+      "data": {
+        "end": 4,
+        "start": 2
+      },
+      "frame": 480,
+      "id": 6,
+      "type": "Straight"
+    },
+    {
+      "data": {
+        "end": 1,
+        "start": 4
+      },
+      "frame": 540,
+      "id": 7,
+      "type": "Straight"
+    },
+    {
+      "data": {
+        "end": 3,
+        "start": 1
+      },
+      "frame": 600,
+      "id": 8,
+      "type": "Straight"
+    },
+    {
+      "data": {
+        "end": 0,
+        "start": 3
+      },
+      "frame": 660,
+      "id": 9,
+      "type": "Straight"
+    },
+    {
+      "data": {
+        "destList": [
+          {
+            "dest": 3
+          },
+          {
+            "dest": 2
+          },
+          {
+            "dest": 4
+          },
+          {
+            "dest": 1
+          }
+        ]
+      },
+      "frame": 780,
+      "id": 10,
+      "type": "Snake"
+    },
+    {
+      "data": {
+        "destList": [
+          {
+            "dest": 0
+          },
+          {
+            "dest": 1
+          },
+          {
+            "dest": 2
+          },
+          {
+            "dest": 3
+          },
+          {
+            "dest": 4
+          }
+        ]
+      },
+      "frame": 960,
+      "id": 11,
+      "type": "Snake"
+    }
+  ]
+}

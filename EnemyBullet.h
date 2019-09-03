@@ -25,7 +25,7 @@ public:
 	EnemyBullet();
 	~EnemyBullet();
 
-	void Init(D3DXVECTOR3 setPos, D3DXVECTOR3 target, int reachFrame);
+	void Init(D3DXVECTOR3 setPos, D3DXVECTOR3 target, int reachFrame, const D3DXVECTOR3& scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	void Uninit();
 	void Update();
 	void Draw();

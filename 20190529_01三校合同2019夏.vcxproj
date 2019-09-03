@@ -213,6 +213,7 @@
     <ClInclude Include="PlayerChargeEffectController.h" />
     <ClInclude Include="PlayerChargeParticle.h" />
     <ClInclude Include="PlayerChargeParticleController.h" />
+    <ClInclude Include="RebarExplosion.h" />
     <ClInclude Include="RebarOb.h" />
     <ClInclude Include="EnemyExplosionController.h" />
     <ClInclude Include="EnemyExplosionFlare.h" />
@@ -414,6 +415,7 @@
     <ClCompile Include="PlayerChargeEffectController.cpp" />
     <ClCompile Include="PlayerChargeParticle.cpp" />
     <ClCompile Include="PlayerChargeParticleController.cpp" />
+    <ClCompile Include="RebarExplosion.cpp" />
     <ClCompile Include="RebarOb.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyExplosionController.cpp" />

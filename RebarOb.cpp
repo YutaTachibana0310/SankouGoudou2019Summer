@@ -9,6 +9,7 @@
 #include "RebarOb.h"
 #include "Framework\ResourceManager.h"
 #include "Framework\Vector3.h"
+#include "GameParticleManager.h"
 
 /**************************************
 マクロ定義
@@ -36,6 +37,7 @@ RebarObstacle::RebarObstacle(const D3DXVECTOR3& pos, LineTrailModel& model, cons
 	//トランスフォーム初期化
 	transform->pos = pos;
 
+	this->model = model;
 	D3DXVECTOR3 right, left;
 	model.GetEdgePos(&right, &left);
 	D3DXVECTOR3 diff = right - left;
@@ -156,7 +158,23 @@ D3DXVECTOR3 RebarObstacle::GetPos()
 ***************************************/
 void RebarObstacle::OnHitBomber()
 {
+	D3DXVECTOR3 edgeR, edgeL;
+	model.GetEdgePos(&edgeR, &edgeL);
 
+	D3DXMATRIX mtxWorld = transform->GetMatrix();
+	D3DXVec3TransformCoord(&edgeR, &edgeR, &mtxWorld);
+	D3DXVec3TransformCoord(&edgeL, &edgeL, &mtxWorld);
+
+	const int EmitterNum = 5;
+	D3DXVECTOR3 offset = (edgeR - edgeL) / (float)EmitterNum;
+
+	for (int i = 0; i < EmitterNum; i++)
+	{
+		GameParticleManager::Instance()->SetRearExplosion(&edgeL);
+		edgeL += offset;
+	}
+
+	isDestroyed = true;
 }
 
 /**************************************

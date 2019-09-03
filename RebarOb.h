@@ -56,6 +56,8 @@ private:
 	const Transform& player;
 	float moveLength;
 
+	LineTrailModel model;
+
 	void _Move();
 };
 

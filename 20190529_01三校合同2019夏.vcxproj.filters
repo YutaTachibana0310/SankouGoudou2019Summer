@@ -840,6 +840,9 @@
     <ClInclude Include="PlayerBomberRebar.h">
       <Filter>ヘッダー ファイル\Player\Bomber</Filter>
     </ClInclude>
+    <ClInclude Include="RebarExplosion.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1429,6 +1432,9 @@
     </ClCompile>
     <ClCompile Include="PlayerBomberRebar.cpp">
       <Filter>ソース ファイル\Player\Bomber</Filter>
+    </ClCompile>
+    <ClCompile Include="RebarExplosion.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

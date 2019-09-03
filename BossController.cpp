@@ -15,7 +15,7 @@
 ***************************************/
 BossController::BossController(const Transform& player, BossUImanager& manager)
 {
-	bossModel = new BossEnemyModel(player, manager);
+	bossModel = std::make_shared<BossEnemyModel>(player, manager);
 	active = false;
 }
 
@@ -24,7 +24,7 @@ BossController::BossController(const Transform& player, BossUImanager& manager)
 ***************************************/
 BossController::~BossController()
 {
-	SAFE_DELETE(bossModel);
+	bossModel.reset();
 }
 
 /**************************************
@@ -60,7 +60,26 @@ void BossController::SetActive(bool state)
 	active = state;
 }
 
+/**************************************
+アクティブ判定
+***************************************/
 bool BossController::IsActive()
 {
 	return active;
+}
+
+/**************************************
+ボスポインタ取得処理
+***************************************/
+std::shared_ptr<BossEnemyModel> BossController::GetBoss()
+{
+	return bossModel;
+}
+
+/**************************************
+鉄骨リスト取得処理
+***************************************/
+void BossController::GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out)
+{
+	bossModel->GetRebarList(out);
 }

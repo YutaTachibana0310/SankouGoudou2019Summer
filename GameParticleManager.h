@@ -53,6 +53,7 @@ public:
 	void SetBossExplosion(D3DXVECTOR3 *pos);
 	BaseEmitter* SetBossExplosionCharge(D3DXVECTOR3 *pos);
 	BaseEmitter* SetBossExplosionCore(D3DXVECTOR3 *pos);
+	void SetRearExplosion(D3DXVECTOR3 *pos);
 
 private:
 	GameParticleManager() {}

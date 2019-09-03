@@ -41,6 +41,7 @@ public:
 	void OnClearCombo();
 
 	bool ShouldFireBomber();
+	bool ShouldFireBomberOnBossBattle();
 
 	GameScene() {};
 	~GameScene() {};
@@ -53,6 +54,7 @@ public:
 		BombSequence,
 		BossBattle,
 		BossStart,
+		BossBombSequence,
 		StateMax,
 	};
 
@@ -83,6 +85,7 @@ private:
 	class GameEnd;
 	class GameStart;
 	class GameBossStart;
+	class GameBossBombSequence;
 };
 
 #endif

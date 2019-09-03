@@ -53,8 +53,6 @@ public:
 	bool				m_FlgDestroyed;		//撃破判定
 	void OnNotified(BoxCollider3DTag other);//衝突判定通知レシーバー
 
-	PlayerBomber*		m_Targeter;			//自身を狙っているボンバー
-	void AddTargeter(PlayerBomber* targeter);	
 	void OnHitBomber();						//ボンバー着弾時のコールバック
 
 	//純粋仮想関数

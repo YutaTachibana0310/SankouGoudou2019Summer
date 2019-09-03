@@ -50,7 +50,7 @@ EnemyModel::~EnemyModel()
 
 	for (auto& enemy : enemyList)
 	{
-		SAFE_DELETE(enemy);
+		enemy.reset();
 	}
 	enemyList.clear();
 
@@ -132,13 +132,13 @@ void EnemyModel::CheckDestroied()
 		SetAddScore(100);
 		SetAddCombo(1);
 
-		SAFE_DELETE(enemy);
+		enemy.reset();
 	}
 
 	//消去
-	auto itrNewEnd = remove_if(enemyList.begin(), enemyList.end(), [](Enemy* enemy)
+	auto itrNewEnd = remove_if(enemyList.begin(), enemyList.end(), [](auto&& enemy)
 	{
-		return enemy == NULL;
+		return !enemy;
 	});
 	enemyList.erase(itrNewEnd, enemyList.end());
 
@@ -151,7 +151,7 @@ void EnemyModel::CheckDestroied()
 /**************************************
 エネミー座標取得処理
 ***************************************/
-void EnemyModel::GetEnemy(list<Enemy*>& out)
+void EnemyModel::GetEnemy(list<shared_ptr<Enemy>>& out)
 {
 	for (auto& enemy : enemyList)
 	{

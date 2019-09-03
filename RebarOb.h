@@ -33,6 +33,9 @@ public:
 
 	bool IsDestroyed();
 
+	D3DXVECTOR3 GetPos();
+	void OnHitBomber();
+
 private:
 	int cntFrame;
 	bool isDestroyed;
@@ -52,6 +55,8 @@ private:
 	bool inMoving;
 	const Transform& player;
 	float moveLength;
+
+	LineTrailModel model;
 
 	void _Move();
 };

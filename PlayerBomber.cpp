@@ -42,8 +42,6 @@ int PlayerBomber::instanceCount = 0;				//インスタンスカウンタ
 void PlayerBomber::Init(const D3DXVECTOR3& moveDir)
 {
 	active = true;
-	cntFrame = 0;
-	reachFrame = 0;
 
 	transform.pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
@@ -62,30 +60,6 @@ void PlayerBomber::Uninit(void)
 {
 	active = false;
 	collider->active = false;
-}
-
-/**************************************
-更新処理
-***************************************/
-void PlayerBomber::Update(void)
-{
-	if (!active)
-		return;
-	
-	CalcBomber();
-	transform.pos += velocity;
-	
-	if (cntFrame == 0)
-	{
-		if (target != NULL)
-		{
-			Camera::ShakePlugin::Instance()->Set(BOMBER_HIT_AMPLITUDE, BOMBER_HIT_DURATION);
-			target->OnHitBomber();
-		}
-		
-		Uninit();
-	}
-
 }
 
 /**************************************
@@ -125,31 +99,14 @@ PlayerBomber::~PlayerBomber()
 	SAFE_DELETE(collider);
 }
 
-/**************************************
-ホーミング対象のアドレスを取得
-引数(ホーミング対象のアドレス、ボムのセット位置)
-***************************************/
-void PlayerBomber::Set(Enemy *target, D3DXVECTOR3 initpos)
-{
-	transform.pos = initpos;
-	this->target = target;
-	targetPos = target->m_Pos;
-	cntFrame = reachFrame = BOMBER_REACH_FRAME;
-}
-
 /***************************************
 加速度の計算処理
 ****************************************/
-void PlayerBomber::CalcBomber(void)
+void PlayerBomber::Homing(void)
 {
 	if (cntFrame <= 0)
 	{
 		return;
-	}
-
-	if (target != NULL)
-	{
-		targetPos = target->m_Pos;
 	}
 
 	float time = (float)cntFrame;
@@ -161,6 +118,8 @@ void PlayerBomber::CalcBomber(void)
 	velocity += acceleration;
 
 	cntFrame--;
+
+	transform.pos += velocity;
 }
 
 /***************************************
@@ -169,12 +128,4 @@ void PlayerBomber::CalcBomber(void)
 void PlayerBomber::OnNotified(BoxCollider3DTag other)
 {
 	Uninit();
-}
-
-/***************************************
-ターゲット消失通知処理
-****************************************/
-void PlayerBomber::OnDisappearTarget()
-{
-	target = NULL;
 }

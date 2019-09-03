@@ -33,6 +33,7 @@
 #include "GameBomberSequence.h"
 #include "GameBossBattle.h"
 #include "GameBossStart.h"
+#include "GameBossBombSequence.h"
 
 #include "RebarOb.h"
 #include <functional>
@@ -65,6 +66,7 @@ void GameScene::Init()
 	fsm[State::BombSequence] = new GameBomberSequence();
 	fsm[State::BossBattle] = new GameBossBattle();
 	fsm[State::BossStart] = new GameBossStart();
+	fsm[State::BossBombSequence] = new GameBossBombSequence();
 
 	//暗転用ポリゴン作成
 	darkMask = new Polygon2D();
@@ -335,4 +337,13 @@ void GameScene::OnClearCombo()
 bool GameScene::ShouldFireBomber()
 {
 	return playerObserver->ShouldFireBomber() && enemyController->ExistsAcitveEnemy();
+}
+
+/**************************************
+ボス戦時
+***************************************/
+bool GameScene::ShouldFireBomberOnBossBattle()
+{
+	//TODO : ボス撃墜後にボンバーを発射できないようにする
+	return  playerObserver->ShouldFireBomber();
 }

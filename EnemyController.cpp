@@ -322,7 +322,7 @@ void EnemyController::SetChageEffect(EnemyModel *model)
 /**************************************
 エネミー座標取得処理
 ***************************************/
-void EnemyController::GetEnemyList(list<Enemy*>& out)
+void EnemyController::GetEnemyList(std::list<std::shared_ptr<Enemy>>& out)
 {
 	for (auto& model : modelList)
 	{

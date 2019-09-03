@@ -65,13 +65,19 @@ public:
 
 	bool IsDesteoyed();
 
+	void OnHitBomber();
+
+	D3DXVECTOR3 GetPosition();
+
+	void GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out);
+
 private:
 	BossEnemyActor* actor;
 	std::unordered_map < State, IStateMachine<BossEnemyModel>*> fsm;
 	IStateMachine<BossEnemyModel>* state;
 	State currentState, prevState;
 
-	std::list<std::unique_ptr<RebarObstacle>> rebarList;
+	std::list<std::shared_ptr<RebarObstacle>> rebarList;
 
 	EnemyBulletController *bulletController;
 	std::vector<LineTrailModel> bulletReserve;
@@ -85,6 +91,7 @@ private:
 	int level;
 	int cntLoop;
 	bool isDestroyed;
+	bool flgBomberHit;
 
 	void MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList);
 	

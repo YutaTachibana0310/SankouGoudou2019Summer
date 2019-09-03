@@ -62,7 +62,7 @@ void ChangeEnemyModel::Init(LineTrailModel model, int enemyNum)
 	//Enemy‚ğ¶¬
 	for (int i = 0; i < enemyNum; i++)
 	{
-		enemyList.push_back(new EnemyChange());
+		enemyList.push_back(std::make_shared<EnemyChange>());
 	}
 
 	//ƒ‰ƒCƒ“‚Ì’[“_‚ğ‹‚ß‚é

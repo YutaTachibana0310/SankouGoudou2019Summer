@@ -330,9 +330,27 @@ bool PlayerObserver::ShouldFireBomber()
 /**************************************
 ボンバー発射処理
 ***************************************/
-void PlayerObserver::FirePlayerBomber(list<Enemy*> targetList)
+void PlayerObserver::FirePlayerBomber(std::list<std::shared_ptr<Enemy>>& targetList)
 {
 	if(bomberController->CanSet())
+		bomberController->SetPlayerBomber(targetList, player->transform.pos);
+}
+
+/**************************************
+ボンバー発射処理
+***************************************/
+void PlayerObserver::FirePlayerBomber(std::shared_ptr<BossEnemyModel>& targetList)
+{
+	if (bomberController->CanSet())
+		bomberController->SetPlayerBomber(targetList, player->transform.pos);
+}
+
+/**************************************
+ボンバー発射処理
+***************************************/
+void  PlayerObserver::FirePlayerBomber(std::list<std::shared_ptr<RebarObstacle>>& targetList)
+{
+	if (bomberController->CanSet())
 		bomberController->SetPlayerBomber(targetList, player->transform.pos);
 }
 

@@ -43,7 +43,8 @@ void TutorialScene::Uninit()
 
 	//ƒtƒHƒO‚ð–³Œø‰»
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	pDevice->SetRenderState(D3DRS_FOGENABLE, false);
+	if(pDevice != NULL)
+		pDevice->SetRenderState(D3DRS_FOGENABLE, false);
 }
 
 /**************************************

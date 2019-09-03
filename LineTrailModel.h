@@ -37,7 +37,7 @@ public:
 	bool operator == (const LineTrailModel& obj) const;
 	bool operator != (const LineTrailModel& obj) const;
 
-	static void CalcEdgePosition();
+	static void CalcEdgePosition(D3DXVECTOR3 *starPos);
 	static D3DXVECTOR3 GetEdgePos(int i);
 
 private:

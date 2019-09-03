@@ -58,7 +58,9 @@ static IStateScene* fsm[SceneMax];
 static SoundStateScene* ssm[SceneMax];
 
 //現在のシーン
-static Scene currentScene = SceneGame;
+static Scene currentScene = SceneTitle;
+
+static Mask *mask;
 
 /**************************************
 初期化処理
@@ -67,6 +69,8 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	mask = new Mask(2000.0f,2000.0f,0.0f);
+
 	CreateScreenVertexBuffer();
 	CreateRenderTarget();
 
@@ -74,7 +78,7 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	InitCamera();
 	InitLight();
 	InitDebugWindow(hWnd, pDevice);
-	InitMask(MASK_SIZE, MASK_SIZE, 0);
+	mask->Init();
 
 	//ステートマシンに各シーンを追加
 	fsm[SceneTitle] = new TitleScene();
@@ -100,7 +104,9 @@ void UninitGame()
 	UninitLight();
 	UninitDebugWindow(0);
 	UninitDebugTimer();
-	UninitMask();
+	mask->Uninit();
+
+	SAFE_DELETE(mask);
 
 	fsm[currentScene]->Uninit();
 }
@@ -112,7 +118,7 @@ void UpdateGame(HWND hWnd)
 {
 	//testのため毎回ゲームシーンを呼び出す
 	MaskRun(SceneGame);
-	UpdateMask();
+	mask->Update();
 
 	//念のためサウンドを最初に（渡邉）
 	if (ssm[currentScene] != nullptr)
@@ -147,7 +153,7 @@ void DrawGame()
 	pDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0, 1.0f, 0);
 
 	//マスクセット
-	DrawMaskTexSet();
+	mask->DrawMaskTexSet();
 
 	//オブジェクトを描画
 	SetCamera();
@@ -155,7 +161,7 @@ void DrawGame()
 	fsm[currentScene]->Draw();
 
 	//マスク終了
-	DrawMaskTexEnd();
+	mask->DrawMaskTexEnd();
 
 	//結果をバックバッファへと描画
 	pDevice->SetViewport(&oldVirwPort);
@@ -261,12 +267,12 @@ ChangeSceneへはMaskRunを実行すると呼び出されます
 **************************************************************************/
 void MaskRun(Scene next) {
 
-	////現在テスト用でエンターキーで切り替え
-	//if (GetKeyboardTrigger(DIK_RETURN)) {
+	//現在テスト用でエンターキーで切り替え
+	if (GetKeyboardTrigger(DIK_RETURN)) {
 
-	//	SceneChangeFlag(true, next);
+		mask->SceneChangeFlag(true, next);
 
-	//}
+	}
 
 }
 /**************************************

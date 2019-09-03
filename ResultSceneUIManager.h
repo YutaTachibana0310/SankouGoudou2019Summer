@@ -13,19 +13,24 @@
 ‘O•ûéŒ¾
 ***************************************/
 class Object;
+class Rank;
 class ResultBG;
 
 /**************************************
 \‘¢‘Ì’è‹`
 ***************************************/
-class ResultSceneUI
+class ResultSceneUIManager
 {
 public:
+	ResultSceneUIManager();
+	~ResultSceneUIManager();
+
 	ResultBG *resultBG;
-	virtual void Init(void);
-	virtual void Uninit(void);
-	virtual void Update(HWND hwnd);
-	virtual void Draw(void);
+	Rank * rank;
+	void Init(void);
+	void Uninit(void);
+	void Update(HWND hwnd);
+	void Draw(void);
 };
 
 #endif

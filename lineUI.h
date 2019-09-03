@@ -7,31 +7,24 @@
 #ifndef _LINE_H_
 #define _LINE_H_
 
-//*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-#define	ADRESS_TEXTURE_LINE	("data/TEXTURE/UI/interfaceLine.png")	// 読み込むテクスチャファイル名
-
-#include "GameSceneUIManager.h"
-#include "UIdrawer.h"
-
-class Object;
-
 /**************************************
 前方宣言
 ***************************************/
-class GameSceneUI;
+class Object;
 
 //*****************************************************************************
 // 構造体定義
 //*****************************************************************************
-class Line:public Object
+class Line
 {
 public:
-	void Init(void);
-	void Uninit(void);
+	Line();
+	~Line();
+
 	void Update(void);
 	void Draw(void);
+private:
+	Object *line;
 };
 
 #endif

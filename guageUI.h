@@ -7,72 +7,35 @@
 #ifndef _GUAGE_H_
 #define _GUAGE_H_
 
-//*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-#define	ADRESS_TEXTURE_GUAGEBAR		("data/TEXTURE/UI/guage/guageBar_vertical.png")		
-#define	ADRESS_TEXTURE_GUAGEFLAME	("data/TEXTURE/UI/guage/guageFrame_vertical.png")		
-#define	ADRESS_TEXTURE_GUAGETEXT	("data/TEXTURE/UI/guage/guageText_fever_vertical.png")		
-
-enum GUARGE_PARTS
-{
-	GUAGEBAR_DAMAGE,  // ダメージ表現ゲージバー
-	GUAGEBAR_TRUE,	  // 実際のゲージバー
-	GUAGEFLAME,
-	GUAGETEXT,
-};
-
-#include "GameSceneUIManager.h"
-#include "UIdrawer.h"
-
 /**************************************
 前方宣言
 ***************************************/
-class DamageGuage;
-class HPGuage;
-class GuageFlame;
-class GuageText;
+class Object;
+class GuageObject;
 
 //*****************************************************************************
 // 構造体定義
 //*****************************************************************************
-class Guage :public Object
+class Guage
 {
 public:
-	DamageGuage *damageGuage;
-	HPGuage		*hPGuage;
-	GuageFlame  *guageFlame;
-	GuageText	*guageText;
+	Guage();
+	~Guage();
 
-	void Init(void);
-	void Uninit(void);
 	void Update(void);
 	void Draw(void);
-	void ChangeGuage(float value);
+
+	const static int maxHp = 100;
+
+	float trueGuagePercentage;	//実際のゲージパーセンテージ
 
 private:
+	GuageObject *damageGuage;
+	GuageObject *hPGuage;
+	Object *flame;
+	Object *text;
+
 	float	damageGuagePercentage;	//ダメージ表現ゲージパーセンテージ
-	float	trueGuagePercentage;	//実際のゲージパーセンテージ
-};
-
-class DamageGuage :public Guage
-{
-
-};
-
-class HPGuage :public Guage
-{
-
-};
-
-class GuageFlame :public Guage
-{
-
-};
-
-class GuageText :public Guage
-{
-
 };
 
 #endif

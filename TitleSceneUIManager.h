@@ -7,15 +7,12 @@
 #ifndef _TITLESCENEUIMANAGER_H_
 #define _TITLESCENEUIMANAGER_H_
 
-#include "UIdrawer.h"
 #include "masktex.h"
 
 /**************************************
 ëOï˚êÈåæ
 ***************************************/
-class Object;
 class TitleBG;
-class Cursor;
 class TitleLogo;
 class StartButton;
 class StartButtonManager;
@@ -23,30 +20,20 @@ class StartButtonManager;
 //*****************************************************************************
 // ç\ë¢ëÃíËã`
 //*****************************************************************************
-class TitleSceneUI
+class TitleSceneUIManager
 {
 public:
-	TitleBG*titleBG;
-	Cursor*cursor;
-	TitleLogo*titleLogo;
-	StartButton*startButton;
+	TitleSceneUIManager();
+	~TitleSceneUIManager();
+
+	TitleBG *titleBG;
+	TitleLogo *titleLogo;
+	StartButton *startButton;
 
 	void Init(void);
 	void Uninit(void);
 	void Update(HWND hWnd);
 	void Draw(void);
-
-};
-
-class StartButtonManager
-{
-public:
-	StartButtonManager *startButtonManager;
-
-	void GoGameScene()
-	{
-		SceneChangeFlag(true, SceneGame);
-	}
 };
 
 #endif

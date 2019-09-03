@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// GameシーンUI管理処理 [GameSceneUIManager.cpp]
+// GameシーンUI管理処理 [GameSceneUIManagerManager.cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
@@ -26,53 +26,88 @@
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-//GameSceneUI *gameSceneUI[GAME_SCENE_UI_MAX];
+//GameSceneUIManager *gameSceneUI[GAME_SCENE_UI_MAX];
+
+//*****************************************************************************
+// コンストラクタ
+//*****************************************************************************
+GameSceneUIManager::GameSceneUIManager()
+{
+	line = new Line();
+	star = new Star();
+	cursor = new Cursor();
+	combo = new Combo();
+	guage = new Guage();
+	score = new Score();
+	trail = new Trail();
+	battleStartTelop = new BattleStartTelop();
+	stageClearTelop = new StageClearTelop();
+	telopBG = new TelopBG();
+}
+
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+GameSceneUIManager::~GameSceneUIManager()
+{
+	delete combo;
+	combo = NULL;
+
+	delete cursor;
+	cursor = NULL;
+
+	delete guage;
+	guage = NULL;
+
+	delete line;
+	line = NULL;
+
+	delete score;
+	score = NULL;
+
+	delete star;
+	star = NULL;
+
+	delete trail;
+	trail = NULL;
+
+	delete battleStartTelop;
+	battleStartTelop = NULL;
+
+	delete stageClearTelop;
+	stageClearTelop = NULL;
+
+	delete telopBG;
+	telopBG = NULL;
+}
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
-void GameSceneUI::Init(void)
+void GameSceneUIManager::Init()
 {
-	line->Init();
-	cursor->Init();
-	combo->Init();
-	guage->Init();
-	score->Init();
-	star->Init();
-	trail->Init();
-	battleStartTelop->Init();
-	stageClearTelop->Init();
-	telopBG->Init();
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void GameSceneUI::Uninit(void)
+void GameSceneUIManager::Uninit()
 {
-	combo->Uninit();
-	cursor->Uninit();
-	guage->Uninit();
-	line->Uninit();
-	score->Uninit();
-	star->Uninit();
-	trail->Uninit();
-	battleStartTelop->Uninit();
-	stageClearTelop->Uninit();
-	telopBG->Uninit();
+
 }
+
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void GameSceneUI::Update(HWND hWnd)
+void GameSceneUIManager::Update(HWND hWnd)
 {
 	combo->Update();
 	cursor->Update(hWnd);
 	guage->Update();
 	line->Update();
 	score->Update();
-	star->Update();
+	star->Update(hWnd);
 	trail->Update();
 	battleStartTelop->Update();
 	stageClearTelop->Update();
@@ -82,39 +117,34 @@ void GameSceneUI::Update(HWND hWnd)
 	// デバッグ用コマンド
 	if (GetKeyboardTrigger(DIK_1))
 	{
-		guage->ChangeGuage(-10);
 	}
 	if (GetKeyboardTrigger(DIK_2))
 	{
-		guage->ChangeGuage(10);
 	}
 	if (GetKeyboardTrigger(DIK_3))
 	{
-		comboManager->AddCombo(1);
 	}
 	if (GetKeyboardTrigger(DIK_4))
 	{
-		score->AddScore(1000);
 	}
 	if (GetKeyboardTrigger(DIK_5))
 	{
-		comboManager->SetCombo(0);
 	}
 	if (GetKeyboardTrigger(DIK_6))
 	{
-		battleStartTelop->SetBattleStartTelop();
 	}
 	if (GetKeyboardTrigger(DIK_7))
 	{
-		stageClearTelop->SetStageClearTelop();
 	}
 #endif
+
+	UpdateCursorColor();
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
-void GameSceneUI::Draw(void)
+void GameSceneUIManager::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -123,7 +153,6 @@ void GameSceneUI::Draw(void)
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	combo->Draw();
-	cursor->Draw();
 	guage->Draw();
 	line->Draw();
 	score->Draw();
@@ -133,6 +162,51 @@ void GameSceneUI::Draw(void)
 	stageClearTelop->Draw();
 	telopBG->Draw();
 
+	cursor->Draw();
+
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }
 
+
+//=============================================================================
+// カーソルの色更新判定処理
+//=============================================================================
+bool GameSceneUIManager::IsStarCursorOvered()
+{
+	D3DXVECTOR3 starPosition[5];
+	SetStarPosition(starPosition);
+
+	// どのスターとも当たってなかったらfalse,それ以外はtrue
+	if (cursor->IsCursorOvered(starPosition[0], COLLIDERSIZE_STAR))
+		return true;
+
+	if (cursor->IsCursorOvered(starPosition[1], COLLIDERSIZE_STAR))
+		return true;
+
+	if (cursor->IsCursorOvered(starPosition[2], COLLIDERSIZE_STAR))
+		return true;
+
+	if (cursor->IsCursorOvered(starPosition[3], COLLIDERSIZE_STAR))
+		return true;
+
+	if (cursor->IsCursorOvered(starPosition[4], COLLIDERSIZE_STAR))
+		return true;
+
+	return false;
+}
+
+//=============================================================================
+// カーソルの色更新処理
+//=============================================================================
+void GameSceneUIManager::UpdateCursorColor()
+{
+	if (IsStarCursorOvered())
+	{
+		// 選択されているなら
+		cursor->PaintCursorRed();
+	}
+	else
+	{	// 元に戻す
+		cursor->PaintCursorYellow();
+	}
+}

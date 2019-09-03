@@ -17,7 +17,7 @@
 /**************************************
 前方宣言
 ***************************************/
-class TitleSceneUI;
+class TitleSceneUIManager;
 
 /**************************************
 クラス定義
@@ -33,7 +33,7 @@ public:
 	TitleScene() {};
 	~TitleScene() {};
 
-	TitleSceneUI *titleSceneUI;
+	TitleSceneUIManager *titleSceneUIManager;
 };
 
 #endif

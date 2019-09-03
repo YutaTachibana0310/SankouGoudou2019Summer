@@ -8,46 +8,42 @@
 #include "input.h"
 #include "cursorUI.h"
 #include "UIdrawer.h"
-#include "starUI.h"
+#include "GameSceneUIManager.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
 #define SIZE_CURSOR		(D3DXVECTOR3(40.0f,40.0f,0.0f))
 #define SPEED_ROTATION	(0.10f)
+#define COLLIDERSIZE_CURSOR (D3DXVECTOR3(5.0f,5.0f,0.0f))
 
 //*****************************************************************************
-// グローバル変数
+// コンストラクタ
 //*****************************************************************************
-
-//=============================================================================
-// 初期化処理
-//=============================================================================
-void Cursor::Init(void)
+Cursor::Cursor()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	cursor = new RotateObject();
+	cursor->LoadTexture("data/TEXTURE/UI/cursor.png");
+	cursor->MakeVertex();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_CURSOR);
-	InitialTexture();
-	MakeVertexRotateObject();
+	cursor->position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	cursor->size = SIZE_CURSOR;
+	cursor->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	cursor->colliderSize = COLLIDERSIZE_CURSOR / 2;
 
-	position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	size		= SIZE_CURSOR;
-	rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	colliderSize = COLLIDERSIZE_CURSOR / 2;
-
-	SetColorObject(SET_COLOR_YELLOW);
+	cursor->SetColorObject(SET_COLOR_YELLOW);
 
 	// 回転オブジェクト用のサークルを作成
-	CreateObjectCircle();
+	cursor->CreateObjectCircle();
 }
 
-//=============================================================================
-// 終了処理
-//=============================================================================
-void Cursor::Uninit(void)
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+Cursor::~Cursor()
 {
-	ReleaseTexture();
+	delete cursor;
+	cursor = NULL;
 }
 
 //=============================================================================
@@ -55,22 +51,8 @@ void Cursor::Uninit(void)
 //=============================================================================
 void Cursor::Update(HWND hWnd)
 {
-	position = GetMousePosition(hWnd);
-
-	for (int i = 0; i < STAR_MAX; i++)
-	{
-		if (IsStarHitted(i))
-		{
-			// 選択されているなら
-			SetColorObject(SET_COLOR_RED);
-		}
-		else
-		{	// 元に戻す
-			SetColorObject(SET_COLOR_YELLOW);
-		}
-	}
-
-	rotation.z -= SPEED_ROTATION;
+	cursor->position = GetMousePosition(hWnd);
+	cursor->rotation.z -= SPEED_ROTATION;
 }
 
 //=============================================================================
@@ -78,37 +60,8 @@ void Cursor::Update(HWND hWnd)
 //=============================================================================
 void Cursor::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
-	DrawObject(pDevice);
-	SetVertexRotateObject();
-}
-
-//=============================================================================
-// 選択されているかの判定処理 (当たったら選択状態)
-//=============================================================================
-bool Cursor::IsStarHitted(int num)
-{
-	D3DXVECTOR3 starPosition[STAR_MAX];
-	GetStarPosition(starPosition);
-
-	// どのスターとも当たってなかったらfalse,それ以外はtrue
-	if (IsCursorOvered(starPosition[0], COLLIDERSIZE_STAR))
-		return true;
-
-	if (IsCursorOvered(starPosition[1], COLLIDERSIZE_STAR))
-		return true;
-
-	if (IsCursorOvered(starPosition[2], COLLIDERSIZE_STAR))
-		return true;
-
-	if (IsCursorOvered(starPosition[3], COLLIDERSIZE_STAR))
-		return true;
-
-	if (IsCursorOvered(starPosition[4], COLLIDERSIZE_STAR))
-		return true;
-
-	return false;
+	cursor->Draw();
+	cursor->SetVertex();
 }
 
 //=============================================================================
@@ -118,14 +71,29 @@ bool Cursor::IsCursorOvered(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
 	size /= 2.0f;	// 半サイズにする
 
-	if (position.x + colliderSize.x > pos.x - size.x 
-		&& pos.x + size.x > position.x - colliderSize.x 
-		&&
-		position.y + colliderSize.y > pos.y - size.y 
-		&& pos.y + size.y > position.y - colliderSize.y)
+	if (cursor->position.x +cursor->colliderSize.x > pos.x - size.x 
+		&& pos.x + size.x > cursor->position.x -cursor->colliderSize.x 
+		&& cursor->position.y +cursor->colliderSize.y > pos.y - size.y 
+		&& pos.y + size.y > cursor->position.y -cursor->colliderSize.y)
 	{
 		return true;
 	}
 
 	return false;
+}
+
+//*****************************************************************************
+// ボタン選択状態に色更新
+//*****************************************************************************
+void Cursor::PaintCursorRed()
+{
+	cursor->SetColorObject(SET_COLOR_RED);
+}
+
+//*****************************************************************************
+// 非ボタン選択状態に色更新
+//*****************************************************************************
+void Cursor::PaintCursorYellow()
+{
+	cursor->SetColorObject(SET_COLOR_YELLOW);
 }

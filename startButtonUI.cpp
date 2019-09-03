@@ -23,45 +23,47 @@
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-Object	startButtonParts[STARTBUTTON_PARTS_MAX];
-StartButtonManager startButtonManager;
 bool	IsAlphaIncreased = true;
 float	alpha = 0;
 
-//=============================================================================
-// 初期化処理
-//=============================================================================
-void StartButton::Init(void)
+//*****************************************************************************
+// コンストラクタ
+//*****************************************************************************
+StartButton::StartButton()
 {
-	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	bg = new Object();
+	text = new Object();
 
-	//object->LoadTexture(pDevice, ADRESS_TEXTURE_STARTBUTTON_BG, &startButtonParts[BACKGROUND_STARTBUTTON]);
-	//object->LoadTexture(pDevice, ADRESS_TEXTURE_STARTBUTTON_TEXT, &startButtonParts[TEXT_STARTBUTTON]);
+	bg->LoadTexture("data/TEXTURE/UI/startButtonBG.png");
+	text->LoadTexture("data/TEXTURE/UI/startButtonText.png");
 
-	//for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
-	//{
-	//	object->InitialTexture(&startButtonParts[i]);
-	//	object->MakeVertexObject(&startButtonParts[i]);
+	bg->MakeVertex();
+	text->MakeVertex();
 
-	//	startButtonParts[i].position		= POSITION_STARTBUTTON;
-	//	startButtonParts[i].size			= SIZE_STARTBUTTON;
-	//	startButtonParts[i].rotation		= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	//	startButtonParts[i].colliderSize	= COLLIDER_SIZE_STARTBUTTON;
-	//}
+	bg->position = POSITION_STARTBUTTON;
+	bg->size = SIZE_STARTBUTTON;
+	bg->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	bg->colliderSize = COLLIDER_SIZE_STARTBUTTON;
 
-	//object->SetColorObject(&startButtonParts[BACKGROUND_STARTBUTTON], SET_COLOR_NOT_COLORED);
-	//object->SetColorObject(&startButtonParts[TEXT_STARTBUTTON], SET_COLOR_NOT_COLORED);
+	text->position = POSITION_STARTBUTTON;
+	text->size = SIZE_STARTBUTTON;
+	text->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	text->colliderSize = COLLIDER_SIZE_STARTBUTTON;
+
+	bg->SetColorObject(SET_COLOR_NOT_COLORED);
+	text->SetColorObject(SET_COLOR_NOT_COLORED);
 }
 
-//=============================================================================
-// 終了処理
-//=============================================================================
-void StartButton::Uninit(void)
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+StartButton::~StartButton()
 {
-	//for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
-	//{
-	//	object->ReleaseTexture(&startButtonParts[i]);
-	//}
+	delete bg;
+	bg = NULL;
+
+	delete text;
+	text = NULL;
 }
 
 //=============================================================================
@@ -69,33 +71,39 @@ void StartButton::Uninit(void)
 //=============================================================================
 void StartButton::Update(HWND hWnd)
 {
-	//if (IsMouseOvered(hWnd,startButtonParts[BACKGROUND_STARTBUTTON].position, 
-	//	startButtonParts[BACKGROUND_STARTBUTTON].colliderSize))
-	//{
-	//	// ボタンを押したらゲームシーンへ
-	//	if (IsMouseLeftTriggered())
-	//	{
-	//		startButtonManager.GoGameScene();
-	//	}
+	if (bg->IsMouseOvered(hWnd,bg->position, 
+		bg->colliderSize))
+	{
+		// ボタンを押したらゲームシーンへ
+		if (IsMouseLeftTriggered())
+		{
+			GoGameScene();
+		}
 
-	//	for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
-	//	{
-	//		// 選択されているなら拡大表示
-	//		startButtonParts[i].size.x = SIZE_STARTBUTTON.x + VOLUME_ZOOM;
-	//		startButtonParts[i].size.y = SIZE_STARTBUTTON.y + VOLUME_ZOOM;
-	//	}
-	//}
-	//else
-	//{	
-	//	for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
-	//	{
-	//		// 元に戻す
-	//		startButtonParts[i].size.x = SIZE_STARTBUTTON.x;
-	//		startButtonParts[i].size.y = SIZE_STARTBUTTON.y;
-	//	}
-	//}
+		for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
+		{
+			// 選択されているなら拡大表示
+			bg->size.x = SIZE_STARTBUTTON.x + VOLUME_ZOOM;
+			bg->size.y = SIZE_STARTBUTTON.y + VOLUME_ZOOM;
 
-	//BlinkStartButtonText();
+			text->size.x = SIZE_STARTBUTTON.x + VOLUME_ZOOM;
+			text->size.y = SIZE_STARTBUTTON.y + VOLUME_ZOOM;
+		}
+	}
+	else
+	{	
+		for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
+		{
+			// 元に戻す
+			bg->size.x = SIZE_STARTBUTTON.x;
+			bg->size.y = SIZE_STARTBUTTON.y;
+
+			text->size.x = SIZE_STARTBUTTON.x;
+			text->size.y = SIZE_STARTBUTTON.y;
+		}
+	}
+
+	BlinkStartButtonText();
 }
 
 //=============================================================================
@@ -103,13 +111,11 @@ void StartButton::Update(HWND hWnd)
 //=============================================================================
 void StartButton::Draw(void)
 {
-	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	bg->Draw();
+	bg->SetVertex();
 
-	//for (int i = 0; i < STARTBUTTON_PARTS_MAX; i++)
-	//{
-	//	object->DrawObject(pDevice, &startButtonParts[i]);
-	//	object->SetVertexObject(&startButtonParts[i]);
-	//}
+	text->Draw();
+	text->SetVertex();
 }
 
 //=============================================================================
@@ -117,44 +123,32 @@ void StartButton::Draw(void)
 //=============================================================================
 void StartButton::BlinkStartButtonText(void)
 {
-	//if (alpha >= 1.0f)
-	//{
-	//	IsAlphaIncreased = false;
-	//}
-	//if (alpha <= 0.0f)
-	//{
-	//	IsAlphaIncreased = true;
-	//}
-
-	//if (IsAlphaIncreased)
-	//{
-	//	alpha += INCREASE_VOLUME_ALPHA;
-	//}
-	//else
-	//{
-	//	alpha -= INCREASE_VOLUME_ALPHA;
-	//}
-
-	//object->SetColorObject(&startButtonParts[TEXT_STARTBUTTON], D3DXCOLOR(1.0f,1.0f,1.0f,alpha));
-}
-
-//=============================================================================
-// マウスオーバー判定処理
-//=============================================================================
-bool StartButton::IsMouseOvered(HWND hWnd, D3DXVECTOR3 pos, D3DXVECTOR3 size)
-{
-	size /= 2.0f;	// 半サイズにする
-
-	D3DXVECTOR2 mouseColliderSize = D3DXVECTOR2(2.5f, 2.5f);
-
-	if (GetMousePosition(hWnd).x + mouseColliderSize.x > pos.x - size.x
-		&& pos.x + size.x > GetMousePosition(hWnd).x - mouseColliderSize.x
-		&&
-		GetMousePosition(hWnd).y + mouseColliderSize.y > pos.y - size.y
-		&& pos.y + size.y > GetMousePosition(hWnd).y - mouseColliderSize.y)
+	if (alpha >= 1.0f)
 	{
-		return true;
+		IsAlphaIncreased = false;
+	}
+	if (alpha <= 0.0f)
+	{
+		IsAlphaIncreased = true;
 	}
 
-	return false;
+	if (IsAlphaIncreased)
+	{
+		alpha += INCREASE_VOLUME_ALPHA;
+	}
+	else
+	{
+		alpha -= INCREASE_VOLUME_ALPHA;
+	}
+
+	text->SetColorObject(D3DXCOLOR(1.0f,1.0f,1.0f,alpha));
+}
+
+
+//=============================================================================
+// ゲームシーン移行処理
+//=============================================================================
+void StartButton::GoGameScene(void)
+{
+	mask->SceneChangeFlag(true, SceneGame);
 }

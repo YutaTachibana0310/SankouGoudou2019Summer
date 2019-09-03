@@ -25,20 +25,18 @@
 //*****************************************************************************
 int		historyMax;
 
-//=============================================================================
-// 初期化処理
-//=============================================================================
-void Trail::Init(void)
+//*****************************************************************************
+// コンストラクタ
+//*****************************************************************************
+Trail::Trail()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
 	for (int i = 0; i < TRAILPARTS_MAX; i++)
 	{
-		// テクスチャ読み込み
-		trail[i]->LoadTexture(pDevice, texPath[i]);
+		trail[i] = new Object();
 
-		trail[i]->InitialTexture();
-		trail[i]->MakeVertexObject();
+		// テクスチャ読み込み
+		trail[i]->LoadTexture(texPath[i]);
+		trail[i]->MakeVertex();
 
 		trail[i]->position = POSITION_TRAIL;
 		trail[i]->size = SIZE_TRAIL;
@@ -48,14 +46,15 @@ void Trail::Init(void)
 	}
 }
 
-//=============================================================================
-// 終了処理
-//=============================================================================
-void Trail::Uninit(void)
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+Trail::~Trail()
 {
 	for (int i = 0; i < TRAILPARTS_MAX; i++)
 	{
-		trail[i]->ReleaseTexture();
+		delete trail[i];
+		trail[i] = NULL;
 	}
 }
 
@@ -71,22 +70,20 @@ void Trail::Update(void)
 //=============================================================================
 void Trail::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
 	// プレイヤーから受け取ったデータを入れる
 	std::vector <int> drawHistory;
 	GetPlayerMoveHistory(&drawHistory);
 
 	// 先に背景を描画
-	trail[TRAIL_BG]->DrawObject(pDevice);
-	trail[TRAIL_BG]->SetVertexObject();
+	trail[TRAIL_BG]->Draw();
+	trail[TRAIL_BG]->SetVertex();
 
 	// 要素数計算
 	historyMax = drawHistory.size();
 
 	for (int i = 0; i < historyMax; i++)
 	{
-		trail[drawHistory[i]]->DrawObject(pDevice);
-		trail[drawHistory[i]]->SetVertexObject();
+		trail[drawHistory[i]]->Draw();
+		trail[drawHistory[i]]->SetVertex();
 	}
 }

@@ -18,6 +18,7 @@
 #define BASE_NUMBER			(10)			// 進数
 #define VOLUME_ZOOM			(50.0f)
 #define ROTATION_SPEED_COMBO_BACKGROUND (0.01f)
+#define SPEED_VOLUMEUP_NUMBER_COMBO (0.2f)
 
 // サイズ定義
 #define SIZE_NUMBER_COMBO		(D3DXVECTOR3(40.0f,75.0f,0.0f))
@@ -29,48 +30,46 @@
 #define POSITION_TEXT_COMBO			(D3DXVECTOR3(SCREEN_WIDTH / 10*3.2f, SCREEN_HEIGHT / 10*2.3f , 0.0f))
 #define POSITION_BACKGROUND_COMBO	(D3DXVECTOR3(SCREEN_WIDTH / 10*2.25f, SCREEN_HEIGHT / 10*2.0f , 0.0f))
 
-//=============================================================================
-// 初期化処理
-//=============================================================================
-void Combo::Init(void)
+//*****************************************************************************
+// コンストラクタ
+//*****************************************************************************
+Combo::Combo()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	number = new CounterObject();
+	text = new Object();
+	bg = new RotateObject();
 
-	comboNumber->LoadTexture(pDevice, ADRESS_TEXTURE_NUMBER_COMBO);
-	comboText->LoadTexture(pDevice, ADRESS_TEXTURE_TEXT_COMBO);
-	comboBG->LoadTexture(pDevice, ADRESS_TEXTURE_BACKGROUND_COMBO);
+	number->LoadTexture("data/TEXTURE/UI/number.png");
+	text->LoadTexture("data/TEXTURE/UI/combo/comboText.png");
+	bg->LoadTexture("data/TEXTURE/UI/combo/circleCombo.png");
 
-	comboNumber->InitialTexture();
-	comboText->InitialTexture();
-	comboBG->InitialTexture();
+	number->MakeVertex();
+	text->MakeVertex();
+	bg->MakeVertex();
 
-	comboNumber->MakeVertexObject();
-	comboText->MakeVertexObject();
-	comboBG->MakeVertexObject();
+	number->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	text->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	bg->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	comboNumber->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	comboText->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	comboBG->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	number->position = POSITION_NUMBER_COMBO;
+	text->position = POSITION_TEXT_COMBO;
+	bg->position = POSITION_BACKGROUND_COMBO;
 
-	comboNumber->position	  = POSITION_NUMBER_COMBO;
-	comboText->position		  = POSITION_TEXT_COMBO;
-	comboBG->position = POSITION_BACKGROUND_COMBO;
+	number->size = SIZE_NUMBER_COMBO;
+	text->size = SIZE_TEXT_COMBO;
+	bg->size = SIZE_BACKGROUND_COMBO;
 
-	comboNumber->size		= SIZE_NUMBER_COMBO;
-	comboText->size			= SIZE_TEXT_COMBO;
-	comboBG->size	= SIZE_BACKGROUND_COMBO;
-
-	comboNumber->SetColorObject(SET_COLOR_NOT_COLORED);
-	comboText->SetColorObject(SET_COLOR_NOT_COLORED);
-	comboBG->SetColorObject(SET_COLOR_NOT_COLORED);
+	number->SetColorObject(SET_COLOR_NOT_COLORED);
+	text->SetColorObject(SET_COLOR_NOT_COLORED);
+	bg->SetColorObject(SET_COLOR_NOT_COLORED);
 
 	// 回転オブジェクト用のサークルを作成
-	comboBG->CreateObjectCircle();
+	bg->CreateObjectCircle();
 
 	// 最大値設定
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
 	{
-		comboMax += (BASE_NUMBER -1)* (int)powf(BASE_NUMBER, (float)nCntPlace);
+		comboMax += (BASE_NUMBER - 1)* (int)powf(BASE_NUMBER, (float)nCntPlace);
 	}
 
 	combo = 0;
@@ -78,14 +77,19 @@ void Combo::Init(void)
 	volumeUpEffectUsed = false;
 }
 
-//=============================================================================
-// 終了処理
-//=============================================================================
-void Combo::Uninit(void)
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+Combo::~Combo()
 {
-	comboNumber->ReleaseTexture();
-	comboText->ReleaseTexture();
-	comboBG->ReleaseTexture();
+	delete number;
+	number = NULL;
+
+	delete text;
+	text = NULL;
+
+	delete bg;
+	bg = NULL;
 }
 
 //=============================================================================
@@ -94,7 +98,7 @@ void Combo::Uninit(void)
 void Combo::Update(void)
 {
 	// コンボ背景回転
-	comboBG->rotation.z += ROTATION_SPEED_COMBO_BACKGROUND;
+	bg->rotation.z += ROTATION_SPEED_COMBO_BACKGROUND;
 
 	// 数字の色更新
 	UpdateNumberColor();
@@ -118,26 +122,24 @@ void Combo::Update(void)
 //=============================================================================
 void Combo::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
 	 //背景を先に描画
-	comboBG->DrawObject(pDevice);
-	comboBG->SetVertexRotateObject();
+	bg->Draw();
+	bg->SetVertex();
 
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
 	{
-		int number;
+		int num;
 
-		number = combo % (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace))) 
+		num = combo % (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace))) 
 			/ (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace - 1)));
 
-		comboNumber->DrawObject(pDevice);
-		comboNumber->SetVertexCounter(nCntPlace, INTERVAL_NUMBER);
-		comboNumber->SetTextureCounter(number, INTERVAL_NUMBER_TEXTURE);
+		number->Draw();
+		number->SetVertex(nCntPlace, INTERVAL_NUMBER);
+		number->SetTexture(num, INTERVAL_NUMBER_TEXTURE);
 	}	
 
-	comboText->DrawObject(pDevice);
-	comboText->SetVertexObject();
+	text->Draw();
+	text->SetVertex();
 }
 
 //=============================================================================
@@ -147,7 +149,7 @@ void Combo::VolumeUpEffect(void)
 {
 	if (volumeUpEffectUsed == true)
 	{
-		comboNumber->size.y = SIZE_NUMBER_COMBO.y + VOLUME_ZOOM * sinf(radian);
+		number->size.y = SIZE_NUMBER_COMBO.y + VOLUME_ZOOM * sinf(radian);
 
 		if (radian >= D3DX_PI)
 		{
@@ -155,7 +157,7 @@ void Combo::VolumeUpEffect(void)
 			volumeUpEffectUsed = false;
 		}
 
-		radian += SPEED_VOLUMEUP_NUMBER;
+		radian += SPEED_VOLUMEUP_NUMBER_COMBO;
 	}
 }
 
@@ -170,14 +172,14 @@ void Combo::UpdateNumberColor(void)
 
 	if (combo >= firstColorStartCombo && combo < secondColorStartCombo)
 	{
-		comboNumber->SetColorObject(SET_COLOR_NOT_COLORED);
+		number->SetColorObject(SET_COLOR_NOT_COLORED);
 	}
 	if (combo >= secondColorStartCombo && combo < thirdColorStartCombo)
 	{
-		comboNumber->SetColorObject(SET_COLOR_YELLOW);
+		number->SetColorObject(SET_COLOR_YELLOW);
 	}
 	if (combo >= thirdColorStartCombo)
 	{
-		comboNumber->SetColorObject(SET_COLOR_RED);
+		number->SetColorObject(SET_COLOR_RED);
 	}
 }

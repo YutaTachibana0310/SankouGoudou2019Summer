@@ -16,34 +16,29 @@
 #define POSITION_TITLELOGO	(D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_HEIGHT/3,0.0f))
 
 //*****************************************************************************
-// グローバル変数
+// コンストラクタ
 //*****************************************************************************
-Object titleLogo;
-
-//=============================================================================
-// 初期化処理
-//=============================================================================
-void TitleLogo::Init(void)
+TitleLogo::TitleLogo()
 {
-	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	titleLogo = new Object();
 
-	//object->LoadTexture(pDevice, ADRESS_TEXTURE_TITLELOGO, &titleLogo);
-	//object->InitialTexture(&titleLogo);
-	//object->MakeVertexObject(&titleLogo);
+	titleLogo->LoadTexture("data/TEXTURE/UI/チームロゴ.png");
+	titleLogo->MakeVertex();
 
-	//titleLogo.position	= POSITION_TITLELOGO;
-	//titleLogo.size		= SIZE_TITLELOGO;
-	//titleLogo.rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	titleLogo->position = POSITION_TITLELOGO;
+	titleLogo->size = SIZE_TITLELOGO;
+	titleLogo->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	//object->SetColorObject(&titleLogo, SET_COLOR_NOT_COLORED);
+	titleLogo->SetColorObject(SET_COLOR_NOT_COLORED);
 }
 
-//=============================================================================
-// 終了処理
-//=============================================================================
-void TitleLogo::Uninit(void)
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+TitleLogo::~TitleLogo()
 {
-	//object->ReleaseTexture(&titleLogo);
+	delete titleLogo;
+	titleLogo = NULL;
 }
 
 //=============================================================================
@@ -58,8 +53,6 @@ void TitleLogo::Update(void)
 //=============================================================================
 void TitleLogo::Draw(void)
 {
-	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
-	//object->DrawObject(pDevice, &titleLogo);
-	//object->SetVertexObject(&titleLogo);
+	titleLogo->Draw();
+	titleLogo->SetVertex();
 }

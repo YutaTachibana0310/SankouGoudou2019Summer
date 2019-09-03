@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// TitleシーンUI管理処理 [TitleSceneUIManager.cpp]
+// TitleシーンUI管理処理 [TitleSceneUIManagerManager.cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
@@ -10,6 +10,7 @@
 #include "titleLogoUI.h"
 #include "startButtonUI.h"
 #include "cursorUI.h"
+#include "masktex.h"
 #include "TitleSceneUIManager.h"
 
 //*****************************************************************************
@@ -20,32 +21,53 @@
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-//TitleSceneUI *titleSceneUI[TITLE_SCENE_UI_MAX];
+//TitleSceneUIManager *titleSceneUI[TITLE_SCENE_UI_MAX];
+
+//*****************************************************************************
+// コンストラクタ
+//*****************************************************************************
+TitleSceneUIManager::TitleSceneUIManager()
+{
+	startButton = new StartButton();
+	titleBG = new TitleBG();
+	titleLogo = new TitleLogo();
+}
+
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+TitleSceneUIManager::~TitleSceneUIManager()
+{
+	delete startButton;
+	startButton = NULL;
+
+	delete titleBG;
+	titleBG = NULL;
+
+	delete titleLogo;
+	titleLogo = NULL;
+}
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
-void TitleSceneUI::Init(void)
+void TitleSceneUIManager::Init()
 {
-	startButton->Init();
-	titleBG->Init();
-	titleLogo->Init();
+
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void TitleSceneUI::Uninit(void)
+void TitleSceneUIManager::Uninit()
 {
-	startButton->Uninit();
-	titleBG->Uninit();
-	titleLogo->Uninit();
+
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void TitleSceneUI::Update(HWND hWnd)
+void TitleSceneUIManager::Update(HWND hWnd)
 {
 	startButton->Update(hWnd);
 	titleBG->Update();
@@ -55,7 +77,7 @@ void TitleSceneUI::Update(HWND hWnd)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void TitleSceneUI::Draw(void)
+void TitleSceneUIManager::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 

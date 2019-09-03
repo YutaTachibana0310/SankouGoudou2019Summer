@@ -16,34 +16,30 @@
 #define POSITION_LINE	(D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_HEIGHT/10*2,0.0f))
 
 //*****************************************************************************
-// グローバル変数
+// コンストラクタ
 //*****************************************************************************
-
-//=============================================================================
-// 初期化処理
-//=============================================================================
-void Line::Init(void)
+Line::Line()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	line = new Object();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_LINE);
-	InitialTexture();
+	line->LoadTexture("data/TEXTURE/UI/interfaceLine.png");
 
-	position	= POSITION_LINE;
-	size		= SIZE_LINE;
-	rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	line->position = POSITION_LINE;
+	line->size = SIZE_LINE;
+	line->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	SetColorObject(SET_COLOR_NOT_COLORED);
+	line->SetColorObject(SET_COLOR_NOT_COLORED);
 
-	MakeVertexObject();
+	line->MakeVertex();
 }
 
-//=============================================================================
-// 終了処理
-//=============================================================================
-void Line::Uninit(void)
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+Line::~Line()
 {
-	ReleaseTexture();
+	delete line;
+	line = NULL;
 }
 
 //=============================================================================
@@ -58,8 +54,6 @@ void Line::Update()
 //=============================================================================
 void Line::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
-	DrawObject(pDevice);
-	SetVertexObject();
+	line->Draw();
+	line->SetVertex();
 }

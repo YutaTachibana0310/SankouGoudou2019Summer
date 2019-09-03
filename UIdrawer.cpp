@@ -11,10 +11,12 @@
 //=============================================================================
 // テクスチャの読み込み
 //=============================================================================
-void Object::LoadTexture(LPDIRECT3DDEVICE9 device, const char *path)
+void Object::LoadTexture(const char *path)
 {
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
 	// テクスチャの読み込み
-	D3DXCreateTextureFromFile(device,	// デバイスへのポインタ
+	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		path,							// ファイルのアドレス
 		&texture);						// 読み込むメモリー
 }
@@ -22,7 +24,7 @@ void Object::LoadTexture(LPDIRECT3DDEVICE9 device, const char *path)
 //=============================================================================
 // オブジェクトサークルの作成　（回転オブジェクト用のサークルを作る）
 //=============================================================================
-void Object::CreateObjectCircle()
+void RotateObject::CreateObjectCircle()
 {
 	D3DXVECTOR2 temp = D3DXVECTOR2(size.x, size.y);
 	radius = D3DXVec2Length(&temp);
@@ -42,19 +44,12 @@ void Object::ReleaseTexture()
 }
 
 //=============================================================================
-// テクスチャの初期化
-//=============================================================================
-void Object::InitialTexture()
-{
-	// テクスチャ情報
-	&texture;
-}
-
-//=============================================================================
 // オブジェクト描画処理
 //=============================================================================
-void Object::DrawObject(LPDIRECT3DDEVICE9 pDevice)
+void Object::Draw()
 {
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
 	// 頂点フォーマットの設定
 	pDevice->SetFVF(FVF_VERTEX_2D);
 
@@ -68,7 +63,7 @@ void Object::DrawObject(LPDIRECT3DDEVICE9 pDevice)
 //=============================================================================
 // テクスチャの頂点の作成
 //=============================================================================
-void Object::MakeVertexObject()
+void Object::MakeVertex()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -94,7 +89,7 @@ void Object::MakeVertexObject()
 //=============================================================================
 // テクスチャの頂点の作成 (回転オブジェクト用)
 //=============================================================================
-void Object::MakeVertexRotateObject()
+void RotateObject::MakeVertex()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -131,7 +126,7 @@ void Object::MakeVertexRotateObject()
 //=============================================================================
 // テクスチャの頂点の作成　（ゲージ専用）
 //=============================================================================
-void Object::MakeVertexGuageBar(float percentage, float flameWidth)
+void GuageObject::MakeVertex(float percentage, float flameWidth)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -161,7 +156,7 @@ void Object::MakeVertexGuageBar(float percentage, float flameWidth)
 //=============================================================================
 // オブジェクトの頂点座標の設定
 //=============================================================================
-void Object::SetVertexObject()
+void Object::SetVertex()
 {
 	// 頂点座標の設定
 	vertexWk[0].vtx = position + D3DXVECTOR3(-size.x, -size.y, 0.0f);
@@ -173,7 +168,7 @@ void Object::SetVertexObject()
 //=============================================================================
 // オブジェクトの頂点座標の設定 (回転オブジェクト用)
 //=============================================================================
-void Object::SetVertexRotateObject()
+void RotateObject::SetVertex()
 {
 	// 頂点座標の設定
 	vertexWk[0].vtx.x = position.x - cosf(baseAngle + rotation.z) * radius;
@@ -196,7 +191,7 @@ void Object::SetVertexRotateObject()
 //=============================================================================
 // オブジェクトの頂点座標の設定　（ゲージ専用）
 //=============================================================================
-void Object::SetVertexGuageBar(float percentage, float flameWidth, int guageType)
+void GuageObject::SetVertex(float percentage, float flameWidth, int guageType)
 {
 	if (guageType == LEFT_GUAGEBAR)
 	{
@@ -255,21 +250,9 @@ void Object::SetVertexGuageBar(float percentage, float flameWidth, int guageType
 }
 
 //=============================================================================
-// オブジェクトの頂点座標の設定　（テロップ背景専用）
-//=============================================================================
-void Object::SetVertexTelopBG(float percentage)
-{
-	// 頂点座標の設定
-	vertexWk[0].vtx = D3DXVECTOR3(0, position.y - size.y*percentage, position.z);
-	vertexWk[1].vtx = D3DXVECTOR3(SCREEN_WIDTH, position.y - size.y*percentage, position.z);
-	vertexWk[2].vtx = D3DXVECTOR3(0, position.y + size.y*percentage, position.z);
-	vertexWk[3].vtx = D3DXVECTOR3(SCREEN_WIDTH, position.y + size.y*percentage, position.z);
-}
-
-//=============================================================================
 // オブジェクトの頂点座標の設定　（カウンター専用）
 //=============================================================================
-void Object::SetVertexCounter(int placeCount, float placeInterval)
+void CounterObject::SetVertex(int placeCount, float placeInterval)
 {
 	// 頂点座標の設定
 	vertexWk[0].vtx = D3DXVECTOR3(position.x + placeCount * placeInterval, position.y, position.z)
@@ -285,7 +268,7 @@ void Object::SetVertexCounter(int placeCount, float placeInterval)
 //=============================================================================
 //オブジェクトのテクスチャ座標設定処理
 //=============================================================================
-void Object::SetTextureObject(int divX, int divY, int pattern)
+void Object::SetTexture(int divX, int divY, int pattern)
 {
 	float sizeX = 1.0f / divX;
 	float sizeY = 1.0f / divY;
@@ -301,7 +284,7 @@ void Object::SetTextureObject(int divX, int divY, int pattern)
 //=============================================================================
 //オブジェクトのテクスチャ座標設定処理　（カウンター専用）
 //=============================================================================
-void Object::SetTextureCounter(int number, float placeInterval)
+void CounterObject::SetTexture(int number, float placeInterval)
 {
 	// 頂点座標の設定
 	vertexWk[0].tex = D3DXVECTOR2(number * placeInterval, 0.0f);
@@ -341,4 +324,25 @@ float Object::GetCountObject(float duration)
 	float t = (float)countFrame / duration;
 
 	return t;
+}
+
+//=============================================================================
+// マウスオーバー判定処理
+//=============================================================================
+bool Object::IsMouseOvered(HWND hWnd, D3DXVECTOR3 pos, D3DXVECTOR3 size)
+{
+	size /= 2.0f;	// 半サイズにする
+
+	D3DXVECTOR2 mouseColliderSize = D3DXVECTOR2(2.5f, 2.5f);
+
+	if (GetMousePosition(hWnd).x + mouseColliderSize.x > pos.x - size.x
+		&& pos.x + size.x > GetMousePosition(hWnd).x - mouseColliderSize.x
+		&&
+		GetMousePosition(hWnd).y + mouseColliderSize.y > pos.y - size.y
+		&& pos.y + size.y > GetMousePosition(hWnd).y - mouseColliderSize.y)
+	{
+		return true;
+	}
+
+	return false;
 }

@@ -7,6 +7,8 @@
 #ifndef _UIDRAWER_H_
 #define _UIDRAWER_H_
 
+#include "main.h"
+
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -33,57 +35,63 @@ public:
 	D3DXVECTOR3			rotation;
 	D3DXVECTOR3			size;
 	D3DXVECTOR3			colliderSize;
-	D3DXVECTOR3			easingStartRotation;
-	D3DXVECTOR3			easingGoalRotation;
-	D3DXVECTOR3			easingStartPosition;
-	D3DXVECTOR3			easingGoalPosition;
-	D3DXVECTOR3			easingStartSize;
-	D3DXVECTOR3			easingGoalSize;
 
-	//後でそれぞれのUIオブジェクトクラスに移す
-	float				easingStart;
-	float				easingGoal;
-	float               baseAngle;
-	float				radius;
 	int					countFrame;
-	bool				isRotated;
 
-	void LoadTexture(LPDIRECT3DDEVICE9 device, const char *path);
-	void CreateObjectCircle();
+	void LoadTexture(const char *path);
 	void ReleaseTexture();
-	void InitialTexture();
-	void DrawObject(LPDIRECT3DDEVICE9 pDevice);
-	void MakeVertexObject();
-	void MakeVertexRotateObject();
-	void MakeVertexGuageBar(float percentage, float flameWidth);
-	void SetVertexObject();
-	void SetVertexRotateObject();
-	void SetVertexGuageBar(float percentage, float flameWidth, int guageType);
-	void SetVertexTelopBG(float percentage);
-	void SetVertexCounter(int placeCount, float placeInterval);
-	void SetTextureObject(int divX, int divY, int pattern);
-	void SetTextureCounter(int number, float placeInterval);
+	void Draw();
 	void SetAlphaObject(float alpha);
 	void SetColorObject(D3DXCOLOR color);
 	float GetCountObject(float duration);
+	bool IsMouseOvered(HWND hWnd, D3DXVECTOR3 pos, D3DXVECTOR3 size);
+
+	virtual void MakeVertex();
+	virtual void SetVertex();
+	virtual void SetTexture(int divX, int divY, int pattern);
 };
 
-//後でそれぞれのUIオブジェクトクラスに移す
-enum GUAGETYPE
+class RotateObject:public Object
 {
-	LEFT_GUAGEBAR,
-	RIGHT_GUAGEBAR,
-	UP_GUAGEBAR,
-	DOWN_GUAGEBAR
+public:
+	D3DXVECTOR3	easingStartRotation;
+	D3DXVECTOR3	easingGoalRotation;
+
+	bool isRotated;
+	float baseAngle;
+	float radius;
+
+	void CreateObjectCircle();
+	void MakeVertex();
+	void SetVertex();
+
 };
 
-enum TELOP_ANIM_SCENE
+class GuageObject :public Object
 {
-	WAIT_BG_OPEN,
-	IN_TEXT,
-	STOP_TEXT,
-	OUT_TEXT,
-	WAIT_BG_CLOSE
+public:
+	void MakeVertex(float percentage, float flameWidth);
+	void SetVertex(float percentage, float flameWidth, int guageType);
+
+	enum GUAGETYPE
+	{
+		LEFT_GUAGEBAR,
+		RIGHT_GUAGEBAR,
+		UP_GUAGEBAR,
+		DOWN_GUAGEBAR
+	};
+};
+
+class CounterObject :public Object
+{
+public:
+	void SetVertex(int placeCount, float placeInterval);
+	void SetTexture(int number, float placeInterval);
+};
+
+class TelopObject :public Object
+{
+public:
 };
 
 #endif

@@ -10,9 +10,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	ADRESS_TEXTURE_STAR	("data/TEXTURE/UI/star.png")	// 読み込むテクスチャファイル名
 #define	STAR_MAX			(5)
-
 #define COLLIDERSIZE_STAR			(D3DXVECTOR3(250.0f,250.0f,0.0f))
 
 // 座標定義
@@ -33,36 +31,29 @@ enum STARS
 	CENTER
 };
 
-#include "GameSceneUIManager.h"
-#include "UIdrawer.h"
-
-class Object;
-
 /**************************************
 前方宣言
 ***************************************/
-class GameSceneUI;
-class Cursor;
+class RotateObject;
 
 //*****************************************************************************
 // 構造体定義
 //*****************************************************************************
-class Star :public Object
+class Star
 {
 public:
-	Star * star[STAR_MAX];
-	Cursor*cursor;
-	void Init(void);
-	void Uninit(void);
-	void Update(void);
+	Star();
+	~Star();
+
+	void Update(HWND hWnd);
 	void Draw(void);
 
-private:
-	void RotateStar(int num);
 	void ToggleRotateStar(int num, bool isRotated);
-	bool IsStarSelected(int num);
-};
+	D3DXVECTOR3* GetStarPosition(void);
 
-void GetStarPosition(D3DXVECTOR3 *pos);
+private:
+	RotateObject * star[STAR_MAX];
+	void RotateStar(int num);
+};
 
 #endif

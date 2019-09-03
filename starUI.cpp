@@ -9,7 +9,6 @@
 #include "starUI.h"
 #include "UIdrawer.h"
 #include "Framework/EasingVector.h"
-#include "cursorUI.h"
 #include "trailUI.h"
 
 //*****************************************************************************
@@ -21,26 +20,17 @@
 #define DURATION_ROTATION	(60.0f)
 
 //*****************************************************************************
-// プロトタイプ宣言
+// コンストラクタ
 //*****************************************************************************
-
-//*****************************************************************************
-// グローバル変数
-//*****************************************************************************
-
-//=============================================================================
-// 初期化処理
-//=============================================================================
-void Star::Init(void)
+Star::Star()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
 	for (int i = 0; i < STAR_MAX; i++)
 	{
-		star[i]->LoadTexture(pDevice, ADRESS_TEXTURE_STAR);
+		star[i] = new RotateObject();
+
+		star[i]->LoadTexture("data/TEXTURE/UI/star.png");
 		star[i]->CreateObjectCircle();
-		star[i]->InitialTexture();
-		star[i]->MakeVertexRotateObject();
+		star[i]->MakeVertex();
 
 		star[i]->size = SIZE_STAR;
 		star[i]->colliderSize = COLLIDERSIZE_STAR;
@@ -66,25 +56,27 @@ void Star::Init(void)
 	star[MIDDLE_RIGHT]->SetColorObject(SET_COLOR_NOT_COLORED);
 }
 
-//=============================================================================
-// 終了処理
-//=============================================================================
-void Star::Uninit(void)
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+Star::~Star()
 {
-	for (int i = 0; i < STAR_MAX; i++)
+	for (int i = 0; i < STAR_MAX;i++)
 	{
-		star[i]->ReleaseTexture();
+		delete star[i];
+		star[i] = NULL;
 	}
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void Star::Update(void)
+void Star::Update(HWND hWnd)
 {
 	for (int i = 0; i < STAR_MAX; i++)
 	{
-			if (IsStarSelected(i))
+			if (star[i]->IsMouseOvered(hWnd,star[i]->position,
+				star[i]->colliderSize))
 			{
 				if (IsMouseLeftTriggered())
 				{
@@ -110,12 +102,10 @@ void Star::Update(void)
 //=============================================================================
 void Star::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
 	for (int i = 0; i < STAR_MAX; i++)
 	{
-		star[i]->DrawObject(pDevice);
-		star[i]->SetVertexRotateObject();
+		star[i]->Draw();
+		star[i]->SetVertex();
 	}
 }
 
@@ -156,19 +146,16 @@ void Star::ToggleRotateStar(int num, bool isRotated)
 }
 
 //=============================================================================
-// 選択されているかの判定処理 (当たったら選択状態)
+// 星座標取得用
 //=============================================================================
-bool Star::IsStarSelected(int num)
+D3DXVECTOR3* Star::GetStarPosition(void)
 {
-	return cursor->IsCursorOvered(star[num]->position,star[num]->colliderSize);
-}
+	D3DXVECTOR3 *pos = {};
 
-//=============================================================================
-// 星座標取得用（渡邉追記）
-//=============================================================================
-void GetStarPosition(D3DXVECTOR3 *pos) {
 	for (int i = 0; i < STAR_MAX; i++)
 	{
-		//pos[i] = star[i]->position;
+		pos[i] = star[i]->position;
 	}
+
+	return pos;
 }

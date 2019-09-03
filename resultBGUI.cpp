@@ -1,7 +1,7 @@
 //=============================================================================
 //
 // リザルト背景画面処理 [resultBGUI.cpp]
-// Author : 渡邉良則
+// Author : 渡邉良則（おおはま変更）
 //
 //=============================================================================
 #include "main.h"
@@ -16,34 +16,29 @@
 #define POSITION_RESULTBG	(D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,0.0f))
 
 //*****************************************************************************
-// グローバル変数
+// コンストラクタ
 //*****************************************************************************
-Object	resultBG;
-
-//=============================================================================
-// 初期化処理
-//=============================================================================
-void ResultBG::Init(void)
+ResultBG::ResultBG()
 {
-	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	resultBG = new Object();
 
-	//object->LoadTexture(pDevice, ADRESS_TEXTURE_RESULTBG, &resultBG);
-	//object->InitialTexture(&resultBG);
-	//object->MakeVertexObject(&resultBG);
+	resultBG->LoadTexture("data/TEXTURE/UI/Result/ブラック.jpg");
+	resultBG->MakeVertex();
 
-	//resultBG.position = POSITION_RESULTBG;
-	//resultBG.size = SIZE_RESULTBG;
-	//resultBG.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	resultBG->position = POSITION_RESULTBG;
+	resultBG->size = SIZE_RESULTBG;
+	resultBG->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	//object->SetColorObject(&resultBG, SET_COLOR_NOT_COLORED);
+	resultBG->SetColorObject(SET_COLOR_NOT_COLORED);
 }
 
-//=============================================================================
-// 終了処理
-//=============================================================================
-void ResultBG::Uninit(void)
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+ResultBG::~ResultBG()
 {
-	//object->ReleaseTexture(&resultBG);
+	delete resultBG;
+	resultBG = NULL;
 }
 
 //=============================================================================
@@ -58,8 +53,6 @@ void ResultBG::Update(void)
 //=============================================================================
 void ResultBG::Draw(void)
 {
-	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
-	//object->DrawObject(pDevice, &resultBG);
-	//object->SetVertexObject(&resultBG);
+	resultBG->Draw();
+	resultBG->SetVertex();
 }

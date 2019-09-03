@@ -6,34 +6,30 @@
 //=============================================================================
 #ifndef _TITLEBG_H_
 #define _TITLEBG_H_
-#include "UIdrawer.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	ADRESS_TEXTURE_TITLEBG	("data/TEXTURE/UI/title_test.jpg")	// 読み込むテクスチャファイル名
-
-#include "TitleSceneUIManager.h"
-#include "UIdrawer.h"
-
-class Object;
 
 /**************************************
 前方宣言
 ***************************************/
-class TitleSceneUI;
+class Object;
 
 //*****************************************************************************
 // 構造体定義
 //*****************************************************************************
-class TitleBG :public Object
+class TitleBG
 {
 public:
-	Object *object;
-	void Init(void);
-	void Uninit(void);
+	TitleBG();
+	~TitleBG();
+
 	void Update(void);
 	void Draw(void);
+private:
+	Object * titleBG;
+
 };
 
 #endif

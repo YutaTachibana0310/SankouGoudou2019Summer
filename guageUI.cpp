@@ -15,69 +15,74 @@
 //*****************************************************************************
 #define	GUAGEPARTS_MAX		(4)
 #define WIDTH_GUAGEFLAME	(5.0f)
-#define MAX_HP				(100)
 #define DECREASESPEED_GUAGE (0.0050f)
 #define TEXT_GUAGE_ALPHA	(0.5f)
 #define INITIALVALUE_GUAGEPERCENTAGE (1.0f)
 #define SIZE_GUAGE			(D3DXVECTOR3(25.0f,250.0f,0.0f))
 #define POSITION_GUAGE		(D3DXVECTOR3(SCREEN_WIDTH / 10*1.0f, SCREEN_HEIGHT / 10*7.0f, 0.0f))
 
-//=============================================================================
-// 初期化処理
-//=============================================================================
-void Guage::Init(void)
+//*****************************************************************************
+// コンストラクタ
+//*****************************************************************************
+Guage::Guage()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	damageGuage = new GuageObject();
+	hPGuage = new GuageObject();
+	flame = new Object();
+	text = new Object();
 
-	damageGuage->LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEBAR);
-	hPGuage->LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEBAR);
-	guageFlame->LoadTexture(pDevice, ADRESS_TEXTURE_GUAGEFLAME);
-	guageText->LoadTexture(pDevice, ADRESS_TEXTURE_GUAGETEXT);
+	damageGuage->LoadTexture("data/TEXTURE/UI/guage/guageBar_vertical.png");
+	hPGuage->LoadTexture("data/TEXTURE/UI/guage/guageBar_vertical.png");
+	flame->LoadTexture("data/TEXTURE/UI/guage/guageFrame_vertical.png");
+	text->LoadTexture("data/TEXTURE/UI/guage/guageText_fever_vertical.png");
 
-	damageGuage->MakeVertexGuageBar(damageGuagePercentage,	WIDTH_GUAGEFLAME);
-	hPGuage->MakeVertexGuageBar(trueGuagePercentage,	WIDTH_GUAGEFLAME);
-	guageFlame->MakeVertexObject();
-	guageText->MakeVertexObject();
+	damageGuage->MakeVertex(damageGuagePercentage, WIDTH_GUAGEFLAME);
+	hPGuage->MakeVertex(trueGuagePercentage, WIDTH_GUAGEFLAME);
+	flame->MakeVertex();
+	text->MakeVertex();
 
 	damageGuage->position = POSITION_GUAGE;
 	hPGuage->position = POSITION_GUAGE;
-	guageFlame->position = POSITION_GUAGE;
-	guageText->position = POSITION_GUAGE;
+	flame->position = POSITION_GUAGE;
+	text->position = POSITION_GUAGE;
 
 	damageGuage->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	hPGuage->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	guageFlame->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	guageText->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	flame->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	text->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	damageGuage->size = SIZE_GUAGE;
 	hPGuage->size = SIZE_GUAGE;
-	guageFlame->size = SIZE_GUAGE;
-	guageText->size = SIZE_GUAGE;
-	
-	damageGuage->InitialTexture();
-	hPGuage->InitialTexture();
-	guageFlame->InitialTexture();
-	guageText->InitialTexture();
+	flame->size = SIZE_GUAGE;
+	text->size = SIZE_GUAGE;
 
 	//　色設定
 	damageGuage->SetColorObject(SET_COLOR_RED);
 	hPGuage->SetColorObject(SET_COLOR_YELLOW);
-	guageFlame->SetColorObject(SET_COLOR_NOT_COLORED);
-	guageText->SetColorObject(D3DXCOLOR(0.0f, 0.0f, 0.0f, TEXT_GUAGE_ALPHA));
+	flame->SetColorObject(SET_COLOR_NOT_COLORED);
+	text->SetColorObject(D3DXCOLOR(0.0f, 0.0f, 0.0f, TEXT_GUAGE_ALPHA));
 
 	damageGuagePercentage = INITIALVALUE_GUAGEPERCENTAGE;
-	trueGuagePercentage   = INITIALVALUE_GUAGEPERCENTAGE;
+	trueGuagePercentage = INITIALVALUE_GUAGEPERCENTAGE;
 }
 
-//=============================================================================
-// 終了処理
-//=============================================================================
-void Guage::Uninit(void)
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+Guage::~Guage()
 {
-	damageGuage->ReleaseTexture();
-	hPGuage->ReleaseTexture();
-	guageFlame->ReleaseTexture();
-	guageText->ReleaseTexture();
+	delete damageGuage;
+	damageGuage = NULL;
+
+	delete hPGuage;
+	hPGuage = NULL;
+
+	delete flame;
+	flame = NULL;
+
+	delete text;
+	text = NULL;
+
 }
 
 //=============================================================================
@@ -94,42 +99,15 @@ void Guage::Update(void)
 	{
 		damageGuagePercentage = trueGuagePercentage;
 	}
-}
-
-//=============================================================================
-// 描画処理
-//=============================================================================
-void Guage::Draw(void)
-{
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
-	damageGuage->DrawObject(pDevice);
-	hPGuage->DrawObject(pDevice);
-	guageFlame->DrawObject(pDevice);
-	guageText->DrawObject(pDevice);
-
-	// 頂点座標の設定
-	damageGuage->SetVertexGuageBar(damageGuagePercentage, WIDTH_GUAGEFLAME, DOWN_GUAGEBAR);
-	hPGuage->SetVertexGuageBar(trueGuagePercentage,	WIDTH_GUAGEFLAME, DOWN_GUAGEBAR);
-	guageFlame->SetVertexObject();
-	guageText->SetVertexObject();
-}
-
-//=============================================================================
-// HPの変更
-//=============================================================================
-void Guage::ChangeGuage(float value)
-{
-	trueGuagePercentage += (value /= MAX_HP);
 
 	// あふれ防止
-	if (trueGuagePercentage	<= 0.0f)
+	if (trueGuagePercentage <= 0.0f)
 	{
 		trueGuagePercentage = 0.0f;
 	}
 	if (trueGuagePercentage >= INITIALVALUE_GUAGEPERCENTAGE)
 	{
-		trueGuagePercentage	= INITIALVALUE_GUAGEPERCENTAGE;
+		trueGuagePercentage = INITIALVALUE_GUAGEPERCENTAGE;
 	}
 	if (damageGuagePercentage <= 0.0f)
 	{
@@ -139,4 +117,21 @@ void Guage::ChangeGuage(float value)
 	{
 		damageGuagePercentage = INITIALVALUE_GUAGEPERCENTAGE;
 	}
+}
+
+//=============================================================================
+// 描画処理
+//=============================================================================
+void Guage::Draw(void)
+{
+	damageGuage->Draw();
+	hPGuage->Draw();
+	flame->Draw();
+	text->Draw();
+
+	// 頂点座標の設定
+	damageGuage->SetVertex(damageGuagePercentage, WIDTH_GUAGEFLAME, damageGuage->DOWN_GUAGEBAR);
+	hPGuage->SetVertex(trueGuagePercentage,	WIDTH_GUAGEFLAME, hPGuage->DOWN_GUAGEBAR);
+	flame->SetVertex();
+	text->SetVertex();
 }

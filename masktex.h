@@ -12,23 +12,43 @@
 
 #define	MASK_SIZE (2000.0f)
 
-#define	MASK_TEXTURE			("data/TEXTURE/UI/mask_star.png")	// 読み込むテクスチャファイル名
+class Object;
 
-//テクスチャ初期化
-HRESULT InitMask(float size_x, float size_y, float size_z);
+class Mask
+{
+public:
+	Mask(float size_x, float size_y, float size_z);
+	~Mask();
 
-//テクスチャの終了処理
-void UninitMask(void);
+	void Init(void);
 
-void UpdateMask(void);
+	void Uninit(void);
 
-//マスク用テクスチャ更新処理
-void MaskFadeOut(void);
-void MaskFadeIn(void);
+	void Update(void);
 
-//マスク用のテクスチャ描画
-void DrawMaskTexSet(void);
-void DrawMaskTexEnd(void);
+	//マスク用テクスチャ更新処理
+	void FadeOut(void);
+	void FadeIn(void);
 
-void SceneChangeFlag(bool fadeflag,Scene next);
+	//マスク用のテクスチャ描画
+	void DrawMaskTexSet(void);
+	void DrawMaskTexEnd(void);
+
+	void SceneChangeFlag(bool fadeflag, Scene next);
+
+private:
+	Object * masktex;
+	Scene nextscene;
+
+	//拡大縮小が始まるフラグ
+	bool sizechange;
+	//フェードイン、アウトのどちらかを判定するフラグ
+	bool isFadeIn;
+	//フェード実行中か判定
+	bool active;
+	//シーン切り替えの為のウェイトタイム
+	int wait;
+
+};
+
 #endif

@@ -16,34 +16,29 @@
 #define POSITION_TITLEBG	(D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,0.0f))
 
 //*****************************************************************************
-// グローバル変数
+// コンストラクタ
 //*****************************************************************************
-Object titleBG;
-
-//=============================================================================
-// 初期化処理
-//=============================================================================
-void TitleBG::Init(void)
+TitleBG::TitleBG()
 {
-	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	titleBG = new Object();
 
-	//object->LoadTexture(pDevice, ADRESS_TEXTURE_TITLEBG, &titleBG);
-	//object->InitialTexture(&titleBG);
-	//object->MakeVertexObject(&titleBG);
+	titleBG->LoadTexture("data/TEXTURE/UI/title_test.jpg");
+	titleBG->MakeVertex();
 
-	//titleBG.position	= POSITION_TITLEBG;
-	//titleBG.size		= SIZE_TITLEBG;
-	//titleBG.rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	titleBG->position = POSITION_TITLEBG;
+	titleBG->size = SIZE_TITLEBG;
+	titleBG->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	//object->SetColorObject(&titleBG, SET_COLOR_NOT_COLORED);
+	titleBG->SetColorObject(SET_COLOR_NOT_COLORED);
 }
 
-//=============================================================================
-// 終了処理
-//=============================================================================
-void TitleBG::Uninit(void)
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+TitleBG::~TitleBG()
 {
-	//object->ReleaseTexture(&titleBG);
+	delete titleBG;
+	titleBG = NULL;
 }
 
 //=============================================================================
@@ -58,8 +53,6 @@ void TitleBG:: Update(void)
 //=============================================================================
 void TitleBG::Draw(void)
 {
-	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
-	//object->DrawObject(pDevice, &titleBG);
-	//object->SetVertexObject(&titleBG);
+	titleBG->Draw();
+	titleBG->SetVertex();
 }

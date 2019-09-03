@@ -7,33 +7,24 @@
 #ifndef _RESULTBGUI_H_
 #define _RESULTBGUI_H_
 
-//*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-#define	ADRESS_TEXTURE_RESULTBG	("data/TEXTURE/UI/Result/ブラック.jpg")	// 読み込むテクスチャファイル名
-
-#include "ResultSceneUIManager.h"
-
-#include "UIdrawer.h"
-
-class Object;
-
 /**************************************
 前方宣言
 ***************************************/
-class ResultSceneUI;
+class Object;
 
 //*****************************************************************************
 // 構造体定義
 //*****************************************************************************
-class ResultBG :public Object
+class ResultBG
 {
 public:
-	Object * object;
-	void Init(void);
-	void Uninit(void);
+	ResultBG();
+	~ResultBG();
+
 	void Update(void);
 	void Draw(void);
+private:
+	Object * resultBG;
 };
 
 #endif

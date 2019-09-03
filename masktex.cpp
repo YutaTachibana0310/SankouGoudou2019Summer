@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// マスク処理 [masktex.cpp]
+// マスク処理 [masktex->cpp]
 // Author : 渡邉良則
 //
 //=============================================================================
@@ -10,75 +10,67 @@
 #include "Stencil.h"
 #include "Game.h"
 
-Clip::Stencil clip;
-Object masktex;
-Object testtitle;
+static Clip::Stencil clip;
 
-static Object*object;
-
-//拡大縮小が始まるフラグ
-bool sizechange;
-//フェードイン、アウトのどちらかを判定するフラグ
-bool isFadeIn;
-//フェード実行中か判定
-bool active;
-//シーン切り替えの為のウェイトタイム
-int wait;
-
-Scene nextscene;
-
-//テクスチャ初期化
-HRESULT InitMask(float size_x, float size_y, float size_z)
+Mask::Mask(float size_x, float size_y, float size_z)
 {
-	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	//object->LoadTexture(pDevice, MASK_TEXTURE, &masktex);
-	//object->InitialTexture(&masktex);
-	//object->MakeVertexObject(&masktex);
+	masktex = new Object;
 
-	//masktex.size = D3DXVECTOR3(size_x, size_y, size_z);
-	//masktex.position = D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT/2, 0.0f);
-	//masktex.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	//object->SetColorObject(&masktex, SET_COLOR_NOT_COLORED);
+	masktex->LoadTexture("data/TEXTURE/UI/mask_star.png");
+	masktex->MakeVertex();
 
-	//active = false;
-	//sizechange = false;
-	//isFadeIn = false;
-	//wait = 0;
+	masktex->size = D3DXVECTOR3(size_x, size_y, size_z);
+	masktex->position = D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f);
+	masktex->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	masktex->SetColorObject(SET_COLOR_NOT_COLORED);
 
-	return S_OK;
+	active = false;
+	sizechange = false;
+	isFadeIn = false;
+	wait = 0;
 }
 
-//テクスチャ終了処理
-void UninitMask(void)
+Mask::~Mask()
 {
-	//object->ReleaseTexture(&masktex);
+	delete masktex;
+	masktex = NULL;
+}
+
+void Mask::Init(void)
+{
 
 }
 
-void UpdateMask(void) {
+void Mask::Uninit(void)
+{
+
+}
+
+
+void Mask::Update(void) {
 
 	if (active) {
 		//isFadeInがtrueの場合にフェードイン
 		if (isFadeIn) {
-			MaskFadeIn();
+			FadeIn();
 		}
 		else {
-			MaskFadeOut();
+			FadeOut();
 		}
 	}
 
 }
 
 //マスク用テクスチャ更新処理
-void MaskFadeOut(void) {
+void Mask::FadeOut(void) {
 
 	if (sizechange) {
-		masktex.size -= D3DXVECTOR3(10.0f, 10.0f, 0.0f);
+		masktex->size -= D3DXVECTOR3(10.0f, 10.0f, 0.0f);
 
 	}
 	//サイズ小さくなるにつれ画面が黒くなる
-	if (masktex.size.x <= 0) {
-		masktex.size = D3DXVECTOR3(0,0,0);
+	if (masktex->size.x <= 0) {
+		masktex->size = D3DXVECTOR3(0,0,0);
 		SceneChangeFlag(true, nextscene);
 
 		//サイズ0以下でシーン切り替え
@@ -97,27 +89,23 @@ void MaskFadeOut(void) {
 
 }
 
-void MaskFadeIn(void) {
+void Mask::FadeIn(void) {
 
 	if (sizechange) {
-		masktex.size += D3DXVECTOR3(10.0f, 10.0f, 0.0f);
+		masktex->size += D3DXVECTOR3(10.0f, 10.0f, 0.0f);
 
 	}
 
 	//サイズが大きくなるにつれゲーム画面表示
-	if (masktex.size.x >= MASK_SIZE) {
+	if (masktex->size.x >= MASK_SIZE) {
 
 		SceneChangeFlag(false,nextscene);
 		active = false;
 	}
-
-
-	
-
 }
 
 //マスク用テクスチャ描画
-void DrawMaskTexSet(void) {
+void Mask::DrawMaskTexSet(void) {
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -129,8 +117,8 @@ void DrawMaskTexSet(void) {
 	clip.setWriteMaskColor(Clip::Stencil::MaskColor_Trans);
 	clip.regionBegin(Clip::Stencil::MaskColor_Fill);
 
-	//object->DrawObject(pDevice, &masktex);
-	//object->SetVertexObject(&masktex);
+	masktex->Draw();
+	masktex->SetVertex();
 
 	clip.regionEnd();
 
@@ -139,7 +127,7 @@ void DrawMaskTexSet(void) {
 
 }
 
-void DrawMaskTexEnd(void) {
+void Mask::DrawMaskTexEnd(void) {
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -149,7 +137,7 @@ void DrawMaskTexEnd(void) {
 
 }
 
-void SceneChangeFlag(bool fadeflag,Scene next) {
+void Mask::SceneChangeFlag(bool fadeflag,Scene next) {
 
 	if (fadeflag) {
 		sizechange = true;
@@ -160,6 +148,5 @@ void SceneChangeFlag(bool fadeflag,Scene next) {
 	else {
 		sizechange = false;
 		active = false;
-	}
-	
+	}	
 }

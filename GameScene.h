@@ -15,11 +15,12 @@
 /**************************************
 前方宣言
 ***************************************/
-class GameSceneUI;
+class GameSceneUIManager;
 class EnemyController;
 class GameParticleManager;
 class PlayerObserver;
 class BackGroundController;
+class Mask;
 
 /**************************************
 クラス定義
@@ -37,11 +38,12 @@ public:
 
 	int cntFrame;
 
-	GameSceneUI *gameSceneUI;
+	GameSceneUIManager *gameSceneUIManager;
 	EnemyController *enemyController;
 	GameParticleManager* particleManager;
 	PlayerObserver* playerObserver;
 	BackGroundController *bgController;
+	Mask *mask;
 
 private:
 	

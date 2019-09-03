@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// テロップ背景処理 [telopBG.cpp]
+// テロップ背景処理 [telopBG->cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
@@ -21,45 +21,39 @@
 #define DURATION_OPEN_CLOSE (20.0f)
 
 //*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-
-//*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-Object	telopBG;
 Easing<float> eTelopBG;
-static float	percentage;
 
 bool telopBGOpenActivated = false;
 bool telopBGCloseActivated = false;
 
-//=============================================================================
-// 初期化処理
-//=============================================================================
-void TelopBG::Init(void)
+//*****************************************************************************
+// コンストラクタ
+//*****************************************************************************
+TelopBG::TelopBG()
 {
-	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	telopBG = new Object();
 
-	//object->LoadTexture(pDevice, ADRESS_TEXTURE_TELOP_BG, &telopBG);
-	//object->InitialTexture(&telopBG);
-	//object->MakeVertexObject(&telopBG);
+	telopBG->LoadTexture("data/TEXTURE/UI/telop/telopBG.png");
+	telopBG->MakeVertex();
 
-	//telopBG.position = POSITION_TELOP_BG;
-	//telopBG.size	 = SIZE_TELOP_BG;
-	//telopBG.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	telopBG->position = POSITION_TELOP_BG;
+	telopBG->size = SIZE_TELOP_BG;
+	telopBG->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	//object->SetColorObject(&telopBG, SET_COLOR_NOT_COLORED);
+	telopBG->SetColorObject(SET_COLOR_NOT_COLORED);
 
-	//percentage = INITIALVALUE_BG_PERCENTAGE;
+	percentage = INITIALVALUE_BG_PERCENTAGE;
 }
 
-//=============================================================================
-// 終了処理
-//=============================================================================
-void TelopBG::Uninit(void)
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+TelopBG::~TelopBG()
 {
-	//object->ReleaseTexture(&telopBG);
+	delete telopBG;
+	telopBG = NULL;
 }
 
 //=============================================================================
@@ -93,10 +87,20 @@ void TelopBG::Update(void)
 //=============================================================================
 void TelopBG::Draw(void)
 {
-	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	telopBG->Draw();
+	SetVertex(percentage);
+}
 
-	//object->DrawObject(pDevice, &telopBG);
-	//object->SetVertexTelopBG(&telopBG, percentage);
+//=============================================================================
+// オブジェクトの頂点座標の設定　（テロップ背景専用）
+//=============================================================================
+void TelopBG::SetVertex(float percentage)
+{
+	// 頂点座標の設定
+	telopBG->vertexWk[0].vtx = D3DXVECTOR3(0, telopBG->position.y -telopBG->size.y*percentage, telopBG->position.z);
+	telopBG->vertexWk[1].vtx = D3DXVECTOR3(SCREEN_WIDTH, telopBG->position.y -telopBG->size.y*percentage, telopBG->position.z);
+	telopBG->vertexWk[2].vtx = D3DXVECTOR3(0, telopBG->position.y +telopBG->size.y*percentage, telopBG->position.z);
+	telopBG->vertexWk[3].vtx = D3DXVECTOR3(SCREEN_WIDTH, telopBG->position.y +telopBG->size.y*percentage, telopBG->position.z);
 }
 
 //=============================================================================
@@ -104,15 +108,15 @@ void TelopBG::Draw(void)
 //=============================================================================
 void TelopBG::OpenTelopBG(void)
 {
-	//SetEasingValueTelopBGOpen();
-	//percentage = eTelopBG.GetEasingValue(object->GetCountObject(&telopBG, DURATION_OPEN_CLOSE), &telopBG.easingStart, &telopBG.easingGoal, InOutCubic);
+	SetEasingValueTelopBGOpen();
+	percentage = eTelopBG.GetEasingValue(telopBG->GetCountObject(DURATION_OPEN_CLOSE), &easingStart, &easingGoal, InOutCubic);
 
-	//if(percentage >= telopBG.easingGoal)
-	//{
-	//	telopBGOpenActivated = false;
-	//	percentage = 1.0f;
-	//	telopBG.countFrame = 0;
-	//}
+	if(percentage >= easingGoal)
+	{
+		telopBGOpenActivated = false;
+		percentage = 1.0f;
+		telopBG->countFrame = 0;
+	}
 }
 
 //=============================================================================
@@ -120,15 +124,15 @@ void TelopBG::OpenTelopBG(void)
 //=============================================================================
 void TelopBG::CloseTelopBG(void)
 {
-	//SetEasingValueTelopBGClose();
-	//percentage = eTelopBG.GetEasingValue(object->GetCountObject(&telopBG ,DURATION_OPEN_CLOSE), &telopBG.easingStart, &telopBG.easingGoal, InOutCubic);
+	SetEasingValueTelopBGClose();
+	percentage = eTelopBG.GetEasingValue(telopBG->GetCountObject(DURATION_OPEN_CLOSE), &easingStart, &easingGoal, InOutCubic);
 
-	//if(percentage <= telopBG.easingGoal)
-	//{
-	//	telopBGCloseActivated = false;
-	//	percentage = 0.0f;
-	//	telopBG.countFrame = 0;
-	//}
+	if(percentage <= easingGoal)
+	{
+		telopBGCloseActivated = false;
+		percentage = 0.0f;
+		telopBG->countFrame = 0;
+	}
 }
 
 //=============================================================================
@@ -136,8 +140,8 @@ void TelopBG::CloseTelopBG(void)
 //=============================================================================
 void TelopBG::SetEasingValueTelopBGOpen(void)
 {	
-	telopBG.easingStart = INITIALVALUE_BG_PERCENTAGE;
-	telopBG.easingGoal = 1.0f;
+	easingStart = INITIALVALUE_BG_PERCENTAGE;
+	easingGoal = 1.0f;
 }
 
 //=============================================================================
@@ -145,8 +149,8 @@ void TelopBG::SetEasingValueTelopBGOpen(void)
 //=============================================================================
 void TelopBG::SetEasingValueTelopBGClose(void)
 {
-	telopBG.easingStart = 1.0f;
-	telopBG.easingGoal = INITIALVALUE_BG_PERCENTAGE;
+	easingStart = 1.0f;
+	easingGoal = INITIALVALUE_BG_PERCENTAGE;
 }
 
 //=============================================================================

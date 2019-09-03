@@ -54,13 +54,13 @@ void GameScene::Init()
 	fsm[State::Battle] = new GameBattle();
 	fsm[State::End] = new GameEnd();
 
-	gameSceneUI = new GameSceneUI();
+	gameSceneUIManager = new GameSceneUIManager();
 
 	//UI初期化
-	gameSceneUI->Init();
+	gameSceneUIManager->Init();
 
 	//☆ボタンの位置からワールド座標を計算
-	LineTrailModel::CalcEdgePosition();
+	LineTrailModel::CalcEdgePosition(gameSceneUIManager->GetStarPosition());
 
 	//インスタンス生成
 	enemyController = new EnemyController();
@@ -97,9 +97,6 @@ void GameScene::Init()
 	currentState = State::Start;
 	state = fsm[currentState];
 	state->OnStart(this);
-
-
-
 }
 
 /**************************************
@@ -122,12 +119,13 @@ void GameScene::Uninit()
 	enemyController->Uninit();
 
 	//UI終了
-	gameSceneUI->Uninit();
+	gameSceneUIManager->Uninit();
 
 	//障害物終了
 	UninitRebarOb();
 
 	//インスタンス削除
+	SAFE_DELETE(gameSceneUIManager);
 	SAFE_DELETE(enemyController);
 	SAFE_DELETE(playerObserver);
 	SAFE_DELETE(bgController);
@@ -174,7 +172,7 @@ void GameScene::Update(HWND hWnd)
 
 	//UIの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
-	gameSceneUI->Update(hWnd);
+	gameSceneUIManager->Update(hWnd);
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
 
 	//ポストエフェクトの更新
@@ -225,7 +223,7 @@ void GameScene::Draw()
 
 
 	//UI描画
-	gameSceneUI->Draw();
+	gameSceneUIManager->Draw();
 
 	DrawDebugTimer(GAMESCENE_LABEL);
 }
@@ -255,7 +253,7 @@ void GameScene::ChangeState(int resultUpdate)
 		break;
 
 	case GameScene::State::End:
-		SceneChangeFlag(true, Scene::SceneResult);
+		mask->SceneChangeFlag(true, Scene::SceneResult);
 		break;
 
 	default:

@@ -17,7 +17,7 @@
 /**************************************
 前方宣言
 ***************************************/
-class ResultSceneUI;
+class ResultSceneUIManager;
 
 /**************************************
 クラス定義
@@ -33,7 +33,7 @@ public:
 	ResultScene() {}
 	~ResultScene() {}
 
-	ResultSceneUI*resultSceneUI;
+	ResultSceneUIManager*resultSceneUIManager;
 };
 
 #endif

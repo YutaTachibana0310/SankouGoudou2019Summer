@@ -6,33 +6,26 @@
 //=============================================================================
 #ifndef _TITLELOGO_H_
 #define _TITLELOGO_H_
-#include "UIdrawer.h"
-
-//*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-#define	ADRESS_TEXTURE_TITLELOGO	("data/TEXTURE/UI/チームロゴ.png")	// 読み込むテクスチャファイル名
-
-#include "TitleSceneUIManager.h"
-
-class Object;
 
 /**************************************
 前方宣言
 ***************************************/
-class TitleSceneUI;
+class Object;
 
 //*****************************************************************************
 // 構造体定義
 //*****************************************************************************
-class TitleLogo :public Object
+class TitleLogo
 {
 public:
-	Object *object;
-	void Init(void);
-	void Uninit(void);
+	TitleLogo();
+	~TitleLogo();
+
 	void Update(void);
 	void Draw(void);
+
+private:
+	Object * titleLogo;
 };
 
 #endif

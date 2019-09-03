@@ -843,6 +843,12 @@
     <ClInclude Include="RebarExplosion.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="TutorialScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialBG.h">
+      <Filter>ヘッダー ファイル\BG</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1435,6 +1441,12 @@
     </ClCompile>
     <ClCompile Include="RebarExplosion.cpp">
       <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialBG.cpp">
+      <Filter>ソース ファイル\BG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

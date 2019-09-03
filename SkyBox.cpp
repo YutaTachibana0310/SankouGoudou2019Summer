@@ -14,7 +14,8 @@
 /**************************************
 コンストラクタ
 ***************************************/
-SkyBox::SkyBox(D3DXVECTOR3 vtxSize, D3DXVECTOR2 texSize)
+SkyBox::SkyBox(D3DXVECTOR3 vtxSize, D3DXVECTOR2 texSize) :
+	transform(new Transform())
 {
 	MakeVertexBuffer(vtxSize.x, vtxSize.y, vtxSize.z);
 	SetUV(texSize.x, texSize.y);
@@ -25,6 +26,7 @@ SkyBox::SkyBox(D3DXVECTOR3 vtxSize, D3DXVECTOR2 texSize)
 ***************************************/
 SkyBox::~SkyBox()
 {
+	SAFE_DELETE(transform);
 	SAFE_RELEASE(vtxBuff);
 	SAFE_RELEASE(texture);
 }
@@ -39,7 +41,7 @@ void SkyBox::Draw()
 	pDevice->SetFVF(FVF_VERTEX_BILLBOARD);
 
 	D3DXMATRIX mtxWorld;
-	transform.SetWorld();
+	transform->SetWorld();
 
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
 	pDevice->SetRenderState(D3DRS_LIGHTING, false);

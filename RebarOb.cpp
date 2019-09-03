@@ -24,7 +24,7 @@ RebarObstacle::RebarObstacle(const D3DXVECTOR3& pos, LineTrailModel& model, cons
 {
 	//インスタンス作成
 	transform = new Transform();
-	collider = new BoxCollider3D(BoxCollider3DTag::Rebar, &transform->pos);
+	collider = new BoxCollider3D(BoxCollider3DTag::EnemyBullet, &transform->pos);
 
 	//コライダー初期化
 	const float colliderSize = 10.0f;

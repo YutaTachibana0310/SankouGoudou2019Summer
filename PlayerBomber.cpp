@@ -6,15 +6,18 @@
 //=====================================
 #include "PlayerBomber.h"
 #include "camera.h"
+#include "GameParticleManager.h"
+#include "Framework\CameraShakePlugin.h"
 
 /**************************************
 マクロ定義
 ***************************************/
-#define PLAYERBOMBER_TEXTURE_NAME	"data/MODEL/airplane000.x"
-
-#define BOMBER_X		(30)
-#define BOMBER_Y		(30)
-#define BOMBER_Z		(30)
+#define BOMBER_MOVE				(10.0f)
+#define	BOMBER_REACH_FRAME		(45)
+#define	BOBMER_INIT_SPEED		(5.0f)
+#define	BOMBER_COLLIDER_SIZE	(D3DXVECTOR3(10.0f, 10.0f, 10.0f))
+#define BOMBER_HIT_AMPLITUDE	(D3DXVECTOR3(10.0f, 10.0f, 0.0f))
+#define BOMBER_HIT_DURATION		(60)
 
 /**************************************
 構造体定義
@@ -33,47 +36,30 @@ int PlayerBomber::instanceCount = 0;				//インスタンスカウンタ
 プロトタイプ宣言
 ***************************************/
 
-
 /**************************************
 初期化処理
 ***************************************/
-void PlayerBomber::Init(void)
+void PlayerBomber::Init(const D3DXVECTOR3& moveDir)
 {
 	active = true;
-	cntFrame = 0;
-	reachFrame = 0;
 
 	transform.pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	transform.rot = D3DXVECTOR3(0.0f, D3DXToRadian(180.0f), 0.0f);
 
-	velocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	velocity = moveDir * BOBMER_INIT_SPEED;
 
+	GameParticleManager::Instance()->SetPlayerBomberParticle(&transform.pos, &active);
+
+	collider->active = true;
 }
+
 /**************************************
 終了処理
 ***************************************/
 void PlayerBomber::Uninit(void)
 {
 	active = false;
-	
-
-}
-
-/**************************************
-更新処理
-***************************************/
-void PlayerBomber::Update(void)
-{
-	if (!active)
-		return;
-	
-	CalcBomber();
-	transform.pos += velocity;
-	
-	if (cntFrame == 0)
-		Uninit();
-
+	collider->active = false;
 }
 
 /**************************************
@@ -85,35 +71,9 @@ void PlayerBomber::Draw(void)
 		return;
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, quatMatrixs, mtxWorld, view, invView;
-	// ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&mtxWorld);
-
-	// スケールを反映
-	D3DXMatrixScaling(&mtxScl, transform.scale.y, transform.scale.x, transform.scale.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScl);
-
-	// 回転を反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, transform.rot.y, transform.rot.x, transform.rot.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRot);
-
-	//逆行列を掛ける
-	view = GetMtxView();
-	D3DXMatrixInverse(&view, NULL, &invView);
-	invView._41 = 0.0f;
-	invView._42 = 0.0f;
-	invView._43 = 0.0f;
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &invView);
-
-	// 移動を反映
-	D3DXMatrixTranslation(&mtxTranslate, transform.pos.x, transform.pos.y, transform.pos.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTranslate);
-
-	// ワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+	transform.SetWorld();
 
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
-
 }
 
 /**************************************
@@ -124,45 +84,26 @@ PlayerBomber::PlayerBomber()
 	active = false;
 	instanceCount++;
 
+	collider = new BoxCollider3D(BoxCollider3DTag::PlayerBomber, &transform.pos);
+	collider->SetSize(BOMBER_COLLIDER_SIZE);
+	collider->AddObserver(this);
+	collider->active = false;
 }
-
 
 /**************************************
 デストラクタ
 ***************************************/
 PlayerBomber::~PlayerBomber()
 {
-	
-
 	instanceCount--;
-	if (instanceCount == 0)
-	{
-		//インスタンスが残っていなければテクスチャ解放
-
-	}
+	SAFE_DELETE(collider);
 }
-
-/**************************************
-ホーミング対象のアドレスを取得
-引数(ホーミング対象のアドレス、ボムのセット位置)
-***************************************/
-void PlayerBomber::Set(D3DXVECTOR3 *pos, D3DXVECTOR3 initpos)
-{
-	//active = true;
-	Init();
-	transform.pos = initpos;
-	targetPos = pos;
-	cntFrame = reachFrame = 120;
-}
-
 
 /***************************************
 加速度の計算処理
 ****************************************/
-void PlayerBomber::CalcBomber(void)
+void PlayerBomber::Homing(void)
 {
-
-	
 	if (cntFrame <= 0)
 	{
 		return;
@@ -170,11 +111,21 @@ void PlayerBomber::CalcBomber(void)
 
 	float time = (float)cntFrame;
 
-	D3DXVECTOR3 diff = *targetPos - transform.pos;
+	D3DXVECTOR3 diff = targetPos - transform.pos;
 
 	D3DXVECTOR3 acceleration = (diff - velocity * time) * 2.0f / (time * time);
 
 	velocity += acceleration;
 
 	cntFrame--;
+
+	transform.pos += velocity;
+}
+
+/***************************************
+衝突通知処理
+****************************************/
+void PlayerBomber::OnNotified(BoxCollider3DTag other)
+{
+	Uninit();
 }

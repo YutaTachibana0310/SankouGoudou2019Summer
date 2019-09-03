@@ -22,19 +22,29 @@
 #include "sound.h"
 #include "EnemyController.h"
 #include "masktex.h"
+#include "ScoreManager.h"
+#include "PostEffect\SpeedBlurController.h"
+#include "BossController.h"
+#include "BossUIManager.h"
 
 #include "GameStart.h"
 #include "GameBattle.h"
 #include "GameEnd.h"
+#include "GameBomberSequence.h"
+#include "GameBossBattle.h"
+#include "GameBossStart.h"
+#include "GameBossBombSequence.h"
 
 #include "RebarOb.h"
+#include <functional>
 
 using namespace std;
 
 /**************************************
 マクロ定義
 ***************************************/
-#define GAMESCENE_LABEL ("GameScene")
+#define GAMESCENE_LABEL			("GameScene")
+#define COMBOEFFECT_PERIOD		(10)			//このコンボおきに演出が発生する
 
 /**************************************
 構造体定義
@@ -53,6 +63,16 @@ void GameScene::Init()
 	fsm[State::Start] = new GameStart();
 	fsm[State::Battle] = new GameBattle();
 	fsm[State::End] = new GameEnd();
+	fsm[State::BombSequence] = new GameBomberSequence();
+	fsm[State::BossBattle] = new GameBossBattle();
+	fsm[State::BossStart] = new GameBossStart();
+	fsm[State::BossBombSequence] = new GameBossBombSequence();
+
+	//暗転用ポリゴン作成
+	darkMask = new Polygon2D();
+	darkMask->SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
+	darkMask->SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.5f));
+	useDarkMask = false;
 
 	gameSceneUIManager = new GameSceneUIManager();
 
@@ -60,13 +80,17 @@ void GameScene::Init()
 	gameSceneUIManager->Init();
 
 	//☆ボタンの位置からワールド座標を計算
-	LineTrailModel::CalcEdgePosition(gameSceneUIManager->GetStarPosition());
+	std::vector<D3DXVECTOR3> starPositionContainer;
+	gameSceneUIManager->GetStarPosition(starPositionContainer);
+	LineTrailModel::CalcEdgePosition(starPositionContainer);
 
 	//インスタンス生成
 	enemyController = new EnemyController();
 	particleManager = GameParticleManager::Instance();
 	playerObserver = new PlayerObserver();
 	bgController = new BackGroundController();
+	bossUI = new BossUImanager();
+	bossController = new BossController(playerObserver->GetPlayerTransform(), *bossUI);
 
 	SetPlayerObserverAdr(playerObserver);
 
@@ -87,9 +111,6 @@ void GameScene::Init()
 	//エネミー初期化
 	enemyController->Init();
 
-	//障害物初期化
-	InitRebarOb();
-
 	//プロファイラにGameSceneを登録
 	RegisterDebugTimer(GAMESCENE_LABEL);
 
@@ -97,6 +118,22 @@ void GameScene::Init()
 	currentState = State::Start;
 	state = fsm[currentState];
 	state->OnStart(this);
+
+	//コールバック設定
+	currentCombo = 0;
+	SetCallbackClearCombo([&]()
+	{
+		this->OnClearCombo();
+	});
+
+	SetCallbackAddCombo([&](int n)
+	{
+		this->OnAddCombo(n);
+	});
+	SetScoreIntance(gameSceneUIManager->score);
+	SetGameScneeUIManagerInstance(gameSceneUIManager);
+
+
 }
 
 /**************************************
@@ -109,8 +146,6 @@ void GameScene::Uninit()
 	UninitBackGroundField();
 	bgController->Uninit();
 
-	//パーティクル終了
-	particleManager->Uninit();
 
 	//プレイヤー終了
 	playerObserver->Uninit();
@@ -121,14 +156,17 @@ void GameScene::Uninit()
 	//UI終了
 	gameSceneUIManager->Uninit();
 
-	//障害物終了
-	UninitRebarOb();
-
 	//インスタンス削除
 	SAFE_DELETE(gameSceneUIManager);
 	SAFE_DELETE(enemyController);
 	SAFE_DELETE(playerObserver);
 	SAFE_DELETE(bgController);
+	SAFE_DELETE(darkMask);
+	SAFE_DELETE(bossController);
+	SAFE_DELETE(bossUI);
+
+	//パーティクル終了
+	particleManager->Uninit();
 
 	//ステートマシン削除
 	for (auto& pair : fsm)
@@ -149,42 +187,19 @@ void GameScene::Update(HWND hWnd)
 	//ステート更新処理
 	int result = state->OnUpdate(this);
 
-	//背景オブジェクトの更新
-	CountDebugTimer(GAMESCENE_LABEL, "UpdateBG");
-	UpdateBackGroundRoad();
-	UpdateBackGroundField();
-	bgController->Update();
-	CountDebugTimer(GAMESCENE_LABEL, "UpdateBG");
-
-	//プレイヤーの更新
-	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
-	playerObserver->Update();
-	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
-
-	//エネミーの更新
-	enemyController->Update();
-
-
-	//パーティクルの更新
-	CountDebugTimer(GAMESCENE_LABEL, "UpdateParticle");
-	particleManager->Update();
-	CountDebugTimer(GAMESCENE_LABEL, "UpdateParticle");
+	if (result != currentState)
+		ChangeState(result);
 
 	//UIの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
 	gameSceneUIManager->Update(hWnd);
+	bossUI->Update();
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
 
-	//ポストエフェクトの更新
-	PostEffectManager::Instance()->Update();
-
-
-	//障害物の更新
-	UpdateRebarOb();
-
-	//遷移処理
-	if (result != STATE_CONTINUOUS)
-		ChangeState(result);
+	BeginDebugWindow("Console");
+	if (DebugButton("AddCombo")) SetAddCombo(1);
+	if (DebugButton("ResetCombo")) ClearCombo();
+	EndDebugWindow("");
 }
 
 /**************************************
@@ -200,16 +215,28 @@ void GameScene::Draw()
 	bgController->Draw();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 
-	//障害物の描画
-	DrawRebarOb();
+	//暗転用ポリゴンの描画
+	if (useDarkMask)
+	{
+		LPDIRECT3DDEVICE9 pDevice = GetDevice();
+		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
+
+		darkMask->Draw();
+
+		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+	}
+
+	//エネミーの描画
+	enemyController->Draw();
+	enemyController->DrawGuide();
+
+	//ボスの描画
+	bossController->Draw();
 
 	//プレイヤーの描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
 	playerObserver->Draw();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawPlayer");
-
-	//エネミーの描画
-	enemyController->Draw();
 
 	//パーティクル描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawParticle");
@@ -221,9 +248,9 @@ void GameScene::Draw()
 	PostEffectManager::Instance()->Draw();
 	CountDebugTimer(GAMESCENE_LABEL, "DrawpostEffect");
 
-
 	//UI描画
 	gameSceneUIManager->Draw();
+	bossUI->Draw();
 
 	DrawDebugTimer(GAMESCENE_LABEL);
 }
@@ -231,32 +258,101 @@ void GameScene::Draw()
 /**************************************
 ステート遷移処理
 ***************************************/
-void GameScene::ChangeState(int resultUpdate)
+void GameScene::ChangeState(int next)
 {
-	switch (currentState)
-	{
-	case GameScene::State::Idle:
+	if (next < 0 || next >= State::StateMax)
+		return;
 
-		break;
+	prevState = currentState;
+	currentState = (State)next;
+	state = fsm[currentState];
+	state->OnStart(this);
+}
 
-	case GameScene::State::Start:
-		currentState = State::Battle;
-		state = fsm[currentState];
-		state->OnStart(this);
-		break;
+/**************************************
+全体更新処理
+***************************************/
+void GameScene::UpdateWhole()
+{
+	//背景オブジェクトの更新
+	CountDebugTimer(GAMESCENE_LABEL, "UpdateBG");
+	UpdateBackGroundRoad();
+	UpdateBackGroundField();
+	bgController->Update();
+	CountDebugTimer(GAMESCENE_LABEL, "UpdateBG");
 
-	case GameScene::State::Battle:
-		currentState = State::End;
-		Sound::GetInstance()->playsound = true;
-		state = fsm[currentState];
-		state->OnStart(this);
-		break;
+	//エネミーの更新
+	enemyController->Update();
 
-	case GameScene::State::End:
-		mask->SceneChangeFlag(true, Scene::SceneResult);
-		break;
+	//ボスの更新
+	bossController->Update();
 
-	default:
-		break;
-	}
+	//プレイヤーの更新
+	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
+	playerObserver->Update();
+	CountDebugTimer(GAMESCENE_LABEL, "UpdatePlayer");
+
+	//パーティクルの更新
+	CountDebugTimer(GAMESCENE_LABEL, "UpdateParticle");
+	particleManager->Update();
+	CountDebugTimer(GAMESCENE_LABEL, "UpdateParticle");
+
+	//ポストエフェクトの更新
+	PostEffectManager::Instance()->Update();
+}
+
+/**************************************
+全体描画処理
+***************************************/
+void GameScene::DrawWhole()
+{
+
+}
+
+/**************************************
+コンボ加算時演出
+***************************************/
+void GameScene::OnAddCombo(int n)
+{
+	static const float AddPower = 10.0f;
+	static const float AddSpeed = -100.0f;
+
+	currentCombo += n;
+
+	if (currentCombo % COMBOEFFECT_PERIOD != 0)
+		return;
+
+	SpeedBlurController::Instance()->AddPower(AddPower);
+	bgController->AddScrollSpeed(AddSpeed);
+	playerObserver->OnStartAccel();
+}
+
+/**************************************
+コンボクリア時演出
+***************************************/
+void GameScene::OnClearCombo()
+{
+	static const float InitPower = 0.0f;
+
+	currentCombo = 0;
+
+	SpeedBlurController::Instance()->SetPower(InitPower);
+	bgController->InitScroolSpeed();
+}
+
+/**************************************
+ボンバー発射判定
+***************************************/
+bool GameScene::ShouldFireBomber()
+{
+	return playerObserver->ShouldFireBomber() && enemyController->ExistsAcitveEnemy();
+}
+
+/**************************************
+ボス戦時
+***************************************/
+bool GameScene::ShouldFireBomberOnBossBattle()
+{
+	//TODO : ボス撃墜後にボンバーを発射できないようにする
+	return  playerObserver->ShouldFireBomber();
 }

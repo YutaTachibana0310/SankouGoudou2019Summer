@@ -20,7 +20,6 @@ class Transform
 {
 public:
 	D3DXVECTOR3 pos;	//座標
-	D3DXVECTOR3 rot;	//回転
 	D3DXVECTOR3 scale;	//スケール
 
 	//コンストラクタ
@@ -29,12 +28,22 @@ public:
 
 	//回転処理
 	void Rotate(float degX, float degY, float degZ);
+	void RotateByAxis(float deg, D3DXVECTOR3 axis);
+	void IdentifyRotation();
 
-	//ワールド変換行列計算処理
-	void CalcWorldMtx(D3DXMATRIX* out);
+	//向き
+	D3DXVECTOR3 Forward();
+	D3DXVECTOR3 Right();
+	D3DXVECTOR3 Up();
 
-	//ビルボード用ワールド変換行列計算処理
-	void CalcWorldMtx(D3DXMATRIX* out, D3DXMATRIX *invView);
+	//ワールド変換設定処理
+	void SetWorld();
+	void SetWorldInvView();
+	D3DXMATRIX GetMatrix();
+
+private:
+	D3DXQUATERNION rot;	//回転
+	
 };
 
 #endif

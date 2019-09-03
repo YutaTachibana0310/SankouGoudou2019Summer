@@ -13,21 +13,31 @@
 #include "IStateMachine.h"
 #include "TrailCollider.h"
 #include "Framework\BaseObserver.h"
+#include "Framework\AnimContainer.h"
+#include "BomberStockEffect.h"
+#include "Framework\ColliderObserver.h"
 
+class BoxCollider3D;
 /**************************************
 マクロ定義
 ***************************************/
+enum PlayerAnimID
+{
+	Flying,
+	Attack,
+	FireBomber,
+	PlayerAnimMax
+};
 
 /**************************************
 プレイヤークラス定義
 ***************************************/
-class Player : public BaseObserver
+class Player : public BaseObserver, ColliderObserver
 {
 public:
 	Player();
 	~Player();
 
-	MeshContainer* mesh;
 	Transform transform;
 	TrailCollider *collider;
 	float hp;
@@ -46,12 +56,23 @@ public:
 
 	//関数
 	void ChangeState(IStateMachine<Player> *next);
+	void ChangeAnim(PlayerAnimID next);
 	void Init();
 	void Uninit();
 	int Update();
+	void Animation();
 	void Draw();
 
 	void OnNotified(ObserveSubject* notifier);
+	void ChargeBomber();
+	void StockBomber();
+	void OnNotified(BoxCollider3DTag other) override;
+
+private:
+	AnimContainer* animation;
+	BomberStockEffect* stockEffect;
+	BoxCollider3D *boxCollider;
+
 };
 
 #endif

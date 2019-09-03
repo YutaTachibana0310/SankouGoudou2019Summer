@@ -173,23 +173,23 @@ void GameSceneUIManager::Draw(void)
 //=============================================================================
 bool GameSceneUIManager::IsStarCursorOvered()
 {
-	D3DXVECTOR3 starPosition[5];
-	SetStarPosition(starPosition);
+	std::vector<D3DXVECTOR3> starPos;
+	GetStarPosition(starPos);
 
 	// どのスターとも当たってなかったらfalse,それ以外はtrue
-	if (cursor->IsCursorOvered(starPosition[0], COLLIDERSIZE_STAR))
+	if (cursor->IsCursorOvered(starPos[0], COLLIDERSIZE_STAR))
 		return true;
 
-	if (cursor->IsCursorOvered(starPosition[1], COLLIDERSIZE_STAR))
+	if (cursor->IsCursorOvered(starPos[1], COLLIDERSIZE_STAR))
 		return true;
 
-	if (cursor->IsCursorOvered(starPosition[2], COLLIDERSIZE_STAR))
+	if (cursor->IsCursorOvered(starPos[2], COLLIDERSIZE_STAR))
 		return true;
 
-	if (cursor->IsCursorOvered(starPosition[3], COLLIDERSIZE_STAR))
+	if (cursor->IsCursorOvered(starPos[3], COLLIDERSIZE_STAR))
 		return true;
 
-	if (cursor->IsCursorOvered(starPosition[4], COLLIDERSIZE_STAR))
+	if (cursor->IsCursorOvered(starPos[4], COLLIDERSIZE_STAR))
 		return true;
 
 	return false;
@@ -245,7 +245,7 @@ void GameSceneUIManager::ReSetCombo(void)
 //=============================================================================
 void  GameSceneUIManager::AddScore(int value)
 {
-	score += value;
+	score->score += value;
 
 	// スコアが加算されたら行う処理
 	if (value > 0)
@@ -290,9 +290,9 @@ void  GameSceneUIManager::SetBattleStartTelop(void)
 //=============================================================================
 // スター座標ゲット処理
 //=============================================================================
-D3DXVECTOR3*  GameSceneUIManager::GetStarPosition(void)
+void  GameSceneUIManager::GetStarPosition(std::vector<D3DXVECTOR3>& out)
 {
-	return star->GetStarPosition();
+	star->GetStarPosition(out);
 }
 
 //=============================================================================
@@ -300,5 +300,5 @@ D3DXVECTOR3*  GameSceneUIManager::GetStarPosition(void)
 //=============================================================================
 void  GameSceneUIManager::SetStarPosition(D3DXVECTOR3* pos)
 {
-	pos = star->GetStarPosition();
+	//pos = star->GetStarPosition();
 }

@@ -49,7 +49,7 @@ void ResourceManager::ReleaseMesh(const char* tag)
 /**************************************
 メッシュ取得処理
 ***************************************/
-bool ResourceManager::GetMesh(const char* tag, MeshContainer** pOut)
+bool ResourceManager::GetMesh(const char* tag, MeshContainer*& pOut)
 {
 	string tagStr = string(tag);
 
@@ -58,16 +58,16 @@ bool ResourceManager::GetMesh(const char* tag, MeshContainer** pOut)
 		return false;
 
 	//メッシュへの参照を格納
-	*pOut = meshPool[tagStr];
+	pOut = meshPool[tagStr];
 	return true;
 }
 
 /**************************************
 テクスチャ読み込み処理
 ***************************************/
-void ResourceManager::LoadTexture(const char* tag, const char* path)
+void ResourceManager::LoadTexture(const char* path)
 {
-	string tagStr = string(tag);
+	string tagStr = string(path);
 
 	//重複確認
 	if (texturePool.count(tagStr) != 0)
@@ -95,22 +95,24 @@ void ResourceManager::ReleaseTexture(const char* tag)
 /**************************************
 テクスチャ参照処理
 ***************************************/
-bool ResourceManager::GetTexture(const char* tag, LPDIRECT3DTEXTURE9* pOut)
+bool ResourceManager::GetTexture(const char* path, LPDIRECT3DTEXTURE9& pOut)
 {
-	string tagStr = string(tag);
+	string tagStr = string(path);
 
 	//登録確認
 	if (texturePool.count(tagStr) == 0)
-		return false;
+	{
+		LoadTexture(path);
+	}
 
-	*pOut = texturePool[tagStr];
+	pOut = texturePool[tagStr];
 	return true;
 }
 
 /**************************************
 板ポリゴン作成処理
 ***************************************/
-void ResourceManager::MakePolygon(const char* tag, const char* path, D3DXVECTOR2 size)
+void ResourceManager::MakePolygon(const char* tag, const char* path, const D3DXVECTOR2& size, const D3DXVECTOR2& uv)
 {
 	string tagStr = string(tag);
 
@@ -121,6 +123,7 @@ void ResourceManager::MakePolygon(const char* tag, const char* path, D3DXVECTOR2
 	//BoardPolygonクラスを生成して登録
 	polygonPool[tagStr] = new BoardPolygon();;
 	polygonPool[tagStr]->SetSize(size);
+	polygonPool[tagStr]->SetTexDiv(uv);
 	polygonPool[tagStr]->LoadTexture(path);
 }
 
@@ -141,7 +144,7 @@ void ResourceManager::ReleasePolygon(const char* tag)
 /**************************************
 板ポリゴン参照処理
 ***************************************/
-bool ResourceManager::GetPolygon(const char* tag, BoardPolygon** pOut)
+bool ResourceManager::GetPolygon(const char* tag, BoardPolygon*& pOut)
 {
 	string tagStr = string(tag);
 
@@ -149,7 +152,7 @@ bool ResourceManager::GetPolygon(const char* tag, BoardPolygon** pOut)
 	if (polygonPool.count(tagStr) == 0)
 		return false;
 
-	*pOut = polygonPool[tagStr];
+	pOut = polygonPool[tagStr];
 	return true;
 }
 

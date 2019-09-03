@@ -7,6 +7,8 @@
 #include "EnemyModel.h"
 #include "GameParticleManager.h"
 #include "ScoreManager.h"
+#include "Framework\BaseEmitter.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -15,8 +17,17 @@ using namespace std;
 ***************************************/
 
 /**************************************
-構造体定義
+static変数
 ***************************************/
+//五角形の外周を構成するLineModel
+const vector<LineTrailModel> EnemyModel::OuterLineModel = {
+	LineTrailModel(0, 1),
+	LineTrailModel(1, 2),
+	LineTrailModel(2, 3),
+	LineTrailModel(3, 4),
+	LineTrailModel(4, 0)
+};
+
 
 /**************************************
 コンストラクタ
@@ -39,9 +50,15 @@ EnemyModel::~EnemyModel()
 
 	for (auto& enemy : enemyList)
 	{
-		SAFE_DELETE(enemy);
+		enemy.reset();
 	}
 	enemyList.clear();
+
+	for (auto& emitter : chageEffectList)
+	{
+		if (emitter != NULL)
+			emitter->active = false;
+	}
 }
 
 /**************************************
@@ -87,15 +104,57 @@ void EnemyModel::OnNotified(ObserveSubject *notifier)
 	//所属するすべてのエネミーにダメージ処理
 	for (auto& enemy : enemyList)
 	{
+		enemy->m_FlgDestroyed = true;
+	}
+
+	//チャージエフェクト非表示
+	for (auto& emitter : chageEffectList)
+	{
+		if(emitter != NULL)
+			emitter->active = false;
+	}
+}
+
+/**************************************
+撃破済みエネミー確認処理
+***************************************/
+void EnemyModel::CheckDestroied()
+{
+	for (auto& enemy : enemyList)
+	{
+		if (!enemy->m_FlgDestroyed)
+			continue;
+
 		enemy->VUninit();
 		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
 
-		//スコア加算
-		//SetAddScore(100);
+		//スコア・コンボ加算
+		SetAddScore(100);
+		SetAddCombo(1);
+
+		enemy.reset();
 	}
 
-	//SetAddCombo(1);
+	//消去
+	auto itrNewEnd = remove_if(enemyList.begin(), enemyList.end(), [](auto&& enemy)
+	{
+		return !enemy;
+	});
+	enemyList.erase(itrNewEnd, enemyList.end());
 
-	//非アクティブに
-	Uninit();
+	if (enemyList.empty())
+	{
+		Uninit();
+	}
+}
+
+/**************************************
+エネミー座標取得処理
+***************************************/
+void EnemyModel::GetEnemy(list<shared_ptr<Enemy>>& out)
+{
+	for (auto& enemy : enemyList)
+	{
+		out.push_back(enemy);
+	}
 }

@@ -17,6 +17,8 @@
 前方宣言
 ***************************************/
 class EnemyBullet;
+class BaseEmitter;
+class BoxCollider3D;
 
 /**************************************
 クラス定義
@@ -28,18 +30,26 @@ public:
 	~EnemyBulletModel();
 
 	void Init(std::vector<D3DXVECTOR3> emitters, LineTrailModel target);
+	void Init(std::vector<D3DXVECTOR3> emitters, LineTrailModel target, int duration, const D3DXVECTOR3& scale);
 	void Uninit();
 	void Update();
 	void Draw();
+	void Disable();
 
 	bool active;
 
 private:
 	std::vector<EnemyBullet*> bullets;
 	int cntFrame;
+	int reachFrame;
 	TrailCollider *collider;
+
+	BoxCollider3D *colliderR, *colliderL;
+	D3DXVECTOR3 edgeR, edgeL;
+
 	float posZ;
 	LineTrailModel targetLine;
+	BaseEmitter* effect;
 };
 
 #endif

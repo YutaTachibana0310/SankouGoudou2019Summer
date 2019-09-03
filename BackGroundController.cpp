@@ -9,6 +9,7 @@
 #include "SkyBox.h"
 
 #include "Framework\ResourceManager.h"
+#include "Framework\Easing.h"
 
 using namespace std;
 
@@ -33,6 +34,11 @@ static const char* MeshTag[] = {
 	"city03"
 };
 
+#define BACKGROUND_SCROOLSPEED_INIT			(-75.0f)
+#define BACKGROUND_ACCEL_DURATION			(30)
+#define BACKGROUND_DAMPER_DURATION			(120)
+#define BACKGROUND_ACCEL_MAGNI				(5.0f)
+
 /**************************************
 コンストラクタ
 ***************************************/
@@ -53,6 +59,11 @@ BackGroundController::BackGroundController()
 
 	//Transform初期化
 	transform.Rotate(3.0f, 0.0f, 0.0f);
+
+	//スクロール速度初期化
+	scroolSpeed = BACKGROUND_SCROOLSPEED_INIT;
+	startSpeed = endSpeed = scroolSpeed;
+	cntChangeSpeed = 0;
 }
 
 /**************************************
@@ -94,17 +105,29 @@ void BackGroundController::Uninit()
 		city->Uninit();
 	}
 }
-
+#include "debugWindow.h"
 /**************************************
 更新処理
 ***************************************/
 void BackGroundController::Update()
 {
-	for (auto& city : cityContainer)
+	DebugLog("speed : %f", scroolSpeed);
+	//スクロールスピードをイージング
+	if (cntChangeSpeed > 0)
 	{
-		city->Update();
+		if (cntChangeSpeed > BACKGROUND_DAMPER_DURATION)
+			AccelScrollSpeed();
+		else
+			DampScrollSpeed();
 	}
 
+	//建物を更新
+	for (auto& city : cityContainer)
+	{
+		city->Update(scroolSpeed);
+	}
+
+	//スカイボックスを更新
 	for (auto &box : skyBoxies)
 	{
 		box->Update();
@@ -121,8 +144,7 @@ void BackGroundController::Draw()
 		box->Draw();
 	}
 
-	D3DXMATRIX mtxWorld;
-	transform.CalcWorldMtx(&mtxWorld);
+	D3DXMATRIX mtxWorld = transform.GetMatrix();
 	for (auto& city : cityContainer)
 	{
 		city->Draw(mtxWorld);
@@ -171,4 +193,58 @@ void BackGroundController::CreateCityContainer()
 
 	//Cityの奥行き最大値を設定
 	BackGroundCity::depthMaxZ = BACKGROUND_CITY_NUMMAX_Z * OffsetZ;
+}
+
+/**************************************
+スクロールスピード変化処理
+***************************************/
+void BackGroundController::AddScrollSpeed(float add)
+{
+	endSpeed += add;
+
+	if (cntChangeSpeed > BACKGROUND_DAMPER_DURATION)
+		return;
+
+	startSpeed = scroolSpeed;
+	cntChangeSpeed = BACKGROUND_ACCEL_DURATION + BACKGROUND_DAMPER_DURATION;
+}
+
+/**************************************
+スクロールスピード初期化処理
+***************************************/
+void BackGroundController::InitScroolSpeed()
+{
+	endSpeed = BACKGROUND_SCROOLSPEED_INIT;
+
+	if (cntChangeSpeed != 0)
+		return;
+
+	startSpeed = scroolSpeed;
+	cntChangeSpeed = BACKGROUND_DAMPER_DURATION;
+}
+
+/**************************************
+スクロールスピード加速処理
+***************************************/
+void BackGroundController::AccelScrollSpeed()
+{
+	cntChangeSpeed--;
+	float t = 1.0f - (float)(cntChangeSpeed - BACKGROUND_DAMPER_DURATION) / BACKGROUND_ACCEL_DURATION;
+	scroolSpeed = Easing::EaseValue(t, startSpeed, BACKGROUND_ACCEL_MAGNI * endSpeed, EaseType::OutCubic);
+
+	if (cntChangeSpeed == BACKGROUND_DAMPER_DURATION)
+		startSpeed = BACKGROUND_ACCEL_MAGNI * endSpeed;
+}
+
+/**************************************
+スクロールスピード減速処理
+***************************************/
+void BackGroundController::DampScrollSpeed()
+{
+	cntChangeSpeed--;
+	float t = 1.0f - (float)(cntChangeSpeed - BACKGROUND_ACCEL_DURATION) / BACKGROUND_DAMPER_DURATION;
+	scroolSpeed = Easing::EaseValue(t, startSpeed, endSpeed, EaseType::InOutExpo);
+
+	if (cntChangeSpeed == 0)
+		startSpeed = endSpeed;
 }

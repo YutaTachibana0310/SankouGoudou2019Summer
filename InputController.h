@@ -10,8 +10,8 @@
 
 #define INPUTBUTTON_MAX		(5)
 
-
-bool IsEntered(int m);
+bool GetMoveInput(int m);
+bool GetBomberInput();
 void InputSound();
 
 #endif

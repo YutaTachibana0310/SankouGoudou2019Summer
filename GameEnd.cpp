@@ -5,6 +5,7 @@
 //
 //=====================================
 #include "GameEnd.h"
+#include "masktex.h"
 
 /**************************************
 マクロ定義
@@ -14,7 +15,7 @@
 /**************************************
 入場処理
 ***************************************/
-void GameEnd::OnStart(GameScene *entity)
+void GameScene::GameEnd::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
 
@@ -24,12 +25,16 @@ void GameEnd::OnStart(GameScene *entity)
 /**************************************
 更新処理
 ***************************************/
-int GameEnd::OnUpdate(GameScene *entity)
+int GameScene::GameEnd::OnUpdate(GameScene *entity)
 {
 	entity->cntFrame++;
 
-	if (entity->cntFrame == GAMEEND_DURATION)
-		return STATE_FINISHED;
-	else
-		return STATE_CONTINUOUS;
+	entity->UpdateWhole();
+
+	if (entity->cntFrame == 300)
+	{
+		SceneChangeFlag(true, Scene::SceneResult);
+	}
+
+	return GameScene::State::End;
 }

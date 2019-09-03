@@ -9,6 +9,8 @@
 #include "GameParticleManager.h"
 #include "ScoreManager.h"
 
+#include <algorithm>
+
 using namespace std;
 
 /**************************************
@@ -17,9 +19,10 @@ using namespace std;
 typedef EnemyModel Base;
 
 #define SNAKEENEMY_START_OFFSET			(400.0f)		//エネミーの初期座標のオフセット
-#define SNAKEENEMY_MOVE_DURATION		(60)		//エネミーが移動にかける時間
-#define SNAKEENMY_GENERATE_NUM			(9)			//生成するエネミーの数
-#define SNAKEENEMY_GENERATE_INTERVAL	(20)			//生成インターバル
+#define SNAKEENEMY_INIT_DURATION		(45)			//最初のターゲットへ向かうのにかける時間-
+#define SNAKEENEMY_MOVE_DURATION		(90)			//エネミーが移動にかける時間
+#define SNAKEENMY_GENERATE_NUM			(7)				//生成するエネミーの数
+#define SNAKEENEMY_GENERATE_INTERVAL	(10)			//生成インターバル
 #define SNAKEENEMY_GENERATE_DURATION	(SNAKEENMY_GENERATE_NUM*SNAKEENEMY_GENERATE_INTERVAL)
 
 /**************************************
@@ -78,13 +81,14 @@ void SnakeEnemyModel::Init(vector<int> destList)
 
 	//移動時間リスト作成
 	timeList.resize(moveTargetList.size());
-	for (auto& time : timeList)
+	for (UINT i = 0; i < moveTargetList.size(); i++)
 	{
-		time = SNAKEENEMY_MOVE_DURATION;
+		int t = i == 0 || i == moveTargetList.size() - 1 ? SNAKEENEMY_INIT_DURATION : SNAKEENEMY_MOVE_DURATION;
+		timeList[i] = t;
 	}
 
 	//最初のエネミーを生成
-	EnemySnake *enemy = new EnemySnake();
+	shared_ptr<EnemySnake> enemy = make_shared<EnemySnake>();
 	enemy->VInit();
 	enemy->Set(moveTargetList, timeList, 60);
 	enemyList.push_back(enemy);
@@ -101,7 +105,7 @@ int SnakeEnemyModel::Update()
 		//インターバルおきに作成
 		if (cntFrame % SNAKEENEMY_GENERATE_INTERVAL == 0)
 		{
-			EnemySnake *enemy = new EnemySnake();
+			shared_ptr<EnemySnake> enemy = make_shared<EnemySnake>();
 			enemy->VInit();
 			enemy->Set(moveTargetList, timeList, 60);
 			enemyList.push_back(enemy);
@@ -115,17 +119,17 @@ int SnakeEnemyModel::Update()
 	}
 
 	//当たり判定の更新
-	for (auto& enemy : enemyList)
-	{
-		EnemySnake* snake = static_cast<EnemySnake*>(enemy);
+	//for (auto& enemy : enemyList)
+	//{
+	//	shared_ptr<EnemySnake> snake = dynamic_pointer_cast<EnemySnake>(enemy);
 
-		UINT next = snake->m_CurrentIndex - 1;
-		UINT current = snake->m_PrevIndex - 1;
+	//	UINT next = snake->m_CurrentIndex - 1;
+	//	UINT current = snake->m_PrevIndex - 1;
 
-		TrailCollider *nextCollider = next < colliderList.size() ? colliderList[next] : NULL;
-		TrailCollider *currentCollider = current < colliderList.size() ? colliderList[current] : NULL;
-		SwapInColliderMap(currentCollider, nextCollider, snake);
-	}
+	//	TrailCollider *nextCollider = next < colliderList.size() ? colliderList[next] : NULL;
+	//	TrailCollider *currentCollider = current < colliderList.size() ? colliderList[current] : NULL;
+	//	SwapInColliderMap(currentCollider, nextCollider, enemy);
+	//}
 
 	//終了判定
 	if (cntFrame > SNAKEENEMY_GENERATE_DURATION)
@@ -146,22 +150,6 @@ int SnakeEnemyModel::Update()
 }
 
 /**************************************
-描画処理
-***************************************/
-void SnakeEnemyModel::Draw()
-{
-	for (auto& enemy : enemyList)
-	{
-		enemy->VDraw();
-	}
-
-	for (auto& collider : colliderList)
-	{
-		TrailCollider::DrawCollider(collider);
-	}
-}
-
-/**************************************
 衝突判定
 ***************************************/
 void SnakeEnemyModel::OnNotified(ObserveSubject *notifier)
@@ -171,13 +159,12 @@ void SnakeEnemyModel::OnNotified(ObserveSubject *notifier)
 	//当たり判定に属するエネミーすべてにダメージ処理
 	for (auto& enemy : colliderMap[entity])
 	{
-		enemy->VUninit();
-		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
-		//スコア加算
-		//SetAddScore(100);
+		shared_ptr<Enemy> entity = enemy.lock();
+		if (entity)
+		{
+			entity->m_FlgDestroyed = true;
+		}
 	}
-
-	//SetAddCombo(1);
 
 	//所属エネミーリストをクリア
 	colliderMap[entity].clear();
@@ -189,7 +176,7 @@ void SnakeEnemyModel::OnNotified(ObserveSubject *notifier)
 /**************************************
 当たり判定内入れ替え処理
 ***************************************/
-void SnakeEnemyModel::SwapInColliderMap(TrailCollider* current, TrailCollider* next, EnemySnake* enemy)
+void SnakeEnemyModel::SwapInColliderMap(TrailCollider* current, TrailCollider *next, std::shared_ptr<Enemy> enemy)
 {
 	//同じ判定へ入れ替えようとしていたら早期リターン
 	if (current == next)
@@ -199,7 +186,11 @@ void SnakeEnemyModel::SwapInColliderMap(TrailCollider* current, TrailCollider* n
 	if (current != NULL)
 	{
 		//所属判定のエネミーリストの中から該当するエネミーを検索
-		auto itr = find(colliderMap[current].begin(), colliderMap[current].end(), enemy);
+		auto itr = find_if(colliderMap[current].begin(), colliderMap[current].end(), [&](weak_ptr<Enemy> ptr)
+		{
+			shared_ptr<Enemy> snake = ptr.lock();
+			return enemy == snake;
+		});
 
 		//リストから離脱
 		colliderMap[current].erase(itr);

@@ -34,7 +34,7 @@ static const float EasingEndPositionX[ANIMATION_MAX] = {
 	-SCREEN_WIDTH * 1.5
 };
 
-static const EasingType AnimationType[ANIMATION_MAX] = {
+static const EaseType AnimationType[ANIMATION_MAX] = {
 	InOutCubic,
 	InOutCubic,
 	InOutCubic,
@@ -53,7 +53,6 @@ static const float AnimationDuration[ANIMATION_MAX] = {
 //*****************************************************************************
 // ÉOÉçÅ[ÉoÉãïœêî
 //*****************************************************************************
-Easing<float> eStageClearTelop;
 static int currentAnimation = 0;
 
 //*****************************************************************************
@@ -100,9 +99,9 @@ void StageClearTelop::Update()
 
 		stageClearTelop->countFrame++;
 
-		stageClearTelop->position.x = eStageClearTelop.GetEasingValue(stageClearTelop->GetCountObject(AnimationDuration[currentAnimation]),
-			&EasingStartPositionX[currentAnimation],
-			&EasingEndPositionX[currentAnimation],
+		stageClearTelop->position.x = Easing::EaseValue(stageClearTelop->GetCountObject(AnimationDuration[currentAnimation]),
+			EasingStartPositionX[currentAnimation],
+			EasingEndPositionX[currentAnimation],
 			AnimationType[currentAnimation]);
 
 		if (stageClearTelop->countFrame == AnimationDuration[currentAnimation])

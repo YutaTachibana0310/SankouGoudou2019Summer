@@ -15,8 +15,27 @@ using namespace std;
 ***************************************/
 
 /**************************************
-構造体定義
+BoxCollider3DTag列挙子演算子
 ***************************************/
+BoxCollider3DTag begin(BoxCollider3DTag)
+{
+	return BoxCollider3DTag::PlayerBomber;
+}
+
+BoxCollider3DTag end(BoxCollider3DTag)
+{
+	return BoxCollider3DTag::Max;
+}
+
+BoxCollider3DTag operator*(BoxCollider3DTag tag)
+{
+	return tag;
+}
+
+BoxCollider3DTag operator++(BoxCollider3DTag& tag)
+{
+	return tag = BoxCollider3DTag(std::underlying_type<BoxCollider3DTag>::type(tag) + 1);
+}
 
 /**************************************
 static変数
@@ -33,7 +52,7 @@ BoxCollider3D::BoxCollider3D(BoxCollider3DTag tag, D3DXVECTOR3 *pPos)
 {
 	this->tag = tag;
 	this->pPos = pPos;
-	RegisterToCheckList();
+	RegisterToCheckList(tag);
 
 #ifdef BOXCOLLIDER3D_USE_DEBUG
 	instanceCount++;
@@ -71,7 +90,7 @@ BoxCollider3D::BoxCollider3D(BoxCollider3DTag tag, D3DXVECTOR3 *pPos, D3DXVECTOR
 	this->tag = tag;
 	this->size = size;
 	this->pPos = pPos;
-	RegisterToCheckList();
+	RegisterToCheckList(tag);
 
 #ifdef BOXCOLLIDER3D_USE_DEBUG
 	instanceCount++;
@@ -106,7 +125,10 @@ BoxCollider3D::BoxCollider3D(BoxCollider3DTag tag, D3DXVECTOR3 *pPos, D3DXVECTOR
 ***************************************/
 BoxCollider3D::~BoxCollider3D()
 {
-	RemoveFromCheckList();
+	for (const auto& tag : BoxCollider3DTag())
+	{
+		RemoveFromCheckList(tag);
+	}
 
 #ifdef BOXCOLLIDER3D_USE_DEBUG
 	instanceCount--;
@@ -138,10 +160,24 @@ bool BoxCollider3D::CheckCollision(BoxCollider3D *other)
 		return false;
 
 	//衝突通知
-	this->NotifyObservers();
-	other->NotifyObservers();
+	for (auto observer : this->observerList)
+	{
+		observer->OnNotified(other->tag);
+	}
+	for (auto observer : other->observerList)
+	{
+		observer->OnNotified(this->tag);
+	}
 
 	return true;
+}
+
+/**************************************
+観測者追加処理
+***************************************/
+void BoxCollider3D::AddObserver(ColliderObserver* observer)
+{
+	observerList.push_back(observer);
 }
 
 /**************************************
@@ -166,17 +202,31 @@ void BoxCollider3D::SetPosAddress(D3DXVECTOR3 *pPos)
 void BoxCollider3D::UpdateCollision()
 {
 	//PlayerBomberとEnemyで衝突判定
-	for (auto &bomber : checkDictionary[BoxCollider3DTag::PlayerBomber])
+	//CheckRoundRobin(BoxCollider3DTag::PlayerBomber, BoxCollider3DTag::Enemy);
+
+	//PlayerBulletとSnakeEnemyで衝突判定
+	CheckRoundRobin(BoxCollider3DTag::PlayerBullet, BoxCollider3DTag::SnakeEnemy);
+
+	//PlayerとRebarで衝突判定
+	CheckRoundRobin(BoxCollider3DTag::EnemyBullet, BoxCollider3DTag::Player);
+}
+
+/**************************************
+総当たり判定
+***************************************/
+void BoxCollider3D::CheckRoundRobin(BoxCollider3DTag tag1, BoxCollider3DTag tag2)
+{
+	for (auto& collider1 : checkDictionary[tag1])
 	{
-		if (!bomber->active)
+		if (!collider1->active)
 			continue;
 
-		for (auto &enemy : checkDictionary[BoxCollider3DTag::Enemy])
+		for (auto& collider2 : checkDictionary[tag2])
 		{
-			if (!enemy->active)
+			if (!collider2->active)
 				continue;
 
-			bomber->CheckCollision(enemy);
+			collider1->CheckCollision(collider2);
 		}
 	}
 }
@@ -184,7 +234,7 @@ void BoxCollider3D::UpdateCollision()
 /**************************************
 衝突リスト登録処理
 ***************************************/
-void BoxCollider3D::RegisterToCheckList()
+void BoxCollider3D::RegisterToCheckList(BoxCollider3DTag tag)
 {
 	list<BoxCollider3D*> *checkList = &checkDictionary[tag];
 
@@ -200,7 +250,7 @@ void BoxCollider3D::RegisterToCheckList()
 /**************************************
 衝突リスト離脱処理
 ***************************************/
-void BoxCollider3D::RemoveFromCheckList()
+void BoxCollider3D::RemoveFromCheckList(BoxCollider3DTag tag)
 {
 	list<BoxCollider3D*> *checkList = &checkDictionary[tag];
 

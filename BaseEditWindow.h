@@ -28,7 +28,7 @@ public:
 	~BaseEditWindow();
 
 	bool Draw();
-	picojson::value Serialize();
+	picojson::value Serialize(int& sumFrame);
 
 	int id;
 	int frame;

@@ -11,19 +11,21 @@
 マクロ定義
 ***************************************/
 //初期化されてから当たり判定がアクティブになるタイミング
-#define CHANGEENEMY_TIME_COLLIDER_ACTIVATE	(60)
+#define CHANGEENEMY_TIME_COLLIDER_ACTIVATE	(30)
+#define CHANGEENEMY_DEST_FRAME				(60)		//エネミーがライン上に到達するのにかかる時間
 
 //攻撃タイミング
-#define CHANGEENEMY_TIME_ATTACK				(120 + CHANGEENEMY_TIME_COLLIDER_ACTIVATE)
+#define CHANGEENEMY_TIME_ATTACK				(120 + CHANGEENEMY_DEST_FRAME)
 
 //当たり判定が無効になるタイミング
-#define CHANGEENEMY_TIME_ESCAPE				(300 + CHANGEENEMY_TIME_COLLIDER_ACTIVATE)
+#define CHANGEENEMY_TIME_ESCAPE				(300 + CHANGEENEMY_DEST_FRAME)
 
 //終了タイミング
 #define CHANGEENEMY_TIME_UNINIT				(60 + CHANGEENEMY_TIME_ESCAPE)
 
 #define CHANGEENEMY_GENERATE_NUM			(3)			//エネミーの生成数	
-#define CHANGEENEMY_INIT_OFFSET				(400.0f)	//目標座標から初期座標への距離
+#define CHANGEENEMY_INIT_OFFSET				(200.0f)	//目標座標から初期座標への距離
+
 
 typedef EnemyModel Base;
 
@@ -60,7 +62,7 @@ void ChangeEnemyModel::Init(LineTrailModel model, int enemyNum)
 	//Enemyを生成
 	for (int i = 0; i < enemyNum; i++)
 	{
-		enemyList.push_back(new EnemyChange());
+		enemyList.push_back(std::make_shared<EnemyChange>());
 	}
 
 	//ラインの端点を求める
@@ -84,7 +86,7 @@ void ChangeEnemyModel::Init(LineTrailModel model, int enemyNum)
 	for (auto& enemy : enemyList)
 	{
 		enemy->VInit();
-		enemy->VSetVec(edgeR + initOffset, edgeR, CHANGEENEMY_TIME_COLLIDER_ACTIVATE, CHANGEENEMY_TIME_ESCAPE - CHANGEENEMY_TIME_COLLIDER_ACTIVATE, D3DXVECTOR3(0.0f, 15.0f, 0.0));
+		enemy->VSetVec(edgeR + initOffset, edgeR, CHANGEENEMY_DEST_FRAME, CHANGEENEMY_TIME_ESCAPE - CHANGEENEMY_TIME_COLLIDER_ACTIVATE, D3DXVECTOR3(0.0f, 15.0f, 0.0));
 		edgeR += enemyLength;
 	}
 }
@@ -99,9 +101,7 @@ int ChangeEnemyModel::Update()
 	//60フレーム目で当たり判定をアクティブにする
 	if (cntFrame == CHANGEENEMY_TIME_COLLIDER_ACTIVATE)
 		collider->active = true;
-
-
-
+	
 	//アクティブになってから300フレームで離脱する
 	if (cntFrame == CHANGEENEMY_TIME_ESCAPE)
 		collider->active = false;
@@ -118,6 +118,9 @@ int ChangeEnemyModel::Update()
 	//アクティブになってから120フレームで攻撃
 	if (cntFrame == CHANGEENEMY_TIME_ATTACK)
 		return AttackTiming;
+	//エネミーの到着と同時にチャージ演出
+	else if (cntFrame == CHANGEENEMY_DEST_FRAME)
+		return ChargeTiming;
 	else
 		return StateContinuous;
 }

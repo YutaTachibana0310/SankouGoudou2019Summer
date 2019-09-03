@@ -10,15 +10,19 @@
 #include "main.h"
 #include "EnemyModel.h"
 #include "IStateMachine.h"
+#include "EnemyFactory.h"
 #include "enemy.h"
 #include "StageModel.h"
 #include "EnemyBulletController.h"
+#include "EnemyGuideArrowController.h"
 
 #include "Framework\BaseObserver.h"
 #include "picojson\picojson.h"
 
 #include <list>
 #include <vector>
+#include <map>
+#include <memory>
 
 /**************************************
 列挙子定義
@@ -52,24 +56,38 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void DrawGuide();
 
 	//エネミー生成処理
 	void SetEnemy();
+
+	//エネミー座標取得処理
+	void GetEnemyList(std::list<std::shared_ptr<Enemy>>& out);
+
+	//ボンバーシーケンスコールバック
+	void OnFinishBombSequence();
+
+	//アクティブなエネミーがいるか
+	bool ExistsAcitveEnemy();
+
+	//通常バトルの終了判定
+	bool IsFinishedEnemy();
 
 private:
 	std::list<EnemyModel*> modelList;
 	int cntFrame;
 
 	std::vector<StageModel> stageModelList;
-	int currentIndex;
+	UINT currentIndex;
 
 	EnemyBulletController* bulletController;
+	EnemyGuideArrowController* guideController;
 
-	//エネミー生成処理(内部処理)
+	//エネミー生成クラスコンテナ
+	std::map<std::string, EnemyFactory*> factoryContainer;
+
+	//test
 	EnemySnake *test;
-	void _SetEnemyChange(picojson::object& data);
-	void _SetEnemyStraight(picojson::object& data);
-	void _SetEnemySnake(picojson::object& data);
 
 	//ステージデータ読み込み処理
 	bool LoadStageData();
@@ -77,8 +95,11 @@ private:
 	//攻撃処理
 	void EnemyAttack(EnemyModel* model);
 
-	//五角形の外周を構成するLineModel
-	static const std::vector<LineTrailModel> OuterLineModel;
+	//攻撃チャージ処理
+	void SetChageEffect(EnemyModel *model);
+
+	//ガイド生成処理
+	void SetGuide();
 };
 
 #endif

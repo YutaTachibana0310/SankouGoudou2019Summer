@@ -30,7 +30,9 @@ public:
 	void Update();
 	void Draw();
 
-	void SetEnemyBullet(std::vector<D3DXVECTOR3> emitters, LineTrailModel target);
+	void Set(std::vector<D3DXVECTOR3> emitters, LineTrailModel target);
+	void Set(std::vector<D3DXVECTOR3> emitters, LineTrailModel target, int duration, const D3DXVECTOR3 scale);
+	void DisableAll();
 
 private:
 	std::vector<EnemyBulletModel*> modelContainer;

@@ -9,6 +9,8 @@
 #include "EnemyController.h"
 #include "InputController.h"
 #include "PlayerObserver.h"
+#include "Framework\BoxCollider3D.h"
+#include "sound.h"
 
 /**************************************
 マクロ定義
@@ -18,16 +20,19 @@
 /**************************************
 入場処理
 ***************************************/
-void GameBattle::OnStart(GameScene *entity)
+void GameScene::GameBattle::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
+	Sound::GetInstance()->playsound = true;
 }
 
 /**************************************
 更新処理
 ***************************************/
-int GameBattle::OnUpdate(GameScene *entity)
+int GameScene::GameBattle::OnUpdate(GameScene *entity)
 {
+	int result = GameScene::State::Battle;
+
 	entity->cntFrame++;
 
 	//入力確認
@@ -36,12 +41,21 @@ int GameBattle::OnUpdate(GameScene *entity)
 	//エネミー生成処理
 	entity->enemyController->SetEnemy();
 
+	//ゲーム全体を更新
+	entity->UpdateWhole();
+
+	//ボンバー発射判定
+	if (entity->ShouldFireBomber())
+		result = GameScene::State::BombSequence;
+
 	//衝突判定
 	TrailCollider::UpdateCollision();
+	BoxCollider3D::UpdateCollision();
 
-	if (entity->cntFrame == GAMEBATTLE_DURATION) 
-		return STATE_FINISHED;
-	else 
-		return STATE_CONTINUOUS;
+	//終了判定
+	if (entity->enemyController->IsFinishedEnemy())
+		result = GameScene::State::BossStart;
+
+	return result;
 	
 }

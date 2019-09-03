@@ -1,229 +1,127 @@
-//=============================================================================
+//=====================================
 //
-// カメラ処理 [camera.cpp]
-// Author : GP12B332 21 立花雄太
+//カメラ処理[Camera.cpp]
+//Author:GP12A332 21 立花雄太
 //
-//=============================================================================
-#include "camera.h"
-#include "input.h"
-#include "debugWindow.h"
+//=====================================
+#include "Camera.h"
+#include "Framework/CameraShakePlugin.h"
 
-//*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-#define	VIEW_ANGLE					(D3DXToRadian(60.0f))	// 視野角
-#define	VIEW_ASPECT					((float)SCREEN_WIDTH / (float)SCREEN_HEIGHT)	// ビュー平面のアスペクト比
-#define	VIEW_NEAR_Z					(10.0f)					// ビュー平面のNearZ値
-#define	VIEW_FAR_Z					(50000.0f)				// ビュー平面のFarZ値
-#define	VALUE_MOVE_CAMERA			(20.0f)					// カメラの移動量
-#define	VALUE_ROTATE_CAMERA			(D3DX_PI * 0.01f)		// カメラの回転量
+/**************************************
+マクロ定義
+***************************************/
 
-#define CAMERA_POSITION_OFFSET		(D3DXVECTOR3(0.0f, 30.0f, -150.0f))	//視点の位置
-#define CAMERA_TARGET_OFFSET		(D3DXVECTOR3(0.0f, 10.0f, 50.0f))	//注視点の位置
-#define CAMERA_OFFSET_MAGNI			(0.2f)								//カメラの移動倍率
-#define CAMERA_ROTVALUE_Y			(1.0f)
-#define CAMERA_DIST_INITVAL			(150.0f)
-#define CAMERA_DIST_MOVEVAL			(5.5f)
-
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-
-
-//*****************************************************************************
-// グローバル変数
-//*****************************************************************************
-Camera camera;
-static D3DXMATRIX saveView[TARGETPLAYER_MAX];
-
-//=============================================================================
-// カメラの初期化
-//=============================================================================
-HRESULT InitCamera(void)
+/**************************************
+コンストラクタ
+***************************************/
+Camera::Camera()
 {
-	camera.pos = D3DXVECTOR3(0.0f, 0.0f, -150.0f);
-	camera.target = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	camera.up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	camera.destPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	camera.destTarget = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	camera.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	camera.dist = CAMERA_DIST_INITVAL;
+	pluginList.push_back(ShakePlugin::Instance());
+}
 
-	//フォグの設定
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	D3DCAPS9 caps;
-	ZeroMemory(&caps, sizeof(D3DCAPS9));
-	pDevice->GetDeviceCaps(&caps);
+/**************************************
+初期化処理
+***************************************/
+void Camera::Init()
+{
+	const D3DXVECTOR3 InitPos = D3DXVECTOR3(0.0f, 0.0f, -150.0f);
+	const D3DXVECTOR3 InitTarget = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	const float InitViewAngle = D3DXToRadian(60.0f);
+	const float InitViewAspect = (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT;
+	const float InitViewNear = 10.0f;
+	const float InitViewFar = 50000.0f;
 
-#if 0
-	if ((caps.RasterCaps & D3DPRASTERCAPS_FOGRANGE) != 0)
+	transform.pos = InitPos;
+	target = InitTarget;
+	viewAngle = InitViewAngle;
+	viewAspect = InitViewAspect;
+	viewNear = InitViewNear;
+	viewFar = InitViewFar;
+
+	D3DXMatrixIdentity(&viewport);
+	viewport._11 = SCREEN_WIDTH / 2.0f;
+	viewport._22 = -SCREEN_HEIGHT / 2.0f;
+	viewport._41 = SCREEN_WIDTH / 2.0f;
+	viewport._42 = SCREEN_HEIGHT / 2.0f;
+
+	D3DXMatrixInverse(&invVPV, NULL, &VPV);
+
+	Set();
+}
+
+/**************************************
+セット処理
+***************************************/
+void Camera::Set()
+{
+	//作業領域に現在のパラメータを設定
+	eyeWork = transform.pos;
+	targetWork = target;
+	upWork = transform.Up();
+
+	//プラグイン反映
+	for (auto& plugin : pluginList)
 	{
-		FLOAT start = 6000.0f;
-		FLOAT end = 10000.0f;
-
-		pDevice->SetRenderState(D3DRS_FOGENABLE, true);
-		pDevice->SetRenderState(D3DRS_FOGCOLOR, 0);
-		pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_NONE);
-		pDevice->SetRenderState(D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
-		pDevice->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&start));
-		pDevice->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&end));
-	}
-#endif
-
-	//カメラを設定
-	SetCamera();
-
-	return S_OK;
-}
-
-//=============================================================================
-// カメラの終了処理
-//=============================================================================
-void UninitCamera(void)
-{
-
-}
-
-#include "input.h"
-//=============================================================================
-// カメラの更新処理
-//=============================================================================
-void UpdateCamera(void)
-{
-
-}
-
-//=============================================================================
-// カメラの設定処理
-//=============================================================================
-void SetCamera(void)
-{
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
-	// ビューマトリックスの初期化
-	D3DXMatrixIdentity(&camera.view);
-
-	// ビューマトリックスの作成
-	D3DXMatrixLookAtLH(&camera.view, 
-						&camera.pos,		// カメラの視点
-						&camera.target,		// カメラの注視点
-						&camera.up);		// カメラの上方向
-
-	// ビューマトリックスの設定
-	pDevice->SetTransform(D3DTS_VIEW, &camera.view);
-
-	// プロジェクションマトリックスの初期化
-	D3DXMatrixIdentity(&camera.projection);
-
-	// プロジェクションマトリックスの作成
-	D3DXMatrixPerspectiveFovLH(&camera.projection,
-								VIEW_ANGLE,			// 視野角
-								VIEW_ASPECT,		// アスペクト比
-								VIEW_NEAR_Z,		// ビュー平面のNearZ値
-								VIEW_FAR_Z);		// ビュー平面のFarZ値
-
-	// プロジェクションマトリックスの設定
-	pDevice->SetTransform(D3DTS_PROJECTION, &camera.projection);
-
-	//ビュー逆行列の計算
-	D3DXMatrixInverse(&camera.invView, NULL, &camera.view);
-	camera.invView._41 = camera.invView._42 = camera.invView._43 = 0.0f;
-}
-//=============================================================================
-// ビューマトリックスの取得(画面分割に対応)
-//=============================================================================
-D3DXMATRIX GetPlayerMtxView(int targetPlayerID)
-{
-	return saveView[targetPlayerID];
-}
-
-
-//=============================================================================
-// カメラの向きの取得
-//=============================================================================
-D3DXVECTOR3 GetRotCamera(void)
-{
-	return camera.rot;
-}
-
-//=============================================================================
-// ビューマトリックスの取得
-//=============================================================================
-D3DXMATRIX GetMtxView(void)
-{
-	D3DXMATRIX view;
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	pDevice->GetTransform(D3DTS_VIEW, &view);
-	return view;
-}
-
-//=============================================================================
-// ビューマトリックスの取得
-//=============================================================================
-D3DXMATRIX GetMtxProjection(void)
-{
-	D3DXMATRIX projection;
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	pDevice->GetTransform(D3DTS_PROJECTION, &projection);
-	return projection;
-}
-
-//=============================================================================
-// カメラを向く回転行列の取得
-//=============================================================================
-void GetInvCameraRotMtx(D3DXMATRIX *mtx, const D3DXVECTOR3* objPos)
-{
-	if (objPos != NULL)
-	{
-		D3DXMATRIX inv;
-		D3DXMatrixIdentity(&inv);
-		D3DXMatrixLookAtLH(&inv, &camera.pos, objPos, &camera.up);
-		D3DXMatrixInverse(&inv, NULL, &inv);
-		inv._41 = 0.0f;
-		inv._42 = 0.0f;
-		inv._43 = 0.0f;
-	}
-	else
-	{
-		mtx->_11 = camera.view._11;
-		mtx->_12 = camera.view._21;
-		mtx->_13 = camera.view._31;
-
-		mtx->_21 = camera.view._12;
-		mtx->_22 = camera.view._22;
-		mtx->_23 = camera.view._32;
-
-		mtx->_31 = camera.view._13;
-		mtx->_32 = camera.view._23;
-		mtx->_33 = camera.view._33;
-
-		mtx->_41 = 0.0f;
-		mtx->_42 = 0.0f;
-		mtx->_43 = 0.0f;
+		plugin->Apply(*this);
 	}
 
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	//ビュー行列作成
+	D3DXMatrixIdentity(&view);
+	D3DXMatrixLookAtLH(&view,
+		&eyeWork,
+		&targetWork,
+		&upWork);
+
+	//ビュー行列設定
+	pDevice->SetTransform(D3DTS_VIEW, &view);
+
+	//プロジェクション行列作成
+	D3DXMatrixIdentity(&projection);
+	D3DXMatrixPerspectiveFovLH(&projection,
+		viewAngle,
+		viewAspect,
+		viewNear,
+		viewFar);
+
+	//プロジェクション行列設定
+	pDevice->SetTransform(D3DTS_PROJECTION, &projection);
+
+	//変換行列を計算
+	VPV = view * projection * viewport;
+
+	//逆行列を計算
+	D3DXMatrixInverse(&invView, NULL, &view);
+	D3DXMatrixInverse(&invProjection, NULL, &projection);
+	D3DXMatrixInverse(&invVPV, NULL, &VPV);
 }
 
-//=============================================================================
-// カメラ座標の取得
-//=============================================================================
-D3DXVECTOR3 GetCameraPos(void)
+/**************************************
+更新処理
+***************************************/
+void Camera::Update()
 {
-	return camera.pos;
+	//各プラグイン更新
+	for (auto& plugin : pluginList)
+	{
+		plugin->Update();
+	}
 }
 
-//=============================================================================
-// カメラアドレス取得処理
-//=============================================================================
-Camera *GetCameraAdr(void)
+/**************************************
+スクリーン投影処理
+***************************************/
+void Camera::Projection(D3DXVECTOR3& out, const D3DXVECTOR3& pos)
 {
-	return &camera;
+	D3DXVec3TransformCoord(&out, &pos, &VPV);
+	out.z = 0.0f;
 }
 
-//=============================================================================
-// ビュー逆行列取得処理
-//=============================================================================
-D3DXMATRIX GetInvView()
+/**************************************
+スクリーン逆投影処理
+***************************************/
+void Camera::UnProjection(D3DXVECTOR3& out, const D3DXVECTOR3& pos, float z)
 {
-	return camera.invView;
+	D3DXVec3TransformCoord(&out, &D3DXVECTOR3(pos.x, pos.y, z), &invVPV);
 }

@@ -27,16 +27,15 @@ public:
 
 	void Init(std::vector<int> destList);
 	int Update();
-	void Draw();
 	void OnNotified(ObserveSubject *notifier);
 
 private:
 	std::vector<TrailCollider*> colliderList;
 	std::vector<D3DXVECTOR3> moveTargetList;
 	std::vector<int> timeList;
-	std::map<TrailCollider*, std::list<EnemySnake*>> colliderMap;
+	std::map<TrailCollider*, std::list<std::weak_ptr<Enemy>>> colliderMap;
 
-	void SwapInColliderMap(TrailCollider* current, TrailCollider *next, EnemySnake* enemy);
+	void SwapInColliderMap(TrailCollider* current, TrailCollider *next, std::shared_ptr<Enemy> enemy);
 };
 
 #endif

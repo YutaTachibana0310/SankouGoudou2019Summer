@@ -58,9 +58,7 @@ static IStateScene* fsm[SceneMax];
 static SoundStateScene* ssm[SceneMax];
 
 //現在のシーン
-static Scene currentScene = SceneTitle;
-
-static Mask *mask;
+static Scene currentScene = SceneGame;
 
 /**************************************
 初期化処理
@@ -69,16 +67,14 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	mask = new Mask(2000.0f,2000.0f,0.0f);
-
 	CreateScreenVertexBuffer();
 	CreateRenderTarget();
 
 	InitInput(hInstance, hWnd);
-	InitCamera();
+	Camera::Instance()->Init();
 	InitLight();
 	InitDebugWindow(hWnd, pDevice);
-	mask->Init();
+	InitMask(MASK_SIZE, MASK_SIZE, 0);
 
 	//ステートマシンに各シーンを追加
 	fsm[SceneTitle] = new TitleScene();
@@ -104,9 +100,7 @@ void UninitGame()
 	UninitLight();
 	UninitDebugWindow(0);
 	UninitDebugTimer();
-	mask->Uninit();
-
-	SAFE_DELETE(mask);
+	UninitMask();
 
 	fsm[currentScene]->Uninit();
 }
@@ -118,7 +112,7 @@ void UpdateGame(HWND hWnd)
 {
 	//testのため毎回ゲームシーンを呼び出す
 	MaskRun(SceneGame);
-	mask->Update();
+	UpdateMask();
 
 	//念のためサウンドを最初に（渡邉）
 	if (ssm[currentScene] != nullptr)
@@ -130,7 +124,7 @@ void UpdateGame(HWND hWnd)
 	UpdateDebugWindow();
 	UpdateInput();
 	UpdateLight();
-	UpdateCamera();
+	Camera::Instance()->Update();
 
 	fsm[currentScene]->Update(hWnd);
 }
@@ -153,15 +147,14 @@ void DrawGame()
 	pDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0, 1.0f, 0);
 
 	//マスクセット
-	mask->DrawMaskTexSet();
+	DrawMaskTexSet();
 
 	//オブジェクトを描画
-	SetCamera();
-
+	Camera::Instance()->Set();
 	fsm[currentScene]->Draw();
 
 	//マスク終了
-	mask->DrawMaskTexEnd();
+	DrawMaskTexEnd();
 
 	//結果をバックバッファへと描画
 	pDevice->SetViewport(&oldVirwPort);
@@ -174,7 +167,7 @@ void DrawGame()
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
 
 	//デバッグ表示
-//#ifdef _DEBUG
+	//#ifdef _DEBUG
 	DebugLog("FPS:%d", GetCurrentFPS());
 
 	static int debugCurrentScene = currentScene;
@@ -184,7 +177,7 @@ void DrawGame()
 	if (DebugRadioButton("Result", (int*)&debugCurrentScene, SceneResult)) ChangeScene(SceneResult);
 	if (DebugRadioButton("Editor", (int*)&debugCurrentScene, SceneEditor)) ChangeScene(SceneEditor);
 	EndDebugWindow("Scene");
-//#endif
+	//#endif
 
 
 
@@ -267,12 +260,12 @@ ChangeSceneへはMaskRunを実行すると呼び出されます
 **************************************************************************/
 void MaskRun(Scene next) {
 
-	//現在テスト用でエンターキーで切り替え
-	if (GetKeyboardTrigger(DIK_RETURN)) {
+	////現在テスト用でエンターキーで切り替え
+	//if (GetKeyboardTrigger(DIK_RETURN)) {
 
-		mask->SceneChangeFlag(true, next);
+	//	SceneChangeFlag(true, next);
 
-	}
+	//}
 
 }
 /**************************************
@@ -300,4 +293,3 @@ LPDIRECT3DTEXTURE9 GetDrawDataTemp()
 {
 	return renderTexture;
 }
-

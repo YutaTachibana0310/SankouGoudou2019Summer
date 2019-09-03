@@ -7,6 +7,8 @@
 #ifndef _STAR_H_
 #define _STAR_H_
 
+#include <vector>
+
 //*****************************************************************************
 // É}ÉNÉçíËã`
 //*****************************************************************************
@@ -49,7 +51,7 @@ public:
 	void Draw(void);
 
 	void ToggleRotateStar(int num, bool isRotated);
-	D3DXVECTOR3* GetStarPosition(void);
+	void GetStarPosition(std::vector<D3DXVECTOR3>& out);
 
 private:
 	RotateObject * star[STAR_MAX];

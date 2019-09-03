@@ -33,14 +33,27 @@ public:
 
 	void Init() override;
 	void Update() override;
+	void UpdateBombParticle();
 
 	void SetScoreParticle(D3DXVECTOR3 *pos);
 	void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edgeRight, D3DXVECTOR3 *edgeLeft);
+	void SetPlayerBomberParticle(D3DXVECTOR3 *pPos, bool *pActive);
 	void SetPlayerTrailParticle(D3DXVECTOR3 *pPos, bool *pActive);
 	void SetEnemyExplosion(D3DXVECTOR3 *pPos);
 	void SetEnemyWarpHole(D3DXVECTOR3 *pPos);
 	BaseEmitter* SetEnemyBulletTrail(D3DXVECTOR3 *pPos);
-	void SetEnemyBulletEffect(LineTrailModel model);
+	BaseEmitter* SetEnemyBulletEffect(LineTrailModel model);
+	BaseEmitter* SetEnemyBulletCharge(D3DXVECTOR3 *pos);
+	void SetPlayerCharge(D3DXVECTOR3 *pos);
+	void SetAccelEffect(D3DXVECTOR3 *pos);
+	void SetEnemyBulletExplosion(D3DXVECTOR3 *pos);
+	void SetBomberFire(D3DXVECTOR3 *pos);
+	void SetBossCharge(D3DXVECTOR3 *pos);
+	void SetBossHit(D3DXVECTOR3 *pos);
+	void SetBossExplosion(D3DXVECTOR3 *pos);
+	BaseEmitter* SetBossExplosionCharge(D3DXVECTOR3 *pos);
+	BaseEmitter* SetBossExplosionCore(D3DXVECTOR3 *pos);
+	void SetRearExplosion(D3DXVECTOR3 *pos);
 
 private:
 	GameParticleManager() {}

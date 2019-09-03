@@ -12,6 +12,8 @@
 #include "PlayerReturn.h"
 #include "PlayerIdle.h"
 
+#include "GameParticleManager.h"
+
 #include <algorithm>
 
 using namespace std;
@@ -24,8 +26,6 @@ using namespace std;
 /**************************************
 構造体定義
 ***************************************/
-
-
 
 /**************************************
 コンストラクタ
@@ -52,6 +52,9 @@ PlayerObserver::PlayerObserver()
 
 	//moveTarget初期化
 	moveTarget = MOVETARGET_DEFAULT;
+
+	//ロジック更新有効化
+	enableUpdateLogic = true;
 }
 
 /**************************************
@@ -65,12 +68,6 @@ PlayerObserver::~PlayerObserver()
 
 	SAFE_DELETE(bomberController);
 	SAFE_DELETE(bulletController);
-
-	for (auto stateMachine : fsm)
-	{
-		SAFE_DELETE(stateMachine.second);
-	}
-	fsm.clear();
 }
 
 /**************************************
@@ -98,16 +95,21 @@ void PlayerObserver::Uninit()
 ***************************************/
 void PlayerObserver::Update()
 {
-	int stateResult = player->Update();
+	if (enableUpdateLogic)
+	{
+		int stateResult = player->Update();
 
-	if (stateResult != STATE_CONTINUOUS)
-		OnPlayerStateFinish();
+		if (stateResult != STATE_CONTINUOUS)
+			OnPlayerStateFinish();
 
-	bulletController->Update();
+		bulletController->Update();
+	}
 
 	trailEffect->Update();
 
 	bomberController->Update();
+
+	player->Animation();
 }
 
 /**************************************
@@ -120,7 +122,7 @@ void PlayerObserver::Draw()
 	player->Draw();
 
 	trailEffect->Draw();
-	
+
 	bomberController->Draw();
 	bulletController->Draw();
 }
@@ -136,7 +138,7 @@ void PlayerObserver::CheckInput()
 	//入力を確認
 	for (int i = 0; i < INPUTBUTTON_MAX; i++)
 	{
-		if (!IsEntered(i))
+		if (!GetMoveInput(i))
 			continue;
 
 		PushInput(i);
@@ -167,6 +169,7 @@ void PlayerObserver::PushInput(int num)
 				player->collider->SetTrailIndex(LineTrailModel(moveTarget, num));
 			}
 
+			player->ChangeAnim(PlayerAnimID::Attack);
 			trailEffect->Init(&player->transform.pos);
 		}
 
@@ -200,7 +203,7 @@ void PlayerObserver::OnPlayerStateFinish()
 	{
 	case PlayerState::Move:
 		OnFinishPlayerMove();
-			break;
+		break;
 
 	case PlayerState::Wait:
 		OnFinishPlayerWait();
@@ -220,8 +223,8 @@ void PlayerObserver::OnFinishPlayerMove()
 	//当たり判定を無効化
 	player->collider->active = false;
 
-	//移動履歴をプッシュ
-	model->PushMoveStack(moveTarget);
+	//移動履歴をプッシュ（ボンバーのストックインターバルが終了していたら）
+	model->PushMoveStack(moveTarget, bomberController->CanStock());
 
 	//トレイルを終了
 	trailEffect->Uninit();
@@ -234,23 +237,21 @@ void PlayerObserver::OnFinishPlayerMove()
 		bulletController->SetPlayerBullet(modelTrail);
 	}
 
-	//一筆書き判定
-	if (model->CheckOneStroke())
-	{
-
-		//ボム発射
-	}
+	//ボンバーストック可能かつ一筆書きが成立したか判定
+	TryStockBomber();
 
 	//先行入力確認
 	if (model->IsExistPrecedInput(&moveTarget))
 	{
 		player->goalpos = targetPos[moveTarget];
 		trailEffect->Init(&player->transform.pos);
+		player->ChangeAnim(PlayerAnimID::Attack);
 		ChangeStatePlayer(PlayerState::Move);
 	}
 	//無ければ待機状態へ遷移
 	else
 	{
+		player->ChangeAnim(PlayerAnimID::Flying);
 		ChangeStatePlayer(PlayerState::Wait);
 	}
 }
@@ -275,4 +276,117 @@ void PlayerObserver::OnFinishPlayerReturn()
 {
 	//プレイヤーをIdle状態へ遷移
 	ChangeStatePlayer(PlayerState::Idle);
+}
+
+/**************************************
+ボンバーシーケンス開始処理
+***************************************/
+void PlayerObserver::OnStartBomberSequence()
+{
+	enableUpdateLogic = false;
+	player->ChangeAnim(PlayerAnimID::FireBomber);
+	player->ChargeBomber();
+}
+
+/**************************************
+ボンバーシーケンス終了処理
+***************************************/
+void PlayerObserver::OnFinishBomberSequence()
+{
+	enableUpdateLogic = true;
+
+	//先行入力確認
+	if (model->IsExistPrecedInput(&moveTarget))
+	{
+		player->goalpos = targetPos[moveTarget];
+		trailEffect->Init(&player->transform.pos);
+		player->ChangeAnim(PlayerAnimID::Attack);
+		ChangeStatePlayer(PlayerState::Move);
+	}
+	//無ければ待機状態へ遷移
+	else
+	{
+		player->ChangeAnim(PlayerAnimID::Flying);
+		ChangeStatePlayer(PlayerState::Wait);
+	}
+}
+
+/**************************************
+ボンバー発射判定
+***************************************/
+bool PlayerObserver::ShouldFireBomber()
+{
+	//ボンバーのストックがなければfalse
+	if (!bomberController->CanSet())
+		return false;
+
+	//発射の入力が行われていなければfalse
+	if (!GetBomberInput())
+		return false;
+
+	return true;
+}
+
+/**************************************
+ボンバー発射処理
+***************************************/
+void PlayerObserver::FirePlayerBomber(std::list<std::shared_ptr<Enemy>>& targetList)
+{
+	if(bomberController->CanSet())
+		bomberController->SetPlayerBomber(targetList, player->transform.pos);
+}
+
+/**************************************
+ボンバー発射処理
+***************************************/
+void PlayerObserver::FirePlayerBomber(std::shared_ptr<BossEnemyModel>& targetList)
+{
+	if (bomberController->CanSet())
+		bomberController->SetPlayerBomber(targetList, player->transform.pos);
+}
+
+/**************************************
+ボンバー発射処理
+***************************************/
+void  PlayerObserver::FirePlayerBomber(std::list<std::shared_ptr<RebarObstacle>>& targetList)
+{
+	if (bomberController->CanSet())
+		bomberController->SetPlayerBomber(targetList, player->transform.pos);
+}
+
+/**************************************
+加速演出処理
+***************************************/
+void PlayerObserver::OnStartAccel()
+{
+	const D3DXVECTOR3 EffectPos = D3DXVECTOR3(0.0f, 10.0f, 50.0f);
+	GameParticleManager::Instance()->SetAccelEffect(&(player->transform.pos + EffectPos));
+}
+
+/**************************************
+ボンバーストック処理
+***************************************/
+void PlayerObserver::TryStockBomber()
+{
+	//ストックインターバルが経過しているか
+	if (!bomberController->CanStock())
+		return;
+
+	//一筆書きが成立しているか
+	if (!model->CheckOneStroke())
+		return;
+
+	//ボンバーをストック
+	bomberController->AddStock();
+
+	//エフェクト再生
+	player->StockBomber();
+}
+
+/**************************************
+PlayerTransform取得処理
+***************************************/
+const Transform& PlayerObserver::GetPlayerTransform() const
+{
+	return player->transform;
 }

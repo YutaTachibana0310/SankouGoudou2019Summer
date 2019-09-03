@@ -11,9 +11,23 @@
 #include "PlayerTrailParticleController.h"
 #include "EnemyExplosionController.h"
 #include "EnemyExplosionFlareController.h"
+#include "PlayerBomberParticleController.h"
 #include "EnemyWarpHoleController.h"
 #include "EnemyBulletTrailController.h"
 #include "EnemyBulletEffectController.h"
+#include "EnemyBulletChargeController.h"
+#include "EnemyBulletFireController.h"
+#include "EnemyGuideArrowController.h"
+#include "PlayerChargeEffectController.h"
+#include "PlayerChargeParticleController.h"
+#include "AccelEffectController.h"
+#include "BomberFireController.h"
+#include "BossChargeEffect.h"
+#include "BossHitParticle.h"
+#include "ExplosionFire.h"
+#include "ExplosionFireCharge.h"
+#include "ExplosionFireCore.h"
+#include "RebarExplosion.h"
 
 #include "LineTrailModel.h"
 
@@ -40,9 +54,22 @@ enum ParticleController
 	PlayerTrailParticle,
 	EnemyExplosion,
 	EnemyExplosionFlare,
+	PlayerBomberParticle,
 	EnemyWarpHole,
 	EnemyBulletTrail,
 	EnenyBulletEffect,
+	EnemyBulletCharge,
+	EnemyBulletFire,
+	PlayerCharge,
+	PlayerChargeParticle,
+	AccelEffect,
+	BomberFire,
+	BossCharge,
+	BossHit,
+	BossExplosion,
+	BossExplosionCharge,
+	BossExplosionCore,
+	RearExplosion,
 	ControllerMax
 };
 
@@ -62,10 +89,22 @@ void GameParticleManager::Init()
 	controllers[PlayerTrailParticle] = new PlayerTrailParticleController();
 	controllers[EnemyExplosion] = new EnemyExplosionController();
 	controllers[EnemyExplosionFlare] = new EnemyExplosionFlareController();
+	controllers[PlayerBomberParticle] = new PlayerBomberParticleController();
 	controllers[EnemyWarpHole] = new EnemyWarpHoleController();
 	controllers[EnemyBulletTrail] = new EnemyBulletTrailController();
 	controllers[EnenyBulletEffect] = new EnemyBulletEffectController();
-
+	controllers[EnemyBulletCharge] = new EnemyBulletChargeController();
+	controllers[EnemyBulletFire] = new EnemyBulletFireController();
+	controllers[PlayerCharge] = new PlayerChargeEffectController();
+	controllers[PlayerChargeParticle] = new PlayerChargeParticleController();
+	controllers[AccelEffect] = new AccelEffectController();
+	controllers[BomberFire] = new BomberFireController();
+	controllers[BossCharge] = new BossChargeParticleController();
+	controllers[BossHit] = new BossHitParticleController();
+	controllers[BossExplosion] = new ExplosionFireController();
+	controllers[BossExplosionCharge] = new ExplosionFireChargeController();
+	controllers[BossExplosionCore] = new ExplosionFireCoreController();
+	controllers[ParticleController::RearExplosion] = new RebarExplosionController();
 	//各パーティクル初期化
 	for (auto& controller : controllers)
 	{
@@ -83,6 +122,17 @@ void GameParticleManager::Update(void)
 #endif
 
 	Base::Update();
+}
+
+/**************************************
+ボンバーパーティクル更新処理
+***************************************/
+void GameParticleManager::UpdateBombParticle()
+{
+	controllers[BomberFire]->Update();
+	controllers[PlayerBomberParticle]->Update();
+	controllers[PlayerChargeParticle]->Update();
+	controllers[PlayerCharge]->Update();
 }
 
 /**************************************
@@ -125,6 +175,17 @@ void GameParticleManager::SetEnemyExplosion(D3DXVECTOR3 *pos)
 }
 
 /**************************************
+プレイヤーボンバーパーティクル処理
+***************************************/
+void GameParticleManager::SetPlayerBomberParticle(D3DXVECTOR3 *pPos, bool *pActive)
+{
+	PlayerBomberParticleController *controller
+		= static_cast<PlayerBomberParticleController*>(controllers[PlayerBomberParticle]);
+
+	controller->SetEmitter(pPos, pActive);
+}
+
+/**************************************
 エネミーワープホール処理
 ***************************************/
 void GameParticleManager::SetEnemyWarpHole(D3DXVECTOR3 *pos)
@@ -137,16 +198,106 @@ void GameParticleManager::SetEnemyWarpHole(D3DXVECTOR3 *pos)
 ***************************************/
 BaseEmitter* GameParticleManager::SetEnemyBulletTrail(D3DXVECTOR3 *pos)
 {
+	controllers[EnemyBulletFire]->SetEmitter(pos);
 	return controllers[EnemyBulletTrail]->SetEmitter(pos);
+}
+
+/**************************************
+エネミーバレット爆発セット処理
+***************************************/
+void GameParticleManager::SetEnemyBulletExplosion(D3DXVECTOR3 *pos)
+{
+	controllers[EnemyBulletFire]->SetEmitter(pos);
 }
 
 /**************************************
 エネミーバレットエフェクトセット処理
 ***************************************/
-void GameParticleManager::SetEnemyBulletEffect(LineTrailModel model)
+BaseEmitter* GameParticleManager::SetEnemyBulletEffect(LineTrailModel model)
 {
 	EnemyBulletEffectController *entity = static_cast<EnemyBulletEffectController*>(controllers[EnenyBulletEffect]);
-	entity->SetEmitter(model);
+	return entity->SetEmitter(model);
+}
+
+/**************************************
+エネミーバレットチャージセット処理
+***************************************/
+BaseEmitter* GameParticleManager::SetEnemyBulletCharge(D3DXVECTOR3 *pos)
+{
+	return controllers[EnemyBulletCharge]->SetEmitter(pos);
+}
+
+/**************************************
+プレイヤーチャージエフェクトセット処理
+***************************************/
+void GameParticleManager::SetPlayerCharge(D3DXVECTOR3 *pos)
+{
+	controllers[PlayerChargeParticle]->SetEmitter(pos);
+	controllers[PlayerCharge]->SetEmitter(pos);
+}
+
+/**************************************
+加速エフェクトセット処理
+***************************************/
+void GameParticleManager::SetAccelEffect(D3DXVECTOR3 *pos)
+{
+	controllers[AccelEffect]->SetEmitter(pos);
+}
+
+/**************************************
+ボンバー発射エフェクトセット処理
+***************************************/
+void GameParticleManager::SetBomberFire(D3DXVECTOR3* pos)
+{
+	controllers[BomberFire]->SetEmitter(pos);
+}
+
+/**************************************
+ボスチャージエフェクト
+***************************************/
+void GameParticleManager::SetBossCharge(D3DXVECTOR3 *pos)
+{
+	controllers[BossCharge]->SetEmitter(pos);
+}
+
+/**************************************
+ボスヒットエフェクト
+***************************************/
+void GameParticleManager::SetBossHit(D3DXVECTOR3 *pos)
+{
+	controllers[BossHit]->SetEmitter(pos);
+}
+
+/**************************************
+ボス爆発エフェクト
+***************************************/
+void GameParticleManager::SetBossExplosion(D3DXVECTOR3 *pos)
+{
+	controllers[BossExplosion]->SetEmitter(pos);
+}
+
+/**************************************
+ボス爆発チャージ
+***************************************/
+BaseEmitter* GameParticleManager::SetBossExplosionCharge(D3DXVECTOR3 *pos)
+{
+	return controllers[BossExplosionCharge]->SetEmitter(pos);
+}
+
+/**************************************
+ボス爆発コア
+***************************************/
+BaseEmitter * GameParticleManager::SetBossExplosionCore(D3DXVECTOR3 * pos)
+{
+	return controllers[BossExplosionCore]->SetEmitter(pos);
+}
+
+/**************************************
+鉄骨爆発
+***************************************/
+void GameParticleManager::SetRearExplosion(D3DXVECTOR3 *pos)
+{
+	controllers[ParticleController::RearExplosion]->SetEmitter(pos);
 }
 
 #ifdef GAMEPARTICLE_USE_DEBUG
@@ -166,6 +317,17 @@ void GameParticleManager::DrawDebugWindow(void)
 		if (DebugButton("EnemyExplosion"))
 			SetEnemyExplosion(&D3DXVECTOR3(0.0f, 0.0f, 250.0f));
 	}
+
+	{
+		if (DebugButton("PlayerCharge"))
+			SetPlayerCharge(&D3DXVECTOR3(50.0f, 50.0f, 50.0f));
+	}
+
+	{
+		if (DebugButton("Accel"))
+			SetAccelEffect(&D3DXVECTOR3(0.0f, 0.0f, 50.0f));
+	}
+
 	EndDebugWindow("GameParticle");
 }
 #endif

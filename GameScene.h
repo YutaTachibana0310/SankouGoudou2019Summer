@@ -10,6 +10,7 @@
 #include "main.h"
 #include "IStateScene.h"
 #include "IStateMachine.h"
+#include "Framework\Polygon2D.h"
 
 #include  <map>
 /**************************************
@@ -21,6 +22,8 @@ class GameParticleManager;
 class PlayerObserver;
 class BackGroundController;
 class Mask;
+class BossController;
+class BossUImanager;
 
 /**************************************
 クラス定義
@@ -33,33 +36,62 @@ public:
 	void Update(HWND hWnd);
 	void Draw();
 
+	void UpdateWhole();
+	void DrawWhole();
+
+	void OnAddCombo(int n);
+	void OnClearCombo();
+
+	bool ShouldFireBomber();
+	bool ShouldFireBomberOnBossBattle();
+
 	GameScene() {};
 	~GameScene() {};
 
-	int cntFrame;
 
+private:
+	
+	enum State
+	{
+		Start,
+		Battle,
+		End,
+		BombSequence,
+		BossBattle,
+		BossStart,
+		BossBombSequence,
+		StateMax,
+	};
+
+private:
+	std::map<State, IStateMachine<GameScene>*> fsm;
+	IStateMachine<GameScene> *state;
+	State currentState, prevState;
+	Polygon2D* darkMask;
+
+	int cntFrame;
 	GameSceneUIManager *gameSceneUIManager;
 	EnemyController *enemyController;
 	GameParticleManager* particleManager;
 	PlayerObserver* playerObserver;
 	BackGroundController *bgController;
-	Mask *mask;
+	BossController* bossController;
+	BossUImanager* bossUI;
 
-private:
-	
-	enum class State
-	{
-		Idle,
-		Start,
-		Battle,
-		End,
-	};
-
-	std::map<State, IStateMachine<GameScene>*> fsm;
-	IStateMachine<GameScene> *state;
-	State currentState;
+	bool useDarkMask;
 
 	void ChangeState(int resultUpdate);
+
+	int currentCombo;
+
+	//各ステートクラス
+	class GameBattle;
+	class GameBomberSequence;
+	class GameBossBattle;
+	class GameEnd;
+	class GameStart;
+	class GameBossStart;
+	class GameBossBombSequence;
 };
 
 #endif

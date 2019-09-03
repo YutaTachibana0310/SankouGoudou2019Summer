@@ -28,8 +28,6 @@
 /**************************************
 グローバル変数
 ***************************************/
-float BackGroundCity::moveSpeed = 75.0f;
-int BackGroundCity::frameFadein = 300;
 float BackGroundCity::depthMaxZ = 0.0f;
 
 /**************************************
@@ -38,7 +36,7 @@ float BackGroundCity::depthMaxZ = 0.0f;
 BackGroundCity::BackGroundCity(const char* meshTag)
 {
 	//メッシュの読み込み
-	ResourceManager::Instance()->GetMesh(meshTag, &mesh);
+	ResourceManager::Instance()->GetMesh(meshTag, mesh);
 
 	//スケール初期化
 	transform.scale.x = BACKGROUNDCITY_INIT_SCALE_XZ;
@@ -59,8 +57,6 @@ BackGroundCity::~BackGroundCity()
 ***************************************/
 void BackGroundCity::Init()
 {
-	cntFrame = 0;
-
 	transform.Rotate(0.0f, 45.0f * RandomRange(0, 8), 0.0f);
 
 	transform.pos.y = RandomRange(BACKGROUNDCITY_POSY_MIN, BACKGROUNDCITY_POSY_MAX) * BACKGROUNDCITY_POSY_MAGNI;
@@ -77,16 +73,9 @@ void BackGroundCity::Uninit()
 /**************************************
 更新処理
 ***************************************/
-void BackGroundCity::Update()
+void BackGroundCity::Update(float speed)
 {
-	transform.pos.z -= moveSpeed;
-
-	//フェードイン
-	if (cntFrame < frameFadein)
-	{
-		cntFrame++;
-		alpha = (float)cntFrame / (float)frameFadein;
-	}
+	transform.pos.z += speed;
 
 	//移動
 	if (transform.pos.z < BACKGROUNDCITY_BORDER_Z)
@@ -105,7 +94,7 @@ void BackGroundCity::Draw(D3DXMATRIX mtxParent)
 	D3DXMATRIX mtxWorld;
 
 	//自身のワールド行列設定
-	transform.CalcWorldMtx(&mtxWorld);
+	mtxWorld = transform.GetMatrix();
 
 	//親のワールド行列を反映
 	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxParent);

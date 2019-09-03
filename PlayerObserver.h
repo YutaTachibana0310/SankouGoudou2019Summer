@@ -19,10 +19,12 @@
 #include <map>
 #include <functional>
 #include <vector>
+#include <memory>
 
 /**************************************
 プロトタイプ宣言
 ***************************************/
+class Enemy;
 
 /**************************************
 PlayerState列挙子
@@ -49,10 +51,23 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void OnStartBomberSequence();
+	void OnFinishBomberSequence();
 
 	void CheckInput();
 	void PushInput(int num);
+
+	bool ShouldFireBomber();
+	void FirePlayerBomber(std::list<std::shared_ptr<Enemy>>& targetList);
+	void FirePlayerBomber(std::shared_ptr<BossEnemyModel>& targetList);
+	void FirePlayerBomber(std::list<std::shared_ptr<RebarObstacle>>& targetList);
+
+	void OnStartAccel();
+
+	const Transform& GetPlayerTransform() const;
+
 	PlayerModel *model;
+	bool enableUpdateLogic;
 
 private:
 	Player *player;
@@ -67,6 +82,8 @@ private:
 	std::vector<D3DXVECTOR3> targetPos;
 
 	void ChangeStatePlayer(PlayerState next);
+	
+	void TryStockBomber();
 
 	void OnFinishPlayerMove();
 	void OnFinishPlayerWait();

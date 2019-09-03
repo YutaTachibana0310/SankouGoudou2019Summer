@@ -20,7 +20,7 @@
 ***************************************/
 EnemyBullet::EnemyBullet()
 {
-	ResourceManager::Instance()->GetPolygon(RESOURCE_ENEMYBULLET_TAG, &polygon);
+	ResourceManager::Instance()->GetPolygon(RESOURCE_ENEMYBULLET_TAG, polygon);
 
 	active = false;
 }
@@ -36,13 +36,14 @@ EnemyBullet::~EnemyBullet()
 /**************************************
 ‰Šú‰»ˆ—
 ***************************************/
-void EnemyBullet::Init(D3DXVECTOR3 setPos, D3DXVECTOR3 target, int reachFrame)
+void EnemyBullet::Init(D3DXVECTOR3 setPos, D3DXVECTOR3 target, int reachFrame, const D3DXVECTOR3& scale)
 {
 	active = true;
 	targetPos = target;
 	cntFrame = reachFrame;
 
 	transform.pos = setPos;
+	transform.scale = scale;
 
 	velocity.x = RandomRangef(-1.0f, 1.0f);
 	velocity.y = RandomRangef(-1.0f, 1.0f);
@@ -104,9 +105,7 @@ void EnemyBullet::Draw()
 	D3DXMATRIX mtxWorld, mtxInvView;
 
 	//ƒ[ƒ‹ƒh•ÏŠ·
-	mtxInvView = GetInvView();
-	transform.CalcWorldMtx(&mtxWorld, &mtxInvView);
-	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+	transform.SetWorldInvView();
 
 	//•`‰æ
 	polygon->Draw();

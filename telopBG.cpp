@@ -23,8 +23,6 @@
 //*****************************************************************************
 // ƒOƒ[ƒoƒ‹•Ï”
 //*****************************************************************************
-Easing<float> eTelopBG;
-
 bool telopBGOpenActivated = false;
 bool telopBGCloseActivated = false;
 
@@ -109,7 +107,7 @@ void TelopBG::SetVertex(float percentage)
 void TelopBG::OpenTelopBG(void)
 {
 	SetEasingValueTelopBGOpen();
-	percentage = eTelopBG.GetEasingValue(telopBG->GetCountObject(DURATION_OPEN_CLOSE), &easingStart, &easingGoal, InOutCubic);
+	percentage = Easing::EaseValue(telopBG->GetCountObject(DURATION_OPEN_CLOSE), easingStart, easingGoal, InOutCubic);
 
 	if(percentage >= easingGoal)
 	{
@@ -125,7 +123,7 @@ void TelopBG::OpenTelopBG(void)
 void TelopBG::CloseTelopBG(void)
 {
 	SetEasingValueTelopBGClose();
-	percentage = eTelopBG.GetEasingValue(telopBG->GetCountObject(DURATION_OPEN_CLOSE), &easingStart, &easingGoal, InOutCubic);
+	percentage = Easing::EaseValue(telopBG->GetCountObject(DURATION_OPEN_CLOSE), easingStart, easingGoal, InOutCubic);
 
 	if(percentage <= easingGoal)
 	{

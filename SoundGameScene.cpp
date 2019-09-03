@@ -17,17 +17,18 @@ void SoundGameScene::Play() {
 	//サウンドの再生
 	if (!Sound::GetInstance()->playsound) {
 		//ゲーム開始と同時に再生、フェードイン
-		Sound::GetInstance()->SetPlayBGM(GAMEBGM, true, 0.1f);
-		Sound::GetInstance()->FadeIn(GAMEBGM, 10.0f, 1.0f, true);
+		Sound::GetInstance()->SetPlayBGM(GAMEBGM, true, (Sound::GetInstance()->changevol / 10.0f));
+		Sound::GetInstance()->FadeIn(GAMEBGM, 10.0f, Sound::GetInstance()->changevol, true);
+
 	}
 	else {
 		//フェードアウトの開始
-		Sound::GetInstance()->FadeOut(GAMEBGM, 4.5f, 1.0f, true);
+		Sound::GetInstance()->FadeOut(GAMEBGM, 4.5f, Sound::GetInstance()->changevol, true);
 	}
 
 	if (GetKeyboardTrigger(DIK_SPACE)) {
 		//よくあるショットSEみたいに再生
-		Sound::GetInstance()->SetPlaySE(TESTSE, true, 1.0f);
+		Sound::GetInstance()->SetPlaySE(TESTSE, true, Sound::GetInstance()->changevol);
 		//Sound::GetInstance()->ChangeSEVolume(TESTSE, 1.0f);
 	}
 	if (GetKeyboardTrigger(DIK_O)) {
@@ -38,7 +39,7 @@ void SoundGameScene::Play() {
 		//trueの場合ゲーム中にSE再生
 		//falseの場合はポーズ中にSE再生
 		Sound::GetInstance()->pause = Sound::GetInstance()->pause ? false : true;
-		Sound::GetInstance()->SetPlaySE(ENTERSE, Sound::GetInstance()->pause, 1.0f);
+		Sound::GetInstance()->SetPlaySE(ENTERSE, Sound::GetInstance()->pause, Sound::GetInstance()->changevol);
 		Sound::GetInstance()->SetPitchSE(ENTERSE, 0);
 		Sound::GetInstance()->ChangePauseSound(Sound::GetInstance()->pause);
 		Sound::GetInstance()->changepitch = 0;
@@ -50,7 +51,7 @@ void SoundGameScene::Play() {
 			Sound::GetInstance()->changepitch = 1200;
 		}
 		//ポーズ中にSEが鳴らせるかテスト
-		Sound::GetInstance()->SetPlaySE(ENTERSE, false, 1.0f);
+		Sound::GetInstance()->SetPlaySE(ENTERSE, false, Sound::GetInstance()->changevol);
 		//ポーズ中のみピッチの変更
 		Sound::GetInstance()->SetPitchSE(ENTERSE, Sound::GetInstance()->changepitch);
 
@@ -63,10 +64,11 @@ void SoundGameScene::Play() {
 			Sound::GetInstance()->changepitch = -1200;
 		}
 		//ポーズ中にSEが鳴らせるかテスト
-		Sound::GetInstance()->SetPlaySE(ENTERSE, false, 1.0f);
+		Sound::GetInstance()->SetPlaySE(ENTERSE, false, Sound::GetInstance()->changevol);
 		//ポーズ中のみピッチの変更
 		Sound::GetInstance()->SetPitchSE(ENTERSE, Sound::GetInstance()->changepitch);
 	}
+
 }
 
 /**************************************

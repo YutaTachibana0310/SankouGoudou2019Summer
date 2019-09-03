@@ -82,9 +82,6 @@
     <Filter Include="ヘッダー ファイル\Collider">
       <UniqueIdentifier>{6e5bcac6-9189-4e6c-b253-1ec550cf976a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Enemy">
-      <UniqueIdentifier>{8a4c5504-7a10-4568-b71e-60ddceb1b5f6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Enemy">
       <UniqueIdentifier>{5db6f869-6ad0-47f3-89be-225001326c0b}</UniqueIdentifier>
     </Filter>
@@ -115,9 +112,6 @@
     <Filter Include="ヘッダー ファイル\Enemy\Model">
       <UniqueIdentifier>{40296833-e7bf-47f8-a773-7eff874b2531}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Enemy\Model">
-      <UniqueIdentifier>{1b54fa04-28aa-4755-983c-c44af28dd54d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Effect\Controller">
       <UniqueIdentifier>{660e251e-3220-43df-9cd6-831b843dca70}</UniqueIdentifier>
     </Filter>
@@ -135,6 +129,12 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\GameController">
       <UniqueIdentifier>{8a8c568f-4f22-431d-8aba-9b24e028e899}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Enemy">
+      <UniqueIdentifier>{8a4c5504-7a10-4568-b71e-60ddceb1b5f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Enemy\Model">
+      <UniqueIdentifier>{1b54fa04-28aa-4755-983c-c44af28dd54d}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\System\Score">
       <UniqueIdentifier>{0178d064-3574-4ac9-9d54-23e54448d163}</UniqueIdentifier>
@@ -175,6 +175,30 @@
     <Filter Include="ソース ファイル\Obstacles\PostEffect">
       <UniqueIdentifier>{84b7dab4-a507-48ae-aa5e-3092ebf303f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Enemy\Factory">
+      <UniqueIdentifier>{6f3cde4c-4826-4ff7-a9f7-739c14be2b04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Enemy\Factory">
+      <UniqueIdentifier>{e0d44abe-09c8-49d1-9d5d-c3175ed7bd54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Enemy\Model\State">
+      <UniqueIdentifier>{c61f044a-6561-4b82-920b-08f95d28823f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Enemy\Model\State">
+      <UniqueIdentifier>{68212930-f43b-4ee7-9b69-617aa999841f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Enemy\BossUI">
+      <UniqueIdentifier>{83e00b76-4551-4bc9-a170-5fcfc7d4796e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Enemy\BossUI">
+      <UniqueIdentifier>{89ef275b-3cd2-4eaf-bfa8-79dcbb0b88ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Player\Bomber">
+      <UniqueIdentifier>{5906759c-2521-4281-9648-848d483c2c64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Player\Bomber">
+      <UniqueIdentifier>{fc1d7cbb-8c73-409b-abc3-ff3ee75a7cc6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -190,9 +214,6 @@
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="Framework\BaseCameraPlugin.h">
-      <Filter>ヘッダー ファイル\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\CameraShakerPlugin.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Framework\MeshContainer.h">
@@ -459,12 +480,6 @@
     <ClInclude Include="PlayerBulletController.h">
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBomber.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerBomberController.h">
-      <Filter>ヘッダー ファイル\Player\State</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyController.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
@@ -524,6 +539,12 @@
     </ClInclude>
     <ClInclude Include="GameEnd.h">
       <Filter>ヘッダー ファイル\GameController</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBomberParticle.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBomberParticleController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
     </ClInclude>
     <ClInclude Include="ScoreManager.h">
       <Filter>ヘッダー ファイル\System\Score</Filter>
@@ -648,6 +669,183 @@
     <ClInclude Include="UIdrawerC.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyBulletCharge.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletChargeController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletFire.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletFireController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGuideArrowController.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGuideArrow.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFactory.h">
+      <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangeEnemyFactory.h">
+      <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="StraightEnemyFactory.h">
+      <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="SnakeEnemyFactory.h">
+      <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="soundUI.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameBomberSequence.h">
+      <Filter>ヘッダー ファイル\GameController</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Polygon2D.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerChargeEffect.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerChargeEffectController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\TMath.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerChargeParticle.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerChargeParticleController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\TMath.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="AccelEffectParticle.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="AccelEffectController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="BomberStockEffect.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ColliderObserver.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\CameraShakePlugin.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="BomberFire.h">
+      <Filter>ヘッダー ファイル\Effect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="BomberFireController.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\AnimationManager.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyModel.h">
+      <Filter>ヘッダー ファイル\Enemy\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyActor.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Vector3.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="BossInit.h">
+      <Filter>ヘッダー ファイル\Enemy\Model\State</Filter>
+    </ClInclude>
+    <ClInclude Include="BossRebarAttack.h">
+      <Filter>ヘッダー ファイル\Enemy\Model\State</Filter>
+    </ClInclude>
+    <ClInclude Include="BossHomingAttack.h">
+      <Filter>ヘッダー ファイル\Enemy\Model\State</Filter>
+    </ClInclude>
+    <ClInclude Include="BossController.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameBossBattle.h">
+      <Filter>ヘッダー ファイル\GameController</Filter>
+    </ClInclude>
+    <ClInclude Include="BossChargeEffect.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="BossColliderGuide.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BossColliderController.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BossDamageable.h">
+      <Filter>ヘッダー ファイル\Enemy\Model\State</Filter>
+    </ClInclude>
+    <ClInclude Include="BossHitParticle.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="BossLargeDamage.h">
+      <Filter>ヘッダー ファイル\Enemy\Model\State</Filter>
+    </ClInclude>
+    <ClInclude Include="BossDefeat.h">
+      <Filter>ヘッダー ファイル\Enemy\Model\State</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionFire.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionFireCharge.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionFireCore.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="BossIdle.h">
+      <Filter>ヘッダー ファイル\Enemy\Model\State</Filter>
+    </ClInclude>
+    <ClInclude Include="WarningUI.h">
+      <Filter>ヘッダー ファイル\Enemy\BossUI</Filter>
+    </ClInclude>
+    <ClInclude Include="WarningBelt.h">
+      <Filter>ヘッダー ファイル\Enemy\BossUI</Filter>
+    </ClInclude>
+    <ClInclude Include="BossUIManager.h">
+      <Filter>ヘッダー ファイル\Enemy\BossUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameBossStart.h">
+      <Filter>ヘッダー ファイル\GameController</Filter>
+    </ClInclude>
+    <ClInclude Include="WarningText.h">
+      <Filter>ヘッダー ファイル\Enemy\BossUI</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBulletGuide.h">
+      <Filter>ヘッダー ファイル\Enemy\BossUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameBossBombSequence.h">
+      <Filter>ヘッダー ファイル\GameController</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBomber.h">
+      <Filter>ヘッダー ファイル\Player\Bomber</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBomberController.h">
+      <Filter>ヘッダー ファイル\Player\Bomber</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBomberEnemy.h">
+      <Filter>ヘッダー ファイル\Player\Bomber</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBomberBoss.h">
+      <Filter>ヘッダー ファイル\Player\Bomber</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBomberRebar.h">
+      <Filter>ヘッダー ファイル\Player\Bomber</Filter>
+    </ClInclude>
+    <ClInclude Include="RebarExplosion.h">
+      <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -666,9 +864,6 @@
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="Framework\BaseCameraPlugin.cpp">
-      <Filter>ソース ファイル\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\CameraShakerPlugin.cpp">
       <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Framework\EasingVector.cpp">
@@ -893,12 +1088,6 @@
     <ClCompile Include="PlayerReturn.cpp">
       <Filter>ソース ファイル\Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBomber.cpp">
-      <Filter>ソース ファイル\Player\State</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerBomberController.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
     <ClCompile Include="LineTrailModel.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
@@ -976,6 +1165,12 @@
     </ClCompile>
     <ClCompile Include="GameEnd.cpp">
       <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBomberParticle.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayeBomberParticleController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
     </ClCompile>
     <ClCompile Include="ScoreManager.cpp">
       <Filter>ソース ファイル\System\Score</Filter>
@@ -1081,6 +1276,171 @@
     </ClCompile>
     <ClCompile Include="UIdrawerC.cpp">
       <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletCharge.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletChargeController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletFire.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletFireController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGuideArrow.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGuideArrowController.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ChangeEnemyFactory.cpp">
+      <Filter>ソース ファイル\Enemy\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="StraightEnemyFactory.cpp">
+      <Filter>ソース ファイル\Enemy\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="SnakeEnemyFactory.cpp">
+      <Filter>ソース ファイル\Enemy\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="soundUI.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameBomberSequence.cpp">
+      <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Polygon2D.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerChargeEffect.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerChargeEffectController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerChargeParticle.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerChargeParticleController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="AccelEffectParticle.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="AccelEffectController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="BomberStockEffect.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\CameraShakePlugin.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="BomberFire.cpp">
+      <Filter>ソース ファイル\Effect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="BomberFireController.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\AnimationManager.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyModel.cpp">
+      <Filter>ソース ファイル\Enemy\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyActor.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Vector3.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="BossInit.cpp">
+      <Filter>ソース ファイル\Enemy\Model\State</Filter>
+    </ClCompile>
+    <ClCompile Include="BossRebarAttack.cpp">
+      <Filter>ソース ファイル\Enemy\Model\State</Filter>
+    </ClCompile>
+    <ClCompile Include="BossHomingAttack.cpp">
+      <Filter>ソース ファイル\Enemy\Model\State</Filter>
+    </ClCompile>
+    <ClCompile Include="BossController.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameBossBatlle.cpp">
+      <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="BossChargeEffect.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="BossColliderGuide.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BossColliderController.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BossDamageable.cpp">
+      <Filter>ソース ファイル\Enemy\Model\State</Filter>
+    </ClCompile>
+    <ClCompile Include="BossHitParticle.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="BossLargeDamage.cpp">
+      <Filter>ソース ファイル\Enemy\Model\State</Filter>
+    </ClCompile>
+    <ClCompile Include="BossDefeat.cpp">
+      <Filter>ソース ファイル\Enemy\Model\State</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionFire.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionFireCharge.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionFireCore.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="BossIdle.cpp">
+      <Filter>ソース ファイル\Enemy\Model\State</Filter>
+    </ClCompile>
+    <ClCompile Include="WarningUI.cpp">
+      <Filter>ソース ファイル\Enemy\BossUI</Filter>
+    </ClCompile>
+    <ClCompile Include="WarningBelt.cpp">
+      <Filter>ソース ファイル\Enemy\BossUI</Filter>
+    </ClCompile>
+    <ClCompile Include="BossUIManager.cpp">
+      <Filter>ソース ファイル\Enemy\BossUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameBossStart.cpp">
+      <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="WarningText.cpp">
+      <Filter>ソース ファイル\Enemy\BossUI</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBulletGuide.cpp">
+      <Filter>ソース ファイル\Enemy\BossUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameBossBombSequence.cpp">
+      <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBomber.cpp">
+      <Filter>ソース ファイル\Player\Bomber</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBomberController.cpp">
+      <Filter>ソース ファイル\Player\Bomber</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBomberEnemy.cpp">
+      <Filter>ソース ファイル\Player\Bomber</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBomberBoss.cpp">
+      <Filter>ソース ファイル\Player\Bomber</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBomberRebar.cpp">
+      <Filter>ソース ファイル\Player\Bomber</Filter>
+    </ClCompile>
+    <ClCompile Include="RebarExplosion.cpp">
+      <Filter>ソース ファイル\Effect\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

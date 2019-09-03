@@ -61,7 +61,7 @@ void EnemyBulletEffectController::Emit()
 		
 		
 		float t = RandomRangef(0.0f, 1.0f);
-		particle->transform.pos = Easing<D3DXVECTOR3>::GetEasingValue(t, &entity->edgeL, &entity->edgeR, EasingType::Linear);
+		particle->transform.pos = Easing::EaseValue(t, entity->edgeL, entity->edgeR, EaseType::Linear);
 
 		particle->Init();
 		
@@ -71,7 +71,7 @@ void EnemyBulletEffectController::Emit()
 /**************************************
 エミッターセット処理
 ***************************************/
-void EnemyBulletEffectController::SetEmitter(LineTrailModel model)
+BaseEmitter* EnemyBulletEffectController::SetEmitter(LineTrailModel model)
 {
 	auto itr = find_if(emitterContainer.begin(), emitterContainer.end(), [](BaseEmitter* emitter)
 	{
@@ -79,7 +79,7 @@ void EnemyBulletEffectController::SetEmitter(LineTrailModel model)
 	});
 
 	if (itr == emitterContainer.end())
-		return;
+		return NULL;
 
 	EnemyBulletEffectEmitter *entity = static_cast<EnemyBulletEffectEmitter*>(*itr);
 
@@ -92,4 +92,6 @@ void EnemyBulletEffectController::SetEmitter(LineTrailModel model)
 	entity->edgeR = edgeR - diff * ENEMYBULLETEFFECT_SHRINK_LENGTH;
 
 	entity->Init();
+
+	return entity;
 }

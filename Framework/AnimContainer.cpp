@@ -273,7 +273,7 @@ D3DXFRAME_DERIVED* AnimContainer::SearchBoneFrame(const char* boneName, D3DXFRAM
 	if (frame->pFrameFirstChild != NULL)
 	{
 		p = SearchBoneFrame(boneName, frame->pFrameFirstChild);
-		if (p != NULL && strcmp(p->Name, boneName) != 0)
+		if (p != NULL && strcmp(p->Name, boneName) == 0)
 		{
 			return p;
 		}
@@ -510,4 +510,20 @@ HRESULT AnimContainer::SetupCallbackKeyFrames(LPCSTR setName)
 	compressedAnimSet->Release();
 
 	return S_OK;
+}
+
+/**************************************
+アニメーションセット数取得処理
+***************************************/
+UINT AnimContainer::GetNumAnimationSets()
+{
+	return (UINT)animSetNum;
+}
+
+/**************************************
+アニメーション中断イベントのKeyFramesを設置する
+***************************************/
+float AnimContainer::GetPeriodAnimation()
+{
+	return (float)status[currentAnimID].animSet->GetPeriod();
 }

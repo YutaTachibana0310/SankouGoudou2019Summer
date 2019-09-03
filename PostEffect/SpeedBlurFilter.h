@@ -27,12 +27,14 @@ public:
 	void SetCenterPos(D3DXVECTOR3 pos);
 	void SetSurfaceSize(float width, float height);
 	void SetStartLength(float length);
+	void SetAspectRatio(float width, float height);
 
 private:
 	LPD3DXEFFECT effect;
 	D3DXHANDLE hPower, hCenter;
 	D3DXHANDLE hTU, hTV;
 	D3DXHANDLE hStartLength;
+	D3DXHANDLE hAspectRatio;
 };
 
 #endif

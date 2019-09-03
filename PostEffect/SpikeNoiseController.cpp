@@ -45,7 +45,7 @@ void SpikeNoiseController::SetNoise(float power, int effectTime)
 void SpikeNoiseController::Update()
 {
 	const int Duration = 10;
-	const int EaseType[State::Max] = {EasingType::InCubic, EasingType::Linear, EasingType::OutCubic};
+	const int type[State::Max] = {EaseType::InCubic, EaseType::Linear, EaseType::OutCubic};
 
 	if (!active)
 		return;
@@ -55,7 +55,7 @@ void SpikeNoiseController::Update()
 	//ノイズの強さをアニメーション
 	int effectTime = state == State::Wait ? this->effectTime : Duration;
 	float t = (float)cntFrame / (float)effectTime;
-	float power = Easing<float>::GetEasingValue(t, &this->srcPower, &this->destPower, (EasingType)EaseType[this->state]);
+	float power = Easing::EaseValue(t, this->srcPower, this->destPower, (EaseType)type[this->state]);
 	this->spikeNoise->SetLength(power);
 	
 	//ノイズをスクロール

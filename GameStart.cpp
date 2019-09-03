@@ -14,7 +14,7 @@
 /**************************************
 “üêˆ—
 ***************************************/
-void GameStart::OnStart(GameScene *entity)
+void GameScene::GameStart::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
 
@@ -25,12 +25,14 @@ void GameStart::OnStart(GameScene *entity)
 /**************************************
 XVˆ—
 ***************************************/
-int GameStart::OnUpdate(GameScene *entity)
+int GameScene::GameStart::OnUpdate(GameScene *entity)
 {
 	entity->cntFrame++;
+
+	entity->UpdateWhole();
 	
 	if (entity->cntFrame == GAMESTART_DURATION)
-		return STATE_FINISHED;
+		return GameScene::State::Battle;
 	else
-		return STATE_CONTINUOUS;
+		return GameScene::State::Start;
 }

@@ -8,7 +8,7 @@
 #include "input.h"
 #include "starUI.h"
 #include "UIdrawer.h"
-#include "Framework/EasingVector.h"
+#include "Framework/Easing.h"
 #include "trailUI.h"
 
 //*****************************************************************************
@@ -116,8 +116,7 @@ void Star::RotateStar(int num)
 {
 	star[num]->countFrame++;
 	float t = (float)star[num]->countFrame / DURATION_ROTATION;
-	star[num]->rotation = 
-		EaseOutExponentialVector(t, star[num]->easingStartRotation, star[num]->easingGoalRotation);
+	star[num]->rotation = Easing::EaseValue(t, star[num]->easingStartRotation, star[num]->easingGoalRotation, EaseType::OutExpo);
 }
 
 //=============================================================================
@@ -148,14 +147,14 @@ void Star::ToggleRotateStar(int num, bool isRotated)
 //=============================================================================
 // êØç¿ïWéÊìæóp
 //=============================================================================
-D3DXVECTOR3* Star::GetStarPosition(void)
+void Star::GetStarPosition(std::vector<D3DXVECTOR3>& out)
 {
-	D3DXVECTOR3 *pos = {};
+	out.resize(STAR_MAX);
 
 	for (int i = 0; i < STAR_MAX; i++)
 	{
-		pos[i] = star[i]->position;
+		out[i] = star[i]->position;
 	}
 
-	return pos;
+	return;
 }

@@ -150,5 +150,5 @@ void StartButton::BlinkStartButtonText(void)
 //=============================================================================
 void StartButton::GoGameScene(void)
 {
-	mask->SceneChangeFlag(true, SceneGame);
+	SceneChangeFlag(true, SceneGame);
 }

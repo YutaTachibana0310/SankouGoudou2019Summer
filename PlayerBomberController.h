@@ -10,10 +10,15 @@
 #include "main.h"
 #include "PlayerBomber.h"
 #include <vector>
+#include <list>
+#include <memory>
 
 /***********************************
-マクロ定義
+前方宣言
 ************************************/
+class Enemy;
+class BossEnemyModel;
+class RebarObstacle;
 
 /*************************************
 PlayerBomberControllerクラス
@@ -30,13 +35,21 @@ public:
 	void Update();
 	void Draw();
 
-	void SetPlayerBomber(std::vector<D3DXVECTOR3*>targetList, D3DXVECTOR3 initpos);
+	void SetPlayerBomber(std::list<std::shared_ptr<Enemy>>& targetList, D3DXVECTOR3 initpos);
+	void SetPlayerBomber(std::shared_ptr<BossEnemyModel> targett, D3DXVECTOR3 initPos);
+	void SetPlayerBomber(std::list<std::shared_ptr<RebarObstacle>>& targetList, D3DXVECTOR3 initPos);
+
+	bool CanStock();
+	bool CanSet();
+	void AddStock();
 
 	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
-	//可変長配列
-	std::vector<PlayerBomber*> bomberContainer;
 	LPDIRECT3DTEXTURE9 texture;
+	std::list<std::unique_ptr<PlayerBomber>> bomberContainer;
 
+private:
+	int stockInterval;
+	int stock;
 };
 
 

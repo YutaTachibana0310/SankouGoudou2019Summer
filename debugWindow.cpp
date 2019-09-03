@@ -223,7 +223,7 @@ void DebugText(const char *str, ...)
 ***************************************/
 void DebugText(std::string str)
 {
-#ifdef USE_DEBUGWINDOW
+#ifdef USE_DEBUGFUNC
 	DebugText(str.c_str());
 #endif
 }
@@ -394,7 +394,7 @@ intŒ^“ü—Íˆ—
 ***************************************/
 bool DebugInputInt(const char* label, int* val)
 {
-#ifdef USE_DEBUGWINDOW
+#ifdef USE_DEBUGFUNC
 	return ImGui::InputInt(label, val);
 #else
 	return false;
@@ -418,7 +418,7 @@ bool DebugInputText(const char* label, char *buf, size_t buf_size)
 ***************************************/
 bool DebugInputText(const char* label, std::string* pStr)
 {
-#ifdef USE_DEBUGWINDOW
+#ifdef USE_DEBUGFUNC
 	char tmp[128];
 	strcpy(tmp, pStr->c_str());
 	bool res = ImGui::InputText(label, tmp, 128);
@@ -437,7 +437,7 @@ bool DebugInputText(const char* label, std::string* pStr)
 ***************************************/
 bool DebugRadioButton(const char* label, int* output, int val)
 {
-#ifdef USE_DEBUGWINDOW
+#ifdef USE_DEBUGFUNC
 	return ImGui::RadioButton(label, output, val);
 #else
 	return false;
@@ -449,7 +449,7 @@ bool DebugRadioButton(const char* label, int* output, int val)
 ***************************************/
 bool DebugChechBox(const char* label, bool* val)
 {
-#ifdef USE_DEBUGWINDOW
+#ifdef USE_DEBUGFUNC
 	return ImGui::Checkbox(label, val);
 #else
 	return false;
@@ -461,7 +461,7 @@ bool DebugChechBox(const char* label, bool* val)
 ***************************************/
 void DebugDrawTexture(LPDIRECT3DTEXTURE9 texture, float sizeX, float sizeY)
 {
-#ifdef USE_DEBUGWINDOW
+#ifdef USE_DEBUGFUNC
 	ImGui::Image((void*)texture, ImVec2(sizeX, sizeY));
 #endif
 }

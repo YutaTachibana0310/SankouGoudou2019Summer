@@ -7,6 +7,8 @@
 #ifndef _GAMESCENEUIMANAGER_H_
 #define _GAMESCENEUIMANAGER_H_
 
+#include <vector>
+
 /**************************************
 ëOï˚êÈåæ
 ***************************************/
@@ -55,7 +57,7 @@ public:
 	void AddHp(float value);
 	void SetStageClearTelop(void);
 	void SetBattleStartTelop(void);
-	D3DXVECTOR3* GetStarPosition(void);
+	void GetStarPosition(std::vector<D3DXVECTOR3>& out);
 	void SetStarPosition(D3DXVECTOR3* pos);
 
 private:

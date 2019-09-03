@@ -8,12 +8,14 @@
 #define _BOXCOLLIDER3D_H_
 
 #include "../main.h"
-#include "ObserveSubject.h"
+#include "ColliderObserver.h"
 
 #include <map>
 #include <list>
 
 #define BOXCOLLIDER3D_USE_DEBUG
+
+class ColliderObserver;
 
 /**************************************
 BoxCollider3DTag列挙子
@@ -22,13 +24,17 @@ enum class BoxCollider3DTag
 {
 	PlayerBomber,
 	Enemy,
+	Player,
+	SnakeEnemy,
+	PlayerBullet,
+	EnemyBullet,
 	Max
 };
 
 /**************************************
 BoxCollider3Dクラス
 ***************************************/
-class BoxCollider3D : public ObserveSubject
+class BoxCollider3D
 {
 public:
 	friend class BoxCollider3D;
@@ -45,8 +51,11 @@ public:
 
 	//衝突判定
 	static void UpdateCollision();
-	void RegisterToCheckList();
-	void RemoveFromCheckList();
+	void RegisterToCheckList(BoxCollider3DTag tag);
+	void RemoveFromCheckList(BoxCollider3DTag tag);
+
+	//観測者追加
+	void AddObserver(ColliderObserver* observer);
 
 	//アクティブ判定
 	bool active;
@@ -64,8 +73,10 @@ private:
 	D3DXVECTOR3 size;		//サイズ
 	D3DXVECTOR3 offset;		//オフセット
 
-	static std::map<BoxCollider3DTag, std::list<BoxCollider3D*>> checkDictionary;
+	std::list<ColliderObserver*> observerList;	//観測者リスト
 
+	static std::map<BoxCollider3DTag, std::list<BoxCollider3D*>> checkDictionary;
+	static void CheckRoundRobin(BoxCollider3DTag tag1, BoxCollider3DTag tag2);
 
 #ifdef BOXCOLLIDER3D_USE_DEBUG
 	static UINT instanceCount;		//インスタンスカウント

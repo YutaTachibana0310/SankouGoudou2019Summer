@@ -6,10 +6,12 @@
 //=====================================
 #include "EnemyController.h"
 #include "TestEnemyModel.h"
-#include "ChangeEnemyModel.h"
-#include "StraightEnemyModel.h"
-#include "SnakeEnemyModel.h"
+#include "ChangeEnemyFactory.h"
+#include "StraightEnemyFactory.h"
+#include "SnakeEnemyFactory.h"
 #include "EnemyBullet.h"
+#include "GameParticleManager.h"
+#include "BossEnemyModel.h"
 
 #include "Framework\ResourceManager.h"
 #include "picojson\picojson.h"
@@ -25,10 +27,9 @@ using namespace std;
 ***************************************/
 #define USE_DEBUG_TESTENEMY (1)
 
-#define ENEMY_NUM_OUTERLINE		(3)		//五角形の外周に生成するエネミーの数
-#define ENEMY_NUM_INNNERLINE	(5)		//五角形の内側に生成するエネミーの数
+#define ENEMY_SHOTPOS_OFFSET	(D3DXVECTOR3(0.0f, 0.0f, -50.0f))
+#define ENEMY_GUIDE_TIMING		(10)
 
-#define ENEMY_SHOTPOS_OFFSET	(D3DXVECTOR3(0.0f, 0.0f, -20.0f))
 /**************************************
 構造体定義
 ***************************************/
@@ -36,14 +37,6 @@ using namespace std;
 /**************************************
 グローバル変数
 ***************************************/
-//五角形の外周を構成するLineModel
-const vector<LineTrailModel> EnemyController::OuterLineModel = {
-	LineTrailModel(0, 1),
-	LineTrailModel(1, 2),
-	LineTrailModel(2, 3),
-	LineTrailModel(3, 4),
-	LineTrailModel(4, 0)
-};
 
 /**************************************
 コンストラクタ
@@ -54,8 +47,14 @@ EnemyController::EnemyController()
 	//解放はシーン終了時にGame.cppで一括して開放する
 	ResourceManager::Instance()->LoadMesh("Enemy", "data/MODEL/Enemy/drone.x");
 
-	//バレットコントローラ作成
+	//各コントローラ作成
 	bulletController = new EnemyBulletController();
+	guideController = new EnemyGuideArrowController();
+
+	//各ファクトリー作成
+	factoryContainer["Change"] = new ChangeEnemyFactory();
+	factoryContainer["Straight"] = new StraightEnemyFactory();
+	factoryContainer["Snake"] = new SnakeEnemyFactory();
 
 	//ステージデータ読み込み
 	LoadStageData();
@@ -73,14 +72,19 @@ EnemyController::~EnemyController()
 	}
 	modelList.clear();
 	
-	//バレットコントローラ削除
+	//各コントローラ削除
 	SAFE_DELETE(bulletController);
+	SAFE_DELETE(guideController);
+
+	//各ファクトリー削除
+	for (auto& pair : factoryContainer)
+	{
+		SAFE_DELETE(pair.second);
+	}
+	factoryContainer.clear();
 
 	//ステージデータクリア
 	stageModelList.clear();
-
-	//テスト用エネミーをdeleteする
-	SAFE_DELETE(test);
 }
 
 /**************************************
@@ -131,10 +135,21 @@ void EnemyController::Update()
 
 		if (updateResult == AttackTiming)
 			EnemyAttack(model);
+		else if (updateResult == ChargeTiming)
+			SetChageEffect(model);
 	}
 
 	//バレット更新処理
 	bulletController->Update();
+	for (auto& model : modelList)
+	{
+		model->CheckDestroied();
+	}
+
+	//ガイド更新処理
+	guideController->Update();
+
+	//モデル内のエネミー撃墜確認
 
 	//終了したモデルを削除する
 	for (auto& model : modelList)
@@ -171,11 +186,22 @@ void EnemyController::Draw()
 }
 
 /**************************************
+ガイド描画処理
+***************************************/
+void EnemyController::DrawGuide()
+{
+	guideController->Draw();
+}
+
+/**************************************
 エネミー生成インターフェース
 ***************************************/
 void EnemyController::SetEnemy()
 {
 	cntFrame++;
+
+	//ガイド生成
+	SetGuide();
 
 	//現在のインデックスからステージデータを確認していく
 	for (UINT i = currentIndex; i < stageModelList.size(); i++)
@@ -185,89 +211,41 @@ void EnemyController::SetEnemy()
 			break;
 
 		//typeに応じて生成処理をディスパッチ
-		if (stageModelList[i].type == "Change")
-			_SetEnemyChange(stageModelList[i].data);
-
-		else if (stageModelList[i].type == "Straight")
-			_SetEnemyStraight(stageModelList[i].data);
-
-		else if (stageModelList[i].type == "Snake")
-			_SetEnemySnake(stageModelList[i].data);
+		string type = stageModelList[i].type;
+		EnemyModel* model = factoryContainer[type]->Create(stageModelList[i].data);
+		modelList.push_back(model);
 
 		currentIndex++;
 	}
+
+	//デバッグ用ループ処理
+	//if (cntFrame > (*(stageModelList.end() - 1)).frame + 300)
+	//{
+	//	cntFrame = 0;
+	//	currentIndex = 0;
+	//}
 }
 
 /**************************************
-エネミー生成処理（Changeタイプ）
+ガイド生成処理
 ***************************************/
-void EnemyController::_SetEnemyChange(picojson::object& data)
+void EnemyController::SetGuide()
 {
-	//インスタンス生成
-	ChangeEnemyModel *model = new ChangeEnemyModel();
-
-	//データをパース
-	int start = static_cast<int>(data["start"].get<double>());
-	int end = static_cast<int>(data["end"].get<double>());
-	LineTrailModel lineModel = LineTrailModel(start, end);
-
-	//生成するエネミーの数を決定(五角形の外周なら3体、それ以外は5体)
-	auto itr = find(OuterLineModel.begin(), OuterLineModel.end(), lineModel);
-	int enemyNum = itr != OuterLineModel.end() ? ENEMY_NUM_OUTERLINE : ENEMY_NUM_INNNERLINE;
-
-	//初期化
-	model->Init(lineModel, enemyNum);
-
-	modelList.push_back(model);
-}
-
-/**************************************
-エネミー生成処理（Straightタイプ）
-***************************************/
-void EnemyController::_SetEnemyStraight(picojson::object& data)
-{
-	//インスタンス生成
-	StraightEnemyModel *model = new StraightEnemyModel();
-
-	//データをパース
-	int start = static_cast<int>(data["start"].get<double>());
-	int end = static_cast<int>(data["end"].get<double>());
-	LineTrailModel lineModel = LineTrailModel(start, end);
-
-	//生成するエネミーの数を決定(五角形の外周なら3体、それ以外は5体)
-	auto itr = find(OuterLineModel.begin(), OuterLineModel.end(), lineModel);
-	int enemyNum = itr != OuterLineModel.end() ? ENEMY_NUM_OUTERLINE : ENEMY_NUM_INNNERLINE;
-
-	//初期化
-	model->Init(lineModel, enemyNum);
-
-	modelList.push_back(model);
-}
-
-/**************************************
-エネミー生成処理（Snakeタイプ）
-***************************************/
-void EnemyController::_SetEnemySnake(picojson::object& data)
-{
-	//インスタンス生成
-	SnakeEnemyModel *model = new SnakeEnemyModel();
-
-	//配列データをパース
-	picojson::array dataList = data["destList"].get<picojson::array>();
-
-	//各データをそれぞれパース
-	vector<int> destList;
-	destList.resize(dataList.size());
-	for (UINT i = 0; i < dataList.size(); i++)
+	//現在のインデックスからデータを確認していく
+	for (UINT i = currentIndex; i < stageModelList.size(); i++)
 	{
-		destList[i] = static_cast<int>(dataList[i].get<picojson::object>()["dest"].get<double>());
+		//ガイドタイミングでなければContinue
+		if (cntFrame + ENEMY_GUIDE_TIMING != stageModelList[i].frame)
+			continue;
+
+		//ガイドタイミングより遅いデータが来たらbreak
+		if (cntFrame + ENEMY_GUIDE_TIMING < stageModelList[i].frame)
+			break;
+
+		//ガイド生成
+		string type = stageModelList[i].type;
+		factoryContainer[type]->CreateGuide(stageModelList[i].data, guideController);
 	}
-
-	//初期化
-	model->Init(destList);
-
-	modelList.push_back(model);
-
 }
 
 /**************************************
@@ -321,5 +299,64 @@ void EnemyController::EnemyAttack(EnemyModel *enermyModel)
 		emitPos.push_back(enemy->m_Pos + ENEMY_SHOTPOS_OFFSET);
 	}
 
-	bulletController->SetEnemyBullet(emitPos, enermyModel->model);
+	bulletController->Set(emitPos, enermyModel->model);
 }
+
+/**************************************
+エネミー攻撃チャージ開始処理
+***************************************/
+void EnemyController::SetChageEffect(EnemyModel *model)
+{
+	model->chageEffectList.clear();
+	model->chageEffectList.resize(model->enemyList.size());
+
+	UINT cntSet = 0;
+	for (auto& enemey : model->enemyList)
+	{
+		BaseEmitter* emitter = GameParticleManager::Instance()->SetEnemyBulletCharge(&(enemey->m_Pos + ENEMY_SHOTPOS_OFFSET));
+		model->chageEffectList[cntSet] = emitter;
+		cntSet++;
+	}
+}
+
+/**************************************
+エネミー座標取得処理
+***************************************/
+void EnemyController::GetEnemyList(std::list<std::shared_ptr<Enemy>>& out)
+{
+	for (auto& model : modelList)
+	{
+		model->GetEnemy(out);
+	}
+}
+
+/**************************************
+ボンバーシーケンスコールバック
+***************************************/
+void EnemyController::OnFinishBombSequence()
+{
+	bulletController->DisableAll();
+}
+
+/**************************************
+エネミー存在判定
+***************************************/
+bool EnemyController::ExistsAcitveEnemy()
+{
+	return !modelList.empty();
+}
+
+/**************************************
+通常バトル終了判定
+***************************************/
+bool EnemyController::IsFinishedEnemy()
+{
+	if (currentIndex < stageModelList.size())
+		return false;
+
+	if (!modelList.empty())
+		return false;
+
+	return true;
+}
+

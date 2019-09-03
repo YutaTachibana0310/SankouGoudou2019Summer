@@ -136,8 +136,7 @@ void SkyBox::Draw()
 	pDevice->SetFVF(FVF_VERTEX_BILLBOARD);
 
 	D3DXMATRIX mtxWorld;
-	transform.CalcWorldMtx(&mtxWorld);
-	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+	transform.SetWorld();
 
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
 	pDevice->SetRenderState(D3DRS_LIGHTING, false);

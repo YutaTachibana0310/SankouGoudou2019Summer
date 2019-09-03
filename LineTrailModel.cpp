@@ -95,7 +95,7 @@ D3DXVECTOR3 LineTrailModel::GetEdgePos(int i)
 /**************************************
 í[ì_ç¿ïWê›íËèàóù
 ***************************************/
-void LineTrailModel::CalcEdgePosition(D3DXVECTOR3 *starPos)
+void LineTrailModel::CalcEdgePosition(std::vector<D3DXVECTOR3>& starPos)
 {
 	const float PositionDistance = 150.0f;
 	for (int i = 0; i < STAR_MAX; i++)

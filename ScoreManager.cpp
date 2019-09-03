@@ -12,6 +12,8 @@
 #include "GameSceneUIManager.h"
 
 static int currentStageScore;
+static Score *score;
+static GameSceneUIManager *gameSceneUIManager;
 
 void SetAddScore(int n) {
 
@@ -36,6 +38,16 @@ void ClearCombo(void) {
 	gameSceneUIManager->ReSetCombo();
 	Sound::GetInstance()->changepitch = 0;
 
+}
+
+void SetScoreIntance(Score *instance)
+{
+	score = instance;
+}
+
+void SetGameScneeUIManagerInstance(GameSceneUIManager* instance)
+{
+	gameSceneUIManager = instance;
 }
 
 int GetCurrentGameScore()

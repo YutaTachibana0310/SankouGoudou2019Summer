@@ -11,14 +11,14 @@ class Score;
 class GameSceneUIManager;
 
 
-Score *score;
-GameSceneUIManager *gameSceneUIManager;
-
 void SetAddScore(int n);
 
 void SetAddCombo(int n);
 
 void ClearCombo(void);
+
+void SetScoreIntance(Score *instance);
+void SetGameScneeUIManagerInstance(GameSceneUIManager* instance);
 
 int GetCurrentGameScore();
 void SetCurrentGameScore(int score);

@@ -18,7 +18,7 @@
 ***************************************/
 
 //ƒV[ƒ“’è‹`
-enum Scene{		
+enum Scene {
 	SceneTitle,
 	SceneGame,
 	SceneResult,

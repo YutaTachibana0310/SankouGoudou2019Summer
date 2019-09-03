@@ -25,14 +25,8 @@
     <Filter Include="ヘッダー ファイル\Framework">
       <UniqueIdentifier>{fba4c4cb-4265-468e-8d3a-b4c42135946d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\PostEffect">
-      <UniqueIdentifier>{84b7dab4-a507-48ae-aa5e-3092ebf303f2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\imgui">
       <UniqueIdentifier>{a0e1a0a8-0c1b-46d7-baa6-7f91892dd7fc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\imgui">
-      <UniqueIdentifier>{b28a90e9-60ba-48c3-9a6f-d7ddd09174f3}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Player">
       <UniqueIdentifier>{26249511-3b2d-4578-a921-99d9a63dac95}</UniqueIdentifier>
@@ -154,12 +148,6 @@
     <Filter Include="ヘッダー ファイル\UI\ResultSceneUI">
       <UniqueIdentifier>{a1c65f35-2dfd-4740-958e-e68c8b8ebe26}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\UI\Telop">
-      <UniqueIdentifier>{0ef87ea0-c898-4cc6-81c7-89301d6a4e7b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\UI\Telop">
-      <UniqueIdentifier>{3bcf998c-7dee-4bc7-9fcd-6c7e1aa6afa3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Stage">
       <UniqueIdentifier>{01486906-f323-4787-a90e-75b766ee4f26}</UniqueIdentifier>
     </Filter>
@@ -174,6 +162,18 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\BG">
       <UniqueIdentifier>{32c236d4-f951-4bbb-ae16-90073dd29807}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI\GameSceneUI\Telop">
+      <UniqueIdentifier>{0ef87ea0-c898-4cc6-81c7-89301d6a4e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\UI\GameSceneUI\Telop">
+      <UniqueIdentifier>{3bcf998c-7dee-4bc7-9fcd-6c7e1aa6afa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\imgui">
+      <UniqueIdentifier>{b28a90e9-60ba-48c3-9a6f-d7ddd09174f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Obstacles\PostEffect">
+      <UniqueIdentifier>{84b7dab4-a507-48ae-aa5e-3092ebf303f2}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Enemy\Factory">
       <UniqueIdentifier>{6f3cde4c-4826-4ff7-a9f7-739c14be2b04}</UniqueIdentifier>
@@ -411,13 +411,7 @@
     <ClInclude Include="guageUI.h">
       <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
     </ClInclude>
-    <ClInclude Include="lineUI.h">
-      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
-    </ClInclude>
     <ClInclude Include="scoreUI.h">
-      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
-    </ClInclude>
-    <ClInclude Include="starUI.h">
       <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
     </ClInclude>
     <ClInclude Include="trailUI.h">
@@ -568,13 +562,13 @@
       <Filter>ヘッダー ファイル\UI\ResultSceneUI</Filter>
     </ClInclude>
     <ClInclude Include="battleStartTelop.h">
-      <Filter>ヘッダー ファイル\UI\Telop</Filter>
+      <Filter>ヘッダー ファイル\UI\GameSceneUI\Telop</Filter>
     </ClInclude>
     <ClInclude Include="telopBG.h">
-      <Filter>ヘッダー ファイル\UI\Telop</Filter>
+      <Filter>ヘッダー ファイル\UI\GameSceneUI\Telop</Filter>
     </ClInclude>
     <ClInclude Include="stageClearTelop.h">
-      <Filter>ヘッダー ファイル\UI\Telop</Filter>
+      <Filter>ヘッダー ファイル\UI\GameSceneUI\Telop</Filter>
     </ClInclude>
     <ClInclude Include="picojson\picojson.h">
       <Filter>ヘッダー ファイル\Stage</Filter>
@@ -665,6 +659,15 @@
     </ClInclude>
     <ClInclude Include="EnemyBulletEffectController.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="starUI.h">
+      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="lineUI.h">
+      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIdrawerC.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBulletCharge.h">
       <Filter>ヘッダー ファイル\Effect\Particle</Filter>
@@ -870,40 +873,40 @@
       <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect\BloomController.cpp">
-      <Filter>ソース ファイル\PostEffect</Filter>
+      <Filter>ソース ファイル\Obstacles\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect\BloomFilter.cpp">
-      <Filter>ソース ファイル\PostEffect</Filter>
+      <Filter>ソース ファイル\Obstacles\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect\BlurFilter.cpp">
-      <Filter>ソース ファイル\PostEffect</Filter>
+      <Filter>ソース ファイル\Obstacles\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect\CrossBlurFilter.cpp">
-      <Filter>ソース ファイル\PostEffect</Filter>
+      <Filter>ソース ファイル\Obstacles\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect\CrossFilterController.cpp">
-      <Filter>ソース ファイル\PostEffect</Filter>
+      <Filter>ソース ファイル\Obstacles\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect\MonotoneFilter.cpp">
-      <Filter>ソース ファイル\PostEffect</Filter>
+      <Filter>ソース ファイル\Obstacles\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect\ScreenObject.cpp">
-      <Filter>ソース ファイル\PostEffect</Filter>
+      <Filter>ソース ファイル\Obstacles\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect\ShockBlur.cpp">
-      <Filter>ソース ファイル\PostEffect</Filter>
+      <Filter>ソース ファイル\Obstacles\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect\ShockBlurController.cpp">
-      <Filter>ソース ファイル\PostEffect</Filter>
+      <Filter>ソース ファイル\Obstacles\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect\SpikeNoise.cpp">
-      <Filter>ソース ファイル\PostEffect</Filter>
+      <Filter>ソース ファイル\Obstacles\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect\SpikeNoiseController.cpp">
-      <Filter>ソース ファイル\PostEffect</Filter>
+      <Filter>ソース ファイル\Obstacles\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp">
-      <Filter>ソース ファイル\PostEffect</Filter>
+      <Filter>ソース ファイル\Obstacles\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
       <Filter>ソース ファイル\imgui</Filter>
@@ -978,16 +981,16 @@
       <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
     <ClCompile Include="PostEffectManager.cpp">
-      <Filter>ソース ファイル\PostEffect</Filter>
+      <Filter>ソース ファイル\Obstacles\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="TrailCollider.cpp">
       <Filter>ソース ファイル\Collider</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect\SpeedBlurFilter.cpp">
-      <Filter>ソース ファイル\PostEffect</Filter>
+      <Filter>ソース ファイル\Obstacles\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect\SpeedBlurController.cpp">
-      <Filter>ソース ファイル\PostEffect</Filter>
+      <Filter>ソース ファイル\Obstacles\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="PostEffectManager.cpp">
       <Filter>ソース ファイル\PostEffect</Filter>
@@ -1178,20 +1181,17 @@
     <ClCompile Include="savefile.cpp">
       <Filter>ソース ファイル\System\Score</Filter>
     </ClCompile>
-    <ClCompile Include="ResultSceneUIManager.cpp">
-      <Filter>ソース ファイル\UI\SceneUIManager</Filter>
-    </ClCompile>
     <ClCompile Include="resultBGUI.cpp">
       <Filter>ソース ファイル\UI\ResultSceneUI</Filter>
     </ClCompile>
     <ClCompile Include="battleStartTelop.cpp">
-      <Filter>ソース ファイル\UI\Telop</Filter>
+      <Filter>ソース ファイル\UI\GameSceneUI\Telop</Filter>
     </ClCompile>
     <ClCompile Include="telopBG.cpp">
-      <Filter>ソース ファイル\UI\Telop</Filter>
+      <Filter>ソース ファイル\UI\GameSceneUI\Telop</Filter>
     </ClCompile>
     <ClCompile Include="stageClearTelop.cpp">
-      <Filter>ソース ファイル\UI\Telop</Filter>
+      <Filter>ソース ファイル\UI\GameSceneUI\Telop</Filter>
     </ClCompile>
     <ClCompile Include="EditorScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
@@ -1270,6 +1270,12 @@
     </ClCompile>
     <ClCompile Include="EnemyBulletEffectController.cpp">
       <Filter>ソース ファイル\Effect\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultSceneUIManager.cpp">
+      <Filter>ソース ファイル\UI\SceneUIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UIdrawerC.cpp">
+      <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBulletCharge.cpp">
       <Filter>ソース ファイル\Effect\Particle</Filter>

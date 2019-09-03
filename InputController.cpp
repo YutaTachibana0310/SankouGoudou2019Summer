@@ -10,14 +10,15 @@
 #include "Game.h"
 #include "masktex.h"
 
-
+//class Star;
+//Star*star;
 
 bool GetMoveInput(int m) {
 
 	//マウスクリックの検出があるか
 	if (IsMouseLeftTriggered())
 	{
-		return IsStarSelected(m);
+		//return star->IsStarSelected(m);
 	}
 	//マウスの入力がなくキーが押された場合
 	else if (m == TOP) {

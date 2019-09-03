@@ -95,11 +95,9 @@ D3DXVECTOR3 LineTrailModel::GetEdgePos(int i)
 /**************************************
 端点座標設定処理
 ***************************************/
-void LineTrailModel::CalcEdgePosition()
+void LineTrailModel::CalcEdgePosition(std::vector<D3DXVECTOR3>& starPos)
 {
 	const float PositionDistance = 150.0f;
-	D3DXVECTOR3 starPos[5];
-	GetStarPosition(starPos);
 	for (int i = 0; i < STAR_MAX; i++)
 	{
 		//スターの位置でNear面とFar面を結ぶレイを計算して正規化

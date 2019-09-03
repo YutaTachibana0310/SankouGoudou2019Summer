@@ -42,7 +42,7 @@ void MaskFadeIn(void);
 void DrawMaskTexSet(void);
 void DrawMaskTexEnd(void);
 
-void SceneChangeFlag(bool fadeflag,Scene next);
+void SceneChangeFlag(bool fadeflag, Scene next);
 
 //ÉçÅ[ÉhâÊñ ï\é¶
 void DrawTransition(void);

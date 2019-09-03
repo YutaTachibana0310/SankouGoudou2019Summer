@@ -7,13 +7,6 @@
 #ifndef _SCORE_H_
 #define _SCORE_H_
 
-#include "main.h"
-
-//*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-#define	ADRESS_TEXTURE_SCORE		"data/TEXTURE/UI/number.png"	// 読み込むテクスチャファイル名
-
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -26,14 +19,32 @@
 #define SIZE_SCORE		(D3DXVECTOR3(20.0f,30.0f,0.0f))
 #define POSITION_SCORE	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 8.8f, SCREEN_HEIGHT / 10 * 8, 0.0f))
 
+/**************************************
+前方宣言
+***************************************/
+class CounterObject;
+
 //*****************************************************************************
-// プロトタイプ宣言
+// 構造体定義
 //*****************************************************************************
-HRESULT InitScore	(void);
-void	UninitScore	(void);
-void	UpdateScore	(void);
-void	DrawScore	(void);
-void	AddScore	(int value);
-int SetScore();
+class Score
+{
+public:
+	Score();
+	~Score();
+
+	int	score;		// スコア
+	int	score_max;
+
+	float radian;
+	bool volumeUpEffectUsed;
+
+	void Update(void);
+	void Draw(void);
+
+private:
+	CounterObject * counter;
+	void VolumeUpEffect(void);
+};
 
 #endif

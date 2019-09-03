@@ -7,105 +7,90 @@
 #include "scoreUI.h"
 #include "UIdrawer.h"
 #include "input.h"
-#include "comboUI.h"
 
 //*****************************************************************************
-// プロトタイプ宣言
+// マクロ定義
 //*****************************************************************************
-static void VolumeUpEffect(void);
+#define SPEED_VOLUMEUP_NUMBER_SCORE (0.2f)
 
 //*****************************************************************************
-// グローバル変数宣言
+// コンストラクタ
 //*****************************************************************************
-OBJECT	score;					
-int		g_score;		// スコア
-int		g_score_max;			
-static float radian;
-static bool	volumeUpEffectUsed;
-
-//=============================================================================
-// 初期化処理
-//=============================================================================
-HRESULT InitScore(void)
+Score::Score()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	counter = new CounterObject();
+	counter->LoadTexture("data/TEXTURE/UI/number.png");
+	counter->MakeVertex();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_SCORE, &score);
-	InitialTexture(&score);
-	MakeVertexObject(&score);
+	counter->position = POSITION_SCORE;
+	counter->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	counter->size = SIZE_SCORE;
 
-	score.position = POSITION_SCORE;
-	score.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	score.size	   = SIZE_SCORE;
-
-	SetColorObject(&score, SET_COLOR_NOT_COLORED);
+	counter->SetColorObject(SET_COLOR_NOT_COLORED);
 
 	// 最大値設定
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
 	{
-		g_score_max += (BASE_NUMBER -1)* (int)powf(BASE_NUMBER, (float)nCntPlace);
+		score_max += (BASE_NUMBER - 1)* (int)powf(BASE_NUMBER, (float)nCntPlace);
 	}
 
-	g_score = 0;
+	score = 0;
 	radian = 0;
 	volumeUpEffectUsed = false;
-
-	return S_OK;
 }
 
-//=============================================================================
-// 終了処理
-//=============================================================================
-void UninitScore(void)
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+Score::~Score()
 {
-	ReleaseTexture(&score);
+	delete counter;
+	counter = NULL;
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateScore(void)
+void Score::Update(void)
 {
 	VolumeUpEffect();
 
 	// 桁あふれ防止
-	if (g_score < 0)
+	if (score < 0)
 	{
-		g_score = 0;
+		score = 0;
 	}
-	if (g_score >= g_score_max)
+	if (score >= score_max)
 	{
-		g_score = g_score_max;
+		score = score_max;
 	}
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawScore(void)
+void Score::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
 	{
-		int number;
+		int scoreber;
 
-		number = g_score % (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace))) / (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace - 1)));
+		scoreber = score % (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace))) / (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace - 1)));
 
-		DrawObject(pDevice, score);
-		SetVertexCounter(&score, nCntPlace, INTERVAL_NUMBER);
-		SetTextureCounter(&score, number, INTERVAL_NUMBER_TEXTURE);
-	}
+		counter->Draw();
+		counter->SetVertex(nCntPlace, INTERVAL_NUMBER);
+		counter->SetTexture(scoreber, INTERVAL_NUMBER_TEXTURE);
+	}	
 }
 
 //=============================================================================
 // 数字ボリュームアップエフェクト処理
 //=============================================================================
-void VolumeUpEffect(void)
+void Score::VolumeUpEffect(void)
 {
 	if (volumeUpEffectUsed == true)
 	{
-		score.size.y = SIZE_SCORE.y + VOLUME_ZOOM * sinf(radian);
+		counter->size.y = SIZE_SCORE.y + VOLUME_ZOOM * sinf(radian);
 
 		if (radian >= D3DX_PI)
 		{
@@ -113,25 +98,6 @@ void VolumeUpEffect(void)
 			volumeUpEffectUsed = false;
 		}
 
-		radian += SPEED_VOLUMEUP_NUMBER;
+		radian += SPEED_VOLUMEUP_NUMBER_SCORE;
 	}
-}
-
-//=============================================================================
-// スコアの加算（引数で受け取った値をスコアに加算する）
-//=============================================================================
-void AddScore(int value)
-{
-	g_score += value;
-
-	// スコアが加算されたら行う処理
-	if (value > 0)
-	{
-		// エフェクト有効化
-		volumeUpEffectUsed = true;
-	}
-}
-
-int SetScore() {
-	return g_score;
 }

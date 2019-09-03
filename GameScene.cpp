@@ -74,11 +74,15 @@ void GameScene::Init()
 	darkMask->SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.5f));
 	useDarkMask = false;
 
+	gameSceneUIManager = new GameSceneUIManager();
+
 	//UI初期化
-	InitGameSceneUI();
+	gameSceneUIManager->Init();
 
 	//☆ボタンの位置からワールド座標を計算
-	LineTrailModel::CalcEdgePosition();
+	std::vector<D3DXVECTOR3> starPositionContainer;
+	gameSceneUIManager->GetStarPosition(starPositionContainer);
+	LineTrailModel::CalcEdgePosition(starPositionContainer);
 
 	//インスタンス生成
 	enemyController = new EnemyController();
@@ -126,6 +130,10 @@ void GameScene::Init()
 	{
 		this->OnAddCombo(n);
 	});
+	SetScoreIntance(gameSceneUIManager->score);
+	SetGameScneeUIManagerInstance(gameSceneUIManager);
+
+
 }
 
 /**************************************
@@ -146,9 +154,10 @@ void GameScene::Uninit()
 	enemyController->Uninit();
 
 	//UI終了
-	UninitGameSceneUI();
+	gameSceneUIManager->Uninit();
 
 	//インスタンス削除
+	SAFE_DELETE(gameSceneUIManager);
 	SAFE_DELETE(enemyController);
 	SAFE_DELETE(playerObserver);
 	SAFE_DELETE(bgController);
@@ -183,8 +192,8 @@ void GameScene::Update(HWND hWnd)
 
 	//UIの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
+	gameSceneUIManager->Update(hWnd);
 	bossUI->Update();
-	UpdateGameSceneUI(hWnd);
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
 
 	BeginDebugWindow("Console");
@@ -240,7 +249,7 @@ void GameScene::Draw()
 	CountDebugTimer(GAMESCENE_LABEL, "DrawpostEffect");
 
 	//UI描画
-	DrawGameSceneUI();
+	gameSceneUIManager->Draw();
 	bossUI->Draw();
 
 	DrawDebugTimer(GAMESCENE_LABEL);

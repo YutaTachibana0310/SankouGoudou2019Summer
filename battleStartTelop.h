@@ -7,20 +7,29 @@
 #ifndef _BATTLE_START_TELOP_H_
 #define _BATTLE_START_TELOP_H_
 
-//*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-#define	ADRESS_TEXTURE_BATTLE_START_TELOP	("data/TEXTURE/UI/telop/battleStartTelop.png")	// 読み込むテクスチャファイル名
+/**************************************
+前方宣言
+***************************************/
+class TelopObject;
+class TelopBG;
 
 //*****************************************************************************
-// プロトタイプ宣言
+// 構造体定義
 //*****************************************************************************
-HRESULT InitBattleStartTelop(void);
-void UninitBattleStartTelop(void);
-void UpdateBattleStartTelop(void);
-void DrawBattleStartTelop(void);
+class BattleStartTelop
+{
+public:
+	BattleStartTelop();
+	~BattleStartTelop();
 
-//テロップセット関数
-void SetBattleStartTelop(void);
+	void Update(void);
+	void Draw(void);
+
+	bool isBattleStartTelopActivated = false;
+
+private:
+	TelopObject * battleStartTelop;
+	TelopBG*telopBG;
+};
 
 #endif

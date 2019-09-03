@@ -167,7 +167,7 @@ void DrawGame()
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
 
 	//デバッグ表示
-//#ifdef _DEBUG
+	//#ifdef _DEBUG
 	DebugLog("FPS:%d", GetCurrentFPS());
 
 	static int debugCurrentScene = currentScene;
@@ -177,7 +177,7 @@ void DrawGame()
 	if (DebugRadioButton("Result", (int*)&debugCurrentScene, SceneResult)) ChangeScene(SceneResult);
 	if (DebugRadioButton("Editor", (int*)&debugCurrentScene, SceneEditor)) ChangeScene(SceneEditor);
 	EndDebugWindow("Scene");
-//#endif
+	//#endif
 
 
 
@@ -293,4 +293,3 @@ LPDIRECT3DTEXTURE9 GetDrawDataTemp()
 {
 	return renderTexture;
 }
-

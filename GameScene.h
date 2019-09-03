@@ -16,10 +16,12 @@
 /**************************************
 ‘O•ûéŒ¾
 ***************************************/
+class GameSceneUIManager;
 class EnemyController;
 class GameParticleManager;
 class PlayerObserver;
 class BackGroundController;
+class Mask;
 class BossController;
 class BossUImanager;
 
@@ -46,6 +48,9 @@ public:
 	GameScene() {};
 	~GameScene() {};
 
+
+private:
+	
 	enum State
 	{
 		Start,
@@ -65,6 +70,7 @@ private:
 	Polygon2D* darkMask;
 
 	int cntFrame;
+	GameSceneUIManager *gameSceneUIManager;
 	EnemyController *enemyController;
 	GameParticleManager* particleManager;
 	PlayerObserver* playerObserver;

@@ -9,6 +9,11 @@
 #include "scoreUI.h"
 #include "comboUI.h"
 #include "sound.h"
+#include "GameSceneUIManager.h"
+
+static int currentStageScore;
+static Score *score;
+static GameSceneUIManager *gameSceneUIManager;
 
 /**************************************
 É}ÉNÉçíËã`
@@ -25,7 +30,7 @@ static std::function<void(void)> onClearCombo;
 ***************************************/
 void SetAddScore(int n) {
 
-	AddScore(n);
+	gameSceneUIManager->AddScore(n);
 
 }
 
@@ -34,7 +39,7 @@ void SetAddScore(int n) {
 ***************************************/
 void SetAddCombo(int n) {
 
-	AddCombo(n);
+	gameSceneUIManager->AddCombo(n);
 
 	Sound::GetInstance()->SetPlaySE(COMBOSE, true, 1.0f);
 	Sound::GetInstance()->changepitch += n * 100;
@@ -52,7 +57,7 @@ void SetAddCombo(int n) {
 ***************************************/
 void ClearCombo(void) {
 
-	SetCombo(0);
+	gameSceneUIManager->ReSetCombo();
 	Sound::GetInstance()->changepitch = 0;
 
 	if (onClearCombo != NULL)
@@ -74,4 +79,24 @@ void SetCallbackAddCombo(std::function<void(int)> callback)
 void SetCallbackClearCombo(std::function<void(void)> callback)
 {
 	onClearCombo = callback;
+}
+
+void SetScoreIntance(Score *instance)
+{
+	score = instance;
+}
+
+void SetGameScneeUIManagerInstance(GameSceneUIManager* instance)
+{
+	gameSceneUIManager = instance;
+}
+
+int GetCurrentGameScore()
+{
+	return currentStageScore;
+}
+
+void SetCurrentGameScore(int score)
+{
+	currentStageScore = score;
 }

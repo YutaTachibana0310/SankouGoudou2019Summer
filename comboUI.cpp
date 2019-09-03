@@ -12,13 +12,13 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define COMBOPARTS_MAX		(3)
 #define	INTERVAL_NUMBER		(80.0f)			// コンボ数字の表示間隔
 #define	INTERVAL_NUMBER_TEXTURE	(0.097f)	// テクスチャ内コンボ数字の表示間隔
 #define	PLACE_MAX			(2)				// コンボの桁数
 #define BASE_NUMBER			(10)			// 進数
 #define VOLUME_ZOOM			(50.0f)
 #define ROTATION_SPEED_COMBO_BACKGROUND (0.01f)
+#define SPEED_VOLUMEUP_NUMBER_COMBO (0.2f)
 
 // サイズ定義
 #define SIZE_NUMBER_COMBO		(D3DXVECTOR3(40.0f,75.0f,0.0f))
@@ -31,84 +31,74 @@
 #define POSITION_BACKGROUND_COMBO	(D3DXVECTOR3(SCREEN_WIDTH / 10*2.25f, SCREEN_HEIGHT / 10*2.0f , 0.0f))
 
 //*****************************************************************************
-// プロトタイプ宣言
+// コンストラクタ
 //*****************************************************************************
-static void VolumeUpEffect(void);
-void UpdateNumberColor(void);
-
-//*****************************************************************************
-// グローバル変数宣言
-//*****************************************************************************
-OBJECT	comboParts[COMBOPARTS_MAX];
-int		g_combo;	// コンボ
-int		g_combo_max;
-static float radian;
-static bool	volumeUpEffectUsed;
-
-//=============================================================================
-// 初期化処理
-//=============================================================================
-HRESULT InitCombo(void)
+Combo::Combo()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	number = new CounterObject();
+	text = new Object();
+	bg = new RotateObject();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_NUMBER_COMBO, &comboParts[NUMBER_COMBO]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_TEXT_COMBO,	&comboParts[TEXT_COMBO]);
-	LoadTexture(pDevice, ADRESS_TEXTURE_BACKGROUND_COMBO, &comboParts[BACKGROUND_COMBO]);
+	number->LoadTexture("data/TEXTURE/UI/number.png");
+	text->LoadTexture("data/TEXTURE/UI/combo/comboText.png");
+	bg->LoadTexture("data/TEXTURE/UI/combo/circleCombo.png");
 
-	for (int i = 0; i < COMBOPARTS_MAX; i++)
-	{
-		InitialTexture(&comboParts[i]);
-		MakeVertexObject(&comboParts[i]);
-		comboParts[i].rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	}
+	number->MakeVertex();
+	text->MakeVertex();
+	bg->MakeVertex();
 
-	comboParts[NUMBER_COMBO].position	  = POSITION_NUMBER_COMBO;
-	comboParts[TEXT_COMBO].position		  = POSITION_TEXT_COMBO;
-	comboParts[BACKGROUND_COMBO].position = POSITION_BACKGROUND_COMBO;
+	number->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	text->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	bg->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	comboParts[NUMBER_COMBO].size		= SIZE_NUMBER_COMBO;
-	comboParts[TEXT_COMBO].size			= SIZE_TEXT_COMBO;
-	comboParts[BACKGROUND_COMBO].size	= SIZE_BACKGROUND_COMBO;
+	number->position = POSITION_NUMBER_COMBO;
+	text->position = POSITION_TEXT_COMBO;
+	bg->position = POSITION_BACKGROUND_COMBO;
 
-	SetColorObject(&comboParts[NUMBER_COMBO],	 SET_COLOR_NOT_COLORED);
-	SetColorObject(&comboParts[TEXT_COMBO],		 SET_COLOR_NOT_COLORED);
-	SetColorObject(&comboParts[BACKGROUND_COMBO],SET_COLOR_NOT_COLORED);
+	number->size = SIZE_NUMBER_COMBO;
+	text->size = SIZE_TEXT_COMBO;
+	bg->size = SIZE_BACKGROUND_COMBO;
+
+	number->SetColorObject(SET_COLOR_NOT_COLORED);
+	text->SetColorObject(SET_COLOR_NOT_COLORED);
+	bg->SetColorObject(SET_COLOR_NOT_COLORED);
 
 	// 回転オブジェクト用のサークルを作成
-	CreateObjectCircle(&comboParts[BACKGROUND_COMBO], comboParts[BACKGROUND_COMBO].size.x, comboParts[BACKGROUND_COMBO].size.y);
+	bg->CreateObjectCircle();
 
 	// 最大値設定
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
 	{
-		g_combo_max += (BASE_NUMBER -1)* (int)powf(BASE_NUMBER, (float)nCntPlace);
+		comboMax += (BASE_NUMBER - 1)* (int)powf(BASE_NUMBER, (float)nCntPlace);
 	}
 
-	g_combo = 0;
+	combo = 0;
 	radian = 0;
 	volumeUpEffectUsed = false;
-
-	return S_OK;
 }
 
-//=============================================================================
-// 終了処理
-//=============================================================================
-void UninitCombo(void)
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+Combo::~Combo()
 {
-	for (int i = 0; i < COMBOPARTS_MAX; i++)
-	{
-		ReleaseTexture(&comboParts[i]);
-	}
+	delete number;
+	number = NULL;
+
+	delete text;
+	text = NULL;
+
+	delete bg;
+	bg = NULL;
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateCombo(void)
+void Combo::Update(void)
 {
 	// コンボ背景回転
-	comboParts[BACKGROUND_COMBO].rotation.z += ROTATION_SPEED_COMBO_BACKGROUND;
+	bg->rotation.z += ROTATION_SPEED_COMBO_BACKGROUND;
 
 	// 数字の色更新
 	UpdateNumberColor();
@@ -117,51 +107,49 @@ void UpdateCombo(void)
 	VolumeUpEffect();
 
 	// 桁あふれ防止
-	if (g_combo < 0)
+	if (combo < 0)
 	{
-		g_combo = 0;
+		combo = 0;
 	}
-	if (g_combo >= g_combo_max)
+	if (combo >= comboMax)
 	{
-		g_combo = g_combo_max;
+		combo = comboMax;
 	}
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawCombo(void)
+void Combo::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
 	 //背景を先に描画
-	DrawObject(pDevice, comboParts[BACKGROUND_COMBO]);
-	SetVertexRotateObject(&comboParts[BACKGROUND_COMBO]);
+	bg->Draw();
+	bg->SetVertex();
 
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
 	{
-		int number;
+		int num;
 
-		number = g_combo % (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace))) 
+		num = combo % (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace))) 
 			/ (int)(powf(BASE_NUMBER, (float)(PLACE_MAX - nCntPlace - 1)));
 
-		DrawObject(pDevice, comboParts[NUMBER_COMBO]);
-		SetVertexCounter(&comboParts[NUMBER_COMBO], nCntPlace, INTERVAL_NUMBER);
-		SetTextureCounter(&comboParts[NUMBER_COMBO], number, INTERVAL_NUMBER_TEXTURE);
-	}
+		number->Draw();
+		number->SetVertex(nCntPlace, INTERVAL_NUMBER);
+		number->SetTexture(num, INTERVAL_NUMBER_TEXTURE);
+	}	
 
-	DrawObject(pDevice, comboParts[TEXT_COMBO]);
-	SetVertexObject(&comboParts[TEXT_COMBO]);
+	text->Draw();
+	text->SetVertex();
 }
 
 //=============================================================================
 // 数字ボリュームアップエフェクト処理
 //=============================================================================
-void VolumeUpEffect(void)
+void Combo::VolumeUpEffect(void)
 {
 	if (volumeUpEffectUsed == true)
 	{
-		comboParts[NUMBER_COMBO].size.y = SIZE_NUMBER_COMBO.y + VOLUME_ZOOM * sinf(radian);
+		number->size.y = SIZE_NUMBER_COMBO.y + VOLUME_ZOOM * sinf(radian);
 
 		if (radian >= D3DX_PI)
 		{
@@ -169,52 +157,29 @@ void VolumeUpEffect(void)
 			volumeUpEffectUsed = false;
 		}
 
-		radian += SPEED_VOLUMEUP_NUMBER;
+		radian += SPEED_VOLUMEUP_NUMBER_COMBO;
 	}
 }
 
 //=============================================================================
 // 数字カラー更新処理
 //=============================================================================
-void UpdateNumberColor(void)
+void Combo::UpdateNumberColor(void)
 {
 	int firstColorStartCombo  = 0;
 	int secondColorStartCombo = 5;
 	int thirdColorStartCombo  = 10;
 
-	if (g_combo >= firstColorStartCombo && g_combo < secondColorStartCombo)
+	if (combo >= firstColorStartCombo && combo < secondColorStartCombo)
 	{
-		SetColorObject(&comboParts[NUMBER_COMBO], SET_COLOR_NOT_COLORED);
+		number->SetColorObject(SET_COLOR_NOT_COLORED);
 	}
-	if (g_combo >= secondColorStartCombo && g_combo < thirdColorStartCombo)
+	if (combo >= secondColorStartCombo && combo < thirdColorStartCombo)
 	{
-		SetColorObject(&comboParts[NUMBER_COMBO], SET_COLOR_YELLOW);
+		number->SetColorObject(SET_COLOR_YELLOW);
 	}
-	if (g_combo >= thirdColorStartCombo)
+	if (combo >= thirdColorStartCombo)
 	{
-		SetColorObject(&comboParts[NUMBER_COMBO], SET_COLOR_RED);
+		number->SetColorObject(SET_COLOR_RED);
 	}
-}
-
-//=============================================================================
-// コンボの加算（引数で受け取った値をコンボに加算する）
-//=============================================================================
-void AddCombo(int value)
-{
-	g_combo += value;
-
-	// コンボが加算されたら行う処理
-	if (value > 0)
-	{
-		// エフェクト有効化
-		volumeUpEffectUsed = true;
-	}
-}
-
-//=============================================================================
-// コンボの代入（引数で受け取った値をコンボに代入する）
-//=============================================================================
-void SetCombo(int value)
-{
-	g_combo = value;
 }

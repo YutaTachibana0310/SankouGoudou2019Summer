@@ -7,12 +7,12 @@
 #ifndef _STAR_H_
 #define _STAR_H_
 
+#include <vector>
+
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	ADRESS_TEXTURE_STAR	("data/TEXTURE/UI/star.png")	// 読み込むテクスチャファイル名
 #define	STAR_MAX			(5)
-
 #define COLLIDERSIZE_STAR			(D3DXVECTOR3(250.0f,250.0f,0.0f))
 
 // 座標定義
@@ -33,15 +33,29 @@ enum STARS
 	CENTER
 };
 
+/**************************************
+前方宣言
+***************************************/
+class RotateObject;
+
 //*****************************************************************************
-// プロトタイプ宣言
+// 構造体定義
 //*****************************************************************************
-HRESULT InitStar	(void);
-void	UninitStar	(void);
-void	UpdateStar	(void);
-void	DrawStar	(void);
-void	ToggleRotateStar(int num, bool isRotated);
-bool	IsStarSelected(int num);
-void	GetStarPosition(D3DXVECTOR3 *pos);
+class Star
+{
+public:
+	Star();
+	~Star();
+
+	void Update(HWND hWnd);
+	void Draw(void);
+
+	void ToggleRotateStar(int num, bool isRotated);
+	void GetStarPosition(std::vector<D3DXVECTOR3>& out);
+
+private:
+	RotateObject * star[STAR_MAX];
+	void RotateStar(int num);
+};
 
 #endif

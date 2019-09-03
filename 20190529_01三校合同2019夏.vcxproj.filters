@@ -837,6 +837,9 @@
     <ClInclude Include="PlayerBomberBoss.h">
       <Filter>ヘッダー ファイル\Player\Bomber</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerBomberRebar.h">
+      <Filter>ヘッダー ファイル\Player\Bomber</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1422,6 +1425,9 @@
       <Filter>ソース ファイル\Player\Bomber</Filter>
     </ClCompile>
     <ClCompile Include="PlayerBomberBoss.cpp">
+      <Filter>ソース ファイル\Player\Bomber</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBomberRebar.cpp">
       <Filter>ソース ファイル\Player\Bomber</Filter>
     </ClCompile>
   </ItemGroup>

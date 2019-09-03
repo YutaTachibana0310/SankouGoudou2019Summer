@@ -305,6 +305,14 @@ D3DXVECTOR3 BossEnemyModel::GetPosition()
 }
 
 /**************************************
+“SœƒŠƒXƒgæ“¾
+**************************************/
+void BossEnemyModel::GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out)
+{
+	out.assign(rebarList.begin(), rebarList.end());
+}
+
+/**************************************
 ˆê•M‘‚«‚Ì‹OÕì¬ˆ—
 **************************************/
 void BossEnemyModel::MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList)

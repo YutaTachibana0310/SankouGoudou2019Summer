@@ -35,6 +35,7 @@ public:
 	bool IsActive();
 
 	std::shared_ptr<BossEnemyModel> GetBoss();
+	void GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out);
 
 private:
 	bool active;

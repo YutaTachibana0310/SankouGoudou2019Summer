@@ -44,6 +44,12 @@ int GameScene::GameBossBombSequence::OnUpdate(GameScene * entity)
 	//発射タイミングであれば発射
 	if (cntFrame == BomberFireTiming)
 	{
+		//鉄骨へのボム発射
+		std::list<std::shared_ptr<RebarObstacle>> reberList;
+		entity->bossController->GetRebarList(reberList);
+		entity->playerObserver->FirePlayerBomber(reberList);
+
+		//ボスへのボム発射
 		std::shared_ptr<BossEnemyModel> target = entity->bossController->GetBoss();
 		entity->playerObserver->FirePlayerBomber(target);
 	}

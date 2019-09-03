@@ -69,6 +69,8 @@ public:
 
 	D3DXVECTOR3 GetPosition();
 
+	void GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out);
+
 private:
 	BossEnemyActor* actor;
 	std::unordered_map < State, IStateMachine<BossEnemyModel>*> fsm;

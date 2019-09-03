@@ -75,3 +75,11 @@ std::shared_ptr<BossEnemyModel> BossController::GetBoss()
 {
 	return bossModel;
 }
+
+/**************************************
+“SœƒŠƒXƒgæ“¾ˆ—
+***************************************/
+void BossController::GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out)
+{
+	bossModel->GetRebarList(out);
+}

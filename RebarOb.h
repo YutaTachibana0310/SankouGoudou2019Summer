@@ -33,6 +33,9 @@ public:
 
 	bool IsDestroyed();
 
+	D3DXVECTOR3 GetPos();
+	void OnHitBomber();
+
 private:
 	int cntFrame;
 	bool isDestroyed;

@@ -346,6 +346,15 @@ void PlayerObserver::FirePlayerBomber(std::shared_ptr<BossEnemyModel>& targetLis
 }
 
 /**************************************
+ボンバー発射処理
+***************************************/
+void  PlayerObserver::FirePlayerBomber(std::list<std::shared_ptr<RebarObstacle>>& targetList)
+{
+	if (bomberController->CanSet())
+		bomberController->SetPlayerBomber(targetList, player->transform.pos);
+}
+
+/**************************************
 加速演出処理
 ***************************************/
 void PlayerObserver::OnStartAccel()

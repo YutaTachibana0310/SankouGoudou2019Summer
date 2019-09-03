@@ -144,6 +144,22 @@ bool RebarObstacle::IsDestroyed()
 }
 
 /**************************************
+座標取得処理
+***************************************/
+D3DXVECTOR3 RebarObstacle::GetPos()
+{
+	return transform->pos;
+}
+
+/**************************************
+ボンバー着弾処理
+***************************************/
+void RebarObstacle::OnHitBomber()
+{
+
+}
+
+/**************************************
 Move処理
 ***************************************/
 void RebarObstacle::Move(float length, int duration, EaseType type, int delay)

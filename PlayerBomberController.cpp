@@ -12,6 +12,7 @@
 #include "debugWindow.h"
 #include "PlayerBomberEnemy.h"
 #include "PlayerBomberBoss.h"
+#include "PlayerBomberRebar.h"
 
 using namespace std;
 
@@ -231,7 +232,30 @@ void PlayerBomberController::SetPlayerBomber(std::shared_ptr<BossEnemyModel> tar
 ***************************************************/
 void PlayerBomberController::SetPlayerBomber(std::list<std::shared_ptr<RebarObstacle>>& targetList, D3DXVECTOR3 initPos)
 {
+	D3DXVECTOR3 setPos = initPos + D3DXVECTOR3(0.0f, 10.0f, 50.0f);
+	float rotAngle = D3DXToRadian(360.0f / targetList.size());
+	float radian = 0.0f;
 
+	for (auto &target : targetList)
+	{
+		D3DXVECTOR3 dir;
+		ZeroMemory(&dir, sizeof(dir));
+		dir.x = sinf(radian);
+		dir.y = cosf(radian);
+
+		PlayerBomberRebar *ptr = new PlayerBomberRebar();
+		ptr->Init(dir);
+		ptr->Set(target, setPos);
+		bomberContainer.push_back(std::unique_ptr<PlayerBomber>(ptr));
+
+		radian += rotAngle;
+	}
+
+	//NOTE : ボス戦時、鉄骨とボスに同時にボンバーを発射するので
+	//ここではストックを消費せず、ボスへの発射で消費する
+
+	//発射エフェクトセット
+	GameParticleManager::Instance()->SetBomberFire(&setPos);
 }
 
 /***************************************************

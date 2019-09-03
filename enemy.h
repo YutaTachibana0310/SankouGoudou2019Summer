@@ -61,8 +61,8 @@ public:
 	virtual void VUpdate(void) = 0;
 	virtual void VDraw(void) = 0;
 	virtual void VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame) = 0;	//セット処理
-	virtual void VSetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int time, D3DXVECTOR3 vec) {};
 
+	virtual void VSetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int time, D3DXVECTOR3 vec) {};
 	void Animation(bool expansion, float sclTime);
 
 	//staticメンバ
@@ -143,6 +143,26 @@ public:
 	
 };
 
+class EnemyMidium : public Enemy
+{
+public:
+	int					m_CntFrameNow;			//フレームカウント(今回の移動が経った時間)
+	bool				m_Visible;
+	int					m_CountAnim;
+	
+	EnemyMidium();
+	~EnemyMidium();
+	HRESULT VInit(void);
+	void VUninit(void);
+	void VUpdate(void);
+	void VDraw(void);
+
+	void Move(D3DXVECTOR3 pos, int frameDest);
+	void Set(D3DXVECTOR3 start);
+	void HitAnimation();
+	void VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame);
+
+};
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************

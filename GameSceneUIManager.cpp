@@ -302,3 +302,20 @@ void  GameSceneUIManager::SetStarPosition(D3DXVECTOR3* pos)
 {
 	//pos = star->GetStarPosition();
 }
+
+//=============================================================================
+// スターボタン入力確認
+//=============================================================================
+int GameSceneUIManager::IsStarSelected()
+{
+	std::vector<D3DXVECTOR3> starPos;
+	GetStarPosition(starPos);
+
+	for (int i = 0; i < 5; i++)
+	{
+		if (cursor->IsCursorOvered(starPos[i], COLLIDERSIZE_STAR))
+			return i;
+	}
+
+	return 5;
+}

@@ -4,40 +4,41 @@
 // Author : 渡邉良則
 //
 //=============================================================================
+#include "InputController.h"
 #include "input.h"
-#include "starUI.h"
 #include "sound.h"
-#include "Game.h"
-#include "masktex.h"
+#include "GameSceneUIManager.h"
+#include "starUI.h"
 
-//class Star;
-//Star*star;
+static GameSceneUIManager* instanceUImanager;
 
-bool GetMoveInput(int m) {
+int GetMoveInput() {
 
 	//マウスクリックの検出があるか
 	if (IsMouseLeftTriggered())
 	{
-		//return star->IsStarSelected(m);
-	}
-	//マウスの入力がなくキーが押された場合
-	else if (m == TOP) {
-		return GetKeyboardTrigger(DIK_W);
-	}
-	else if (m == MIDDLE_LEFT) {
-		return GetKeyboardTrigger(DIK_A);
-	}
-	else if (m == LOWER_LEFT) {
-		return GetKeyboardTrigger(DIK_Z);
-	}
-	else if (m == LOWER_RIGHT) {
-		return GetKeyboardTrigger(DIK_X);
-	}
-	else if (m == MIDDLE_RIGHT) {
-		return GetKeyboardTrigger(DIK_D);
+		int starButtonID = instanceUImanager->IsStarSelected();
+
+		if (starButtonID < STAR_MAX)
+			return	starButtonID;
 	}
 
-	return false;
+	if (GetKeyboardTrigger(DIK_W))
+		return TOP;
+
+	if (GetKeyboardTrigger(DIK_A))
+		return MIDDLE_LEFT;
+
+	if (GetKeyboardTrigger(DIK_Z))
+		return LOWER_LEFT;
+
+	if (GetKeyboardTrigger(DIK_X))
+		return MIDDLE_RIGHT;
+
+	if (GetKeyboardTrigger(DIK_D))
+		return MIDDLE_RIGHT;
+
+	return STAR_MAX;
 }
 
 bool GetBomberInput()
@@ -55,5 +56,10 @@ void InputSound() {
 
 
 
+}
+
+void SetInstanceUIManager(GameSceneUIManager * instance)
+{
+	instanceUImanager = instance;
 }
 

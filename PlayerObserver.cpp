@@ -136,13 +136,11 @@ void PlayerObserver::CheckInput()
 	player->inputInterval++;
 
 	//“ü—Í‚ðŠm”F
-	for (int i = 0; i < INPUTBUTTON_MAX; i++)
-	{
-		if (!GetMoveInput(i))
-			continue;
+	int inputID = GetMoveInput();
 
-		PushInput(i);
-	}
+	const int InvalidInput = 5;
+	if(inputID < InvalidInput)
+		PushInput(inputID);
 }
 
 /**************************************
@@ -332,7 +330,7 @@ bool PlayerObserver::ShouldFireBomber()
 ***************************************/
 void PlayerObserver::FirePlayerBomber(std::list<std::shared_ptr<Enemy>>& targetList)
 {
-	if(bomberController->CanSet())
+	if (bomberController->CanSet())
 		bomberController->SetPlayerBomber(targetList, player->transform.pos);
 }
 

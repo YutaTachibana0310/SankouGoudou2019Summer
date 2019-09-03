@@ -10,8 +10,12 @@
 
 #define INPUTBUTTON_MAX		(5)
 
-bool GetMoveInput(int m);
+class GameSceneUIManager;
+
+int GetMoveInput();
 bool GetBomberInput();
 void InputSound();
+
+void SetInstanceUIManager(GameSceneUIManager* instance);
 
 #endif

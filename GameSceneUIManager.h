@@ -60,6 +60,9 @@ public:
 	void GetStarPosition(std::vector<D3DXVECTOR3>& out);
 	void SetStarPosition(D3DXVECTOR3* pos);
 
+	/* 9/3 立花追加 */
+	int IsStarSelected();		//スターボタンの入力確認
+
 private:
 	bool IsStarCursorOvered();
 	void UpdateCursorColor();

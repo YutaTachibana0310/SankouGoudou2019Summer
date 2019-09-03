@@ -133,7 +133,8 @@ void GameScene::Init()
 	SetScoreIntance(gameSceneUIManager->score);
 	SetGameScneeUIManagerInstance(gameSceneUIManager);
 
-
+	//インプットコントローラにUImanagerのインスタンスを渡す
+	SetInstanceUIManager(gameSceneUIManager);
 }
 
 /**************************************

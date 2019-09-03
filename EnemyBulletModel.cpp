@@ -119,6 +119,8 @@ void EnemyBulletModel::Init(std::vector<D3DXVECTOR3> emitters, LineTrailModel ta
 void EnemyBulletModel::Uninit()
 {
 	collider->active = false;
+	colliderL->active = false;
+	colliderR->active = false;
 
 	for (auto& bullet : bullets)
 	{

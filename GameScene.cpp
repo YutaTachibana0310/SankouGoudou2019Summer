@@ -111,7 +111,7 @@ void GameScene::Init()
 	RegisterDebugTimer(GAMESCENE_LABEL);
 
 	//ステート初期化
-	currentState = State::BossStart;
+	currentState = State::Start;
 	state = fsm[currentState];
 	state->OnStart(this);
 

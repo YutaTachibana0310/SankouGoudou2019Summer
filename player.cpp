@@ -23,7 +23,7 @@ using namespace std;
 ***************************************/
 #define PLAYER_MODEL				"data/MODEL/player.x"
 #define PLAYER_DAMAGE				(10.0f)		//プレイヤーが1回の被弾で受けるダメージ
-#define PLAYER_INVINCIBLE_DURATION	(30000)		//プレイヤーの無敵時間
+#define PLAYER_INVINCIBLE_DURATION	(300)		//プレイヤーの無敵時間
 
 /**************************************
 構造体定義
@@ -128,7 +128,7 @@ int Player::Update()
 	{
 		cntInvincible--;
 		if (cntInvincible == 0)
-			collider->active = false;
+			collider->active = true;
 	}
 
 	//ボンバーストックエフェクトの更新
@@ -186,6 +186,9 @@ void Player::ChangeState(IStateMachine<Player> *next)
 ******************************************/
 void Player::OnNotified(ObserveSubject* notifier)
 {
+	if (flgInvincible)
+		return;
+
 	SpikeNoiseController::Instance()->SetNoise(0.5f, 20);
 	hp -= PLAYER_DAMAGE;
 
@@ -231,6 +234,9 @@ void Player::StockBomber()
 ******************************************/
 void Player::OnNotified(BoxCollider3DTag other)
 {
+	if (flgInvincible)
+		return;
+
 	SpikeNoiseController::Instance()->SetNoise(0.5f, 20);
 	hp -= PLAYER_DAMAGE;
 

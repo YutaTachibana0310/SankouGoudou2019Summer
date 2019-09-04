@@ -30,6 +30,7 @@ static std::function<void(void)> onClearCombo;
 ***************************************/
 void SetAddScore(int n) {
 
+	currentStageScore += n;
 	gameSceneUIManager->AddScore(n);
 
 }

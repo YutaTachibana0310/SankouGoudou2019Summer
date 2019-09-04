@@ -33,7 +33,7 @@ int GetMoveInput() {
 		return LOWER_LEFT;
 
 	if (GetKeyboardTrigger(DIK_X))
-		return MIDDLE_RIGHT;
+		return LOWER_RIGHT;
 
 	if (GetKeyboardTrigger(DIK_D))
 		return MIDDLE_RIGHT;

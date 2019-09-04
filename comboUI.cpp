@@ -25,7 +25,7 @@
 
 // 座標定義
 #define POSITION_BG_COMBO		(D3DXVECTOR3(SCREEN_WIDTH / 10 * 1.0f, SCREEN_HEIGHT / 10 * 3, 0.0f))
-#define POSITION_NUMBER_COMBO	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 0.50f, SCREEN_HEIGHT / 10 * 3, 0.0f))
+#define POSITION_NUMBER_COMBO	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 0.20f, SCREEN_HEIGHT / 10 * 2.7, 0.0f))
 
 //*****************************************************************************
 // コンストラクタ

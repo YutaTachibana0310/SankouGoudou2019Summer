@@ -13,7 +13,7 @@
 //*****************************************************************************
 // É}ÉNÉçíËã`
 //*****************************************************************************
-#define SIZE_CURSOR		(D3DXVECTOR3(40.0f,40.0f,0.0f))
+#define SIZE_CURSOR		(D3DXVECTOR3(45.0f,45.0f,0.0f))
 #define SPEED_ROTATION	(0.10f)
 #define COLLIDERSIZE_CURSOR (D3DXVECTOR3(5.0f,5.0f,0.0f))
 

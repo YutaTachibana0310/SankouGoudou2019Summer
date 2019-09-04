@@ -35,11 +35,11 @@ static const float EasingEndPositionX[ANIMATION_MAX] = {
 };
 
 static const EaseType AnimationType[ANIMATION_MAX] = {
-	OutExpo,
-	OutExpo,
 	InOutCubic,
-	InExpo,
-	InExpo
+	InOutCubic,
+	InOutCubic,
+	InOutCubic,
+	InOutCubic
 };
 
 static const float AnimationDuration[ANIMATION_MAX] = {

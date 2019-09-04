@@ -13,14 +13,13 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	GUAGEPARTS_MAX		(4)
-#define WIDTH_GUAGEFLAME	(5.0f)
+#define WIDTH_GUAGEFLAME	(3.5f)
 #define DECREASESPEED_GUAGE (0.0050f)
 #define INITIALVALUE_GUAGEPERCENTAGE (1.0f)
 #define SIZE_GUAGE_BG		(D3DXVECTOR3(250.0f,25.0f,0.0f))
 #define SIZE_GUAGE			(D3DXVECTOR3(190.0f,25.0f,0.0f))
 #define POSITION_GUAGE		(D3DXVECTOR3(SCREEN_WIDTH / 10*7.63f, SCREEN_HEIGHT / 10*1.0f, 0.0f))
-#define POSITION_BG_GUAGE		(D3DXVECTOR3(SCREEN_WIDTH / 10*8.0f, SCREEN_HEIGHT / 10*1.0f, 0.0f))
+#define POSITION_BG_GUAGE	(D3DXVECTOR3(SCREEN_WIDTH / 10*8.0f, SCREEN_HEIGHT / 10*1.0f, 0.0f))
 
 //*****************************************************************************
 // コンストラクタ

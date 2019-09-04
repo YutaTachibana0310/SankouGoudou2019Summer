@@ -25,7 +25,7 @@ public:
 	void Update(void);
 	void Draw(void);
 
-	const static int maxHp = 100;
+	const int maxHp = 100;
 
 	float trueGuagePercentage;	//実際のゲージパーセンテージ
 

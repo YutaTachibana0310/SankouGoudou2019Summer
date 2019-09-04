@@ -125,12 +125,15 @@ void GameSceneUIManager::Update(HWND hWnd)
 	}
 	if (GetKeyboardTrigger(DIK_3))
 	{
+		SetStageClearTelop();
 	}
 	if (GetKeyboardTrigger(DIK_4))
 	{
+		SetBattleStartTelop();
 	}
 	if (GetKeyboardTrigger(DIK_5))
 	{
+		SetHPGuage(50);
 	}
 	if (GetKeyboardTrigger(DIK_6))
 	{
@@ -160,9 +163,9 @@ void GameSceneUIManager::Draw(void)
 	score->Draw();
 	starButton->Draw();
 	trail->Draw();
+	telopBG->Draw();
 	battleStartTelop->Draw();
 	stageClearTelop->Draw();
-	telopBG->Draw();
 
 	cursor->Draw();
 
@@ -320,4 +323,12 @@ int GameSceneUIManager::IsStarSelected()
 	}
 
 	return 5;
+}
+
+//=============================================================================
+// HPƒQ[ƒWƒZƒbƒgˆ—(ˆø”‚Å—^‚¦‚½’l‚ðƒQ[ƒW‚ÌŠ„‡‚É”½‰f‚·‚é)
+//=============================================================================
+void GameSceneUIManager::SetHPGuage(int num)
+{
+	guage->trueGuagePercentage = (float)num/guage->maxHp;
 }

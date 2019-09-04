@@ -59,6 +59,7 @@ public:
 	void SetBattleStartTelop(void);
 	void GetStarPosition(std::vector<D3DXVECTOR3>& out);
 	void SetStarPosition(D3DXVECTOR3* pos);
+	void SetHPGuage(int num);
 
 	/* 9/3 立花追加 */
 	int IsStarSelected();		//スターボタンの入力確認

@@ -15,6 +15,8 @@
 前方宣言
 ***************************************/
 class TutorialBG;
+class GameSceneUIManager;
+class PlayerObserver;
 
 /**************************************
 クラス定義
@@ -29,6 +31,9 @@ public:
 
 private:
 	TutorialBG * bg;
+	GameSceneUIManager* container;
+	PlayerObserver *playerObserver;
+
 };
 
 #endif

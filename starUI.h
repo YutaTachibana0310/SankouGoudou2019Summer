@@ -15,14 +15,6 @@
 #define	STAR_MAX			(5)
 #define COLLIDERSIZE_STAR			(D3DXVECTOR3(250.0f,250.0f,0.0f))
 
-// 座標定義
-#define POSITION_STAR_TOP			(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 5, 0.0f))
-#define POSITION_STAR_MIDDLE_LEFT	(D3DXVECTOR3(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 5*2, 0.0f))
-#define POSITION_STAR_LOWER_LEFT	(D3DXVECTOR3(SCREEN_WIDTH / 3*1.2, SCREEN_HEIGHT / 5*4, 0.0f))
-#define POSITION_STAR_LOWER_RIGHT	(D3DXVECTOR3(SCREEN_WIDTH / 3*1.8, SCREEN_HEIGHT / 5*4, 0.0f))
-#define POSITION_STAR_MIDDLE_RIGHT	(D3DXVECTOR3(SCREEN_WIDTH / 3*2, SCREEN_HEIGHT / 5*2, 0.0f))
-#define POSITION_STAR_CENTER		(D3DXVECTOR3(SCREEN_WIDTH / 2 ,SCREEN_HEIGHT / 2, 0.0f))
-
 enum STARS
 {
 	TOP,
@@ -41,21 +33,25 @@ class RotateObject;
 //*****************************************************************************
 // 構造体定義
 //*****************************************************************************
-class Star
+class StarButton
 {
 public:
-	Star();
-	~Star();
+	StarButton();
+	~StarButton();
 
 	void Update(HWND hWnd);
 	void Draw(void);
 
 	void ToggleRotateStar(int num, bool isRotated);
-	void GetStarPosition(std::vector<D3DXVECTOR3>& out);
+	void GetStarButtonPosition(std::vector<D3DXVECTOR3>& out);
 
 private:
 	RotateObject * star[STAR_MAX];
+	RotateObject * outerCircle[STAR_MAX];
+	RotateObject * innerCircle[STAR_MAX];
+
 	void RotateStar(int num);
+	void RotateCircle(void);
 };
 
 #endif

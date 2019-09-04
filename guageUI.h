@@ -32,8 +32,8 @@ public:
 private:
 	GuageObject *damageGuage;
 	GuageObject *hPGuage;
-	Object *flame;
-	Object *text;
+	Object *frame;
+	Object *bg;
 
 	float	damageGuagePercentage;	//ダメージ表現ゲージパーセンテージ
 };

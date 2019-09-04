@@ -18,15 +18,27 @@
 //*****************************************************************************
 Score::Score()
 {
+	//カウンター
 	counter = new CounterObject();
-	counter->LoadTexture("data/TEXTURE/UI/number.png");
+	counter->LoadTexture("data/TEXTURE/UI/Score/number_L.png");
 	counter->MakeVertex();
 
-	counter->position = POSITION_SCORE;
+	counter->position = POSITION_NUMBER_SCORE;
 	counter->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	counter->size = SIZE_SCORE;
+	counter->size = SIZE_NUMBER_SCORE;
 
 	counter->SetColorObject(SET_COLOR_NOT_COLORED);
+
+	//背景
+	bg = new CounterObject();
+	bg->LoadTexture("data/TEXTURE/UI/Score/scoreBG.png");
+	bg->MakeVertex();
+
+	bg->position = POSITION_BG_SCORE;
+	bg->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	bg->size = SIZE_BG_SCORE;
+
+	bg->SetColorObject(SET_COLOR_NOT_COLORED);
 
 	// 最大値設定
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
@@ -46,6 +58,9 @@ Score::~Score()
 {
 	delete counter;
 	counter = NULL;
+
+	delete bg;
+	bg = NULL;
 }
 
 //=============================================================================
@@ -71,6 +86,9 @@ void Score::Update(void)
 //=============================================================================
 void Score::Draw(void)
 {
+	bg->Draw();
+	bg->SetVertex();
+
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
 	{
 		int scoreber;
@@ -90,7 +108,7 @@ void Score::VolumeUpEffect(void)
 {
 	if (volumeUpEffectUsed == true)
 	{
-		counter->size.y = SIZE_SCORE.y + VOLUME_ZOOM * sinf(radian);
+		counter->size.y = SIZE_NUMBER_SCORE.y + VOLUME_ZOOM * sinf(radian);
 
 		if (radian >= D3DX_PI)
 		{

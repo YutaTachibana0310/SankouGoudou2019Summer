@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// スター画面処理 [star.cpp]
+// スター画面処理 [starUI.cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
@@ -18,60 +18,81 @@
 #define SIZE_STAR			(D3DXVECTOR3(100.0f,100.0f,0.0f))
 #define VOLUME_ZOOM			(30.0f)
 #define DURATION_ROTATION	(60.0f)
+#define SPEED_CIRCLE_ROTATE (0.04f)
 
 //*****************************************************************************
 // コンストラクタ
 //*****************************************************************************
-Star::Star()
+StarButton::StarButton()
 {
-	for (int i = 0; i < STAR_MAX; i++)
-	{
-		star[i] = new RotateObject();
-
-		star[i]->LoadTexture("data/TEXTURE/UI/star.png");
-		star[i]->CreateObjectCircle();
-		star[i]->MakeVertex();
-
-		star[i]->size = SIZE_STAR;
-		star[i]->colliderSize = COLLIDERSIZE_STAR;
-		star[i]->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	}
-
 	// 座標設定
 	const float Radius = 420.0f;								//正五角形の半径
 	const float BaseAngle = D3DXToRadian(360.0f) / STAR_MAX;	//正五角形の内角
 	const float CenterX = (float)SCREEN_CENTER_X;
 	const float CenterY = (float)SCREEN_CENTER_Y + 40.0f;
+
 	for (int i = 0; i < STAR_MAX; i++)
 	{
+		//スター
+		star[i] = new RotateObject();
+		star[i]->LoadTexture("data/TEXTURE/UI/StarButton/star.png");
+		star[i]->CreateObjectCircle();
+		star[i]->MakeVertex();
+		star[i]->size = SIZE_STAR;
+		star[i]->colliderSize = COLLIDERSIZE_STAR;
+		star[i]->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		star[i]->SetColorObject(SET_COLOR_NOT_COLORED);
 		star[i]->position.x = sinf(i * BaseAngle) * -Radius + CenterX;
 		star[i]->position.y = cosf(i * BaseAngle) * -Radius + CenterY;
-	}
 
-	//　色設定
-	star[TOP]->SetColorObject(SET_COLOR_NOT_COLORED);
-	star[MIDDLE_LEFT]->SetColorObject(SET_COLOR_NOT_COLORED);
-	star[LOWER_LEFT]->SetColorObject(SET_COLOR_NOT_COLORED);
-	star[LOWER_RIGHT]->SetColorObject(SET_COLOR_NOT_COLORED);
-	star[MIDDLE_RIGHT]->SetColorObject(SET_COLOR_NOT_COLORED);
+		//外側のサークル
+		outerCircle[i] = new RotateObject();
+		outerCircle[i]->LoadTexture("data/TEXTURE/UI/StarButton/outerCircle.png");
+		outerCircle[i]->CreateObjectCircle();
+		outerCircle[i]->MakeVertex();
+		outerCircle[i]->size = SIZE_STAR;
+		outerCircle[i]->colliderSize = COLLIDERSIZE_STAR;
+		outerCircle[i]->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		outerCircle[i]->SetColorObject(SET_COLOR_NOT_COLORED);
+		outerCircle[i]->position.x = sinf(i * BaseAngle) * -Radius + CenterX;
+		outerCircle[i]->position.y = cosf(i * BaseAngle) * -Radius + CenterY;
+
+		//内側のサークル
+		innerCircle[i] = new RotateObject();
+		innerCircle[i]->LoadTexture("data/TEXTURE/UI/StarButton/innerCircle.png");
+		innerCircle[i]->CreateObjectCircle();
+		innerCircle[i]->MakeVertex();
+		innerCircle[i]->size = SIZE_STAR;
+		innerCircle[i]->colliderSize = COLLIDERSIZE_STAR;
+		innerCircle[i]->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		innerCircle[i]->SetColorObject(SET_COLOR_NOT_COLORED);
+		innerCircle[i]->position.x = sinf(i * BaseAngle) * -Radius + CenterX;
+		innerCircle[i]->position.y = cosf(i * BaseAngle) * -Radius + CenterY;
+	}
 }
 
 //*****************************************************************************
 // デストラクタ
 //*****************************************************************************
-Star::~Star()
+StarButton::~StarButton()
 {
 	for (int i = 0; i < STAR_MAX;i++)
 	{
 		delete star[i];
 		star[i] = NULL;
+
+		delete outerCircle[i];
+		outerCircle[i] = NULL;
+
+		delete innerCircle[i];
+		innerCircle[i] = NULL;
 	}
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void Star::Update(HWND hWnd)
+void StarButton::Update(HWND hWnd)
 {
 	for (int i = 0; i < STAR_MAX; i++)
 	{
@@ -85,34 +106,56 @@ void Star::Update(HWND hWnd)
 				// 選択されているなら拡大表示
 				star[i]->size.x = SIZE_STAR.x + VOLUME_ZOOM;
 				star[i]->size.y = SIZE_STAR.y + VOLUME_ZOOM;
+
+				outerCircle[i]->size.x = SIZE_STAR.x + VOLUME_ZOOM;
+				outerCircle[i]->size.y = SIZE_STAR.y + VOLUME_ZOOM;
+
+				innerCircle[i]->size.x = SIZE_STAR.x + VOLUME_ZOOM;
+				innerCircle[i]->size.y = SIZE_STAR.y + VOLUME_ZOOM;
 			}
 			else
 			{	// 元に戻す
 				star[i]->size.x = SIZE_STAR.x;
 				star[i]->size.y = SIZE_STAR.y;
+
+				outerCircle[i]->size.x = SIZE_STAR.x;
+				outerCircle[i]->size.y = SIZE_STAR.y;
+
+				innerCircle[i]->size.x = SIZE_STAR.x;
+				innerCircle[i]->size.y = SIZE_STAR.y;
 			}
 
 		star[i]->CreateObjectCircle();
+		outerCircle[i]->CreateObjectCircle();
+		innerCircle[i]->CreateObjectCircle();
+
 		RotateStar(i);
+		RotateCircle();
 	}
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
-void Star::Draw(void)
+void StarButton::Draw(void)
 {
 	for (int i = 0; i < STAR_MAX; i++)
 	{
 		star[i]->Draw();
 		star[i]->SetVertex();
+
+		outerCircle[i]->Draw();
+		outerCircle[i]->SetVertex();
+
+		innerCircle[i]->Draw();
+		innerCircle[i]->SetVertex();
 	}
 }
 
 //=============================================================================
-// 回転処理
+// スター回転処理
 //=============================================================================
-void Star::RotateStar(int num)
+void StarButton::RotateStar(int num)
 {
 	star[num]->countFrame++;
 	float t = (float)star[num]->countFrame / DURATION_ROTATION;
@@ -120,9 +163,21 @@ void Star::RotateStar(int num)
 }
 
 //=============================================================================
+// スター回転処理
+//=============================================================================
+void StarButton::RotateCircle(void)
+{
+	for (int i = 0; i < STAR_MAX; i++)
+	{
+		outerCircle[i]->rotation.z += SPEED_CIRCLE_ROTATE;
+		innerCircle[i]->rotation.z -= SPEED_CIRCLE_ROTATE;
+	}
+}
+
+//=============================================================================
 // 回転処理トグル
 //=============================================================================
-void Star::ToggleRotateStar(int num, bool isRotated)
+void StarButton::ToggleRotateStar(int num, bool isRotated)
 {
 	star[num]->rotation.z = 0.0f;
 	star[num]->countFrame = 0;
@@ -147,7 +202,7 @@ void Star::ToggleRotateStar(int num, bool isRotated)
 //=============================================================================
 // 星座標取得用
 //=============================================================================
-void Star::GetStarPosition(std::vector<D3DXVECTOR3>& out)
+void StarButton::GetStarButtonPosition(std::vector<D3DXVECTOR3>& out)
 {
 	out.resize(STAR_MAX);
 

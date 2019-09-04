@@ -33,7 +33,7 @@ TelopBG::TelopBG()
 {
 	telopBG = new Object();
 
-	telopBG->LoadTexture("data/TEXTURE/UI/telop/telopBG.png");
+	telopBG->LoadTexture("data/TEXTURE/UI/Telop/telopBG.png");
 	telopBG->MakeVertex();
 
 	telopBG->position = POSITION_TELOP_BG;

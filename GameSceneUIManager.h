@@ -18,7 +18,7 @@ class Combo;
 class Cursor;
 class Line;
 class Score;
-class Star;
+class StarButton;
 class Trail;
 class TelopBG;
 class BattleStartTelop;
@@ -38,7 +38,7 @@ public:
 	Cursor*cursor;
 	Line*line;
 	Score*score;
-	Star*star;
+	StarButton*starButton;
 	Trail*trail;
 	TelopBG*telopBG;
 	BattleStartTelop*battleStartTelop;

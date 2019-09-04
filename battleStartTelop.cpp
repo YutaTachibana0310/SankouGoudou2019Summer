@@ -62,7 +62,7 @@ BattleStartTelop::BattleStartTelop()
 {
 	battleStartTelop = new TelopObject();
 
-	battleStartTelop->LoadTexture("data/TEXTURE/UI/telop/battleStartTelop.png");
+	battleStartTelop->LoadTexture("data/TEXTURE/UI/Telop/battleStartTelop.png");
 	battleStartTelop->MakeVertex();
 
 	battleStartTelop->position = INIT_POSITION_BATTLE_START_TELOP;

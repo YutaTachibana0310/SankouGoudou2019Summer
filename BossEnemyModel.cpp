@@ -327,6 +327,6 @@ void BossEnemyModel::MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList)
 
 	for (int i = 0; i < edgeNum; i++)
 	{
-		edgeList.push_back(numberList[Clamp(0, numberList.size(), i)]);
+		edgeList.push_back(numberList[WrapAround(0, numberList.size(), i)]);
 	}
 }

@@ -124,11 +124,14 @@ int Player::Update()
 		stateResult = state->OnUpdate(this);
 
 	//無敵時間の更新
-	if (!flgInvincible)
+	if (flgInvincible)
 	{
 		cntInvincible--;
 		if (cntInvincible == 0)
+		{
+			flgInvincible = false;
 			collider->active = true;
+		}
 	}
 
 	//ボンバーストックエフェクトの更新

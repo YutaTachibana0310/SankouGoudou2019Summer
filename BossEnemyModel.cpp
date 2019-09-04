@@ -35,7 +35,8 @@ BossEnemyModel::BossEnemyModel(const Transform& player, BossUImanager& uiManager
 	player(player),
 	isDestroyed(false),
 	uiManager(uiManager),
-	flgBomberHit(false)
+	flgBomberHit(false),
+	cntLoop(0)
 {
 	actor = new BossEnemyActor();
 	bulletController = new EnemyBulletController();
@@ -243,7 +244,6 @@ void BossEnemyModel::SetCollider()
 	vector<int> edgeList;
 
 	MakeOneStrokeEdge(EdgeMax[level], edgeList);
-
 	colliderController->SetCollider(edgeList);
 }
 

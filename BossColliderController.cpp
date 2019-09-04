@@ -89,7 +89,9 @@ void BossColliderController::SetCollider(const std::vector<int>& edgeList)
 	const UINT EdgeMax = edgeList.size() - 1;
 	for (UINT i = 0; i < EdgeMax; i++)
 	{
-		LineTrailModel model = LineTrailModel(edgeList[i], edgeList[i + 1]);
+		int left = Min(edgeList[i], edgeList[i + 1]);
+		int right = Max(edgeList[i], edgeList[i + 1]);
+		LineTrailModel model = LineTrailModel(left, right);
 
 		TrailCollider *collider = new TrailCollider(TrailColliderTag::Enemy);
 		collider->SetTrailIndex(model);

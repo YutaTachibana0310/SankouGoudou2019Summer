@@ -135,6 +135,9 @@ void GameScene::Init()
 
 	//インプットコントローラにUImanagerのインスタンスを渡す
 	SetInstanceUIManager(gameSceneUIManager);
+
+	//スコア初期化
+	SetCurrentGameScore(0);
 }
 
 /**************************************

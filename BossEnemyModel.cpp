@@ -317,9 +317,6 @@ void BossEnemyModel::GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out
 **************************************/
 void BossEnemyModel::MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList)
 {
-	int prevStart = 5;
-	int prevEnd = RandomRange(0, 5);
-
 	edgeList.clear();
 	edgeList.reserve(edgeNum);
 

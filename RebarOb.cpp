@@ -128,7 +128,7 @@ void RebarObstacle::_Move()
 	float t = (float)(cntFrame - delay) / moveDuration;
 	transform->pos = Easing::EaseValue(t, startPos, endPos, moveEaseType);
 
-	if (cntFrame == moveDuration)
+	if ((cntFrame - delay) == moveDuration)
 	{
 		inMoving = false;
 

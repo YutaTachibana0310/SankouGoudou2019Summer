@@ -119,17 +119,17 @@ int SnakeEnemyModel::Update()
 	}
 
 	//“–‚½‚è”»’è‚ÌXV
-	//for (auto& enemy : enemyList)
-	//{
-	//	shared_ptr<EnemySnake> snake = dynamic_pointer_cast<EnemySnake>(enemy);
+	for (auto& enemy : enemyList)
+	{
+		shared_ptr<EnemySnake> snake = dynamic_pointer_cast<EnemySnake>(enemy);
 
-	//	UINT next = snake->m_CurrentIndex - 1;
-	//	UINT current = snake->m_PrevIndex - 1;
+		UINT next = snake->m_CurrentIndex - 1;
+		UINT current = snake->m_PrevIndex - 1;
 
-	//	TrailCollider *nextCollider = next < colliderList.size() ? colliderList[next] : NULL;
-	//	TrailCollider *currentCollider = current < colliderList.size() ? colliderList[current] : NULL;
-	//	SwapInColliderMap(currentCollider, nextCollider, enemy);
-	//}
+		TrailCollider *nextCollider = next < colliderList.size() ? colliderList[next] : NULL;
+		TrailCollider *currentCollider = current < colliderList.size() ? colliderList[current] : NULL;
+		SwapInColliderMap(currentCollider, nextCollider, enemy);
+	}
 
 	//I—¹”»’è
 	if (cntFrame > SNAKEENEMY_GENERATE_DURATION)

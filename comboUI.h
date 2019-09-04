@@ -24,7 +24,6 @@ public:
 	~Combo();
 
 	CounterObject * number;
-	Object * text;
 	RotateObject * bg;
 
 	void Update(void);

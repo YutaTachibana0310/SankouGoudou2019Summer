@@ -21,12 +21,6 @@
 #define INCREASE_VOLUME_ALPHA		(0.02f)
 
 //*****************************************************************************
-// グローバル変数
-//*****************************************************************************
-bool	IsAlphaIncreased = true;
-float	alpha = 0;
-
-//*****************************************************************************
 // コンストラクタ
 //*****************************************************************************
 StartButton::StartButton()
@@ -34,8 +28,8 @@ StartButton::StartButton()
 	bg = new Object();
 	text = new Object();
 
-	bg->LoadTexture("data/TEXTURE/UI/startButtonBG.png");
-	text->LoadTexture("data/TEXTURE/UI/startButtonText.png");
+	bg->LoadTexture("data/TEXTURE/UI/StartButton/startButtonBG.png");
+	text->LoadTexture("data/TEXTURE/UI/StartButton/startButtonText.png");
 
 	bg->MakeVertex();
 	text->MakeVertex();

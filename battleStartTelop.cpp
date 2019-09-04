@@ -35,11 +35,11 @@ static const float EasingEndPositionX[ANIMATION_MAX] = {
 };
 
 static const EaseType AnimationType[ANIMATION_MAX] = {
-	OutExpo,
-	OutExpo,
 	InOutCubic,
-	InExpo,
-	InExpo
+	InOutCubic,
+	InOutCubic,
+	InOutCubic,
+	InOutCubic
 };
 
 static const float AnimationDuration[ANIMATION_MAX] = {
@@ -62,7 +62,7 @@ BattleStartTelop::BattleStartTelop()
 {
 	battleStartTelop = new TelopObject();
 
-	battleStartTelop->LoadTexture("data/TEXTURE/UI/telop/battleStartTelop.png");
+	battleStartTelop->LoadTexture("data/TEXTURE/UI/Telop/battleStartTelop.png");
 	battleStartTelop->MakeVertex();
 
 	battleStartTelop->position = INIT_POSITION_BATTLE_START_TELOP;

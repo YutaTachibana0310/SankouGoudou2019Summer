@@ -13,22 +13,19 @@
 // マクロ定義
 //*****************************************************************************
 #define	INTERVAL_NUMBER		(80.0f)			// コンボ数字の表示間隔
-#define	INTERVAL_NUMBER_TEXTURE	(0.097f)	// テクスチャ内コンボ数字の表示間隔
+#define	INTERVAL_NUMBER_TEXTURE	(0.1f)	// テクスチャ内コンボ数字の表示間隔
 #define	PLACE_MAX			(2)				// コンボの桁数
 #define BASE_NUMBER			(10)			// 進数
 #define VOLUME_ZOOM			(50.0f)
-#define ROTATION_SPEED_COMBO_BACKGROUND (0.01f)
 #define SPEED_VOLUMEUP_NUMBER_COMBO (0.2f)
 
 // サイズ定義
-#define SIZE_NUMBER_COMBO		(D3DXVECTOR3(40.0f,75.0f,0.0f))
-#define SIZE_TEXT_COMBO			(D3DXVECTOR3(45.0f,20.0f,0.0f))
-#define SIZE_BACKGROUND_COMBO	(D3DXVECTOR3(200.0f,200.0f,0.0f))
+#define SIZE_NUMBER_COMBO		(D3DXVECTOR3(30.0f,50.0f,0.0f))
+#define SIZE_BACKGROUND_COMBO	(D3DXVECTOR3(160.0f,80.0f,0.0f))
 
 // 座標定義
-#define POSITION_NUMBER_COMBO		(D3DXVECTOR3(SCREEN_WIDTH / 10*2.0f, SCREEN_HEIGHT / 10*2.0f , 0.0f))
-#define POSITION_TEXT_COMBO			(D3DXVECTOR3(SCREEN_WIDTH / 10*3.2f, SCREEN_HEIGHT / 10*2.3f , 0.0f))
-#define POSITION_BACKGROUND_COMBO	(D3DXVECTOR3(SCREEN_WIDTH / 10*2.25f, SCREEN_HEIGHT / 10*2.0f , 0.0f))
+#define POSITION_BG_COMBO		(D3DXVECTOR3(SCREEN_WIDTH / 10 * 1.0f, SCREEN_HEIGHT / 10 * 3, 0.0f))
+#define POSITION_NUMBER_COMBO	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 0.20f, SCREEN_HEIGHT / 10 * 2.7, 0.0f))
 
 //*****************************************************************************
 // コンストラクタ
@@ -36,31 +33,24 @@
 Combo::Combo()
 {
 	number = new CounterObject();
-	text = new Object();
 	bg = new RotateObject();
 
-	number->LoadTexture("data/TEXTURE/UI/number.png");
-	text->LoadTexture("data/TEXTURE/UI/combo/comboText.png");
-	bg->LoadTexture("data/TEXTURE/UI/combo/circleCombo.png");
+	number->LoadTexture("data/TEXTURE/UI/Combo/number_L.png");
+	bg->LoadTexture("data/TEXTURE/UI/Combo/comboBG.png");
 
 	number->MakeVertex();
-	text->MakeVertex();
 	bg->MakeVertex();
 
 	number->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	text->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	bg->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	number->position = POSITION_NUMBER_COMBO;
-	text->position = POSITION_TEXT_COMBO;
-	bg->position = POSITION_BACKGROUND_COMBO;
+	bg->position = POSITION_BG_COMBO;
 
 	number->size = SIZE_NUMBER_COMBO;
-	text->size = SIZE_TEXT_COMBO;
 	bg->size = SIZE_BACKGROUND_COMBO;
 
 	number->SetColorObject(SET_COLOR_NOT_COLORED);
-	text->SetColorObject(SET_COLOR_NOT_COLORED);
 	bg->SetColorObject(SET_COLOR_NOT_COLORED);
 
 	// 回転オブジェクト用のサークルを作成
@@ -85,9 +75,6 @@ Combo::~Combo()
 	delete number;
 	number = NULL;
 
-	delete text;
-	text = NULL;
-
 	delete bg;
 	bg = NULL;
 }
@@ -97,11 +84,8 @@ Combo::~Combo()
 //=============================================================================
 void Combo::Update(void)
 {
-	// コンボ背景回転
-	bg->rotation.z += ROTATION_SPEED_COMBO_BACKGROUND;
-
 	// 数字の色更新
-	UpdateNumberColor();
+	//UpdateNumberColor();
 
 	// 縦に伸びるエフェクト
 	VolumeUpEffect();
@@ -137,9 +121,6 @@ void Combo::Draw(void)
 		number->SetVertex(nCntPlace, INTERVAL_NUMBER);
 		number->SetTexture(num, INTERVAL_NUMBER_TEXTURE);
 	}	
-
-	text->Draw();
-	text->SetVertex();
 }
 
 //=============================================================================

@@ -43,15 +43,17 @@ public:
 private:
 	Object * trail[TRAILPARTS_MAX];
 
+	int		historyMax;
+
 	// 読み込むテクスチャファイル名
 	const char *texPath[TRAILPARTS_MAX]
 	{
-		"data/TEXTURE/UI/trail/trailBG.png",
-		"data/TEXTURE/UI/trail/trailLine_TopToLowerLeft.png",
-		"data/TEXTURE/UI/trail/trailLine_TopToLowerRight.png",
-		"data/TEXTURE/UI/trail/trailLine_LowerLeftToMiddleRight.png",
-		"data/TEXTURE/UI/trail/trailLine_LowerRightToMiddleLeft.png",
-		"data/TEXTURE/UI/trail/trailLine_MiddleLeftToMiddleRight.png"
+		"data/TEXTURE/UI/Trail/trailBG.png",
+		"data/TEXTURE/UI/Trail/trailLine_TopToLowerLeft.png",
+		"data/TEXTURE/UI/Trail/trailLine_TopToLowerRight.png",
+		"data/TEXTURE/UI/Trail/trailLine_LowerLeftToMiddleRight.png",
+		"data/TEXTURE/UI/Trail/trailLine_LowerRightToMiddleLeft.png",
+		"data/TEXTURE/UI/Trail/trailLine_MiddleLeftToMiddleRight.png"
 	};
 };
 

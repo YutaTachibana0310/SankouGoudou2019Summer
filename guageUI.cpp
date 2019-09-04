@@ -13,13 +13,13 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	GUAGEPARTS_MAX		(4)
-#define WIDTH_GUAGEFLAME	(5.0f)
+#define WIDTH_GUAGEFLAME	(3.5f)
 #define DECREASESPEED_GUAGE (0.0050f)
-#define TEXT_GUAGE_ALPHA	(0.5f)
 #define INITIALVALUE_GUAGEPERCENTAGE (1.0f)
-#define SIZE_GUAGE			(D3DXVECTOR3(25.0f,250.0f,0.0f))
-#define POSITION_GUAGE		(D3DXVECTOR3(SCREEN_WIDTH / 10*1.0f, SCREEN_HEIGHT / 10*7.0f, 0.0f))
+#define SIZE_GUAGE_BG		(D3DXVECTOR3(250.0f,25.0f,0.0f))
+#define SIZE_GUAGE			(D3DXVECTOR3(190.0f,25.0f,0.0f))
+#define POSITION_GUAGE		(D3DXVECTOR3(SCREEN_WIDTH / 10*7.63f, SCREEN_HEIGHT / 10*1.0f, 0.0f))
+#define POSITION_BG_GUAGE	(D3DXVECTOR3(SCREEN_WIDTH / 10*8.0f, SCREEN_HEIGHT / 10*1.0f, 0.0f))
 
 //*****************************************************************************
 // コンストラクタ
@@ -28,39 +28,39 @@ Guage::Guage()
 {
 	damageGuage = new GuageObject();
 	hPGuage = new GuageObject();
-	flame = new Object();
-	text = new Object();
+	frame = new Object();
+	bg = new Object();
 
-	damageGuage->LoadTexture("data/TEXTURE/UI/guage/guageBar_vertical.png");
-	hPGuage->LoadTexture("data/TEXTURE/UI/guage/guageBar_vertical.png");
-	flame->LoadTexture("data/TEXTURE/UI/guage/guageFrame_vertical.png");
-	text->LoadTexture("data/TEXTURE/UI/guage/guageText_fever_vertical.png");
+	damageGuage->LoadTexture("data/TEXTURE/UI/HP/guageBody.png");
+	hPGuage->LoadTexture("data/TEXTURE/UI/HP/guageBody.png");
+	frame->LoadTexture("data/TEXTURE/UI/HP/guageFrame.png");
+	bg->LoadTexture("data/TEXTURE/UI/HP/guageBG.png");
 
 	damageGuage->MakeVertex(damageGuagePercentage, WIDTH_GUAGEFLAME);
 	hPGuage->MakeVertex(trueGuagePercentage, WIDTH_GUAGEFLAME);
-	flame->MakeVertex();
-	text->MakeVertex();
+	frame->MakeVertex();
+	bg->MakeVertex();
 
 	damageGuage->position = POSITION_GUAGE;
 	hPGuage->position = POSITION_GUAGE;
-	flame->position = POSITION_GUAGE;
-	text->position = POSITION_GUAGE;
+	frame->position = POSITION_GUAGE;
+	bg->position = POSITION_BG_GUAGE;
 
 	damageGuage->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	hPGuage->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	flame->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	text->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	frame->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	bg->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	damageGuage->size = SIZE_GUAGE;
 	hPGuage->size = SIZE_GUAGE;
-	flame->size = SIZE_GUAGE;
-	text->size = SIZE_GUAGE;
+	frame->size = SIZE_GUAGE;
+	bg->size = SIZE_GUAGE_BG;
 
 	//　色設定
 	damageGuage->SetColorObject(SET_COLOR_RED);
-	hPGuage->SetColorObject(SET_COLOR_YELLOW);
-	flame->SetColorObject(SET_COLOR_NOT_COLORED);
-	text->SetColorObject(D3DXCOLOR(0.0f, 0.0f, 0.0f, TEXT_GUAGE_ALPHA));
+	hPGuage->SetColorObject(SET_COLOR_NOT_COLORED);
+	frame->SetColorObject(SET_COLOR_NOT_COLORED);
+	bg->SetColorObject(SET_COLOR_NOT_COLORED);
 
 	damageGuagePercentage = INITIALVALUE_GUAGEPERCENTAGE;
 	trueGuagePercentage = INITIALVALUE_GUAGEPERCENTAGE;
@@ -77,12 +77,11 @@ Guage::~Guage()
 	delete hPGuage;
 	hPGuage = NULL;
 
-	delete flame;
-	flame = NULL;
+	delete frame;
+	frame = NULL;
 
-	delete text;
-	text = NULL;
-
+	delete bg;
+	bg = NULL;
 }
 
 //=============================================================================
@@ -124,14 +123,14 @@ void Guage::Update(void)
 //=============================================================================
 void Guage::Draw(void)
 {
+	bg->Draw();
 	damageGuage->Draw();
 	hPGuage->Draw();
-	flame->Draw();
-	text->Draw();
+	frame->Draw();
 
 	// 頂点座標の設定
-	damageGuage->SetVertex(damageGuagePercentage, WIDTH_GUAGEFLAME, damageGuage->DOWN_GUAGEBAR);
-	hPGuage->SetVertex(trueGuagePercentage,	WIDTH_GUAGEFLAME, hPGuage->DOWN_GUAGEBAR);
-	flame->SetVertex();
-	text->SetVertex();
+	damageGuage->SetVertex(damageGuagePercentage, WIDTH_GUAGEFLAME, damageGuage->LEFT_GUAGEBAR);
+	hPGuage->SetVertex(trueGuagePercentage,	WIDTH_GUAGEFLAME, hPGuage->LEFT_GUAGEBAR);
+	frame->SetVertex();
+	bg->SetVertex();
 }

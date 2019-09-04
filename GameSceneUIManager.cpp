@@ -34,7 +34,7 @@
 GameSceneUIManager::GameSceneUIManager()
 {
 	line = new Line();
-	star = new Star();
+	starButton = new StarButton();
 	cursor = new Cursor();
 	combo = new Combo();
 	guage = new Guage();
@@ -65,8 +65,8 @@ GameSceneUIManager::~GameSceneUIManager()
 	delete score;
 	score = NULL;
 
-	delete star;
-	star = NULL;
+	delete starButton;
+	starButton = NULL;
 
 	delete trail;
 	trail = NULL;
@@ -107,7 +107,7 @@ void GameSceneUIManager::Update(HWND hWnd)
 	guage->Update();
 	line->Update();
 	score->Update();
-	star->Update(hWnd);
+	starButton->Update(hWnd);
 	trail->Update();
 	battleStartTelop->Update();
 	stageClearTelop->Update();
@@ -117,18 +117,23 @@ void GameSceneUIManager::Update(HWND hWnd)
 	// デバッグ用コマンド
 	if (GetKeyboardTrigger(DIK_1))
 	{
+		AddCombo(1);
 	}
 	if (GetKeyboardTrigger(DIK_2))
 	{
+		AddScore(1);
 	}
 	if (GetKeyboardTrigger(DIK_3))
 	{
+		SetStageClearTelop();
 	}
 	if (GetKeyboardTrigger(DIK_4))
 	{
+		SetBattleStartTelop();
 	}
 	if (GetKeyboardTrigger(DIK_5))
 	{
+		SetHPGuage(50);
 	}
 	if (GetKeyboardTrigger(DIK_6))
 	{
@@ -154,13 +159,13 @@ void GameSceneUIManager::Draw(void)
 
 	combo->Draw();
 	guage->Draw();
-	line->Draw();
+	//line->Draw();
 	score->Draw();
-	star->Draw();
+	starButton->Draw();
 	trail->Draw();
+	telopBG->Draw();
 	battleStartTelop->Draw();
 	stageClearTelop->Draw();
-	telopBG->Draw();
 
 	cursor->Draw();
 
@@ -173,23 +178,23 @@ void GameSceneUIManager::Draw(void)
 //=============================================================================
 bool GameSceneUIManager::IsStarCursorOvered()
 {
-	std::vector<D3DXVECTOR3> starPos;
-	GetStarPosition(starPos);
+	std::vector<D3DXVECTOR3> starButtonPos;
+	GetStarPosition(starButtonPos);
 
 	// どのスターとも当たってなかったらfalse,それ以外はtrue
-	if (cursor->IsCursorOvered(starPos[0], COLLIDERSIZE_STAR))
+	if (cursor->IsCursorOvered(starButtonPos[0], COLLIDERSIZE_STAR))
 		return true;
 
-	if (cursor->IsCursorOvered(starPos[1], COLLIDERSIZE_STAR))
+	if (cursor->IsCursorOvered(starButtonPos[1], COLLIDERSIZE_STAR))
 		return true;
 
-	if (cursor->IsCursorOvered(starPos[2], COLLIDERSIZE_STAR))
+	if (cursor->IsCursorOvered(starButtonPos[2], COLLIDERSIZE_STAR))
 		return true;
 
-	if (cursor->IsCursorOvered(starPos[3], COLLIDERSIZE_STAR))
+	if (cursor->IsCursorOvered(starButtonPos[3], COLLIDERSIZE_STAR))
 		return true;
 
-	if (cursor->IsCursorOvered(starPos[4], COLLIDERSIZE_STAR))
+	if (cursor->IsCursorOvered(starButtonPos[4], COLLIDERSIZE_STAR))
 		return true;
 
 	return false;
@@ -292,7 +297,7 @@ void  GameSceneUIManager::SetBattleStartTelop(void)
 //=============================================================================
 void  GameSceneUIManager::GetStarPosition(std::vector<D3DXVECTOR3>& out)
 {
-	star->GetStarPosition(out);
+	starButton->GetStarButtonPosition(out);
 }
 
 //=============================================================================
@@ -300,7 +305,7 @@ void  GameSceneUIManager::GetStarPosition(std::vector<D3DXVECTOR3>& out)
 //=============================================================================
 void  GameSceneUIManager::SetStarPosition(D3DXVECTOR3* pos)
 {
-	//pos = star->GetStarPosition();
+	//pos = starButton->GetStarPosition();
 }
 
 //=============================================================================
@@ -308,14 +313,22 @@ void  GameSceneUIManager::SetStarPosition(D3DXVECTOR3* pos)
 //=============================================================================
 int GameSceneUIManager::IsStarSelected()
 {
-	std::vector<D3DXVECTOR3> starPos;
-	GetStarPosition(starPos);
+	std::vector<D3DXVECTOR3> starButtonPos;
+	GetStarPosition(starButtonPos);
 
 	for (int i = 0; i < 5; i++)
 	{
-		if (cursor->IsCursorOvered(starPos[i], COLLIDERSIZE_STAR))
+		if (cursor->IsCursorOvered(starButtonPos[i], COLLIDERSIZE_STAR))
 			return i;
 	}
 
 	return 5;
+}
+
+//=============================================================================
+// HPゲージセット処理(引数で与えた値をゲージの割合に反映する)
+//=============================================================================
+void GameSceneUIManager::SetHPGuage(int num)
+{
+	guage->trueGuagePercentage = (float)num/guage->maxHp;
 }

@@ -18,7 +18,7 @@ class Combo;
 class Cursor;
 class Line;
 class Score;
-class Star;
+class StarButton;
 class Trail;
 class TelopBG;
 class BattleStartTelop;
@@ -38,7 +38,7 @@ public:
 	Cursor*cursor;
 	Line*line;
 	Score*score;
-	Star*star;
+	StarButton*starButton;
 	Trail*trail;
 	TelopBG*telopBG;
 	BattleStartTelop*battleStartTelop;
@@ -59,6 +59,7 @@ public:
 	void SetBattleStartTelop(void);
 	void GetStarPosition(std::vector<D3DXVECTOR3>& out);
 	void SetStarPosition(D3DXVECTOR3* pos);
+	void SetHPGuage(int num);
 
 	/* 9/3 立花追加 */
 	int IsStarSelected();		//スターボタンの入力確認

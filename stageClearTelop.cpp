@@ -62,7 +62,7 @@ StageClearTelop::StageClearTelop()
 {
 	stageClearTelop = new TelopObject();
 
-	stageClearTelop->LoadTexture("data/TEXTURE/UI/telop/stageClearTelop.png");
+	stageClearTelop->LoadTexture("data/TEXTURE/UI/Telop/stageClearTelop.png");
 	stageClearTelop->MakeVertex();
 
 	stageClearTelop->position = INIT_POSITION_STAGE_CLEAR_TELOP;

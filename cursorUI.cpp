@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// カーソル画面処理 [cursor.cpp]
+// カーソル画面処理 [outerCircle.cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
@@ -13,7 +13,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define SIZE_CURSOR		(D3DXVECTOR3(40.0f,40.0f,0.0f))
+#define SIZE_CURSOR		(D3DXVECTOR3(45.0f,45.0f,0.0f))
 #define SPEED_ROTATION	(0.10f)
 #define COLLIDERSIZE_CURSOR (D3DXVECTOR3(5.0f,5.0f,0.0f))
 
@@ -22,19 +22,33 @@
 //*****************************************************************************
 Cursor::Cursor()
 {
-	cursor = new RotateObject();
-	cursor->LoadTexture("data/TEXTURE/UI/cursor.png");
-	cursor->MakeVertex();
+	//外側のサークル
+	outerCircle = new RotateObject();
+	outerCircle->LoadTexture("data/TEXTURE/UI/Cursor/outerCircle.png");
+	outerCircle->MakeVertex();
 
-	cursor->position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	cursor->size = SIZE_CURSOR;
-	cursor->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	cursor->colliderSize = COLLIDERSIZE_CURSOR / 2;
+	outerCircle->position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	outerCircle->size = SIZE_CURSOR;
+	outerCircle->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	outerCircle->colliderSize = COLLIDERSIZE_CURSOR / 2;
 
-	cursor->SetColorObject(SET_COLOR_YELLOW);
+	outerCircle->SetColorObject(SET_COLOR_NOT_COLORED);
 
-	// 回転オブジェクト用のサークルを作成
-	cursor->CreateObjectCircle();
+	outerCircle->CreateObjectCircle();
+
+	//内側のサークル
+	innerCircle = new RotateObject();
+	innerCircle->LoadTexture("data/TEXTURE/UI/Cursor/innerCircle.png");
+	innerCircle->MakeVertex();
+
+	innerCircle->position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	innerCircle->size = SIZE_CURSOR;
+	innerCircle->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	innerCircle->colliderSize = COLLIDERSIZE_CURSOR / 2;
+
+	innerCircle->SetColorObject(SET_COLOR_NOT_COLORED);
+
+	innerCircle->CreateObjectCircle();
 }
 
 //*****************************************************************************
@@ -42,8 +56,11 @@ Cursor::Cursor()
 //*****************************************************************************
 Cursor::~Cursor()
 {
-	delete cursor;
-	cursor = NULL;
+	delete outerCircle;
+	outerCircle = NULL;
+
+	delete innerCircle;
+	innerCircle = NULL;
 }
 
 //=============================================================================
@@ -51,8 +68,11 @@ Cursor::~Cursor()
 //=============================================================================
 void Cursor::Update(HWND hWnd)
 {
-	cursor->position = GetMousePosition(hWnd);
-	cursor->rotation.z -= SPEED_ROTATION;
+	outerCircle->position = GetMousePosition(hWnd);
+	outerCircle->rotation.z -= SPEED_ROTATION;
+
+	innerCircle->position = GetMousePosition(hWnd);
+	innerCircle->rotation.z += SPEED_ROTATION;
 }
 
 //=============================================================================
@@ -60,21 +80,24 @@ void Cursor::Update(HWND hWnd)
 //=============================================================================
 void Cursor::Draw(void)
 {
-	cursor->Draw();
-	cursor->SetVertex();
+	outerCircle->Draw();
+	outerCircle->SetVertex();
+
+	innerCircle->Draw();
+	innerCircle->SetVertex();
 }
 
 //=============================================================================
-// カーソルが重なったかの判定処理
+// カーソルが重なったかの判定処理(外側のサークルとの当たり判定)
 //=============================================================================
 bool Cursor::IsCursorOvered(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
 	size /= 2.0f;	// 半サイズにする
 
-	if (cursor->position.x +cursor->colliderSize.x > pos.x - size.x 
-		&& pos.x + size.x > cursor->position.x -cursor->colliderSize.x 
-		&& cursor->position.y +cursor->colliderSize.y > pos.y - size.y 
-		&& pos.y + size.y > cursor->position.y -cursor->colliderSize.y)
+	if (outerCircle->position.x +outerCircle->colliderSize.x > pos.x - size.x 
+		&& pos.x + size.x > outerCircle->position.x -outerCircle->colliderSize.x 
+		&& outerCircle->position.y +outerCircle->colliderSize.y > pos.y - size.y 
+		&& pos.y + size.y > outerCircle->position.y -outerCircle->colliderSize.y)
 	{
 		return true;
 	}
@@ -87,7 +110,8 @@ bool Cursor::IsCursorOvered(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 //*****************************************************************************
 void Cursor::PaintCursorRed()
 {
-	cursor->SetColorObject(SET_COLOR_RED);
+	outerCircle->SetColorObject(SET_COLOR_RED);
+	innerCircle->SetColorObject(SET_COLOR_RED);
 }
 
 //*****************************************************************************
@@ -95,5 +119,6 @@ void Cursor::PaintCursorRed()
 //*****************************************************************************
 void Cursor::PaintCursorYellow()
 {
-	cursor->SetColorObject(SET_COLOR_YELLOW);
+	outerCircle->SetColorObject(SET_COLOR_NOT_COLORED);
+	innerCircle->SetColorObject(SET_COLOR_NOT_COLORED);
 }

@@ -9,6 +9,7 @@
 #include "ScoreManager.h"
 #include "Framework\BaseEmitter.h"
 #include <algorithm>
+#include "camera.h"
 
 using namespace std;
 
@@ -155,6 +156,17 @@ void EnemyModel::GetEnemy(list<shared_ptr<Enemy>>& out)
 {
 	for (auto& enemy : enemyList)
 	{
+		//エネミーのワールド座標をスクリーン座標へ変換
+		D3DXVECTOR3 screenPos;
+		Camera::Instance()->Projection(screenPos, enemy->m_Pos);
+
+		//スクリーン外にいたら追加しない
+		if (screenPos.x < 0.0f || screenPos.x > SCREEN_WIDTH * 1.0f)
+			continue;
+
+		if (screenPos.y < 0.0f || screenPos.z > SCREEN_HEIGHT * 1.0f)
+			continue;
+
 		out.push_back(enemy);
 	}
 }

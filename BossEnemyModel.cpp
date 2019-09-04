@@ -35,7 +35,8 @@ BossEnemyModel::BossEnemyModel(const Transform& player, BossUImanager& uiManager
 	player(player),
 	isDestroyed(false),
 	uiManager(uiManager),
-	flgBomberHit(false)
+	flgBomberHit(false),
+	cntLoop(0)
 {
 	actor = new BossEnemyActor();
 	bulletController = new EnemyBulletController();
@@ -243,7 +244,6 @@ void BossEnemyModel::SetCollider()
 	vector<int> edgeList;
 
 	MakeOneStrokeEdge(EdgeMax[level], edgeList);
-
 	colliderController->SetCollider(edgeList);
 }
 
@@ -317,9 +317,6 @@ void BossEnemyModel::GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out
 **************************************/
 void BossEnemyModel::MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList)
 {
-	int prevStart = 5;
-	int prevEnd = RandomRange(0, 5);
-
 	edgeList.clear();
 	edgeList.reserve(edgeNum);
 
@@ -330,6 +327,6 @@ void BossEnemyModel::MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList)
 
 	for (int i = 0; i < edgeNum; i++)
 	{
-		edgeList.push_back(numberList[Clamp(0, numberList.size(), i)]);
+		edgeList.push_back(numberList[WrapAround(0, numberList.size(), i)]);
 	}
 }

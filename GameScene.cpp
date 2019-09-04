@@ -252,6 +252,7 @@ void GameScene::ChangeState(int next)
 	currentState = (State)next;
 	state = fsm[currentState];
 	state->OnStart(this);
+	SoundGameScene::SetScene(currentState);
 
 }
 

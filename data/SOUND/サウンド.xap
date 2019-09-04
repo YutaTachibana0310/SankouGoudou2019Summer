@@ -16,8 +16,8 @@ Global Settings
     Header File = サウンド.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 3747133930;
-    Last Modified High = 30761511;
+    Last Modified Low = 1553518523;
+    Last Modified High = 30761712;
 
     Category
     {
@@ -227,10 +227,10 @@ Wave Bank
     Compression Preset Name = <none>;
     Xbox Bank Last Modified Low = 0;
     Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 771722675;
-    PC Bank Last Modified High = 30761520;
-    Bank Last Revised Low = 603616927;
-    Bank Last Revised High = 30761520;
+    PC Bank Last Modified Low = 1553578289;
+    PC Bank Last Modified High = 30761712;
+    Bank Last Revised Low = 1482269238;
+    Bank Last Revised High = 30761712;
 
     Wave
     {
@@ -282,22 +282,22 @@ Wave Bank
     {
         Name = ダーティーファイト;
         File = BGM保管庫\ダーティーファイト.wav;
-        Build Settings Last Modified Low = 496133926;
-        Build Settings Last Modified High = 30761520;
+        Build Settings Last Modified Low = 1393468482;
+        Build Settings Last Modified High = 30761712;
 
         Cache
         {
             Format Tag = 0;
             Channels = 2;
-            Sampling Rate = 44100;
+            Sampling Rate = 48000;
             Bits Per Sample = 1;
             Play Region Offset = 44;
-            Play Region Length = 12180068;
+            Play Region Length = 13244544;
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 170329530;
-            Last Modified High = 30761520;
+            Last Modified Low = 1109502087;
+            Last Modified High = 30761712;
         }
     }
 }
@@ -581,8 +581,8 @@ Sound Bank
     Windows File = Win\Sound Bank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
-    Bank Last Modified Low = 772995167;
-    Bank Last Modified High = 30761520;
+    Bank Last Modified Low = 1556539675;
+    Bank Last Modified High = 30761712;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
 

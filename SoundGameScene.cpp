@@ -10,7 +10,7 @@
 #include "GameScene.h"
 #include "input.h"
 
-int CurrentGameScene = GameScene::State::Battle;
+int CurrentGameScene;
 
 /**************************************
 再生処理
@@ -25,11 +25,11 @@ void SoundGameScene::Play() {
 	if (CurrentGameScene == GameScene::State::Battle) {
 		Sound::GetInstance()->SetStopSound(BOSSBGM);
 		Sound::GetInstance()->SetPlayBGM(GAMEBGM, true, Sound::GetInstance()->changevol / 8.0f);
-		Sound::GetInstance()->FadeIn(GAMEBGM, 10.0f, Sound::GetInstance()->changevol / 8.0f, true);
+		Sound::GetInstance()->FadeIn(GAMEBGM, 5.0f, Sound::GetInstance()->changevol / 8.0f, true);
 	}
 	else if (CurrentGameScene == GameScene::State::BossBattle) {
 		//ゲームBGMフェードアウト
-		Sound::GetInstance()->FadeOut(GAMEBGM, 10.0f, Sound::GetInstance()->changevol / 8.0f, true);
+		Sound::GetInstance()->FadeOut(GAMEBGM, 5.0f, Sound::GetInstance()->changevol / 8.0f, true);
 		//ボスBGM
 		Sound::GetInstance()->SetPlayBGM(BOSSBGM, true, Sound::GetInstance()->changevol / 5.0f);
 		Sound::GetInstance()->FadeIn(BOSSBGM, 5.0f, Sound::GetInstance()->changevol / 5.0f, true);

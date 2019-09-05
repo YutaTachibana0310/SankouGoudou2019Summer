@@ -20,8 +20,12 @@
 #include "Framework\ResourceManager.h"
 #include "GameParticleManager.h"
 
+#include "sound.h"
+#include "ScoreManager.h"
+
 #include <random>
 #include <algorithm>
+
 
 using namespace std;
 /**************************************
@@ -183,8 +187,12 @@ void BossEnemyModel::SetRebar(int num)
 ***************************************/
 void BossEnemyModel::ThrowRebar()
 {
+	//投擲SE
+	Sound::GetInstance()->SetPlaySE(REBAR, true, (Sound::GetInstance()->changevol / 5.0f));
+
 	const int DelayDelta = 20;
 	int delay = 0;
+
 	for (auto&& rebar : rebarList)
 	{
 		rebar->Move(2500.0f, 180, EaseType::InSine, delay);
@@ -226,6 +234,8 @@ void BossEnemyModel::NotifyBullet()
 **************************************/
 void BossEnemyModel::FireBullet()
 {
+	//バレット発射SE
+	Sound::GetInstance()->SetPlaySE(BOSSSHOT, true, (Sound::GetInstance()->changevol / 5.0f));
 	static std::vector<D3DXVECTOR3> Emitter = { D3DXVECTOR3(0.0f, 0.0f, 500.0f),  D3DXVECTOR3(0.0f, 0.0f, 500.0f), D3DXVECTOR3(0.0f, 0.0f, 500.0f) };
 
 	for (auto&& model : bulletReserve)
@@ -253,6 +263,11 @@ void BossEnemyModel::SetCollider()
 void BossEnemyModel::OnDamage()
 {
 	actor->ChangeAnimation(BossEnemyActor::AnimID::Damage);
+	//ダメージSE
+	Sound::GetInstance()->SetPlaySE(ENEMYDOWN2, true, (Sound::GetInstance()->changevol / 10.0f));
+	//スコア・コンボ加算
+	//SetAddScore(10);
+	//SetAddCombo(10);
 }
 
 /**************************************

@@ -9,6 +9,7 @@
 #include "Framework\ResourceManager.h"
 #include <algorithm>
 #include "debugWindow.h"
+#include "sound.h"
 
 using namespace std;
 
@@ -111,6 +112,8 @@ void EnemyGuideArrowController::SetEmitter(LineTrailModel model)
 	D3DXVECTOR3 start, end;
 	model.GetEdgePos(&start, &end);
 	(*itr)->Init(start, end);
+	//エミッターセットSE
+	Sound::GetInstance()->SetPlaySE(ENEMYNOTICE, true, (Sound::GetInstance()->changevol / 20.0f));
 }
 
 /**************************************

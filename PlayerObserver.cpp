@@ -13,6 +13,7 @@
 #include "PlayerIdle.h"
 
 #include "GameParticleManager.h"
+#include "sound.h"
 
 #include <algorithm>
 
@@ -281,6 +282,8 @@ void PlayerObserver::OnFinishPlayerReturn()
 ***************************************/
 void PlayerObserver::OnStartBomberSequence()
 {
+	//ボンバーSE
+	Sound::GetInstance()->SetPlaySE(BOMB, true, (Sound::GetInstance()->changevol / 5.0f));
 	enableUpdateLogic = false;
 	player->ChangeAnim(PlayerAnimID::FireBomber);
 	player->ChargeBomber();
@@ -379,6 +382,7 @@ void PlayerObserver::TryStockBomber()
 
 	//エフェクト再生
 	player->StockBomber();
+
 }
 
 /**************************************

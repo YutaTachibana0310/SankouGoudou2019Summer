@@ -38,6 +38,8 @@
 #include "RebarOb.h"
 #include <functional>
 
+#include "SoundGameScene.h"
+
 using namespace std;
 
 /**************************************
@@ -118,6 +120,7 @@ void GameScene::Init()
 	currentState = State::Start;
 	state = fsm[currentState];
 	state->OnStart(this);
+	SoundGameScene::SetScene(currentState);
 
 	//コールバック設定
 	currentCombo = 0;
@@ -178,6 +181,7 @@ void GameScene::Uninit()
 		SAFE_DELETE(pair.second);
 	}
 	fsm.clear();
+
 }
 
 /**************************************
@@ -185,14 +189,13 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
-	//サウンド再生(テスト）
-	InputSound();
 
 	//ステート更新処理
 	int result = state->OnUpdate(this);
 
 	if (result != currentState)
 		ChangeState(result);
+	SoundGameScene::SetScene(result);
 
 	//UIの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
@@ -271,6 +274,8 @@ void GameScene::ChangeState(int next)
 	currentState = (State)next;
 	state = fsm[currentState];
 	state->OnStart(this);
+	SoundGameScene::SetScene(currentState);
+
 }
 
 /**************************************

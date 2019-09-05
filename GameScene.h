@@ -47,9 +47,6 @@ public:
 
 	GameScene() {};
 	~GameScene() {};
-
-
-private:
 	
 	enum State
 	{

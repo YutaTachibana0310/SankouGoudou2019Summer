@@ -52,11 +52,6 @@ bool GetBomberInput()
 	return false;
 }
 
-void InputSound() {
-
-
-
-}
 
 void SetInstanceUIManager(GameSceneUIManager * instance)
 {

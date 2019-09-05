@@ -14,7 +14,6 @@ class GameSceneUIManager;
 
 int GetMoveInput();
 bool GetBomberInput();
-void InputSound();
 
 void SetInstanceUIManager(GameSceneUIManager* instance);
 

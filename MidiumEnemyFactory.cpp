@@ -25,7 +25,7 @@ EnemyModel * MidiumEnemyFactory::Create(picojson::object & data)
 
 	//各データをそれぞれパース
 	vector<LineTrailModel> modelList;
-	modelList.resize(dataList.size());
+	modelList.reserve(dataList.size());
 	for (UINT i = 0; i < dataList.size(); i++)
 	{
 		int start = static_cast<int>(dataList[i].get<picojson::object>()["start"].get<double>());

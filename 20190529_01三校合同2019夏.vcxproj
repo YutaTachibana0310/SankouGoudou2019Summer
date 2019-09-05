@@ -149,6 +149,7 @@
     <ClInclude Include="BomberFire.h" />
     <ClInclude Include="BomberFireController.h" />
     <ClInclude Include="BomberStockEffect.h" />
+    <ClInclude Include="BossBulletGuide.h" />
     <ClInclude Include="BossChargeEffect.h" />
     <ClInclude Include="BossColliderController.h" />
     <ClInclude Include="BossColliderGuide.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="BossInit.h" />
     <ClInclude Include="BossLargeDamage.h" />
     <ClInclude Include="BossRebarAttack.h" />
+    <ClInclude Include="BossUIManager.h" />
     <ClInclude Include="ChangeEditWindow.h" />
     <ClInclude Include="ChangeEnemyFactory.h" />
     <ClInclude Include="DataEditWindow.h" />
@@ -202,10 +204,16 @@
     <ClInclude Include="Framework\Vector3.h" />
     <ClInclude Include="GameBomberSequence.h" />
     <ClInclude Include="GameBossBattle.h" />
+    <ClInclude Include="GameBossBombSequence.h" />
+    <ClInclude Include="GameBossStart.h" />
+    <ClInclude Include="PlayerBomberBoss.h" />
+    <ClInclude Include="PlayerBomberEnemy.h" />
+    <ClInclude Include="PlayerBomberRebar.h" />
     <ClInclude Include="PlayerChargeEffect.h" />
     <ClInclude Include="PlayerChargeEffectController.h" />
     <ClInclude Include="PlayerChargeParticle.h" />
     <ClInclude Include="PlayerChargeParticleController.h" />
+    <ClInclude Include="RebarExplosion.h" />
     <ClInclude Include="RebarOb.h" />
     <ClInclude Include="EnemyExplosionController.h" />
     <ClInclude Include="EnemyExplosionFlare.h" />
@@ -329,10 +337,17 @@
     <ClInclude Include="TitleSceneUIManager.h" />
     <ClInclude Include="trailUI.h" />
     <ClInclude Include="TrailCollider.h" />
+    <ClInclude Include="TutorialBG.h" />
+    <ClInclude Include="TutorialScene.h" />
     <ClInclude Include="UIdrawer.h" />
     <ClInclude Include="GameSceneUIManager.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="UIdrawerC.h" />
+    <ClInclude Include="Viewer3D.h" />
+    <ClInclude Include="WarningBelt.h" />
+    <ClInclude Include="WarningText.h" />
+    <ClInclude Include="WarningUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AccelEffectController.cpp" />
@@ -346,6 +361,7 @@
     <ClCompile Include="BomberFire.cpp" />
     <ClCompile Include="BomberFireController.cpp" />
     <ClCompile Include="BomberStockEffect.cpp" />
+    <ClCompile Include="BossBulletGuide.cpp" />
     <ClCompile Include="BossChargeEffect.cpp" />
     <ClCompile Include="BossColliderController.cpp" />
     <ClCompile Include="BossColliderGuide.cpp" />
@@ -360,6 +376,7 @@
     <ClCompile Include="BossInit.cpp" />
     <ClCompile Include="BossLargeDamage.cpp" />
     <ClCompile Include="BossRebarAttack.cpp" />
+    <ClCompile Include="BossUIManager.cpp" />
     <ClCompile Include="ChangeEditWindow.cpp" />
     <ClCompile Include="ChangeEnemyFactory.cpp" />
     <ClCompile Include="EditorScene.cpp" />
@@ -393,10 +410,16 @@
     <ClCompile Include="Framework\Vector3.cpp" />
     <ClCompile Include="GameBomberSequence.cpp" />
     <ClCompile Include="GameBossBatlle.cpp" />
+    <ClCompile Include="GameBossBombSequence.cpp" />
+    <ClCompile Include="GameBossStart.cpp" />
+    <ClCompile Include="PlayerBomberBoss.cpp" />
+    <ClCompile Include="PlayerBomberEnemy.cpp" />
+    <ClCompile Include="PlayerBomberRebar.cpp" />
     <ClCompile Include="PlayerChargeEffect.cpp" />
     <ClCompile Include="PlayerChargeEffectController.cpp" />
     <ClCompile Include="PlayerChargeParticle.cpp" />
     <ClCompile Include="PlayerChargeParticleController.cpp" />
+    <ClCompile Include="RebarExplosion.cpp" />
     <ClCompile Include="RebarOb.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyExplosionController.cpp" />
@@ -512,10 +535,17 @@
     <ClCompile Include="TitleSceneUIManager.cpp" />
     <ClCompile Include="trailUI.cpp" />
     <ClCompile Include="TrailCollider.cpp" />
+    <ClCompile Include="TutorialBG.cpp" />
+    <ClCompile Include="TutorialScene.cpp" />
     <ClCompile Include="UIdrawer.cpp" />
     <ClCompile Include="GameSceneUIManager.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="UIdrawerC.cpp" />
+    <ClCompile Include="Viewer3D.cpp" />
+    <ClCompile Include="WarningBelt.cpp" />
+    <ClCompile Include="WarningText.cpp" />
+    <ClCompile Include="WarningUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\BloomFilter.fx">

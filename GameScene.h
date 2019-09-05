@@ -16,11 +16,14 @@
 /**************************************
 前方宣言
 ***************************************/
+class GameSceneUIManager;
 class EnemyController;
 class GameParticleManager;
 class PlayerObserver;
 class BackGroundController;
+class Mask;
 class BossController;
+class BossUImanager;
 
 /**************************************
 クラス定義
@@ -40,10 +43,11 @@ public:
 	void OnClearCombo();
 
 	bool ShouldFireBomber();
+	bool ShouldFireBomberOnBossBattle();
 
 	GameScene() {};
 	~GameScene() {};
-
+	
 	enum State
 	{
 		Start,
@@ -51,6 +55,8 @@ public:
 		End,
 		BombSequence,
 		BossBattle,
+		BossStart,
+		BossBombSequence,
 		StateMax,
 	};
 
@@ -61,11 +67,14 @@ private:
 	Polygon2D* darkMask;
 
 	int cntFrame;
+	GameSceneUIManager *gameSceneUIManager;
 	EnemyController *enemyController;
 	GameParticleManager* particleManager;
 	PlayerObserver* playerObserver;
 	BackGroundController *bgController;
 	BossController* bossController;
+	BossUImanager* bossUI;
+
 	bool useDarkMask;
 
 	void ChangeState(int resultUpdate);
@@ -78,6 +87,8 @@ private:
 	class GameBossBattle;
 	class GameEnd;
 	class GameStart;
+	class GameBossStart;
+	class GameBossBombSequence;
 };
 
 #endif

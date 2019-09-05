@@ -36,7 +36,7 @@ float BackGroundCity::depthMaxZ = 0.0f;
 BackGroundCity::BackGroundCity(const char* meshTag)
 {
 	//メッシュの読み込み
-	ResourceManager::Instance()->GetMesh(meshTag, &mesh);
+	ResourceManager::Instance()->GetMesh(meshTag, mesh);
 
 	//スケール初期化
 	transform.scale.x = BACKGROUNDCITY_INIT_SCALE_XZ;

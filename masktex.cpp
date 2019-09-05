@@ -6,7 +6,7 @@
 //=============================================================================
 #include "main.h"
 #include "masktex.h"
-#include "UIdrawer.h"
+#include "UIdrawerC.h"
 #include "Stencil.h"
 #include "Game.h"
 #include "Framework/EasingVector.h"
@@ -86,7 +86,7 @@ void MaskFadeOut(void) {
 
 
 	if (sizechange) {
-		
+
 		masktex.countFrame++;
 		float t = masktex.countFrame / float(60);
 
@@ -123,10 +123,10 @@ void MaskFadeOut(void) {
 void MaskFadeIn(void) {
 
 	if (sizechange) {
-		
+
 		masktex.countFrame++;
 		float t = masktex.countFrame / float(60);
-		
+
 		masktex.size = EaseInCubicVector(t, DISAPPER_MASKBG, MAXSIZE_MASKBG);
 		masktex.rotation = EaseInCubicVector(t, ROTATION, DISAPPER_MASKBG);
 
@@ -140,13 +140,13 @@ void MaskFadeIn(void) {
 		masktex.size = MAXSIZE_MASKBG;
 		masktex.rotation = DISAPPER_MASKBG;
 
-		SceneChangeFlag(false,nextscene);
+		SceneChangeFlag(false, nextscene);
 		active = false;
 		masktex.countFrame = 0;
 	}
 
 
-	
+
 
 }
 
@@ -161,7 +161,7 @@ void DrawMaskTexSet(void) {
 
 	//ƒ}ƒXƒN•”•ª
 	clip.setWriteMaskColor(Clip::Stencil::MaskColor_Trans);
-	
+
 	clip.regionBegin(Clip::Stencil::MaskColor_Fill);
 
 	DrawObject(pDevice, masktex);
@@ -191,7 +191,7 @@ void DrawMaskTexEnd(void) {
 
 }
 
-void SceneChangeFlag(bool fadeflag,Scene next) {
+void SceneChangeFlag(bool fadeflag, Scene next) {
 
 	if (fadeflag) {
 		sizechange = true;
@@ -203,7 +203,7 @@ void SceneChangeFlag(bool fadeflag,Scene next) {
 		sizechange = false;
 		active = false;
 	}
-	
+
 }
 
 void DrawTransition(void) {
@@ -213,4 +213,3 @@ void DrawTransition(void) {
 	DrawObject(pDevice, maskBG);
 	SetVertexObject(&maskBG);
 }
-

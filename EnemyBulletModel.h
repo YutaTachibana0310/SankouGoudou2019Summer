@@ -18,6 +18,7 @@
 ***************************************/
 class EnemyBullet;
 class BaseEmitter;
+class BoxCollider3D;
 
 /**************************************
 ƒNƒ‰ƒX’è‹`
@@ -42,6 +43,10 @@ private:
 	int cntFrame;
 	int reachFrame;
 	TrailCollider *collider;
+
+	BoxCollider3D *colliderR, *colliderL;
+	D3DXVECTOR3 edgeR, edgeL;
+
 	float posZ;
 	LineTrailModel targetLine;
 	BaseEmitter* effect;

@@ -7,33 +7,49 @@
 #ifndef _SCORE_H_
 #define _SCORE_H_
 
-#include "main.h"
-
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	ADRESS_TEXTURE_SCORE		"data/TEXTURE/UI/number.png"	// 読み込むテクスチャファイル名
-
-//*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-#define	INTERVAL_NUMBER	(40.0f)				// スコア数字の表示間隔
+#define	INTERVAL_NUMBER	(80.0f)				// スコア数字の表示間隔
 #define	INTERVAL_RANKING_NUMBER	(50.0f)		// スコア数字の表示間隔（ランキング用）
-#define	INTERVAL_NUMBER_TEXTURE	(0.097f)	// テクスチャテクスチャ内のスコア数字の表示間隔
+#define	INTERVAL_NUMBER_TEXTURE	(0.1f)	// テクスチャテクスチャ内のスコア数字の表示間隔
 #define	PLACE_MAX		(4)					// スコアの桁数
 #define BASE_NUMBER		(10)				// 進数
 #define VOLUME_ZOOM		(30.0f)
-#define SIZE_SCORE		(D3DXVECTOR3(20.0f,30.0f,0.0f))
-#define POSITION_SCORE	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 8.8f, SCREEN_HEIGHT / 10 * 8, 0.0f))
+#define SIZE_NUMBER_SCORE		(D3DXVECTOR3(30.0f,50.0f,0.0f))
+#define SIZE_BG_SCORE	(D3DXVECTOR3(160.0f,80.0f,0.0f))
+
+#define POSITION_NUMBER_SCORE	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 0.20f, SCREEN_HEIGHT / 10 * 1.2, 0.0f))
+#define POSITION_BG_SCORE	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 1.0f, SCREEN_HEIGHT / 10 * 1, 0.0f))
+
+/**************************************
+前方宣言
+***************************************/
+class CounterObject;
+class Object;
 
 //*****************************************************************************
-// プロトタイプ宣言
+// 構造体定義
 //*****************************************************************************
-HRESULT InitScore	(void);
-void	UninitScore	(void);
-void	UpdateScore	(void);
-void	DrawScore	(void);
-void	AddScore	(int value);
-int SetScore();
+class Score
+{
+public:
+	Score();
+	~Score();
+
+	int	score;		// スコア
+	int	score_max;
+
+	float radian;
+	bool volumeUpEffectUsed;
+
+	void Update(void);
+	void Draw(void);
+
+private:
+	Object * bg;
+	CounterObject * counter;
+	void VolumeUpEffect(void);
+};
 
 #endif

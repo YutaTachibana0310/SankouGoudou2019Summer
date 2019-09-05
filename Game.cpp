@@ -20,6 +20,7 @@
 #include "ResultScene.h"
 #include "EditorScene.h"
 #include "InputController.h"
+#include "TutorialScene.h"
 
 #include "SoundStateScene.h"
 #include "SoundTitleScene.h"
@@ -58,7 +59,7 @@ static IStateScene* fsm[SceneMax];
 static SoundStateScene* ssm[SceneMax];
 
 //現在のシーン
-static Scene currentScene = SceneGame;
+static Scene currentScene = Scene::SceneGame;
 
 /**************************************
 初期化処理
@@ -81,6 +82,7 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	fsm[SceneGame] = new GameScene();
 	fsm[SceneResult] = new ResultScene();
 	fsm[SceneEditor] = new EditorScene();
+	fsm[SceneTutorial] = new TutorialScene();
 
 	ssm[SceneTitle] = new SoundTitleScene();
 	ssm[SceneGame] = new SoundGameScene();
@@ -167,7 +169,7 @@ void DrawGame()
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
 
 	//デバッグ表示
-//#ifdef _DEBUG
+	//#ifdef _DEBUG
 	DebugLog("FPS:%d", GetCurrentFPS());
 
 	static int debugCurrentScene = currentScene;
@@ -177,7 +179,7 @@ void DrawGame()
 	if (DebugRadioButton("Result", (int*)&debugCurrentScene, SceneResult)) ChangeScene(SceneResult);
 	if (DebugRadioButton("Editor", (int*)&debugCurrentScene, SceneEditor)) ChangeScene(SceneEditor);
 	EndDebugWindow("Scene");
-//#endif
+	//#endif
 
 
 
@@ -293,4 +295,3 @@ LPDIRECT3DTEXTURE9 GetDrawDataTemp()
 {
 	return renderTexture;
 }
-

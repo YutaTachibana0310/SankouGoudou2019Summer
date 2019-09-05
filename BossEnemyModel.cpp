@@ -13,6 +13,7 @@
 #include "BossLargeDamage.h"
 #include "BossDefeat.h"
 #include "BossIdle.h"
+#include "BossUIManager.h"
 
 #include "EnemyBulletController.h"
 
@@ -22,6 +23,10 @@
 #include "sound.h"
 #include "ScoreManager.h"
 
+#include <random>
+#include <algorithm>
+
+
 using namespace std;
 /**************************************
 マクロ定義
@@ -30,9 +35,12 @@ using namespace std;
 /**************************************
 コンストラクタ
 ***************************************/
-BossEnemyModel::BossEnemyModel(const Transform& player) :
+BossEnemyModel::BossEnemyModel(const Transform& player, BossUImanager& uiManager) :
 	player(player),
-	isDestroyed(false)
+	isDestroyed(false),
+	uiManager(uiManager),
+	flgBomberHit(false),
+	cntLoop(0)
 {
 	actor = new BossEnemyActor();
 	bulletController = new EnemyBulletController();
@@ -84,6 +92,12 @@ BossEnemyModel::~BossEnemyModel()
 ***************************************/
 int BossEnemyModel::Update()
 {
+	if (flgBomberHit)
+	{
+		ChangeState(State::LargeDamage);
+		flgBomberHit = false;
+	}
+
 	int nextState = state->OnUpdate(this);
 	if (nextState != currentState)
 	{
@@ -143,11 +157,10 @@ void BossEnemyModel::ChangeState(State next)
 /**************************************
 鉄筋セット処理
 ***************************************/
-void BossEnemyModel::SetRebar()
+void BossEnemyModel::SetRebar(int num)
 {
 	float z = 300.0f;
-	const int LoopMax[] = { 2, 3, 5 };
-	for (int i = 0; i < LoopMax[level]; i++)
+	for (int i = 0; i < num; i++)
 	{
 		int start = Math::RandomRange(0, 5);
 		int end = Math::WrapAround(0, 5, start + Math::RandomRange(1, 4));
@@ -160,10 +173,10 @@ void BossEnemyModel::SetRebar()
 		pos.z = z;
 		pos.y -= 500.0f;
 
-		RebarObstacle *rebar = new RebarObstacle(pos, model);
+		std::shared_ptr<RebarObstacle> rebar = std::make_shared<RebarObstacle>(pos, model, player);
 		rebar->Move(D3DXVECTOR3(0.0f, 500.0f, 0.0f), 120, EaseType::OutCubic);
 
-		rebarList.push_back(unique_ptr<RebarObstacle>(rebar));
+		rebarList.push_back(rebar);
 
 		z += 100.0f;
 	}
@@ -176,9 +189,14 @@ void BossEnemyModel::ThrowRebar()
 {
 	//投擲SE
 	Sound::GetInstance()->SetPlaySE(REBAR, true, (Sound::GetInstance()->changevol / 5.0f));
+
+	const int DelayDelta = 20;
+	int delay = 0;
+
 	for (auto&& rebar : rebarList)
 	{
-		rebar->Move(player, 2500.0f, 180, EaseType::InSine);
+		rebar->Move(2500.0f, 180, EaseType::InSine, delay);
+		delay += DelayDelta;
 	}
 }
 
@@ -193,6 +211,25 @@ void BossEnemyModel::StartBulletCharge()
 }
 
 /**************************************
+バレット通知
+***************************************/
+void BossEnemyModel::NotifyBullet()
+{
+	const int EdgeMax[Const::LevelMax] = { 3, 3, 4 };
+	
+	std::vector<int> edgeList;
+	MakeOneStrokeEdge(EdgeMax[level], edgeList);
+
+	bulletReserve.clear();
+	for (UINT i = 0; i < edgeList.size() - 1; i++)
+	{
+		LineTrailModel model = LineTrailModel(edgeList[i], edgeList[i + 1]);
+		bulletReserve.push_back(model);
+		uiManager.SetBulletGuide(model);
+	}
+}
+
+/**************************************
 バレット発射処理
 **************************************/
 void BossEnemyModel::FireBullet()
@@ -200,14 +237,12 @@ void BossEnemyModel::FireBullet()
 	//バレット発射SE
 	Sound::GetInstance()->SetPlaySE(BOSSSHOT, true, (Sound::GetInstance()->changevol / 5.0f));
 	static std::vector<D3DXVECTOR3> Emitter = { D3DXVECTOR3(0.0f, 0.0f, 500.0f),  D3DXVECTOR3(0.0f, 0.0f, 500.0f), D3DXVECTOR3(0.0f, 0.0f, 500.0f) };
-	static const int LoopMax[] = { 1, 2, 3 };
 
-	for (int i = 0; i < LoopMax[level]; i++)
+	for (auto&& model : bulletReserve)
 	{
-		int start = RandomRange(0, 5);
-		int end = WrapAround(0, 5, start + RandomRange(1, 5));
-		bulletController->Set(Emitter, LineTrailModel(start, end), 60, D3DXVECTOR3(2.0f, 2.0f, 2.0f));
+		bulletController->Set(Emitter, model, 60, D3DXVECTOR3(2.0f, 2.0f, 2.0f));
 	}
+	bulletReserve.clear();
 }
 
 /**************************************
@@ -215,27 +250,10 @@ void BossEnemyModel::FireBullet()
 **************************************/
 void BossEnemyModel::SetCollider()
 {
-	const UINT EdgeMax = 3;
-	int prevStart = 5;
-	int prevEnd = RandomRange(0, 5);
+	const int EdgeMax[Const::LevelMax] = {4, 5, 6};
+	vector<int> edgeList;
 
-	std::vector<int> edgeList;
-	edgeList.reserve(EdgeMax);
-
-	for (UINT i = 0; i < EdgeMax; i++)
-	{
-		int start = prevEnd;
-		edgeList.push_back(start);
-
-		int end = prevStart;
-		while (end == prevStart)
-		{
-			end = WrapAround(0, 5, start + RandomRange(1, 5));
-		}
-		prevEnd = end;
-		prevStart = start;
-	}
-
+	MakeOneStrokeEdge(EdgeMax[level], edgeList);
 	colliderController->SetCollider(edgeList);
 }
 
@@ -277,7 +295,53 @@ void BossEnemyModel::ChargeExplode(Transform*& charge, Transform*& core)
 	actor->SetWriteableZ(false);
 }
 
+/**************************************
+撃墜判定
+**************************************/
 bool BossEnemyModel::IsDesteoyed()
 {
 	return isDestroyed;
+}
+
+/**************************************
+ボンバー着弾処理
+**************************************/
+void BossEnemyModel::OnHitBomber()
+{
+	flgBomberHit = true;
+}
+
+/**************************************
+座標取得処理
+**************************************/
+D3DXVECTOR3 BossEnemyModel::GetPosition()
+{
+	return actor->GetActorPosition();
+}
+
+/**************************************
+鉄骨リスト取得
+**************************************/
+void BossEnemyModel::GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out)
+{
+	out.assign(rebarList.begin(), rebarList.end());
+}
+
+/**************************************
+一筆書きの軌跡作成処理
+**************************************/
+void BossEnemyModel::MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList)
+{
+	edgeList.clear();
+	edgeList.reserve(edgeNum);
+
+	vector<int> numberList = { 0, 1, 2, 3, 4 };
+	random_device randDevice;
+	mt19937_64 getRandMt(randDevice());
+	shuffle(numberList.begin(), numberList.end(), getRandMt);
+
+	for (int i = 0; i < edgeNum; i++)
+	{
+		edgeList.push_back(numberList[WrapAround(0, numberList.size(), i)]);
+	}
 }

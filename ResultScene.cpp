@@ -28,7 +28,7 @@
 void ResultScene::Init()
 {
 	InitResultSceneUI();
-	
+
 }
 
 /**************************************

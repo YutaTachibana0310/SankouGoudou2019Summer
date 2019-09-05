@@ -5,6 +5,7 @@
 //
 //=====================================
 #include "Polygon2D.h"
+#include "ResourceManager.h"
 
 /**************************************
 マクロ定義
@@ -26,15 +27,50 @@ Polygon2D::Polygon2D()
 	vtxWk[2].tex = D3DXVECTOR2(0.0f, 1.0f);
 	vtxWk[3].tex = D3DXVECTOR2(1.0f, 1.0f);
 
-	vtxWk[0].diffuse =
-		vtxWk[1].diffuse =
-		vtxWk[2].diffuse =
-		vtxWk[3].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	InitDiffuse();
+	InitRHW();
 
-	vtxWk[0].rhw =
-		vtxWk[1].rhw =
-		vtxWk[2].rhw =
-		vtxWk[3].rhw = 1.0f;
+	pDevice = GetDevice();
+}
+
+/**************************************
+コンストラクタ
+***************************************/
+Polygon2D::Polygon2D(float sizeX, float sizeY)
+{
+	vtxPos[0] = D3DXVECTOR3(-sizeX, -sizeY, 0.0f);
+	vtxPos[1] = D3DXVECTOR3(sizeX, -sizeY, 0.0f);
+	vtxPos[2] = D3DXVECTOR3(-sizeX, sizeY, 0.0f);
+	vtxPos[3] = D3DXVECTOR3(sizeX, sizeY, 0.0f);
+
+	vtxWk[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	vtxWk[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+	vtxWk[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+	vtxWk[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+	InitDiffuse();
+	InitRHW();
+
+	pDevice = GetDevice();
+}
+
+/**************************************
+コンストラクタ
+***************************************/
+Polygon2D::Polygon2D(float sizeX, float sizeY, float texU, float texV)
+{
+	vtxPos[0] = D3DXVECTOR3(-sizeX, -sizeY, 0.0f);
+	vtxPos[1] = D3DXVECTOR3(sizeX, -sizeY, 0.0f);
+	vtxPos[2] = D3DXVECTOR3(-sizeX, sizeY, 0.0f);
+	vtxPos[3] = D3DXVECTOR3(sizeX, sizeY, 0.0f);
+
+	vtxWk[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+	vtxWk[1].tex = D3DXVECTOR2(texU, 0.0f);
+	vtxWk[2].tex = D3DXVECTOR2(0.0f, texV);
+	vtxWk[3].tex = D3DXVECTOR2(texU, texV);
+
+	InitDiffuse();
+	InitRHW();
 
 	pDevice = GetDevice();
 }
@@ -44,7 +80,7 @@ Polygon2D::Polygon2D()
 ***************************************/
 Polygon2D::~Polygon2D()
 {
-	SAFE_RELEASE(texture);
+	texture = NULL;
 }
 
 /**************************************
@@ -100,8 +136,29 @@ void Polygon2D::SetUV(float left, float top, float width, float height)
 void Polygon2D::LoadTexture(const char* path)
 {
 	SAFE_RELEASE(texture);
+	ResourceManager::Instance()->GetTexture(path, texture);
+}
 
-	D3DXCreateTextureFromFile(pDevice, path, &texture);
+/**************************************
+ディフューズ初期化
+***************************************/
+void Polygon2D::InitDiffuse()
+{
+	vtxWk[0].diffuse =
+		vtxWk[1].diffuse =
+		vtxWk[2].diffuse =
+		vtxWk[3].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+}
+
+/**************************************
+RHW初期化
+***************************************/
+void Polygon2D::InitRHW()
+{
+	vtxWk[0].rhw =
+		vtxWk[1].rhw =
+		vtxWk[2].rhw =
+		vtxWk[3].rhw = 1.0f;
 }
 
 /**************************************

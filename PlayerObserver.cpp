@@ -137,13 +137,11 @@ void PlayerObserver::CheckInput()
 	player->inputInterval++;
 
 	//入力を確認
-	for (int i = 0; i < INPUTBUTTON_MAX; i++)
-	{
-		if (!GetMoveInput(i))
-			continue;
+	int inputID = GetMoveInput();
 
-		PushInput(i);
-	}
+	const int InvalidInput = 5;
+	if(inputID < InvalidInput)
+		PushInput(inputID);
 }
 
 /**************************************
@@ -333,9 +331,27 @@ bool PlayerObserver::ShouldFireBomber()
 /**************************************
 ボンバー発射処理
 ***************************************/
-void PlayerObserver::FirePlayerBomber(list<Enemy*> targetList)
+void PlayerObserver::FirePlayerBomber(std::list<std::shared_ptr<Enemy>>& targetList)
 {
-	if(bomberController->CanSet())
+	if (bomberController->CanSet())
+		bomberController->SetPlayerBomber(targetList, player->transform.pos);
+}
+
+/**************************************
+ボンバー発射処理
+***************************************/
+void PlayerObserver::FirePlayerBomber(std::shared_ptr<BossEnemyModel>& targetList)
+{
+	if (bomberController->CanSet())
+		bomberController->SetPlayerBomber(targetList, player->transform.pos);
+}
+
+/**************************************
+ボンバー発射処理
+***************************************/
+void  PlayerObserver::FirePlayerBomber(std::list<std::shared_ptr<RebarObstacle>>& targetList)
+{
+	if (bomberController->CanSet())
 		bomberController->SetPlayerBomber(targetList, player->transform.pos);
 }
 

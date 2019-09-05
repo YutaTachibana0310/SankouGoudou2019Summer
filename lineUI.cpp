@@ -16,52 +16,44 @@
 #define POSITION_LINE	(D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_HEIGHT/10*2,0.0f))
 
 //*****************************************************************************
-// グローバル変数
+// コンストラクタ
 //*****************************************************************************
-OBJECT	line;
-
-//=============================================================================
-// 初期化処理
-//=============================================================================
-HRESULT InitLine(void)
+Line::Line()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	line = new Object();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_LINE, &line);
-	InitialTexture(&line);
-	MakeVertexObject(&line);
+	line->LoadTexture("data/TEXTURE/UI/interfaceLine.png");
 
-	line.position	= POSITION_LINE;
-	line.size		= SIZE_LINE;
-	line.rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	line->position = POSITION_LINE;
+	line->size = SIZE_LINE;
+	line->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	SetColorObject(&line, SET_COLOR_NOT_COLORED);
+	line->SetColorObject(SET_COLOR_NOT_COLORED);
 
-	return S_OK;
+	line->MakeVertex();
 }
 
-//=============================================================================
-// 終了処理
-//=============================================================================
-void UninitLine(void)
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+Line::~Line()
 {
-	ReleaseTexture(&line);
+	delete line;
+	line = NULL;
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateLine()
+void Line::Update()
 {
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawLine(void)
+void Line::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
-	DrawObject(pDevice, line);
-	SetVertexObject(&line);
+	line->Draw();
+	line->SetVertex();
 }

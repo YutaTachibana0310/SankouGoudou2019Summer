@@ -36,8 +36,8 @@ int GameScene::GameBossBattle::OnUpdate(GameScene* entity)
 	entity->UpdateWhole();
 
 	//ƒ{ƒ“ƒo[”­Ë”»’è
-	if (entity->ShouldFireBomber())
-		result = GameScene::State::BombSequence;
+	if (entity->ShouldFireBomberOnBossBattle())
+		result = GameScene::State::BossBombSequence;
 
 	//Õ“Ë”»’è
 	TrailCollider::UpdateCollision();

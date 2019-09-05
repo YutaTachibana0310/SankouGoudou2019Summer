@@ -10,6 +10,7 @@
 #include "EnemyController.h"
 
 #include <vector>
+#include <memory>
 
 using namespace std;
 /**************************************
@@ -46,7 +47,7 @@ int GameScene::GameBomberSequence::OnUpdate(GameScene* entity)
 	//発射タイミングであればボンバー発射
 	if (cntFrame == GAMEBOMBERSEQUENCE_LAUNCH_TIME)
 	{
-		list<Enemy*> targetList;
+		list<shared_ptr<Enemy>> targetList;
 		entity->enemyController->GetEnemyList(targetList);
 		entity->playerObserver->FirePlayerBomber(targetList);
 	}

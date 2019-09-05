@@ -31,18 +31,34 @@ void BossEnemyModel::BossHomingAttack::OnStart(BossEnemyModel *entity)
 int BossEnemyModel::BossHomingAttack::OnUpdate(BossEnemyModel* entity)
 {
 	cntFrame++;
+	const int LoopMax[BossEnemyModel::Const::LevelMax] = { 2, 3, 4 };
+	const int NotifyTiming = 90;
+	const int FireTiming = 120;
+	const int LoopTiming = 150;
+	const int FinishTiming = 300;
 
 	int result = BossEnemyModel::State::HomingAttack;
 
-	if (cntFrame == 120)
+	if (cntFrame == NotifyTiming)
+	{
+		entity->NotifyBullet();
+	}
+
+	if (cntFrame == FireTiming)
 	{
 		entity->FireBullet();
 	}
 
-	if (cntFrame == 300)
+	if (cntFrame == LoopTiming && entity->cntAttack < LoopMax[entity->level])
 	{
-		result = BossEnemyModel::State::Idle;
+		entity->cntAttack++;
+		OnStart(entity);
+	}
+
+	if (cntFrame == FinishTiming)
+	{
 		entity->cntLoop++;
+		result = BossEnemyModel::State::Idle;
 	}
 	return result;
 }

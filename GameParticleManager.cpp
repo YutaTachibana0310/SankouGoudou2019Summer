@@ -27,6 +27,7 @@
 #include "ExplosionFire.h"
 #include "ExplosionFireCharge.h"
 #include "ExplosionFireCore.h"
+#include "RebarExplosion.h"
 
 #include "LineTrailModel.h"
 
@@ -68,6 +69,7 @@ enum ParticleController
 	BossExplosion,
 	BossExplosionCharge,
 	BossExplosionCore,
+	RearExplosion,
 	ControllerMax
 };
 
@@ -102,7 +104,7 @@ void GameParticleManager::Init()
 	controllers[BossExplosion] = new ExplosionFireController();
 	controllers[BossExplosionCharge] = new ExplosionFireChargeController();
 	controllers[BossExplosionCore] = new ExplosionFireCoreController();
-
+	controllers[ParticleController::RearExplosion] = new RebarExplosionController();
 	//各パーティクル初期化
 	for (auto& controller : controllers)
 	{
@@ -288,6 +290,14 @@ BaseEmitter* GameParticleManager::SetBossExplosionCharge(D3DXVECTOR3 *pos)
 BaseEmitter * GameParticleManager::SetBossExplosionCore(D3DXVECTOR3 * pos)
 {
 	return controllers[BossExplosionCore]->SetEmitter(pos);
+}
+
+/**************************************
+鉄骨爆発
+***************************************/
+void GameParticleManager::SetRearExplosion(D3DXVECTOR3 *pos)
+{
+	controllers[ParticleController::RearExplosion]->SetEmitter(pos);
 }
 
 #ifdef GAMEPARTICLE_USE_DEBUG

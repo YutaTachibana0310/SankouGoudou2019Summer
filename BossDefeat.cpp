@@ -25,15 +25,18 @@ void BossEnemyModel::BossDefeat::OnStart(BossEnemyModel* entity)
 ***************************************/
 int BossEnemyModel::BossDefeat::OnUpdate(BossEnemyModel* entity)
 {
+	const int AnimationChangeTiming = 10;
+	const int FinishTiming = 240;
+
 	cntFrame++;
 
 	effect->pos = entity->actor->GetActorPosition();
 	core->pos = entity->actor->GetActorPosition();
 
-	if(cntFrame == 10)
+	if(cntFrame == AnimationChangeTiming)
 		entity->actor->ChangeAnimation(BossEnemyActor::AnimID::Defeat);
 
-	if (cntFrame == 240)
+	if (cntFrame == FinishTiming)
 	{
 		entity->isDestroyed = true;
 		entity->Explode();

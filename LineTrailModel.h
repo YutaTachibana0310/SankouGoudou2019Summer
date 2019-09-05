@@ -8,7 +8,7 @@
 #define _LINETRAILMODEL_H_
 
 #include "main.h"
-
+#include <vector>
 /**************************************
 LineTrailIndex
 **************************************/
@@ -37,7 +37,7 @@ public:
 	bool operator == (const LineTrailModel& obj) const;
 	bool operator != (const LineTrailModel& obj) const;
 
-	static void CalcEdgePosition();
+	static void CalcEdgePosition(std::vector<D3DXVECTOR3>& startPos);
 	static D3DXVECTOR3 GetEdgePos(int i);
 
 private:

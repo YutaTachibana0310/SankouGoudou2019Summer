@@ -55,10 +55,7 @@ int GameScene::GameBattle::OnUpdate(GameScene *entity)
 
 	//I—¹”»’è
 	if (entity->enemyController->IsFinishedEnemy())
-		result = GameScene::State::BossBattle;
-		
-	
-
+		result = GameScene::State::BossStart;
 
 	return result;
 	

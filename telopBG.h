@@ -10,20 +10,55 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	ADRESS_TEXTURE_TELOP_BG	("data/TEXTURE/UI/telop/telopBG.png")	// 読み込むテクスチャファイル名
+
+enum TELOP_ANIM_SCENE
+{
+	WAIT_BG_OPEN,
+	IN_TEXT,
+	STOP_TEXT,
+	OUT_TEXT,
+	WAIT_BG_CLOSE
+};
+
+/**************************************
+前方宣言
+***************************************/
+class Object;
 
 //*****************************************************************************
-// プロトタイプ宣言
+// 構造体定義
 //*****************************************************************************
-HRESULT InitTelopBG(void);
-void UninitTelopBG(void);
-void UpdateTelopBG(void);
-void DrawTelopBG(void);
+class TelopBG
+{
+public:
+	TelopBG();
+	~TelopBG();
 
-void AvctivateTelopBGOpen(void);
-void AvctivateTelopBGClose(void);
+	void Update(void);
+	void Draw(void);
 
-bool GetTelopBGOpenActive(void);
-bool GetTelopBGCloseActive(void);
+	//テロップ開閉開始処理
+	void AvctivateTelopBGOpen(void);
+	void AvctivateTelopBGClose(void);
+
+	bool GetTelopBGOpenActive(void);
+	bool GetTelopBGCloseActive(void);
+
+private:
+	Object * telopBG;
+
+	float percentage;
+
+	float easingStart;
+	float easingGoal;
+
+	void OpenTelopBG(void);
+	void CloseTelopBG(void);
+
+	void SetVertex(float percentage);
+
+	void SetEasingValueTelopBGOpen(void);
+	void SetEasingValueTelopBGClose(void);
+};
 
 #endif

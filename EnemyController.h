@@ -22,6 +22,8 @@
 #include <list>
 #include <vector>
 #include <map>
+#include <memory>
+
 /**************************************
 列挙子定義
 ***************************************/
@@ -60,7 +62,7 @@ public:
 	void SetEnemy();
 
 	//エネミー座標取得処理
-	void GetEnemyList(std::list<Enemy*>& out);
+	void GetEnemyList(std::list<std::shared_ptr<Enemy>>& out);
 
 	//ボンバーシーケンスコールバック
 	void OnFinishBombSequence();
@@ -76,7 +78,7 @@ private:
 	int cntFrame;
 
 	std::vector<StageModel> stageModelList;
-	int currentIndex;
+	UINT currentIndex;
 
 	EnemyBulletController* bulletController;
 	EnemyGuideArrowController* guideController;

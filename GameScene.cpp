@@ -25,12 +25,15 @@
 #include "ScoreManager.h"
 #include "PostEffect\SpeedBlurController.h"
 #include "BossController.h"
+#include "BossUIManager.h"
 
 #include "GameStart.h"
 #include "GameBattle.h"
 #include "GameEnd.h"
 #include "GameBomberSequence.h"
 #include "GameBossBattle.h"
+#include "GameBossStart.h"
+#include "GameBossBombSequence.h"
 
 #include "RebarOb.h"
 #include <functional>
@@ -64,6 +67,8 @@ void GameScene::Init()
 	fsm[State::End] = new GameEnd();
 	fsm[State::BombSequence] = new GameBomberSequence();
 	fsm[State::BossBattle] = new GameBossBattle();
+	fsm[State::BossStart] = new GameBossStart();
+	fsm[State::BossBombSequence] = new GameBossBombSequence();
 
 	//暗転用ポリゴン作成
 	darkMask = new Polygon2D();
@@ -71,18 +76,23 @@ void GameScene::Init()
 	darkMask->SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.5f));
 	useDarkMask = false;
 
+	gameSceneUIManager = new GameSceneUIManager();
+
 	//UI初期化
-	InitGameSceneUI();
+	gameSceneUIManager->Init();
 
 	//☆ボタンの位置からワールド座標を計算
-	LineTrailModel::CalcEdgePosition();
+	std::vector<D3DXVECTOR3> starPositionContainer;
+	gameSceneUIManager->GetStarPosition(starPositionContainer);
+	LineTrailModel::CalcEdgePosition(starPositionContainer);
 
 	//インスタンス生成
 	enemyController = new EnemyController();
 	particleManager = GameParticleManager::Instance();
 	playerObserver = new PlayerObserver();
 	bgController = new BackGroundController();
-	bossController = new BossController(playerObserver->GetPlayerTransform());
+	bossUI = new BossUImanager();
+	bossController = new BossController(playerObserver->GetPlayerTransform(), *bossUI);
 
 	SetPlayerObserverAdr(playerObserver);
 
@@ -123,6 +133,14 @@ void GameScene::Init()
 	{
 		this->OnAddCombo(n);
 	});
+	SetScoreIntance(gameSceneUIManager->score);
+	SetGameScneeUIManagerInstance(gameSceneUIManager);
+
+	//インプットコントローラにUImanagerのインスタンスを渡す
+	SetInstanceUIManager(gameSceneUIManager);
+
+	//スコア初期化
+	SetCurrentGameScore(0);
 }
 
 /**************************************
@@ -143,17 +161,19 @@ void GameScene::Uninit()
 	enemyController->Uninit();
 
 	//UI終了
-	UninitGameSceneUI();
-
-	//パーティクル終了
-	particleManager->Uninit();
+	gameSceneUIManager->Uninit();
 
 	//インスタンス削除
+	SAFE_DELETE(gameSceneUIManager);
 	SAFE_DELETE(enemyController);
 	SAFE_DELETE(playerObserver);
 	SAFE_DELETE(bgController);
 	SAFE_DELETE(darkMask);
 	SAFE_DELETE(bossController);
+	SAFE_DELETE(bossUI);
+
+	//パーティクル終了
+	particleManager->Uninit();
 
 	//ステートマシン削除
 	for (auto& pair : fsm)
@@ -179,7 +199,8 @@ void GameScene::Update(HWND hWnd)
 
 	//UIの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
-	UpdateGameSceneUI(hWnd);
+	gameSceneUIManager->Update(hWnd);
+	bossUI->Update();
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
 
 	BeginDebugWindow("Console");
@@ -235,7 +256,8 @@ void GameScene::Draw()
 	CountDebugTimer(GAMESCENE_LABEL, "DrawpostEffect");
 
 	//UI描画
-	DrawGameSceneUI();
+	gameSceneUIManager->Draw();
+	bossUI->Draw();
 
 	DrawDebugTimer(GAMESCENE_LABEL);
 }
@@ -333,4 +355,13 @@ void GameScene::OnClearCombo()
 bool GameScene::ShouldFireBomber()
 {
 	return playerObserver->ShouldFireBomber() && enemyController->ExistsAcitveEnemy();
+}
+
+/**************************************
+ボス戦時
+***************************************/
+bool GameScene::ShouldFireBomberOnBossBattle()
+{
+	//TODO : ボス撃墜後にボンバーを発射できないようにする
+	return  playerObserver->ShouldFireBomber();
 }

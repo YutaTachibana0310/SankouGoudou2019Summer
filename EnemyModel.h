@@ -15,6 +15,7 @@
 #include "enemy.h"
 
 #include <vector>
+#include <memory>
 
 class BaseEmitter;
 /**************************************
@@ -49,14 +50,14 @@ public:
 	virtual void Draw();
 
 	virtual void OnNotified(ObserveSubject *notifier);
-	virtual void GetEnemy(std::list<Enemy*>& out);
+	virtual void GetEnemy(std::list<std::shared_ptr<Enemy>>& out);
 	virtual void CheckDestroied();
 
 	int cntFrame;
 	bool active;
 	TrailCollider *collider;
 	LineTrailModel model;
-	std::vector<Enemy*> enemyList;
+	std::vector<std::shared_ptr<Enemy>> enemyList;
 	std::vector<BaseEmitter*> chageEffectList;
 
 	//ŒÜŠpŒ`‚ÌŠOü‚ğ\¬‚·‚éLineModel

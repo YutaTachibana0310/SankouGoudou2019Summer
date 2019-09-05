@@ -22,6 +22,7 @@
 ***************************************/
 class BossEnemyActor;
 class EnemyBulletController;
+class BossUImanager;
 
 /**************************************
 ƒNƒ‰ƒX’è‹`
@@ -40,7 +41,7 @@ public:
 		Defeat
 	};
 
-	BossEnemyModel(const Transform& player);
+	BossEnemyModel(const Transform& player, BossUImanager& uiManager);
 	~BossEnemyModel();
 
 	int Update();
@@ -48,10 +49,11 @@ public:
 
 	void ChangeState(State next);
 
-	void SetRebar();
+	void SetRebar(int num);
 	void ThrowRebar();
 
 	void StartBulletCharge();
+	void NotifyBullet();
 	void FireBullet();
 
 	void SetCollider();
@@ -63,24 +65,35 @@ public:
 
 	bool IsDesteoyed();
 
+	void OnHitBomber();
+
+	D3DXVECTOR3 GetPosition();
+
+	void GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out);
+
 private:
 	BossEnemyActor* actor;
 	std::unordered_map < State, IStateMachine<BossEnemyModel>*> fsm;
 	IStateMachine<BossEnemyModel>* state;
 	State currentState, prevState;
 
-	std::list<std::unique_ptr<RebarObstacle>> rebarList;
+	std::list<std::shared_ptr<RebarObstacle>> rebarList;
 
 	EnemyBulletController *bulletController;
+	std::vector<LineTrailModel> bulletReserve;
 
 	BossColliderController *colliderController;
 
 	const Transform& player;
+	BossUImanager& uiManager;
 
 	int cntAttack;
 	int level;
 	int cntLoop;
 	bool isDestroyed;
+	bool flgBomberHit;
+
+	void MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList);
 	
 	class BossInit;
 	class BossRebarAttack;
@@ -90,6 +103,11 @@ private:
 	class BossDefeat;
 	class BossIdle;
 	class BossDamageable;
+
+	enum Const
+	{
+		LevelMax = 3
+	};
 };
 
 #endif

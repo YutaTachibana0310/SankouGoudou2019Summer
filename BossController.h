@@ -25,7 +25,7 @@
 class BossController
 {
 public:
-	BossController(const Transform& player);
+	BossController(const Transform& player, BossUImanager& manager);
 	~BossController();
 
 	void Update();
@@ -34,9 +34,12 @@ public:
 	void SetActive(bool state);
 	bool IsActive();
 
+	std::shared_ptr<BossEnemyModel> GetBoss();
+	void GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out);
+
 private:
 	bool active;
-	BossEnemyModel *bossModel;
+	std::shared_ptr<BossEnemyModel> bossModel;
 };
 
 #endif

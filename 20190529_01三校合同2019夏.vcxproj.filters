@@ -858,6 +858,9 @@
     <ClInclude Include="MidiumEnemyModel.h">
       <Filter>ヘッダー ファイル\Enemy\Model</Filter>
     </ClInclude>
+    <ClInclude Include="MidiumEditWindow.h">
+      <Filter>ヘッダー ファイル\Stage\EditWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1465,6 +1468,9 @@
     </ClCompile>
     <ClCompile Include="MidiumEnemyModel.cpp">
       <Filter>ソース ファイル\Enemy\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="MidiumEditWindow.cpp">
+      <Filter>ソース ファイル\Stage\EditWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -19,6 +19,9 @@
 #include "Framework\ResourceManager.h"
 #include "GameParticleManager.h"
 
+#include "sound.h"
+#include "ScoreManager.h"
+
 using namespace std;
 /**************************************
 マクロ定義
@@ -171,6 +174,8 @@ void BossEnemyModel::SetRebar()
 ***************************************/
 void BossEnemyModel::ThrowRebar()
 {
+	//投擲SE
+	Sound::GetInstance()->SetPlaySE(REBAR, true, (Sound::GetInstance()->changevol / 5.0f));
 	for (auto&& rebar : rebarList)
 	{
 		rebar->Move(player, 2500.0f, 180, EaseType::InSine);
@@ -192,6 +197,8 @@ void BossEnemyModel::StartBulletCharge()
 **************************************/
 void BossEnemyModel::FireBullet()
 {
+	//バレット発射SE
+	Sound::GetInstance()->SetPlaySE(BOSSSHOT, true, (Sound::GetInstance()->changevol / 5.0f));
 	static std::vector<D3DXVECTOR3> Emitter = { D3DXVECTOR3(0.0f, 0.0f, 500.0f),  D3DXVECTOR3(0.0f, 0.0f, 500.0f), D3DXVECTOR3(0.0f, 0.0f, 500.0f) };
 	static const int LoopMax[] = { 1, 2, 3 };
 
@@ -238,6 +245,11 @@ void BossEnemyModel::SetCollider()
 void BossEnemyModel::OnDamage()
 {
 	actor->ChangeAnimation(BossEnemyActor::AnimID::Damage);
+	//ダメージSE
+	Sound::GetInstance()->SetPlaySE(ENEMYDOWN2, true, (Sound::GetInstance()->changevol / 10.0f));
+	//スコア・コンボ加算
+	//SetAddScore(10);
+	//SetAddCombo(10);
 }
 
 /**************************************

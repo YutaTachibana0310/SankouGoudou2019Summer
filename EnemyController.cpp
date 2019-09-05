@@ -20,6 +20,7 @@
 #include <algorithm>
 #include <fstream>
 
+#include "sound.h"
 using namespace std;
 
 /**************************************
@@ -309,6 +310,9 @@ void EnemyController::SetChageEffect(EnemyModel *model)
 {
 	model->chageEffectList.clear();
 	model->chageEffectList.resize(model->enemyList.size());
+
+	//ƒoƒŒƒbƒg”­ŽËSE
+	Sound::GetInstance()->SetPlaySE(BOSSSHOT, true, (Sound::GetInstance()->changevol / 10.0f));
 
 	UINT cntSet = 0;
 	for (auto& enemey : model->enemyList)

@@ -234,6 +234,7 @@ void Player::StockBomber()
 ******************************************/
 void Player::OnNotified(BoxCollider3DTag other)
 {
+	Sound::GetInstance()->SetPlaySE(PLAYERDAMAGE, true, (Sound::GetInstance()->changevol / 10.0f));
 	SpikeNoiseController::Instance()->SetNoise(0.5f, 20);
 	hp -= PLAYER_DAMAGE;
 

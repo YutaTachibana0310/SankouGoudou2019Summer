@@ -37,6 +37,8 @@ const char ENEMYNOTICE_SE[] = "エネミー出現予告";
 const char BOMB_SE[] = "bomb";
 const char BOMBSTOCK_SE[] = "bombstock";
 const char ENTER_SE[] = "ENTERSE";
+const char ALARM_SE[] = "警報";
+const char BOSSSHOT_SE[] = "bossshot";
 
 
 //ナンバーはWaveに登録した順番になること
@@ -62,6 +64,9 @@ enum SENAME
 	BOMB,
 	BOMBSTOCK,
 	ENTERSE,
+	REBAR,
+	ALARM,
+	BOSSSHOT,
 	MAXSE
 };
 class Sound {

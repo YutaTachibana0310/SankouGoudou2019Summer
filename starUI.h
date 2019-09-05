@@ -48,7 +48,7 @@ public:
 private:
 	RotateObject * star[STAR_MAX];
 	RotateObject * outerCircle[STAR_MAX];
-	RotateObject * innerCircle[STAR_MAX];
+	RotateObject * innerCircle[STAR_MAX];	
 
 	void RotateStar(int num);
 	void RotateCircle(void);

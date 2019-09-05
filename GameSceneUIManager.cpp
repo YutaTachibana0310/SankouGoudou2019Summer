@@ -133,7 +133,7 @@ void GameSceneUIManager::Update(HWND hWnd)
 	}
 	if (GetKeyboardTrigger(DIK_5))
 	{
-		SetHPGuage(50);
+		SetHPGuage(50,100);
 	}
 	if (GetKeyboardTrigger(DIK_6))
 	{
@@ -326,9 +326,10 @@ int GameSceneUIManager::IsStarSelected()
 }
 
 //=============================================================================
-// HPゲージセット処理(引数で与えた値をゲージの割合に反映する)
+// HPゲージセット処理(第一引数：現在のプレイヤーHP、第二引数：プレイヤーの最大HP)
 //=============================================================================
-void GameSceneUIManager::SetHPGuage(int num)
+void GameSceneUIManager::SetHPGuage(int currentHp,int maxHp)
 {
-	guage->trueGuagePercentage = (float)num/guage->maxHp;
+	guage->maxHp = maxHp;
+	guage->trueGuagePercentage = (float)currentHp/guage->maxHp;
 }

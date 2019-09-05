@@ -8,14 +8,15 @@
 #include "comboUI.h"
 #include "UIdrawer.h"
 #include "input.h"
+#include "Viewer3D.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	INTERVAL_NUMBER		(80.0f)			// コンボ数字の表示間隔
+#define	INTERVAL_NUMBER		(40.0f)		// コンボ数字の表示間隔
 #define	INTERVAL_NUMBER_TEXTURE	(0.1f)	// テクスチャ内コンボ数字の表示間隔
-#define	PLACE_MAX			(2)				// コンボの桁数
-#define BASE_NUMBER			(10)			// 進数
+#define	PLACE_MAX			(2)			// コンボの桁数
+#define BASE_NUMBER			(10)		// 進数
 #define VOLUME_ZOOM			(50.0f)
 #define SPEED_VOLUMEUP_NUMBER_COMBO (0.2f)
 
@@ -23,38 +24,43 @@
 #define SIZE_NUMBER_COMBO		(D3DXVECTOR3(30.0f,50.0f,0.0f))
 #define SIZE_BACKGROUND_COMBO	(D3DXVECTOR3(160.0f,80.0f,0.0f))
 
-// 座標定義
-#define POSITION_BG_COMBO		(D3DXVECTOR3(SCREEN_WIDTH / 10 * 1.0f, SCREEN_HEIGHT / 10 * 3, 0.0f))
-#define POSITION_NUMBER_COMBO	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 0.20f, SCREEN_HEIGHT / 10 * 2.7, 0.0f))
+//// 座標定義(2D)
+//#define POSITION_BG_COMBO		(D3DXVECTOR3(SCREEN_WIDTH / 10 * 1.0f, SCREEN_HEIGHT / 10 * 3.0f, 0.0f))
+//#define POSITION_NUMBER_COMBO	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 0.20f, SCREEN_HEIGHT / 10 * 2.70f, 0.0f))
+
+// 座標定義(3D)
+#define POSITION_NUMBER_COMBO	(D3DXVECTOR3(50.0f,50.0f,0.0f))
+#define POSITION_BG_COMBO		(D3DXVECTOR3(160.0f,80.0f,0.0f))
 
 //*****************************************************************************
 // コンストラクタ
 //*****************************************************************************
 Combo::Combo()
 {
+	//ナンバー
 	number = new CounterObject();
-	bg = new RotateObject();
-
 	number->LoadTexture("data/TEXTURE/UI/Combo/number_L.png");
-	bg->LoadTexture("data/TEXTURE/UI/Combo/comboBG.png");
-
 	number->MakeVertex();
-	bg->MakeVertex();
-
 	number->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	bg->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
-	number->position = POSITION_NUMBER_COMBO;
-	bg->position = POSITION_BG_COMBO;
-
-	number->size = SIZE_NUMBER_COMBO;
-	bg->size = SIZE_BACKGROUND_COMBO;
-
+	number->position = POSITION_NUMBER_COMBO/2;
+	number->size = SIZE_NUMBER_COMBO/2;
 	number->SetColorObject(SET_COLOR_NOT_COLORED);
-	bg->SetColorObject(SET_COLOR_NOT_COLORED);
 
-	// 回転オブジェクト用のサークルを作成
+	//背景
+	bg = new RotateObject();
+	bg->LoadTexture("data/TEXTURE/UI/Combo/comboBG.png");
+	bg->MakeVertex();
+	bg->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	bg->CreateObjectCircle();
+	bg->position = POSITION_BG_COMBO/2;
+	bg->size = SIZE_BACKGROUND_COMBO/2;
+	bg->SetColorObject(SET_COLOR_NOT_COLORED);
+	bg->CreateObjectCircle();
+
+	//ビュアー
+	viewer = new Viewer3D(SIZE_BACKGROUND_COMBO.x, SIZE_BACKGROUND_COMBO.y, D3DXVECTOR2(22.0f, 20.0f));
+	viewer->SetPosition(D3DXVECTOR3(-110.0f, 10.0f, 0.0f));
+	viewer->SetRotation(0.0f, -30.0f, 0.0f);
 
 	// 最大値設定
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
@@ -77,6 +83,9 @@ Combo::~Combo()
 
 	delete bg;
 	bg = NULL;
+
+	delete viewer;
+	viewer = NULL;
 }
 
 //=============================================================================
@@ -106,6 +115,8 @@ void Combo::Update(void)
 //=============================================================================
 void Combo::Draw(void)
 {
+	viewer->Begin2D();
+
 	 //背景を先に描画
 	bg->Draw();
 	bg->SetVertex();
@@ -120,7 +131,10 @@ void Combo::Draw(void)
 		number->Draw();
 		number->SetVertex(nCntPlace, INTERVAL_NUMBER);
 		number->SetTexture(num, INTERVAL_NUMBER_TEXTURE);
-	}	
+	}
+
+	viewer->End2D();
+	viewer->Draw3D();
 }
 
 //=============================================================================
@@ -130,7 +144,7 @@ void Combo::VolumeUpEffect(void)
 {
 	if (volumeUpEffectUsed == true)
 	{
-		number->size.y = SIZE_NUMBER_COMBO.y + VOLUME_ZOOM * sinf(radian);
+		number->size.y = SIZE_NUMBER_COMBO.y/2 + VOLUME_ZOOM * sinf(radian);
 
 		if (radian >= D3DX_PI)
 		{

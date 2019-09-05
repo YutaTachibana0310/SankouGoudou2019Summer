@@ -26,7 +26,7 @@
 StarButton::StarButton()
 {
 	// À•WÝ’è
-	const float Radius = 420.0f;								//³ŒÜŠpŒ`‚Ì”¼Œa
+	const float Radius = 380.0f;								//³ŒÜŠpŒ`‚Ì”¼Œa
 	const float BaseAngle = D3DXToRadian(360.0f) / STAR_MAX;	//³ŒÜŠpŒ`‚Ì“àŠp
 	const float CenterX = (float)SCREEN_CENTER_X;
 	const float CenterY = (float)SCREEN_CENTER_Y + 40.0f;
@@ -69,6 +69,8 @@ StarButton::StarButton()
 		innerCircle[i]->position.x = sinf(i * BaseAngle) * -Radius + CenterX;
 		innerCircle[i]->position.y = cosf(i * BaseAngle) * -Radius + CenterY;
 	}
+
+	
 }
 
 //*****************************************************************************

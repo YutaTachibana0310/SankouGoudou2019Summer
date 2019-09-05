@@ -12,13 +12,19 @@
 #include "PlayerController.h"
 #include "player.h"
 #include <vector>
+#include "Viewer3D.h"
 #include "trailUI.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
 #define SIZE_TRAIL		(D3DXVECTOR3(100.0f,100.0f,0.0f))
-#define POSITION_TRAIL	(D3DXVECTOR3(SCREEN_WIDTH/10*9,SCREEN_HEIGHT/10*3,0.0f))
+
+////座標設定(2D)
+//#define POSITION_TRAIL	(D3DXVECTOR3(SCREEN_WIDTH/10*9,SCREEN_HEIGHT/10*3,0.0f))
+
+//座標設定(3D)
+#define POSITION_TRAIL	(D3DXVECTOR3(100.0f,100.0f,0.0f))
 
 //*****************************************************************************
 // コンストラクタ
@@ -33,12 +39,16 @@ Trail::Trail()
 		trail[i]->LoadTexture(texPath[i]);
 		trail[i]->MakeVertex();
 
-		trail[i]->position = POSITION_TRAIL;
-		trail[i]->size = SIZE_TRAIL;
+		trail[i]->position = POSITION_TRAIL/2;
+		trail[i]->size = SIZE_TRAIL/2;
 		trail[i]->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 		trail[i]->SetColorObject(SET_COLOR_NOT_COLORED);
 	}
+
+	viewer = new Viewer3D(SIZE_TRAIL.x, SIZE_TRAIL.y,D3DXVECTOR2(18.0f,20.0f));
+	viewer->SetPosition(D3DXVECTOR3(115.0f, 30.0f, 0.0f));
+	viewer->SetRotation(0.0f, 30.0f, 0.0f);
 }
 
 //*****************************************************************************
@@ -51,6 +61,9 @@ Trail::~Trail()
 		delete trail[i];
 		trail[i] = NULL;
 	}
+
+	delete viewer;
+	viewer = NULL;
 }
 
 //=============================================================================
@@ -65,6 +78,8 @@ void Trail::Update(void)
 //=============================================================================
 void Trail::Draw(void)
 {
+	viewer->Begin2D();
+
 	// プレイヤーから受け取ったデータを入れる
 	std::vector <int> drawHistory;
 	GetPlayerMoveHistory(&drawHistory);
@@ -81,4 +96,7 @@ void Trail::Draw(void)
 		trail[drawHistory[i]]->Draw();
 		trail[drawHistory[i]]->SetVertex();
 	}
+
+	viewer->End2D();
+	viewer->Draw3D();
 }

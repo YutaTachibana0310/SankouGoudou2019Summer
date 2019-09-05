@@ -12,6 +12,7 @@
 ***************************************/
 class Object;
 class GuageObject;
+class Viewer3D;
 
 //*****************************************************************************
 // 構造体定義
@@ -25,8 +26,7 @@ public:
 	void Update(void);
 	void Draw(void);
 
-	const int maxHp = 100;
-
+	int maxHp;
 	float trueGuagePercentage;	//実際のゲージパーセンテージ
 
 private:
@@ -34,6 +34,7 @@ private:
 	GuageObject *hPGuage;
 	Object *frame;
 	Object *bg;
+	Viewer3D * viewer;
 
 	float	damageGuagePercentage;	//ダメージ表現ゲージパーセンテージ
 };

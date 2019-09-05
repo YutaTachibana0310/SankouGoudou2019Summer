@@ -6,6 +6,7 @@
 //
 //=====================================
 #include "MidiumEnemyModel.h"
+#include "GameParticleManager.h"
 
 /**************************************
 グローバル変数
@@ -15,7 +16,8 @@
 コンストラクタ
 ***************************************/
 MidiumEnemyModel::MidiumEnemyModel() :
-	step(0)
+	step(0),
+	hp(3)
 {
 	cntFrame = 0;
 	active = true;
@@ -54,7 +56,7 @@ int MidiumEnemyModel::Update()
 	else if (state == State::Moving)
 		res = UpdateOnMoving();
 	else if (state == State::Damage)
-		res = UpdateOnWait();
+		res = UpdateOnDamage();
 
 	for (auto&& enemy : enemyList)
 	{
@@ -77,6 +79,36 @@ void MidiumEnemyModel::GetShotPos(std::vector<D3DXVECTOR3>& out)
 			out.push_back(enemy->m_Pos + ShotPosOffset);
 		}
 	}
+}
+
+/**************************************
+衝突判定通知処理
+***************************************/
+void MidiumEnemyModel::OnNotified(ObserveSubject * notifier)
+{
+	//ダメージ演出中は判定しない
+	if (state == State::Damage)
+		return;
+
+	hp--;
+
+	if (hp == 0)
+	{
+		for (auto&& enemy : enemyList)
+		{
+			enemy->m_FlgDestroyed = true;
+		}
+
+	}
+
+	for (auto&& emitter : chageEffectList)
+	{
+		if (emitter != NULL)
+			emitter->active = false;
+	}
+
+	cntFrame = 0;
+	state = State::Damage;
 }
 
 /**************************************
@@ -153,7 +185,7 @@ int MidiumEnemyModel::UpdateOnDamage()
 
 	dynamic_pointer_cast<EnemyMidium>(enemyList[0])->HitAnimation();
 
-	const int DamageDuration = 120;
+	const int DamageDuration = 59;
 	if (cntFrame == DamageDuration)
 	{
 		cntFrame = 0;

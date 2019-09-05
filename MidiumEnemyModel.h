@@ -28,6 +28,7 @@ public:
 	void Init(std::vector<LineTrailModel>& moveList);
 	int Update();
 	virtual void GetShotPos(std::vector<D3DXVECTOR3>& out);
+	void OnNotified(ObserveSubject *notifier);
 
 private:
 	enum State
@@ -39,6 +40,8 @@ private:
 
 	State state;
 	UINT step;
+	int hp;
+
 	std::vector<LineTrailModel> moveTargetList;
 
 	const float PosZ = 200;

@@ -9,6 +9,7 @@
 #include "ChangeEnemyFactory.h"
 #include "StraightEnemyFactory.h"
 #include "SnakeEnemyFactory.h"
+#include "MidiumEnemyFactory.h"
 #include "EnemyBullet.h"
 #include "GameParticleManager.h"
 #include "BossEnemyModel.h"
@@ -39,7 +40,6 @@ using namespace std;
 /**************************************
 グローバル変数
 ***************************************/
-static MidiumEnemyModel *test;
 
 /**************************************
 コンストラクタ
@@ -58,8 +58,8 @@ EnemyController::EnemyController()
 	//各ファクトリー作成
 	factoryContainer["Change"] = new ChangeEnemyFactory();
 	factoryContainer["Straight"] = new StraightEnemyFactory();
-	factoryContainer["Snake"] = new SnakeEnemyFactory();
-
+	factoryContainer["Snake"] = new SnakeEnemyFactory(); 
+	factoryContainer["Midium"] = new MidiumEnemyFactory();
 	//ステージデータ読み込み
 	LoadStageData();
 }
@@ -100,15 +100,7 @@ void EnemyController::Init()
 
 	//新しく作るEnemyの初期化テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	test = new MidiumEnemyModel();
-	std::vector<LineTrailModel> targetList = {
-		LineTrailModel(0, 1),
-		LineTrailModel(2, 3),
-		LineTrailModel(4, 1),
-		LineTrailModel(2, 0)
-	};
-	test->Init(targetList);
-	modelList.push_back(test);
+
 #endif
 }
 
@@ -210,7 +202,6 @@ void EnemyController::DrawGuide()
 ***************************************/
 void EnemyController::SetEnemy()
 {
-	return;
 	cntFrame++;
 
 	//ガイド生成

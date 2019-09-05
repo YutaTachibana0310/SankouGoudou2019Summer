@@ -49,6 +49,7 @@ EnemyController::EnemyController()
 	//リソース読み込み
 	//解放はシーン終了時にGame.cppで一括して開放する
 	ResourceManager::Instance()->LoadMesh("Enemy", "data/MODEL/Enemy/drone.x");
+	ResourceManager::Instance()->LoadMesh("MidiumEnemy", "data/MODEL/Enemy/midium.x");
 
 	//各コントローラ作成
 	bulletController = new EnemyBulletController();

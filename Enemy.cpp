@@ -626,7 +626,7 @@ void EnemySnake::Set(vector<D3DXVECTOR3> posDestList, vector<int> frameDestList,
 ****************************************/
 EnemyMidium::EnemyMidium()
 {
-
+	ResourceManager::Instance()->GetMesh("MidiumEnemy", m_pMesh);
 }
 
 /****************************************

@@ -10,6 +10,7 @@
 #include "main.h"
 #include "Framework\BoxCollider3D.h"
 #include "enemy.h"
+#include "BossEnemyModel.h"
 
 /**************************************
 マクロ定義
@@ -25,30 +26,26 @@
 class PlayerBomber : public ColliderObserver
 {
 public:
-	PlayerBomber();				//コンストラクタ
-	~PlayerBomber();			//デストラクタ
+	PlayerBomber();						//コンストラクタ
+	virtual ~PlayerBomber();			//デストラクタ
 
 	//初期化処理
 	void Init(const D3DXVECTOR3& moveDir);
 	void Uninit();				//終了処理
-	void Update();				//更新処理
+	virtual void Update() = 0;	//更新処理
 	void Draw();				//描画処理
 
-	void Set(Enemy* target, D3DXVECTOR3 initpos);
-	void CalcBomber(void);
+	void Homing(void);
 	void OnNotified(BoxCollider3DTag other);
-
-	void OnDisappearTarget();
 
 	bool active;
 
-private:
+protected:
 	Transform transform;
 	D3DXVECTOR3 targetPos;
 	D3DXVECTOR3 velocity;
 	int cntFrame;
 	int reachFrame;
-	Enemy* target;
 
 	static int instanceCount;
 
@@ -56,9 +53,5 @@ private:
 	BoxCollider3D* collider;
 
 };
-
-
-
-
 
 #endif

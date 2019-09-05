@@ -13,6 +13,7 @@
 #include "PlayerIdle.h"
 
 #include "GameParticleManager.h"
+#include "sound.h"
 
 #include <algorithm>
 
@@ -136,13 +137,11 @@ void PlayerObserver::CheckInput()
 	player->inputInterval++;
 
 	//入力を確認
-	for (int i = 0; i < INPUTBUTTON_MAX; i++)
-	{
-		if (!GetMoveInput(i))
-			continue;
+	int inputID = GetMoveInput();
 
-		PushInput(i);
-	}
+	const int InvalidInput = 5;
+	if(inputID < InvalidInput)
+		PushInput(inputID);
 }
 
 /**************************************
@@ -283,6 +282,8 @@ void PlayerObserver::OnFinishPlayerReturn()
 ***************************************/
 void PlayerObserver::OnStartBomberSequence()
 {
+	//ボンバーSE
+	Sound::GetInstance()->SetPlaySE(BOMB, true, (Sound::GetInstance()->changevol / 5.0f));
 	enableUpdateLogic = false;
 	player->ChangeAnim(PlayerAnimID::FireBomber);
 	player->ChargeBomber();
@@ -330,9 +331,27 @@ bool PlayerObserver::ShouldFireBomber()
 /**************************************
 ボンバー発射処理
 ***************************************/
-void PlayerObserver::FirePlayerBomber(list<Enemy*> targetList)
+void PlayerObserver::FirePlayerBomber(std::list<std::shared_ptr<Enemy>>& targetList)
 {
-	if(bomberController->CanSet())
+	if (bomberController->CanSet())
+		bomberController->SetPlayerBomber(targetList, player->transform.pos);
+}
+
+/**************************************
+ボンバー発射処理
+***************************************/
+void PlayerObserver::FirePlayerBomber(std::shared_ptr<BossEnemyModel>& targetList)
+{
+	if (bomberController->CanSet())
+		bomberController->SetPlayerBomber(targetList, player->transform.pos);
+}
+
+/**************************************
+ボンバー発射処理
+***************************************/
+void  PlayerObserver::FirePlayerBomber(std::list<std::shared_ptr<RebarObstacle>>& targetList)
+{
+	if (bomberController->CanSet())
 		bomberController->SetPlayerBomber(targetList, player->transform.pos);
 }
 
@@ -363,4 +382,13 @@ void PlayerObserver::TryStockBomber()
 
 	//エフェクト再生
 	player->StockBomber();
+
+}
+
+/**************************************
+PlayerTransform取得処理
+***************************************/
+const Transform& PlayerObserver::GetPlayerTransform() const
+{
+	return player->transform;
 }

@@ -2,7 +2,8 @@
 #include "starUI.h"
 #include "scoreUI.h"
 #include "savefile.h"
-#include "scoreUI.h"
+#include "UIdrawerC.h"
+#include "ScoreManager.h"
 
 SCORERANK scorerank[ARRAY_MAX];
 OBJECT rank[RANK_MAX];
@@ -12,7 +13,7 @@ OBJECT rankBGParts[RANK_MAX];
 //*****************************************************************************
 int	tmp;	//ソート用の変数
 
-//数字の移動処理
+			//数字の移動処理
 D3DXVECTOR3 acceleration;
 D3DXVECTOR3 attraction;
 bool rankactive[RANK_MAX];
@@ -123,9 +124,9 @@ void UninitRank(void) {
 //=============================================================================
 void UpdateRank(void) {
 
-	for (int i = RANK_MAX; i >= 0;i--) {
+	for (int i = RANK_MAX; i >= 0; i--) {
 		if (rankactive[i]) {
-			dir = (rankBGParts[i].position - D3DXVECTOR3(80,-10,0)) - rank[i].position;
+			dir = (rankBGParts[i].position - D3DXVECTOR3(80, -10, 0)) - rank[i].position;
 			//正規化
 			D3DXVec3Normalize(&dir, &dir);
 			//ターゲット距離算出
@@ -179,7 +180,7 @@ void RankSort(void) {
 	scorerank[MYSCORE].g_scorerank = NULL;
 
 	//今回の分のスコアを配列の最後に代入
-	scorerank[RANK_MAX].g_scorerank = SetScore();
+	scorerank[RANK_MAX].g_scorerank = GetCurrentGameScore();
 
 	for (int i = 0; i <= RANK_MAX; i++) {
 
@@ -203,7 +204,7 @@ void RankSort(void) {
 	}
 
 	//今回の分のマイスコアを中心に
-	scorerank[MYSCORE].g_scorerank = SetScore();
+	scorerank[MYSCORE].g_scorerank = GetCurrentGameScore();
 
 
 }
@@ -211,8 +212,3 @@ void RankSort(void) {
 SCORERANK *GetRank() {
 	return &scorerank[0];
 }
-
-
-
-
-

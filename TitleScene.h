@@ -15,6 +15,11 @@
 ***************************************/
 
 /**************************************
+前方宣言
+***************************************/
+class TitleSceneUIManager;
+
+/**************************************
 クラス定義
 ***************************************/
 class TitleScene : public IStateScene
@@ -27,6 +32,8 @@ public:
 
 	TitleScene() {};
 	~TitleScene() {};
+
+	TitleSceneUIManager *titleSceneUIManager;
 };
 
 #endif

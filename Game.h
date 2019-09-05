@@ -18,11 +18,12 @@
 ***************************************/
 
 //ƒV[ƒ“’è‹`
-enum Scene{		
+enum Scene {
 	SceneTitle,
 	SceneGame,
 	SceneResult,
 	SceneEditor,
+	SceneTutorial,
 	SceneMax
 };
 

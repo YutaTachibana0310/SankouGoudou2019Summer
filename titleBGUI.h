@@ -10,14 +10,26 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	ADRESS_TEXTURE_TITLEBG	("data/TEXTURE/UI/title_test.jpg")	// 読み込むテクスチャファイル名
+
+/**************************************
+前方宣言
+***************************************/
+class Object;
 
 //*****************************************************************************
-// プロトタイプ宣言
+// 構造体定義
 //*****************************************************************************
-HRESULT InitTitleBG(void);
-void	UninitTitleBG(void);
-void	UpdateTitleBG(void);
-void	DrawTitleBG(void);
+class TitleBG
+{
+public:
+	TitleBG();
+	~TitleBG();
+
+	void Update(void);
+	void Draw(void);
+private:
+	Object * titleBG;
+
+};
 
 #endif

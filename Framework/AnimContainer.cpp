@@ -273,7 +273,7 @@ D3DXFRAME_DERIVED* AnimContainer::SearchBoneFrame(const char* boneName, D3DXFRAM
 	if (frame->pFrameFirstChild != NULL)
 	{
 		p = SearchBoneFrame(boneName, frame->pFrameFirstChild);
-		if (p != NULL && strcmp(p->Name, boneName) != 0)
+		if (p != NULL && strcmp(p->Name, boneName) == 0)
 		{
 			return p;
 		}

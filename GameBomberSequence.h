@@ -18,7 +18,7 @@
 /**************************************
 ƒNƒ‰ƒX’è‹`
 ***************************************/
-class GameBomberSequence : public IStateMachine<GameScene>
+class GameScene::GameBomberSequence : public IStateMachine<GameScene>
 {
 	int OnUpdate(GameScene* entity);
 	void OnStart(GameScene* entity);

@@ -16,52 +16,43 @@
 #define POSITION_TITLELOGO	(D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_HEIGHT/3,0.0f))
 
 //*****************************************************************************
-// グローバル変数
+// コンストラクタ
 //*****************************************************************************
-OBJECT	titleLogo;
-
-//=============================================================================
-// 初期化処理
-//=============================================================================
-HRESULT InitTitleLogo(void)
+TitleLogo::TitleLogo()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	titleLogo = new Object();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_TITLELOGO, &titleLogo);
-	InitialTexture(&titleLogo);
-	MakeVertexObject(&titleLogo);
+	titleLogo->LoadTexture("data/TEXTURE/UI/チームロゴ.png");
+	titleLogo->MakeVertex();
 
-	titleLogo.position	= POSITION_TITLELOGO;
-	titleLogo.size		= SIZE_TITLELOGO;
-	titleLogo.rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	titleLogo->position = POSITION_TITLELOGO;
+	titleLogo->size = SIZE_TITLELOGO;
+	titleLogo->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	SetColorObject(&titleLogo, SET_COLOR_NOT_COLORED);
-
-	return S_OK;
+	titleLogo->SetColorObject(SET_COLOR_NOT_COLORED);
 }
 
-//=============================================================================
-// 終了処理
-//=============================================================================
-void UninitTitleLogo(void)
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+TitleLogo::~TitleLogo()
 {
-	ReleaseTexture(&titleLogo);
+	delete titleLogo;
+	titleLogo = NULL;
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateTitleLogo(void)
+void TitleLogo::Update(void)
 {
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawTitleLogo(void)
+void TitleLogo::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
-	DrawObject(pDevice, titleLogo);
-	SetVertexObject(&titleLogo);
+	titleLogo->Draw();
+	titleLogo->SetVertex();
 }

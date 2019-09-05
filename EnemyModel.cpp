@@ -9,6 +9,8 @@
 #include "ScoreManager.h"
 #include "Framework\BaseEmitter.h"
 #include <algorithm>
+#include "sound.h"
+#include "camera.h"
 
 using namespace std;
 
@@ -50,7 +52,7 @@ EnemyModel::~EnemyModel()
 
 	for (auto& enemy : enemyList)
 	{
-		SAFE_DELETE(enemy);
+		enemy.reset();
 	}
 	enemyList.clear();
 
@@ -132,13 +134,16 @@ void EnemyModel::CheckDestroied()
 		SetAddScore(100);
 		SetAddCombo(1);
 
-		SAFE_DELETE(enemy);
+		//消滅SE
+		Sound::GetInstance()->SetPlaySE(ENEMYDOWN1, true, (Sound::GetInstance()->changevol / 100.0f));
+
+		enemy.reset();
 	}
 
 	//消去
-	auto itrNewEnd = remove_if(enemyList.begin(), enemyList.end(), [](Enemy* enemy)
+	auto itrNewEnd = remove_if(enemyList.begin(), enemyList.end(), [](auto&& enemy)
 	{
-		return enemy == NULL;
+		return !enemy;
 	});
 	enemyList.erase(itrNewEnd, enemyList.end());
 
@@ -151,10 +156,21 @@ void EnemyModel::CheckDestroied()
 /**************************************
 エネミー座標取得処理
 ***************************************/
-void EnemyModel::GetEnemy(list<Enemy*>& out)
+void EnemyModel::GetEnemy(list<shared_ptr<Enemy>>& out)
 {
 	for (auto& enemy : enemyList)
 	{
+		//エネミーのワールド座標をスクリーン座標へ変換
+		D3DXVECTOR3 screenPos;
+		Camera::Instance()->Projection(screenPos, enemy->m_Pos);
+
+		//スクリーン外にいたら追加しない
+		if (screenPos.x < 0.0f || screenPos.x > SCREEN_WIDTH * 1.0f)
+			continue;
+
+		if (screenPos.y < 0.0f || screenPos.z > SCREEN_HEIGHT * 1.0f)
+			continue;
+
 		out.push_back(enemy);
 	}
 }

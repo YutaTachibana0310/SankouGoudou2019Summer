@@ -20,18 +20,24 @@ class SkyBox
 {
 public:
 	SkyBox(D3DXVECTOR3 vtxSize, D3DXVECTOR2 texSize);
-	~SkyBox();
+	virtual ~SkyBox();
 
-	void Update();
-	void Draw();
+	virtual void Draw();
 
-	void LoadTexture(const char* path);
+	virtual void LoadTexture(const char* path);
+	virtual void SetUV(float texU, float texV);
 
-	Transform transform;
-
-private:
+protected:
+	Transform * transform;
 	LPDIRECT3DTEXTURE9 texture;
 	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
+
+	void MakeVertexBuffer(float width, float height, float depth);
+
+	enum Const
+	{
+		FieldNum = 4,		//ñ ÇÃêî
+	};
 };
 
 #endif

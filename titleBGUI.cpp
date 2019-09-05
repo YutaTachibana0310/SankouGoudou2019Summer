@@ -16,52 +16,43 @@
 #define POSITION_TITLEBG	(D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,0.0f))
 
 //*****************************************************************************
-// グローバル変数
+// コンストラクタ
 //*****************************************************************************
-OBJECT	titleBG;
-
-//=============================================================================
-// 初期化処理
-//=============================================================================
-HRESULT InitTitleBG(void)
+TitleBG::TitleBG()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	titleBG = new Object();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_TITLEBG, &titleBG);
-	InitialTexture(&titleBG);
-	MakeVertexObject(&titleBG);
+	titleBG->LoadTexture("data/TEXTURE/UI/title_test.jpg");
+	titleBG->MakeVertex();
 
-	titleBG.position	= POSITION_TITLEBG;
-	titleBG.size		= SIZE_TITLEBG;
-	titleBG.rotation	= D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	titleBG->position = POSITION_TITLEBG;
+	titleBG->size = SIZE_TITLEBG;
+	titleBG->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	SetColorObject(&titleBG, SET_COLOR_NOT_COLORED);
-
-	return S_OK;
+	titleBG->SetColorObject(SET_COLOR_NOT_COLORED);
 }
 
-//=============================================================================
-// 終了処理
-//=============================================================================
-void UninitTitleBG(void)
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+TitleBG::~TitleBG()
 {
-	ReleaseTexture(&titleBG);
+	delete titleBG;
+	titleBG = NULL;
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateTitleBG(void)
+void TitleBG:: Update(void)
 {
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawTitleBG(void)
+void TitleBG::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
-	DrawObject(pDevice, titleBG);
-	SetVertexObject(&titleBG);
+	titleBG->Draw();
+	titleBG->SetVertex();
 }

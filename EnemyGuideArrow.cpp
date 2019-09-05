@@ -21,7 +21,7 @@ EnemyGuideArrowコンストラクタ
 ***************************************/
 EnemyGuideArrow::EnemyGuideArrow()
 {
-	ResourceManager::Instance()->GetPolygon("EnemyGuideArrow", &polygon);
+	ResourceManager::Instance()->GetPolygon("EnemyGuideArrow", polygon);
 	cntFrame = 0;
 	active = false;
 }

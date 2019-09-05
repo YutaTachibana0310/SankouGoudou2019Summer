@@ -7,25 +7,34 @@
 #ifndef _STARTBUTTON_H_
 #define _STARTBUTTON_H_
 
-//*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-#define	ADRESS_TEXTURE_STARTBUTTON_BG	("data/TEXTURE/UI/startButtonBG.png")	// 読み込むテクスチャファイル名
-#define	ADRESS_TEXTURE_STARTBUTTON_TEXT	("data/TEXTURE/UI/startButtonText.png")	// 読み込むテクスチャファイル名
+/**************************************
+前方宣言
+***************************************/
+class Object;
+class Mask;
 
-enum STARTBUTTON_PARTS
+//*****************************************************************************
+// 構造体定義
+//*****************************************************************************
+class StartButton
 {
-	BACKGROUND_STARTBUTTON,
-	TEXT_STARTBUTTON,
-};
+public:
+	StartButton();
+	~StartButton();
+	void Update(HWND hWnd);
+	void Draw(void);
 
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-HRESULT InitStartButton(void);
-void	UninitStartButton(void);
-void	UpdateStartButton(void);
-void	DrawStartButton(void);
+private:
+	Object *bg;
+	Object *text;
+	Mask *mask;
+
+	bool	IsAlphaIncreased = true;
+	float	alpha = 0;
+
+	void GoGameScene(void);
+	void BlinkStartButtonText(void);
+};
 
 #endif
 

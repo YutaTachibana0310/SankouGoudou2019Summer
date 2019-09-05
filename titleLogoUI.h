@@ -7,18 +7,26 @@
 #ifndef _TITLELOGO_H_
 #define _TITLELOGO_H_
 
-//*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-#define	ADRESS_TEXTURE_TITLELOGO	("data/TEXTURE/UI/チームロゴ.png")	// 読み込むテクスチャファイル名
+/**************************************
+前方宣言
+***************************************/
+class Object;
 
 //*****************************************************************************
-// プロトタイプ宣言
+// 構造体定義
 //*****************************************************************************
-HRESULT InitTitleLogo(void);
-void	UninitTitleLogo(void);
-void	UpdateTitleLogo(void);
-void	DrawTitleLogo(void);
+class TitleLogo
+{
+public:
+	TitleLogo();
+	~TitleLogo();
+
+	void Update(void);
+	void Draw(void);
+
+private:
+	Object * titleLogo;
+};
 
 #endif
 

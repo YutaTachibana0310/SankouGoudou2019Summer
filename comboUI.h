@@ -7,30 +7,37 @@
 #ifndef _COMBO_H_
 #define _COMBO_H_
 
-//*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-#define	ADRESS_TEXTURE_NUMBER_COMBO	"data/TEXTURE/UI/number.png"	// 読み込むテクスチャファイル名
-#define	ADRESS_TEXTURE_TEXT_COMBO	"data/TEXTURE/UI/combo/comboText.png"	// 読み込むテクスチャファイル名
-#define	ADRESS_TEXTURE_BACKGROUND_COMBO	"data/TEXTURE/UI/combo/circleCombo.png"	// 読み込むテクスチャファイル名
+/**************************************
+前方宣言
+***************************************/
+class Object;
+class CounterObject;
+class RotateObject;
 
-#define SPEED_VOLUMEUP_NUMBER		(0.2f)
-
-enum COMBO_PARTS
+//*****************************************************************************
+// 構造体定義
+//*****************************************************************************
+class Combo
 {
-	NUMBER_COMBO,
-	TEXT_COMBO,
-	BACKGROUND_COMBO
+public:
+	Combo();
+	~Combo();
+
+	CounterObject * number;
+	RotateObject * bg;
+
+	void Update(void);
+	void Draw(void);
+
+	int combo;
+	int comboMax;
+	bool volumeUpEffectUsed;
+
+private:
+	float radian;
+	void VolumeUpEffect(void);
+	void UpdateNumberColor(void);
 };
 
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-HRESULT InitCombo	(void);
-void	UninitCombo	(void);
-void	UpdateCombo	(void);
-void	DrawCombo	(void);
-void	AddCombo	(int value);
-void	SetCombo(int value);
 
 #endif

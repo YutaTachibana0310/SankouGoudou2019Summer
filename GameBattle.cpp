@@ -12,6 +12,7 @@
 #include "Framework\BoxCollider3D.h"
 #include "sound.h"
 
+
 /**************************************
 マクロ定義
 ***************************************/
@@ -20,16 +21,16 @@
 /**************************************
 入場処理
 ***************************************/
-void GameBattle::OnStart(GameScene *entity)
+void GameScene::GameBattle::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
-	Sound::GetInstance()->playsound = true;
+	//Sound::GetInstance()->playsound = true;
 }
 
 /**************************************
 更新処理
 ***************************************/
-int GameBattle::OnUpdate(GameScene *entity)
+int GameScene::GameBattle::OnUpdate(GameScene *entity)
 {
 	int result = GameScene::State::Battle;
 
@@ -53,8 +54,8 @@ int GameBattle::OnUpdate(GameScene *entity)
 	BoxCollider3D::UpdateCollision();
 
 	//終了判定
-	if (entity->cntFrame == GAMEBATTLE_DURATION)
-		result = GameScene::State::End;
+	if (entity->enemyController->IsFinishedEnemy())
+		result = GameScene::State::BossStart;
 
 	return result;
 	

@@ -13,12 +13,12 @@
 Ä¶ˆ—
 ***************************************/
 void SoundResultScene::Play() {
-
+	
 }
 
 /**************************************
 ’âŽ~ˆ—
 ***************************************/
 void SoundResultScene::Stop() {
-	Sound::GetInstance()->SetStopSound();
+	Sound::GetInstance()->SetStopSoundOll();
 }

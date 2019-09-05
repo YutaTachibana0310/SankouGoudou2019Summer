@@ -18,7 +18,7 @@
 /**************************************
 ƒNƒ‰ƒX’è‹`
 ***************************************/
-class GameStart : public IStateMachine<GameScene>
+class GameScene::GameStart : public IStateMachine<GameScene>
 {
 public:
 	void OnStart(GameScene* entity);

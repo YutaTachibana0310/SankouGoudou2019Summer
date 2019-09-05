@@ -27,6 +27,7 @@ enum class BoxCollider3DTag
 	Player,
 	SnakeEnemy,
 	PlayerBullet,
+	EnemyBullet,
 	Max
 };
 

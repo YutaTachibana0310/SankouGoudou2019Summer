@@ -16,10 +16,14 @@
 /**************************************
 前方宣言
 ***************************************/
+class GameSceneUIManager;
 class EnemyController;
 class GameParticleManager;
 class PlayerObserver;
 class BackGroundController;
+class Mask;
+class BossController;
+class BossUImanager;
 
 /**************************************
 クラス定義
@@ -39,37 +43,52 @@ public:
 	void OnClearCombo();
 
 	bool ShouldFireBomber();
+	bool ShouldFireBomberOnBossBattle();
 
 	GameScene() {};
 	~GameScene() {};
-
-	int cntFrame;
-	EnemyController *enemyController;
-	GameParticleManager* particleManager;
-	PlayerObserver* playerObserver;
-	BackGroundController *bgController;
-
-	bool useDarkMask;
-
+	
 	enum State
 	{
 		Start,
 		Battle,
 		End,
 		BombSequence,
+		BossBattle,
+		BossStart,
+		BossBombSequence,
 		StateMax,
 	};
 
 private:
 	std::map<State, IStateMachine<GameScene>*> fsm;
 	IStateMachine<GameScene> *state;
-	State currentState;
+	State currentState, prevState;
 	Polygon2D* darkMask;
+
+	int cntFrame;
+	GameSceneUIManager *gameSceneUIManager;
+	EnemyController *enemyController;
+	GameParticleManager* particleManager;
+	PlayerObserver* playerObserver;
+	BackGroundController *bgController;
+	BossController* bossController;
+	BossUImanager* bossUI;
+
+	bool useDarkMask;
 
 	void ChangeState(int resultUpdate);
 
-
 	int currentCombo;
+
+	//各ステートクラス
+	class GameBattle;
+	class GameBomberSequence;
+	class GameBossBattle;
+	class GameEnd;
+	class GameStart;
+	class GameBossStart;
+	class GameBossBombSequence;
 };
 
 #endif

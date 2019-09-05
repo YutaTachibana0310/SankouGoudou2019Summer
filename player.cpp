@@ -10,9 +10,12 @@
 #include "player.h"
 #include "PlayerController.h"
 #include "GameParticleManager.h"
+#include "Framework\BoxCollider3D.h"
 
 #include "starUI.h"
 #include "debugWindow.h"
+#include "sound.h"
+
 #include "PostEffect\SpikeNoiseController.h"
 
 using namespace std;
@@ -22,7 +25,7 @@ using namespace std;
 ***************************************/
 #define PLAYER_MODEL				"data/MODEL/player.x"
 #define PLAYER_DAMAGE				(10.0f)		//プレイヤーが1回の被弾で受けるダメージ
-#define PLAYER_INVINCIBLE_DURATION	(30000)		//プレイヤーの無敵時間
+#define PLAYER_INVINCIBLE_DURATION	(300)		//プレイヤーの無敵時間
 
 /**************************************
 構造体定義
@@ -54,11 +57,20 @@ Player::Player()
 	animation->SetShiftTime(PlayerAnimID::Attack, 0.2f);
 	animation->SetShiftTime(PlayerAnimID::FireBomber, 0.2f);
 
+	//トレイルコライダー作成
 	collider = new TrailCollider(TrailColliderTag::Player);
 	collider->active = false;
 	collider->SetAddressZ(&transform.pos.z);
 	collider->AddObserver(this);
 
+	//ボックスコライダー作成
+	const float ColliderSize = 5.0f;
+	boxCollider = new BoxCollider3D(BoxCollider3DTag::Player, &transform.pos);
+	boxCollider->SetSize(D3DXVECTOR3(ColliderSize, ColliderSize, ColliderSize));
+	boxCollider->AddObserver(this);
+	boxCollider->active = true;
+
+	//アニメーション遷移
 	animation->ChangeAnim(PlayerAnimID::Flying, 1.5f, true);
 
 	//ストックエフェクト作成
@@ -72,7 +84,7 @@ Player::~Player()
 {
 	SAFE_DELETE(animation);
 	SAFE_DELETE(collider);
-
+	SAFE_DELETE(boxCollider);
 	SAFE_DELETE(stockEffect);
 }
 
@@ -114,11 +126,14 @@ int Player::Update()
 		stateResult = state->OnUpdate(this);
 
 	//無敵時間の更新
-	if (!flgInvincible)
+	if (flgInvincible)
 	{
 		cntInvincible--;
 		if (cntInvincible == 0)
-			collider->active = false;
+		{
+			flgInvincible = false;
+			collider->active = true;
+		}
 	}
 
 	//ボンバーストックエフェクトの更新
@@ -153,6 +168,8 @@ void Player::Draw()
 	transform.SetWorld();
 	animation->Draw(&mtxWorld);
 
+	BoxCollider3D::DrawCollider(boxCollider);
+
 	pDevice->SetMaterial(&matDef);
 
 	TrailCollider::DrawCollider(collider);
@@ -174,6 +191,10 @@ void Player::ChangeState(IStateMachine<Player> *next)
 ******************************************/
 void Player::OnNotified(ObserveSubject* notifier)
 {
+	if (flgInvincible)
+		return;
+
+	Sound::GetInstance()->SetPlaySE(PLAYERDAMAGE, true, (Sound::GetInstance()->changevol / 10.0f));
 	SpikeNoiseController::Instance()->SetNoise(0.5f, 20);
 	hp -= PLAYER_DAMAGE;
 
@@ -212,4 +233,22 @@ void Player::ChargeBomber()
 void Player::StockBomber()
 {
 	stockEffect->Init();
+}
+
+/*****************************************
+衝突通知処理
+******************************************/
+void Player::OnNotified(BoxCollider3DTag other)
+{
+	if (flgInvincible)
+		return;
+
+	Sound::GetInstance()->SetPlaySE(PLAYERDAMAGE, true, (Sound::GetInstance()->changevol / 10.0f));
+	SpikeNoiseController::Instance()->SetNoise(0.5f, 20);
+	hp -= PLAYER_DAMAGE;
+
+	//無敵時間開始
+	cntInvincible = PLAYER_INVINCIBLE_DURATION;
+	collider->active = false;
+	flgInvincible = true;
 }

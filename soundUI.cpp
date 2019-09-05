@@ -6,7 +6,7 @@
 //=============================================================================
 #include "main.h"
 #include "soundUI.h"
-#include "UIdrawer.h"
+#include "UIdrawerC.h"
 #include "sound.h"
 
 //*****************************************************************************
@@ -90,14 +90,19 @@ void UpdateSoundUI(void)
 	}
 	//‰¹—Ê‚ğ‰º‚°‚éê‡
 	if (currentNum >= Sound::GetInstance()->UIcounta) {
-		sounduiParts[currentNum].use = false;
-		currentNum = Sound::GetInstance()->UIcounta;
+		for (int i = currentNum; i <= SOUND_LINE_FIVE; i++) {
+			sounduiParts[i].use = false;
+		}
+		//currentNum = Sound::GetInstance()->UIcounta;
 	}
 	//‰¹—Ê‚ğã‚°‚éê‡
 	else if (currentNum < Sound::GetInstance()->UIcounta) {
-		sounduiParts[currentNum].use = true;
-		currentNum = Sound::GetInstance()->UIcounta;
+		for (int i = currentNum; i >= SOUND_LINE_ONE; i--) {
+			sounduiParts[currentNum].use = true;
+		}
+		
 	}
+	currentNum = Sound::GetInstance()->UIcounta;
 }
 
 //=============================================================================

@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// カーソル画面処理 [cursor.cpp]
+// カーソル画面処理 [outerCircle.cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
@@ -8,128 +8,117 @@
 #include "input.h"
 #include "cursorUI.h"
 #include "UIdrawer.h"
-#include "starUI.h"
+#include "GameSceneUIManager.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define SIZE_CURSOR		(D3DXVECTOR3(40.0f,40.0f,0.0f))
+#define SIZE_CURSOR		(D3DXVECTOR3(45.0f,45.0f,0.0f))
 #define SPEED_ROTATION	(0.10f)
+#define COLLIDERSIZE_CURSOR (D3DXVECTOR3(5.0f,5.0f,0.0f))
 
 //*****************************************************************************
-// グローバル変数
+// コンストラクタ
 //*****************************************************************************
-OBJECT	cursor;
-bool	IsStarHitted(int num);
-
-//=============================================================================
-// 初期化処理
-//=============================================================================
-HRESULT InitCursor(void)
+Cursor::Cursor()
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	//外側のサークル
+	outerCircle = new RotateObject();
+	outerCircle->LoadTexture("data/TEXTURE/UI/Cursor/outerCircle.png");
+	outerCircle->MakeVertex();
 
-	LoadTexture(pDevice, ADRESS_TEXTURE_CURSOR, &cursor);
-	InitialTexture(&cursor);
-	MakeVertexRotateObject(&cursor);
+	outerCircle->position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	outerCircle->size = SIZE_CURSOR;
+	outerCircle->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	outerCircle->colliderSize = COLLIDERSIZE_CURSOR / 2;
 
-	cursor.position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	cursor.size		= SIZE_CURSOR;
-	cursor.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	cursor.colliderSize = COLLIDERSIZE_CURSOR / 2;
+	outerCircle->SetColorObject(SET_COLOR_NOT_COLORED);
 
-	SetColorObject(&cursor, SET_COLOR_YELLOW);
+	outerCircle->CreateObjectCircle();
 
-	// 回転オブジェクト用のサークルを作成
-	CreateObjectCircle(&cursor, cursor.size.x, cursor.size.y);
+	//内側のサークル
+	innerCircle = new RotateObject();
+	innerCircle->LoadTexture("data/TEXTURE/UI/Cursor/innerCircle.png");
+	innerCircle->MakeVertex();
 
-	return S_OK;
+	innerCircle->position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	innerCircle->size = SIZE_CURSOR;
+	innerCircle->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	innerCircle->colliderSize = COLLIDERSIZE_CURSOR / 2;
+
+	innerCircle->SetColorObject(SET_COLOR_NOT_COLORED);
+
+	innerCircle->CreateObjectCircle();
 }
 
-//=============================================================================
-// 終了処理
-//=============================================================================
-void UninitCursor(void)
+//*****************************************************************************
+// デストラクタ
+//*****************************************************************************
+Cursor::~Cursor()
 {
-	ReleaseTexture(&cursor);
+	delete outerCircle;
+	outerCircle = NULL;
+
+	delete innerCircle;
+	innerCircle = NULL;
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
-void UpdateCursor(HWND hWnd)
+void Cursor::Update(HWND hWnd)
 {
-	cursor.position = GetMousePosition(hWnd);
+	outerCircle->position = GetMousePosition(hWnd);
+	outerCircle->rotation.z -= SPEED_ROTATION;
 
-	for (int i = 0; i < STAR_MAX; i++)
-	{
-		if (IsStarHitted(i))
-		{
-			// 選択されているなら
-			SetColorObject(&cursor, SET_COLOR_RED);
-		}
-		else
-		{	// 元に戻す
-			SetColorObject(&cursor, SET_COLOR_YELLOW);
-		}
-	}
-
-	cursor.rotation.z -= SPEED_ROTATION;
+	innerCircle->position = GetMousePosition(hWnd);
+	innerCircle->rotation.z += SPEED_ROTATION;
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
-void DrawCursor(void)
+void Cursor::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	outerCircle->Draw();
+	outerCircle->SetVertex();
 
-	DrawObject(pDevice, cursor);
-	SetVertexRotateObject(&cursor);
+	innerCircle->Draw();
+	innerCircle->SetVertex();
 }
 
 //=============================================================================
-// 選択されているかの判定処理 (当たったら選択状態)
+// カーソルが重なったかの判定処理(外側のサークルとの当たり判定)
 //=============================================================================
-bool IsStarHitted(int num)
-{
-	D3DXVECTOR3 starPosition[STAR_MAX];
-	GetStarPosition(starPosition);
-
-	// どのスターとも当たってなかったらfalse,それ以外はtrue
-	if (IsCursorOvered(starPosition[0], COLLIDERSIZE_STAR))
-		return true;
-
-	if (IsCursorOvered(starPosition[1], COLLIDERSIZE_STAR))
-		return true;
-
-	if (IsCursorOvered(starPosition[2], COLLIDERSIZE_STAR))
-		return true;
-
-	if (IsCursorOvered(starPosition[3], COLLIDERSIZE_STAR))
-		return true;
-
-	if (IsCursorOvered(starPosition[4], COLLIDERSIZE_STAR))
-		return true;
-
-	return false;
-}
-
-//=============================================================================
-// カーソルが重なったかの判定処理
-//=============================================================================
-bool IsCursorOvered(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+bool Cursor::IsCursorOvered(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
 	size /= 2.0f;	// 半サイズにする
 
-	if (cursor.position.x + cursor.colliderSize.x > pos.x - size.x 
-		&& pos.x + size.x > cursor.position.x - cursor.colliderSize.x 
-		&&
-		cursor.position.y + cursor.colliderSize.y > pos.y - size.y 
-		&& pos.y + size.y > cursor.position.y - cursor.colliderSize.y)
+	if (outerCircle->position.x +outerCircle->colliderSize.x > pos.x - size.x 
+		&& pos.x + size.x > outerCircle->position.x -outerCircle->colliderSize.x 
+		&& outerCircle->position.y +outerCircle->colliderSize.y > pos.y - size.y 
+		&& pos.y + size.y > outerCircle->position.y -outerCircle->colliderSize.y)
 	{
 		return true;
 	}
 
 	return false;
+}
+
+//*****************************************************************************
+// ボタン選択状態に色更新
+//*****************************************************************************
+void Cursor::PaintCursorRed()
+{
+	outerCircle->SetColorObject(SET_COLOR_RED);
+	innerCircle->SetColorObject(SET_COLOR_RED);
+}
+
+//*****************************************************************************
+// 非ボタン選択状態に色更新
+//*****************************************************************************
+void Cursor::PaintCursorYellow()
+{
+	outerCircle->SetColorObject(SET_COLOR_NOT_COLORED);
+	innerCircle->SetColorObject(SET_COLOR_NOT_COLORED);
 }

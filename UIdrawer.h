@@ -7,10 +7,11 @@
 #ifndef _UIDRAWER_H_
 #define _UIDRAWER_H_
 
+#include "main.h"
+
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-
 // 色定義
 #define SET_COLOR_NOT_COLORED	(D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))
 #define SET_COLOR_BLACK			(D3DXCOLOR(0.0f,0.0f,0.0f,1.0f))
@@ -25,71 +26,73 @@
 //*****************************************************************************
 // 構造体定義
 //*****************************************************************************
-
-typedef struct
+class Object
 {
+public:
 	LPDIRECT3DTEXTURE9	texture;
 	VERTEX_2D			vertexWk[NUM_VERTEX];
 	D3DXVECTOR3			position;
 	D3DXVECTOR3			rotation;
 	D3DXVECTOR3			size;
 	D3DXVECTOR3			colliderSize;
-	D3DXVECTOR3			easingStartRotation;
-	D3DXVECTOR3			easingGoalRotation;
-	D3DXVECTOR3			easingStartPosition;
-	D3DXVECTOR3			easingGoalPosition;
-	D3DXVECTOR3			easingStartSize;
-	D3DXVECTOR3			easingGoalSize;
 
-	float				easingStart;
-	float				easingGoal;
 	int					countFrame;
-	float               baseAngle;
-	float				radius;
-	bool				isRotated;
-	bool				use;
 
-}OBJECT;
+	void LoadTexture(const char *path);
+	void ReleaseTexture();
+	void Draw();
+	void SetAlphaObject(float alpha);
+	void SetColorObject(D3DXCOLOR color);
+	float GetCountObject(float duration);
+	bool IsMouseOvered(HWND hWnd, D3DXVECTOR3 pos, D3DXVECTOR3 size);
 
-enum GUAGETYPE
-{
-	LEFT_GUAGEBAR,
-	RIGHT_GUAGEBAR,
-	UP_GUAGEBAR,
-	DOWN_GUAGEBAR
+	virtual void MakeVertex();
+	virtual void SetVertex();
+	virtual void SetTexture(int divX, int divY, int pattern);
 };
 
-enum TELOP_ANIM_SCENE
+class RotateObject:public Object
 {
-	WAIT_BG_OPEN,
-	IN_TEXT,
-	STOP_TEXT,
-	OUT_TEXT,
-	WAIT_BG_CLOSE
+public:
+	D3DXVECTOR3	easingStartRotation;
+	D3DXVECTOR3	easingGoalRotation;
+
+	bool isRotated;
+	float baseAngle;
+	float radius;
+
+	void CreateObjectCircle();
+	void MakeVertex();
+	void SetVertex();
+
 };
 
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
+class GuageObject :public Object
+{
+public:
+	void MakeVertex(float percentage, float flameWidth);
+	void SetVertex(float percentage, float flameWidth, int guageType);
 
-void LoadTexture			(LPDIRECT3DDEVICE9 device, const char *adress, OBJECT *object);
-void CreateObjectCircle		(OBJECT *object, float sizeX, float sizeY);
-void ReleaseTexture			(OBJECT *object);
-void InitialTexture			(OBJECT *object);
-void DrawObject				(LPDIRECT3DDEVICE9 pDevice, OBJECT object);
-void MakeVertexObject		(OBJECT *object);
-void MakeVertexRotateObject	(OBJECT *object);
-void MakeVertexGuageBar		(OBJECT *object, float percentage, float flameWidth);
-void SetVertexObject		(OBJECT *object);
-void SetVertexRotateObject	(OBJECT *object);
-void SetVertexGuageBar		(OBJECT *object, float percentage, float flameWidth, int guageType);
-void SetVertexTelopBG		(OBJECT *object, float percentage);
-void SetVertexCounter		(OBJECT *object, int placeCount, float placeInterval);
-void SetTextureObject		(OBJECT *object, int divX, int divY, int pattern);
-void SetTextureCounter		(OBJECT *object, int number, float placeInterval);
-void SetAlphaObject			(OBJECT *object, float alpha);
-void SetColorObject			(OBJECT *object, D3DXCOLOR color);
-float GetCountObject		(OBJECT *object, float duration);
+	enum GUAGETYPE
+	{
+		LEFT_GUAGEBAR,
+		RIGHT_GUAGEBAR,
+		UP_GUAGEBAR,
+		DOWN_GUAGEBAR
+	};
+};
+
+class CounterObject :public Object
+{
+public:
+	void SetVertex(int placeCount, float placeInterval);
+	void SetTexture(int number, float placeInterval);
+};
+
+class TelopObject :public Object
+{
+public:
+};
 
 #endif
 

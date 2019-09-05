@@ -20,6 +20,7 @@
 #include <algorithm>
 #include <fstream>
 
+#include "sound.h"
 using namespace std;
 
 /**************************************
@@ -38,7 +39,6 @@ using namespace std;
 グローバル変数
 ***************************************/
 
-//static BossEnemyModel* boss;
 /**************************************
 コンストラクタ
 ***************************************/
@@ -59,8 +59,6 @@ EnemyController::EnemyController()
 
 	//ステージデータ読み込み
 	LoadStageData();
-
-	//boss = new BossEnemyModel();
 }
 
 /**************************************
@@ -88,8 +86,6 @@ EnemyController::~EnemyController()
 
 	//ステージデータクリア
 	stageModelList.clear();
-
-	//SAFE_DELETE(boss);
 }
 
 /**************************************
@@ -135,7 +131,6 @@ void EnemyController::Update()
 {
 	//新しく作るEnemyの更新テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	//boss->Update();
 	//test->VUpdate();
 #endif
 
@@ -192,7 +187,6 @@ void EnemyController::Draw()
 
 	//新しく作るEnemyの描画テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	//boss->Draw();
 	//test->VDraw();
 #endif
 }
@@ -231,11 +225,11 @@ void EnemyController::SetEnemy()
 	}
 
 	//デバッグ用ループ処理
-	if (cntFrame > (*(stageModelList.end() - 1)).frame + 300)
-	{
-		cntFrame = 0;
-		currentIndex = 0;
-	}
+	//if (cntFrame > (*(stageModelList.end() - 1)).frame + 300)
+	//{
+	//	cntFrame = 0;
+	//	currentIndex = 0;
+	//}
 }
 
 /**************************************
@@ -311,7 +305,7 @@ void EnemyController::EnemyAttack(EnemyModel *enermyModel)
 		emitPos.push_back(enemy->m_Pos + ENEMY_SHOTPOS_OFFSET);
 	}
 
-	bulletController->SetEnemyBullet(emitPos, enermyModel->model);
+	bulletController->Set(emitPos, enermyModel->model);
 }
 
 /**************************************
@@ -321,6 +315,9 @@ void EnemyController::SetChageEffect(EnemyModel *model)
 {
 	model->chageEffectList.clear();
 	model->chageEffectList.resize(model->enemyList.size());
+
+	//バレット発射SE
+	Sound::GetInstance()->SetPlaySE(BOSSSHOT, true, (Sound::GetInstance()->changevol / 10.0f));
 
 	UINT cntSet = 0;
 	for (auto& enemey : model->enemyList)
@@ -334,7 +331,7 @@ void EnemyController::SetChageEffect(EnemyModel *model)
 /**************************************
 エネミー座標取得処理
 ***************************************/
-void EnemyController::GetEnemyList(list<Enemy*>& out)
+void EnemyController::GetEnemyList(std::list<std::shared_ptr<Enemy>>& out)
 {
 	for (auto& model : modelList)
 	{
@@ -357,3 +354,18 @@ bool EnemyController::ExistsAcitveEnemy()
 {
 	return !modelList.empty();
 }
+
+/**************************************
+通常バトル終了判定
+***************************************/
+bool EnemyController::IsFinishedEnemy()
+{
+	if (currentIndex < stageModelList.size())
+		return false;
+
+	if (!modelList.empty())
+		return false;
+
+	return true;
+}
+

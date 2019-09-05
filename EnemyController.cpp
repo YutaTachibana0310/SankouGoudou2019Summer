@@ -22,6 +22,8 @@
 
 using namespace std;
 
+#include "MidiumEnemyModel.h"
+
 /**************************************
 マクロ定義
 ***************************************/
@@ -37,6 +39,7 @@ using namespace std;
 /**************************************
 グローバル変数
 ***************************************/
+static MidiumEnemyModel *test;
 
 /**************************************
 コンストラクタ
@@ -96,7 +99,15 @@ void EnemyController::Init()
 
 	//新しく作るEnemyの初期化テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	
+	test = new MidiumEnemyModel();
+	std::vector<LineTrailModel> targetList = {
+		LineTrailModel(0, 1),
+		LineTrailModel(2, 3),
+		LineTrailModel(4, 1),
+		LineTrailModel(2, 0)
+	};
+	test->Init(targetList);
+	modelList.push_back(test);
 #endif
 }
 
@@ -198,6 +209,7 @@ void EnemyController::DrawGuide()
 ***************************************/
 void EnemyController::SetEnemy()
 {
+	return;
 	cntFrame++;
 
 	//ガイド生成
@@ -292,13 +304,14 @@ bool EnemyController::LoadStageData()
 void EnemyController::EnemyAttack(EnemyModel *enermyModel)
 {
 	vector<D3DXVECTOR3> emitPos;
-	emitPos.reserve(enermyModel->enemyList.size());
+	//emitPos.reserve(enermyModel->enemyList.size());
 
-	for (auto& enemy : enermyModel->enemyList)
-	{
-		emitPos.push_back(enemy->m_Pos + ENEMY_SHOTPOS_OFFSET);
-	}
+	//for (auto& enemy : enermyModel->enemyList)
+	//{
+	//	emitPos.push_back(enemy->m_Pos + ENEMY_SHOTPOS_OFFSET);
+	//}
 
+	enermyModel->GetShotPos(emitPos);
 	bulletController->Set(emitPos, enermyModel->model);
 }
 

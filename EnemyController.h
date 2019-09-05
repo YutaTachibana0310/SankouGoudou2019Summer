@@ -86,9 +86,6 @@ private:
 	//エネミー生成クラスコンテナ
 	std::map<std::string, EnemyFactory*> factoryContainer;
 
-	//test
-	EnemySnake *test;
-
 	//ステージデータ読み込み処理
 	bool LoadStageData();
 

@@ -855,6 +855,9 @@
     <ClInclude Include="Viewer3D.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
+    <ClInclude Include="MidiumEnemyModel.h">
+      <Filter>ヘッダー ファイル\Enemy\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1459,6 +1462,9 @@
     </ClCompile>
     <ClCompile Include="Viewer3D.cpp">
       <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MidiumEnemyModel.cpp">
+      <Filter>ソース ファイル\Enemy\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

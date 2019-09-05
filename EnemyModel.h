@@ -52,6 +52,7 @@ public:
 	virtual void OnNotified(ObserveSubject *notifier);
 	virtual void GetEnemy(std::list<std::shared_ptr<Enemy>>& out);
 	virtual void CheckDestroied();
+	virtual void GetShotPos(std::vector<D3DXVECTOR3>& out);
 
 	int cntFrame;
 	bool active;
@@ -65,6 +66,7 @@ public:
 
 protected:
 	D3DXVECTOR3 pos;
+	const D3DXVECTOR3 ShotPosOffset = D3DXVECTOR3(0.0f, 0.0f, -50.0f);
 
 };
 

@@ -29,7 +29,7 @@
 //#define POSITION_NUMBER_COMBO	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 0.20f, SCREEN_HEIGHT / 10 * 2.70f, 0.0f))
 
 // 座標定義(3D)
-#define POSITION_NUMBER_COMBO	(D3DXVECTOR3(50.0f,50.0f,0.0f))
+#define POSITION_NUMBER_COMBO	(D3DXVECTOR3(40.0f,50.0f,0.0f))
 #define POSITION_BG_COMBO		(D3DXVECTOR3(160.0f,80.0f,0.0f))
 
 //*****************************************************************************
@@ -58,8 +58,8 @@ Combo::Combo()
 	bg->CreateObjectCircle();
 
 	//ビュアー
-	viewer = new Viewer3D(SIZE_BACKGROUND_COMBO.x, SIZE_BACKGROUND_COMBO.y, D3DXVECTOR2(22.0f, 20.0f));
-	viewer->SetPosition(D3DXVECTOR3(-110.0f, 10.0f, 0.0f));
+	viewer = new Viewer3D(SIZE_BACKGROUND_COMBO.x, SIZE_BACKGROUND_COMBO.y, D3DXVECTOR2(20.0f, 15.0f));
+	viewer->SetPosition(D3DXVECTOR3(-115.0f, 60.0f, 0.0f));
 	viewer->SetRotation(0.0f, -30.0f, 0.0f);
 
 	// 最大値設定
@@ -94,7 +94,7 @@ Combo::~Combo()
 void Combo::Update(void)
 {
 	// 数字の色更新
-	//UpdateNumberColor();
+	UpdateNumberColor();
 
 	// 縦に伸びるエフェクト
 	VolumeUpEffect();

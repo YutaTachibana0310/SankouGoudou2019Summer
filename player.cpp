@@ -12,7 +12,7 @@
 #include "GameParticleManager.h"
 #include "Framework\BoxCollider3D.h"
 
-#include "starUI.h"
+#include "starButtonUI.h"
 #include "debugWindow.h"
 #include "PostEffect\SpikeNoiseController.h"
 

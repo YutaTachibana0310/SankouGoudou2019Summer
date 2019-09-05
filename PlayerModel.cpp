@@ -5,7 +5,7 @@
 //
 //=====================================
 #include "PlayerModel.h"
-#include "starUI.h"
+#include "starButtonUI.h"
 #include "ScoreManager.h"
 
 using namespace std;

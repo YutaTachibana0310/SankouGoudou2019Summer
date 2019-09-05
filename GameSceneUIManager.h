@@ -54,13 +54,11 @@ public:
 	void ReSetCombo(void);
 	void AddScore(int value);
 	void SetScore(int num);
-	void AddHp(float value);
 	void SetStageClearTelop(void);
 	void SetBattleStartTelop(void);
 	void GetStarPosition(std::vector<D3DXVECTOR3>& out);
-	void SetStarPosition(D3DXVECTOR3* pos);
-	void SetHPGuage(int currentHp, int maxHp);
-
+	void SetHPGuage(float percentage);
+	
 	/* 9/3 立花追加 */
 	int IsStarSelected();		//スターボタンの入力確認
 

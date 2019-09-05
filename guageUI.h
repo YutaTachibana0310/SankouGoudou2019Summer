@@ -26,7 +26,6 @@ public:
 	void Update(void);
 	void Draw(void);
 
-	int maxHp;
 	float trueGuagePercentage;	//実際のゲージパーセンテージ
 
 private:

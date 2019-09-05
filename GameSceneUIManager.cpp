@@ -8,7 +8,7 @@
 #include "input.h"
 #include "guageUI.h"
 #include "scoreUI.h"
-#include "starUI.h"
+#include "starButtonUI.h"
 #include "comboUI.h"
 #include "lineUI.h"
 #include "trailUI.h"
@@ -133,7 +133,7 @@ void GameSceneUIManager::Update(HWND hWnd)
 	}
 	if (GetKeyboardTrigger(DIK_5))
 	{
-		SetHPGuage(50,100);
+		SetHPGuage(0.5);
 	}
 	if (GetKeyboardTrigger(DIK_6))
 	{
@@ -269,14 +269,6 @@ void  GameSceneUIManager::SetScore(int num)
 }
 
 //=============================================================================
-// HPの加算（引数で受け取った値をHOに加算する）
-//=============================================================================
-void  GameSceneUIManager::AddHp(float value)
-{
-	guage->trueGuagePercentage += (value /= guage->maxHp);
-}
-
-//=============================================================================
 // ステージクリアテロップセット処理
 //=============================================================================
 void  GameSceneUIManager::SetStageClearTelop(void)
@@ -301,14 +293,6 @@ void  GameSceneUIManager::GetStarPosition(std::vector<D3DXVECTOR3>& out)
 }
 
 //=============================================================================
-// スター座標セット処理
-//=============================================================================
-void  GameSceneUIManager::SetStarPosition(D3DXVECTOR3* pos)
-{
-	//pos = starButton->GetStarPosition();
-}
-
-//=============================================================================
 // スターボタン入力確認
 //=============================================================================
 int GameSceneUIManager::IsStarSelected()
@@ -326,10 +310,9 @@ int GameSceneUIManager::IsStarSelected()
 }
 
 //=============================================================================
-// HPゲージセット処理(第一引数：現在のプレイヤーHP、第二引数：プレイヤーの最大HP)
+// HPゲージセット処理(引数で与えられた割合(0.0f～1.0f)にゲージをセットする)
 //=============================================================================
-void GameSceneUIManager::SetHPGuage(int currentHp,int maxHp)
+void GameSceneUIManager::SetHPGuage(float percentage)
 {
-	guage->maxHp = maxHp;
-	guage->trueGuagePercentage = (float)currentHp/guage->maxHp;
+	guage->trueGuagePercentage = percentage;
 }

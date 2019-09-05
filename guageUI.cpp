@@ -77,7 +77,6 @@ Guage::Guage()
 	//初期ゲージパーセンテージ設定
 	damageGuagePercentage = INITIALVALUE_GUAGEPERCENTAGE;
 	trueGuagePercentage = INITIALVALUE_GUAGEPERCENTAGE;
-	maxHp = 0;
 }
 
 //*****************************************************************************

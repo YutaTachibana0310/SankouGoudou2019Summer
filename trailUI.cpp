@@ -7,7 +7,7 @@
 #include "main.h"
 #include "input.h"
 #include "UIdrawer.h"
-#include "starUI.h"
+#include "starButtonUI.h"
 #include "debugWindow.h"
 #include "PlayerController.h"
 #include "player.h"
@@ -46,7 +46,7 @@ Trail::Trail()
 		trail[i]->SetColorObject(SET_COLOR_NOT_COLORED);
 	}
 
-	viewer = new Viewer3D(SIZE_TRAIL.x, SIZE_TRAIL.y,D3DXVECTOR2(18.0f,20.0f));
+	viewer = new Viewer3D(SIZE_TRAIL.x, SIZE_TRAIL.y,D3DXVECTOR2(15.0f,20.0f));
 	viewer->SetPosition(D3DXVECTOR3(115.0f, 30.0f, 0.0f));
 	viewer->SetRotation(0.0f, 30.0f, 0.0f);
 }

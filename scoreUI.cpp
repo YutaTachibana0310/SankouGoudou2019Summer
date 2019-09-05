@@ -38,8 +38,8 @@ Score::Score()
 	bg->SetColorObject(SET_COLOR_NOT_COLORED);
 
 	//ビュアー
-	viewer = new Viewer3D(SIZE_BG_SCORE.x, SIZE_BG_SCORE.y, D3DXVECTOR2(22.0f, 20.0f));
-	viewer->SetPosition(D3DXVECTOR3(-110.0f, 60.0f, 0.0f));
+	viewer = new Viewer3D(SIZE_BG_SCORE.x, SIZE_BG_SCORE.y, D3DXVECTOR2(20.0f, 15.0f));
+	viewer->SetPosition(D3DXVECTOR3(-115.0f, 20.0f, 0.0f));
 	viewer->SetRotation(0.0f, -30.0f, 0.0f);
 
 	// 最大値設定

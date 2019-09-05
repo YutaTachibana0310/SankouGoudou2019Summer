@@ -295,6 +295,10 @@ void EnemyController::EnemyAttack(EnemyModel *enermyModel)
 	vector<D3DXVECTOR3> emitPos;
 	emitPos.reserve(enermyModel->enemyList.size());
 
+	//バレット発射SE
+	Sound::GetInstance()->SetPlaySE(BOSSSHOT, true, (Sound::GetInstance()->changevol / 10.0f));
+
+
 	for (auto& enemy : enermyModel->enemyList)
 	{
 		emitPos.push_back(enemy->m_Pos + ENEMY_SHOTPOS_OFFSET);
@@ -310,9 +314,6 @@ void EnemyController::SetChageEffect(EnemyModel *model)
 {
 	model->chageEffectList.clear();
 	model->chageEffectList.resize(model->enemyList.size());
-
-	//バレット発射SE
-	Sound::GetInstance()->SetPlaySE(BOSSSHOT, true, (Sound::GetInstance()->changevol / 10.0f));
 
 	UINT cntSet = 0;
 	for (auto& enemey : model->enemyList)

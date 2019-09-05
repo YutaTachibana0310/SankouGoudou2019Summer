@@ -285,6 +285,8 @@ void BossEnemyModel::Explode()
 **************************************/
 void BossEnemyModel::ChargeExplode(Transform*& charge, Transform*& core)
 {
+
+	Sound::GetInstance()->SetPlaySE(BOSSEXPLODE, true, (Sound::GetInstance()->changevol / 2.0f));
 	D3DXVECTOR3 actorPos = actor->GetActorPosition();
 	BaseEmitter* emitter = GameParticleManager::Instance()->SetBossExplosionCharge(&actorPos);
 	charge = &emitter->transform;

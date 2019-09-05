@@ -37,8 +37,9 @@ void BossController::Update()
 
 	bossModel->Update();
 
-	if (bossModel->IsDesteoyed())
+	if (bossModel->IsDesteoyed()) 
 		SetActive(false);
+
 }
 
 /**************************************

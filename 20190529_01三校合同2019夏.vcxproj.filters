@@ -852,6 +852,9 @@
     <ClInclude Include="TutorialBG.h">
       <Filter>ヘッダー ファイル\BG</Filter>
     </ClInclude>
+    <ClInclude Include="Viewer3D.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1453,6 +1456,9 @@
     </ClCompile>
     <ClCompile Include="TutorialBG.cpp">
       <Filter>ソース ファイル\BG</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer3D.cpp">
+      <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

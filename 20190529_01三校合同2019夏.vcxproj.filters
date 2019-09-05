@@ -660,9 +660,6 @@
     <ClInclude Include="EnemyBulletEffectController.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="starUI.h">
-      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
-    </ClInclude>
     <ClInclude Include="lineUI.h">
       <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
     </ClInclude>
@@ -854,6 +851,9 @@
     </ClInclude>
     <ClInclude Include="Viewer3D.h">
       <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="starButtonUI.h">
+      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1047,9 +1047,6 @@
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>
     </ClCompile>
     <ClCompile Include="scoreUI.cpp">
-      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
-    </ClCompile>
-    <ClCompile Include="starUI.cpp">
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>
     </ClCompile>
     <ClCompile Include="trailUI.cpp">
@@ -1459,6 +1456,9 @@
     </ClCompile>
     <ClCompile Include="Viewer3D.cpp">
       <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="starButtonUI.cpp">
+      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

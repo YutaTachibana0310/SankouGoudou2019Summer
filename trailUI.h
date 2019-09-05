@@ -27,6 +27,7 @@ enum TRAIL_PARTS
 ‘O•ûéŒ¾
 ***************************************/
 class Object;
+class Viewer3D;
 
 //*****************************************************************************
 // \‘¢‘Ì’è‹`
@@ -42,6 +43,7 @@ public:
 
 private:
 	Object * trail[TRAILPARTS_MAX];
+	Viewer3D * viewer;
 
 	int		historyMax;
 

@@ -6,7 +6,7 @@
 //=============================================================================
 #include "main.h"
 #include "input.h"
-#include "starUI.h"
+#include "starButtonUI.h"
 #include "UIdrawer.h"
 #include "Framework/Easing.h"
 #include "trailUI.h"
@@ -25,8 +25,8 @@
 //*****************************************************************************
 StarButton::StarButton()
 {
-	// ç¿ïWê›íË
-	const float Radius = 420.0f;								//ê≥å‹äpå`ÇÃîºåa
+	// å‹äpå`ç¿ïWê›íË
+	const float Radius = 380.0f;								//ê≥å‹äpå`ÇÃîºåa
 	const float BaseAngle = D3DXToRadian(360.0f) / STAR_MAX;	//ê≥å‹äpå`ÇÃì‡äp
 	const float CenterX = (float)SCREEN_CENTER_X;
 	const float CenterY = (float)SCREEN_CENTER_Y + 40.0f;

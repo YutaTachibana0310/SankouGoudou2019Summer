@@ -6,9 +6,9 @@
 //=============================================================================
 #include "main.h"
 #include "input.h"
-#include "cursorUI.h"
 #include "UIdrawer.h"
 #include "GameSceneUIManager.h"
+#include "cursorUI.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -26,28 +26,22 @@ Cursor::Cursor()
 	outerCircle = new RotateObject();
 	outerCircle->LoadTexture("data/TEXTURE/UI/Cursor/outerCircle.png");
 	outerCircle->MakeVertex();
-
 	outerCircle->position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	outerCircle->size = SIZE_CURSOR;
 	outerCircle->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	outerCircle->colliderSize = COLLIDERSIZE_CURSOR / 2;
-
 	outerCircle->SetColorObject(SET_COLOR_NOT_COLORED);
-
 	outerCircle->CreateObjectCircle();
 
 	//内側のサークル
 	innerCircle = new RotateObject();
 	innerCircle->LoadTexture("data/TEXTURE/UI/Cursor/innerCircle.png");
 	innerCircle->MakeVertex();
-
 	innerCircle->position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	innerCircle->size = SIZE_CURSOR;
 	innerCircle->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	innerCircle->colliderSize = COLLIDERSIZE_CURSOR / 2;
-
 	innerCircle->SetColorObject(SET_COLOR_NOT_COLORED);
-
 	innerCircle->CreateObjectCircle();
 }
 

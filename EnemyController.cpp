@@ -103,7 +103,7 @@ void EnemyController::Init()
 #if USE_DEBUG_TESTENEMY
 	
 	test = new EnemyMidium;
-	test->VInit();
+	//test->VInit();
 	test->Set(D3DXVECTOR3(0.0f,0.0f,0.0f), D3DXVECTOR3(0.0f, 30.0f, 0.0f),35);
 
 
@@ -124,7 +124,7 @@ void EnemyController::Uninit()
 
 	//新しく作るEnemyの終了テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	test->VUninit();
+	//test->VUninit();
 #endif
 }
 
@@ -136,7 +136,7 @@ void EnemyController::Update()
 	//新しく作るEnemyの更新テストはここに書く
 #if USE_DEBUG_TESTENEMY
 	//boss->Update();
-	test->VUpdate();
+	//test->VUpdate();
 #endif
 
 	//モデル更新処理
@@ -193,7 +193,7 @@ void EnemyController::Draw()
 	//新しく作るEnemyの描画テストはここに書く
 #if USE_DEBUG_TESTENEMY
 	//boss->Draw();
-	test->VDraw();
+	//test->VDraw();
 #endif
 }
 

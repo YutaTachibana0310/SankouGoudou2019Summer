@@ -16,7 +16,6 @@ class Object;
 class Guage;
 class Combo;
 class Cursor;
-class Line;
 class Score;
 class StarButton;
 class Trail;
@@ -36,7 +35,6 @@ public:
 	Guage*guage;
 	Combo*combo;
 	Cursor*cursor;
-	Line*line;
 	Score*score;
 	StarButton*starButton;
 	Trail*trail;

@@ -660,9 +660,6 @@
     <ClInclude Include="EnemyBulletEffectController.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="lineUI.h">
-      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
-    </ClInclude>
     <ClInclude Include="UIdrawerC.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
@@ -1041,9 +1038,6 @@
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>
     </ClCompile>
     <ClCompile Include="guageUI.cpp">
-      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
-    </ClCompile>
-    <ClCompile Include="lineUI.cpp">
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>
     </ClCompile>
     <ClCompile Include="scoreUI.cpp">

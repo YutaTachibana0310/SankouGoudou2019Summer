@@ -10,7 +10,6 @@
 #include "scoreUI.h"
 #include "starButtonUI.h"
 #include "comboUI.h"
-#include "lineUI.h"
 #include "trailUI.h"
 #include "cursorUI.h"
 #include "battleStartTelop.h"
@@ -21,7 +20,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-//#define GAME_SCENE_UI_MAX (10)
+#define GAME_SCENE_UI_MAX (10)
 
 //*****************************************************************************
 // グローバル変数
@@ -33,7 +32,6 @@
 //*****************************************************************************
 GameSceneUIManager::GameSceneUIManager()
 {
-	line = new Line();
 	starButton = new StarButton();
 	cursor = new Cursor();
 	combo = new Combo();
@@ -50,35 +48,15 @@ GameSceneUIManager::GameSceneUIManager()
 //*****************************************************************************
 GameSceneUIManager::~GameSceneUIManager()
 {
-	delete combo;
-	combo = NULL;
-
-	delete cursor;
-	cursor = NULL;
-
-	delete guage;
-	guage = NULL;
-
-	delete line;
-	line = NULL;
-
-	delete score;
-	score = NULL;
-
-	delete starButton;
-	starButton = NULL;
-
-	delete trail;
-	trail = NULL;
-
-	delete battleStartTelop;
-	battleStartTelop = NULL;
-
-	delete stageClearTelop;
-	stageClearTelop = NULL;
-
-	delete telopBG;
-	telopBG = NULL;
+	SAFE_DELETE(combo);
+	SAFE_DELETE(cursor);
+	SAFE_DELETE(guage);
+	SAFE_DELETE(score);
+	SAFE_DELETE(starButton);
+	SAFE_DELETE(trail);
+	SAFE_DELETE(battleStartTelop);
+	SAFE_DELETE(stageClearTelop);
+	SAFE_DELETE(telopBG);
 }
 
 //=============================================================================
@@ -105,7 +83,6 @@ void GameSceneUIManager::Update(HWND hWnd)
 	combo->Update();
 	cursor->Update(hWnd);
 	guage->Update();
-	line->Update();
 	score->Update();
 	starButton->Update(hWnd);
 	trail->Update();
@@ -159,7 +136,6 @@ void GameSceneUIManager::Draw(void)
 
 	combo->Draw();
 	guage->Draw();
-	//line->Draw();
 	score->Draw();
 	starButton->Draw();
 	trail->Draw();

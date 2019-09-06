@@ -58,14 +58,9 @@ Score::Score()
 //*****************************************************************************
 Score::~Score()
 {
-	delete counter;
-	counter = NULL;
-
-	delete bg;
-	bg = NULL;
-
-	delete viewer;
-	viewer = NULL;
+	SAFE_DELETE(counter);
+	SAFE_DELETE(bg);
+	SAFE_DELETE(viewer);
 }
 
 //=============================================================================

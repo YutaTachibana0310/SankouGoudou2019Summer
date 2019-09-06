@@ -297,7 +297,6 @@
     <ClInclude Include="PlayerReturn.h" />
     <ClInclude Include="PlayerWait.h" />
     <ClInclude Include="IStateScene.h" />
-    <ClInclude Include="lineUI.h" />
     <ClInclude Include="MyLibrary.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerController.h" />
@@ -464,7 +463,6 @@
     <ClCompile Include="light.cpp" />
     <ClCompile Include="LineRenderer.cpp" />
     <ClCompile Include="LineTrailModel.cpp" />
-    <ClCompile Include="lineUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="masktex.cpp" />
     <ClCompile Include="MyLibrary.cpp" />

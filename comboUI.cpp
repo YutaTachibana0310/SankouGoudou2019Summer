@@ -24,10 +24,6 @@
 #define SIZE_NUMBER_COMBO		(D3DXVECTOR3(30.0f,50.0f,0.0f))
 #define SIZE_BACKGROUND_COMBO	(D3DXVECTOR3(160.0f,80.0f,0.0f))
 
-//// 座標定義(2D)
-//#define POSITION_BG_COMBO		(D3DXVECTOR3(SCREEN_WIDTH / 10 * 1.0f, SCREEN_HEIGHT / 10 * 3.0f, 0.0f))
-//#define POSITION_NUMBER_COMBO	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 0.20f, SCREEN_HEIGHT / 10 * 2.70f, 0.0f))
-
 // 座標定義(3D)
 #define POSITION_NUMBER_COMBO	(D3DXVECTOR3(40.0f,50.0f,0.0f))
 #define POSITION_BG_COMBO		(D3DXVECTOR3(160.0f,80.0f,0.0f))
@@ -78,14 +74,11 @@ Combo::Combo()
 //*****************************************************************************
 Combo::~Combo()
 {
-	delete number;
-	number = NULL;
+	SAFE_DELETE(number);
 
-	delete bg;
-	bg = NULL;
+	SAFE_DELETE(bg);
 
-	delete viewer;
-	viewer = NULL;
+	SAFE_DELETE(viewer);
 }
 
 //=============================================================================

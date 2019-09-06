@@ -20,9 +20,6 @@
 //*****************************************************************************
 #define SIZE_TRAIL		(D3DXVECTOR3(100.0f,100.0f,0.0f))
 
-////ç¿ïWê›íË(2D)
-//#define POSITION_TRAIL	(D3DXVECTOR3(SCREEN_WIDTH/10*9,SCREEN_HEIGHT/10*3,0.0f))
-
 //ç¿ïWê›íË(3D)
 #define POSITION_TRAIL	(D3DXVECTOR3(100.0f,100.0f,0.0f))
 
@@ -58,12 +55,10 @@ Trail::~Trail()
 {
 	for (int i = 0; i < TRAILPARTS_MAX; i++)
 	{
-		delete trail[i];
-		trail[i] = NULL;
+		SAFE_DELETE(trail[i]);
 	}
 
-	delete viewer;
-	viewer = NULL;
+	SAFE_DELETE(viewer);
 }
 
 //=============================================================================

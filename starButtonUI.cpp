@@ -10,7 +10,7 @@
 #include "UIdrawer.h"
 #include "Framework/Easing.h"
 #include "trailUI.h"
-
+#include "InputController.h"
 
 //*****************************************************************************
 // É}ÉNÉçíËã`
@@ -97,6 +97,11 @@ void StarButton::Update(HWND hWnd)
 {
 	for (int i = 0; i < STAR_MAX; i++)
 	{
+		int InputID = GetMoveInput();
+
+		if(InputID == i)
+			ToggleRotateStar(i, true);
+
 			if (star[i]->IsMouseOvered(hWnd,star[i]->position,
 				star[i]->colliderSize))
 			{

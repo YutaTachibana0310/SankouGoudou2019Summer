@@ -9,7 +9,7 @@
 #include "Game.h"
 #include "InputController.h"
 #include "TitleSceneUIManager.h"
-
+#include "sound.h"
 
 /**************************************
 ƒ}ƒNƒ’è‹`
@@ -28,9 +28,11 @@
 ***************************************/
 void TitleScene::Init()
 {
+
 	titleSceneUIManager = new TitleSceneUIManager();
 
 	titleSceneUIManager->Init();
+
 }
 
 /**************************************

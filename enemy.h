@@ -49,6 +49,12 @@ public:
 
 	D3DXVECTOR3			m_RotDest;			//目的の向き
 	int					m_CntFrame;			//フレームカウント
+
+	//animation
+	bool				m_AnimationActive;	//アニメーションを動かすか
+	bool                m_Expansion;		//拡大か縮小か
+	float				m_SclRate;			//スケールの割合
+	float				m_SclSpeed;			//スケールの増分
 	
 	bool				m_FlgDestroyed;		//撃破判定
 	void OnNotified(BoxCollider3DTag other);//衝突判定通知レシーバー
@@ -63,7 +69,10 @@ public:
 	virtual void VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame) = 0;	//セット処理
 
 	virtual void VSetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int time, D3DXVECTOR3 vec) {};
-	void Animation(bool expansion, float sclTime);
+	int Animation();
+
+	//animation
+	void SetAnimation(bool active, bool expansion, float sclRate,float speed);
 
 	//staticメンバ
 	MeshContainer *m_pMesh;
@@ -76,13 +85,13 @@ protected:
 class EnemyStraight : public Enemy
 {
 public:
-	float				m_SclTime;								//アニメーションの時間
+	float			m_SclRate;								//アニメーションの時間
 
-	int					position_history_timer;					//直前のフレームの時間
-	int				    position_history_index;					//シャドウワークのインデクス
+	int				m_PositionHistoryTimer;					//直前のフレームの時間
+	int				m_PositionHistoryIndex;					//シャドウワークのインデクス
 
-	D3DXVECTOR3			m_ShadowPos[SHADOW_MAX];	            //キュー構造		
-	D3DXVECTOR3			m_ShadowScl[SHADOW_MAX];
+	D3DXVECTOR3		m_ShadowPos[SHADOW_MAX];	            //キュー構造		
+	D3DXVECTOR3		m_ShadowScl[SHADOW_MAX];
 
 	EnemyStraight();
 	~EnemyStraight();
@@ -146,9 +155,9 @@ public:
 class EnemyMidium : public Enemy
 {
 public:
-	int					m_CntFrameNow;			//フレームカウント(今回の移動が経った時間)
-	bool				m_Visible;
-	int					m_CountAnim;
+	int			m_CntFrameNow;			//フレームカウント(今回の移動が経った時間)
+	bool		m_Visible;
+	int			m_CntAnim;
 	
 	EnemyMidium();
 	~EnemyMidium();
@@ -157,11 +166,12 @@ public:
 	void VUpdate(void);
 	void VDraw(void);
 
-	void Move(D3DXVECTOR3 pos, int frameDest);
+	void Move(D3DXVECTOR3 posDest, int frameDest);
 	void Set(D3DXVECTOR3 start);
 	void HitAnimation();
+	void SetHitAnimation();
 	void VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame);
-
+	
 };
 //*****************************************************************************
 // プロトタイプ宣言

@@ -8,6 +8,7 @@
 #include "input.h"
 #include "startButtonUI.h"
 #include "UIdrawer.h"
+#include "sound.h"
 #include "TitleSceneUIManager.h"
 
 //*****************************************************************************
@@ -71,6 +72,8 @@ void StartButton::Update(HWND hWnd)
 		// ボタンを押したらゲームシーンへ
 		if (IsMouseLeftTriggered())
 		{
+			//SE
+			Sound::GetInstance()->SetPlaySE(ENTERSE, true, (Sound::GetInstance()->changevol / 5.0f));
 			GoGameScene();
 		}
 

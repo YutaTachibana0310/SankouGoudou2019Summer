@@ -12,6 +12,7 @@
 #include "Framework\BoxCollider3D.h"
 #include "sound.h"
 
+
 /**************************************
 ƒ}ƒNƒ’è‹`
 ***************************************/
@@ -23,7 +24,7 @@
 void GameScene::GameBattle::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
-	Sound::GetInstance()->playsound = true;
+	//Sound::GetInstance()->playsound = true;
 }
 
 /**************************************

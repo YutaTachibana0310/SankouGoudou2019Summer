@@ -12,8 +12,10 @@
 #include "GameParticleManager.h"
 #include "Framework\BoxCollider3D.h"
 
-#include "starUI.h"
+#include "starButtonUI.h"
 #include "debugWindow.h"
+#include "sound.h"
+
 #include "PostEffect\SpikeNoiseController.h"
 
 using namespace std;
@@ -192,6 +194,7 @@ void Player::OnNotified(ObserveSubject* notifier)
 	if (flgInvincible)
 		return;
 
+	Sound::GetInstance()->SetPlaySE(PLAYERDAMAGE, true, (Sound::GetInstance()->changevol / 10.0f));
 	SpikeNoiseController::Instance()->SetNoise(0.5f, 20);
 	hp -= PLAYER_DAMAGE;
 
@@ -240,6 +243,7 @@ void Player::OnNotified(BoxCollider3DTag other)
 	if (flgInvincible)
 		return;
 
+	Sound::GetInstance()->SetPlaySE(PLAYERDAMAGE, true, (Sound::GetInstance()->changevol / 10.0f));
 	SpikeNoiseController::Instance()->SetNoise(0.5f, 20);
 	hp -= PLAYER_DAMAGE;
 

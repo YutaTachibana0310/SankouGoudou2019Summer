@@ -1,5 +1,5 @@
 #include "rank.h"
-#include "starUI.h"
+#include "starButtonUI.h"
 #include "scoreUI.h"
 #include "savefile.h"
 #include "UIdrawerC.h"

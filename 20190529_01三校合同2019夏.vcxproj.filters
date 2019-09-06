@@ -660,9 +660,6 @@
     <ClInclude Include="EnemyBulletEffectController.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="starUI.h">
-      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
-    </ClInclude>
     <ClInclude Include="lineUI.h">
       <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
     </ClInclude>
@@ -864,6 +861,9 @@
     <ClInclude Include="MidiumEnemyFactory.h">
       <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
     </ClInclude>
+    <ClInclude Include="starButtonUI.h">
+      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1056,9 +1056,6 @@
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>
     </ClCompile>
     <ClCompile Include="scoreUI.cpp">
-      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
-    </ClCompile>
-    <ClCompile Include="starUI.cpp">
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>
     </ClCompile>
     <ClCompile Include="trailUI.cpp">
@@ -1477,6 +1474,9 @@
     </ClCompile>
     <ClCompile Include="MidiumEnemyFactory.cpp">
       <Filter>ソース ファイル\Enemy\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="starButtonUI.cpp">
+      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

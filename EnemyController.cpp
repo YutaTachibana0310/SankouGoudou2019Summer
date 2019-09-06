@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <fstream>
 
+#include "sound.h"
 using namespace std;
 
 #include "MidiumEnemyModel.h"
@@ -100,6 +101,8 @@ void EnemyController::Init()
 
 	//新しく作るEnemyの初期化テストはここに書く
 #if USE_DEBUG_TESTENEMY
+	test = new EnemyMidium;
+	//test->VInit();
 
 #endif
 }
@@ -118,7 +121,8 @@ void EnemyController::Uninit()
 
 	//新しく作るEnemyの終了テストはここに書く
 #if USE_DEBUG_TESTENEMY
-
+	//test->VUninit();
+	SAFE_DELETE(test);
 #endif
 }
 
@@ -129,7 +133,7 @@ void EnemyController::Update()
 {
 	//新しく作るEnemyの更新テストはここに書く
 #if USE_DEBUG_TESTENEMY
-
+	//test->VUpdate();
 #endif
 
 	//モデル更新処理
@@ -185,7 +189,7 @@ void EnemyController::Draw()
 
 	//新しく作るEnemyの描画テストはここに書く
 #if USE_DEBUG_TESTENEMY
-
+	//test->VDraw();
 #endif
 }
 
@@ -314,6 +318,9 @@ void EnemyController::SetChageEffect(EnemyModel *model)
 {
 	model->chageEffectList.clear();
 	model->chageEffectList.resize(model->enemyList.size());
+
+	//バレット発射SE
+	Sound::GetInstance()->SetPlaySE(BOSSSHOT, true, (Sound::GetInstance()->changevol / 10.0f));
 
 	UINT cntSet = 0;
 	for (auto& enemey : model->enemyList)

@@ -18,6 +18,11 @@
 #define INIT_POSITION_STAGE_CLEAR_TELOP	(D3DXVECTOR3(SCREEN_WIDTH*1.5,SCREEN_HEIGHT/10*8,0.0f))
 #define ANIMATION_MAX (5)
 
+//*****************************************************************************
+// グローバル変数
+//*****************************************************************************
+static int currentAnimation = 0;
+
 static const float EasingStartPositionX[ANIMATION_MAX] = {
 	SCREEN_WIDTH*1.5,
 	SCREEN_WIDTH*1.5,
@@ -49,11 +54,6 @@ static const float AnimationDuration[ANIMATION_MAX] = {
 	120,
 	10
 };
-
-//*****************************************************************************
-// グローバル変数
-//*****************************************************************************
-static int currentAnimation = 0;
 
 //*****************************************************************************
 // コンストラクタ

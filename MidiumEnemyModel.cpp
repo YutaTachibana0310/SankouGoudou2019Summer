@@ -131,7 +131,7 @@ D3DXVECTOR3 MidiumEnemyModel::GetMoveTarget(int i)
 
 	D3DXVECTOR3 offset = (edgeR - edgeL) / (float)(EnemyNum + 1);
 
-	return edgeL + offset * (i + 1);
+	return edgeL + offset * (i + 1.0f);
 }
 
 /**************************************

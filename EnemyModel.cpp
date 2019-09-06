@@ -9,6 +9,7 @@
 #include "ScoreManager.h"
 #include "Framework\BaseEmitter.h"
 #include <algorithm>
+#include "sound.h"
 #include "camera.h"
 
 using namespace std;
@@ -132,6 +133,9 @@ void EnemyModel::CheckDestroied()
 		//スコア・コンボ加算
 		SetAddScore(100);
 		SetAddCombo(1);
+
+		//消滅SE
+		Sound::GetInstance()->SetPlaySE(ENEMYDOWN1, true, (Sound::GetInstance()->changevol / 100.0f));
 
 		enemy.reset();
 	}

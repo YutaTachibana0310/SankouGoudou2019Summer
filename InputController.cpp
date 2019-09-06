@@ -8,7 +8,7 @@
 #include "input.h"
 #include "sound.h"
 #include "GameSceneUIManager.h"
-#include "starUI.h"
+#include "starButtonUI.h"
 
 static GameSceneUIManager* instanceUImanager;
 
@@ -52,11 +52,6 @@ bool GetBomberInput()
 	return false;
 }
 
-void InputSound() {
-
-
-
-}
 
 void SetInstanceUIManager(GameSceneUIManager * instance)
 {

@@ -57,6 +57,7 @@ public:
 		BossBattle,
 		BossStart,
 		BossBombSequence,
+		Failed,
 		StateMax,
 	};
 
@@ -89,6 +90,7 @@ private:
 	class GameStart;
 	class GameBossStart;
 	class GameBossBombSequence;
+	class GameFailed;
 };
 
 #endif

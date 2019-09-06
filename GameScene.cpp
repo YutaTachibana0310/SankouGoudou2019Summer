@@ -26,6 +26,7 @@
 #include "PostEffect\SpeedBlurController.h"
 #include "BossController.h"
 #include "BossUIManager.h"
+#include "PostEffect\MonotoneFilter.h"
 
 #include "GameStart.h"
 #include "GameBattle.h"
@@ -34,6 +35,7 @@
 #include "GameBossBattle.h"
 #include "GameBossStart.h"
 #include "GameBossBombSequence.h"
+#include "GameFailed.h"
 
 #include "RebarOb.h"
 #include <functional>
@@ -69,6 +71,7 @@ void GameScene::Init()
 	fsm[State::BossBattle] = new GameBossBattle();
 	fsm[State::BossStart] = new GameBossStart();
 	fsm[State::BossBombSequence] = new GameBossBombSequence();
+	fsm[State::Failed] = new GameFailed();
 
 	//ˆÃ“]—pƒ|ƒŠƒSƒ“ì¬
 	darkMask = new Polygon2D();
@@ -259,6 +262,12 @@ void GameScene::Draw()
 	//UI•`‰æ
 	gameSceneUIManager->Draw();
 	bossUI->Draw();
+
+	//ƒQ[ƒ€ƒI[ƒo[Žž‚Ì‚àƒm[ƒgƒ“ƒtƒBƒ‹ƒ^•`‰æ
+	if (playerObserver->IsAlive())
+	{
+		MonotoneFilter::Instance()->Draw();
+	}
 
 	DrawDebugTimer(GAMESCENE_LABEL);
 }

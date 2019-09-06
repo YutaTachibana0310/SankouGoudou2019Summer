@@ -864,6 +864,9 @@
     <ClInclude Include="starButtonUI.h">
       <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
     </ClInclude>
+    <ClInclude Include="GameFailed.h">
+      <Filter>ヘッダー ファイル\GameController</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1477,6 +1480,9 @@
     </ClCompile>
     <ClCompile Include="starButtonUI.cpp">
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFailed.cpp">
+      <Filter>ソース ファイル\GameController</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

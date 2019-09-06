@@ -69,6 +69,7 @@ public:
 	PlayerModel *model;
 	bool enableUpdateLogic;
 	float GetHpPercent();
+	bool IsAlive();
 
 private:
 	Player *player;

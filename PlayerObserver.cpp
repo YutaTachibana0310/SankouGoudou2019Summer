@@ -405,3 +405,11 @@ float PlayerObserver::GetHpPercent()
 {
 	return player->GetHp() / Player::MaxHp;
 }
+
+/**************************************
+¶‘¶”»’è
+***************************************/
+bool PlayerObserver::IsAlive()
+{
+	return player->IsAlive();
+}

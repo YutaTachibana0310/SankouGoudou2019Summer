@@ -660,9 +660,6 @@
     <ClInclude Include="EnemyBulletEffectController.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="lineUI.h">
-      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
-    </ClInclude>
     <ClInclude Include="UIdrawerC.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
@@ -868,6 +865,8 @@
       <Filter>ヘッダー ファイル\GameController</Filter>
     </ClInclude>
     <ClInclude Include="GameOver.h">
+    </ClInclude>
+    <ClInclude Include="bomberStockUI.h">
       <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1056,9 +1055,6 @@
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>
     </ClCompile>
     <ClCompile Include="guageUI.cpp">
-      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
-    </ClCompile>
-    <ClCompile Include="lineUI.cpp">
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>
     </ClCompile>
     <ClCompile Include="scoreUI.cpp">
@@ -1488,6 +1484,8 @@
       <Filter>ソース ファイル\GameController</Filter>
     </ClCompile>
     <ClCompile Include="GameOver.cpp">
+    </ClCompile>
+    <ClCompile Include="bomberStockUI.cpp">
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>
     </ClCompile>
   </ItemGroup>

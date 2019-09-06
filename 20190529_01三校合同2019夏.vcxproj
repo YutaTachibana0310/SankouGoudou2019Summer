@@ -149,6 +149,7 @@
     <ClInclude Include="BomberFire.h" />
     <ClInclude Include="BomberFireController.h" />
     <ClInclude Include="BomberStockEffect.h" />
+    <ClInclude Include="bomberStockUI.h" />
     <ClInclude Include="BossBulletGuide.h" />
     <ClInclude Include="BossChargeEffect.h" />
     <ClInclude Include="BossColliderController.h" />
@@ -302,7 +303,6 @@
     <ClInclude Include="PlayerReturn.h" />
     <ClInclude Include="PlayerWait.h" />
     <ClInclude Include="IStateScene.h" />
-    <ClInclude Include="lineUI.h" />
     <ClInclude Include="MyLibrary.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerController.h" />
@@ -366,6 +366,7 @@
     <ClCompile Include="BomberFire.cpp" />
     <ClCompile Include="BomberFireController.cpp" />
     <ClCompile Include="BomberStockEffect.cpp" />
+    <ClCompile Include="bomberStockUI.cpp" />
     <ClCompile Include="BossBulletGuide.cpp" />
     <ClCompile Include="BossChargeEffect.cpp" />
     <ClCompile Include="BossColliderController.cpp" />
@@ -474,7 +475,6 @@
     <ClCompile Include="light.cpp" />
     <ClCompile Include="LineRenderer.cpp" />
     <ClCompile Include="LineTrailModel.cpp" />
-    <ClCompile Include="lineUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="masktex.cpp" />
     <ClCompile Include="MyLibrary.cpp" />

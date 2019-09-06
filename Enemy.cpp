@@ -664,7 +664,7 @@ void EnemySnake::Set(vector<D3DXVECTOR3> posDestList, vector<int> frameDestList,
 ****************************************/
 EnemyMidium::EnemyMidium()
 {
-
+	ResourceManager::Instance()->GetMesh("MidiumEnemy", m_pMesh);
 }
 
 /****************************************
@@ -784,11 +784,9 @@ void EnemyMidium::Move(D3DXVECTOR3 posDest, int frameDest)
 /****************************************
 ƒZƒbƒgˆ—(Å‰‚Ìİ’è)
 *****************************************/
-void EnemyMidium::Set(D3DXVECTOR3 start, D3DXVECTOR3 posDest, int frameDest)
+void EnemyMidium::Set(D3DXVECTOR3 start)
 {
 	m_Start = start;
-	m_PosDest = posDest;
-	m_FrameDest = frameDest;
 	m_Active = true;
 }
 

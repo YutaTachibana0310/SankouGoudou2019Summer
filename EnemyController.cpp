@@ -9,6 +9,7 @@
 #include "ChangeEnemyFactory.h"
 #include "StraightEnemyFactory.h"
 #include "SnakeEnemyFactory.h"
+#include "MidiumEnemyFactory.h"
 #include "EnemyBullet.h"
 #include "GameParticleManager.h"
 #include "BossEnemyModel.h"
@@ -22,6 +23,8 @@
 
 #include "sound.h"
 using namespace std;
+
+#include "MidiumEnemyModel.h"
 
 /**************************************
 マクロ定義
@@ -47,6 +50,7 @@ EnemyController::EnemyController()
 	//リソース読み込み
 	//解放はシーン終了時にGame.cppで一括して開放する
 	ResourceManager::Instance()->LoadMesh("Enemy", "data/MODEL/Enemy/drone.x");
+	ResourceManager::Instance()->LoadMesh("MidiumEnemy", "data/MODEL/Enemy/midium.x");
 
 	//各コントローラ作成
 	bulletController = new EnemyBulletController();
@@ -55,8 +59,8 @@ EnemyController::EnemyController()
 	//各ファクトリー作成
 	factoryContainer["Change"] = new ChangeEnemyFactory();
 	factoryContainer["Straight"] = new StraightEnemyFactory();
-	factoryContainer["Snake"] = new SnakeEnemyFactory();
-
+	factoryContainer["Snake"] = new SnakeEnemyFactory(); 
+	factoryContainer["Midium"] = new MidiumEnemyFactory();
 	//ステージデータ読み込み
 	LoadStageData();
 }
@@ -97,11 +101,8 @@ void EnemyController::Init()
 
 	//新しく作るEnemyの初期化テストはここに書く
 #if USE_DEBUG_TESTENEMY
-	
 	test = new EnemyMidium;
 	//test->VInit();
-	test->Set(D3DXVECTOR3(0.0f,0.0f,0.0f), D3DXVECTOR3(0.0f, 30.0f, 0.0f),35);
-
 
 #endif
 }
@@ -121,6 +122,7 @@ void EnemyController::Uninit()
 	//新しく作るEnemyの終了テストはここに書く
 #if USE_DEBUG_TESTENEMY
 	//test->VUninit();
+	SAFE_DELETE(test);
 #endif
 }
 
@@ -298,13 +300,14 @@ bool EnemyController::LoadStageData()
 void EnemyController::EnemyAttack(EnemyModel *enermyModel)
 {
 	vector<D3DXVECTOR3> emitPos;
-	emitPos.reserve(enermyModel->enemyList.size());
+	//emitPos.reserve(enermyModel->enemyList.size());
 
-	for (auto& enemy : enermyModel->enemyList)
-	{
-		emitPos.push_back(enemy->m_Pos + ENEMY_SHOTPOS_OFFSET);
-	}
+	//for (auto& enemy : enermyModel->enemyList)
+	//{
+	//	emitPos.push_back(enemy->m_Pos + ENEMY_SHOTPOS_OFFSET);
+	//}
 
+	enermyModel->GetShotPos(emitPos);
 	bulletController->Set(emitPos, enermyModel->model);
 }
 

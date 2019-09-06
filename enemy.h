@@ -167,7 +167,7 @@ public:
 	void VDraw(void);
 
 	void Move(D3DXVECTOR3 posDest, int frameDest);
-	void Set(D3DXVECTOR3 start, D3DXVECTOR3 posDest, int frameDest);
+	void Set(D3DXVECTOR3 start);
 	void HitAnimation();
 	void SetHitAnimation();
 	void VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame);

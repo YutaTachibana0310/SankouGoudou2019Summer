@@ -306,6 +306,8 @@ void EnemyController::EnemyAttack(EnemyModel *enermyModel)
 	//{
 	//	emitPos.push_back(enemy->m_Pos + ENEMY_SHOTPOS_OFFSET);
 	//}
+		//バレット発射SE
+	Sound::GetInstance()->SetPlaySE(BOSSSHOT, true, (Sound::GetInstance()->changevol / 10.0f));
 
 	enermyModel->GetShotPos(emitPos);
 	bulletController->Set(emitPos, enermyModel->model);
@@ -319,8 +321,6 @@ void EnemyController::SetChageEffect(EnemyModel *model)
 	model->chageEffectList.clear();
 	model->chageEffectList.resize(model->enemyList.size());
 
-	//バレット発射SE
-	Sound::GetInstance()->SetPlaySE(BOSSSHOT, true, (Sound::GetInstance()->changevol / 10.0f));
 
 	UINT cntSet = 0;
 	for (auto& enemey : model->enemyList)

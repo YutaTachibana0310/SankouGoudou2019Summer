@@ -15,6 +15,8 @@ OBJECT rankBGParts[RANK_MAX];
 //*****************************************************************************
 int	tmp;	//ソート用の変数
 int counta;
+//タイトル移行時の判定を行うフラグ
+bool switch_active;
 			//数字の移動処理
 D3DXVECTOR3 acceleration;
 D3DXVECTOR3 attraction;
@@ -96,6 +98,8 @@ HRESULT InitRank(void) {
 	rankactive[4] = false;
 	rankactive[5] = true;
 
+	switch_active = false;
+
 	//バイナリファイルの読み込み
 	LoadData();
 
@@ -140,9 +144,14 @@ void UpdateRank(void) {
 			if (IsMouseLeftTriggered()) {
 				rank[i].position = rankBGParts[i].position - D3DXVECTOR3(80, -10, 0);
 
+				rankactive[i] = false;
+
 				if (i > 0) {
-					rankactive[i] = false;
+
 					rankactive[i - 1] = true;
+				}
+				else {
+					switch_active = true;
 				}
 			}
 			else {
@@ -155,10 +164,13 @@ void UpdateRank(void) {
 
 				if (length <= 1.0f) {
 					attraction = D3DXVECTOR3(0, 0, 0);
-					
+
+					rankactive[i] = false;
 					if (i > 0) {
-						rankactive[i] = false;
 						rankactive[i - 1] = true;
+					}
+					else {
+						switch_active = true;
 					}
 				}
 
@@ -169,11 +181,11 @@ void UpdateRank(void) {
 	}
 
 	//active0番がtrueの場合にカウンタを回す
-	if (rankactive[0])
+	if (switch_active)	
 		counta++;
 
-	//600カウント（約10秒後に暗転）
-	if (counta >= 600) {
+	//300カウント（約5秒後に暗転）
+	if (counta >= 300) {
 		SceneChangeFlag(true, SceneTitle);
 		counta = 0;
 	}

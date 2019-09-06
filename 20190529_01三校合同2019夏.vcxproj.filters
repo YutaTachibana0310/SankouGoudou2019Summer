@@ -861,6 +861,11 @@
     <ClInclude Include="starButtonUI.h">
       <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
     </ClInclude>
+    <ClInclude Include="GameFailed.h">
+      <Filter>ヘッダー ファイル\GameController</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOver.h">
+    </ClInclude>
     <ClInclude Include="bomberStockUI.h">
       <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
     </ClInclude>
@@ -1474,6 +1479,11 @@
     </ClCompile>
     <ClCompile Include="starButtonUI.cpp">
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFailed.cpp">
+      <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOver.cpp">
     </ClCompile>
     <ClCompile Include="bomberStockUI.cpp">
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>

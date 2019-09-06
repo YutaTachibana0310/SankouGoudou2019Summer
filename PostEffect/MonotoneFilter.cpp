@@ -51,7 +51,7 @@ MonotoneFilter::MonotoneFilter()
 
 	HRESULT res = D3DXCreateEffectFromFile(pDevice, (LPSTR)PRECOMPILE_MONOTONE_PATH, 0, 0, D3DXSHADER_SKIPVALIDATION, 0, &effect, 0);
 
-	if(!res)
+	if(res != S_OK)
 		D3DXCreateEffectFromFile(pDevice, (LPSTR)EFFECTFILE_MONOTONE_PATH, 0, 0, 0, 0, &effect, 0);
 
 	effect->SetTechnique("tech");
@@ -71,17 +71,11 @@ MonotoneFilter::~MonotoneFilter()
 ***************************************/
 void MonotoneFilter::Draw()
 {
-#ifdef MONOTONE_USE_DEBUG
-	BeginDebugWindow("Monotone");
-	static float monotonePower = 0.0f;
-	DebugSliderFloat("Power", &monotonePower, 0.0f, 1.0f);
-	EndDebugWindow("Monotone");
-	SetPower(monotonePower);
-#endif
-
 	effect->Begin(0, 0);
 	effect->BeginPass(0);
 
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	pDevice->SetTexture(0, GetCurrentDrawData());
 	ScreenObject::Draw();
 
 	effect->EndPass();

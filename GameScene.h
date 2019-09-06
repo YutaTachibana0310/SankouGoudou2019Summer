@@ -24,6 +24,7 @@ class BackGroundController;
 class Mask;
 class BossController;
 class BossUImanager;
+class GameOver;
 
 /**************************************
 ƒNƒ‰ƒX’è‹`
@@ -57,6 +58,7 @@ public:
 		BossBattle,
 		BossStart,
 		BossBombSequence,
+		Failed,
 		StateMax,
 	};
 
@@ -74,6 +76,7 @@ private:
 	BackGroundController *bgController;
 	BossController* bossController;
 	BossUImanager* bossUI;
+	GameOver* gameover;
 
 	bool useDarkMask;
 
@@ -89,6 +92,7 @@ private:
 	class GameStart;
 	class GameBossStart;
 	class GameBossBombSequence;
+	class GameFailed;
 };
 
 #endif

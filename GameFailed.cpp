@@ -8,6 +8,7 @@
 #include "GameFailed.h"
 #include "PostEffect\MonotoneFilter.h"
 #include "PostEffectManager.h"
+#include "GameOver.h"
 
 /**************************************
 ƒOƒ[ƒoƒ‹•Ï”
@@ -32,6 +33,7 @@ int GameScene::GameFailed::OnUpdate(GameScene * entity)
 	MonotoneFilter::Instance()->SetPower(t);
 
 	entity->UpdateWhole();
+	entity->gameover->Update();
 
 	return GameScene::State::Failed;
 }

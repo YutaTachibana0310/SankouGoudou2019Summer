@@ -867,6 +867,9 @@
     <ClInclude Include="GameFailed.h">
       <Filter>ヘッダー ファイル\GameController</Filter>
     </ClInclude>
+    <ClInclude Include="GameOver.h">
+      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1483,6 +1486,9 @@
     </ClCompile>
     <ClCompile Include="GameFailed.cpp">
       <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOver.cpp">
+      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -24,6 +24,7 @@ class BackGroundController;
 class Mask;
 class BossController;
 class BossUImanager;
+class GameOver;
 
 /**************************************
 ƒNƒ‰ƒX’è‹`
@@ -75,6 +76,7 @@ private:
 	BackGroundController *bgController;
 	BossController* bossController;
 	BossUImanager* bossUI;
+	GameOver* gameover;
 
 	bool useDarkMask;
 

@@ -27,6 +27,7 @@
 #include "BossController.h"
 #include "BossUIManager.h"
 #include "PostEffect\MonotoneFilter.h"
+#include "GameOver.h"
 
 #include "GameStart.h"
 #include "GameBattle.h"
@@ -96,6 +97,7 @@ void GameScene::Init()
 	bgController = new BackGroundController();
 	bossUI = new BossUImanager();
 	bossController = new BossController(playerObserver->GetPlayerTransform(), *bossUI);
+	gameover = new GameOver();
 
 	SetPlayerObserverAdr(playerObserver);
 
@@ -267,6 +269,7 @@ void GameScene::Draw()
 	if (playerObserver->IsAlive())
 	{
 		MonotoneFilter::Instance()->Draw();
+		gameover->Draw();
 	}
 
 	DrawDebugTimer(GAMESCENE_LABEL);

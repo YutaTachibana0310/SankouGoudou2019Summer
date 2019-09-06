@@ -849,6 +849,15 @@
     <ClInclude Include="Viewer3D.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
+    <ClInclude Include="MidiumEnemyModel.h">
+      <Filter>ヘッダー ファイル\Enemy\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="MidiumEditWindow.h">
+      <Filter>ヘッダー ファイル\Stage\EditWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="MidiumEnemyFactory.h">
+      <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
+    </ClInclude>
     <ClInclude Include="starButtonUI.h">
       <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
     </ClInclude>
@@ -1453,6 +1462,15 @@
     </ClCompile>
     <ClCompile Include="Viewer3D.cpp">
       <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MidiumEnemyModel.cpp">
+      <Filter>ソース ファイル\Enemy\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="MidiumEditWindow.cpp">
+      <Filter>ソース ファイル\Stage\EditWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="MidiumEnemyFactory.cpp">
+      <Filter>ソース ファイル\Enemy\Factory</Filter>
     </ClCompile>
     <ClCompile Include="starButtonUI.cpp">
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>

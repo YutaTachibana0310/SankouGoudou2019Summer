@@ -252,3 +252,12 @@ void Player::OnNotified(BoxCollider3DTag other)
 	collider->active = false;
 	flgInvincible = true;
 }
+
+/*****************************************
+“–‚½‚è”»’èØ‚è‘Ö‚¦
+******************************************/
+void Player::EnableCollider(bool state)
+{
+	collider->active = state;
+}
+

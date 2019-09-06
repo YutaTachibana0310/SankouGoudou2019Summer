@@ -156,6 +156,17 @@ void EnemyModel::CheckDestroied()
 /**************************************
 エネミー座標取得処理
 ***************************************/
+void EnemyModel::GetShotPos(std::vector<D3DXVECTOR3>& out)
+{
+	for (auto&& enemy : enemyList)
+	{
+		out.push_back(enemy->m_Pos + ShotPosOffset);
+	}
+}
+
+/**************************************
+エネミー座標取得処理
+***************************************/
 void EnemyModel::GetEnemy(list<shared_ptr<Enemy>>& out)
 {
 	for (auto& enemy : enemyList)

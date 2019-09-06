@@ -11,7 +11,7 @@
 // マクロ定義
 //*****************************************************************************
 #define	INTERVAL_NUMBER	(25.0f)			// スコア数字の表示間隔
-#define	INTERVAL_RANKING_NUMBER	(50.0f)	// スコア数字の表示間隔（ランキング用）
+#define	INTERVAL_RANKING_NUMBER	(45.0f)	// スコア数字の表示間隔（ランキング用）
 #define	INTERVAL_NUMBER_TEXTURE	(0.1f)	// テクスチャテクスチャ内のスコア数字の表示間隔
 #define	PLACE_MAX		(6)				// スコアの桁数
 #define BASE_NUMBER		(10)			// 進数

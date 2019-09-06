@@ -4,6 +4,8 @@
 #include "savefile.h"
 #include "UIdrawerC.h"
 #include "ScoreManager.h"
+#include "input.h"
+#include "masktex.h"
 
 SCORERANK scorerank[ARRAY_MAX];
 OBJECT rank[RANK_MAX];
@@ -12,7 +14,7 @@ OBJECT rankBGParts[RANK_MAX];
 // グローバル変数宣言
 //*****************************************************************************
 int	tmp;	//ソート用の変数
-
+int counta;
 			//数字の移動処理
 D3DXVECTOR3 acceleration;
 D3DXVECTOR3 attraction;
@@ -85,6 +87,7 @@ HRESULT InitRank(void) {
 	dir = { 0,0,0 };
 	target = { 0,0,0 };
 	length = 0.0f;
+	counta = 0;
 
 	rankactive[0] = false;
 	rankactive[1] = false;
@@ -125,6 +128,7 @@ void UninitRank(void) {
 void UpdateRank(void) {
 
 	for (int i = RANK_MAX; i >= 0; i--) {
+
 		if (rankactive[i]) {
 			dir = (rankBGParts[i].position - D3DXVECTOR3(80, -10, 0)) - rank[i].position;
 			//正規化
@@ -132,21 +136,46 @@ void UpdateRank(void) {
 			//ターゲット距離算出
 			target = (rankBGParts[i].position - D3DXVECTOR3(80, -10, 0)) - rank[i].position;
 			length = D3DXVec3Length(&target);
-			//ターゲットへ移動
-			attraction = dir * 10;
-			attraction += acceleration * (1 - length);
 
-			rank[i].position += attraction;
+			if (IsMouseLeftTriggered()) {
+				rank[i].position = rankBGParts[i].position - D3DXVECTOR3(80, -10, 0);
 
-			if (length <= 1.0f) {
-				attraction = D3DXVECTOR3(0, 0, 0);
-				rankactive[i] = false;
 				if (i > 0) {
+					rankactive[i] = false;
 					rankactive[i - 1] = true;
 				}
 			}
+			else {
+
+				//ターゲットへ移動
+				attraction = dir * 10;
+				attraction += acceleration * (1 - length);
+
+				rank[i].position += attraction;
+
+				if (length <= 1.0f) {
+					attraction = D3DXVECTOR3(0, 0, 0);
+					
+					if (i > 0) {
+						rankactive[i] = false;
+						rankactive[i - 1] = true;
+					}
+				}
+
+			}
 
 		}
+
+	}
+
+	//active0番がtrueの場合にカウンタを回す
+	if (rankactive[0])
+		counta++;
+
+	//600カウント（約10秒後に暗転）
+	if (counta >= 600) {
+		SceneChangeFlag(true, SceneTitle);
+		counta = 0;
 	}
 }
 

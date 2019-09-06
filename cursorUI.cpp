@@ -50,11 +50,8 @@ Cursor::Cursor()
 //*****************************************************************************
 Cursor::~Cursor()
 {
-	delete outerCircle;
-	outerCircle = NULL;
-
-	delete innerCircle;
-	innerCircle = NULL;
+	SAFE_DELETE(outerCircle);
+	SAFE_DELETE(innerCircle);
 }
 
 //=============================================================================

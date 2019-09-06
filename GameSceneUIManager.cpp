@@ -10,12 +10,12 @@
 #include "scoreUI.h"
 #include "starButtonUI.h"
 #include "comboUI.h"
-#include "lineUI.h"
 #include "trailUI.h"
 #include "cursorUI.h"
 #include "battleStartTelop.h"
 #include "stageClearTelop.h"
 #include "telopBG.h"
+#include "bomberStockUI.h"
 #include "GameSceneUIManager.h"
 
 //*****************************************************************************
@@ -33,7 +33,6 @@
 //*****************************************************************************
 GameSceneUIManager::GameSceneUIManager()
 {
-	line = new Line();
 	starButton = new StarButton();
 	cursor = new Cursor();
 	combo = new Combo();
@@ -43,6 +42,7 @@ GameSceneUIManager::GameSceneUIManager()
 	battleStartTelop = new BattleStartTelop();
 	stageClearTelop = new StageClearTelop();
 	telopBG = new TelopBG();
+	bomberStock = new BomberStock();
 }
 
 //*****************************************************************************
@@ -50,35 +50,16 @@ GameSceneUIManager::GameSceneUIManager()
 //*****************************************************************************
 GameSceneUIManager::~GameSceneUIManager()
 {
-	delete combo;
-	combo = NULL;
-
-	delete cursor;
-	cursor = NULL;
-
-	delete guage;
-	guage = NULL;
-
-	delete line;
-	line = NULL;
-
-	delete score;
-	score = NULL;
-
-	delete starButton;
-	starButton = NULL;
-
-	delete trail;
-	trail = NULL;
-
-	delete battleStartTelop;
-	battleStartTelop = NULL;
-
-	delete stageClearTelop;
-	stageClearTelop = NULL;
-
-	delete telopBG;
-	telopBG = NULL;
+	SAFE_DELETE(combo);
+	SAFE_DELETE(cursor);
+	SAFE_DELETE(guage);
+	SAFE_DELETE(score);
+	SAFE_DELETE(starButton);
+	SAFE_DELETE(trail);
+	SAFE_DELETE(battleStartTelop);
+	SAFE_DELETE(stageClearTelop);
+	SAFE_DELETE(telopBG);
+	SAFE_DELETE(bomberStock);
 }
 
 //=============================================================================
@@ -93,7 +74,6 @@ void GameSceneUIManager::Init()
 //=============================================================================
 void GameSceneUIManager::Uninit()
 {
-
 }
 
 
@@ -105,13 +85,13 @@ void GameSceneUIManager::Update(HWND hWnd)
 	combo->Update();
 	cursor->Update(hWnd);
 	guage->Update();
-	line->Update();
 	score->Update();
 	starButton->Update(hWnd);
 	trail->Update();
 	battleStartTelop->Update();
 	stageClearTelop->Update();
 	telopBG->Update();
+	bomberStock->Update();
 
 #ifdef _DEBUG
 	// デバッグ用コマンド
@@ -137,9 +117,12 @@ void GameSceneUIManager::Update(HWND hWnd)
 	}
 	if (GetKeyboardTrigger(DIK_6))
 	{
+		SetBomberStock(3);
 	}
+
 	if (GetKeyboardTrigger(DIK_7))
 	{
+		SetBomberStock(4);
 	}
 #endif
 
@@ -159,13 +142,13 @@ void GameSceneUIManager::Draw(void)
 
 	combo->Draw();
 	guage->Draw();
-	//line->Draw();
 	score->Draw();
 	starButton->Draw();
 	trail->Draw();
 	telopBG->Draw();
 	battleStartTelop->Draw();
 	stageClearTelop->Draw();
+	bomberStock->Draw();
 
 	cursor->Draw();
 
@@ -315,4 +298,19 @@ int GameSceneUIManager::IsStarSelected()
 void GameSceneUIManager::SetHPGuage(float percentage)
 {
 	guage->trueGuagePercentage = percentage;
+}
+
+//=============================================================================
+// ボムストックセット処理(引数で与えられた数分ボンバーストックをセットする)
+//=============================================================================
+void GameSceneUIManager::SetBomberStock(int stockedBomNum)
+{
+	//*注意：今は仮でmax3にしてます。
+	if (stockedBomNum > MAX_STOCKED_BOM_NUM)
+	{
+		//メモリ破壊対策
+		return;
+	}
+
+	bomberStock->stockedBomNum = stockedBomNum;
 }

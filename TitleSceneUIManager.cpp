@@ -38,14 +38,9 @@ TitleSceneUIManager::TitleSceneUIManager()
 //*****************************************************************************
 TitleSceneUIManager::~TitleSceneUIManager()
 {
-	delete startButton;
-	startButton = NULL;
-
-	delete titleBG;
-	titleBG = NULL;
-
-	delete titleLogo;
-	titleLogo = NULL;
+	SAFE_DELETE(startButton);
+	SAFE_DELETE(titleBG);
+	SAFE_DELETE(titleLogo);
 }
 
 //=============================================================================
@@ -85,9 +80,9 @@ void TitleSceneUIManager::Draw(void)
 	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
-	startButton->Draw();
 	titleBG->Draw();
 	titleLogo->Draw();
+	startButton->Draw();
 
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }

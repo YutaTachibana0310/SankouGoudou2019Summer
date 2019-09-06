@@ -20,10 +20,6 @@
 #define SIZE_GUAGE			(D3DXVECTOR3(190.0f,25.0f,0.0f))
 #define SIZE_GUAGE_BG		(D3DXVECTOR3(250.0f,25.0f,0.0f))
 
-////ç¿ïWê›íË(2D)
-//#define POSITION_GUAGE	(D3DXVECTOR3(SCREEN_WIDTH / 10*7.63f, SCREEN_HEIGHT / 10*1.0f, 0.0f))
-//#define POSITION_BG_GUAGE	(D3DXVECTOR3(SCREEN_WIDTH / 10*8.0f, SCREEN_HEIGHT / 10*1.0f, 0.0f))
-
 //ç¿ïWê›íË(3D)
 #define POSITION_GUAGE		(D3DXVECTOR3(190.0f,25.0f,0.0f))
 #define POSITION_BG_GUAGE	(D3DXVECTOR3(250.0f,25.0f,0.0f))
@@ -84,20 +80,11 @@ Guage::Guage()
 //*****************************************************************************
 Guage::~Guage()
 {
-	delete damageGuage;
-	damageGuage = NULL;
-
-	delete hPGuage;
-	hPGuage = NULL;
-
-	delete frame;
-	frame = NULL;
-
-	delete bg;
-	bg = NULL;
-
-	delete viewer;
-	viewer = NULL;
+	SAFE_DELETE(damageGuage);
+	SAFE_DELETE(hPGuage);
+	SAFE_DELETE(frame);
+	SAFE_DELETE(bg);
+	SAFE_DELETE(viewer);
 }
 
 //=============================================================================

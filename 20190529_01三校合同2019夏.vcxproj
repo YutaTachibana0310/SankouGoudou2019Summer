@@ -149,6 +149,7 @@
     <ClInclude Include="BomberFire.h" />
     <ClInclude Include="BomberFireController.h" />
     <ClInclude Include="BomberStockEffect.h" />
+    <ClInclude Include="bomberStockUI.h" />
     <ClInclude Include="BossBulletGuide.h" />
     <ClInclude Include="BossChargeEffect.h" />
     <ClInclude Include="BossColliderController.h" />
@@ -360,6 +361,7 @@
     <ClCompile Include="BomberFire.cpp" />
     <ClCompile Include="BomberFireController.cpp" />
     <ClCompile Include="BomberStockEffect.cpp" />
+    <ClCompile Include="bomberStockUI.cpp" />
     <ClCompile Include="BossBulletGuide.cpp" />
     <ClCompile Include="BossChargeEffect.cpp" />
     <ClCompile Include="BossColliderController.cpp" />

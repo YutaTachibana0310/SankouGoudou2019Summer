@@ -22,6 +22,7 @@ class Trail;
 class TelopBG;
 class BattleStartTelop;
 class StageClearTelop;
+class BomberStock;
 
 //*****************************************************************************
 // 構造体定義
@@ -41,6 +42,7 @@ public:
 	TelopBG*telopBG;
 	BattleStartTelop*battleStartTelop;
 	StageClearTelop*stageClearTelop;
+	BomberStock *bomberStock;
 
 	void Init(void);
 	void Uninit(void);
@@ -56,7 +58,8 @@ public:
 	void SetBattleStartTelop(void);
 	void GetStarPosition(std::vector<D3DXVECTOR3>& out);
 	void SetHPGuage(float percentage);
-	
+	void SetBomberStock(int stockedBomNum);
+
 	/* 9/3 立花追加 */
 	int IsStarSelected();		//スターボタンの入力確認
 

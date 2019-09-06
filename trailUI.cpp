@@ -31,15 +31,11 @@ Trail::Trail()
 	for (int i = 0; i < TRAILPARTS_MAX; i++)
 	{
 		trail[i] = new Object();
-
-		// テクスチャ読み込み
 		trail[i]->LoadTexture(texPath[i]);
 		trail[i]->MakeVertex();
-
 		trail[i]->position = POSITION_TRAIL/2;
 		trail[i]->size = SIZE_TRAIL/2;
 		trail[i]->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
 		trail[i]->SetColorObject(SET_COLOR_NOT_COLORED);
 	}
 

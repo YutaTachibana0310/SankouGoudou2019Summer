@@ -15,12 +15,13 @@
 #include "battleStartTelop.h"
 #include "stageClearTelop.h"
 #include "telopBG.h"
+#include "bomberStockUI.h"
 #include "GameSceneUIManager.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define GAME_SCENE_UI_MAX (10)
+//#define GAME_SCENE_UI_MAX (10)
 
 //*****************************************************************************
 // グローバル変数
@@ -41,6 +42,7 @@ GameSceneUIManager::GameSceneUIManager()
 	battleStartTelop = new BattleStartTelop();
 	stageClearTelop = new StageClearTelop();
 	telopBG = new TelopBG();
+	bomberStock = new BomberStock();
 }
 
 //*****************************************************************************
@@ -57,6 +59,7 @@ GameSceneUIManager::~GameSceneUIManager()
 	SAFE_DELETE(battleStartTelop);
 	SAFE_DELETE(stageClearTelop);
 	SAFE_DELETE(telopBG);
+	SAFE_DELETE(bomberStock);
 }
 
 //=============================================================================
@@ -71,7 +74,6 @@ void GameSceneUIManager::Init()
 //=============================================================================
 void GameSceneUIManager::Uninit()
 {
-
 }
 
 
@@ -89,6 +91,7 @@ void GameSceneUIManager::Update(HWND hWnd)
 	battleStartTelop->Update();
 	stageClearTelop->Update();
 	telopBG->Update();
+	bomberStock->Update();
 
 #ifdef _DEBUG
 	// デバッグ用コマンド
@@ -114,9 +117,12 @@ void GameSceneUIManager::Update(HWND hWnd)
 	}
 	if (GetKeyboardTrigger(DIK_6))
 	{
+		SetBomberStock(3);
 	}
+
 	if (GetKeyboardTrigger(DIK_7))
 	{
+		SetBomberStock(4);
 	}
 #endif
 
@@ -142,6 +148,7 @@ void GameSceneUIManager::Draw(void)
 	telopBG->Draw();
 	battleStartTelop->Draw();
 	stageClearTelop->Draw();
+	bomberStock->Draw();
 
 	cursor->Draw();
 
@@ -291,4 +298,19 @@ int GameSceneUIManager::IsStarSelected()
 void GameSceneUIManager::SetHPGuage(float percentage)
 {
 	guage->trueGuagePercentage = percentage;
+}
+
+//=============================================================================
+// ボムストックセット処理(引数で与えられた数分ボンバーストックをセットする)
+//=============================================================================
+void GameSceneUIManager::SetBomberStock(int stockedBomNum)
+{
+	//*注意：今は仮でmax3にしてます。
+	if (stockedBomNum > MAX_STOCKED_BOM_NUM)
+	{
+		//メモリ破壊対策
+		return;
+	}
+
+	bomberStock->stockedBomNum = stockedBomNum;
 }

@@ -75,9 +75,7 @@ Combo::Combo()
 Combo::~Combo()
 {
 	SAFE_DELETE(number);
-
 	SAFE_DELETE(bg);
-
 	SAFE_DELETE(viewer);
 }
 
@@ -155,8 +153,8 @@ void Combo::VolumeUpEffect(void)
 void Combo::UpdateNumberColor(void)
 {
 	int firstColorStartCombo  = 0;
-	int secondColorStartCombo = 5;
-	int thirdColorStartCombo  = 10;
+	int secondColorStartCombo = 10;
+	int thirdColorStartCombo  = 25;
 
 	if (combo >= firstColorStartCombo && combo < secondColorStartCombo)
 	{

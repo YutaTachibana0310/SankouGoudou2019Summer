@@ -1,35 +1,43 @@
 //=============================================================================
 //
-// カーソル画面処理 [cursor.h]
+// ボムストック画面処理 [bomberStockUI.h]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
-#ifndef _CURSOR_H_
-#define _CURSOR_H_
+#ifndef _BOMBER_STOCK_H_
+#define _BOMBER_STOCK_H_
+
+//*****************************************************************************
+// マクロ定義
+//*****************************************************************************
+#define MAX_STOCKED_BOM_NUM (3)
 
 /**************************************
 前方宣言
 ***************************************/
+class Object;
 class RotateObject;
+class Viewer3D;
 
 //*****************************************************************************
 // 構造体定義
 //*****************************************************************************
-class Cursor
+class BomberStock
 {
 public:
-	Cursor();
-	~Cursor();
+	BomberStock();
+	~BomberStock();
 
-	void PaintCursorRed();
-	void PaintCursorYellow();
-	void Update(HWND hWnd);
+	void Update(void);
 	void Draw(void);
-	bool IsCursorOvered(D3DXVECTOR3 pos, D3DXVECTOR3 size);
+
+	//ストックされたボムの数
+	int stockedBomNum;
 
 private:
-	RotateObject * innerCircle;
-	RotateObject * outerCircle;
+	RotateObject * bom[MAX_STOCKED_BOM_NUM];
+	Object * bg;
+	Viewer3D * viewer;
 };
 
 #endif

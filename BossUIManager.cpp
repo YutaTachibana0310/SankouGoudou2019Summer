@@ -10,6 +10,7 @@
 #include "LineTrailModel.h"
 #include "camera.h"
 #include <algorithm>
+#include "sound.h"
 
 /**************************************
 マクロ定義
@@ -68,6 +69,9 @@ void BossUImanager::Draw()
 ***************************************/
 void BossUImanager::SetWarning()
 {
+	//ワーニングSE
+	Sound::GetInstance()->SetPlaySE(ALARM, true, (Sound::GetInstance()->changevol / 2.0f));
+
 	warning->StartFade(true);
 }
 

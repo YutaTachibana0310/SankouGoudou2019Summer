@@ -47,7 +47,7 @@ Trail::Trail()
 	}
 
 	viewer = new Viewer3D(SIZE_TRAIL.x, SIZE_TRAIL.y,D3DXVECTOR2(15.0f,20.0f));
-	viewer->SetPosition(D3DXVECTOR3(115.0f, 30.0f, 0.0f));
+	viewer->SetPosition(D3DXVECTOR3((float)SCREEN_WIDTH / 14.5f, (float)SCREEN_HEIGHT/30.0f, 0.0f));
 	viewer->SetRotation(0.0f, 30.0f, 0.0f);
 }
 

@@ -39,7 +39,7 @@ Score::Score()
 
 	//ビュアー
 	viewer = new Viewer3D(SIZE_BG_SCORE.x, SIZE_BG_SCORE.y, D3DXVECTOR2(20.0f, 15.0f));
-	viewer->SetPosition(D3DXVECTOR3(-115.0f, 20.0f, 0.0f));
+	viewer->SetPosition(D3DXVECTOR3((float)-SCREEN_WIDTH/14.5f, (float)SCREEN_HEIGHT/40.0f, 0.0f));
 	viewer->SetRotation(0.0f, -30.0f, 0.0f);
 
 	// 最大値設定

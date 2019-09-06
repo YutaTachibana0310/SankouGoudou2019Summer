@@ -26,7 +26,7 @@
 StarButton::StarButton()
 {
 	// å‹äpå`ç¿ïWê›íË
-	const float Radius = 380.0f;								//ê≥å‹äpå`ÇÃîºåa
+	const float Radius = (float)SCREEN_WIDTH/4.13f;						//ê≥å‹äpå`ÇÃîºåa
 	const float BaseAngle = D3DXToRadian(360.0f) / STAR_MAX;	//ê≥å‹äpå`ÇÃì‡äp
 	const float CenterX = (float)SCREEN_CENTER_X;
 	const float CenterY = (float)SCREEN_CENTER_Y + 40.0f;

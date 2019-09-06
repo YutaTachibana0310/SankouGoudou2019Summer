@@ -111,6 +111,11 @@ void MidiumEnemyModel::OnNotified(ObserveSubject * notifier)
 			emitter->active = false;
 	}
 
+	for (auto&& enemy : enemyList)
+	{
+		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
+	}
+
 	cntFrame = 0;
 	state = State::Damage;
 }

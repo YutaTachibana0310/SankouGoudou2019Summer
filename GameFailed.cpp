@@ -30,12 +30,15 @@ int GameScene::GameFailed::OnUpdate(GameScene * entity)
 {
 	cntFrame++;
 
+	//モノトーンフィルタの強さを計算
 	float t = 1.0f * cntFrame / MonotoneDuration;
 	MonotoneFilter::Instance()->SetPower(t);
 
+	//ゲーム全体とGAMEOVER表示を更新
 	entity->UpdateWhole();
 	entity->gameover->Update();
 
+	//指定時間経過していたらシーン遷移
 	if (cntFrame == TransitionDuration)
 	{
 		SceneChangeFlag(true, Scene::SceneResult);

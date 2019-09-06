@@ -68,6 +68,7 @@ public:
 
 	PlayerModel *model;
 	bool enableUpdateLogic;
+	float GetHpPercent();
 
 private:
 	Player *player;

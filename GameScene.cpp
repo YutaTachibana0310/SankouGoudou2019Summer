@@ -199,6 +199,8 @@ void GameScene::Update(HWND hWnd)
 
 	//UI‚ÌXV
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
+	DebugLog("paercent : %f", playerObserver->GetHpPercent());
+	gameSceneUIManager->SetHPGuage(playerObserver->GetHpPercent());
 	gameSceneUIManager->Update(hWnd);
 	bossUI->Update();
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
@@ -214,7 +216,6 @@ void GameScene::Update(HWND hWnd)
 ***************************************/
 void GameScene::Draw()
 {
-
 	//”wŒi‚Ì•`‰æ
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 	//DrawBackGroundRoad();

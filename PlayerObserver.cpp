@@ -397,3 +397,11 @@ const Transform& PlayerObserver::GetPlayerTransform() const
 {
 	return player->transform;
 }
+
+/**************************************
+HPŽæ“¾ˆ—
+***************************************/
+float PlayerObserver::GetHpPercent()
+{
+	return player->GetHp() / Player::MaxHp;
+}

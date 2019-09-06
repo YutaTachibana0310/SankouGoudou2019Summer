@@ -309,6 +309,7 @@ bool BossEnemyModel::IsDesteoyed()
 void BossEnemyModel::OnHitBomber()
 {
 	flgBomberHit = true;
+	colliderController->DeleteAll();
 }
 
 /**************************************

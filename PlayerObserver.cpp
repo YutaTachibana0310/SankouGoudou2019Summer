@@ -220,7 +220,7 @@ Moveコールバック
 void PlayerObserver::OnFinishPlayerMove()
 {
 	//当たり判定を無効化
-	player->collider->active = false;
+	player->collider->active = true;
 
 	//移動履歴をプッシュ（ボンバーのストックインターバルが終了していたら）
 	model->PushMoveStack(moveTarget, bomberController->CanStock());
@@ -240,8 +240,12 @@ void PlayerObserver::OnFinishPlayerMove()
 	TryStockBomber();
 
 	//先行入力確認
+	int prevMoveTarget = moveTarget;
 	if (model->IsExistPrecedInput(&moveTarget))
 	{
+		//当たり判定を更新
+		player->collider->SetTrailIndex(LineTrailModel(prevMoveTarget, moveTarget));
+
 		player->goalpos = targetPos[moveTarget];
 		trailEffect->Init(&player->transform.pos);
 		player->ChangeAnim(PlayerAnimID::Attack);
@@ -263,6 +267,7 @@ void PlayerObserver::OnFinishPlayerWait()
 	//TODO:初期位置に戻るので色々リセット
 	model->Clear();
 	moveTarget = MOVETARGET_DEFAULT;
+	player->EnableCollider(false);
 
 	//Return状態へ遷移し初期位置へ
 	ChangeStatePlayer(PlayerState::Return);

@@ -68,6 +68,8 @@ public:
 	void StockBomber();
 	void OnNotified(BoxCollider3DTag other) override;
 
+	void EnableCollider(bool state);
+
 private:
 	AnimContainer* animation;
 	BomberStockEffect* stockEffect;

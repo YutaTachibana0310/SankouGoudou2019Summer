@@ -34,12 +34,16 @@ void MidiumEnemyModel::Init(std::vector<LineTrailModel>& moveList)
 	D3DXVECTOR3 edgeR, edgeL;
 	moveTargetList[step].GetEdgePos(&edgeR, &edgeL);
 
-	enemyList.push_back(std::make_shared<EnemyMidium>());
+	for (int i = 0; i < EnemyNum; i++)
+	{
+		enemyList.push_back(std::make_shared<EnemyMidium>());
+		const D3DXVECTOR3 InitPos = D3DXVECTOR3(0.0f, -200.0f, PosZ);
+		D3DXVECTOR3 moveTarget = GetMoveTarget(i);
+		enemyList[i]->VInit();
+		dynamic_pointer_cast<EnemyMidium>(enemyList[i])->Set(InitPos);
 
-	const D3DXVECTOR3 InitPos = D3DXVECTOR3(0.0f, -200.0f, 0.0f);
-	D3DXVECTOR3 moveTarget = GetMoveTarget();
-	enemyList[0]->VInit();
-	dynamic_pointer_cast<EnemyMidium>(enemyList[0])->Set(InitPos);
+	}
+
 
 	StartMove();
 }
@@ -114,15 +118,15 @@ void MidiumEnemyModel::OnNotified(ObserveSubject * notifier)
 /**************************************
 à⁄ìÆñ⁄ïWéÊìæèàóù
 ***************************************/
-D3DXVECTOR3 MidiumEnemyModel::GetMoveTarget()
+D3DXVECTOR3 MidiumEnemyModel::GetMoveTarget(int i)
 {
 	D3DXVECTOR3 edgeR, edgeL;
 	moveTargetList[step].GetEdgePos(&edgeR, &edgeL);
+	edgeR.z = edgeL.z = PosZ;
 
-	D3DXVECTOR3 moveTarget = edgeL + (edgeR - edgeL) / 2.0f;
-	moveTarget.z = PosZ;
+	D3DXVECTOR3 offset = (edgeR - edgeL) / (float)(EnemyNum + 1);
 
-	return moveTarget;
+	return edgeL + offset * (i + 1);
 }
 
 /**************************************
@@ -183,7 +187,10 @@ int MidiumEnemyModel::UpdateOnDamage()
 {
 	cntFrame++;
 
-	dynamic_pointer_cast<EnemyMidium>(enemyList[0])->HitAnimation();
+	for (auto&& enemy : enemyList)
+	{
+		dynamic_pointer_cast<EnemyMidium>(enemy)->HitAnimation();
+	}
 
 	const int DamageDuration = 59;
 	if (cntFrame == DamageDuration)
@@ -203,8 +210,13 @@ void MidiumEnemyModel::StartMove()
 	cntFrame = 0;
 	state = State::Moving;
 
-	D3DXVECTOR3 moveTarget = step < moveTargetList.size() ? GetMoveTarget() : D3DXVECTOR3(0.0f, 200.0f, PosZ);
-	dynamic_pointer_cast<EnemyMidium>(enemyList[0])->Move(moveTarget, MoveDuration);
+	int cntLoop = 0;
+	for (auto&& enemy : enemyList)
+	{
+		D3DXVECTOR3 moveTarget = step < moveTargetList.size() ? GetMoveTarget(cntLoop) : D3DXVECTOR3(0.0f, 200.0f, PosZ);
+		dynamic_pointer_cast<EnemyMidium>(enemy)->Move(moveTarget, MoveDuration);
+		cntLoop++;
+	}
 
 	if (step < moveTargetList.size())
 	{

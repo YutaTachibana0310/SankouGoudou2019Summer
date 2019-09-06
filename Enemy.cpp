@@ -703,6 +703,7 @@ HRESULT EnemyMidium::VInit()
 	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_CntFrame = 0;
 
+	SetAnimation(true, true, 0.0f, 0.05f);
 
 	return S_OK;
 }
@@ -730,7 +731,7 @@ void EnemyMidium::VUpdate()
 		m_CntFrameNow++;
 		m_CntFrame++;
 
-
+		Animation();
 	}
 }
 

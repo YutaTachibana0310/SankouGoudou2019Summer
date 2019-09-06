@@ -29,6 +29,7 @@ private:
 	int cntFrame;
 
 	const int MonotoneDuration = 120;
+	const int TransitionDuration = 300;
 };
 
 #endif

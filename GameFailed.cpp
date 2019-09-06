@@ -9,6 +9,7 @@
 #include "PostEffect\MonotoneFilter.h"
 #include "PostEffectManager.h"
 #include "GameOver.h"
+#include "masktex.h"
 
 /**************************************
 ƒOƒ[ƒoƒ‹•Ï”
@@ -34,6 +35,11 @@ int GameScene::GameFailed::OnUpdate(GameScene * entity)
 
 	entity->UpdateWhole();
 	entity->gameover->Update();
+
+	if (cntFrame == TransitionDuration)
+	{
+		SceneChangeFlag(true, Scene::SceneResult);
+	}
 
 	return GameScene::State::Failed;
 }

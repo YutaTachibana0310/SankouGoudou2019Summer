@@ -16,8 +16,8 @@ Global Settings
     Header File = ÉTÉEÉìÉh.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 2673903812;
-    Last Modified High = 30761878;
+    Last Modified Low = 2387794420;
+    Last Modified High = 30762131;
 
     Category
     {
@@ -227,10 +227,8 @@ Wave Bank
     Compression Preset Name = <none>;
     Xbox Bank Last Modified Low = 0;
     Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 1553578289;
-    PC Bank Last Modified High = 30761712;
-    Header Last Modified Low = 0;
-    Header Last Modified High = 0;
+    PC Bank Last Modified Low = 2387950635;
+    PC Bank Last Modified High = 30762131;
     Bank Last Revised Low = 1482269238;
     Bank Last Revised High = 30761712;
 
@@ -298,8 +296,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1109502087;
-            Last Modified High = 30761712;
+            Last Modified Low = 3831310891;
+            Last Modified High = 30761883;
         }
     }
 }
@@ -315,10 +313,10 @@ Wave Bank
     Compression Preset Name = <none>;
     Xbox Bank Last Modified Low = 0;
     Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 2961261814;
-    PC Bank Last Modified High = 30761879;
-    Bank Last Revised Low = 2697889098;
-    Bank Last Revised High = 30761879;
+    PC Bank Last Modified Low = 2391017729;
+    PC Bank Last Modified High = 30762131;
+    Bank Last Revised Low = 2271905259;
+    Bank Last Revised High = 30762131;
 
     Wave
     {
@@ -407,8 +405,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 2433615321;
-            Last Modified High = 30760515;
+            Last Modified Low = 3831579440;
+            Last Modified High = 30761883;
         }
     }
 
@@ -430,8 +428,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 2715960109;
-            Last Modified High = 30760515;
+            Last Modified Low = 3831569080;
+            Last Modified High = 30761883;
         }
     }
 
@@ -453,8 +451,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 2805993590;
-            Last Modified High = 30760514;
+            Last Modified Low = 3831390682;
+            Last Modified High = 30761883;
         }
     }
 
@@ -476,8 +474,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 3387261205;
-            Last Modified High = 30760514;
+            Last Modified Low = 3831420623;
+            Last Modified High = 30761883;
         }
     }
 
@@ -499,8 +497,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 160713273;
-            Last Modified High = 30760515;
+            Last Modified Low = 3831549124;
+            Last Modified High = 30761883;
         }
     }
 
@@ -522,8 +520,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 2722787236;
-            Last Modified High = 30760908;
+            Last Modified Low = 3831470116;
+            Last Modified High = 30761883;
         }
     }
 
@@ -545,8 +543,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1943506836;
-            Last Modified High = 30760515;
+            Last Modified Low = 3831499246;
+            Last Modified High = 30761883;
         }
     }
 
@@ -568,8 +566,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 2210154899;
-            Last Modified High = 30760515;
+            Last Modified Low = 3831380581;
+            Last Modified High = 30761883;
         }
     }
 
@@ -591,8 +589,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1834271831;
-            Last Modified High = 30761722;
+            Last Modified Low = 3831758570;
+            Last Modified High = 30761883;
         }
     }
 
@@ -600,22 +598,22 @@ Wave Bank
     {
         Name = åxïÒ;
         File = SEï€ä«å…\êVãK\åxïÒ.wav;
-        Build Settings Last Modified Low = 2550859686;
-        Build Settings Last Modified High = 30761879;
+        Build Settings Last Modified Low = 2136265392;
+        Build Settings Last Modified High = 30762131;
 
         Cache
         {
             Format Tag = 0;
-            Channels = 2;
+            Channels = 1;
             Sampling Rate = 44100;
             Bits Per Sample = 1;
-            Play Region Offset = 92;
-            Play Region Length = 1769472;
+            Play Region Offset = 44;
+            Play Region Length = 348878;
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1271030258;
-            Last Modified High = 30761878;
+            Last Modified Low = 2776128850;
+            Last Modified High = 30762128;
         }
     }
 
@@ -623,8 +621,8 @@ Wave Bank
     {
         Name = bossshot;
         File = SEï€ä«å…\êVãK\bossshot.wav;
-        Build Settings Last Modified Low = 2594314958;
-        Build Settings Last Modified High = 30761879;
+        Build Settings Last Modified Low = 2174122100;
+        Build Settings Last Modified High = 30762131;
 
         Cache
         {
@@ -637,8 +635,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1647642279;
-            Last Modified High = 30761878;
+            Last Modified Low = 3831519582;
+            Last Modified High = 30761883;
         }
     }
 }
@@ -650,8 +648,8 @@ Sound Bank
     Windows File = Win\Sound Bank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
-    Bank Last Modified Low = 2961331625;
-    Bank Last Modified High = 30761879;
+    Bank Last Modified Low = 2391330457;
+    Bank Last Modified High = 30762131;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
 

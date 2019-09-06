@@ -41,5 +41,5 @@ int GameScene::GameFailed::OnUpdate(GameScene * entity)
 		SceneChangeFlag(true, Scene::SceneResult);
 	}
 
-	return GameScene::State::Failed;
+	return GameScene::State::Start;
 }

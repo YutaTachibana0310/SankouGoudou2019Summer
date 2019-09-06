@@ -34,5 +34,5 @@ int GameScene::GameStart::OnUpdate(GameScene *entity)
 	if (entity->cntFrame == GAMESTART_DURATION)
 		return GameScene::State::Battle;
 	else
-		return GameScene::State::Failed;
+		return GameScene::State::Start;
 }

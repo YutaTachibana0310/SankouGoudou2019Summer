@@ -266,7 +266,7 @@ void GameScene::Draw()
 	bossUI->Draw();
 
 	//ゲームオーバー時のもノートンフィルタ描画
-	if (playerObserver->IsAlive())
+	if (!playerObserver->IsAlive())
 	{
 		MonotoneFilter::Instance()->Draw();
 		gameover->Draw();

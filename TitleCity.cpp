@@ -15,7 +15,7 @@
 ***************************************/
 Title::CityBG::CityBG()
 {
-	const char* TextureName = "data/TEXTURE/UI/citybg.png";
+	const char* TextureName = "data/TEXTURE/UI/logobg.png";
 	LoadTexture(TextureName);
 
 	SetSize(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f);
@@ -29,7 +29,7 @@ Title::CityBG::CityBG()
 void Title::CityBG::Update()
 {
 	const float ScrollSpeed = 0.02f;
-	offsetU = WrapAroundf(0.0f, 1.0f, offsetU + ScrollSpeed);
+	//offsetU = WrapAroundf(0.0f, 1.0f, offsetU + ScrollSpeed);
 
 	vtxWk[0].tex.x = offsetU;
 	vtxWk[1].tex.x = offsetU + 1.0f;

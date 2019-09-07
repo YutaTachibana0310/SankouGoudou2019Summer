@@ -10,6 +10,7 @@
 #include "InputController.h"
 #include "TitleSceneUIManager.h"
 #include "sound.h"
+#include "InputController.h"
 
 /**************************************
 ƒ}ƒNƒ’è‹`
@@ -50,6 +51,11 @@ void TitleScene::Uninit()
 void TitleScene::Update(HWND hWnd)
 {
 	titleSceneUIManager->Update(hWnd);
+
+	if (IsAnyKeyTriggered())
+	{
+		SceneChangeFlag(true, Scene::SceneGame);
+	}
 }
 
 /**************************************

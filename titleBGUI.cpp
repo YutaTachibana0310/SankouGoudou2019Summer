@@ -22,7 +22,7 @@ TitleBG::TitleBG()
 {
 	titleBG = new Object();
 
-	titleBG->LoadTexture("data/TEXTURE/UI/title_test.jpg");
+	titleBG->LoadTexture("data/TEXTURE/UI/titleBG.jpg");
 	titleBG->MakeVertex();
 
 	titleBG->position = POSITION_TITLEBG;

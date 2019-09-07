@@ -58,3 +58,14 @@ void SetInstanceUIManager(GameSceneUIManager * instance)
 	instanceUImanager = instance;
 }
 
+bool IsAnyKeyTriggered()
+{
+	for (int i = DIK_ESCAPE; i < DIK_F1; i++)
+	{
+		if (GetKeyboardTrigger(i))
+			return true;
+	}
+
+	return false;
+}
+

@@ -338,6 +338,8 @@
     <ClInclude Include="StraightEnemyModel.h" />
     <ClInclude Include="TestEnemyModel.h" />
     <ClInclude Include="titleBGUI.h" />
+    <ClInclude Include="TItleCity.h" />
+    <ClInclude Include="TitleLogo.h" />
     <ClInclude Include="titleLogoUI.h" />
     <ClInclude Include="TitleSceneUIManager.h" />
     <ClInclude Include="trailUI.h" />
@@ -541,6 +543,8 @@
     <ClCompile Include="StraightEnemyModel.cpp" />
     <ClCompile Include="TestEnemyModel.cpp" />
     <ClCompile Include="titleBGUI.cpp" />
+    <ClCompile Include="TitleCity.cpp" />
+    <ClCompile Include="TitleLogo.cpp" />
     <ClCompile Include="titleLogoUI.cpp" />
     <ClCompile Include="TitleSceneUIManager.cpp" />
     <ClCompile Include="trailUI.cpp" />

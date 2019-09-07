@@ -12,6 +12,8 @@
 #include "cursorUI.h"
 #include "masktex.h"
 #include "TitleSceneUIManager.h"
+#include "TitleLogo.h"
+#include "TitleCity.h"
 
 //*****************************************************************************
 // ƒ}ƒNƒ’è‹`
@@ -31,6 +33,9 @@ TitleSceneUIManager::TitleSceneUIManager()
 	startButton = new StartButton();
 	titleBG = new TitleBG();
 	titleLogo = new TitleLogo();
+
+	logo = new Title::Logo();
+	bg = new Title::CityBG();
 }
 
 //*****************************************************************************
@@ -41,6 +46,9 @@ TitleSceneUIManager::~TitleSceneUIManager()
 	SAFE_DELETE(startButton);
 	SAFE_DELETE(titleBG);
 	SAFE_DELETE(titleLogo);
+	
+	SAFE_DELETE(logo);
+	SAFE_DELETE(bg);
 }
 
 //=============================================================================
@@ -67,6 +75,9 @@ void TitleSceneUIManager::Update(HWND hWnd)
 	startButton->Update(hWnd);
 	titleBG->Update();
 	titleLogo->Update();
+
+	logo->Update();
+	bg->Update();
 }
 
 //=============================================================================
@@ -81,8 +92,11 @@ void TitleSceneUIManager::Draw(void)
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	titleBG->Draw();
-	titleLogo->Draw();
+	//titleLogo->Draw();
+	bg->Draw();
 	startButton->Draw();
+
+	logo->Draw();
 
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }

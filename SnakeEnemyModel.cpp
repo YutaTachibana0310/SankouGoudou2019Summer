@@ -19,8 +19,8 @@ using namespace std;
 typedef EnemyModel Base;
 
 #define SNAKEENEMY_START_OFFSET			(400.0f)		//エネミーの初期座標のオフセット
-#define SNAKEENEMY_INIT_DURATION		(45)			//最初のターゲットへ向かうのにかける時間-
-#define SNAKEENEMY_MOVE_DURATION		(90)			//エネミーが移動にかける時間
+#define SNAKEENEMY_INIT_DURATION		(45.0f)			//最初のターゲットへ向かうのにかける時間-
+#define SNAKEENEMY_MOVE_DURATION		(90.0f)			//エネミーが移動にかける時間
 #define SNAKEENMY_GENERATE_NUM			(7)				//生成するエネミーの数
 #define SNAKEENEMY_GENERATE_INTERVAL	(10)			//生成インターバル
 #define SNAKEENEMY_GENERATE_DURATION	(SNAKEENMY_GENERATE_NUM*SNAKEENEMY_GENERATE_INTERVAL)
@@ -83,7 +83,7 @@ void SnakeEnemyModel::Init(vector<int> destList)
 	timeList.resize(moveTargetList.size());
 	for (UINT i = 0; i < moveTargetList.size(); i++)
 	{
-		int t = i == 0 || i == moveTargetList.size() - 1 ? SNAKEENEMY_INIT_DURATION : SNAKEENEMY_MOVE_DURATION;
+		float t = i == 0 || i == moveTargetList.size() - 1 ? SNAKEENEMY_INIT_DURATION : SNAKEENEMY_MOVE_DURATION;
 		timeList[i] = t;
 	}
 
@@ -124,11 +124,11 @@ int SnakeEnemyModel::Update()
 		shared_ptr<EnemySnake> snake = dynamic_pointer_cast<EnemySnake>(enemy);
 
 		UINT next = snake->m_CurrentIndex - 1;
-		UINT current = snake->m_PrevIndex - 1;
+		//UINT current = snake->m_PrevIndex - 1;
 
 		TrailCollider *nextCollider = next < colliderList.size() ? colliderList[next] : NULL;
-		TrailCollider *currentCollider = current < colliderList.size() ? colliderList[current] : NULL;
-		SwapInColliderMap(currentCollider, nextCollider, enemy);
+		//TrailCollider *currentCollider = current < colliderList.size() ? colliderList[current] : NULL;
+		//SwapInColliderMap(currentCollider, nextCollider, enemy);
 	}
 
 	//終了判定

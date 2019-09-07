@@ -45,7 +45,7 @@ private:
 	std::vector<LineTrailModel> moveTargetList;
 
 	const float PosZ = 300.0f;
-	const int MoveDuration = 60;
+	const float MoveDuration = 60.0f;
 	const int EnemyNum = 2;
 
 	D3DXVECTOR3 GetMoveTarget(int i);

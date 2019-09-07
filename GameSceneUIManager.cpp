@@ -84,7 +84,6 @@ void GameSceneUIManager::Update(HWND hWnd)
 {
 	combo->Update();
 	cursor->Update(hWnd);
-	guage->Update();
 	score->Update();
 	starButton->Update(hWnd);
 	trail->Update();
@@ -113,7 +112,7 @@ void GameSceneUIManager::Update(HWND hWnd)
 	}
 	if (GetKeyboardTrigger(DIK_5))
 	{
-		SetHPGuage(0.5);
+		SetHPGuage(0.5f);
 	}
 	if (GetKeyboardTrigger(DIK_6))
 	{
@@ -125,6 +124,8 @@ void GameSceneUIManager::Update(HWND hWnd)
 		SetBomberStock(4);
 	}
 #endif
+
+	guage->Update();
 
 	UpdateCursorColor();
 }

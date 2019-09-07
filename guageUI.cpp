@@ -17,12 +17,12 @@
 #define WIDTH_GUAGEFLAME	(3.5f)
 #define DECREASESPEED_GUAGE (0.0050f)
 #define INITIALVALUE_GUAGEPERCENTAGE (1.0f)
-#define SIZE_GUAGE			(D3DXVECTOR3(190.0f,25.0f,0.0f))
-#define SIZE_GUAGE_BG		(D3DXVECTOR3(250.0f,25.0f,0.0f))
+#define SIZE_GUAGE			(D3DXVECTOR3(768.0f,128.0f,0.0f))
+#define SIZE_GUAGE_BG		(D3DXVECTOR3(1024.0f,128.0f,0.0f))
 
 //座標設定(3D)
-#define POSITION_GUAGE		(D3DXVECTOR3(190.0f,25.0f,0.0f))
-#define POSITION_BG_GUAGE	(D3DXVECTOR3(250.0f,25.0f,0.0f))
+#define POSITION_GUAGE		(D3DXVECTOR3(768.0f,128.0f,0.0f))
+#define POSITION_BG_GUAGE	(D3DXVECTOR3(1024.0f,128.0f,0.0f))
 
 //*****************************************************************************
 // コンストラクタ
@@ -129,15 +129,16 @@ void Guage::Draw(void)
 	viewer->Begin2D();
 
 	bg->Draw();
-	damageGuage->Draw();
-	hPGuage->Draw();
-	frame->Draw();
-
-	// 頂点座標の設定
-	damageGuage->SetVertex(damageGuagePercentage, WIDTH_GUAGEFLAME, damageGuage->LEFT_GUAGEBAR);
-	hPGuage->SetVertex(trueGuagePercentage,	WIDTH_GUAGEFLAME, hPGuage->LEFT_GUAGEBAR);
-	frame->SetVertex();
 	bg->SetVertex();
+
+	damageGuage->Draw();
+	damageGuage->SetVertex(damageGuagePercentage, WIDTH_GUAGEFLAME, damageGuage->LEFT_GUAGEBAR);
+
+	hPGuage->Draw();
+	hPGuage->SetVertex(trueGuagePercentage, WIDTH_GUAGEFLAME, hPGuage->LEFT_GUAGEBAR);
+
+	frame->Draw();
+	frame->SetVertex();
 
 	viewer->End2D();
 	viewer->Draw3D();

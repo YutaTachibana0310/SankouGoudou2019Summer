@@ -12,7 +12,7 @@
 ***************************************/
 const D3DXVECTOR2 Title::LogoParts::Size[] =
 {
-	D3DXVECTOR2(210.0f, 110.0f) * 1.5f,
+	D3DXVECTOR2(190.0f, 100.0f) * 1.5f,
 	D3DXVECTOR2(190.0f, 100.0f) * 1.5f,
 	D3DXVECTOR2(180.0f, 98.0f) * 1.5f
 };
@@ -35,7 +35,7 @@ Title::Logo::Logo() :
 	const D3DXVECTOR3 LogoPosition[] =
 	{
 		D3DXVECTOR3(
-			SCREEN_CENTER_X - (LogoParts::Size[1].x + LogoParts::Size[0].x) / 1.2f - InitOffsetX,
+			SCREEN_CENTER_X - (LogoParts::Size[1].x + LogoParts::Size[0].x) / 1.1f - InitOffsetX,
 			InitPositionY,
 			0.0f),
 		D3DXVECTOR3(
@@ -53,6 +53,12 @@ Title::Logo::Logo() :
 	//ˆÚ“®ŠJŽn
 	logoContainer[LogoParts::ID::City]->Move(D3DXVECTOR3(InitOffsetX, 0.0f, 0.0f), MoveDuration);
 	logoContainer[LogoParts::ID::Liner]->Move(D3DXVECTOR3(-InitOffsetX, 0.0f, 0.0f), MoveDuration);
+
+	//BGì¬
+	bg = new Polygon2D();
+	bg->LoadTexture("data/TEXTURE/UI/citybg.png");
+	bg->transform.pos = D3DXVECTOR3(SCREEN_CENTER_X, InitPositionY, 0.0f);
+	bg->SetSize(SCREEN_WIDTH / 2.0f, 200.0f);
 }
 
 /**************************************
@@ -65,6 +71,8 @@ Title::Logo::~Logo()
 		SAFE_DELETE(parts);
 	}
 	logoContainer.clear();
+
+	SAFE_DELETE(bg);
 }
 
 /**************************************
@@ -92,6 +100,8 @@ void Title::Logo::Update()
 ***************************************/
 void Title::Logo::Draw()
 {
+	bg->Draw();
+
 	for (auto&& parts : logoContainer)
 	{
 		parts->Draw();

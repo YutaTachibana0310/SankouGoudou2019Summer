@@ -33,6 +33,7 @@ namespace Title
 
 	private:
 		std::vector<LogoParts*> logoContainer;
+		Polygon2D *bg;
 		int cntFrame;
 
 		const int MoveDuration = 30;

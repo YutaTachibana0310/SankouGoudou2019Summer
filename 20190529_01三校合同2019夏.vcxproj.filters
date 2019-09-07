@@ -869,6 +869,12 @@
     <ClInclude Include="bomberStockUI.h">
       <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
     </ClInclude>
+    <ClInclude Include="TitleLogo.h">
+      <Filter>ヘッダー ファイル\UI\TitleSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TItleCity.h">
+      <Filter>ヘッダー ファイル\UI\TitleSceneUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1487,6 +1493,12 @@
     </ClCompile>
     <ClCompile Include="bomberStockUI.cpp">
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLogo.cpp">
+      <Filter>ソース ファイル\UI\TitleSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleCity.cpp">
+      <Filter>ソース ファイル\UI\TitleSceneUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

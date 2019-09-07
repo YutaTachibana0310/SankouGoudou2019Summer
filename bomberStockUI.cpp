@@ -14,15 +14,16 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define SIZE_BOMBER_STOCK_BOM		(D3DXVECTOR3(70.0f,70.0f,0.0f))
-#define SIZE_BOMBER_STOCK_BG		(D3DXVECTOR3(300.0f,60.0f,0.0f))
-#define INTERVAL_STOCKED_BOM		(150.0f)
+#define INTERVAL_STOCKED_BOM		(230.0f)
 #define SPEED_ROTATION				(0.10f)
 #define COLLIDERSIZE_BOMBER_STOCK	(D3DXVECTOR3(5.0f,5.0f,0.0f))
 
+#define SIZE_BOMBER_STOCK_BOM		(D3DXVECTOR3(128.0f,128.0f,0.0f))
+#define SIZE_BOMBER_STOCK_BG		(D3DXVECTOR3(512.0f,128.0f,0.0f))
+
 //座標設定(3D)
-#define POSITION_BOMBER_STOCK_BOM	(D3DXVECTOR3(70.0f,70.0f,0.0f))
-#define POSITION_BOMBER_STOCK_BG	(D3DXVECTOR3(300.0f,60.0f,0.0f))
+#define POSITION_BOMBER_STOCK_BOM	(D3DXVECTOR3(128.0f,128.0f,0.0f))
+#define POSITION_BOMBER_STOCK_BG	(D3DXVECTOR3(512.0f,128.0f,0.0f))
 
 //*****************************************************************************
 // コンストラクタ
@@ -56,7 +57,7 @@ BomberStock::BomberStock()
 	bg->SetColorObject(SET_COLOR_NOT_COLORED);
 
 	//ビュアー
-	viewer = new Viewer3D(SIZE_BOMBER_STOCK_BG.x, SIZE_BOMBER_STOCK_BG.y, D3DXVECTOR2(20.0f, 15.0f));
+	viewer = new Viewer3D(SIZE_BOMBER_STOCK_BG.x, SIZE_BOMBER_STOCK_BG.y, D3DXVECTOR2(20.0f, 10.0f));
 	viewer->SetPosition(D3DXVECTOR3((float)SCREEN_WIDTH / 14.5f, -(float)SCREEN_HEIGHT / 100, 0.0f));
 	viewer->SetRotation(0.0f, 30.0f, 0.0f);
 }

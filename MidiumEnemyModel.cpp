@@ -37,7 +37,7 @@ void MidiumEnemyModel::Init(std::vector<LineTrailModel>& moveList)
 	for (int i = 0; i < EnemyNum; i++)
 	{
 		enemyList.push_back(std::make_shared<EnemyMidium>());
-		const D3DXVECTOR3 InitPos = D3DXVECTOR3(0.0f, -200.0f, PosZ);
+		const D3DXVECTOR3 InitPos = D3DXVECTOR3(0.0f, -400.0f, PosZ);
 		D3DXVECTOR3 moveTarget = GetMoveTarget(i);
 		enemyList[i]->VInit();
 		dynamic_pointer_cast<EnemyMidium>(enemyList[i])->Set(InitPos);
@@ -129,9 +129,9 @@ D3DXVECTOR3 MidiumEnemyModel::GetMoveTarget(int i)
 	moveTargetList[step].GetEdgePos(&edgeR, &edgeL);
 	edgeR.z = edgeL.z = PosZ;
 
-	D3DXVECTOR3 offset = (edgeR - edgeL) / (float)(EnemyNum + 1);
+	D3DXVECTOR3 offset = (edgeR - edgeL) / (float)(EnemyNum - 1);
 
-	return edgeL + offset * (i + 1.0f);
+	return edgeL + i * 1.0f * offset;
 }
 
 /**************************************
@@ -218,7 +218,7 @@ void MidiumEnemyModel::StartMove()
 	int cntLoop = 0;
 	for (auto&& enemy : enemyList)
 	{
-		D3DXVECTOR3 moveTarget = step < moveTargetList.size() ? GetMoveTarget(cntLoop) : D3DXVECTOR3(0.0f, 200.0f, PosZ);
+		D3DXVECTOR3 moveTarget = step < moveTargetList.size() ? GetMoveTarget(cntLoop) : D3DXVECTOR3(0.0f, 400.0f, PosZ);
 		dynamic_pointer_cast<EnemyMidium>(enemy)->Move(moveTarget, MoveDuration);
 		cntLoop++;
 	}

@@ -181,7 +181,7 @@ HRESULT  EnemyStraight::VInit(void)
 	m_Expansion = true;
 	m_SclRate = 0.0f;
 	m_SclSpeed = 0.0f;
-
+	
 	return S_OK;
 }
 /****************************************
@@ -202,11 +202,20 @@ void EnemyStraight::VUpdate(void)
 	{
 		if (m_CntFrame <= m_FrameDest)
 		{
-			//?
+
 			//ブレーキの手触り
 			m_Pos = Easing::EaseValue(m_CntFrame / m_FrameDest, m_Start,
 				m_PosDest, EaseType::InSine);
 			
+		}
+		else
+		{
+			m_Active = false;
+		}
+
+		//アニメーションの処理
+		if (!m_AnimationActive)
+		{
 			//現れる時の拡大
 			if(m_SclRate < 1.0f)
 			{
@@ -218,16 +227,16 @@ void EnemyStraight::VUpdate(void)
 				if (m_SclRate >= 1.0f)
 				{
 					m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+					//次のアニメーションを始める
+					SetAnimation(true, false, 1.0f, 0.05f);
 				}
 			}
 		}
 		else
 		{
-			m_Active = false;
+			Animation();
 		}
-
-		//countする.
-		m_CntFrame++;
+		
 	}
 
 	if (m_CntFrame > m_PositionHistoryTimer + STRAIGHT_WAIT_TIME)
@@ -249,6 +258,9 @@ void EnemyStraight::VUpdate(void)
 		m_ShadowPos[m_PositionHistoryIndex] = m_Pos;
 		m_ShadowScl[m_PositionHistoryIndex] = m_Scl;
 	}
+
+	//最後にcountする. 
+	m_CntFrame++;
 }
 
 /****************************************

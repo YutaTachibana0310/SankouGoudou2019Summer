@@ -168,11 +168,12 @@ void PlayerObserver::PushInput(int num)
 	{
 		if (current == PlayerState::Wait)
 		{
+			player->collider->SetTrailIndex(LineTrailModel(moveTarget, num));
+
 			//–³“Gó‘Ô‚Å‚È‚¯‚ê‚Î“–‚½‚è”»’è‚ð—LŒø‰»
 			if (!player->flgInvincible)
 			{
 				player->collider->active = true;
-				player->collider->SetTrailIndex(LineTrailModel(moveTarget, num));
 			}
 
 			player->ChangeAnim(PlayerAnimID::Attack);

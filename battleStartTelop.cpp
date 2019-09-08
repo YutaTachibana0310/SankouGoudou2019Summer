@@ -14,8 +14,8 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define SIZE_BATTLE_START_TELOP				(D3DXVECTOR3(SCREEN_WIDTH/4,50.0f,0.0f))
-#define INIT_POSITION_BATTLE_START_TELOP	(D3DXVECTOR3(SCREEN_WIDTH*1.5,SCREEN_HEIGHT/10*8,0.0f))
+#define SIZE_BATTLE_START_TELOP				(D3DXVECTOR3(SCREEN_WIDTH/4,75.0f,0.0f))
+#define INIT_POSITION_BATTLE_START_TELOP	(D3DXVECTOR3(SCREEN_WIDTH*1.5, SCREEN_CENTER_Y,0.0f))
 #define ANIMATION_MAX (5)
 
 //*****************************************************************************
@@ -84,7 +84,7 @@ BattleStartTelop::~BattleStartTelop()
 // 更新処理
 //=============================================================================
 void BattleStartTelop::Update()
-{	
+{
 	if (isBattleStartTelopActivated)
 	{
 		if (currentAnimation == WAIT_BG_OPEN && telopBG->GetTelopBGOpenActive() == false)

@@ -39,15 +39,15 @@ static DWORD	padState[GAMEPADMAX];	// パッド情報（複数対応）
 static DWORD	padTrigger[GAMEPADMAX];
 static DWORD	padRelease[GAMEPADMAX];
 static int		padCount = 0;			// 検出したパッドの数
-
+static LPDIRECTINPUT8 pInput = NULL;
 /**************************************
 パッド検査コールバック
 ***************************************/
-BOOL CALLBACK SearchPadCallback(LPDIDEVICEINSTANCE lpddi, LPVOID, LPDIRECTINPUT8 inputInterface)
+BOOL CALLBACK SearchPadCallback(LPDIDEVICEINSTANCE lpddi, LPVOID)
 {
 	HRESULT result;
 
-	result = inputInterface->CreateDevice(lpddi->guidInstance, &pGamePad[padCount++], NULL);
+	result = pInput->CreateDevice(lpddi->guidInstance, &pGamePad[padCount++], NULL);
 	return DIENUM_CONTINUE;	// 次のデバイスを列挙
 
 }
@@ -59,6 +59,7 @@ HRESULT InitializePad(LPDIRECTINPUT8 inputInterface)			// パッド初期化
 {
 	HRESULT		result;
 	int			i;
+	pInput = inputInterface;
 
 	padCount = 0;
 	// ジョイパッドを探す

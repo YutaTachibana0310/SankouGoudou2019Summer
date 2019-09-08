@@ -138,8 +138,8 @@ void EnemyModel::CheckDestroied()
 		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
 
 		//スコア・コンボ加算
-		SetAddScore(BaseScorePoint);
 		SetAddCombo(1);
+		SetAddScore(BaseScorePoint);
 
 		//消滅SE
 		Sound::GetInstance()->SetPlaySE(ENEMYDOWN1, true, (Sound::GetInstance()->changevol / 100.0f));

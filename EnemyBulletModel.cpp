@@ -95,7 +95,6 @@ void EnemyBulletModel::Init(std::vector<D3DXVECTOR3> emitters, LineTrailModel ta
 	bullets.reserve(emitters.size());
 
 	//’e‚Ì’…’e“_‚ðŒvŽZ
-	D3DXVECTOR3 edgeR, edgeL;
 	target.GetEdgePos(&edgeR, &edgeL);
 	D3DXVECTOR3 diff = edgeL - edgeR;
 	diff /= (float)(emitters.size() + 1);

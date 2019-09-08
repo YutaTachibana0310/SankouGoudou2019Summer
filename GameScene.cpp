@@ -204,8 +204,8 @@ void GameScene::Update(HWND hWnd)
 
 	//UI‚ÌXV
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
-	DebugLog("paercent : %f", playerObserver->GetHpPercent());
 	gameSceneUIManager->SetHPGuage(playerObserver->GetHpPercent());
+	gameSceneUIManager->SetBomberStock(playerObserver->GetBomberStockNum());
 	gameSceneUIManager->Update(hWnd);
 	bossUI->Update();
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");

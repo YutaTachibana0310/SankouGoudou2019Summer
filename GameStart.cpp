@@ -5,6 +5,7 @@
 //
 //=====================================
 #include "GameStart.h"
+#include "GameSceneUIManager.h"
 
 /**************************************
 マクロ定義
@@ -17,9 +18,6 @@
 void GameScene::GameStart::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
-
-	//TODO:ここでゲームスタートのテロップを再生する
-
 }
 
 /**************************************
@@ -27,11 +25,17 @@ void GameScene::GameStart::OnStart(GameScene *entity)
 ***************************************/
 int GameScene::GameStart::OnUpdate(GameScene *entity)
 {
+	const int TelopTiming = 30;
+	const int Duration = 180;
+
 	entity->cntFrame++;
+
+	if(entity->cntFrame == TelopTiming)
+		entity->gameSceneUIManager->SetBattleStartTelop();
 
 	entity->UpdateWhole();
 	
-	if (entity->cntFrame == GAMESTART_DURATION)
+	if (entity->cntFrame == Duration)
 		return GameScene::State::Battle;
 	else
 		return GameScene::State::Start;

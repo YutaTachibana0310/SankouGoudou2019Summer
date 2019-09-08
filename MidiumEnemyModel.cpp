@@ -7,6 +7,7 @@
 //=====================================
 #include "MidiumEnemyModel.h"
 #include "GameParticleManager.h"
+#include "Framework\CameraShakePlugin.h"
 
 /**************************************
 グローバル変数
@@ -46,6 +47,19 @@ void MidiumEnemyModel::Init(std::vector<LineTrailModel>& moveList)
 
 
 	StartMove();
+}
+
+/**************************************
+終了処理
+***************************************/
+void MidiumEnemyModel::Uninit()
+{
+	collider->active = false;
+	active = false;
+
+	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(5.0f, 5.0f, 0.0f);
+	const int ShakeDuration = 180;
+	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
 }
 
 /**************************************
@@ -93,6 +107,11 @@ void MidiumEnemyModel::OnNotified(ObserveSubject * notifier)
 	//ダメージ演出中は判定しない
 	if (state == State::Damage)
 		return;
+
+	//カメラ揺らす
+	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(0.75f, 0.75f, 0.0f);
+	const int ShakeDuration = 120;
+	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
 
 	hp--;
 

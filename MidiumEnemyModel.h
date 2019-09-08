@@ -26,6 +26,7 @@ public:
 	MidiumEnemyModel();
 
 	void Init(std::vector<LineTrailModel>& moveList);
+	void Uninit();
 	int Update();
 	virtual void GetShotPos(std::vector<D3DXVECTOR3>& out);
 	void OnNotified(ObserveSubject *notifier);

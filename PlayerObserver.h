@@ -71,6 +71,8 @@ public:
 	float GetHpPercent();
 	bool IsAlive();
 
+	int GetBomberStockNum();
+
 private:
 	Player *player;
 	PlayerBomberController *bomberController;

@@ -146,10 +146,10 @@ void GameSceneUIManager::Draw(void)
 	score->Draw();
 	starButton->Draw();
 	trail->Draw();
+	bomberStock->Draw();
 	telopBG->Draw();
 	battleStartTelop->Draw();
 	stageClearTelop->Draw();
-	bomberStock->Draw();
 
 	cursor->Draw();
 

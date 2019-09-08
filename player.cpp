@@ -17,6 +17,8 @@
 #include "sound.h"
 
 #include "PostEffect\SpikeNoiseController.h"
+#include "ScoreManager.h"
+#include "Framework\CameraShakePlugin.h"
 
 using namespace std;
 
@@ -206,6 +208,14 @@ void Player::OnNotified(ObserveSubject* notifier)
 
 	//HPをへらす
 	hp -= DamageValue;
+
+	//コンボリセット
+	ClearCombo();
+
+	//カメラ揺らす
+	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(50.0f, 50.0f, 50.0f);
+	const int ShakeDuration = 120;
+	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
 }
 
 /*****************************************
@@ -257,6 +267,14 @@ void Player::OnNotified(BoxCollider3DTag other)
 
 	//HPをへらす
 	hp -= DamageValue;
+
+	//コンボリセット
+	ClearCombo();
+
+	//カメラ揺らす
+	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(50.0f, 50.0f, 50.0f);
+	const int ShakeDuration = 120;
+	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
 }
 
 /*****************************************

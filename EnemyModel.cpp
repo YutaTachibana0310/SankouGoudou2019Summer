@@ -11,6 +11,7 @@
 #include <algorithm>
 #include "sound.h"
 #include "camera.h"
+#include "Framework\CameraShakePlugin.h"
 
 using namespace std;
 
@@ -81,6 +82,9 @@ void EnemyModel::Uninit()
 {
 	collider->active = false;
 	active = false;
+
+	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(5.0f, 5.0f, 0.0f);
+	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, 10);
 }
 
 /**************************************

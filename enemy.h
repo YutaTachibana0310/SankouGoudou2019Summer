@@ -131,6 +131,7 @@ public:
 	int				m_PosDestMax;					//m_FrameDestListの要素数
 	float			m_FramePassed;					//前の点を通過するのにの時間
 	float			m_WaitCount;					//停止状態のフレームをカウント
+	UINT			m_currentColliderID;			//現在所属しているコライダーのID
 
 	vector<D3DXVECTOR3> m_PosDestList;              //移動先、m_PosDestList[0]はEからカウント
 	vector<float>	    m_FrameDestList;		    //移動がいるフレーム数　m_PosDestList[1]にいる時、 m_FrameDestList[0]

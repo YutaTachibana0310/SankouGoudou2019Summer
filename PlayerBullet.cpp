@@ -204,5 +204,5 @@ void PlayerBullet::OnNotified(ObserveSubject *notifier)
 
 void PlayerBullet::OnNotified(BoxCollider3DTag other)
 {
-	isDestroyed = true;
+	//’[“_‚ª“–‚½‚Á‚½ê‡‚Í‚È‚É‚à‚µ‚È‚¢
 }

@@ -124,11 +124,40 @@ int SnakeEnemyModel::Update()
 		shared_ptr<EnemySnake> snake = dynamic_pointer_cast<EnemySnake>(enemy);
 
 		UINT next = snake->m_CurrentIndex - 1;
-		//UINT current = snake->m_PrevIndex - 1;
+		UINT current = snake->m_PrevIndex - 1;
 
 		TrailCollider *nextCollider = next < colliderList.size() ? colliderList[next] : NULL;
-		//TrailCollider *currentCollider = current < colliderList.size() ? colliderList[current] : NULL;
-		//SwapInColliderMap(currentCollider, nextCollider, enemy);
+		TrailCollider *currentCollider = current < colliderList.size() ? colliderList[current] : NULL;
+		SwapInColliderMap(currentCollider, nextCollider, enemy);
+	}
+
+	//当たり判定を入れ替えたEnemyを元のリストから消去
+	for (auto&& pair : colliderMap)
+	{
+		std::list<std::weak_ptr<Enemy>>& list = pair.second;
+
+		//所属するコライダーのIDがちがうエネミーをリストから消去
+		list.remove_if([&](std::weak_ptr<Enemy>& wptr)
+		{
+			std::shared_ptr<Enemy> sptr = wptr.lock();
+			
+			if (!sptr)
+				return false;
+
+			return dynamic_pointer_cast<EnemySnake>(sptr)->m_currentColliderID != pair.first;
+		});
+
+		//空になったコライダーを非アクティブ化
+		if (list.empty())
+		{
+			auto itr = find_if(colliderList.begin(), colliderList.end(), [&](TrailCollider* collider)
+			{
+				return pair.first != collider->uniquID;
+			});
+
+			if (itr != colliderList.end())
+				(*itr)->active = false;
+		}
 	}
 
 	//終了判定
@@ -157,7 +186,7 @@ void SnakeEnemyModel::OnNotified(ObserveSubject *notifier)
 	TrailCollider *entity = static_cast<TrailCollider*>(notifier);
 
 	//当たり判定に属するエネミーすべてにダメージ処理
-	for (auto& enemy : colliderMap[entity])
+	for (auto& enemy : colliderMap[entity->uniquID])
 	{
 		shared_ptr<Enemy> entity = enemy.lock();
 		if (entity)
@@ -167,7 +196,7 @@ void SnakeEnemyModel::OnNotified(ObserveSubject *notifier)
 	}
 
 	//所属エネミーリストをクリア
-	colliderMap[entity].clear();
+	colliderMap[entity->uniquID].clear();
 
 	//衝突した当たり判定を非アクティブに
 	entity->active = false;
@@ -176,28 +205,32 @@ void SnakeEnemyModel::OnNotified(ObserveSubject *notifier)
 /**************************************
 当たり判定内入れ替え処理
 ***************************************/
-void SnakeEnemyModel::SwapInColliderMap(TrailCollider* current, TrailCollider *next, std::shared_ptr<Enemy> enemy)
+void SnakeEnemyModel::SwapInColliderMap(TrailCollider* current, TrailCollider* next, std::shared_ptr<Enemy> enemy)
 {
 	//同じ判定へ入れ替えようとしていたら早期リターン
 	if (current == next)
 		return;
 
 	//入れ替え元がNULLでなければ
-	if (current != NULL)
+	if(current != NULL)
 	{
 		//所属判定のエネミーリストの中から該当するエネミーを検索
-		auto itr = find_if(colliderMap[current].begin(), colliderMap[current].end(), [&](weak_ptr<Enemy> ptr)
+		auto itr = find_if(colliderMap[current->uniquID].begin(), colliderMap[current->uniquID].end(), [&](weak_ptr<Enemy> ptr)
 		{
 			shared_ptr<Enemy> snake = ptr.lock();
 			return enemy == snake;
 		});
 
-		//リストから離脱
-		colliderMap[current].erase(itr);
+		/****** NOTE : for文の途中でeraseするとリストが壊れるのでここでは消去しない ****/
+		////リストから離脱
+		//colliderMap[current].erase(itr);
 
-		//所属するエネミーがいなくなっていたら判定を非アクティブに
-		if (colliderMap[current].size() == 0)
-			current->active = false;
+		////所属するエネミーがいなくなっていたら判定を非アクティブに
+		//if (colliderMap[current].size() == 0)
+		//	current->active = false;\
+
+		//とりあえず所属コライダーのIDを変える
+		dynamic_pointer_cast<EnemySnake>(enemy)->m_currentColliderID =  ~(dynamic_pointer_cast<EnemySnake>(enemy)->m_currentColliderID);
 	}
 
 	//入れ替え先がNULLであればreturn
@@ -205,7 +238,11 @@ void SnakeEnemyModel::SwapInColliderMap(TrailCollider* current, TrailCollider *n
 		return;
 
 	//入れ替え先のエネミーリストへプッシュ
-	colliderMap[next].push_back(enemy);
+	colliderMap[next->uniquID].push_back(enemy);
 
+	//所属しているコライダーのIDを切り替える
+	dynamic_pointer_cast<EnemySnake>(enemy)->m_currentColliderID = next->uniquID;
+
+	//入れ替え先のコライダーをアクティベイト
 	next->active = true;
 }

@@ -23,9 +23,9 @@ static変数
 ***************************************/
 map<TrailColliderTag, list<TrailCollider*>> TrailCollider::checkDictionary;
 
+UINT TrailCollider::instanceCount;
 #ifdef TRAILCOLLIDER_USE_DEBUG
 LineRenderer* TrailCollider::renderer;
-UINT TrailCollider::instanceCount;
 #endif
 
 /**************************************
@@ -58,14 +58,15 @@ bool TrailCollider::CheckCollision(TrailCollider *other)
 /**************************************
 コンストラクタ
 ***************************************/
-TrailCollider::TrailCollider(TrailColliderTag tag)
+TrailCollider::TrailCollider(TrailColliderTag tag) :
+	uniquID(instanceCount)
 {
 	this->tag = tag;
 	active = true;
 	RegisterToCheckList();
 
-#ifdef TRAILCOLLIDER_USE_DEBUG
 	instanceCount++;
+#ifdef TRAILCOLLIDER_USE_DEBUG
 	if (renderer == NULL)
 		renderer = new LineRenderer();
 	renderer->SetColor(D3DXCOLOR(1.0f, 0.4f, 0.4f, 0.5f));

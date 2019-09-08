@@ -52,6 +52,7 @@ public:
 	void SetAddressZ(float* adrPosZ);
 
 	bool active;
+	UINT uniquID;
 
 	static void UpdateCollision();
 
@@ -69,9 +70,9 @@ private:
 	void RegisterToCheckList();
 	void RemoveFromCheckList();
 	
+	static UINT instanceCount;
 #ifdef TRAILCOLLIDER_USE_DEBUG
 	static LineRenderer *renderer;
-	static UINT instanceCount;
 #endif
 };
 

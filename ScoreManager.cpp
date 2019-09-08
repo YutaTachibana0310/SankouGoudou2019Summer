@@ -31,16 +31,20 @@ static std::function<void(void)> onClearCombo;
 ***************************************/
 void SetAddScore(int n) {
 
-	currentStageScore += n;
-	gameSceneUIManager->AddScore(n);
+	//スコア計算式
+	//加算スコア = 素点(n) * (1.0f + コンボ * 0.05f)
+	int addScore = (int)(n * (1.0f + currentCombo * 0.05f));
 
+	currentStageScore += addScore;
+	gameSceneUIManager->AddScore(addScore);
 }
 
 /**************************************
 コンボ加算処理
 ***************************************/
 void SetAddCombo(int n) {
-
+	
+	currentCombo += n;
 	gameSceneUIManager->AddCombo(n);
 
 	Sound::GetInstance()->SetPlaySE(COMBOSE, true, (Sound::GetInstance()->changevol / 10.0f));
@@ -59,6 +63,7 @@ void SetAddCombo(int n) {
 ***************************************/
 void ClearCombo(void) {
 
+	currentCombo = 0;
 	gameSceneUIManager->ReSetCombo();
 	Sound::GetInstance()->changepitch = 0;
 

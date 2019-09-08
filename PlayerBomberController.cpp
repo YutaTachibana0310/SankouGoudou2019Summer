@@ -295,3 +295,11 @@ void PlayerBomberController::AddStock()
 	}
 	//stockInterval = 0;
 }
+
+/***************************************************
+ストック数取得処理
+***************************************************/
+int PlayerBomberController::GetStockNum()
+{
+	return stock;
+}

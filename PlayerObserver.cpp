@@ -420,3 +420,11 @@ bool PlayerObserver::IsAlive()
 {
 	return player->IsAlive();
 }
+
+/**************************************
+ボンバーストック数取得
+***************************************/
+int PlayerObserver::GetBomberStockNum()
+{
+	return bomberController->GetStockNum();
+}

@@ -137,9 +137,12 @@ void PlayerObserver::CheckInput()
 	player->inputInterval++;
 
 	//“ü—Í‚ðŠm”F
-	int inputID = GetMoveInput();
-
 	const int InvalidInput = 5;
+	int inputID = GetMoveInput();
+	
+	if (inputID == InvalidInput)
+		inputID = GetStickInput(moveTarget);
+
 	if(inputID < InvalidInput)
 		PushInput(inputID);
 }

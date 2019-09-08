@@ -12,6 +12,12 @@
 
 static GameSceneUIManager* instanceUImanager;
 
+int CheckInputTop();
+int CheckInputMiddleLeft();
+int CheckInputLowerLeft();
+int CheckInputLowerRight();
+int CheckInputMiddleRight();
+
 int GetMoveInput() {
 
 	//マウスクリックの検出があるか
@@ -37,6 +43,127 @@ int GetMoveInput() {
 
 	if (GetKeyboardTrigger(DIK_D))
 		return MIDDLE_RIGHT;
+
+	return STAR_MAX;
+}
+
+int GetStickInput(int currentStar)
+{
+	if (currentStar == TOP)
+		return CheckInputTop();
+
+	if (currentStar == MIDDLE_LEFT)
+		return CheckInputMiddleLeft();
+
+	if (currentStar == LOWER_LEFT)
+		return CheckInputLowerLeft();
+
+	if (currentStar == LOWER_RIGHT)
+		return CheckInputLowerRight();
+
+	if (currentStar == MIDDLE_RIGHT)
+		return CheckInputMiddleRight();
+	
+	return STAR_MAX;
+}
+
+int CheckInputTop()
+{
+	if (IsButtonTriggered(0, BUTTON_LEFT))
+	{
+		if (IsButtonTriggered(0, BUTTON_DOWN))
+			return LOWER_LEFT;
+
+		return MIDDLE_LEFT;
+	}
+
+	if (IsButtonTriggered(0, BUTTON_RIGHT))
+	{
+		if (IsButtonTriggered(0, BUTTON_DOWN))
+			return LOWER_RIGHT;
+
+		return MIDDLE_RIGHT;
+	}
+
+	return STAR_MAX;
+}
+
+int CheckInputMiddleLeft()
+{
+	if (IsButtonTriggered(0, BUTTON_RIGHT))
+	{
+		if (IsButtonTriggered(0, BUTTON_DOWN))
+			return LOWER_RIGHT;
+
+		return MIDDLE_RIGHT;
+	}
+
+	if (IsButtonTriggered(0, BUTTON_UP))
+		return TOP;
+
+	if (IsButtonTriggered(0, BUTTON_DOWN))
+		return LOWER_LEFT;
+
+	return STAR_MAX;
+}
+
+int CheckInputLowerLeft()
+{
+	if (IsButtonTriggered(0, BUTTON_RIGHT))
+	{
+		if (IsButtonTriggered(0, BUTTON_UP))
+			return MIDDLE_RIGHT;
+
+		return LOWER_RIGHT;
+	}
+
+	if (IsButtonTriggered(0, BUTTON_UP))
+	{
+		if (IsButtonTriggered(0, BUTTON_LEFT))
+			return MIDDLE_LEFT;
+
+		return TOP;
+	}
+
+	return STAR_MAX;
+}
+
+int CheckInputLowerRight()
+{
+	if (IsButtonTriggered(0, BUTTON_LEFT))
+	{
+		if (IsButtonTriggered(0, BUTTON_UP))
+			return MIDDLE_LEFT;
+
+		return LOWER_LEFT;
+	}
+
+	if (IsButtonTriggered(0, BUTTON_UP))
+	{
+		if (IsButtonTriggered(0, BUTTON_RIGHT))
+			return MIDDLE_RIGHT;
+
+		return TOP;
+	}
+
+	return STAR_MAX;
+}
+
+int CheckInputMiddleRight()
+{
+	if (IsButtonTriggered(0, BUTTON_LEFT))
+	{
+		if (IsButtonTriggered(0, BUTTON_DOWN))
+			return LOWER_LEFT;
+
+		return MIDDLE_LEFT;
+	}
+
+	if (IsButtonTriggered(0, BUTTON_UP))
+		return TOP;
+
+	if (IsButtonTriggered(0, BUTTON_DOWN))
+		return LOWER_RIGHT;
 
 	return STAR_MAX;
 }

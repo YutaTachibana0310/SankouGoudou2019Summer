@@ -117,7 +117,7 @@ void SpeedBlurController::AddPower(float power)
 ***************************************/
 SpeedBlurController::SpeedBlurController()
 {
-	const float InitStartLength = 0.25f;
+	const float InitStartLength = 0.35f;
 	const float InitPower = 0.0f;
 
 	speedBlur = new SpeedBlur();

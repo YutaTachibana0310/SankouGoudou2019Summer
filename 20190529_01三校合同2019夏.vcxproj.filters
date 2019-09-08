@@ -660,9 +660,6 @@
     <ClInclude Include="EnemyBulletEffectController.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="lineUI.h">
-      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
-    </ClInclude>
     <ClInclude Include="UIdrawerC.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
@@ -864,6 +861,20 @@
     <ClInclude Include="starButtonUI.h">
       <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
     </ClInclude>
+    <ClInclude Include="GameFailed.h">
+      <Filter>ヘッダー ファイル\GameController</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOver.h">
+    </ClInclude>
+    <ClInclude Include="bomberStockUI.h">
+      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLogo.h">
+      <Filter>ヘッダー ファイル\UI\TitleSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TItleCity.h">
+      <Filter>ヘッダー ファイル\UI\TitleSceneUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1050,9 +1061,6 @@
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>
     </ClCompile>
     <ClCompile Include="guageUI.cpp">
-      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
-    </ClCompile>
-    <ClCompile Include="lineUI.cpp">
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>
     </ClCompile>
     <ClCompile Include="scoreUI.cpp">
@@ -1477,6 +1485,20 @@
     </ClCompile>
     <ClCompile Include="starButtonUI.cpp">
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFailed.cpp">
+      <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOver.cpp">
+    </ClCompile>
+    <ClCompile Include="bomberStockUI.cpp">
+      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLogo.cpp">
+      <Filter>ソース ファイル\UI\TitleSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleCity.cpp">
+      <Filter>ソース ファイル\UI\TitleSceneUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

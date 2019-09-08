@@ -13,7 +13,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	INTERVAL_NUMBER		(40.0f)		// コンボ数字の表示間隔
+#define	INTERVAL_NUMBER		(160.0f)	// コンボ数字の表示間隔
 #define	INTERVAL_NUMBER_TEXTURE	(0.1f)	// テクスチャ内コンボ数字の表示間隔
 #define	PLACE_MAX			(2)			// コンボの桁数
 #define BASE_NUMBER			(10)		// 進数
@@ -21,16 +21,12 @@
 #define SPEED_VOLUMEUP_NUMBER_COMBO (0.2f)
 
 // サイズ定義
-#define SIZE_NUMBER_COMBO		(D3DXVECTOR3(30.0f,50.0f,0.0f))
-#define SIZE_BACKGROUND_COMBO	(D3DXVECTOR3(160.0f,80.0f,0.0f))
-
-//// 座標定義(2D)
-//#define POSITION_BG_COMBO		(D3DXVECTOR3(SCREEN_WIDTH / 10 * 1.0f, SCREEN_HEIGHT / 10 * 3.0f, 0.0f))
-//#define POSITION_NUMBER_COMBO	(D3DXVECTOR3(SCREEN_WIDTH / 10 * 0.20f, SCREEN_HEIGHT / 10 * 2.70f, 0.0f))
+#define SIZE_NUMBER_COMBO		(D3DXVECTOR3(120.0f,200.0f,0.0f))
+#define SIZE_BACKGROUND_COMBO	(D3DXVECTOR3(512.0f,256.0f,0.0f))
 
 // 座標定義(3D)
-#define POSITION_NUMBER_COMBO	(D3DXVECTOR3(40.0f,50.0f,0.0f))
-#define POSITION_BG_COMBO		(D3DXVECTOR3(160.0f,80.0f,0.0f))
+#define POSITION_NUMBER_COMBO	(D3DXVECTOR3(160.0f,200.0f,0.0f))
+#define POSITION_BG_COMBO		(D3DXVECTOR3(512.0f,256.0f,0.0f))
 
 //*****************************************************************************
 // コンストラクタ
@@ -78,14 +74,9 @@ Combo::Combo()
 //*****************************************************************************
 Combo::~Combo()
 {
-	delete number;
-	number = NULL;
-
-	delete bg;
-	bg = NULL;
-
-	delete viewer;
-	viewer = NULL;
+	SAFE_DELETE(number);
+	SAFE_DELETE(bg);
+	SAFE_DELETE(viewer);
 }
 
 //=============================================================================
@@ -162,8 +153,8 @@ void Combo::VolumeUpEffect(void)
 void Combo::UpdateNumberColor(void)
 {
 	int firstColorStartCombo  = 0;
-	int secondColorStartCombo = 5;
-	int thirdColorStartCombo  = 10;
+	int secondColorStartCombo = 20;
+	int thirdColorStartCombo  = 45;
 
 	if (combo >= firstColorStartCombo && combo < secondColorStartCombo)
 	{

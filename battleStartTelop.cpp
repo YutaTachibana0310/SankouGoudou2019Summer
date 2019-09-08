@@ -77,8 +77,7 @@ BattleStartTelop::BattleStartTelop()
 //*****************************************************************************
 BattleStartTelop::~BattleStartTelop()
 {
-	delete battleStartTelop;
-	battleStartTelop = NULL;
+	SAFE_DELETE(battleStartTelop);
 }
 
 //=============================================================================

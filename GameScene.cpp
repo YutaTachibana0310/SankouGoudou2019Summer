@@ -26,6 +26,8 @@
 #include "PostEffect\SpeedBlurController.h"
 #include "BossController.h"
 #include "BossUIManager.h"
+#include "PostEffect\MonotoneFilter.h"
+#include "GameOver.h"
 
 #include "GameStart.h"
 #include "GameBattle.h"
@@ -34,6 +36,7 @@
 #include "GameBossBattle.h"
 #include "GameBossStart.h"
 #include "GameBossBombSequence.h"
+#include "GameFailed.h"
 
 #include "RebarOb.h"
 #include <functional>
@@ -69,6 +72,7 @@ void GameScene::Init()
 	fsm[State::BossBattle] = new GameBossBattle();
 	fsm[State::BossStart] = new GameBossStart();
 	fsm[State::BossBombSequence] = new GameBossBombSequence();
+	fsm[State::Failed] = new GameFailed();
 
 	//ˆÃ“]—pƒ|ƒŠƒSƒ“ì¬
 	darkMask = new Polygon2D();
@@ -93,6 +97,7 @@ void GameScene::Init()
 	bgController = new BackGroundController();
 	bossUI = new BossUImanager();
 	bossController = new BossController(playerObserver->GetPlayerTransform(), *bossUI);
+	gameover = new GameOver();
 
 	SetPlayerObserverAdr(playerObserver);
 
@@ -199,6 +204,8 @@ void GameScene::Update(HWND hWnd)
 
 	//UI‚ÌXV
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
+	DebugLog("paercent : %f", playerObserver->GetHpPercent());
+	gameSceneUIManager->SetHPGuage(playerObserver->GetHpPercent());
 	gameSceneUIManager->Update(hWnd);
 	bossUI->Update();
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
@@ -214,7 +221,6 @@ void GameScene::Update(HWND hWnd)
 ***************************************/
 void GameScene::Draw()
 {
-
 	//”wŒi‚Ì•`‰æ
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 	//DrawBackGroundRoad();
@@ -258,6 +264,13 @@ void GameScene::Draw()
 	//UI•`‰æ
 	gameSceneUIManager->Draw();
 	bossUI->Draw();
+
+	//ƒQ[ƒ€ƒI[ƒo[Žž‚Ìƒ‚ƒmƒg[ƒ“ƒtƒBƒ‹ƒ^•`‰æ
+	if (!playerObserver->IsAlive())
+	{
+		MonotoneFilter::Instance()->Draw();
+		gameover->Draw();
+	}
 
 	DrawDebugTimer(GAMESCENE_LABEL);
 }

@@ -34,6 +34,7 @@ using namespace std;
 /**************************************
 グローバル変数
 ***************************************/
+const float Player::MaxHp = 100.0f;
 
 /**************************************
 プロトタイプ宣言
@@ -42,7 +43,8 @@ using namespace std;
 /**************************************
 コンストラクタ
 ***************************************/
-Player::Player()
+Player::Player() :
+	hp(MaxHp)
 {
 	//アニメーション初期化
 	animation = new AnimContainer();
@@ -196,12 +198,14 @@ void Player::OnNotified(ObserveSubject* notifier)
 
 	Sound::GetInstance()->SetPlaySE(PLAYERDAMAGE, true, (Sound::GetInstance()->changevol / 10.0f));
 	SpikeNoiseController::Instance()->SetNoise(0.5f, 20);
-	hp -= PLAYER_DAMAGE;
 
 	//無敵時間開始
 	cntInvincible = PLAYER_INVINCIBLE_DURATION;
 	collider->active = false;
 	flgInvincible = true;
+
+	//HPをへらす
+	hp -= DamageValue;
 }
 
 /*****************************************
@@ -245,12 +249,14 @@ void Player::OnNotified(BoxCollider3DTag other)
 
 	Sound::GetInstance()->SetPlaySE(PLAYERDAMAGE, true, (Sound::GetInstance()->changevol / 10.0f));
 	SpikeNoiseController::Instance()->SetNoise(0.5f, 20);
-	hp -= PLAYER_DAMAGE;
 
 	//無敵時間開始
 	cntInvincible = PLAYER_INVINCIBLE_DURATION;
 	collider->active = false;
 	flgInvincible = true;
+
+	//HPをへらす
+	hp -= DamageValue;
 }
 
 /*****************************************
@@ -259,5 +265,21 @@ void Player::OnNotified(BoxCollider3DTag other)
 void Player::EnableCollider(bool state)
 {
 	collider->active = state;
+}
+
+/*****************************************
+生存判定
+******************************************/
+bool Player::IsAlive()
+{
+	return hp > 0.0f;
+}
+
+/*****************************************
+HP取得処理
+******************************************/
+float Player::GetHp()
+{
+	return hp;
 }
 

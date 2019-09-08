@@ -134,6 +134,8 @@ int	Enemy::Animation()
 		}
 
 	}
+
+	return 1;
 }
 
 //0903
@@ -150,14 +152,7 @@ void Enemy::SetAnimation(bool active,bool expansion, float sclRate,float speed)
 ****************************************/
 HRESULT  EnemyStraight::VInit(void)
 {
-	//
-	m_SclRate = 0.0f;
-	m_Expansion = true;
-	m_AnimationActive = false;
-
-	m_SclRate = 0.0f;
-
-	m_PositionHistoryTimer = 0;
+	m_PositionHistoryTimer = 0.0f;
 	m_PositionHistoryIndex = 0;
 
 	for (int i = 0; i < SHADOW_MAX; i++)
@@ -180,9 +175,13 @@ HRESULT  EnemyStraight::VInit(void)
 	m_FrameDest = 0.0f;
 
 	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_CntFrame = 0.0f;
 
-	m_CntFrame = 0;
-
+	m_AnimationActive = false;
+	m_Expansion = true;
+	m_SclRate = 0.0f;
+	m_SclSpeed = 0.0f;
+	
 	return S_OK;
 }
 /****************************************
@@ -203,11 +202,20 @@ void EnemyStraight::VUpdate(void)
 	{
 		if (m_CntFrame <= m_FrameDest)
 		{
-			//?
+
 			//ブレーキの手触り
-			m_Pos = Easing::EaseValue((float)m_CntFrame / m_FrameDest, m_Start,
+			m_Pos = Easing::EaseValue(m_CntFrame / m_FrameDest, m_Start,
 				m_PosDest, EaseType::InSine);
 			
+		}
+		else
+		{
+			m_Active = false;
+		}
+
+		//アニメーションの処理
+		if (!m_AnimationActive)
+		{
 			//現れる時の拡大
 			if(m_SclRate < 1.0f)
 			{
@@ -219,16 +227,16 @@ void EnemyStraight::VUpdate(void)
 				if (m_SclRate >= 1.0f)
 				{
 					m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+					//次のアニメーションを始める
+					SetAnimation(true, false, 1.0f, 0.05f);
 				}
 			}
 		}
 		else
 		{
-			m_Active = false;
+			Animation();
 		}
-
-		//countする.
-		m_CntFrame++;
+		
 	}
 
 	if (m_CntFrame > m_PositionHistoryTimer + STRAIGHT_WAIT_TIME)
@@ -250,6 +258,9 @@ void EnemyStraight::VUpdate(void)
 		m_ShadowPos[m_PositionHistoryIndex] = m_Pos;
 		m_ShadowScl[m_PositionHistoryIndex] = m_Scl;
 	}
+
+	//最後にcountする. 
+	m_CntFrame++;
 }
 
 /****************************************
@@ -308,7 +319,7 @@ void EnemyStraight::VDraw(void)
 /****************************************
 セット処理
 *****************************************/
-void EnemyStraight::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame)
+void EnemyStraight::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, float frame)
 {
 
 	m_FrameDest = frame;
@@ -347,11 +358,6 @@ HRESULT EnemyChange::VInit(void)
 {
 	m_WaitTime = 0.0f;
 	m_VecChange = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	//
-	m_SclRate = 0.0f;
-	m_Expansion = true;
-	m_AnimationActive = false;
-	m_SclSpeed = 0.0f;
 
 	m_Active = false;
 
@@ -363,10 +369,15 @@ HRESULT EnemyChange::VInit(void)
 	m_Dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_PosDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Start = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_FrameDest = 0;
+	m_FrameDest = 0.0f;
 
 	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_CntFrame = 0;
+	m_CntFrame = 0.0f;
+
+	m_SclRate = 0.0f;
+	m_Expansion = true;
+	m_AnimationActive = false;
+	m_SclSpeed = 0.0f;
 
 	SetAnimation(true,true, 0.0f,0.05f);
 	return S_OK;
@@ -411,7 +422,7 @@ void EnemyChange::VUpdate()
 		else if (m_CntFrame < m_FrameDest)
 		{
 			//ブレーキの手触り
-			m_Pos = Easing::EaseValue((float)m_CntFrame / m_FrameDest, m_Start,
+			m_Pos = Easing::EaseValue(m_CntFrame / m_FrameDest, m_Start,
 				m_PosDest, EaseType::OutCubic);
 
 		}
@@ -458,12 +469,12 @@ void EnemyChange::VDraw()
 /****************************************
 セット処理
 *****************************************/
-void EnemyChange::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame)
+void EnemyChange::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, float frame)
 {
 	//空
 }
 
-void EnemyChange::VSetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame, int waitTime, D3DXVECTOR3 vec)
+void EnemyChange::VSetVec(D3DXVECTOR3 start, D3DXVECTOR3 end, float frame, float waitTime, D3DXVECTOR3 vec)
 {
 	m_VecChange = vec;
 	m_WaitTime = waitTime;
@@ -500,36 +511,31 @@ EnemySnake::~EnemySnake()
 ****************************************/
 HRESULT EnemySnake::VInit()
 {
-	//
-	m_SclRate = 0.0f;
-	m_Expansion = true;
-	m_AnimationActive = false;
-	m_SclSpeed = 0.0f;
-
-	m_WaitTime = 0;
+	m_WaitTime = 0.0f;
 	m_CurrentIndex = 0;
 	m_PosDestMax = 0;
-	m_FramePassed = 0;
-	m_WaitCount = 0;
+	m_FramePassed = 0.0f;
+	m_WaitCount = 0.0f;
 
 	m_Active = false;
 
 	m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
 	
-	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	
-	m_Dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
-	m_FrameDest = 0;
+	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_PosDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Start = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_FrameDest = 0;
+	m_FrameDest = 0.0f;
 
 	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_CntFrame = 0;
+	m_CntFrame = 0.0f;
+
+	m_AnimationActive = false;
+	m_Expansion = true;
+	m_SclRate = 0.0f;
+	m_SclSpeed = 0.0f;
 
 	SetAnimation(true, true, 0.0f, 0.05f);
 	return S_OK;
@@ -551,9 +557,8 @@ void EnemySnake::VUpdate()
 	//更新前のm_CurrentIndexを保存
 	m_PrevIndex = m_CurrentIndex;
 
-
 	//最後の点のフレーム
-	int last = m_FramePassed + m_FrameDestList[m_PosDestMax - 2];
+	float last = m_FramePassed + m_FrameDestList[m_PosDestMax - 2];
 
 	if (m_Active)
 	{
@@ -581,7 +586,7 @@ void EnemySnake::VUpdate()
 			{
 				//停止の時間をカウンターに入れる
 				m_FramePassed = m_CntFrame;
-				m_WaitCount = 0;
+				m_WaitCount = 0.0f;
 			}
 		}//次の点に着いたら
 		else if ((m_CntFrame == (m_FramePassed + m_FrameDestList[m_CurrentIndex])) && m_CurrentIndex <= m_PosDestMax - 2)
@@ -641,12 +646,12 @@ void EnemySnake::VDraw()
 /****************************************
 セット処理
 *****************************************/
-void EnemySnake::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end1, int frame)
+void EnemySnake::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end1, float frame)
 {
 	//空
 }
 
-void EnemySnake::Set(vector<D3DXVECTOR3> posDestList, vector<int> frameDestList, int waitTime)
+void EnemySnake::Set(vector<D3DXVECTOR3> posDestList, vector<float> frameDestList, float waitTime)
 {
 	m_PosDestList = posDestList;
 	m_FrameDestList = frameDestList;
@@ -680,15 +685,11 @@ EnemyMidium ::~EnemyMidium()
 ****************************************/
 HRESULT EnemyMidium::VInit()
 {
-	//
-	m_SclRate = 0.0f;
-	m_Expansion = true;
-	m_AnimationActive = false;
-	m_SclSpeed = 0.0f;
-
+	m_CntFrameNow = 0.0f;
 	m_Visible = true;
-	m_Active = false;
 	m_CntAnim = 0;
+
+	m_Active = false;
 
 	m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -701,7 +702,12 @@ HRESULT EnemyMidium::VInit()
 	m_FrameDest = 0.0f;
 
 	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_CntFrame = 0;
+	m_CntFrame = 0.0f;
+
+	m_SclRate = 0.0f;
+	m_Expansion = true;
+	m_AnimationActive = false;
+	m_SclSpeed = 0.0f;
 
 	SetAnimation(true, true, 0.0f, 0.05f);
 
@@ -724,7 +730,7 @@ void EnemyMidium::VUpdate()
 	if (m_Active)
 	{
 
-		m_Pos = Easing::EaseValue((float)m_CntFrameNow / m_FrameDest, m_Start,
+		m_Pos = Easing::EaseValue(m_CntFrameNow / m_FrameDest, m_Start,
 			m_PosDest, EaseType::OutCubic);
 
 		//countする
@@ -772,13 +778,13 @@ void EnemyMidium::VDraw()
 /****************************************
 Move処理(当たるたびに呼び出す)
 *****************************************/
-void EnemyMidium::Move(D3DXVECTOR3 posDest, int frameDest)
+void EnemyMidium::Move(D3DXVECTOR3 posDest, float frameDest)
 {
 	m_PosDest = posDest;
 	m_FrameDest = frameDest;
 	m_Start = m_Pos;
 	//他のラインに移動するたびに、m_CntFrameNowを0に戻す
-	m_CntFrameNow = 0;
+	m_CntFrameNow = 0.0f;
 
 }
 
@@ -809,14 +815,18 @@ void EnemyMidium::HitAnimation()
 
 }
 
+/****************************************
+処理
+*****************************************/
 void EnemyMidium::SetHitAnimation()
 {
 	m_CntAnim = 0;
 }
+
 /****************************************
 セット処理
 *****************************************/
-void EnemyMidium::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, int frame)
+void EnemyMidium::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, float frame)
 {
 	//空
 }

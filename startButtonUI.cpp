@@ -54,11 +54,8 @@ StartButton::StartButton()
 //*****************************************************************************
 StartButton::~StartButton()
 {
-	delete bg;
-	bg = NULL;
-
-	delete text;
-	text = NULL;
+	SAFE_DELETE(bg);
+	SAFE_DELETE(text);
 }
 
 //=============================================================================

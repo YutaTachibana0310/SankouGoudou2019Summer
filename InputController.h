@@ -16,5 +16,6 @@ int GetMoveInput();
 bool GetBomberInput();
 
 void SetInstanceUIManager(GameSceneUIManager* instance);
+bool IsAnyKeyTriggered();
 
 #endif

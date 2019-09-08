@@ -9,6 +9,12 @@
 
 #include "masktex.h"
 
+namespace Title
+{
+	class Logo;
+	class CityBG;
+}
+
 /**************************************
 ëOï˚êÈåæ
 ***************************************/
@@ -29,6 +35,10 @@ public:
 	TitleBG *titleBG;
 	TitleLogo *titleLogo;
 	StartButton *startButton;
+
+	//0907óßâ‘í«â¡
+	Title::Logo *logo;
+	Title::CityBG *bg;
 
 	void Init(void);
 	void Uninit(void);

@@ -77,8 +77,7 @@ StageClearTelop::StageClearTelop()
 //*****************************************************************************
 StageClearTelop::~StageClearTelop()
 {
-	delete stageClearTelop;
-	stageClearTelop = NULL;
+	SAFE_DELETE(stageClearTelop);
 }
 
 //=============================================================================

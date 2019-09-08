@@ -149,6 +149,7 @@
     <ClInclude Include="BomberFire.h" />
     <ClInclude Include="BomberFireController.h" />
     <ClInclude Include="BomberStockEffect.h" />
+    <ClInclude Include="bomberStockUI.h" />
     <ClInclude Include="BossBulletGuide.h" />
     <ClInclude Include="BossChargeEffect.h" />
     <ClInclude Include="BossColliderController.h" />
@@ -206,6 +207,8 @@
     <ClInclude Include="GameBossBattle.h" />
     <ClInclude Include="GameBossBombSequence.h" />
     <ClInclude Include="GameBossStart.h" />
+    <ClInclude Include="GameFailed.h" />
+    <ClInclude Include="GameOver.h" />
     <ClInclude Include="MidiumEditWindow.h" />
     <ClInclude Include="MidiumEnemyFactory.h" />
     <ClInclude Include="MidiumEnemyModel.h" />
@@ -300,7 +303,6 @@
     <ClInclude Include="PlayerReturn.h" />
     <ClInclude Include="PlayerWait.h" />
     <ClInclude Include="IStateScene.h" />
-    <ClInclude Include="lineUI.h" />
     <ClInclude Include="MyLibrary.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerController.h" />
@@ -336,6 +338,8 @@
     <ClInclude Include="StraightEnemyModel.h" />
     <ClInclude Include="TestEnemyModel.h" />
     <ClInclude Include="titleBGUI.h" />
+    <ClInclude Include="TItleCity.h" />
+    <ClInclude Include="TitleLogo.h" />
     <ClInclude Include="titleLogoUI.h" />
     <ClInclude Include="TitleSceneUIManager.h" />
     <ClInclude Include="trailUI.h" />
@@ -364,6 +368,7 @@
     <ClCompile Include="BomberFire.cpp" />
     <ClCompile Include="BomberFireController.cpp" />
     <ClCompile Include="BomberStockEffect.cpp" />
+    <ClCompile Include="bomberStockUI.cpp" />
     <ClCompile Include="BossBulletGuide.cpp" />
     <ClCompile Include="BossChargeEffect.cpp" />
     <ClCompile Include="BossColliderController.cpp" />
@@ -415,6 +420,8 @@
     <ClCompile Include="GameBossBatlle.cpp" />
     <ClCompile Include="GameBossBombSequence.cpp" />
     <ClCompile Include="GameBossStart.cpp" />
+    <ClCompile Include="GameFailed.cpp" />
+    <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="MidiumEditWindow.cpp" />
     <ClCompile Include="MidiumEnemyFactory.cpp" />
     <ClCompile Include="MidiumEnemyModel.cpp" />
@@ -470,7 +477,6 @@
     <ClCompile Include="light.cpp" />
     <ClCompile Include="LineRenderer.cpp" />
     <ClCompile Include="LineTrailModel.cpp" />
-    <ClCompile Include="lineUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="masktex.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
@@ -537,6 +543,8 @@
     <ClCompile Include="StraightEnemyModel.cpp" />
     <ClCompile Include="TestEnemyModel.cpp" />
     <ClCompile Include="titleBGUI.cpp" />
+    <ClCompile Include="TitleCity.cpp" />
+    <ClCompile Include="TitleLogo.cpp" />
     <ClCompile Include="titleLogoUI.cpp" />
     <ClCompile Include="TitleSceneUIManager.cpp" />
     <ClCompile Include="trailUI.cpp" />

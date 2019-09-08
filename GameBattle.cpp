@@ -57,6 +57,12 @@ int GameScene::GameBattle::OnUpdate(GameScene *entity)
 	if (entity->enemyController->IsFinishedEnemy())
 		result = GameScene::State::BossStart;
 
+	//ゲームオーバー判定
+	if (!entity->playerObserver->IsAlive())
+	{
+		result = GameScene::State::Failed;
+	}
+
 	return result;
 	
 }

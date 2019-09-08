@@ -18,13 +18,10 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define SIZE_TRAIL		(D3DXVECTOR3(100.0f,100.0f,0.0f))
-
-////座標設定(2D)
-//#define POSITION_TRAIL	(D3DXVECTOR3(SCREEN_WIDTH/10*9,SCREEN_HEIGHT/10*3,0.0f))
+#define SIZE_TRAIL		(D3DXVECTOR3(512.0f,512.0f,0.0f))
 
 //座標設定(3D)
-#define POSITION_TRAIL	(D3DXVECTOR3(100.0f,100.0f,0.0f))
+#define POSITION_TRAIL	(D3DXVECTOR3(512.0f,512.0f,0.0f))
 
 //*****************************************************************************
 // コンストラクタ
@@ -34,15 +31,11 @@ Trail::Trail()
 	for (int i = 0; i < TRAILPARTS_MAX; i++)
 	{
 		trail[i] = new Object();
-
-		// テクスチャ読み込み
 		trail[i]->LoadTexture(texPath[i]);
 		trail[i]->MakeVertex();
-
 		trail[i]->position = POSITION_TRAIL/2;
 		trail[i]->size = SIZE_TRAIL/2;
 		trail[i]->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
 		trail[i]->SetColorObject(SET_COLOR_NOT_COLORED);
 	}
 
@@ -58,12 +51,10 @@ Trail::~Trail()
 {
 	for (int i = 0; i < TRAILPARTS_MAX; i++)
 	{
-		delete trail[i];
-		trail[i] = NULL;
+		SAFE_DELETE(trail[i]);
 	}
 
-	delete viewer;
-	viewer = NULL;
+	SAFE_DELETE(viewer);
 }
 
 //=============================================================================

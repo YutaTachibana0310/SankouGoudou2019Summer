@@ -49,5 +49,11 @@ int GameScene::GameBossBattle::OnUpdate(GameScene* entity)
 		result = GameScene::State::End;
 	}
 
+	//ゲームオーバー判定
+	if (!entity->playerObserver->IsAlive())
+	{
+		result = GameScene::State::Failed;
+	}
+
 	return result;
 }

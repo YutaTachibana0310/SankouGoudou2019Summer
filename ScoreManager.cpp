@@ -12,6 +12,7 @@
 #include "GameSceneUIManager.h"
 
 static int currentStageScore;
+static int currentCombo;
 static Score *score;
 static GameSceneUIManager *gameSceneUIManager;
 
@@ -100,4 +101,9 @@ int GetCurrentGameScore()
 void SetCurrentGameScore(int score)
 {
 	currentStageScore = score;
+}
+
+void SetCurrentCombo(int combo)
+{
+	currentCombo = combo;
 }

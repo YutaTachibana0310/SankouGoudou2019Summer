@@ -146,6 +146,7 @@ void GameScene::Init()
 
 	//ƒXƒRƒA‰Šú‰»
 	SetCurrentGameScore(0);
+	SetCurrentCombo(0);
 }
 
 /**************************************

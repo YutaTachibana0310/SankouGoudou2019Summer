@@ -14,6 +14,7 @@
 #include "TitleSceneUIManager.h"
 #include "TitleLogo.h"
 #include "TitleCity.h"
+#include "cursorUI.h"
 
 //*****************************************************************************
 // ƒ}ƒNƒ’è‹`
@@ -36,6 +37,7 @@ TitleSceneUIManager::TitleSceneUIManager()
 
 	logo = new Title::Logo();
 	bg = new Title::CityBG();
+	cursor = new Cursor();
 }
 
 //*****************************************************************************
@@ -49,6 +51,7 @@ TitleSceneUIManager::~TitleSceneUIManager()
 	
 	SAFE_DELETE(logo);
 	SAFE_DELETE(bg);
+	SAFE_DELETE(cursor);
 }
 
 //=============================================================================
@@ -78,6 +81,7 @@ void TitleSceneUIManager::Update(HWND hWnd)
 
 	logo->Update();
 	bg->Update();
+	cursor->Update(hWnd);
 }
 
 //=============================================================================
@@ -97,6 +101,8 @@ void TitleSceneUIManager::Draw(void)
 	startButton->Draw();
 
 	logo->Draw();
+
+	cursor->Draw();
 
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }

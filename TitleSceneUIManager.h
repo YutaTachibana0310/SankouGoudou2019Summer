@@ -22,6 +22,7 @@ class TitleBG;
 class TitleLogo;
 class StartButton;
 class StartButtonManager;
+class Cursor;
 
 //*****************************************************************************
 // ç\ë¢ëÃíËã`
@@ -39,6 +40,9 @@ public:
 	//0907óßâ‘í«â¡
 	Title::Logo *logo;
 	Title::CityBG *bg;
+	
+	//0908óßâ‘í«â¡
+	Cursor *cursor;
 
 	void Init(void);
 	void Uninit(void);

@@ -88,6 +88,9 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	ssm[SceneGame] = new SoundGameScene();
 	ssm[SceneResult] = new SoundResultScene();
 
+	//マウスカーソルを非表示に
+	for (INT cursorView = ShowCursor(false); cursorView >= 0; cursorView = ShowCursor(false)) {}
+
 	RegisterDebugTimer("Main");
 
 	fsm[currentScene]->Init();

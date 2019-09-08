@@ -18,6 +18,7 @@
 #include "EnemyBulletController.h"
 
 #include "Framework\ResourceManager.h"
+#include "Framework\CameraShakePlugin.h"
 #include "GameParticleManager.h"
 
 #include "sound.h"
@@ -278,6 +279,10 @@ void BossEnemyModel::Explode()
 	actor->SetActive(false);
 	D3DXVECTOR3 actorPos = actor->GetActorPosition();
 	GameParticleManager::Instance()->SetBossExplosion(&actorPos);
+
+	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(100.0f, 100.0f, 0.0f);
+	const int ShakeDuraiton = 360;
+	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuraiton);
 }
 
 /**************************************

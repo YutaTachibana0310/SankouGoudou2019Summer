@@ -19,7 +19,6 @@
 void GameScene::GameEnd::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
-	entity->gameSceneUIManager->SetStageClearTelop();
 }
 
 /**************************************
@@ -31,7 +30,14 @@ int GameScene::GameEnd::OnUpdate(GameScene *entity)
 
 	entity->UpdateWhole();
 
-	const int Duration = 420;
+	const int TelopTiming = 180;
+	const int Duration = 360;
+
+	if (entity->cntFrame == TelopTiming)
+	{
+		entity->gameSceneUIManager->SetStageClearTelop();
+	}
+
 	if (entity->cntFrame == Duration)
 	{
 		SceneChangeFlag(true, Scene::SceneResult);

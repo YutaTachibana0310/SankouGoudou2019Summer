@@ -12,6 +12,7 @@
 #include "PlayerController.h"
 #include "InputController.h"
 #include "GameParticleManager.h"
+#include "TutorialController.h"
 
 /**************************************
 グローバル変数
@@ -33,7 +34,7 @@ void TutorialScene::Init()
 	//他のインスタンス作成
 	bg = new TutorialBG();
 	playerObserver = new PlayerObserver();
-
+	controller = new TutorialController();
 
 	//PlayerControllerにPlayerObserverをセット
 	SetPlayerObserverAdr(playerObserver);
@@ -66,6 +67,7 @@ void TutorialScene::Uninit()
 	//インスタンス削除
 	SAFE_DELETE(bg);
 	SAFE_DELETE(container);
+	SAFE_DELETE(controller);
 
 	//フォグを無効化
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
@@ -84,6 +86,8 @@ void TutorialScene::Update(HWND hWnd)
 	bg->Update();
 	playerObserver->Update();
 
+	controller->Update();
+
 	container->Update(hWnd);
 
 	GameParticleManager::Instance()->Update();
@@ -100,4 +104,6 @@ void TutorialScene::Draw()
 	GameParticleManager::Instance()->Draw();
 
 	container->Draw();
+
+	controller->Draw();
 }

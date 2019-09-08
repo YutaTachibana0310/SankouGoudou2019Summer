@@ -17,6 +17,7 @@
 class TutorialBG;
 class GameSceneUIManager;
 class PlayerObserver;
+class TutorialController;
 
 /**************************************
 ƒNƒ‰ƒX’è‹`
@@ -33,6 +34,7 @@ private:
 	TutorialBG * bg;
 	GameSceneUIManager* container;
 	PlayerObserver *playerObserver;
+	TutorialController *controller;
 
 };
 

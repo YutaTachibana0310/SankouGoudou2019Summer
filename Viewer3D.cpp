@@ -181,7 +181,7 @@ void Viewer3D::MakeRenderTarget(DWORD sizeX, DWORD sizeY)
 		sizeY,		//テクスチャの縦幅
 		1,
 		D3DUSAGE_RENDERTARGET,
-		D3DFMT_X8R8G8B8,
+		D3DFMT_A8R8G8B8,
 		D3DPOOL_DEFAULT,
 		&renderTarget,				//結果を格納するインターフェース
 		0);

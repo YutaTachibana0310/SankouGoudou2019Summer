@@ -22,7 +22,7 @@ using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
-#define MOVETARGET_DEFAULT	(99)
+#define MOVETARGET_DEFAULT	(5)
 
 /**************************************
 構造体定義
@@ -140,8 +140,12 @@ void PlayerObserver::CheckInput()
 	const int InvalidInput = 5;
 	int inputID = GetMoveInput();
 	
+	//キーボード、マウスからの入力が無く、かつ、Wait状態かIdle状態であれば
 	if (inputID == InvalidInput)
-		inputID = GetStickInput(moveTarget);
+	{
+		if(current == PlayerState::Idle || current == PlayerState::Wait)
+			inputID = GetStickInput(moveTarget);
+	}
 
 	if(inputID < InvalidInput)
 		PushInput(inputID);
@@ -269,7 +273,7 @@ void PlayerObserver::OnFinishPlayerWait()
 {
 	//TODO:初期位置に戻るので色々リセット
 	model->Clear();
-	moveTarget = MOVETARGET_DEFAULT;
+	moveTarget = 5;
 	player->EnableCollider(false);
 
 	//Return状態へ遷移し初期位置へ

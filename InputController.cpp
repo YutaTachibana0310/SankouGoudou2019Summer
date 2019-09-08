@@ -12,11 +12,12 @@
 
 static GameSceneUIManager* instanceUImanager;
 
-int CheckInputTop();
-int CheckInputMiddleLeft();
-int CheckInputLowerLeft();
-int CheckInputLowerRight();
-int CheckInputMiddleRight();
+int CheckInputTop(float x, float y);
+int CheckInputMiddleLeft(float x, float y);
+int CheckInputLowerLeft(float x, float y);
+int CheckInputLowerRight(float x, float y);
+int CheckInputMiddleRight(float x, float y);
+int CheckInputCenter(float x, float y);
 
 int GetMoveInput() {
 
@@ -49,121 +50,149 @@ int GetMoveInput() {
 
 int GetStickInput(int currentStar)
 {
+	float x = GetAxisX(0);
+	float y = GetAxisY(0);
+
 	if (currentStar == TOP)
-		return CheckInputTop();
+		return CheckInputTop(x, y);
 
 	if (currentStar == MIDDLE_LEFT)
-		return CheckInputMiddleLeft();
+		return CheckInputMiddleLeft(x, y);
 
 	if (currentStar == LOWER_LEFT)
-		return CheckInputLowerLeft();
+		return CheckInputLowerLeft(x, y);
 
 	if (currentStar == LOWER_RIGHT)
-		return CheckInputLowerRight();
+		return CheckInputLowerRight(x, y);
 
 	if (currentStar == MIDDLE_RIGHT)
-		return CheckInputMiddleRight();
-	
+		return CheckInputMiddleRight(x, y);
+
+	if (currentStar == STAR_MAX)
+		return CheckInputCenter(x, y);
+
 	return STAR_MAX;
 }
 
-int CheckInputTop()
+int CheckInputTop(float x, float y)
 {
-	if (IsButtonTriggered(0, BUTTON_LEFT))
+	if (x < -0.8f)
+		return MIDDLE_LEFT;
+
+	if (x > 0.8f)
+		return MIDDLE_RIGHT;
+
+	if (y < -0.5f)
 	{
-		if (IsButtonTriggered(0, BUTTON_DOWN))
+		if (x < -0.05f)
 			return LOWER_LEFT;
 
-		return MIDDLE_LEFT;
-	}
-
-	if (IsButtonTriggered(0, BUTTON_RIGHT))
-	{
-		if (IsButtonTriggered(0, BUTTON_DOWN))
+		if (x > 0.05f)
 			return LOWER_RIGHT;
-
-		return MIDDLE_RIGHT;
 	}
 
 	return STAR_MAX;
 }
 
-int CheckInputMiddleLeft()
+int CheckInputMiddleLeft(float x, float y)
 {
-	if (IsButtonTriggered(0, BUTTON_RIGHT))
-	{
-		if (IsButtonTriggered(0, BUTTON_DOWN))
-			return LOWER_RIGHT;
-
-		return MIDDLE_RIGHT;
-	}
-
-	if (IsButtonTriggered(0, BUTTON_UP))
+	if (y > 0.8f)
 		return TOP;
 
-	if (IsButtonTriggered(0, BUTTON_DOWN))
+	if (x > 0.9f)
+		return MIDDLE_RIGHT;
+
+	if (x > 0.1f && y < 0.0f)
+		return LOWER_RIGHT;
+
+	if (y < -0.1f)
 		return LOWER_LEFT;
 
 	return STAR_MAX;
 }
 
-int CheckInputLowerLeft()
+int CheckInputLowerLeft(float x, float y)
 {
-	if (IsButtonTriggered(0, BUTTON_RIGHT))
+	if (y > 0.7f)
 	{
-		if (IsButtonTriggered(0, BUTTON_UP))
-			return MIDDLE_RIGHT;
+		if (x < -0.6f)
+			return MIDDLE_LEFT;
 
+		return TOP;
+	}
+
+	if (y > 0.3f && x > 0.3f)
+	{
+		return MIDDLE_RIGHT;
+	}
+
+	if (x > 0.9f)
 		return LOWER_RIGHT;
-	}
-
-	if (IsButtonTriggered(0, BUTTON_UP))
-	{
-		if (IsButtonTriggered(0, BUTTON_LEFT))
-			return MIDDLE_LEFT;
-
-		return TOP;
-	}
 
 	return STAR_MAX;
 }
 
-int CheckInputLowerRight()
+int CheckInputLowerRight(float x, float y)
 {
-	if (IsButtonTriggered(0, BUTTON_LEFT))
+	if (y > 0.7f)
 	{
-		if (IsButtonTriggered(0, BUTTON_UP))
-			return MIDDLE_LEFT;
-
-		return LOWER_LEFT;
-	}
-
-	if (IsButtonTriggered(0, BUTTON_UP))
-	{
-		if (IsButtonTriggered(0, BUTTON_RIGHT))
+		if (x < -0.6f)
 			return MIDDLE_RIGHT;
 
 		return TOP;
 	}
 
-	return STAR_MAX;
-}
-
-int CheckInputMiddleRight()
-{
-	if (IsButtonTriggered(0, BUTTON_LEFT))
+	if (y > 0.3f && x > 0.3f)
 	{
-		if (IsButtonTriggered(0, BUTTON_DOWN))
-			return LOWER_LEFT;
-
 		return MIDDLE_LEFT;
 	}
 
-	if (IsButtonTriggered(0, BUTTON_UP))
+	if (x < -0.9f)
+		return LOWER_LEFT;
+
+	return STAR_MAX;
+}
+
+int CheckInputMiddleRight(float x, float y)
+{
+	if (y > 0.8f)
 		return TOP;
 
-	if (IsButtonTriggered(0, BUTTON_DOWN))
+	if (x < -0.9f)
+		return MIDDLE_LEFT;
+
+	if (x < -0.1f && y < 0.0f)
+		return LOWER_LEFT;
+
+	if (y < -0.1f)
 		return LOWER_RIGHT;
+
+	return STAR_MAX;
+}
+
+int CheckInputCenter(float x, float y)
+{
+	if (y > 0.9f)
+		return TOP;
+
+	if (y < -0.5f)
+	{
+		if (x > 0.3f)
+			return LOWER_RIGHT;
+
+		if (x < -0.3f)
+			return LOWER_LEFT;
+	}
+
+	if (x < -0.3f)
+	{
+		return MIDDLE_LEFT;
+	}
+
+	if (x > 0.3f)
+	{
+		return MIDDLE_RIGHT;
+	}
 
 	return STAR_MAX;
 }

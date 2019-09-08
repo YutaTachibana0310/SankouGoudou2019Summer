@@ -9,7 +9,7 @@
 /**************************************
 マクロ定義
 ***************************************/
-#define DEADZONE		2500			// 各軸の25%を無効ゾーンとする
+#define DEADZONE		1500			// 各軸の25%を無効ゾーンとする
 #define RANGE_MAX		1000			// 有効範囲の最大値
 #define RANGE_MIN		-1000			// 有効範囲の最小値
 
@@ -32,6 +32,8 @@ static int		axisYRepeatCnt[GAMEPADMAX];
 
 static float	padAxislRx[GAMEPADMAX];
 static float	padAxislRy[GAMEPADMAX];
+static float	padAxisLx[GAMEPADMAX];
+static float	padAxisLy[GAMEPADMAX];
 
 static LPDIRECTINPUTDEVICE8	pGamePad[GAMEPADMAX] = { NULL,NULL,NULL,NULL };// パッドデバイス
 
@@ -133,6 +135,7 @@ void UninitPad(void)
 
 }
 
+#include "../debugWindow.h"
 /**************************************
 更新処理
 ***************************************/
@@ -162,6 +165,7 @@ void UpdatePad(void)
 				result = pGamePad[i]->Acquire();
 		}
 
+		//右スティック用の処理
 		if (dijs.lZ != 0 && dijs.lRx != 0)
 		{
 			padAxislRx[i] = (float)(dijs.lRx);
@@ -174,6 +178,14 @@ void UpdatePad(void)
 			padAxislRy[i] = (float)(dijs.lRz + dijs.lRy);
 
 		}
+
+		padAxisLx[i] = dijs.lX / 1000.0f;
+		padAxisLy[i] = dijs.lY / -1000.0f;
+
+		BeginDebugWindow("Input");
+		DebugText("X:%d, Y:%d", dijs.lX, dijs.lY);
+		DebugText("X:%f, Y:%f", padAxisLx[i], padAxisLy[i]);
+		EndDebugWindow("Input");
 
 		// ３２の各ビットに意味を持たせ、ボタン押下に応じてビットをオンにする
 		//* y-axis (forward)
@@ -356,4 +368,18 @@ float GetStickAxisY(int padNo)
 	return (padAxislRy[padNo] / 65535.0f) - 0.5f;
 }
 
+/**************************************
+左スティックX軸取得処理
+***************************************/
+float GetAxisX(int padNo)
+{
+	return padAxisLx[padNo];
+}
 
+/**************************************
+左スティックY軸入力計算処理
+***************************************/
+float GetAxisY(int padNo)
+{
+	return padAxisLy[padNo];
+}

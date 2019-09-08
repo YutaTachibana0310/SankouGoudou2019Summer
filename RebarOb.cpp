@@ -39,7 +39,13 @@ RebarObstacle::RebarObstacle(const D3DXVECTOR3& pos, LineTrailModel& model, cons
 	transform->pos = pos;
 
 	this->model = model;
-	D3DXVECTOR3 right, left;
+
+	int start = Min(model.start, model.end);
+	int end = Max(model.start, model.end);
+
+	D3DXVECTOR3 right = LineTrailModel::GetEdgePos(end);
+	D3DXVECTOR3 left = LineTrailModel::GetEdgePos(start);
+
 	model.GetEdgePos(&right, &left);
 	D3DXVECTOR3 diff = right - left;
 	float angle = Vector3::Angle(Vector3::Right, diff);

@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// テロップ背景処理 [telopBG->cpp]
+// テロップ背景処理 [telopBG.cpp]
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
@@ -15,8 +15,8 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define SIZE_TELOP_BG		(D3DXVECTOR3(SCREEN_WIDTH/4,50.0f,0.0f))
-#define POSITION_TELOP_BG	(D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_HEIGHT/10*8,0.0f))
+#define SIZE_TELOP_BG		(D3DXVECTOR3(SCREEN_WIDTH/4,75.0f,0.0f))
+#define POSITION_TELOP_BG	(D3DXVECTOR3(SCREEN_WIDTH/2,SCREEN_CENTER_Y,0.0f))
 #define INITIALVALUE_BG_PERCENTAGE (0.0f)
 #define DURATION_OPEN_CLOSE (20.0f)
 
@@ -33,7 +33,7 @@ TelopBG::TelopBG()
 {
 	telopBG = new Object();
 
-	telopBG->LoadTexture("data/TEXTURE/UI/telop/telopBG.png");
+	telopBG->LoadTexture("data/TEXTURE/UI/Telop/telopBG.png");
 	telopBG->MakeVertex();
 
 	telopBG->position = POSITION_TELOP_BG;
@@ -50,8 +50,7 @@ TelopBG::TelopBG()
 //*****************************************************************************
 TelopBG::~TelopBG()
 {
-	delete telopBG;
-	telopBG = NULL;
+	SAFE_DELETE(telopBG);
 }
 
 //=============================================================================

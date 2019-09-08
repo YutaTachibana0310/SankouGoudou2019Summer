@@ -149,6 +149,7 @@
     <ClInclude Include="BomberFire.h" />
     <ClInclude Include="BomberFireController.h" />
     <ClInclude Include="BomberStockEffect.h" />
+    <ClInclude Include="bomberStockUI.h" />
     <ClInclude Include="BossBulletGuide.h" />
     <ClInclude Include="BossChargeEffect.h" />
     <ClInclude Include="BossColliderController.h" />
@@ -206,6 +207,11 @@
     <ClInclude Include="GameBossBattle.h" />
     <ClInclude Include="GameBossBombSequence.h" />
     <ClInclude Include="GameBossStart.h" />
+    <ClInclude Include="GameFailed.h" />
+    <ClInclude Include="GameOver.h" />
+    <ClInclude Include="MidiumEditWindow.h" />
+    <ClInclude Include="MidiumEnemyFactory.h" />
+    <ClInclude Include="MidiumEnemyModel.h" />
     <ClInclude Include="PlayerBomberBoss.h" />
     <ClInclude Include="PlayerBomberEnemy.h" />
     <ClInclude Include="PlayerBomberRebar.h" />
@@ -297,7 +303,6 @@
     <ClInclude Include="PlayerReturn.h" />
     <ClInclude Include="PlayerWait.h" />
     <ClInclude Include="IStateScene.h" />
-    <ClInclude Include="lineUI.h" />
     <ClInclude Include="MyLibrary.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerController.h" />
@@ -326,13 +331,15 @@
     <ClInclude Include="SoundStateScene.h" />
     <ClInclude Include="SoundTitleScene.h" />
     <ClInclude Include="Stencil.h" />
-    <ClInclude Include="starUI.h" />
+    <ClInclude Include="starButtonUI.h" />
     <ClInclude Include="StraightEnemyFactory.h" />
     <ClInclude Include="telopBG.h" />
     <ClInclude Include="ChangeEnemyModel.h" />
     <ClInclude Include="StraightEnemyModel.h" />
     <ClInclude Include="TestEnemyModel.h" />
     <ClInclude Include="titleBGUI.h" />
+    <ClInclude Include="TItleCity.h" />
+    <ClInclude Include="TitleLogo.h" />
     <ClInclude Include="titleLogoUI.h" />
     <ClInclude Include="TitleSceneUIManager.h" />
     <ClInclude Include="trailUI.h" />
@@ -346,6 +353,7 @@
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="UIdrawerC.h" />
+    <ClInclude Include="Viewer3D.h" />
     <ClInclude Include="WarningBelt.h" />
     <ClInclude Include="WarningText.h" />
     <ClInclude Include="WarningUI.h" />
@@ -362,6 +370,7 @@
     <ClCompile Include="BomberFire.cpp" />
     <ClCompile Include="BomberFireController.cpp" />
     <ClCompile Include="BomberStockEffect.cpp" />
+    <ClCompile Include="bomberStockUI.cpp" />
     <ClCompile Include="BossBulletGuide.cpp" />
     <ClCompile Include="BossChargeEffect.cpp" />
     <ClCompile Include="BossColliderController.cpp" />
@@ -413,6 +422,11 @@
     <ClCompile Include="GameBossBatlle.cpp" />
     <ClCompile Include="GameBossBombSequence.cpp" />
     <ClCompile Include="GameBossStart.cpp" />
+    <ClCompile Include="GameFailed.cpp" />
+    <ClCompile Include="GameOver.cpp" />
+    <ClCompile Include="MidiumEditWindow.cpp" />
+    <ClCompile Include="MidiumEnemyFactory.cpp" />
+    <ClCompile Include="MidiumEnemyModel.cpp" />
     <ClCompile Include="PlayerBomberBoss.cpp" />
     <ClCompile Include="PlayerBomberEnemy.cpp" />
     <ClCompile Include="PlayerBomberRebar.cpp" />
@@ -465,7 +479,6 @@
     <ClCompile Include="light.cpp" />
     <ClCompile Include="LineRenderer.cpp" />
     <ClCompile Include="LineTrailModel.cpp" />
-    <ClCompile Include="lineUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="masktex.cpp" />
     <ClCompile Include="MyLibrary.cpp" />
@@ -524,7 +537,7 @@
     <ClCompile Include="StageEditor.cpp" />
     <ClCompile Include="Stencil.cpp" />
     <ClCompile Include="startButtonUI.cpp" />
-    <ClCompile Include="starUI.cpp" />
+    <ClCompile Include="starButtonUI.cpp" />
     <ClCompile Include="PlayerTrail.cpp" />
     <ClCompile Include="StraightEnemyFactory.cpp" />
     <ClCompile Include="telopBG.cpp" />
@@ -532,6 +545,8 @@
     <ClCompile Include="StraightEnemyModel.cpp" />
     <ClCompile Include="TestEnemyModel.cpp" />
     <ClCompile Include="titleBGUI.cpp" />
+    <ClCompile Include="TitleCity.cpp" />
+    <ClCompile Include="TitleLogo.cpp" />
     <ClCompile Include="titleLogoUI.cpp" />
     <ClCompile Include="TitleSceneUIManager.cpp" />
     <ClCompile Include="trailUI.cpp" />
@@ -545,6 +560,7 @@
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="UIdrawerC.cpp" />
+    <ClCompile Include="Viewer3D.cpp" />
     <ClCompile Include="WarningBelt.cpp" />
     <ClCompile Include="WarningText.cpp" />
     <ClCompile Include="WarningUI.cpp" />

@@ -171,5 +171,6 @@ void Polygon2D::SetVertex()
 	for (int i = 0; i < NUM_VERTEX; i++)
 	{
 		D3DXVec3TransformCoord(&vtxWk[i].vtx, &vtxPos[i], &mtxTransform);
+		vtxWk[i].vtx.z = 0.0f;
 	}
 }

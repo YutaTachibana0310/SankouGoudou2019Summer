@@ -660,12 +660,6 @@
     <ClInclude Include="EnemyBulletEffectController.h">
       <Filter>ヘッダー ファイル\Effect\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="starUI.h">
-      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
-    </ClInclude>
-    <ClInclude Include="lineUI.h">
-      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
-    </ClInclude>
     <ClInclude Include="UIdrawerC.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
@@ -858,6 +852,35 @@
     <ClInclude Include="TutorialGuide.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
+    <ClInclude Include="Viewer3D.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MidiumEnemyModel.h">
+      <Filter>ヘッダー ファイル\Enemy\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="MidiumEditWindow.h">
+      <Filter>ヘッダー ファイル\Stage\EditWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="MidiumEnemyFactory.h">
+      <Filter>ヘッダー ファイル\Enemy\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="starButtonUI.h">
+      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFailed.h">
+      <Filter>ヘッダー ファイル\GameController</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOver.h">
+    </ClInclude>
+    <ClInclude Include="bomberStockUI.h">
+      <Filter>ヘッダー ファイル\UI\GameSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLogo.h">
+      <Filter>ヘッダー ファイル\UI\TitleSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TItleCity.h">
+      <Filter>ヘッダー ファイル\UI\TitleSceneUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1046,13 +1069,7 @@
     <ClCompile Include="guageUI.cpp">
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>
     </ClCompile>
-    <ClCompile Include="lineUI.cpp">
-      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
-    </ClCompile>
     <ClCompile Include="scoreUI.cpp">
-      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
-    </ClCompile>
-    <ClCompile Include="starUI.cpp">
       <Filter>ソース ファイル\UI\GameSceneUI</Filter>
     </ClCompile>
     <ClCompile Include="trailUI.cpp">
@@ -1465,6 +1482,35 @@
     </ClCompile>
     <ClCompile Include="TutorialGuide.cpp">
       <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer3D.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MidiumEnemyModel.cpp">
+      <Filter>ソース ファイル\Enemy\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="MidiumEditWindow.cpp">
+      <Filter>ソース ファイル\Stage\EditWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="MidiumEnemyFactory.cpp">
+      <Filter>ソース ファイル\Enemy\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="starButtonUI.cpp">
+      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFailed.cpp">
+      <Filter>ソース ファイル\GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOver.cpp">
+    </ClCompile>
+    <ClCompile Include="bomberStockUI.cpp">
+      <Filter>ソース ファイル\UI\GameSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLogo.cpp">
+      <Filter>ソース ファイル\UI\TitleSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleCity.cpp">
+      <Filter>ソース ファイル\UI\TitleSceneUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

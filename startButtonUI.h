@@ -28,6 +28,10 @@ private:
 	Object *bg;
 	Object *text;
 	Mask *mask;
+
+	bool	IsAlphaIncreased = true;
+	float	alpha = 0;
+
 	void GoGameScene(void);
 	void BlinkStartButtonText(void);
 };

@@ -10,6 +10,7 @@
 #include "Framework\ResourceManager.h"
 #include "Framework\Vector3.h"
 #include "GameParticleManager.h"
+#include "ScoreManager.h"
 
 /**************************************
 マクロ定義
@@ -38,7 +39,13 @@ RebarObstacle::RebarObstacle(const D3DXVECTOR3& pos, LineTrailModel& model, cons
 	transform->pos = pos;
 
 	this->model = model;
-	D3DXVECTOR3 right, left;
+
+	int start = Min(model.start, model.end);
+	int end = Max(model.start, model.end);
+
+	D3DXVECTOR3 right = LineTrailModel::GetEdgePos(end);
+	D3DXVECTOR3 left = LineTrailModel::GetEdgePos(start);
+
 	model.GetEdgePos(&right, &left);
 	D3DXVECTOR3 diff = right - left;
 	float angle = Vector3::Angle(Vector3::Right, diff);
@@ -128,7 +135,7 @@ void RebarObstacle::_Move()
 	float t = (float)(cntFrame - delay) / moveDuration;
 	transform->pos = Easing::EaseValue(t, startPos, endPos, moveEaseType);
 
-	if (cntFrame == moveDuration)
+	if ((cntFrame - delay) == moveDuration)
 	{
 		inMoving = false;
 
@@ -173,6 +180,11 @@ void RebarObstacle::OnHitBomber()
 		GameParticleManager::Instance()->SetRearExplosion(&edgeL);
 		edgeL += offset;
 	}
+
+	//スコアとコンボ加算
+	const int BaseScorePoint = 100;
+	SetAddCombo(1);
+	SetAddScore(BaseScorePoint);
 
 	isDestroyed = true;
 }

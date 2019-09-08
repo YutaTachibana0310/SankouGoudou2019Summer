@@ -24,10 +24,22 @@ const char SOUND_BANK[] = "data/SOUND/Win/Sound Bank.xsb";
 
 const char TITLE_BGM[] = "Jackhammer";
 const char GAME_BGM[] = "Blue_LIGHT_Techno";
+const char BOSS_BGM[] = "ダーティーファイト";
 
-const char ENTER_SE[] = "決定SE";
+const char ENTER_SE_NOTUSE[] = "決定SE";
 const char TEST_SE[] = "発砲音";
 const char COMBO_SE[] = "combo";
+const char ENEMYDOWN1_SE[] = "小エネミー爆発";
+const char ENEMYDOWN2_SE[] = "中エネミー爆発 2";
+const char PLAYERDAMAGE_SE[] = "Eショット着弾";
+const char PLAYERSHOT_SE[] = "Pショット発射音";
+const char ENEMYNOTICE_SE[] = "エネミー出現予告";
+const char BOMB_SE[] = "bomb";
+const char BOMBSTOCK_SE[] = "bombstock";
+const char ENTER_SE[] = "ENTERSE";
+const char ALARM_SE[] = "警報";
+const char BOSSSHOT_SE[] = "bossshot";
+const char BOSSEXPLODE_SE[] = "BossExplode";
 
 //ナンバーはWaveに登録した順番になること
 //名前は正式曲名ではなく、わかりやすく明示すること（例：ステージ1BGM）
@@ -35,14 +47,27 @@ enum BGMNAME
 {
 	GAMEBGM = 0,
 	TITLEBGM,
+	BOSSBGM,
 	MAXBGM
 };
 
 enum SENAME
 {
-	ENTERSE = 0,
+	ENTERSE_NOTUSE = 0,
 	TESTSE,
 	COMBOSE,
+	ENEMYDOWN1,
+	ENEMYDOWN2,
+	PLAYERDAMAGE,
+	PLAYERSHOT,
+	ENEMYNOTICE,
+	BOMB,
+	BOMBSTOCK,
+	ENTERSE,
+	REBAR,
+	ALARM,
+	BOSSSHOT,
+	BOSSEXPLODE,
 	MAXSE
 };
 class Sound {
@@ -75,6 +100,7 @@ public:
 	int changepitch;
 	float changevol;
 	int UIcounta;
+	float fadecounta;
 
 	static Sound *GetInstance() {
 		return sound;
@@ -100,7 +126,9 @@ public:
 
 	void SetPlaySE(int wavenum, bool playflag, float vol);
 
-	void SetStopSound();
+	void SetStopSoundOll();
+
+	void SetStopSound(int wavenum);
 
 	void ChangePauseSound(bool b);
 

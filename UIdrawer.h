@@ -64,7 +64,6 @@ public:
 	void CreateObjectCircle();
 	void MakeVertex();
 	void SetVertex();
-
 };
 
 class GuageObject :public Object

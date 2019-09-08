@@ -14,9 +14,14 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define SIZE_STAGE_CLEAR_TELOP				(D3DXVECTOR3(SCREEN_WIDTH/4,50.0f,0.0f))
-#define INIT_POSITION_STAGE_CLEAR_TELOP	(D3DXVECTOR3(SCREEN_WIDTH*1.5,SCREEN_HEIGHT/10*8,0.0f))
+#define SIZE_STAGE_CLEAR_TELOP				(D3DXVECTOR3(SCREEN_WIDTH/4,75.0f,0.0f))
+#define INIT_POSITION_STAGE_CLEAR_TELOP	(D3DXVECTOR3(SCREEN_WIDTH*1.5,SCREEN_CENTER_Y,0.0f))
 #define ANIMATION_MAX (5)
+
+//*****************************************************************************
+// グローバル変数
+//*****************************************************************************
+static int currentAnimation = 0;
 
 static const float EasingStartPositionX[ANIMATION_MAX] = {
 	SCREEN_WIDTH*1.5,
@@ -51,18 +56,13 @@ static const float AnimationDuration[ANIMATION_MAX] = {
 };
 
 //*****************************************************************************
-// グローバル変数
-//*****************************************************************************
-static int currentAnimation = 0;
-
-//*****************************************************************************
 // コンストラクタ
 //*****************************************************************************
 StageClearTelop::StageClearTelop()
 {
 	stageClearTelop = new TelopObject();
 
-	stageClearTelop->LoadTexture("data/TEXTURE/UI/telop/stageClearTelop.png");
+	stageClearTelop->LoadTexture("data/TEXTURE/UI/Telop/stageClearTelop.png");
 	stageClearTelop->MakeVertex();
 
 	stageClearTelop->position = INIT_POSITION_STAGE_CLEAR_TELOP;
@@ -77,8 +77,7 @@ StageClearTelop::StageClearTelop()
 //*****************************************************************************
 StageClearTelop::~StageClearTelop()
 {
-	delete stageClearTelop;
-	stageClearTelop = NULL;
+	SAFE_DELETE(stageClearTelop);
 }
 
 //=============================================================================

@@ -13,6 +13,7 @@
 #include "PlayerIdle.h"
 
 #include "GameParticleManager.h"
+#include "sound.h"
 
 #include <algorithm>
 
@@ -21,7 +22,7 @@ using namespace std;
 /**************************************
 マクロ定義
 ***************************************/
-#define MOVETARGET_DEFAULT	(99)
+#define MOVETARGET_DEFAULT	(5)
 
 /**************************************
 構造体定義
@@ -136,9 +137,16 @@ void PlayerObserver::CheckInput()
 	player->inputInterval++;
 
 	//入力を確認
-	int inputID = GetMoveInput();
-
 	const int InvalidInput = 5;
+	int inputID = GetMoveInput();
+	
+	//キーボード、マウスからの入力が無く、かつ、Wait状態かIdle状態であれば
+	if (inputID == InvalidInput)
+	{
+		if(current == PlayerState::Idle || current == PlayerState::Wait)
+			inputID = GetStickInput(moveTarget);
+	}
+
 	if(inputID < InvalidInput)
 		PushInput(inputID);
 }
@@ -160,11 +168,12 @@ void PlayerObserver::PushInput(int num)
 	{
 		if (current == PlayerState::Wait)
 		{
+			player->collider->SetTrailIndex(LineTrailModel(moveTarget, num));
+
 			//無敵状態でなければ当たり判定を有効化
 			if (!player->flgInvincible)
 			{
 				player->collider->active = true;
-				player->collider->SetTrailIndex(LineTrailModel(moveTarget, num));
 			}
 
 			player->ChangeAnim(PlayerAnimID::Attack);
@@ -219,7 +228,7 @@ Moveコールバック
 void PlayerObserver::OnFinishPlayerMove()
 {
 	//当たり判定を無効化
-	player->collider->active = false;
+	player->collider->active = true;
 
 	//移動履歴をプッシュ（ボンバーのストックインターバルが終了していたら）
 	model->PushMoveStack(moveTarget, bomberController->CanStock());
@@ -239,8 +248,12 @@ void PlayerObserver::OnFinishPlayerMove()
 	TryStockBomber();
 
 	//先行入力確認
+	int prevMoveTarget = moveTarget;
 	if (model->IsExistPrecedInput(&moveTarget))
 	{
+		//当たり判定を更新
+		player->collider->SetTrailIndex(LineTrailModel(prevMoveTarget, moveTarget));
+
 		player->goalpos = targetPos[moveTarget];
 		trailEffect->Init(&player->transform.pos);
 		player->ChangeAnim(PlayerAnimID::Attack);
@@ -261,7 +274,8 @@ void PlayerObserver::OnFinishPlayerWait()
 {
 	//TODO:初期位置に戻るので色々リセット
 	model->Clear();
-	moveTarget = MOVETARGET_DEFAULT;
+	moveTarget = 5;
+	player->EnableCollider(false);
 
 	//Return状態へ遷移し初期位置へ
 	ChangeStatePlayer(PlayerState::Return);
@@ -281,6 +295,8 @@ void PlayerObserver::OnFinishPlayerReturn()
 ***************************************/
 void PlayerObserver::OnStartBomberSequence()
 {
+	//ボンバーSE
+	Sound::GetInstance()->SetPlaySE(BOMB, true, (Sound::GetInstance()->changevol / 5.0f));
 	enableUpdateLogic = false;
 	player->ChangeAnim(PlayerAnimID::FireBomber);
 	player->ChargeBomber();
@@ -379,6 +395,7 @@ void PlayerObserver::TryStockBomber()
 
 	//エフェクト再生
 	player->StockBomber();
+
 }
 
 /**************************************
@@ -387,4 +404,28 @@ PlayerTransform取得処理
 const Transform& PlayerObserver::GetPlayerTransform() const
 {
 	return player->transform;
+}
+
+/**************************************
+HP取得処理
+***************************************/
+float PlayerObserver::GetHpPercent()
+{
+	return player->GetHp() / Player::MaxHp;
+}
+
+/**************************************
+生存判定
+***************************************/
+bool PlayerObserver::IsAlive()
+{
+	return player->IsAlive();
+}
+
+/**************************************
+ボンバーストック数取得
+***************************************/
+int PlayerObserver::GetBomberStockNum()
+{
+	return bomberController->GetStockNum();
 }

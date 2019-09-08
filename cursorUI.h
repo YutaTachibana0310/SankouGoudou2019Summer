@@ -11,7 +11,6 @@
 ‘O•ûéŒ¾
 ***************************************/
 class RotateObject;
-class GameSceneUIManager;
 
 //*****************************************************************************
 // \‘¢‘Ì’è‹`
@@ -29,8 +28,8 @@ public:
 	bool IsCursorOvered(D3DXVECTOR3 pos, D3DXVECTOR3 size);
 
 private:
-	RotateObject * cursor;
-	GameSceneUIManager *gameSceneUIManager;
+	RotateObject * innerCircle;
+	RotateObject * outerCircle;
 };
 
 #endif

@@ -12,9 +12,13 @@
 #include "GameParticleManager.h"
 #include "Framework\BoxCollider3D.h"
 
-#include "starUI.h"
+#include "starButtonUI.h"
 #include "debugWindow.h"
+#include "sound.h"
+
 #include "PostEffect\SpikeNoiseController.h"
+#include "ScoreManager.h"
+#include "Framework\CameraShakePlugin.h"
 
 using namespace std;
 
@@ -32,6 +36,7 @@ using namespace std;
 /**************************************
 グローバル変数
 ***************************************/
+const float Player::MaxHp = 100.0f;
 
 /**************************************
 プロトタイプ宣言
@@ -40,7 +45,8 @@ using namespace std;
 /**************************************
 コンストラクタ
 ***************************************/
-Player::Player()
+Player::Player() :
+	hp(MaxHp)
 {
 	//アニメーション初期化
 	animation = new AnimContainer();
@@ -124,11 +130,14 @@ int Player::Update()
 		stateResult = state->OnUpdate(this);
 
 	//無敵時間の更新
-	if (!flgInvincible)
+	if (flgInvincible)
 	{
 		cntInvincible--;
 		if (cntInvincible == 0)
+		{
+			flgInvincible = false;
 			collider->active = true;
+		}
 	}
 
 	//ボンバーストックエフェクトの更新
@@ -189,13 +198,24 @@ void Player::OnNotified(ObserveSubject* notifier)
 	if (flgInvincible)
 		return;
 
+	Sound::GetInstance()->SetPlaySE(PLAYERDAMAGE, true, (Sound::GetInstance()->changevol / 10.0f));
 	SpikeNoiseController::Instance()->SetNoise(0.5f, 20);
-	hp -= PLAYER_DAMAGE;
 
 	//無敵時間開始
 	cntInvincible = PLAYER_INVINCIBLE_DURATION;
 	collider->active = false;
 	flgInvincible = true;
+
+	//HPをへらす
+	hp -= DamageValue;
+
+	//コンボリセット
+	ClearCombo();
+
+	//カメラ揺らす
+	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(50.0f, 50.0f, 50.0f);
+	const int ShakeDuration = 120;
+	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
 }
 
 /*****************************************
@@ -237,11 +257,47 @@ void Player::OnNotified(BoxCollider3DTag other)
 	if (flgInvincible)
 		return;
 
+	Sound::GetInstance()->SetPlaySE(PLAYERDAMAGE, true, (Sound::GetInstance()->changevol / 10.0f));
 	SpikeNoiseController::Instance()->SetNoise(0.5f, 20);
-	hp -= PLAYER_DAMAGE;
 
 	//無敵時間開始
 	cntInvincible = PLAYER_INVINCIBLE_DURATION;
 	collider->active = false;
 	flgInvincible = true;
+
+	//HPをへらす
+	hp -= DamageValue;
+
+	//コンボリセット
+	ClearCombo();
+
+	//カメラ揺らす
+	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(50.0f, 50.0f, 50.0f);
+	const int ShakeDuration = 120;
+	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
 }
+
+/*****************************************
+当たり判定切り替え
+******************************************/
+void Player::EnableCollider(bool state)
+{
+	collider->active = state;
+}
+
+/*****************************************
+生存判定
+******************************************/
+bool Player::IsAlive()
+{
+	return hp > 0.0f;
+}
+
+/*****************************************
+HP取得処理
+******************************************/
+float Player::GetHp()
+{
+	return hp;
+}
+

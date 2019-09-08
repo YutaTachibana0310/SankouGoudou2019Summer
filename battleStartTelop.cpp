@@ -14,9 +14,14 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define SIZE_BATTLE_START_TELOP				(D3DXVECTOR3(SCREEN_WIDTH/4,50.0f,0.0f))
-#define INIT_POSITION_BATTLE_START_TELOP	(D3DXVECTOR3(SCREEN_WIDTH*1.5,SCREEN_HEIGHT/10*8,0.0f))
+#define SIZE_BATTLE_START_TELOP				(D3DXVECTOR3(SCREEN_WIDTH/4,75.0f,0.0f))
+#define INIT_POSITION_BATTLE_START_TELOP	(D3DXVECTOR3(SCREEN_WIDTH*1.5, SCREEN_CENTER_Y,0.0f))
 #define ANIMATION_MAX (5)
+
+//*****************************************************************************
+// グローバル変数
+//*****************************************************************************
+static int currentAnimation = 0;
 
 static const float EasingStartPositionX[ANIMATION_MAX] = {
 	SCREEN_WIDTH*1.5,
@@ -35,11 +40,11 @@ static const float EasingEndPositionX[ANIMATION_MAX] = {
 };
 
 static const EaseType AnimationType[ANIMATION_MAX] = {
-	OutExpo,
-	OutExpo,
 	InOutCubic,
-	InExpo,
-	InExpo
+	InOutCubic,
+	InOutCubic,
+	InOutCubic,
+	InOutCubic
 };
 
 static const float AnimationDuration[ANIMATION_MAX] = {
@@ -51,18 +56,13 @@ static const float AnimationDuration[ANIMATION_MAX] = {
 };
 
 //*****************************************************************************
-// グローバル変数
-//*****************************************************************************
-static int currentAnimation = 0;
-
-//*****************************************************************************
 // コンストラクタ
 //*****************************************************************************
 BattleStartTelop::BattleStartTelop()
 {
 	battleStartTelop = new TelopObject();
 
-	battleStartTelop->LoadTexture("data/TEXTURE/UI/telop/battleStartTelop.png");
+	battleStartTelop->LoadTexture("data/TEXTURE/UI/Telop/battleStartTelop.png");
 	battleStartTelop->MakeVertex();
 
 	battleStartTelop->position = INIT_POSITION_BATTLE_START_TELOP;
@@ -77,15 +77,14 @@ BattleStartTelop::BattleStartTelop()
 //*****************************************************************************
 BattleStartTelop::~BattleStartTelop()
 {
-	delete battleStartTelop;
-	battleStartTelop = NULL;
+	SAFE_DELETE(battleStartTelop);
 }
 
 //=============================================================================
 // 更新処理
 //=============================================================================
 void BattleStartTelop::Update()
-{	
+{
 	if (isBattleStartTelopActivated)
 	{
 		if (currentAnimation == WAIT_BG_OPEN && telopBG->GetTelopBGOpenActive() == false)

@@ -6,6 +6,7 @@
 //=====================================
 #include "PlayerReturn.h"
 #include "Framework/Easing.h"
+#include "ScoreManager.h"
 
 /**************************************
 ƒ}ƒNƒ’è‹`
@@ -47,6 +48,8 @@ void PlayerReturn::OnStart(Player * entity)
 	entity->cntFrame = 0;
 	entity->initpos = entity->transform.pos;
 	entity->goalpos = D3DXVECTOR3(0.0f, -20.0f, 0.0f);
+	entity->EnableCollider(false);
+	ClearCombo();
 };
 
 /*************************************

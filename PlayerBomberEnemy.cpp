@@ -58,5 +58,5 @@ void PlayerBomberEnemy::Set(std::shared_ptr<Enemy>& target, D3DXVECTOR3 initPos)
 
 	this->target = target;
 	transform.pos = initPos;
-	cntFrame = reachFrame = reachFrame;
+	cntFrame = reachFrame = ReachFrame;
 }

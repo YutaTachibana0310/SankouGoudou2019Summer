@@ -68,6 +68,10 @@ public:
 
 	PlayerModel *model;
 	bool enableUpdateLogic;
+	float GetHpPercent();
+	bool IsAlive();
+
+	int GetBomberStockNum();
 
 private:
 	Player *player;

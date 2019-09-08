@@ -18,10 +18,15 @@
 #include "EnemyBulletController.h"
 
 #include "Framework\ResourceManager.h"
+#include "Framework\CameraShakePlugin.h"
 #include "GameParticleManager.h"
+
+#include "sound.h"
+#include "ScoreManager.h"
 
 #include <random>
 #include <algorithm>
+
 
 using namespace std;
 /**************************************
@@ -35,7 +40,8 @@ BossEnemyModel::BossEnemyModel(const Transform& player, BossUImanager& uiManager
 	player(player),
 	isDestroyed(false),
 	uiManager(uiManager),
-	flgBomberHit(false)
+	flgBomberHit(false),
+	cntLoop(0)
 {
 	actor = new BossEnemyActor();
 	bulletController = new EnemyBulletController();
@@ -182,8 +188,12 @@ void BossEnemyModel::SetRebar(int num)
 ***************************************/
 void BossEnemyModel::ThrowRebar()
 {
+	//投擲SE
+	Sound::GetInstance()->SetPlaySE(REBAR, true, (Sound::GetInstance()->changevol / 5.0f));
+
 	const int DelayDelta = 20;
 	int delay = 0;
+
 	for (auto&& rebar : rebarList)
 	{
 		rebar->Move(2500.0f, 180, EaseType::InSine, delay);
@@ -225,6 +235,8 @@ void BossEnemyModel::NotifyBullet()
 **************************************/
 void BossEnemyModel::FireBullet()
 {
+	//バレット発射SE
+	Sound::GetInstance()->SetPlaySE(BOSSSHOT, true, (Sound::GetInstance()->changevol / 5.0f));
 	static std::vector<D3DXVECTOR3> Emitter = { D3DXVECTOR3(0.0f, 0.0f, 500.0f),  D3DXVECTOR3(0.0f, 0.0f, 500.0f), D3DXVECTOR3(0.0f, 0.0f, 500.0f) };
 
 	for (auto&& model : bulletReserve)
@@ -243,7 +255,6 @@ void BossEnemyModel::SetCollider()
 	vector<int> edgeList;
 
 	MakeOneStrokeEdge(EdgeMax[level], edgeList);
-
 	colliderController->SetCollider(edgeList);
 }
 
@@ -253,6 +264,13 @@ void BossEnemyModel::SetCollider()
 void BossEnemyModel::OnDamage()
 {
 	actor->ChangeAnimation(BossEnemyActor::AnimID::Damage);
+	//ダメージSE
+	Sound::GetInstance()->SetPlaySE(ENEMYDOWN2, true, (Sound::GetInstance()->changevol / 10.0f));
+
+	//スコア・コンボ加算
+	const int HitScorePoint = 10;
+	SetAddCombo(1);
+	SetAddScore(HitScorePoint);
 }
 
 /**************************************
@@ -263,6 +281,13 @@ void BossEnemyModel::Explode()
 	actor->SetActive(false);
 	D3DXVECTOR3 actorPos = actor->GetActorPosition();
 	GameParticleManager::Instance()->SetBossExplosion(&actorPos);
+
+	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(100.0f, 100.0f, 100.0f);
+	const int ShakeDuraiton = 360;
+	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuraiton);
+
+	const int BaseScorePoint = 500;
+	SetAddScore(BaseScorePoint);
 }
 
 /**************************************
@@ -270,6 +295,9 @@ void BossEnemyModel::Explode()
 **************************************/
 void BossEnemyModel::ChargeExplode(Transform*& charge, Transform*& core)
 {
+	//ボス撃破SE
+	Sound::GetInstance()->SetPlaySE(BOSSEXPLODE, true, (Sound::GetInstance()->changevol / 2.0f));
+
 	D3DXVECTOR3 actorPos = actor->GetActorPosition();
 	BaseEmitter* emitter = GameParticleManager::Instance()->SetBossExplosionCharge(&actorPos);
 	charge = &emitter->transform;
@@ -294,6 +322,7 @@ bool BossEnemyModel::IsDesteoyed()
 void BossEnemyModel::OnHitBomber()
 {
 	flgBomberHit = true;
+	colliderController->DeleteAll();
 }
 
 /**************************************
@@ -317,9 +346,6 @@ void BossEnemyModel::GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out
 **************************************/
 void BossEnemyModel::MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList)
 {
-	int prevStart = 5;
-	int prevEnd = RandomRange(0, 5);
-
 	edgeList.clear();
 	edgeList.reserve(edgeNum);
 
@@ -330,6 +356,6 @@ void BossEnemyModel::MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList)
 
 	for (int i = 0; i < edgeNum; i++)
 	{
-		edgeList.push_back(numberList[Clamp(0, numberList.size(), i)]);
+		edgeList.push_back(numberList[WrapAround(0, numberList.size(), i)]);
 	}
 }

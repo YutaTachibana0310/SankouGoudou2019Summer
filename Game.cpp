@@ -59,7 +59,7 @@ static IStateScene* fsm[SceneMax];
 static SoundStateScene* ssm[SceneMax];
 
 //現在のシーン
-static Scene currentScene = Scene::SceneTutorial;
+static Scene currentScene = Scene::SceneTitle;
 
 /**************************************
 初期化処理
@@ -87,6 +87,9 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 	ssm[SceneTitle] = new SoundTitleScene();
 	ssm[SceneGame] = new SoundGameScene();
 	ssm[SceneResult] = new SoundResultScene();
+
+	//マウスカーソルを非表示に
+	for (INT cursorView = ShowCursor(false); cursorView >= 0; cursorView = ShowCursor(false)) {}
 
 	RegisterDebugTimer("Main");
 

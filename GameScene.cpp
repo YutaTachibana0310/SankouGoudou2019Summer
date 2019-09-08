@@ -26,6 +26,8 @@
 #include "PostEffect\SpeedBlurController.h"
 #include "BossController.h"
 #include "BossUIManager.h"
+#include "PostEffect\MonotoneFilter.h"
+#include "GameOver.h"
 
 #include "GameStart.h"
 #include "GameBattle.h"
@@ -34,9 +36,12 @@
 #include "GameBossBattle.h"
 #include "GameBossStart.h"
 #include "GameBossBombSequence.h"
+#include "GameFailed.h"
 
 #include "RebarOb.h"
 #include <functional>
+
+#include "SoundGameScene.h"
 
 using namespace std;
 
@@ -44,7 +49,7 @@ using namespace std;
 マクロ定義
 ***************************************/
 #define GAMESCENE_LABEL			("GameScene")
-#define COMBOEFFECT_PERIOD		(10)			//このコンボおきに演出が発生する
+#define COMBOEFFECT_PERIOD		(25)			//このコンボおきに演出が発生する
 
 /**************************************
 構造体定義
@@ -67,6 +72,7 @@ void GameScene::Init()
 	fsm[State::BossBattle] = new GameBossBattle();
 	fsm[State::BossStart] = new GameBossStart();
 	fsm[State::BossBombSequence] = new GameBossBombSequence();
+	fsm[State::Failed] = new GameFailed();
 
 	//暗転用ポリゴン作成
 	darkMask = new Polygon2D();
@@ -91,6 +97,7 @@ void GameScene::Init()
 	bgController = new BackGroundController();
 	bossUI = new BossUImanager();
 	bossController = new BossController(playerObserver->GetPlayerTransform(), *bossUI);
+	gameover = new GameOver();
 
 	SetPlayerObserverAdr(playerObserver);
 
@@ -118,6 +125,7 @@ void GameScene::Init()
 	currentState = State::Start;
 	state = fsm[currentState];
 	state->OnStart(this);
+	SoundGameScene::SetScene(currentState);
 
 	//コールバック設定
 	currentCombo = 0;
@@ -135,6 +143,10 @@ void GameScene::Init()
 
 	//インプットコントローラにUImanagerのインスタンスを渡す
 	SetInstanceUIManager(gameSceneUIManager);
+
+	//スコア初期化
+	SetCurrentGameScore(0);
+	SetCurrentCombo(0);
 }
 
 /**************************************
@@ -175,6 +187,7 @@ void GameScene::Uninit()
 		SAFE_DELETE(pair.second);
 	}
 	fsm.clear();
+
 }
 
 /**************************************
@@ -182,17 +195,18 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
-	//サウンド再生(テスト）
-	InputSound();
 
 	//ステート更新処理
 	int result = state->OnUpdate(this);
 
 	if (result != currentState)
 		ChangeState(result);
+	SoundGameScene::SetScene(result);
 
 	//UIの更新
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
+	gameSceneUIManager->SetHPGuage(playerObserver->GetHpPercent());
+	gameSceneUIManager->SetBomberStock(playerObserver->GetBomberStockNum());
 	gameSceneUIManager->Update(hWnd);
 	bossUI->Update();
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
@@ -208,7 +222,6 @@ void GameScene::Update(HWND hWnd)
 ***************************************/
 void GameScene::Draw()
 {
-
 	//背景の描画
 	CountDebugTimer(GAMESCENE_LABEL, "DrawBG");
 	//DrawBackGroundRoad();
@@ -253,6 +266,13 @@ void GameScene::Draw()
 	gameSceneUIManager->Draw();
 	bossUI->Draw();
 
+	//ゲームオーバー時のモノトーンフィルタ描画
+	if (!playerObserver->IsAlive())
+	{
+		MonotoneFilter::Instance()->Draw();
+		gameover->Draw();
+	}
+
 	DrawDebugTimer(GAMESCENE_LABEL);
 }
 
@@ -268,6 +288,8 @@ void GameScene::ChangeState(int next)
 	currentState = (State)next;
 	state = fsm[currentState];
 	state->OnStart(this);
+	SoundGameScene::SetScene(currentState);
+
 }
 
 /**************************************
@@ -316,7 +338,7 @@ void GameScene::DrawWhole()
 void GameScene::OnAddCombo(int n)
 {
 	static const float AddPower = 10.0f;
-	static const float AddSpeed = -100.0f;
+	static const float AddSpeed = -50.0f;
 
 	currentCombo += n;
 

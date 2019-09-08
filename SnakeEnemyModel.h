@@ -32,10 +32,10 @@ public:
 private:
 	std::vector<TrailCollider*> colliderList;
 	std::vector<D3DXVECTOR3> moveTargetList;
-	std::vector<int> timeList;
-	std::map<TrailCollider*, std::list<std::weak_ptr<Enemy>>> colliderMap;
+	std::vector<float> timeList;
+	std::map<UINT, std::list<std::weak_ptr<Enemy>>> colliderMap;
 
-	void SwapInColliderMap(TrailCollider* current, TrailCollider *next, std::shared_ptr<Enemy> enemy);
+	void SwapInColliderMap(TrailCollider *current, TrailCollider *next, std::shared_ptr<Enemy> enemy);
 };
 
 #endif

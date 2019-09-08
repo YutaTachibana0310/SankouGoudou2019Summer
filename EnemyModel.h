@@ -52,6 +52,7 @@ public:
 	virtual void OnNotified(ObserveSubject *notifier);
 	virtual void GetEnemy(std::list<std::shared_ptr<Enemy>>& out);
 	virtual void CheckDestroied();
+	virtual void GetShotPos(std::vector<D3DXVECTOR3>& out);
 
 	int cntFrame;
 	bool active;
@@ -63,8 +64,12 @@ public:
 	//五角形の外周を構成するLineModel
 	static const std::vector<LineTrailModel> OuterLineModel;
 
+	//加算されるスコアの素点
+	static const int BaseScorePoint;
+
 protected:
 	D3DXVECTOR3 pos;
+	const D3DXVECTOR3 ShotPosOffset = D3DXVECTOR3(0.0f, 0.0f, -50.0f);
 
 };
 

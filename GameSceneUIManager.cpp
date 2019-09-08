@@ -8,14 +8,14 @@
 #include "input.h"
 #include "guageUI.h"
 #include "scoreUI.h"
-#include "starUI.h"
+#include "starButtonUI.h"
 #include "comboUI.h"
-#include "lineUI.h"
 #include "trailUI.h"
 #include "cursorUI.h"
 #include "battleStartTelop.h"
 #include "stageClearTelop.h"
 #include "telopBG.h"
+#include "bomberStockUI.h"
 #include "GameSceneUIManager.h"
 
 //*****************************************************************************
@@ -33,8 +33,7 @@
 //*****************************************************************************
 GameSceneUIManager::GameSceneUIManager()
 {
-	line = new Line();
-	star = new Star();
+	starButton = new StarButton();
 	cursor = new Cursor();
 	combo = new Combo();
 	guage = new Guage();
@@ -43,6 +42,7 @@ GameSceneUIManager::GameSceneUIManager()
 	battleStartTelop = new BattleStartTelop();
 	stageClearTelop = new StageClearTelop();
 	telopBG = new TelopBG();
+	bomberStock = new BomberStock();
 }
 
 //*****************************************************************************
@@ -50,35 +50,16 @@ GameSceneUIManager::GameSceneUIManager()
 //*****************************************************************************
 GameSceneUIManager::~GameSceneUIManager()
 {
-	delete combo;
-	combo = NULL;
-
-	delete cursor;
-	cursor = NULL;
-
-	delete guage;
-	guage = NULL;
-
-	delete line;
-	line = NULL;
-
-	delete score;
-	score = NULL;
-
-	delete star;
-	star = NULL;
-
-	delete trail;
-	trail = NULL;
-
-	delete battleStartTelop;
-	battleStartTelop = NULL;
-
-	delete stageClearTelop;
-	stageClearTelop = NULL;
-
-	delete telopBG;
-	telopBG = NULL;
+	SAFE_DELETE(combo);
+	SAFE_DELETE(cursor);
+	SAFE_DELETE(guage);
+	SAFE_DELETE(score);
+	SAFE_DELETE(starButton);
+	SAFE_DELETE(trail);
+	SAFE_DELETE(battleStartTelop);
+	SAFE_DELETE(stageClearTelop);
+	SAFE_DELETE(telopBG);
+	SAFE_DELETE(bomberStock);
 }
 
 //=============================================================================
@@ -93,7 +74,6 @@ void GameSceneUIManager::Init()
 //=============================================================================
 void GameSceneUIManager::Uninit()
 {
-
 }
 
 
@@ -104,39 +84,48 @@ void GameSceneUIManager::Update(HWND hWnd)
 {
 	combo->Update();
 	cursor->Update(hWnd);
-	guage->Update();
-	line->Update();
 	score->Update();
-	star->Update(hWnd);
+	starButton->Update(hWnd);
 	trail->Update();
 	battleStartTelop->Update();
 	stageClearTelop->Update();
 	telopBG->Update();
+	bomberStock->Update();
 
 #ifdef _DEBUG
 	// デバッグ用コマンド
 	if (GetKeyboardTrigger(DIK_1))
 	{
+		AddCombo(1);
 	}
 	if (GetKeyboardTrigger(DIK_2))
 	{
+		AddScore(1);
 	}
 	if (GetKeyboardTrigger(DIK_3))
 	{
+		SetStageClearTelop();
 	}
 	if (GetKeyboardTrigger(DIK_4))
 	{
+		SetBattleStartTelop();
 	}
 	if (GetKeyboardTrigger(DIK_5))
 	{
+		SetHPGuage(0.5f);
 	}
 	if (GetKeyboardTrigger(DIK_6))
 	{
+		SetBomberStock(3);
 	}
+
 	if (GetKeyboardTrigger(DIK_7))
 	{
+		SetBomberStock(4);
 	}
 #endif
+
+	guage->Update();
 
 	UpdateCursorColor();
 }
@@ -154,13 +143,13 @@ void GameSceneUIManager::Draw(void)
 
 	combo->Draw();
 	guage->Draw();
-	line->Draw();
 	score->Draw();
-	star->Draw();
+	starButton->Draw();
 	trail->Draw();
+	bomberStock->Draw();
+	telopBG->Draw();
 	battleStartTelop->Draw();
 	stageClearTelop->Draw();
-	telopBG->Draw();
 
 	cursor->Draw();
 
@@ -173,23 +162,23 @@ void GameSceneUIManager::Draw(void)
 //=============================================================================
 bool GameSceneUIManager::IsStarCursorOvered()
 {
-	std::vector<D3DXVECTOR3> starPos;
-	GetStarPosition(starPos);
+	std::vector<D3DXVECTOR3> starButtonPos;
+	GetStarPosition(starButtonPos);
 
 	// どのスターとも当たってなかったらfalse,それ以外はtrue
-	if (cursor->IsCursorOvered(starPos[0], COLLIDERSIZE_STAR))
+	if (cursor->IsCursorOvered(starButtonPos[0], COLLIDERSIZE_STAR))
 		return true;
 
-	if (cursor->IsCursorOvered(starPos[1], COLLIDERSIZE_STAR))
+	if (cursor->IsCursorOvered(starButtonPos[1], COLLIDERSIZE_STAR))
 		return true;
 
-	if (cursor->IsCursorOvered(starPos[2], COLLIDERSIZE_STAR))
+	if (cursor->IsCursorOvered(starButtonPos[2], COLLIDERSIZE_STAR))
 		return true;
 
-	if (cursor->IsCursorOvered(starPos[3], COLLIDERSIZE_STAR))
+	if (cursor->IsCursorOvered(starButtonPos[3], COLLIDERSIZE_STAR))
 		return true;
 
-	if (cursor->IsCursorOvered(starPos[4], COLLIDERSIZE_STAR))
+	if (cursor->IsCursorOvered(starButtonPos[4], COLLIDERSIZE_STAR))
 		return true;
 
 	return false;
@@ -264,14 +253,6 @@ void  GameSceneUIManager::SetScore(int num)
 }
 
 //=============================================================================
-// HPの加算（引数で受け取った値をHOに加算する）
-//=============================================================================
-void  GameSceneUIManager::AddHp(float value)
-{
-	guage->trueGuagePercentage += (value /= guage->maxHp);
-}
-
-//=============================================================================
 // ステージクリアテロップセット処理
 //=============================================================================
 void  GameSceneUIManager::SetStageClearTelop(void)
@@ -292,15 +273,7 @@ void  GameSceneUIManager::SetBattleStartTelop(void)
 //=============================================================================
 void  GameSceneUIManager::GetStarPosition(std::vector<D3DXVECTOR3>& out)
 {
-	star->GetStarPosition(out);
-}
-
-//=============================================================================
-// スター座標セット処理
-//=============================================================================
-void  GameSceneUIManager::SetStarPosition(D3DXVECTOR3* pos)
-{
-	//pos = star->GetStarPosition();
+	starButton->GetStarButtonPosition(out);
 }
 
 //=============================================================================
@@ -308,14 +281,37 @@ void  GameSceneUIManager::SetStarPosition(D3DXVECTOR3* pos)
 //=============================================================================
 int GameSceneUIManager::IsStarSelected()
 {
-	std::vector<D3DXVECTOR3> starPos;
-	GetStarPosition(starPos);
+	std::vector<D3DXVECTOR3> starButtonPos;
+	GetStarPosition(starButtonPos);
 
 	for (int i = 0; i < 5; i++)
 	{
-		if (cursor->IsCursorOvered(starPos[i], COLLIDERSIZE_STAR))
+		if (cursor->IsCursorOvered(starButtonPos[i], COLLIDERSIZE_STAR))
 			return i;
 	}
 
 	return 5;
+}
+
+//=============================================================================
+// HPゲージセット処理(引数で与えられた割合(0.0f～1.0f)にゲージをセットする)
+//=============================================================================
+void GameSceneUIManager::SetHPGuage(float percentage)
+{
+	guage->trueGuagePercentage = percentage;
+}
+
+//=============================================================================
+// ボムストックセット処理(引数で与えられた数分ボンバーストックをセットする)
+//=============================================================================
+void GameSceneUIManager::SetBomberStock(int stockedBomNum)
+{
+	//*注意：今は仮でmax3にしてます。
+	if (stockedBomNum > MAX_STOCKED_BOM_NUM)
+	{
+		//メモリ破壊対策
+		return;
+	}
+
+	bomberStock->stockedBomNum = stockedBomNum;
 }

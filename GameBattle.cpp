@@ -12,6 +12,7 @@
 #include "Framework\BoxCollider3D.h"
 #include "sound.h"
 
+
 /**************************************
 マクロ定義
 ***************************************/
@@ -23,7 +24,7 @@
 void GameScene::GameBattle::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
-	Sound::GetInstance()->playsound = true;
+	//Sound::GetInstance()->playsound = true;
 }
 
 /**************************************
@@ -55,6 +56,12 @@ int GameScene::GameBattle::OnUpdate(GameScene *entity)
 	//終了判定
 	if (entity->enemyController->IsFinishedEnemy())
 		result = GameScene::State::BossStart;
+
+	//ゲームオーバー判定
+	if (!entity->playerObserver->IsAlive())
+	{
+		result = GameScene::State::Failed;
+	}
 
 	return result;
 	

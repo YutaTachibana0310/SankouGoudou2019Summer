@@ -9,7 +9,8 @@
 #include "Game.h"
 #include "InputController.h"
 #include "TitleSceneUIManager.h"
-
+#include "sound.h"
+#include "InputController.h"
 
 /**************************************
 ƒ}ƒNƒ’è‹`
@@ -28,9 +29,11 @@
 ***************************************/
 void TitleScene::Init()
 {
+
 	titleSceneUIManager = new TitleSceneUIManager();
 
 	titleSceneUIManager->Init();
+
 }
 
 /**************************************
@@ -48,6 +51,11 @@ void TitleScene::Uninit()
 void TitleScene::Update(HWND hWnd)
 {
 	titleSceneUIManager->Update(hWnd);
+
+	if (IsAnyKeyTriggered() || IsAnyButtonTriggerd())
+	{
+		SceneChangeFlag(true, Scene::SceneGame);
+	}
 }
 
 /**************************************

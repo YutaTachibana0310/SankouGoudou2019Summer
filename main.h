@@ -48,7 +48,7 @@
 #define SCREEN_WIDTH	(1800)
 #define SCREEN_HEIGHT	(1000)
 
-//WQHD—p
+////WQHD—p
 //#define SCREEN_WIDTH	(1500)
 //#define SCREEN_HEIGHT	(900)
 

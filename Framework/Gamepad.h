@@ -51,4 +51,7 @@ float GetStickAxisY(int padNo);
 int GetPadAxisXTriggered(int padNo);
 int GetPadAxisYTriggered(int padNo);
 
+float GetAxisX(int padNo);
+float GetAxisY(int padNo);
+
 #endif

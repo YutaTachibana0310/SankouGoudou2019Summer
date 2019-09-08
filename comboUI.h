@@ -13,6 +13,7 @@
 class Object;
 class CounterObject;
 class RotateObject;
+class Viewer3D;
 
 //*****************************************************************************
 // ç\ë¢ëÃíËã`
@@ -24,8 +25,8 @@ public:
 	~Combo();
 
 	CounterObject * number;
-	Object * text;
 	RotateObject * bg;
+	Viewer3D *viewer;
 
 	void Update(void);
 	void Draw(void);

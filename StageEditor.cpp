@@ -162,11 +162,7 @@ void StageEditor::Draw()
 		//•`‰æ‚µ‚Ä“ü—Í‚ðŒŸo
 		bool selected = (*itr)->Draw();
 		if (selected)
-			selectedData = itr;
-
-		//“ü—Í‚ðŒŸo‚µ‚½‚ç‘I‘ðó‘Ô‚É
-		if ((*itr)->id == selectedID)
-			selectedData = itr;
+			selectedData = itr;;
 	}
 	ImGui::EndChild();
 

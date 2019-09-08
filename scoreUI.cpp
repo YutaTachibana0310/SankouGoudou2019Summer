@@ -4,9 +4,10 @@
 // Author : Yu Oohama (bnban987@gmail.com)
 //
 //=============================================================================
-#include "scoreUI.h"
 #include "UIdrawer.h"
+#include "Viewer3D.h"
 #include "input.h"
+#include "scoreUI.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -18,15 +19,28 @@
 //*****************************************************************************
 Score::Score()
 {
+	//カウンター
 	counter = new CounterObject();
-	counter->LoadTexture("data/TEXTURE/UI/number.png");
+	counter->LoadTexture("data/TEXTURE/UI/Score/number_L.png");
 	counter->MakeVertex();
-
-	counter->position = POSITION_SCORE;
+	counter->position = POSITION_NUMBER_SCORE/2;
 	counter->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	counter->size = SIZE_SCORE;
-
+	counter->size = SIZE_NUMBER_SCORE/2;
 	counter->SetColorObject(SET_COLOR_NOT_COLORED);
+
+	//背景
+	bg = new CounterObject();
+	bg->LoadTexture("data/TEXTURE/UI/Score/scoreBG.png");
+	bg->MakeVertex();
+	bg->position = POSITION_BG_SCORE/2;
+	bg->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	bg->size = SIZE_BG_SCORE/2;
+	bg->SetColorObject(SET_COLOR_NOT_COLORED);
+
+	//ビュアー
+	viewer = new Viewer3D(SIZE_BG_SCORE.x, SIZE_BG_SCORE.y, D3DXVECTOR2(20.0f, 15.0f));
+	viewer->SetPosition(D3DXVECTOR3((float)-SCREEN_WIDTH/14.5f, (float)SCREEN_HEIGHT/40.0f, 0.0f));
+	viewer->SetRotation(0.0f, -30.0f, 0.0f);
 
 	// 最大値設定
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
@@ -44,8 +58,9 @@ Score::Score()
 //*****************************************************************************
 Score::~Score()
 {
-	delete counter;
-	counter = NULL;
+	SAFE_DELETE(counter);
+	SAFE_DELETE(bg);
+	SAFE_DELETE(viewer);
 }
 
 //=============================================================================
@@ -71,6 +86,11 @@ void Score::Update(void)
 //=============================================================================
 void Score::Draw(void)
 {
+	viewer->Begin2D();
+
+	bg->Draw();
+	bg->SetVertex();
+
 	for (int nCntPlace = 0; nCntPlace < PLACE_MAX; nCntPlace++)
 	{
 		int scoreber;
@@ -80,7 +100,10 @@ void Score::Draw(void)
 		counter->Draw();
 		counter->SetVertex(nCntPlace, INTERVAL_NUMBER);
 		counter->SetTexture(scoreber, INTERVAL_NUMBER_TEXTURE);
-	}	
+	}
+
+	viewer->End2D();
+	viewer->Draw3D();
 }
 
 //=============================================================================
@@ -90,7 +113,7 @@ void Score::VolumeUpEffect(void)
 {
 	if (volumeUpEffectUsed == true)
 	{
-		counter->size.y = SIZE_SCORE.y + VOLUME_ZOOM * sinf(radian);
+		counter->size.y = SIZE_NUMBER_SCORE.y/2 + VOLUME_ZOOM * sinf(radian);
 
 		if (radian >= D3DX_PI)
 		{

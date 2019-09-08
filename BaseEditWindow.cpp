@@ -8,6 +8,7 @@
 #include "debugWindow.h"
 #include "ChangeEditWindow.h"
 #include "SnakeEditWindow.h"
+#include "MidiumEditWindow.h"
 
 #include <algorithm>
 
@@ -133,4 +134,5 @@ void BaseEditWindow::CreateEditWindow()
 	dataWindow["Change"] = new ChangeEditWindow();
 	dataWindow["Straight"] = new ChangeEditWindow();
 	dataWindow["Snake"] = new SnakeEditWindow();
+	dataWindow["Midium"] = new MidiumEditWindow();
 }

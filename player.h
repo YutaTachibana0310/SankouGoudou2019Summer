@@ -40,7 +40,6 @@ public:
 
 	Transform transform;
 	TrailCollider *collider;
-	float hp;
 
 	bool active;
 	int	cntFrame;
@@ -68,11 +67,19 @@ public:
 	void StockBomber();
 	void OnNotified(BoxCollider3DTag other) override;
 
+	void EnableCollider(bool state);
+	bool IsAlive();
+	float GetHp();
+
+	static const float MaxHp;
+
 private:
 	AnimContainer* animation;
 	BomberStockEffect* stockEffect;
 	BoxCollider3D *boxCollider;
+	float hp;
 
+	const float DamageValue = MaxHp / 4.0f;
 };
 
 #endif

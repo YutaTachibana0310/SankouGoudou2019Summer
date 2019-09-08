@@ -9,6 +9,9 @@
 #include "ScoreManager.h"
 #include "Framework\BaseEmitter.h"
 #include <algorithm>
+#include "sound.h"
+#include "camera.h"
+#include "Framework\CameraShakePlugin.h"
 
 using namespace std;
 
@@ -28,6 +31,8 @@ const vector<LineTrailModel> EnemyModel::OuterLineModel = {
 	LineTrailModel(4, 0)
 };
 
+//加算スコアの素点
+const int EnemyModel::BaseScorePoint = 50;
 
 /**************************************
 コンストラクタ
@@ -79,6 +84,10 @@ void EnemyModel::Uninit()
 {
 	collider->active = false;
 	active = false;
+
+	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(0.75f, 0.75f, 0.0f);
+	const int ShakeDuration = 120;
+	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
 }
 
 /**************************************
@@ -129,8 +138,11 @@ void EnemyModel::CheckDestroied()
 		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
 
 		//スコア・コンボ加算
-		SetAddScore(100);
 		SetAddCombo(1);
+		SetAddScore(BaseScorePoint);
+
+		//消滅SE
+		Sound::GetInstance()->SetPlaySE(ENEMYDOWN1, true, (Sound::GetInstance()->changevol / 100.0f));
 
 		enemy.reset();
 	}
@@ -151,10 +163,32 @@ void EnemyModel::CheckDestroied()
 /**************************************
 エネミー座標取得処理
 ***************************************/
+void EnemyModel::GetShotPos(std::vector<D3DXVECTOR3>& out)
+{
+	for (auto&& enemy : enemyList)
+	{
+		out.push_back(enemy->m_Pos + ShotPosOffset);
+	}
+}
+
+/**************************************
+エネミー座標取得処理
+***************************************/
 void EnemyModel::GetEnemy(list<shared_ptr<Enemy>>& out)
 {
 	for (auto& enemy : enemyList)
 	{
+		//エネミーのワールド座標をスクリーン座標へ変換
+		D3DXVECTOR3 screenPos;
+		Camera::Instance()->Projection(screenPos, enemy->m_Pos);
+
+		//スクリーン外にいたら追加しない
+		if (screenPos.x < 0.0f || screenPos.x > SCREEN_WIDTH * 1.0f)
+			continue;
+
+		if (screenPos.y < 0.0f || screenPos.z > SCREEN_HEIGHT * 1.0f)
+			continue;
+
 		out.push_back(enemy);
 	}
 }

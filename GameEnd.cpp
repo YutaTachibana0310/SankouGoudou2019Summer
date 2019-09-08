@@ -6,6 +6,7 @@
 //=====================================
 #include "GameEnd.h"
 #include "masktex.h"
+#include "GameSceneUIManager.h"
 
 /**************************************
 マクロ定義
@@ -18,8 +19,7 @@
 void GameScene::GameEnd::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
-
-	//TODO：ここでゲーム終了テロップを再生する
+	entity->gameSceneUIManager->SetStageClearTelop();
 }
 
 /**************************************
@@ -31,7 +31,8 @@ int GameScene::GameEnd::OnUpdate(GameScene *entity)
 
 	entity->UpdateWhole();
 
-	if (entity->cntFrame == 300)
+	const int Duration = 420;
+	if (entity->cntFrame == Duration)
 	{
 		SceneChangeFlag(true, Scene::SceneResult);
 	}

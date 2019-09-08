@@ -5,6 +5,7 @@
 //
 //=====================================
 #include "GameStart.h"
+#include "GameSceneUIManager.h"
 
 /**************************************
 マクロ定義
@@ -18,8 +19,7 @@ void GameScene::GameStart::OnStart(GameScene *entity)
 {
 	entity->cntFrame = 0;
 
-	//TODO:ここでゲームスタートのテロップを再生する
-
+	entity->gameSceneUIManager->SetBattleStartTelop();
 }
 
 /**************************************

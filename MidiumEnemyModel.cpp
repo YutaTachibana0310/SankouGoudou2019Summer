@@ -129,9 +129,9 @@ D3DXVECTOR3 MidiumEnemyModel::GetMoveTarget(int i)
 	moveTargetList[step].GetEdgePos(&edgeR, &edgeL);
 	edgeR.z = edgeL.z = PosZ;
 
-	D3DXVECTOR3 offset = (edgeR - edgeL) / (float)(EnemyNum - 1);
+	D3DXVECTOR3 offset = (edgeR - edgeL) / 5.0f;
 
-	return edgeL + i * 1.0f * offset;
+	return i == 0 ? edgeL + offset : edgeR - offset;
 }
 
 /**************************************
@@ -197,7 +197,7 @@ int MidiumEnemyModel::UpdateOnDamage()
 		dynamic_pointer_cast<EnemyMidium>(enemy)->HitAnimation();
 	}
 
-	const int DamageDuration = 59;
+	const int DamageDuration = 19;
 	if (cntFrame == DamageDuration)
 	{
 		cntFrame = 0;

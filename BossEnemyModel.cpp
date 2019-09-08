@@ -266,9 +266,11 @@ void BossEnemyModel::OnDamage()
 	actor->ChangeAnimation(BossEnemyActor::AnimID::Damage);
 	//ダメージSE
 	Sound::GetInstance()->SetPlaySE(ENEMYDOWN2, true, (Sound::GetInstance()->changevol / 10.0f));
+
 	//スコア・コンボ加算
-	//SetAddScore(10);
-	//SetAddCombo(10);
+	const int HitScorePoint = 10;
+	SetAddCombo(1);
+	SetAddScore(HitScorePoint);
 }
 
 /**************************************
@@ -280,9 +282,12 @@ void BossEnemyModel::Explode()
 	D3DXVECTOR3 actorPos = actor->GetActorPosition();
 	GameParticleManager::Instance()->SetBossExplosion(&actorPos);
 
-	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(100.0f, 100.0f, 0.0f);
+	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(100.0f, 100.0f, 100.0f);
 	const int ShakeDuraiton = 360;
 	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuraiton);
+
+	const int BaseScorePoint = 500;
+	SetAddScore(BaseScorePoint);
 }
 
 /**************************************

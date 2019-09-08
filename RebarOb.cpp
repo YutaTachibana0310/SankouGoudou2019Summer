@@ -10,6 +10,7 @@
 #include "Framework\ResourceManager.h"
 #include "Framework\Vector3.h"
 #include "GameParticleManager.h"
+#include "ScoreManager.h"
 
 /**************************************
 マクロ定義
@@ -173,6 +174,11 @@ void RebarObstacle::OnHitBomber()
 		GameParticleManager::Instance()->SetRearExplosion(&edgeL);
 		edgeL += offset;
 	}
+
+	//スコアとコンボ加算
+	const int BaseScorePoint = 100;
+	SetAddCombo(1);
+	SetAddScore(BaseScorePoint);
 
 	isDestroyed = true;
 }

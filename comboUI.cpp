@@ -15,7 +15,7 @@
 //*****************************************************************************
 #define	INTERVAL_NUMBER		(160.0f)	// コンボ数字の表示間隔
 #define	INTERVAL_NUMBER_TEXTURE	(0.1f)	// テクスチャ内コンボ数字の表示間隔
-#define	PLACE_MAX			(2)			// コンボの桁数
+#define	PLACE_MAX			(3)			// コンボの桁数
 #define BASE_NUMBER			(10)		// 進数
 #define VOLUME_ZOOM			(50.0f)
 #define SPEED_VOLUMEUP_NUMBER_COMBO (0.2f)

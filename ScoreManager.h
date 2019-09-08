@@ -23,6 +23,7 @@ void SetGameScneeUIManagerInstance(GameSceneUIManager* instance);
 
 int GetCurrentGameScore();
 void SetCurrentGameScore(int score);
+void SetCurrentCombo(int combo);
 
 void SetCallbackAddCombo(std::function<void(int)> callback);
 void SetCallbackClearCombo(std::function<void(void)> callbak);

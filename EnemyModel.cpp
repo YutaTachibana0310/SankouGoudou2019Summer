@@ -31,6 +31,8 @@ const vector<LineTrailModel> EnemyModel::OuterLineModel = {
 	LineTrailModel(4, 0)
 };
 
+//加算スコアの素点
+const int EnemyModel::BaseScorePoint = 50;
 
 /**************************************
 コンストラクタ
@@ -136,7 +138,7 @@ void EnemyModel::CheckDestroied()
 		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
 
 		//スコア・コンボ加算
-		SetAddScore(100);
+		SetAddScore(BaseScorePoint);
 		SetAddCombo(1);
 
 		//消滅SE

@@ -199,7 +199,8 @@ void PlayerBullet::SetEdgePos(LineTrailModel model)
 *****************************************/
 void PlayerBullet::OnNotified(ObserveSubject *notifier)
 {
-	isDestroyed = true;
+	//バレットは貫通する仕様に変更
+	//isDestroyed = true;
 }
 
 void PlayerBullet::OnNotified(BoxCollider3DTag other)

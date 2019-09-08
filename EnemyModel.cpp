@@ -83,8 +83,9 @@ void EnemyModel::Uninit()
 	collider->active = false;
 	active = false;
 
-	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(5.0f, 5.0f, 0.0f);
-	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, 10);
+	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(0.75f, 0.75f, 0.0f);
+	const int ShakeDuration = 120;
+	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
 }
 
 /**************************************

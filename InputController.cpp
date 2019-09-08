@@ -10,8 +10,14 @@
 #include "GameSceneUIManager.h"
 #include "starButtonUI.h"
 
+/**************************************
+グローバル変数
+***************************************/
 static GameSceneUIManager* instanceUImanager;
 
+/**************************************
+プロトタイプ宣言
+***************************************/
 int CheckInputTop(float x, float y);
 int CheckInputMiddleLeft(float x, float y);
 int CheckInputLowerLeft(float x, float y);
@@ -19,6 +25,9 @@ int CheckInputLowerRight(float x, float y);
 int CheckInputMiddleRight(float x, float y);
 int CheckInputCenter(float x, float y);
 
+/**************************************
+ゲームパッド以外での入力処理
+***************************************/
 int GetMoveInput() {
 
 	//マウスクリックの検出があるか
@@ -48,6 +57,9 @@ int GetMoveInput() {
 	return STAR_MAX;
 }
 
+/**************************************
+ゲームパッドのスティックでの入力処理
+***************************************/
 int GetStickInput(int currentStar)
 {
 	float x = GetAxisX(0);
@@ -74,122 +86,204 @@ int GetStickInput(int currentStar)
 	return STAR_MAX;
 }
 
+/**************************************
+一番上の☆にいるときのパッド入力処理
+***************************************/
 int CheckInputTop(float x, float y)
 {
-	if (x < -0.8f)
+	const float BorderMiddleLeftX = -0.8f;		//MiddleLeftへ移動するスティックのX値
+	const float BorderMiddleRightX = 0.8f;		//MiddleRightへ移動するスティックのX値
+	const float BorderLowerY = -0.5f;			//Lowerへ移動するスティックのY値
+	const float BorderLowerLeftX = -0.05f;		//LowerLeftへ移動するスティックのX値
+	const float BorderLowerRightX = 0.05f;		//LowerRightへ移動するスティックのX値
+
+	//MiddleLeftへの判定
+	if (x < BorderMiddleLeftX)
 		return MIDDLE_LEFT;
 
-	if (x > 0.8f)
+	//MiddleRightへの判定
+	if (x > BorderMiddleRightX)
 		return MIDDLE_RIGHT;
 
-	if (y < -0.5f)
+	//Lowerへの判定
+	if (y < BorderLowerY)
 	{
-		if (x < -0.05f)
+		//LowerLeftへの判定
+		if (x < BorderLowerLeftX)
 			return LOWER_LEFT;
 
-		if (x > 0.05f)
+		//LowerRightへの判定
+		if (x > BorderLowerRightX)
 			return LOWER_RIGHT;
 	}
 
 	return STAR_MAX;
 }
 
+/**************************************
+左上の☆にいるときのパッド入力判定
+***************************************/
 int CheckInputMiddleLeft(float x, float y)
 {
-	if (y > 0.8f)
+	const float BorderTopY = 0.8f;				//Topへ移動するスティックのY値
+	const float BorderMiddleRightX = 0.9f;		//MiddleRightへ移動するスティックのX値
+	const float BorderLowerRightX = 0.1f;		//LowerRightへ移動するスティックのX値
+	const float BorderLowerRightY = 0.0f;		//LowerRightへ移動するスティックのY値
+	const float BorderLowerLeftX = -0.1f;		//LowerLeftへ移動するスティックのX値
+
+	//Topへの判定
+	if (y > BorderTopY)
 		return TOP;
 
-	if (x > 0.9f)
+	//MiddleRightへの判定
+	if (x > BorderMiddleRightX)
 		return MIDDLE_RIGHT;
 
-	if (x > 0.1f && y < 0.0f)
+	//LowerRightへの判定
+	if (x > BorderLowerRightX && y < BorderLowerRightY)
 		return LOWER_RIGHT;
 
-	if (y < -0.1f)
+	//LowerLeftへの判定
+	if (y < BorderLowerLeftX)
 		return LOWER_LEFT;
 
 	return STAR_MAX;
 }
 
+/**************************************
+左下の☆にいるときのパッド入力処理
+***************************************/
 int CheckInputLowerLeft(float x, float y)
 {
-	if (y > 0.7f)
+	const float BorderMiddleLeftY = 0.7f;		//MiddleLeftとTopへ移動するスティックのY値
+	const float BorderMiddleLeftX = -0.6f;		//MiddleLeftへ移動するスティックのX値
+	const float BorderMiddleRightY = 0.3f;		//MiddleRightへ移動するスティックのY値
+	const float BorderMiddleRightX = 0.3f;		//MiddleRightへ移動するスティックのX値
+	const float BorderLowerRightX = 0.9f;		//LowerRightへ移動するスティックのX値
+
+	//MiddleLeftとTopへの判定
+	if (y > BorderMiddleLeftY)
 	{
-		if (x < -0.6f)
+		//MiddleLeftへの判定
+		if (x < BorderMiddleLeftX)
 			return MIDDLE_LEFT;
 
 		return TOP;
 	}
-
-	if (y > 0.3f && x > 0.3f)
+	
+	//MiddleRightへの判定
+	if (y > BorderMiddleRightY && x > BorderMiddleRightX)
 	{
 		return MIDDLE_RIGHT;
 	}
 
-	if (x > 0.9f)
+	//LowerRightへの判定
+	if (x > BorderLowerRightX)
 		return LOWER_RIGHT;
 
 	return STAR_MAX;
 }
 
+/**************************************
+右下の☆にいるときのパッド入力処理
+***************************************/
 int CheckInputLowerRight(float x, float y)
 {
-	if (y > 0.7f)
+	const float BorderMiddleRightY = 0.7f;		//MiddleRightへ移動するスティックのY値
+	const float BorderMiddleRightX = -0.6f;		//MiddleRightへ移動するスティックのX値
+	const float BorderMiddleLeftX = 0.3f;		//MiddleLeftへ移動するスティックのX値
+	const float BorderMiddleLeftY = 0.3f;		//MiddleLeftへ移動するスティックのY値
+	const float BorderLowerLeftX = -0.9f;		//LowerLeftへ移動するスティックのX値
+
+	//MiddleRightとTopへの判定
+	if (y > BorderMiddleRightY)
 	{
-		if (x < -0.6f)
+		//MiddleRightへの判定
+		if (x < BorderMiddleRightX)
 			return MIDDLE_RIGHT;
 
 		return TOP;
 	}
 
-	if (y > 0.3f && x > 0.3f)
+	//MiddleLeftへの判定
+	if (y > BorderMiddleLeftY && x > BorderMiddleLeftX)
 	{
 		return MIDDLE_LEFT;
 	}
 
-	if (x < -0.9f)
+	//LowerLeftへの判定
+	if (x < BorderLowerLeftX)
 		return LOWER_LEFT;
 
 	return STAR_MAX;
 }
 
+/**************************************
+右上の☆にいるときのパッド入力処理
+***************************************/
 int CheckInputMiddleRight(float x, float y)
 {
-	if (y > 0.8f)
+	const float BorderTopY = 0.8f;				//Topへ移動するスティックのY値
+	const float BorderMiddleLeftX = -0.9f;		//MiddleLeftへ移動するスティックのX値
+	const float BorderLowerLeftX = -0.1f;		//LowerLeftへ移動するスティックのX値
+	const float BorderLowerLeftY = 0.0f;		//LowerLeftへ移動するスティックのY値
+	const float BorderLowerRightY = -0.1f;		//LowerRightへ移動するスティックのY値
+
+	//Topへの判定
+	if (y > BorderTopY)
 		return TOP;
 
-	if (x < -0.9f)
+	//MiddleLeftへの判定
+	if (x < BorderMiddleLeftX)
 		return MIDDLE_LEFT;
 
-	if (x < -0.1f && y < 0.0f)
+	//LowerLeftへの判定
+	if (x < BorderLowerLeftX && y < BorderLowerLeftY)
 		return LOWER_LEFT;
 
-	if (y < -0.1f)
+	//LowerRightへの判定
+	if (y < BorderLowerRightY)
 		return LOWER_RIGHT;
 
 	return STAR_MAX;
 }
 
+/**************************************
+真ん中の☆にいるときのパッド入力処理
+***************************************/
 int CheckInputCenter(float x, float y)
 {
-	if (y > 0.9f)
+	const float BorderTopY = 0.9f;				//Topへ移動するスティックのY値
+	const float BorderLowerY = -0.5f;			//Lowerへ移動するスティックのY値
+	const float BorderLowerRightX = 0.3f;		//LowerRightへ移動するスティックのX値
+	const float BorderLowerLeftX = -0.3f;		//LowerLeftへ移動するスティックのX値
+	const float BorderMiddleLeftX = -0.3f;		//MiddleLeftへ移動するスティックのX値
+	const float BorderMiddleRightX = 0.3f;		//MiddleRightへ移動するスティックのX値
+
+	//Topへの判定
+	if (y > BorderTopY)
 		return TOP;
 
-	if (y < -0.5f)
+	//Lowerへの判定
+	if (y < BorderLowerY)
 	{
-		if (x > 0.3f)
+		//LowerRightへの判定
+		if (x > BorderLowerRightX)
 			return LOWER_RIGHT;
 
-		if (x < -0.3f)
+		//LowerLeftへの判定
+		if (x < BorderLowerLeftX)
 			return LOWER_LEFT;
 	}
 
-	if (x < -0.3f)
+	//MiddleLeftへの判定
+	if (x < BorderMiddleLeftX)
 	{
 		return MIDDLE_LEFT;
 	}
 
-	if (x > 0.3f)
+	//MiddleRightへの判定
+	if (x > BorderMiddleRightX)
 	{
 		return MIDDLE_RIGHT;
 	}

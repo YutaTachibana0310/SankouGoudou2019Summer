@@ -13,9 +13,11 @@
 class GameSceneUIManager;
 
 int GetMoveInput();
+int GetStickInput(int currentStar);
 bool GetBomberInput();
 
 void SetInstanceUIManager(GameSceneUIManager* instance);
 bool IsAnyKeyTriggered();
+bool IsAnyButtonTriggerd();
 
 #endif

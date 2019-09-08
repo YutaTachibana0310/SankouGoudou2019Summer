@@ -37,7 +37,7 @@
 プロトタイプ宣言
 ***************************************/
 HRESULT InitializePad(LPDIRECTINPUT8 inputInterface);			// パッド初期化
-BOOL CALLBACK SearchPadCallback(LPDIDEVICEINSTANCE lpddi, LPVOID, LPDIRECTINPUT8 inputInterface);	// パッド検査コールバック
+BOOL CALLBACK SearchPadCallback(LPDIDEVICEINSTANCE lpddi, LPVOID);	// パッド検査コールバック
 void UpdatePad(void);
 void UninitPad(void);
 
@@ -50,5 +50,8 @@ float GetStickAxisY(int padNo);
 
 int GetPadAxisXTriggered(int padNo);
 int GetPadAxisYTriggered(int padNo);
+
+float GetAxisX(int padNo);
+float GetAxisY(int padNo);
 
 #endif

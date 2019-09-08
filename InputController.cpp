@@ -190,8 +190,8 @@ int CheckInputLowerLeft(float x, float y)
 int CheckInputLowerRight(float x, float y)
 {
 	const float BorderMiddleRightY = 0.7f;		//MiddleRightへ移動するスティックのY値
-	const float BorderMiddleRightX = -0.6f;		//MiddleRightへ移動するスティックのX値
-	const float BorderMiddleLeftX = 0.3f;		//MiddleLeftへ移動するスティックのX値
+	const float BorderMiddleRightX = 0.6f;		//MiddleRightへ移動するスティックのX値
+	const float BorderMiddleLeftX = -0.3f;		//MiddleLeftへ移動するスティックのX値
 	const float BorderMiddleLeftY = 0.3f;		//MiddleLeftへ移動するスティックのY値
 	const float BorderLowerLeftX = -0.9f;		//LowerLeftへ移動するスティックのX値
 
@@ -199,14 +199,14 @@ int CheckInputLowerRight(float x, float y)
 	if (y > BorderMiddleRightY)
 	{
 		//MiddleRightへの判定
-		if (x < BorderMiddleRightX)
+		if (x > BorderMiddleRightX)
 			return MIDDLE_RIGHT;
 
 		return TOP;
 	}
 
 	//MiddleLeftへの判定
-	if (y > BorderMiddleLeftY && x > BorderMiddleLeftX)
+	if (y > BorderMiddleLeftY && x < BorderMiddleLeftX)
 	{
 		return MIDDLE_LEFT;
 	}

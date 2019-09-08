@@ -42,6 +42,9 @@ static DWORD	padTrigger[GAMEPADMAX];
 static DWORD	padRelease[GAMEPADMAX];
 static int		padCount = 0;			// 検出したパッドの数
 static LPDIRECTINPUT8 pInput = NULL;
+
+bool isAnyKeyTriggerd = false;
+
 /**************************************
 パッド検査コールバック
 ***************************************/
@@ -283,6 +286,9 @@ void UpdatePad(void)
 ***************************************/
 BOOL IsButtonPressed(int padNo, DWORD button)
 {
+	if (padNo > padCount)
+		return false;
+
 	return (button & padState[padNo]);
 }
 
@@ -291,6 +297,9 @@ BOOL IsButtonPressed(int padNo, DWORD button)
 ***************************************/
 BOOL IsButtonTriggered(int padNo, DWORD button)
 {
+	if (padNo > padCount)
+		return false;
+
 	return (button & padTrigger[padNo]);
 }
 
@@ -299,6 +308,9 @@ BOOL IsButtonTriggered(int padNo, DWORD button)
 ***************************************/
 BOOL IsButtonReleased(int padNo, DWORD button)
 {
+	if (padNo > padCount)
+		return false;
+
 	return (button & padRelease[padNo]);
 }
 

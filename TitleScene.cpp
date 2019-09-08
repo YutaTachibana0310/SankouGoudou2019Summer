@@ -52,7 +52,7 @@ void TitleScene::Update(HWND hWnd)
 {
 	titleSceneUIManager->Update(hWnd);
 
-	if (IsAnyKeyTriggered())
+	if (IsAnyKeyTriggered() || IsAnyButtonTriggerd())
 	{
 		SceneChangeFlag(true, Scene::SceneGame);
 	}

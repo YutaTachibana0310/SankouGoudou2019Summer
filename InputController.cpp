@@ -319,3 +319,13 @@ bool IsAnyKeyTriggered()
 	return false;
 }
 
+bool IsAnyButtonTriggerd()
+{
+	for (DWORD button = BUTTON_UP; button < BUTTON_M; button = button << 1)
+	{
+		if (IsButtonTriggered(0, button))
+			return true;
+	}
+
+	return false;
+}

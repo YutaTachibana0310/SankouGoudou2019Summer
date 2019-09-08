@@ -10,7 +10,7 @@
 #include "main.h"
 #include "UIdrawer.h"
 
-#define	ADRESS_TEXTURE_NUMBER_RANK	"data/TEXTURE/UI/number.png"	// 読み込むテクスチャファイル名
+#define	ADRESS_TEXTURE_NUMBER_RANK	"data/TEXTURE/UI/Combo/number_L.png"	// 読み込むテクスチャファイル名
 #define	ADRESS_TEXTURE_BG_RANK1	"data/TEXTURE/UI/Result/rank1.jpg"	// 読み込むテクスチャファイル名
 #define	ADRESS_TEXTURE_BG_RANK2	"data/TEXTURE/UI/Result/rank2.jpg"	// 読み込むテクスチャファイル名
 #define	ADRESS_TEXTURE_BG_RANK3	"data/TEXTURE/UI/Result/rank3.jpg"	// 読み込むテクスチャファイル名

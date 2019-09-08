@@ -709,6 +709,8 @@ HRESULT EnemyMidium::VInit()
 	m_AnimationActive = false;
 	m_SclSpeed = 0.0f;
 
+	SetAnimation(true, true, 0.0f, 0.05f);
+
 	return S_OK;
 }
 
@@ -735,7 +737,7 @@ void EnemyMidium::VUpdate()
 		m_CntFrameNow++;
 		m_CntFrame++;
 
-
+		Animation();
 	}
 }
 

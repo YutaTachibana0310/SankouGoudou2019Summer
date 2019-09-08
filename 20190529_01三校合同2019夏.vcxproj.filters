@@ -846,6 +846,12 @@
     <ClInclude Include="TutorialBG.h">
       <Filter>ヘッダー ファイル\BG</Filter>
     </ClInclude>
+    <ClInclude Include="TutorialController.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialGuide.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
     <ClInclude Include="Viewer3D.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
@@ -1470,6 +1476,12 @@
     </ClCompile>
     <ClCompile Include="TutorialBG.cpp">
       <Filter>ソース ファイル\BG</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialController.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialGuide.cpp">
+      <Filter>ソース ファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="Viewer3D.cpp">
       <Filter>ソース ファイル\UI</Filter>

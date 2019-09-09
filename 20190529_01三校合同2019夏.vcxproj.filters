@@ -732,9 +732,6 @@
     <ClInclude Include="Framework\ColliderObserver.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\CameraShakePlugin.h">
-      <Filter>ヘッダー ファイル\Framework</Filter>
-    </ClInclude>
     <ClInclude Include="BomberFire.h">
       <Filter>ヘッダー ファイル\Effect\Particle</Filter>
     </ClInclude>
@@ -880,6 +877,12 @@
     </ClInclude>
     <ClInclude Include="TItleCity.h">
       <Filter>ヘッダー ファイル\UI\TitleSceneUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraDollyPlugin.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\CameraDollyPlugin.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1511,6 +1514,9 @@
     </ClCompile>
     <ClCompile Include="TitleCity.cpp">
       <Filter>ソース ファイル\UI\TitleSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\CameraDollyPlugin.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

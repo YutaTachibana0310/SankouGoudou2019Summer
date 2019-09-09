@@ -166,6 +166,7 @@
     <ClInclude Include="BossLargeDamage.h" />
     <ClInclude Include="BossRebarAttack.h" />
     <ClInclude Include="BossUIManager.h" />
+    <ClInclude Include="CameraDollyPlugin.h" />
     <ClInclude Include="ChangeEditWindow.h" />
     <ClInclude Include="ChangeEnemyFactory.h" />
     <ClInclude Include="DataEditWindow.h" />
@@ -193,7 +194,7 @@
     <ClInclude Include="ExplosionFireCore.h" />
     <ClInclude Include="Framework\AnimationManager.h" />
     <ClInclude Include="Framework\BoardPolygon.h" />
-    <ClInclude Include="Framework\CameraShakePlugin.h" />
+    <ClInclude Include="Framework\CameraDollyPlugin.h" />
     <ClInclude Include="Framework\ColliderObserver.h" />
     <ClInclude Include="Framework\Gamepad.h" />
     <ClInclude Include="Framework\Keyboard.h" />
@@ -410,6 +411,7 @@
     <ClCompile Include="ExplosionFireCore.cpp" />
     <ClCompile Include="Framework\AnimationManager.cpp" />
     <ClCompile Include="Framework\BoardPolygon.cpp" />
+    <ClCompile Include="Framework\CameraDollyPlugin.cpp" />
     <ClCompile Include="Framework\CameraShakePlugin.cpp" />
     <ClCompile Include="Framework\Gamepad.cpp" />
     <ClCompile Include="Framework\Keyboard.cpp" />

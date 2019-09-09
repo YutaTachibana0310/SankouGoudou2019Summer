@@ -66,9 +66,9 @@ private:
 	~Camera() {}
 
 public:
-	//カメラを揺らすプラグイン
+	//プラグインクラス前方宣言
 	class ShakePlugin;
-
+	class DollyPlugin;
 };
 
 /**************************************

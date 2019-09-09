@@ -6,6 +6,7 @@
 //=====================================
 #include "Camera.h"
 #include "Framework/CameraShakePlugin.h"
+#include "Framework\CameraDollyPlugin.h"
 
 /**************************************
 É}ÉNÉçíËã`
@@ -17,6 +18,7 @@
 Camera::Camera()
 {
 	pluginList.push_back(ShakePlugin::Instance());
+	pluginList.push_back(DollyPlugin::Instance());
 }
 
 /**************************************

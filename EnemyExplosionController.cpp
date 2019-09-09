@@ -6,6 +6,7 @@
 //=====================================
 #include "EnemyExplosionController.h"
 #include "EnemyExplosionParticle.h"
+#include "Framework\Vector3.h"
 
 #include <algorithm>
 
@@ -60,8 +61,32 @@ void EnemyExplosionController::Emit()
 		//座標設定
 		particle->transform.pos = emitter->transform.pos;
 
+		//スケール設定
+		particle->transform.scale = emitter->transform.scale;
+
 		//初期化してカウント
 		particle->Init();
 	});
 
 }
+
+/**************************************
+エミッタセット処理
+***************************************/
+void EnemyExplosionController::SetEmitter(D3DXVECTOR3 * pos, float scale)
+{
+	auto emitter = find_if(emitterContainer.begin(), emitterContainer.end(), [](BaseEmitter* emitter)
+	{
+		return !emitter->active;
+	});
+
+	if (emitter == emitterContainer.end())
+		return;
+
+	(*emitter)->transform.pos = *pos;
+	(*emitter)->transform.scale = Vector3::One * scale;
+	(*emitter)->Init();
+
+	return;
+}
+

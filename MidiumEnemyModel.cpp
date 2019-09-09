@@ -23,6 +23,8 @@ MidiumEnemyModel::MidiumEnemyModel() :
 	cntFrame = 0;
 	active = true;
 	pos.z = PosZ;
+
+	explosionScale = 5.0f;
 }
 
 /**************************************
@@ -132,7 +134,8 @@ void MidiumEnemyModel::OnNotified(ObserveSubject * notifier)
 
 	for (auto&& enemy : enemyList)
 	{
-		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
+		const float explosionScale = 2.5f;
+		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos, explosionScale);
 	}
 
 	cntFrame = 0;

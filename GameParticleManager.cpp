@@ -168,9 +168,9 @@ void GameParticleManager::SetPlayerTrailParticle(D3DXVECTOR3 *pPos, bool *pActiv
 /**************************************
 エネミーエクスプロージョン処理
 ***************************************/
-void GameParticleManager::SetEnemyExplosion(D3DXVECTOR3 *pos)
+void GameParticleManager::SetEnemyExplosion(D3DXVECTOR3 *pos, const float scale)
 {
-	controllers[EnemyExplosion]->SetEmitter(pos);
+	static_cast<EnemyExplosionController*>(controllers[EnemyExplosion])->SetEmitter(pos, scale);
 	controllers[EnemyExplosionFlare]->SetEmitter(pos);
 }
 

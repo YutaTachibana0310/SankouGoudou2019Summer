@@ -37,7 +37,8 @@ const int EnemyModel::BaseScorePoint = 50;
 /**************************************
 コンストラクタ
 ***************************************/
-EnemyModel::EnemyModel()
+EnemyModel::EnemyModel() :
+	explosionScale(1.0f)
 {
 	collider = new TrailCollider(TrailColliderTag::Enemy);
 	collider->AddObserver(this);
@@ -135,7 +136,7 @@ void EnemyModel::CheckDestroied()
 			continue;
 
 		enemy->VUninit();
-		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos);
+		GameParticleManager::Instance()->SetEnemyExplosion(&enemy->m_Pos, explosionScale);
 
 		//スコア・コンボ加算
 		SetAddCombo(1);

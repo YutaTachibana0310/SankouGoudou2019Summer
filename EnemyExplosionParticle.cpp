@@ -27,9 +27,9 @@ void EnemyExplosionParticle::Init()
 
 	//ç¿ïWÇÇ∏ÇÁÇ∑
 	const float PosRange = 5.0f;
-	transform.pos.x += RandomRangef(-PosRange, PosRange);
-	transform.pos.y += RandomRangef(-PosRange, PosRange);
-	transform.pos.z += RandomRangef(-PosRange, PosRange);
+	transform.pos.x += RandomRangef(-PosRange, PosRange) * transform.scale.x;
+	transform.pos.y += RandomRangef(-PosRange, PosRange) * transform.scale.y;
+	transform.pos.z += RandomRangef(-PosRange, PosRange) * transform.scale.z;
 
 	//éıñΩåàíË
 	lifeFrame = RandomRange(ENEMYEXPLOSION_LIFE_MIN, ENEMYEXPLOSION_LIFE_MAX);

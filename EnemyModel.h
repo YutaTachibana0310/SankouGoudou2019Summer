@@ -69,6 +69,8 @@ public:
 
 protected:
 	D3DXVECTOR3 pos;
+	float explosionScale;
+
 	const D3DXVECTOR3 ShotPosOffset = D3DXVECTOR3(0.0f, 0.0f, -50.0f);
 
 };

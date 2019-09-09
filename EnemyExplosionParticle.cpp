@@ -38,7 +38,9 @@ void EnemyExplosionParticle::Init()
 	transform.Rotate(0.0f, 0.0f, RandomRangef(0.0f, 360.0f));
 
 	//ÉXÉPÅ[Éã
-	transform.scale.x = transform.scale.y = transform.scale.z = RandomRangef(1.0f, 1.5f);
+	transform.scale.x *= RandomRangef(1.0f, 1.5f); 
+	transform.scale.y *= RandomRangef(1.0f, 1.5f);
+	transform.scale.z *= RandomRangef(1.0f, 1.5f);
 }
 
 /**************************************

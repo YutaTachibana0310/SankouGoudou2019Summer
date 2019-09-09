@@ -39,7 +39,7 @@ public:
 	void SetPlayerBulletParticle(D3DXVECTOR3 *pPos, bool *pActive, D3DXVECTOR3 *edgeRight, D3DXVECTOR3 *edgeLeft);
 	void SetPlayerBomberParticle(D3DXVECTOR3 *pPos, bool *pActive);
 	void SetPlayerTrailParticle(D3DXVECTOR3 *pPos, bool *pActive);
-	void SetEnemyExplosion(D3DXVECTOR3 *pPos);
+	void SetEnemyExplosion(D3DXVECTOR3 *pPos, const float scale = 1.0f);
 	void SetEnemyWarpHole(D3DXVECTOR3 *pPos);
 	BaseEmitter* SetEnemyBulletTrail(D3DXVECTOR3 *pPos);
 	BaseEmitter* SetEnemyBulletEffect(LineTrailModel model);

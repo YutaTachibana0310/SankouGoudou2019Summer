@@ -29,6 +29,8 @@ public:
 private:
 	int cntFrame;
 	D3DXVECTOR3 deltaLength;
+	D3DXVECTOR3 startLength;
+	D3DXVECTOR3 currentLength;
 	int duration;
 
 	DollyPlugin();

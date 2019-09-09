@@ -30,11 +30,14 @@ void Camera::DollyPlugin::Update()
 void Camera::DollyPlugin::Apply(Camera & camera)
 {
 	//距離の変化量をイージングで求める
-	float t = 1.0f * cntFrame / duration;
-	D3DXVECTOR3 length = Easing::EaseValue(t, Vector3::Zero, deltaLength, EaseType::OutCubic);
+	if (cntFrame < duration)
+	{
+		float t = 1.0f * cntFrame / duration;
+		currentLength = Easing::EaseValue(t, startLength, deltaLength, EaseType::OutCubic);
+	}
 
 	//カメラ視点に距離の変化量を加える
-	camera.eyeWork += length;
+	camera.eyeWork += currentLength;
 }
 
 /**************************************
@@ -44,6 +47,7 @@ void Camera::DollyPlugin::Set(const D3DXVECTOR3 & deltaLegnth, int duration)
 {
 	this->cntFrame = 0;
 	this->deltaLength = deltaLegnth;
+	this->startLength = this->currentLength;
 	this->duration = duration;
 }
 
@@ -52,7 +56,9 @@ void Camera::DollyPlugin::Set(const D3DXVECTOR3 & deltaLegnth, int duration)
 ***************************************/
 Camera::DollyPlugin::DollyPlugin() :
 	cntFrame(0),
-	deltaLength(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
+	deltaLength(Vector3::Zero),
+	startLength(Vector3::Zero),
+	currentLength(Vector3::Zero),
 	duration(0)
 {
 

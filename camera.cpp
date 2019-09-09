@@ -18,7 +18,6 @@
 Camera::Camera()
 {
 	pluginList.push_back(ShakePlugin::Instance());
-	pluginList.push_back(DollyPlugin::Instance());
 }
 
 /**************************************

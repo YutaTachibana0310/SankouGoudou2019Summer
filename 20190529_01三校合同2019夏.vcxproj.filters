@@ -881,6 +881,9 @@
     <ClInclude Include="TItleCity.h">
       <Filter>ヘッダー ファイル\UI\TitleSceneUI</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerFalldown.h">
+      <Filter>ヘッダー ファイル\Player\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1511,6 +1514,9 @@
     </ClCompile>
     <ClCompile Include="TitleCity.cpp">
       <Filter>ソース ファイル\UI\TitleSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFalldown.cpp">
+      <Filter>ソース ファイル\Player\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

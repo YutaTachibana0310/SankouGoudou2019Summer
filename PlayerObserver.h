@@ -35,6 +35,7 @@ enum class PlayerState
 	Wait,
 	Idle,
 	Return,
+	Falldown,
 	Max
 };
 
@@ -72,6 +73,8 @@ public:
 	bool IsAlive();
 
 	int GetBomberStockNum();
+
+	void OnGameOver();
 
 private:
 	Player *player;

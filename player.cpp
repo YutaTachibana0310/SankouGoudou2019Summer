@@ -54,12 +54,15 @@ Player::Player() :
 	animation->SetupCallbackKeyFrames("Flying");
 	animation->SetupCallbackKeyFrames("Attack");
 	animation->SetupCallbackKeyFrames("FireBomber");
+	animation->SetupCallbackKeyFrames("FallDown");
 	animation->LoadAnimation("Flying", PlayerAnimID::Flying);
 	animation->LoadAnimation("Attack", PlayerAnimID::Attack);
 	animation->LoadAnimation("FireBomber", PlayerAnimID::FireBomber);
+	animation->LoadAnimation("FallDown", PlayerAnimID::FallDown);
 	animation->SetShiftTime(PlayerAnimID::Flying, 0.2f);
 	animation->SetShiftTime(PlayerAnimID::Attack, 0.2f);
 	animation->SetShiftTime(PlayerAnimID::FireBomber, 0.2f);
+	animation->SetShiftTime(PlayerAnimID::FallDown, 0.2f);
 
 	//トレイルコライダー作成
 	collider = new TrailCollider(TrailColliderTag::Player);
@@ -226,7 +229,8 @@ void Player::ChangeAnim(PlayerAnimID next)
 	static const float shitTime[PlayerAnimID::PlayerAnimMax] = {
 		1.5f,
 		5.0f,
-		1.5f
+		1.5f,
+		0.8f
 	};
 
 	animation->ChangeAnim(next, shitTime[next], true);

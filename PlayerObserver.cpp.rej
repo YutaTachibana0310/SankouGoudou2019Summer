@@ -1,0 +1,10 @@
+diff a/PlayerObserver.cpp b/PlayerObserver.cpp	(rejected hunks)
+@@ -264,7 +264,7 @@
+ 	//������Αҋ@��Ԃ֑J��
+ 	else
+ 	{
+-		player->ChangeAnim(PlayerAnimID::Flying);
++		player->ChangeAnim(PlayerAnimID::FallDown);
+ 		ChangeStatePlayer(PlayerState::Wait);
+ 	}
+ }

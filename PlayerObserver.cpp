@@ -11,6 +11,7 @@
 #include "PlayerWait.h"
 #include "PlayerReturn.h"
 #include "PlayerIdle.h"
+#include "PlayerFalldown.h"
 
 #include "GameParticleManager.h"
 #include "sound.h"
@@ -43,6 +44,7 @@ PlayerObserver::PlayerObserver()
 	fsm[PlayerState::Wait] = new PlayerWait();
 	fsm[PlayerState::Move] = new PlayerMove();
 	fsm[PlayerState::Return] = new PlayerReturn();
+	fsm[PlayerState::Falldown] = new PlayerFalldown();
 
 	//移動先確保
 	targetPos.resize(5);
@@ -428,4 +430,12 @@ bool PlayerObserver::IsAlive()
 int PlayerObserver::GetBomberStockNum()
 {
 	return bomberController->GetStockNum();
+}
+
+/**************************************
+ゲームオーバー時処理
+***************************************/
+void PlayerObserver::OnGameOver()
+{
+	ChangeStatePlayer(PlayerState::Falldown);  
 }

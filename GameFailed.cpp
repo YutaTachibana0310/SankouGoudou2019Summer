@@ -10,6 +10,7 @@
 #include "PostEffectManager.h"
 #include "GameOver.h"
 #include "masktex.h"
+#include "PlayerObserver.h"
 
 /**************************************
 ƒOƒ[ƒoƒ‹•Ï”
@@ -21,6 +22,7 @@
 void GameScene::GameFailed::OnStart(GameScene * entity)
 {
 	cntFrame = 0;
+	entity->playerObserver->OnGameOver();
 }
 
 /**************************************

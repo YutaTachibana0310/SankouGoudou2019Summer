@@ -878,6 +878,9 @@
     <ClInclude Include="TItleCity.h">
       <Filter>ヘッダー ファイル\UI\TitleSceneUI</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerFalldown.h">
+      <Filter>ヘッダー ファイル\Player\State</Filter>
+    </ClInclude>
     <ClInclude Include="CameraDollyPlugin.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
@@ -1514,6 +1517,9 @@
     </ClCompile>
     <ClCompile Include="TitleCity.cpp">
       <Filter>ソース ファイル\UI\TitleSceneUI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFalldown.cpp">
+      <Filter>ソース ファイル\Player\State</Filter>
     </ClCompile>
     <ClCompile Include="Framework\CameraDollyPlugin.cpp">
       <Filter>ソース ファイル\Framework</Filter>

@@ -74,6 +74,7 @@ BossEnemyModel::~BossEnemyModel()
 {
 	SAFE_DELETE(actor);
 	SAFE_DELETE(bulletController);
+	SAFE_DELETE(colliderController);
 
 	for (auto&& pair : fsm)
 	{

@@ -1273,9 +1273,6 @@
     <ClCompile Include="SnakeEditWindow.cpp">
       <Filter>ソース ファイル\Stage\EditWindow</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Transform.cpp">
       <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
@@ -1541,6 +1538,9 @@
     </ClCompile>
     <ClCompile Include="InputGuide.cpp">
       <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>ソース ファイル\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

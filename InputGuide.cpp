@@ -38,12 +38,8 @@ void InputGuide::Draw()
 /**************************************
 セット処理
 ***************************************/
-void InputGuide::Set(LineTrailModel & model)
+void InputGuide::Set(const D3DXVECTOR3& start, const D3DXVECTOR3& end)
 {
-	//モデルから端点のワールド座標
-	D3DXVECTOR3 start, end;
-	model.GetEdgePos(&start, &end);
-
 	//正規化ラインベクトルを計算
 	D3DXVECTOR3 diff = end - start;
 	D3DXVec3Normalize(&diff, &diff);

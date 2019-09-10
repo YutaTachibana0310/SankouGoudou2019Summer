@@ -25,7 +25,7 @@ public:
 	InputGuide();
 
 	void Draw();
-	void Set(LineTrailModel& model);
+	void Set(const D3DXVECTOR3& start, const D3DXVECTOR3& end);
 
 private:
 	bool active;

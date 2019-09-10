@@ -5,6 +5,7 @@
 #include "UIdrawerC.h"
 #include "ScoreManager.h"
 #include "input.h"
+#include "InputController.h"
 #include "masktex.h"
 
 SCORERANK scorerank[ARRAY_MAX];
@@ -141,7 +142,7 @@ void UpdateRank(void) {
 			target = (rankBGParts[i].position - D3DXVECTOR3(80, -10, 0)) - rank[i].position;
 			length = D3DXVec3Length(&target);
 
-			if (IsMouseLeftTriggered()) {
+			if (IsMouseLeftTriggered() || IsAnyKeyTriggered() || IsAnyButtonTriggerd()) {
 				rank[i].position = rankBGParts[i].position - D3DXVECTOR3(80, -10, 0);
 
 				rankactive[i] = false;
@@ -184,8 +185,8 @@ void UpdateRank(void) {
 	if (switch_active)	
 		counta++;
 
-	//300カウント（約5秒後に暗転）
-	if (counta >= 300) {
+	//180カウント（約3秒後に暗転）
+	if (counta >= 180) {
 		SceneChangeFlag(true, SceneTitle);
 		counta = 0;
 	}

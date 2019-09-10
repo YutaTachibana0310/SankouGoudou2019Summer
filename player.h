@@ -57,6 +57,7 @@ public:
 	//ä÷êî
 	void ChangeState(IStateMachine<Player> *next);
 	void ChangeAnim(PlayerAnimID next);
+	void ReturnPrevAnim();
 	void Init();
 	void Uninit();
 	int Update();
@@ -79,8 +80,11 @@ private:
 	BomberStockEffect* stockEffect;
 	BoxCollider3D *boxCollider;
 	float hp;
+	PlayerAnimID currentAnim, prevAnim;
 
 	const float DamageValue = MaxHp / 4.0f;
+
+	static const float AnimShiftTime[PlayerAnimID::PlayerAnimMax];
 };
 
 #endif

@@ -303,6 +303,7 @@ void PlayerObserver::OnStartBomberSequence()
 {
 	//ボンバーSE
 	Sound::GetInstance()->SetPlaySE(BOMB, true, (Sound::GetInstance()->changevol / 5.0f));
+
 	enableUpdateLogic = false;
 	player->ChangeAnim(PlayerAnimID::FireBomber);
 	player->ChargeBomber();
@@ -314,21 +315,7 @@ void PlayerObserver::OnStartBomberSequence()
 void PlayerObserver::OnFinishBomberSequence()
 {
 	enableUpdateLogic = true;
-
-	//先行入力確認
-	if (model->IsExistPrecedInput(&moveTarget))
-	{
-		player->goalpos = targetPos[moveTarget];
-		trailEffect->Init(&player->transform.pos);
-		player->ChangeAnim(PlayerAnimID::Attack);
-		ChangeStatePlayer(PlayerState::Move);
-	}
-	//無ければ待機状態へ遷移
-	else
-	{
-		player->ChangeAnim(PlayerAnimID::Flying);
-		ChangeStatePlayer(PlayerState::Wait);
-	}
+	player->ReturnPrevAnim();
 }
 
 /**************************************

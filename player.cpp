@@ -37,6 +37,12 @@ using namespace std;
 グローバル変数
 ***************************************/
 const float Player::MaxHp = 100.0f;
+const float shitTime[PlayerAnimID::PlayerAnimMax] = {
+	1.5f,
+	5.0f,
+	1.5f,
+	0.8f
+};
 
 /**************************************
 プロトタイプ宣言
@@ -226,18 +232,25 @@ void Player::OnNotified(ObserveSubject* notifier)
 ******************************************/
 void Player::ChangeAnim(PlayerAnimID next)
 {
-	static const float shitTime[PlayerAnimID::PlayerAnimMax] = {
-		1.5f,
-		5.0f,
-		1.5f,
-		0.8f
-	};
-
+	prevAnim = currentAnim;
 	animation->ChangeAnim(next, shitTime[next], true);
+	currentAnim = next;
 }
 
 /*****************************************
-アニメーション切り替え処理
+アニメーション戻り処理
+******************************************/
+void Player::ReturnPrevAnim()
+{
+	animation->ChangeAnim(prevAnim, shitTime[prevAnim], true);
+
+	PlayerAnimID tmp = currentAnim;
+	currentAnim = prevAnim;
+	prevAnim = tmp;
+}
+
+/*****************************************
+ボンバーチャージ処理
 ******************************************/
 void Player::ChargeBomber()
 {

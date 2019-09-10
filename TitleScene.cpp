@@ -11,6 +11,7 @@
 #include "TitleSceneUIManager.h"
 #include "sound.h"
 #include "InputController.h"
+#include "BackGroundController.h"
 
 /**************************************
 マクロ定義
@@ -29,10 +30,15 @@
 ***************************************/
 void TitleScene::Init()
 {
-
+	//インスタンス作成
 	titleSceneUIManager = new TitleSceneUIManager();
+	bgController = new BackGroundController();
 
 	titleSceneUIManager->Init();
+	bgController->Init();
+
+	bgController->transform.pos = D3DXVECTOR3(-8000.0, 0.0f, 12000.0f);
+	bgController->transform.Rotate(-3.0f, 90.0f, 0.0f);
 
 }
 
@@ -41,8 +47,9 @@ void TitleScene::Init()
 ***************************************/
 void TitleScene::Uninit()
 {
-	SAFE_DELETE(titleSceneUIManager);
 	titleSceneUIManager->Uninit();
+	SAFE_DELETE(titleSceneUIManager);
+	SAFE_DELETE(bgController);
 }
 
 /**************************************
@@ -56,6 +63,8 @@ void TitleScene::Update(HWND hWnd)
 	{
 		SceneChangeFlag(true, Scene::SceneGame);
 	}
+
+	bgController->Update();
 }
 
 /**************************************
@@ -63,5 +72,6 @@ void TitleScene::Update(HWND hWnd)
 ***************************************/
 void TitleScene::Draw()
 {
+	bgController->Draw();
 	titleSceneUIManager->Draw();
 }

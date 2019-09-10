@@ -437,5 +437,6 @@ int PlayerObserver::GetBomberStockNum()
 ***************************************/
 void PlayerObserver::OnGameOver()
 {
+	trailEffect->Uninit();
 	ChangeStatePlayer(PlayerState::Falldown);  
 }

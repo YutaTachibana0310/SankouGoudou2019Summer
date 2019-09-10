@@ -85,10 +85,6 @@ void EnemyModel::Uninit()
 {
 	collider->active = false;
 	active = false;
-
-	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(0.75f, 0.75f, 0.0f);
-	const int ShakeDuration = 120;
-	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
 }
 
 /**************************************
@@ -144,6 +140,11 @@ void EnemyModel::CheckDestroied()
 
 		//Á–ÅSE
 		Sound::GetInstance()->SetPlaySE(ENEMYDOWN1, true, (Sound::GetInstance()->changevol / 100.0f));
+
+		//ƒJƒƒ‰—h‚ç‚·
+		const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(0.75f, 0.75f, 0.0f);
+		const int ShakeDuration = 120;
+		Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
 
 		enemy.reset();
 	}

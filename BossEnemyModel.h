@@ -70,6 +70,7 @@ public:
 	D3DXVECTOR3 GetPosition();
 
 	void GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out);
+	void ReceivePlayerPosition(int index);
 
 private:
 	BossEnemyActor* actor;
@@ -85,6 +86,7 @@ private:
 	BossColliderController *colliderController;
 
 	const Transform& player;
+	int playerPositionIndex;
 	BossUImanager& uiManager;
 
 	int cntAttack;

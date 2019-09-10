@@ -36,6 +36,7 @@ public:
 
 	std::shared_ptr<BossEnemyModel> GetBoss();
 	void GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out);
+	void PassPlayerPosition(int index);
 
 private:
 	bool active;

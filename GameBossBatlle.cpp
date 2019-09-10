@@ -32,6 +32,10 @@ int GameScene::GameBossBattle::OnUpdate(GameScene* entity)
 	//入力確認
 	entity->playerObserver->CheckInput();
 
+	//プレイヤーの位置情報をボスに渡す
+	int playerIndex = entity->playerObserver->GetCurrentPosition();
+	entity->bossController->PassPlayerPosition(playerIndex);
+
 	//ゲーム全体を更新
 	entity->UpdateWhole();
 

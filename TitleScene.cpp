@@ -61,6 +61,8 @@ void TitleScene::Update(HWND hWnd)
 
 	if (IsAnyKeyTriggered() || IsAnyButtonTriggerd())
 	{
+		//SE
+		Sound::GetInstance()->SetPlaySE(ENTERSE, Sound::GetInstance()->enterSE, (Sound::GetInstance()->changevol / 5.0f));
 		SceneChangeFlag(true, Scene::SceneGame);
 	}
 

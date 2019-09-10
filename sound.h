@@ -40,6 +40,7 @@ const char ENTER_SE[] = "ENTERSE";
 const char ALARM_SE[] = "警報";
 const char BOSSSHOT_SE[] = "bossshot";
 const char BOSSEXPLODE_SE[] = "BossExplode";
+const char GAMEOVER_SE[] = "gameover";
 
 //ナンバーはWaveに登録した順番になること
 //名前は正式曲名ではなく、わかりやすく明示すること（例：ステージ1BGM）
@@ -68,6 +69,7 @@ enum SENAME
 	ALARM,
 	BOSSSHOT,
 	BOSSEXPLODE,
+	GAMEOVER,
 	MAXSE
 };
 class Sound {
@@ -86,6 +88,7 @@ bool coInitialized;
 
 bool pauseflag;
 
+
 //フェード用に現在再生中の最大音量をセット
 float maxvol_BGM[MAXBGM];
 
@@ -101,6 +104,7 @@ public:
 	float changevol;
 	int UIcounta;
 	float fadecounta;
+	bool enterSE;
 
 	static Sound *GetInstance() {
 		return sound;

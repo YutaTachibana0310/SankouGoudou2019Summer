@@ -428,6 +428,7 @@ int PlayerObserver::GetBomberStockNum()
 ***************************************/
 void PlayerObserver::OnGameOver()
 {
+	Sound::GetInstance()->SetPlaySE(GAMEOVER, true, Sound::GetInstance()->changevol / 2.0f);
 	trailEffect->Uninit();
 	ChangeStatePlayer(PlayerState::Falldown);  
 }

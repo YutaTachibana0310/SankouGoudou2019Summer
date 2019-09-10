@@ -206,7 +206,7 @@ void GameScene::Update(HWND hWnd)
 	//UI‚ÌXV
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");
 	gameSceneUIManager->SetHPGuage(playerObserver->GetHpPercent());
-	gameSceneUIManager->SetBomberStock(playerObserver->GetBomberStockNum());
+	gameSceneUIManager->SetBomberStock(playerObserver->GetBomberStockNum(), playerObserver->IsBomberCharging());
 	gameSceneUIManager->Update(hWnd);
 	bossUI->Update();
 	CountDebugTimer(GAMESCENE_LABEL, "UpdateUI");

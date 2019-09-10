@@ -28,7 +28,8 @@
 //*****************************************************************************
 // コンストラクタ
 //*****************************************************************************
-BomberStock::BomberStock()
+BomberStock::BomberStock() :
+	isCharging(false)
 {
 	stockedBomNum = 0;
 
@@ -38,8 +39,8 @@ BomberStock::BomberStock()
 		bom[i] = new RotateObject();
 		bom[i]->LoadTexture("data/TEXTURE/UI/BomberStock/bom.png");
 		bom[i]->MakeVertex();
-		bom[i]->position = (POSITION_BOMBER_STOCK_BOM + D3DXVECTOR3(i* INTERVAL_STOCKED_BOM, 0.0f, 0.0f))/2;
-		bom[i]->size = SIZE_BOMBER_STOCK_BOM/2;
+		bom[i]->position = (POSITION_BOMBER_STOCK_BOM + D3DXVECTOR3(i* INTERVAL_STOCKED_BOM, 0.0f, 0.0f)) / 2;
+		bom[i]->size = SIZE_BOMBER_STOCK_BOM / 2;
 		bom[i]->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		bom[i]->colliderSize = COLLIDERSIZE_BOMBER_STOCK / 2;
 		bom[i]->SetColorObject(SET_COLOR_NOT_COLORED);
@@ -50,11 +51,21 @@ BomberStock::BomberStock()
 	bg = new Object();
 	bg->LoadTexture("data/TEXTURE/UI/BomberStock/bomberStockBG.png");
 	bg->MakeVertex();
-	bg->position = POSITION_BOMBER_STOCK_BG/2;
-	bg->size = SIZE_BOMBER_STOCK_BG/2;
+	bg->position = POSITION_BOMBER_STOCK_BG / 2;
+	bg->size = SIZE_BOMBER_STOCK_BG / 2;
 	bg->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	bg->colliderSize = COLLIDERSIZE_BOMBER_STOCK / 2;
 	bg->SetColorObject(SET_COLOR_NOT_COLORED);
+
+	//チャージ中背景
+	chargingBG = new Object();
+	chargingBG->LoadTexture("data/TEXTURE/UI/BomberStock/bomberStockCharging.png");
+	chargingBG->MakeVertex();
+	chargingBG->position = POSITION_BOMBER_STOCK_BG / 2;
+	chargingBG->size = SIZE_BOMBER_STOCK_BG / 2;
+	chargingBG->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	chargingBG->colliderSize = COLLIDERSIZE_BOMBER_STOCK / 2;
+	chargingBG->SetColorObject(SET_COLOR_NOT_COLORED);
 
 	//ビュアー
 	viewer = new Viewer3D(SIZE_BOMBER_STOCK_BG.x, SIZE_BOMBER_STOCK_BG.y, D3DXVECTOR2(20.0f, 10.0f));
@@ -74,6 +85,7 @@ BomberStock::~BomberStock()
 
 	SAFE_DELETE(bg);
 	SAFE_DELETE(viewer);
+	SAFE_DELETE(chargingBG);
 }
 
 //=============================================================================
@@ -95,13 +107,24 @@ void BomberStock::Draw(void)
 	viewer->Begin2D();
 
 	//背景を先に描画
-	bg->Draw();
-	bg->SetVertex();
-
-	for (int i = 0; i < stockedBomNum; i++)
+	if (!isCharging)
 	{
-		bom[i]->Draw();
-		bom[i]->SetVertex();
+		bg->SetVertex();
+		bg->Draw();
+	}
+	else
+	{
+		chargingBG->SetVertex();
+		chargingBG->Draw();
+	}
+	//チャージ中でなければストックを表示
+	if (!isCharging)
+	{
+		for (int i = 0; i < stockedBomNum; i++)
+		{
+			bom[i]->Draw();
+			bom[i]->SetVertex();
+		}
 	}
 
 	viewer->End2D();

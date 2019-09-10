@@ -92,7 +92,7 @@ void GameSceneUIManager::Update(HWND hWnd)
 	telopBG->Update();
 	bomberStock->Update();
 
-#ifdef _DEBUG
+#if 0
 	// デバッグ用コマンド
 	if (GetKeyboardTrigger(DIK_1))
 	{
@@ -304,7 +304,7 @@ void GameSceneUIManager::SetHPGuage(float percentage)
 //=============================================================================
 // ボムストックセット処理(引数で与えられた数分ボンバーストックをセットする)
 //=============================================================================
-void GameSceneUIManager::SetBomberStock(int stockedBomNum)
+void GameSceneUIManager::SetBomberStock(int stockedBomNum, bool isCharging)
 {
 	//*注意：今は仮でmax3にしてます。
 	if (stockedBomNum > MAX_STOCKED_BOM_NUM)
@@ -314,4 +314,5 @@ void GameSceneUIManager::SetBomberStock(int stockedBomNum)
 	}
 
 	bomberStock->stockedBomNum = stockedBomNum;
+	bomberStock->isCharging = isCharging;
 }

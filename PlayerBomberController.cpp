@@ -303,3 +303,11 @@ int PlayerBomberController::GetStockNum()
 {
 	return stock;
 }
+
+/***************************************************
+チャージング判定
+***************************************************/
+bool PlayerBomberController::IsCharging()
+{
+	return stockInterval < BOMBER_STOCK_INTERVAL;
+}

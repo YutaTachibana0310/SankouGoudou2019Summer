@@ -442,6 +442,14 @@ int PlayerObserver::GetBomberStockNum()
 }
 
 /**************************************
+ボンバーチャージング判定
+***************************************/
+bool PlayerObserver::IsBomberCharging()
+{
+	return bomberController->IsCharging();
+}
+
+/**************************************
 現在の位置取得
 ***************************************/
 int PlayerObserver::GetCurrentPosition() const

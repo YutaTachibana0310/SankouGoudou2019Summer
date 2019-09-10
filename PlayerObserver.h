@@ -75,6 +75,7 @@ public:
 	bool IsAlive();
 
 	int GetBomberStockNum();
+	bool IsBomberCharging();
 	int GetCurrentPosition() const;
 
 	void OnGameOver();

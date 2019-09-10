@@ -36,7 +36,9 @@ namespace Title
 		Polygon2D *bg;
 		int cntFrame;
 
+		const int MoveStartTiming = 30;
 		const int MoveDuration = 30;
+		const float InitOffsetX = 1000.0f;
 	};
 
 	/**************************************

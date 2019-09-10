@@ -80,7 +80,7 @@ private:
 	BoxCollider3D *boxCollider;
 	float hp;
 
-	const float DamageValue = MaxHp / 1.0f;
+	const float DamageValue = MaxHp / 4.0f;
 };
 
 #endif

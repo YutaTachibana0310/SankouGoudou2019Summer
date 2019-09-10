@@ -11,6 +11,7 @@
 #include "GameOver.h"
 #include "masktex.h"
 #include "PlayerObserver.h"
+#include "Framework\PlayerPrefs.h"
 
 /**************************************
 グローバル変数
@@ -43,6 +44,7 @@ int GameScene::GameFailed::OnUpdate(GameScene * entity)
 	//指定時間経過していたらシーン遷移
 	if (cntFrame == TransitionDuration)
 	{
+		PlayerPrefs::SaveBool("GameResult", false);
 		SceneChangeFlag(true, Scene::SceneResult);
 	}
 

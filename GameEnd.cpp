@@ -7,6 +7,7 @@
 #include "GameEnd.h"
 #include "masktex.h"
 #include "GameSceneUIManager.h"
+#include "Framework\PlayerPrefs.h"
 
 /**************************************
 ƒ}ƒNƒ’è‹`
@@ -40,6 +41,7 @@ int GameScene::GameEnd::OnUpdate(GameScene *entity)
 
 	if (entity->cntFrame == Duration)
 	{
+		PlayerPrefs::SaveBool("GameResult", true);
 		SceneChangeFlag(true, Scene::SceneResult);
 	}
 

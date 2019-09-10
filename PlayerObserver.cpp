@@ -229,8 +229,9 @@ Moveコールバック
 ***************************************/
 void PlayerObserver::OnFinishPlayerMove()
 {
-	//当たり判定を無効化
-	player->collider->active = true;
+	//当たり判定を無効化(移動履歴がある場合のみ)
+	if(!model->Empty())
+		player->collider->active = true;
 
 	//移動履歴をプッシュ（ボンバーのストックインターバルが終了していたら）
 	model->PushMoveStack(moveTarget, bomberController->CanStock());
@@ -290,6 +291,9 @@ void PlayerObserver::OnFinishPlayerReturn()
 {
 	//プレイヤーをIdle状態へ遷移
 	ChangeStatePlayer(PlayerState::Idle);
+
+	//履歴クリア
+	model->Clear();
 }
 
 /**************************************

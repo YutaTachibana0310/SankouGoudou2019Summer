@@ -199,6 +199,7 @@
     <ClInclude Include="Framework\Gamepad.h" />
     <ClInclude Include="Framework\Keyboard.h" />
     <ClInclude Include="Framework\Mouse.h" />
+    <ClInclude Include="Framework\PlayerPrefs.h" />
     <ClInclude Include="Framework\Polygon2D.h" />
     <ClInclude Include="Framework\ResourceManager.h" />
     <ClInclude Include="Framework\TMath.h" />
@@ -418,6 +419,7 @@
     <ClCompile Include="Framework\Gamepad.cpp" />
     <ClCompile Include="Framework\Keyboard.cpp" />
     <ClCompile Include="Framework\Mouse.cpp" />
+    <ClCompile Include="Framework\PlayerPrefs.cpp" />
     <ClCompile Include="Framework\Polygon2D.cpp" />
     <ClCompile Include="Framework\ResourceManager.cpp" />
     <ClCompile Include="Framework\Transform.cpp" />

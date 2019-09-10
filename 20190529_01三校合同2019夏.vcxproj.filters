@@ -890,6 +890,9 @@
     <ClInclude Include="ResultPlayer.h">
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\PlayerPrefs.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1529,6 +1532,9 @@
     </ClCompile>
     <ClCompile Include="ResultPlayer.cpp">
       <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PlayerPrefs.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

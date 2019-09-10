@@ -9,6 +9,7 @@
 #include "Game.h"
 #include "ResultSceneUIManager.h"
 #include "ResultPlayer.h"
+#include "Framework\PlayerPrefs.h"
 
 /**************************************
 É}ÉNÉçíËã`
@@ -27,7 +28,8 @@
 ***************************************/
 void ResultScene::Init()
 {
-	player = new ResultPlayer(false);
+	bool gameresult = PlayerPrefs::GetBool("GameResult");
+	player = new ResultPlayer(gameresult);
 
 	InitResultSceneUI();
 

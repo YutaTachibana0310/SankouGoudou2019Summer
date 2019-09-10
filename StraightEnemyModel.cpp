@@ -14,7 +14,7 @@
 ***************************************/
 typedef EnemyModel Base;
 
-#define STRAIGHTENEMY_REACH_FRAME		(180)
+#define STRAIGHTENEMY_REACH_FRAME		(240)
 #define STRAIGHTENEMY_ACTIVATE_FRAME	(30)
 #define STRAIGHTENEMY_HITABLE_FRAME		(45)
 //0805 BA
@@ -100,7 +100,7 @@ int StraightEnemyModel::Update()
 	if (cntFrame >= STRAIGHTENEMY_ACTIVATE_FRAME)
 	{
 		float t = (float)(cntFrame - STRAIGHTENEMY_ACTIVATE_FRAME) / (float)STRAIGHTENEMY_REACH_FRAME;
-		pos.z = Easing::EaseValue(t, StartPosZ, DestPosZ, EaseType::InCubic);
+		pos.z = Easing::EaseValue(t, StartPosZ, DestPosZ, EaseType::InSine);
 	}
 
 	//èIóπîªíË

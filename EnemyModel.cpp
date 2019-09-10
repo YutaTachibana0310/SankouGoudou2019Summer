@@ -85,10 +85,6 @@ void EnemyModel::Uninit()
 {
 	collider->active = false;
 	active = false;
-
-	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(0.75f, 0.75f, 0.0f);
-	const int ShakeDuration = 120;
-	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
 }
 
 /**************************************
@@ -145,6 +141,11 @@ void EnemyModel::CheckDestroied()
 		//消滅SE
 		Sound::GetInstance()->SetPlaySE(ENEMYDOWN1, true, (Sound::GetInstance()->changevol / 100.0f));
 
+		//カメラ揺らす
+		const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(0.75f, 0.75f, 0.0f);
+		const int ShakeDuration = 120;
+		Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
+
 		enemy.reset();
 	}
 
@@ -179,6 +180,10 @@ void EnemyModel::GetEnemy(list<shared_ptr<Enemy>>& out)
 {
 	for (auto& enemy : enemyList)
 	{
+		//Z座標が負なら追加しない
+		if (enemy->m_Pos.z < 0.0f)
+			continue;
+
 		//エネミーのワールド座標をスクリーン座標へ変換
 		D3DXVECTOR3 screenPos;
 		Camera::Instance()->Projection(screenPos, enemy->m_Pos);

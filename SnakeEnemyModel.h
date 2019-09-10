@@ -23,7 +23,7 @@ class SnakeEnemyModel : public EnemyModel
 {
 public:
 	SnakeEnemyModel() {}
-	~SnakeEnemyModel() {}
+	~SnakeEnemyModel();
 
 	void Init(std::vector<int> destList);
 	int Update();

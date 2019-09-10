@@ -26,6 +26,18 @@ typedef EnemyModel Base;
 #define SNAKEENEMY_GENERATE_DURATION	(SNAKEENMY_GENERATE_NUM*SNAKEENEMY_GENERATE_INTERVAL)
 
 /**************************************
+デストラクタ
+***************************************/
+SnakeEnemyModel::~SnakeEnemyModel()
+{
+	for (auto&& collider : colliderList)
+	{
+		SAFE_DELETE(collider);
+	}
+	colliderList.clear();
+}
+
+/**************************************
 初期化処理
 ***************************************/
 void SnakeEnemyModel::Init(vector<int> destList)

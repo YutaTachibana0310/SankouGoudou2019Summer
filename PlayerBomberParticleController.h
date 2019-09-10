@@ -23,8 +23,6 @@ class PlayerBomberParticleController : public BaseParticleController
 public:
 	void Init();
 	void Emit();
-	void SetEmitter(D3DXVECTOR3 *pPos, bool *pActive);
-
 };
 
 #endif

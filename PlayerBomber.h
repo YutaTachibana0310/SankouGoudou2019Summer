@@ -19,6 +19,7 @@
 /**************************************
 構造体定義
 ***************************************/
+class BaseEmitter;
 
 /**************************************
 プロトタイプ宣言
@@ -48,6 +49,8 @@ protected:
 	int reachFrame;
 
 	static int instanceCount;
+
+	BaseEmitter* emitter;
 
 private:
 	BoxCollider3D* collider;

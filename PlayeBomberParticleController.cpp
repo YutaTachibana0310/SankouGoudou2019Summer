@@ -96,26 +96,3 @@ void PlayerBomberParticleController::Emit()
 			return;
 	}
 }
-/********************************************d****
-エミッタセット処理
-*************************************************/
-void PlayerBomberParticleController::SetEmitter(D3DXVECTOR3 *pPos, bool *pActive)
-{
-	//非アクティブのエミッタを検索
-	auto itr = find_if(emitterContainer.begin(), emitterContainer.end(),
-		[](BaseEmitter* p)
-	{
-		return !p->active;
-
-	});
-
-	//無かったのでリターン
-	if (itr == emitterContainer.end())
-		return;
-
-	//初期化
-	PlayerBomberParticleEmitter *emitter = static_cast<PlayerBomberParticleEmitter*>(*itr);
-	emitter->parentActive = pActive;
-	emitter->parentPos = pPos;
-	emitter->Init();
-}

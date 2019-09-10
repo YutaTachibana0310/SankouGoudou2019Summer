@@ -45,10 +45,7 @@ public:
 	void Init();
 	void Uninit();
 	void Update();
-	void SetParameter(bool* pActive, D3DXVECTOR3 *pPos);
 
-	bool*parentActive;
-	D3DXVECTOR3 *parentPos;
 	D3DXVECTOR3 prevPos;
 };
 

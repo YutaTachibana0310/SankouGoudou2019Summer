@@ -73,7 +73,7 @@ HRESULT InitRank(void) {
 		rankBGParts[i].rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		rankBGParts[i].size = SIZE_BG_RANK;
 
-		SetColorObject(&rankBGParts[i], SET_COLOR_NOT_COLORED);
+		SetColorObject(&rankBGParts[i], D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.7f));
 
 	}
 

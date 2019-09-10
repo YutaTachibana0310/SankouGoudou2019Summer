@@ -62,6 +62,10 @@ void DrawResultBG(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
+
 	DrawObject(pDevice, resultBG);
 	SetVertexObject(&resultBG);
+
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 }

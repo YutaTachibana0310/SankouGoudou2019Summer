@@ -39,6 +39,9 @@ MeshContainer::~MeshContainer()
 	{
 		SAFE_RELEASE(textures[i]);
 	}
+	textures.clear();
+
+	materials.clear();
 }
 
 /**************************************
@@ -71,7 +74,7 @@ HRESULT MeshContainer::Load(const char* filePath)
 	mesh->OptimizeInplace(D3DXMESHOPT_ATTRSORT, &adjList[0], 0, 0, 0);
 
 	//マテリアルをD3DXMATERIALとして複写
-	materials = (D3DMATERIAL9*)malloc(sizeof(D3DMATERIAL9) * materialNum);
+	materials.resize(materialNum);
 	D3DXMATERIAL* matBuffer = (D3DXMATERIAL*)tmpMaterial->GetBufferPointer();
 	for (DWORD i = 0; i < materialNum; i++)
 	{
@@ -79,8 +82,7 @@ HRESULT MeshContainer::Load(const char* filePath)
 	}
 
 	//テクスチャ読み込み
-	textures = (LPDIRECT3DTEXTURE9*)malloc(sizeof(LPDIRECT3DTEXTURE9) * materialNum);
-	ZeroMemory(textures, sizeof(LPDIRECT3DTEXTURE9) * materialNum);
+	textures.resize(materialNum, NULL);
 	char directoryPath[_MAX_DIR];
 	size_t length = strlen(filePath);
 
@@ -128,8 +130,11 @@ void MeshContainer::Release()
 	{
 		SAFE_RELEASE(textures[i]);
 	}
+	textures.clear();
 
 	SAFE_RELEASE(mesh);
+
+	materials.clear();
 }
 
 /**************************************

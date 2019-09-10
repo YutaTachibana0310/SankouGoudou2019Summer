@@ -25,6 +25,7 @@
 プロトタイプ宣言
 ***************************************/
 class Enemy;
+class InputGuide;
 
 /**************************************
 PlayerState列挙子
@@ -52,6 +53,7 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void DrawInputGuide();
 	void OnStartBomberSequence();
 	void OnFinishBomberSequence();
 
@@ -81,11 +83,14 @@ private:
 	PlayerBomberController *bomberController;
 	PlayerBulletController *bulletController;
 	PlayerTrail *trailEffect;
+	InputGuide *inputGuide;
 
 	PlayerState current, prevState;
 	std::map<PlayerState, IStateMachine<Player>*> fsm;
 
 	int moveTarget;
+	const int InvalidInputID;
+
 	std::vector<D3DXVECTOR3> targetPos;
 
 	PlayerAnimID prevAnim;

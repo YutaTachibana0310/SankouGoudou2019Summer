@@ -16,8 +16,8 @@ Global Settings
     Header File = サウンド.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 1833156864;
-    Last Modified High = 30762133;
+    Last Modified Low = 62326949;
+    Last Modified High = 30762925;
 
     Category
     {
@@ -225,14 +225,8 @@ Wave Bank
     Windows Bank Path Edited = 0;
     Seek Tables = 1;
     Compression Preset Name = <none>;
-    Xbox Bank Last Modified Low = 0;
-    Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 2387950635;
-    PC Bank Last Modified High = 30762131;
-    Header Last Modified Low = 0;
-    Header Last Modified High = 0;
-    Bank Last Revised Low = 1482269238;
-    Bank Last Revised High = 30761712;
+    Bank Last Revised Low = 1580118306;
+    Bank Last Revised High = 30762927;
 
     Wave
     {
@@ -315,10 +309,10 @@ Wave Bank
     Compression Preset Name = <none>;
     Xbox Bank Last Modified Low = 0;
     Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 1833156864;
-    PC Bank Last Modified High = 30762133;
-    Bank Last Revised Low = 1758233508;
-    Bank Last Revised High = 30762133;
+    PC Bank Last Modified Low = 62326949;
+    PC Bank Last Modified High = 30762925;
+    Bank Last Revised Low = 4270597846;
+    Bank Last Revised High = 30762924;
 
     Wave
     {
@@ -614,8 +608,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 766470775;
-            Last Modified High = 30762133;
+            Last Modified Low = 2999346443;
+            Last Modified High = 30762136;
         }
     }
 
@@ -660,8 +654,31 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 256105468;
-            Last Modified High = 30762132;
+            Last Modified Low = 2999286585;
+            Last Modified High = 30762136;
+        }
+    }
+
+    Wave
+    {
+        Name = gameover;
+        File = SE保管庫\新規\gameover.wav;
+        Build Settings Last Modified Low = 4172918826;
+        Build Settings Last Modified High = 30762924;
+
+        Cache
+        {
+            Format Tag = 0;
+            Channels = 2;
+            Sampling Rate = 44100;
+            Bits Per Sample = 1;
+            Play Region Offset = 44;
+            Play Region Length = 621544;
+            Loop Region Offset = 0;
+            Loop Region Length = 0;
+            File Type = 1;
+            Last Modified Low = 3934890529;
+            Last Modified High = 30762924;
         }
     }
 }
@@ -673,8 +690,6 @@ Sound Bank
     Windows File = Win\Sound Bank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
-    Bank Last Modified Low = 1833313079;
-    Bank Last Modified High = 30762133;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
 
@@ -1638,6 +1653,53 @@ Sound Bank
         }
     }
 
+    Sound
+    {
+        Name = gameover;
+        Volume = -1200;
+        Pitch = 0;
+        Priority = 0;
+
+        Category Entry
+        {
+            Name = Default;
+        }
+
+        Track
+        {
+            Volume = 0;
+            Use Filter = 0;
+
+            Play Wave Event
+            {
+                Break Loop = 0;
+                Use Speaker Position = 0;
+                Use Center Speaker = 1;
+                New Speaker Position On Loop = 1;
+                Speaker Position Angle = 0.000000;
+                Speaker Position Arc = 0.000000;
+
+                Event Header
+                {
+                    Timestamp = 0;
+                    Relative = 0;
+                    Random Recurrence = 0;
+                    Random Offset = 0;
+                }
+
+                Wave Entry
+                {
+                    Bank Name = SE;
+                    Bank Index = 1;
+                    Entry Name = gameover;
+                    Entry Index = 15;
+                    Weight = 255;
+                    Weight Min = 0;
+                }
+            }
+        }
+    }
+
     Cue
     {
         Name = 決定SE;
@@ -1993,6 +2055,26 @@ Sound Bank
         {
             Name = BossExplode;
             Index = 17;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = gameover;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = gameover;
+            Index = 18;
             Weight Min = 0;
             Weight Max = 255;
         }

@@ -17,14 +17,16 @@ int CurrentGameScene;
 ***************************************/
 void SoundGameScene::Play() {
 
-
-	if (CurrentGameScene == GameScene::State::Battle) {
+	switch (CurrentGameScene)
+	{
+	case GameScene::Battle:
 		//念のためボスBGMを停止しゲームBGMを再生
 		Sound::GetInstance()->SetStopSound(BOSSBGM);
 		Sound::GetInstance()->SetPlayBGM(GAMEBGM, true, Sound::GetInstance()->changevol / 8.0f);
 		Sound::GetInstance()->FadeIn(GAMEBGM, 5.0f, Sound::GetInstance()->changevol / 8.0f, true);
-	}
-	else if (CurrentGameScene == GameScene::State::BossBattle) {
+		break;
+
+	case GameScene::BossBattle:
 
 		//ゲームBGMフェードアウト
 		Sound::GetInstance()->FadeOut(GAMEBGM, 5.0f, Sound::GetInstance()->changevol / 8.0f, true);
@@ -32,14 +34,45 @@ void SoundGameScene::Play() {
 		//ボスBGM
 		Sound::GetInstance()->SetPlayBGM(BOSSBGM, true, Sound::GetInstance()->changevol / 5.0f);
 		Sound::GetInstance()->FadeIn(BOSSBGM, 5.0f, Sound::GetInstance()->changevol / 5.0f, true);
+		break;
 
-
-	}
-	else if (CurrentGameScene == GameScene::State::End) {
+	case GameScene::End:
 
 		//ボスBGMフェードアウト
 		Sound::GetInstance()->FadeOut(BOSSBGM, 5.0f, Sound::GetInstance()->changevol / 5.0f, true);
+		break;
+
+	case GameScene::Failed:
+
+		//ゲーム、ボスBGMフェードアウト
+		Sound::GetInstance()->FadeOut(GAMEBGM, 5.0f, Sound::GetInstance()->changevol / 8.0f, true);
+		Sound::GetInstance()->FadeOut(BOSSBGM, 5.0f, Sound::GetInstance()->changevol / 5.0f, true);
+		break;
+
+
 	}
+	//if (CurrentGameScene == GameScene::State::Battle) {
+	//	//念のためボスBGMを停止しゲームBGMを再生
+	//	Sound::GetInstance()->SetStopSound(BOSSBGM);
+	//	Sound::GetInstance()->SetPlayBGM(GAMEBGM, true, Sound::GetInstance()->changevol / 8.0f);
+	//	Sound::GetInstance()->FadeIn(GAMEBGM, 5.0f, Sound::GetInstance()->changevol / 8.0f, true);
+	//}
+	//else if (CurrentGameScene == GameScene::State::BossBattle) {
+
+	//	//ゲームBGMフェードアウト
+	//	Sound::GetInstance()->FadeOut(GAMEBGM, 5.0f, Sound::GetInstance()->changevol / 8.0f, true);
+
+	//	//ボスBGM
+	//	Sound::GetInstance()->SetPlayBGM(BOSSBGM, true, Sound::GetInstance()->changevol / 5.0f);
+	//	Sound::GetInstance()->FadeIn(BOSSBGM, 5.0f, Sound::GetInstance()->changevol / 5.0f, true);
+
+
+	//}
+	//else if (CurrentGameScene == GameScene::State::End) {
+
+	//	//ボスBGMフェードアウト
+	//	Sound::GetInstance()->FadeOut(BOSSBGM, 5.0f, Sound::GetInstance()->changevol / 5.0f, true);
+	//}
 }
 
 /**************************************

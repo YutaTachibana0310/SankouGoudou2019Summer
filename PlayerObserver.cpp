@@ -437,5 +437,7 @@ int PlayerObserver::GetBomberStockNum()
 ***************************************/
 void PlayerObserver::OnGameOver()
 {
+
+	Sound::GetInstance()->SetPlaySE(GAMEOVER, true, Sound::GetInstance()->changevol / 2.0f);
 	ChangeStatePlayer(PlayerState::Falldown);  
 }

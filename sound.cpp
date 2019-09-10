@@ -324,6 +324,10 @@ void Sound::ChangePauseSound(bool b) {
 //=============================================================================
 void Sound::ChangeBGMVolume(int wavenum,float vol) {
 
+	if (BGMwave[wavenum] == NULL)
+	{
+		return;
+	}
 	BGMwave[wavenum]->SetVolume(vol);
 
 }
@@ -344,6 +348,11 @@ void Sound::FadeIn(int wavenum, float fadesec,float setvol,bool inflag) {
 	//0.25 / 60 = 1フレームに上がる音量(4秒の場合0.00416…)
 	//0.004 * 240 = 0.96(最大vol1）
 
+	if (BGMwave[wavenum] == NULL)
+	{
+		return;
+	}
+
 	if (maxvol_BGM[wavenum] >= fadevolume[wavenum]) {
 		fadecounta++;
 
@@ -358,6 +367,11 @@ void Sound::FadeIn(int wavenum, float fadesec,float setvol,bool inflag) {
 
 }
 void Sound::FadeOut(int wavenum, float fadesec, float setvol, bool outflag) {
+
+	if (BGMwave[wavenum] == NULL)
+	{
+		return;
+	}
 
 	if (fadevolume[wavenum] >= 0) {
 		fadecounta++;

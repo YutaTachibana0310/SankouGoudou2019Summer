@@ -179,6 +179,10 @@ void EnemyModel::GetEnemy(list<shared_ptr<Enemy>>& out)
 {
 	for (auto& enemy : enemyList)
 	{
+		//Z座標が負なら追加しない
+		if (enemy->m_Pos.z < 0.0f)
+			continue;
+
 		//エネミーのワールド座標をスクリーン座標へ変換
 		D3DXVECTOR3 screenPos;
 		Camera::Instance()->Projection(screenPos, enemy->m_Pos);

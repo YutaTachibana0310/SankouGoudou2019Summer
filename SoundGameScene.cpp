@@ -19,7 +19,7 @@ void SoundGameScene::Play() {
 
 	switch (CurrentGameScene)
 	{
-	case GameScene::Battle:
+	case GameScene::Start:
 		//”O‚Ì‚½‚ßƒ{ƒXBGM‚ð’âŽ~‚µƒQ[ƒ€BGM‚ðÄ¶
 		Sound::GetInstance()->SetStopSound(BOSSBGM);
 		Sound::GetInstance()->SetPlayBGM(GAMEBGM, true, Sound::GetInstance()->changevol / 8.0f);

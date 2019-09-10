@@ -29,7 +29,7 @@ TitleBG::TitleBG()
 	titleBG->size = SIZE_TITLEBG;
 	titleBG->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	titleBG->SetColorObject(SET_COLOR_NOT_COLORED);
+	titleBG->SetColorObject(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.6f));
 }
 
 //*****************************************************************************

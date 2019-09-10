@@ -37,6 +37,7 @@ public:
 
 	bool GetPlayerTrail(LineTrailModel *pOut);						//プレイヤーの直近1件の軌跡の取得
 	size_t GetAllPlayerTrail(std::vector<LineTrailModel> *contaier);	//プレイヤーの全軌跡を取得
+	bool Empty();									//履歴があるかどうか
 
 private:
 	std::queue<int> inputQueue;						//先行入力を保存するキュー

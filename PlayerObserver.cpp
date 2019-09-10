@@ -229,8 +229,9 @@ Moveコールバック
 ***************************************/
 void PlayerObserver::OnFinishPlayerMove()
 {
-	//当たり判定を無効化
-	player->collider->active = true;
+	//当たり判定を無効化(移動履歴がある場合のみ)
+	if(!model->Empty())
+		player->collider->active = true;
 
 	//移動履歴をプッシュ（ボンバーのストックインターバルが終了していたら）
 	model->PushMoveStack(moveTarget, bomberController->CanStock());
@@ -290,6 +291,9 @@ void PlayerObserver::OnFinishPlayerReturn()
 {
 	//プレイヤーをIdle状態へ遷移
 	ChangeStatePlayer(PlayerState::Idle);
+
+	//履歴クリア
+	model->Clear();
 }
 
 /**************************************
@@ -299,6 +303,7 @@ void PlayerObserver::OnStartBomberSequence()
 {
 	//ボンバーSE
 	Sound::GetInstance()->SetPlaySE(BOMB, true, (Sound::GetInstance()->changevol / 5.0f));
+
 	enableUpdateLogic = false;
 	player->ChangeAnim(PlayerAnimID::FireBomber);
 	player->ChargeBomber();
@@ -310,21 +315,7 @@ void PlayerObserver::OnStartBomberSequence()
 void PlayerObserver::OnFinishBomberSequence()
 {
 	enableUpdateLogic = true;
-
-	//先行入力確認
-	if (model->IsExistPrecedInput(&moveTarget))
-	{
-		player->goalpos = targetPos[moveTarget];
-		trailEffect->Init(&player->transform.pos);
-		player->ChangeAnim(PlayerAnimID::Attack);
-		ChangeStatePlayer(PlayerState::Move);
-	}
-	//無ければ待機状態へ遷移
-	else
-	{
-		player->ChangeAnim(PlayerAnimID::Flying);
-		ChangeStatePlayer(PlayerState::Wait);
-	}
+	player->ReturnPrevAnim();
 }
 
 /**************************************
@@ -437,7 +428,7 @@ int PlayerObserver::GetBomberStockNum()
 ***************************************/
 void PlayerObserver::OnGameOver()
 {
-
 	Sound::GetInstance()->SetPlaySE(GAMEOVER, true, Sound::GetInstance()->changevol / 2.0f);
+	trailEffect->Uninit();
 	ChangeStatePlayer(PlayerState::Falldown);  
 }

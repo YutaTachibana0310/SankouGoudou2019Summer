@@ -199,6 +199,7 @@
     <ClInclude Include="Framework\Gamepad.h" />
     <ClInclude Include="Framework\Keyboard.h" />
     <ClInclude Include="Framework\Mouse.h" />
+    <ClInclude Include="Framework\PlayerPrefs.h" />
     <ClInclude Include="Framework\Polygon2D.h" />
     <ClInclude Include="Framework\ResourceManager.h" />
     <ClInclude Include="Framework\TMath.h" />
@@ -255,6 +256,7 @@
     <ClInclude Include="PlayerObserver.h" />
     <ClInclude Include="rank.h" />
     <ClInclude Include="resultBGUI.h" />
+    <ClInclude Include="ResultPlayer.h" />
     <ClInclude Include="ResultSceneUIManager.h" />
     <ClInclude Include="savefile.h" />
     <ClInclude Include="ScoreManager.h" />
@@ -417,6 +419,7 @@
     <ClCompile Include="Framework\Gamepad.cpp" />
     <ClCompile Include="Framework\Keyboard.cpp" />
     <ClCompile Include="Framework\Mouse.cpp" />
+    <ClCompile Include="Framework\PlayerPrefs.cpp" />
     <ClCompile Include="Framework\Polygon2D.cpp" />
     <ClCompile Include="Framework\ResourceManager.cpp" />
     <ClCompile Include="Framework\Transform.cpp" />
@@ -521,6 +524,7 @@
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp" />
     <ClCompile Include="rank.cpp" />
     <ClCompile Include="resultBGUI.cpp" />
+    <ClCompile Include="ResultPlayer.cpp" />
     <ClCompile Include="ResultSceneUIManager.cpp" />
     <ClCompile Include="savefile.cpp" />
     <ClCompile Include="ScoreManager.cpp" />

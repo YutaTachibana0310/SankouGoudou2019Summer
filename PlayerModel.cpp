@@ -200,3 +200,11 @@ size_t PlayerModel::GetAllPlayerTrail(vector<LineTrailModel> *container)
 
 	return moveHistory.size();
 }
+
+/**************************************
+—š—ð‚ª‚ ‚é‚©‚Ç‚¤‚©
+***************************************/
+bool PlayerModel::Empty()
+{
+	return moveHistory.empty();
+}

@@ -177,12 +177,9 @@ void GameParticleManager::SetEnemyExplosion(D3DXVECTOR3 *pos, const float scale)
 /**************************************
 プレイヤーボンバーパーティクル処理
 ***************************************/
-void GameParticleManager::SetPlayerBomberParticle(D3DXVECTOR3 *pPos, bool *pActive)
+BaseEmitter* GameParticleManager::SetPlayerBomberParticle(D3DXVECTOR3 *pPos)
 {
-	PlayerBomberParticleController *controller
-		= static_cast<PlayerBomberParticleController*>(controllers[PlayerBomberParticle]);
-
-	controller->SetEmitter(pPos, pActive);
+	return controllers[PlayerBomberParticle]->SetEmitter(pPos);
 }
 
 /**************************************

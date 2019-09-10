@@ -8,6 +8,7 @@
 #define _MESHCONTAINER_H_
 
 #include "../main.h"
+#include <vector>
 
 /**************************************
 マクロ定義
@@ -34,10 +35,10 @@ public:
 	void SetMaterialAlpha(float alpha);
 
 private:								
-	LPD3DXMESH mesh;					//メッシュデータ
-	D3DMATERIAL9* materials;			//マテリアル情報
-	LPDIRECT3DTEXTURE9 *textures;		//テクスチャ
-	DWORD materialNum;					//マテリアル数
+	LPD3DXMESH mesh;							//メッシュデータ
+	std::vector<D3DMATERIAL9> materials;		//マテリアル情報
+	std::vector<LPDIRECT3DTEXTURE9> textures;	//テクスチャ情報
+	DWORD materialNum;							//マテリアル数
 };
 
 #endif

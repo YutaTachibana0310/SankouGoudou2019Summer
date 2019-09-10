@@ -18,6 +18,7 @@
 前方宣言
 ***************************************/
 class TitleSceneUIManager;
+class BackGroundController;
 
 /**************************************
 クラス定義
@@ -33,7 +34,9 @@ public:
 	TitleScene() {};
 	~TitleScene() {};
 
+private:
 	TitleSceneUIManager *titleSceneUIManager;
+	BackGroundController *bgController;
 };
 
 #endif

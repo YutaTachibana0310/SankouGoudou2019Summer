@@ -74,8 +74,7 @@ PlayerBomberParticleEmitter終了処理
 ***************************************/
 void PlayerBomberParticleEmitter::Uninit()
 {
-	parentActive = nullptr;
-	parentPos = nullptr;
+
 }
 
 /**************************************
@@ -84,19 +83,4 @@ PlayerBomberParticleEmitter更新処理
 void PlayerBomberParticleEmitter::Update()
 {
 	prevPos = transform.pos;
-	transform.pos = *parentPos;
-
-	if (!*parentActive)
-		active = false;
 }
-
-/**************************************
-PlayerBomberParticleEmitterパラメータ設定
-***************************************/
-void PlayerBomberParticleEmitter::SetParameter(bool* pActive, D3DXVECTOR3 *pPos)
-{
-	this->parentActive = pActive;
-	this->parentPos = pPos;
-}
-
-

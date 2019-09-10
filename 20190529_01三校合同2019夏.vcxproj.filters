@@ -887,6 +887,12 @@
     <ClInclude Include="Framework\CameraDollyPlugin.h">
       <Filter>ヘッダー ファイル\Framework</Filter>
     </ClInclude>
+    <ClInclude Include="ResultPlayer.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\PlayerPrefs.h">
+      <Filter>ヘッダー ファイル\Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1522,6 +1528,12 @@
       <Filter>ソース ファイル\Player\State</Filter>
     </ClCompile>
     <ClCompile Include="Framework\CameraDollyPlugin.cpp">
+      <Filter>ソース ファイル\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultPlayer.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PlayerPrefs.cpp">
       <Filter>ソース ファイル\Framework</Filter>
     </ClCompile>
   </ItemGroup>

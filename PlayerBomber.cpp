@@ -48,7 +48,7 @@ void PlayerBomber::Init(const D3DXVECTOR3& moveDir)
 
 	velocity = moveDir * BOBMER_INIT_SPEED;
 
-	GameParticleManager::Instance()->SetPlayerBomberParticle(&transform.pos, &active);
+	emitter = GameParticleManager::Instance()->SetPlayerBomberParticle(&transform.pos);
 
 	collider->active = true;
 }
@@ -97,6 +97,7 @@ PlayerBomber::~PlayerBomber()
 {
 	instanceCount--;
 	SAFE_DELETE(collider);
+	emitter->active = false;
 }
 
 /***************************************
@@ -120,6 +121,7 @@ void PlayerBomber::Homing(void)
 	cntFrame--;
 
 	transform.pos += velocity;
+	emitter->transform.pos = transform.pos;
 }
 
 /***************************************

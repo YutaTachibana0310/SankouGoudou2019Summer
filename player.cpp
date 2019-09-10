@@ -38,6 +38,16 @@ using namespace std;
 ***************************************/
 const float Player::MaxHp = 100.0f;
 
+const float Player::AnimShiftTime[PlayerAnimID::PlayerAnimMax] = {
+	1.5f,
+	5.0f,
+	1.5f,
+	0.8f
+};
+
+const D3DXVECTOR3 Player::CameraShakeAmplitude = D3DXVECTOR3(10.0f, 10.0f, 10.0f);
+const int Player::CameraShakeDuration = 120;
+
 /**************************************
 プロトタイプ宣言
 ***************************************/
@@ -216,9 +226,7 @@ void Player::OnNotified(ObserveSubject* notifier)
 	ClearCombo();
 
 	//カメラ揺らす
-	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(50.0f, 50.0f, 50.0f);
-	const int ShakeDuration = 120;
-	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
+	Camera::ShakePlugin::Instance()->Set(CameraShakeAmplitude, CameraShakeDuration);
 }
 
 /*****************************************
@@ -226,18 +234,25 @@ void Player::OnNotified(ObserveSubject* notifier)
 ******************************************/
 void Player::ChangeAnim(PlayerAnimID next)
 {
-	static const float shitTime[PlayerAnimID::PlayerAnimMax] = {
-		1.5f,
-		5.0f,
-		1.5f,
-		0.8f
-	};
-
-	animation->ChangeAnim(next, shitTime[next], true);
+	prevAnim = currentAnim;
+	animation->ChangeAnim(next, AnimShiftTime[next], true);
+	currentAnim = next;
 }
 
 /*****************************************
-アニメーション切り替え処理
+アニメーション戻り処理
+******************************************/
+void Player::ReturnPrevAnim()
+{
+	animation->ChangeAnim(prevAnim, AnimShiftTime[prevAnim], true);
+
+	PlayerAnimID tmp = currentAnim;
+	currentAnim = prevAnim;
+	prevAnim = tmp;
+}
+
+/*****************************************
+ボンバーチャージ処理
 ******************************************/
 void Player::ChargeBomber()
 {
@@ -276,9 +291,7 @@ void Player::OnNotified(BoxCollider3DTag other)
 	ClearCombo();
 
 	//カメラ揺らす
-	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(50.0f, 50.0f, 50.0f);
-	const int ShakeDuration = 120;
-	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
+	Camera::ShakePlugin::Instance()->Set(CameraShakeAmplitude, CameraShakeDuration);
 }
 
 /*****************************************

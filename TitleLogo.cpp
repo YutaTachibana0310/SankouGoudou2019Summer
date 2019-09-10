@@ -6,6 +6,7 @@
 //=====================================
 #include "TitleLogo.h"
 #include "Framework\Easing.h"
+#include "Framework\Vector3.h"
 
 /**************************************
 グローバル変数
@@ -30,7 +31,6 @@ Title::Logo::Logo() :
 	logoContainer.push_back(new LogoParts(LogoParts::ID::Liner));
 
 	//座標決定
-	const float InitOffsetX = 1000.0f;
 	const float InitPositionY = 400.0f;
 	const D3DXVECTOR3 LogoPosition[] =
 	{
@@ -49,10 +49,6 @@ Title::Logo::Logo() :
 	logoContainer[LogoParts::ID::City]->transform.pos = LogoPosition[LogoParts::ID::City];
 	logoContainer[LogoParts::ID::Star]->transform.pos = LogoPosition[LogoParts::ID::Star];
 	logoContainer[LogoParts::ID::Liner]->transform.pos = LogoPosition[LogoParts::ID::Liner];
-
-	//移動開始
-	logoContainer[LogoParts::ID::City]->Move(D3DXVECTOR3(InitOffsetX, 0.0f, 0.0f), MoveDuration);
-	logoContainer[LogoParts::ID::Liner]->Move(D3DXVECTOR3(-InitOffsetX, 0.0f, 0.0f), MoveDuration);
 
 	//BG作成
 	bg = new Polygon2D();
@@ -82,7 +78,13 @@ void Title::Logo::Update()
 {
 	cntFrame++;
 
-	if (cntFrame == MoveDuration)
+	if (cntFrame == MoveStartTiming)
+	{
+		logoContainer[LogoParts::ID::City]->Move(Vector3::Right * InitOffsetX, MoveDuration);
+		logoContainer[LogoParts::ID::Liner]->Move(Vector3::Left * InitOffsetX, MoveDuration);
+	}
+
+	if (cntFrame == MoveDuration + MoveStartTiming)
 	{
 		const D3DXVECTOR3 MoveOffset = D3DXVECTOR3(0.0f, 50.0f, 0.0f);
 		logoContainer[LogoParts::ID::City]->Move(-MoveOffset, MoveDuration);

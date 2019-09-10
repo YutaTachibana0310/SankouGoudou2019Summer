@@ -33,10 +33,11 @@ public:
 
 	//ストックされたボムの数
 	int stockedBomNum;
+	bool isCharging;
 
 private:
 	RotateObject * bom[MAX_STOCKED_BOM_NUM];
-	Object * bg;
+	Object * bg, *chargingBG;
 	Viewer3D * viewer;
 };
 

@@ -43,6 +43,7 @@ public:
 	bool CanSet();
 	void AddStock();
 	int GetStockNum();
+	bool IsCharging();
 
 	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
 	LPDIRECT3DTEXTURE9 texture;

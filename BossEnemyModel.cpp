@@ -41,7 +41,8 @@ BossEnemyModel::BossEnemyModel(const Transform& player, BossUImanager& uiManager
 	isDestroyed(false),
 	uiManager(uiManager),
 	flgBomberHit(false),
-	cntLoop(0)
+	cntLoop(0),
+	playerPositionIndex(0)
 {
 	actor = new BossEnemyActor();
 	bulletController = new EnemyBulletController();
@@ -56,7 +57,7 @@ BossEnemyModel::BossEnemyModel(const Transform& player, BossUImanager& uiManager
 	fsm[State::Defeat] = new BossDefeat;
 	fsm[State::Idle] = new BossIdle();
 
- 	//鉄筋のモデルをロード
+	//鉄筋のモデルをロード
 	ResourceManager::Instance()->LoadMesh("RebarObstacle", "data/MODEL/rebar.x");
 
 	//レベル初期化
@@ -64,7 +65,7 @@ BossEnemyModel::BossEnemyModel(const Transform& player, BossUImanager& uiManager
 
 	//Initステートへ遷移
 	ChangeState(State::Init);
- }
+}
 
 /**************************************
 デストラクタ
@@ -73,6 +74,7 @@ BossEnemyModel::~BossEnemyModel()
 {
 	SAFE_DELETE(actor);
 	SAFE_DELETE(bulletController);
+	SAFE_DELETE(colliderController);
 
 	for (auto&& pair : fsm)
 	{
@@ -80,7 +82,7 @@ BossEnemyModel::~BossEnemyModel()
 	}
 	fsm.clear();
 
-	
+
 	for (auto&& rebar : rebarList)
 	{
 		rebar.reset();
@@ -217,7 +219,7 @@ void BossEnemyModel::StartBulletCharge()
 void BossEnemyModel::NotifyBullet()
 {
 	const int EdgeMax[Const::LevelMax] = { 3, 3, 4 };
-	
+
 	std::vector<int> edgeList;
 	MakeOneStrokeEdge(EdgeMax[level], edgeList);
 
@@ -251,7 +253,7 @@ void BossEnemyModel::FireBullet()
 **************************************/
 void BossEnemyModel::SetCollider()
 {
-	const int EdgeMax[Const::LevelMax] = {4, 5, 6};
+	const int EdgeMax[Const::LevelMax] = { 4, 5, 6 };
 	vector<int> edgeList;
 
 	MakeOneStrokeEdge(EdgeMax[level], edgeList);
@@ -342,6 +344,14 @@ void BossEnemyModel::GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out
 }
 
 /**************************************
+プレイヤー座標インデックス受け渡し処理
+**************************************/
+void BossEnemyModel::ReceivePlayerPosition(int index)
+{
+	playerPositionIndex = index;
+}
+
+/**************************************
 一筆書きの軌跡作成処理
 **************************************/
 void BossEnemyModel::MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList)
@@ -354,8 +364,12 @@ void BossEnemyModel::MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList)
 	mt19937_64 getRandMt(randDevice());
 	shuffle(numberList.begin(), numberList.end(), getRandMt);
 
+	//プレイヤーの位置のインデックスを計算
+	auto itr = find(numberList.begin(), numberList.end(), playerPositionIndex);
+	int baseIndex = itr != numberList.end() ? std::distance(numberList.begin(), itr) : 0;
+
 	for (int i = 0; i < edgeNum; i++)
 	{
-		edgeList.push_back(numberList[WrapAround(0, numberList.size(), i)]);
+		edgeList.push_back(numberList[WrapAround(0, numberList.size(), i + baseIndex)]);
 	}
 }

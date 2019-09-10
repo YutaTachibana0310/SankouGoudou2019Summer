@@ -83,3 +83,16 @@ void BossController::GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out
 {
 	bossModel->GetRebarList(out);
 }
+
+/**************************************
+プレイヤー座標インデックス渡し処理
+***************************************/
+void BossController::PassPlayerPosition(int index)
+{
+	bossModel->ReceivePlayerPosition(index);
+}
+
+
+/*************************************
+プレイヤー座標インデックス渡し処理
+***************************************/

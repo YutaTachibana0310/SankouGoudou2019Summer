@@ -430,7 +430,7 @@
       },
       "frame": 3240,
       "id": 35,
-      "type": "Change"
+      "type": "Straight"
     },
     {
       "data": {
@@ -439,7 +439,7 @@
       },
       "frame": 3330,
       "id": 36,
-      "type": "Change"
+      "type": "Straight"
     },
     {
       "data": {
@@ -448,7 +448,7 @@
       },
       "frame": 3420,
       "id": 37,
-      "type": "Change"
+      "type": "Straight"
     },
     {
       "data": {
@@ -457,7 +457,7 @@
       },
       "frame": 3510,
       "id": 38,
-      "type": "Change"
+      "type": "Straight"
     },
     {
       "data": {
@@ -466,7 +466,7 @@
       },
       "frame": 3600,
       "id": 39,
-      "type": "Change"
+      "type": "Straight"
     },
     {
       "data": {
@@ -578,7 +578,7 @@
         "end": 2,
         "start": 1
       },
-      "frame": 4113,
+      "frame": 4143,
       "id": 45,
       "type": "Change"
     },
@@ -587,7 +587,7 @@
         "end": 0,
         "start": 2
       },
-      "frame": 4113,
+      "frame": 4173,
       "id": 46,
       "type": "Change"
     },
@@ -596,7 +596,7 @@
         "end": 2,
         "start": 1
       },
-      "frame": 4263,
+      "frame": 4323,
       "id": 47,
       "type": "Change"
     },
@@ -605,7 +605,7 @@
         "end": 3,
         "start": 2
       },
-      "frame": 4263,
+      "frame": 4353,
       "id": 48,
       "type": "Change"
     },
@@ -614,7 +614,7 @@
         "end": 1,
         "start": 3
       },
-      "frame": 4263,
+      "frame": 4383,
       "id": 49,
       "type": "Change"
     },
@@ -623,7 +623,7 @@
         "end": 3,
         "start": 2
       },
-      "frame": 4413,
+      "frame": 4533,
       "id": 50,
       "type": "Change"
     },
@@ -632,7 +632,7 @@
         "end": 4,
         "start": 3
       },
-      "frame": 4413,
+      "frame": 4563,
       "id": 51,
       "type": "Change"
     },
@@ -641,7 +641,7 @@
         "end": 2,
         "start": 4
       },
-      "frame": 4413,
+      "frame": 4593,
       "id": 52,
       "type": "Change"
     },
@@ -650,7 +650,7 @@
         "end": 4,
         "start": 3
       },
-      "frame": 4563,
+      "frame": 4743,
       "id": 53,
       "type": "Change"
     },
@@ -659,7 +659,7 @@
         "end": 0,
         "start": 4
       },
-      "frame": 4563,
+      "frame": 4773,
       "id": 54,
       "type": "Change"
     },
@@ -668,7 +668,7 @@
         "end": 3,
         "start": 0
       },
-      "frame": 4563,
+      "frame": 4803,
       "id": 55,
       "type": "Change"
     },
@@ -677,7 +677,7 @@
         "end": 0,
         "start": 4
       },
-      "frame": 4713,
+      "frame": 4953,
       "id": 56,
       "type": "Change"
     },
@@ -686,7 +686,7 @@
         "end": 1,
         "start": 0
       },
-      "frame": 4713,
+      "frame": 4983,
       "id": 57,
       "type": "Change"
     },
@@ -695,7 +695,7 @@
         "end": 4,
         "start": 1
       },
-      "frame": 4713,
+      "frame": 5013,
       "id": 58,
       "type": "Change"
     },
@@ -720,7 +720,7 @@
           }
         ]
       },
-      "frame": 4863,
+      "frame": 5163,
       "id": 59,
       "type": "Midium"
     },
@@ -745,7 +745,7 @@
           }
         ]
       },
-      "frame": 4923,
+      "frame": 5223,
       "id": 60,
       "type": "Midium"
     }

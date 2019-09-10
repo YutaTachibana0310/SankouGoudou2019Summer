@@ -23,7 +23,7 @@ using namespace std;
 **********************************************************/
 #define BOMBER_SIZE					(20.0f)
 #define BOMBER_STOCK_INTERVAL		(600)
-#define BOMBER_STOCK_MAX			(1)
+#define BOMBER_STOCK_MAX			(3)
 
 /********************************************************
 構造体定義
@@ -302,4 +302,12 @@ void PlayerBomberController::AddStock()
 int PlayerBomberController::GetStockNum()
 {
 	return stock;
+}
+
+/***************************************************
+チャージング判定
+***************************************************/
+bool PlayerBomberController::IsCharging()
+{
+	return stockInterval < BOMBER_STOCK_INTERVAL;
 }

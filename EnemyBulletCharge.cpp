@@ -10,8 +10,8 @@
 É}ÉNÉçíËã`
 ***************************************/
 #define ENEMYBULLETCHARGE_POS_RANGE			(4.0f)
-#define ENEMYBULLETCHARGE_EMIT_DURATION		(120)
-#define ENEMYBULLETCHARGE_LIFE				(30)
+#define ENEMYBULLETCHARGE_EMIT_DURATION		(150)
+#define ENEMYBULLETCHARGE_LIFE				(60)
 
 /**************************************
 EnemyBulletChargeèâä˙âªèàóù

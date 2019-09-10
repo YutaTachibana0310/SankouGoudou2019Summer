@@ -23,7 +23,7 @@ using namespace std;
 **********************************************************/
 #define BOMBER_SIZE					(20.0f)
 #define BOMBER_STOCK_INTERVAL		(600)
-#define BOMBER_STOCK_MAX			(1)
+#define BOMBER_STOCK_MAX			(3)
 
 /********************************************************
 ç\ë¢ëÃíËã`

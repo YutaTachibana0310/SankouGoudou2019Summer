@@ -25,7 +25,7 @@
 #define SIZE_BACKGROUND_COMBO	(D3DXVECTOR3(512.0f,256.0f,0.0f))
 
 // 座標定義(3D)
-#define POSITION_NUMBER_COMBO	(D3DXVECTOR3(160.0f,200.0f,0.0f))
+#define POSITION_NUMBER_COMBO	(D3DXVECTOR3(190.0f,200.0f,0.0f))
 #define POSITION_BG_COMBO		(D3DXVECTOR3(512.0f,256.0f,0.0f))
 
 //*****************************************************************************
@@ -55,7 +55,7 @@ Combo::Combo()
 
 	//ビュアー
 	viewer = new Viewer3D(SIZE_BACKGROUND_COMBO.x, SIZE_BACKGROUND_COMBO.y, D3DXVECTOR2(20.0f, 10.0f));
-	viewer->SetPosition(D3DXVECTOR3((float)-SCREEN_WIDTH / 15.5f,  (float)SCREEN_HEIGHT/23.0f, 0.0f));
+	viewer->SetPosition(D3DXVECTOR3((float)-SCREEN_WIDTH / 15.0f,  (float)SCREEN_HEIGHT/25.0f, 0.0f));
 	viewer->SetRotation(0.0f, -30.0f, 0.0f);
 
 	// 最大値設定

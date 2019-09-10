@@ -44,8 +44,8 @@ Score::Score()
 	bg->SetColorObject(SET_COLOR_NOT_COLORED);
 
 	//ビュアー
-	viewer = new Viewer3D(SIZE_BG_SCORE.x, SIZE_BG_SCORE.y, D3DXVECTOR2(40.0f, 10.0f));
-	viewer->SetPosition(D3DXVECTOR3((float)-SCREEN_WIDTH/19.0f,(float)SCREEN_HEIGHT / 15.0f, 0.0f));
+	viewer = new Viewer3D(SIZE_BG_SCORE.x, SIZE_BG_SCORE.y, D3DXVECTOR2(35.0f, 10.0f));
+	viewer->SetPosition(D3DXVECTOR3((float)-SCREEN_WIDTH/18.0f,(float)SCREEN_HEIGHT / 16.0f, 0.0f));
 	viewer->SetRotation(0.0f, -30.0f, 0.0f);
 
 	// 最大値設定
@@ -68,12 +68,17 @@ Score::~Score()
 	SAFE_DELETE(bg);
 	SAFE_DELETE(viewer);
 }
-
+//#include "debugWindow.h"
 //=============================================================================
 // 更新処理
 //=============================================================================
 void Score::Update(void)
 {
+	//BeginDebugWindow("score");
+	//static float angle = 30.0f;
+	//DebugSliderFloat("angle", &angle, -90.0f, 0.0f);
+	//viewer->SetRotation(0.0f, angle, 0.0f);
+	//EndDebugWindow("");
 	VolumeUpEffect();
 
 	// 桁あふれ防止

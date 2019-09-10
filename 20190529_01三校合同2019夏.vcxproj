@@ -211,6 +211,7 @@
     <ClInclude Include="GameBossStart.h" />
     <ClInclude Include="GameFailed.h" />
     <ClInclude Include="GameOver.h" />
+    <ClInclude Include="InputGuide.h" />
     <ClInclude Include="MidiumEditWindow.h" />
     <ClInclude Include="MidiumEnemyFactory.h" />
     <ClInclude Include="MidiumEnemyModel.h" />
@@ -430,6 +431,7 @@
     <ClCompile Include="GameBossStart.cpp" />
     <ClCompile Include="GameFailed.cpp" />
     <ClCompile Include="GameOver.cpp" />
+    <ClCompile Include="InputGuide.cpp" />
     <ClCompile Include="MidiumEditWindow.cpp" />
     <ClCompile Include="MidiumEnemyFactory.cpp" />
     <ClCompile Include="MidiumEnemyModel.cpp" />

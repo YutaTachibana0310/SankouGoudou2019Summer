@@ -265,6 +265,7 @@ void GameScene::Draw()
 	//UI描画
 	gameSceneUIManager->Draw();
 	bossUI->Draw();
+	playerObserver->DrawInputGuide();
 
 	//ゲームオーバー時のモノトーンフィルタ描画
 	if (!playerObserver->IsAlive())

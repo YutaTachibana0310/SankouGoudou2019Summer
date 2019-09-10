@@ -6,6 +6,7 @@
 //=====================================
 #include "PlayerObserver.h"
 #include "InputController.h"
+#include "InputGuide.h"
 
 #include "PlayerMove.h"
 #include "PlayerWait.h"
@@ -32,13 +33,15 @@ using namespace std;
 /**************************************
 コンストラクタ
 ***************************************/
-PlayerObserver::PlayerObserver()
+PlayerObserver::PlayerObserver() :
+	InvalidInputID(5)
 {
 	player = new Player();
 	model = new PlayerModel();
 	trailEffect = new PlayerTrail();
 	bomberController = new PlayerBomberController();
 	bulletController = new PlayerBulletController();
+	inputGuide = new InputGuide();
 
 	fsm[PlayerState::Idle] = new PlayerIdle();
 	fsm[PlayerState::Wait] = new PlayerWait();
@@ -68,6 +71,7 @@ PlayerObserver::~PlayerObserver()
 	SAFE_DELETE(player);
 	SAFE_DELETE(model);
 	SAFE_DELETE(trailEffect);
+	SAFE_DELETE(inputGuide);
 
 	SAFE_DELETE(bomberController);
 	SAFE_DELETE(bulletController);
@@ -100,6 +104,19 @@ void PlayerObserver::Update()
 {
 	if (enableUpdateLogic)
 	{
+		if (current == PlayerState::Wait || current == PlayerState::Idle)
+		{
+			int inputID = GetStickInput(moveTarget);
+
+			if (inputID != InvalidInputID)
+			{
+				inputGuide->Set(player->transform.pos, LineTrailModel::GetEdgePos(inputID));
+
+				if (IsAnyButtonTriggerd())
+					PushInput(inputID);
+			}
+		}
+
 		int stateResult = player->Update();
 
 		if (stateResult != STATE_CONTINUOUS)
@@ -131,6 +148,14 @@ void PlayerObserver::Draw()
 }
 
 /**************************************
+描画処理
+***************************************/
+void PlayerObserver::DrawInputGuide()
+{
+	inputGuide->Draw();
+}
+
+/**************************************
 入力確認処理
 ***************************************/
 void PlayerObserver::CheckInput()
@@ -141,13 +166,6 @@ void PlayerObserver::CheckInput()
 	//入力を確認
 	const int InvalidInput = 5;
 	int inputID = GetMoveInput();
-	
-	//キーボード、マウスからの入力が無く、かつ、Wait状態かIdle状態であれば
-	if (inputID == InvalidInput)
-	{
-		if(current == PlayerState::Idle || current == PlayerState::Wait)
-			inputID = GetStickInput(moveTarget);
-	}
 
 	if(inputID < InvalidInput)
 		PushInput(inputID);

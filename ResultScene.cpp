@@ -57,6 +57,7 @@ void ResultScene::Update(HWND hWnd)
 ***************************************/
 void ResultScene::Draw()
 {
+	DrawResultSceneBG();
 	player->Draw();
 	DrawResultSceneUI();
 }

@@ -14,5 +14,5 @@ void InitResultSceneUI(void);
 void UninitResultSceneUI(void);
 void UpdateResultSceneUI(HWND hwnd);
 void DrawResultSceneUI(void);
-
+void DrawResultSceneBG(void);
 #endif

@@ -28,7 +28,7 @@ ResultPlayer::ResultPlayer(bool isClear)
 
 	//トランスフォーム作成
 	transform = new Transform();
-	transform->pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	transform->pos = D3DXVECTOR3(0.0f, 0.0f, -50.0f);
 
 	//アニメーション遷移
 	AnimID state = isClear ? AnimID::Clear : AnimID::Failed;

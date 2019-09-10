@@ -255,6 +255,7 @@
     <ClInclude Include="PlayerObserver.h" />
     <ClInclude Include="rank.h" />
     <ClInclude Include="resultBGUI.h" />
+    <ClInclude Include="ResultPlayer.h" />
     <ClInclude Include="ResultSceneUIManager.h" />
     <ClInclude Include="savefile.h" />
     <ClInclude Include="ScoreManager.h" />
@@ -521,6 +522,7 @@
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp" />
     <ClCompile Include="rank.cpp" />
     <ClCompile Include="resultBGUI.cpp" />
+    <ClCompile Include="ResultPlayer.cpp" />
     <ClCompile Include="ResultSceneUIManager.cpp" />
     <ClCompile Include="savefile.cpp" />
     <ClCompile Include="ScoreManager.cpp" />

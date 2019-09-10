@@ -8,7 +8,7 @@
 #include "debugWindow.h"
 #include "Game.h"
 #include "ResultSceneUIManager.h"
-
+#include "ResultPlayer.h"
 
 /**************************************
 ƒ}ƒNƒ’è‹`
@@ -27,6 +27,8 @@
 ***************************************/
 void ResultScene::Init()
 {
+	player = new ResultPlayer(false);
+
 	InitResultSceneUI();
 
 }
@@ -37,6 +39,8 @@ void ResultScene::Init()
 void ResultScene::Uninit()
 {
 	UninitResultSceneUI();
+
+	SAFE_DELETE(player);
 }
 
 /**************************************
@@ -44,6 +48,7 @@ void ResultScene::Uninit()
 ***************************************/
 void ResultScene::Update(HWND hWnd)
 {
+	player->Update();
 	UpdateResultSceneUI(hWnd);
 }
 
@@ -52,5 +57,6 @@ void ResultScene::Update(HWND hWnd)
 ***************************************/
 void ResultScene::Draw()
 {
+	player->Draw();
 	DrawResultSceneUI();
 }

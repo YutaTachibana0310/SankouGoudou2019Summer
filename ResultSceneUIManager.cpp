@@ -38,6 +38,6 @@ void UpdateResultSceneUI(HWND hwnd) {
 // •`‰æˆ—
 //=============================================================================
 void DrawResultSceneUI(void) {
-	DrawResultBG();
+	//DrawResultBG();
 	DrawRank();
 }

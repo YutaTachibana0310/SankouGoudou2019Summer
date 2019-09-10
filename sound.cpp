@@ -30,6 +30,7 @@ Sound::Sound()
 	pause = false;
 	changepitch = 0;
 	fadecounta = 0.0f;
+	enterSE = true;
 
 }
 
@@ -238,18 +239,26 @@ void Sound::SetPlaySE(int wavenum, bool playflag, float vol) {
 	//falseの場合はポーズ中に再生できるSE
 	SEplayflag[wavenum] = playflag;
 
-	//再生フラグがtrueかつポーズフラグもfalseの場合に再生
-	if (SEplayflag[wavenum] && !pauseflag) {
-		SEwaveBank->Play(wavenum, XACT_FLAG_UNITS_MS, 0, 0, &SEwave[wavenum]);
-		Sound::ChangeSEVolume(wavenum, vol);
+	//エンターSEのみ1回だけ鳴らせるように対応（必要に応じ修正必要）
+	if (wavenum == ENTERSE) {
 
+		if (enterSE) {
+
+			enterSE = false;
+			SEwaveBank->Play(wavenum, XACT_FLAG_UNITS_MS, 0, 0, &SEwave[wavenum]);
+			Sound::ChangeSEVolume(wavenum, vol);
+		}
 	}
-	else if (!SEplayflag[wavenum] && pauseflag)
-	{
-		//playflagをtrueにした場合はポーズ中に再生できるように
+	else {
 		SEwaveBank->Play(wavenum, XACT_FLAG_UNITS_MS, 0, 0, &SEwave[wavenum]);
 		Sound::ChangeSEVolume(wavenum, vol);
 	}
+	//else if (!SEplayflag[wavenum] && pauseflag)
+	//{
+	//	//playflagをtrueにした場合はポーズ中に再生できるように
+	//	SEwaveBank->Play(wavenum, XACT_FLAG_UNITS_MS, 0, 0, &SEwave[wavenum]);
+	//	Sound::ChangeSEVolume(wavenum, vol);
+	//}
 
 
 

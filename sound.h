@@ -88,6 +88,7 @@ bool coInitialized;
 
 bool pauseflag;
 
+
 //フェード用に現在再生中の最大音量をセット
 float maxvol_BGM[MAXBGM];
 
@@ -103,6 +104,7 @@ public:
 	float changevol;
 	int UIcounta;
 	float fadecounta;
+	bool enterSE;
 
 	static Sound *GetInstance() {
 		return sound;

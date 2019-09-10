@@ -269,38 +269,38 @@ void BoxCollider3D::RemoveFromCheckList(BoxCollider3DTag tag)
 #ifdef BOXCOLLIDER3D_USE_DEBUG
 void BoxCollider3D::DrawCollider(BoxCollider3D *collider)
 {
-	if (!collider->active)
-		return;
+	//if (!collider->active)
+	//	return;
 
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-	D3DXMATRIX mtxTranslate, mtxScale, mtxWorld;
-	D3DMATERIAL9 matDef;
+	//LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	//D3DXMATRIX mtxTranslate, mtxScale, mtxWorld;
+	//D3DMATERIAL9 matDef;
 
-	//デフォルトマテリアル取得
-	pDevice->GetMaterial(&matDef);
+	////デフォルトマテリアル取得
+	//pDevice->GetMaterial(&matDef);
 
-	//レンダーステートとマテリアルを設定
-	pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	pDevice->SetMaterial(&material);
-	pDevice->SetTexture(0, NULL);
+	////レンダーステートとマテリアルを設定
+	//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//pDevice->SetMaterial(&material);
+	//pDevice->SetTexture(0, NULL);
 
-	//行列計算
-	D3DXVECTOR3 pos = *(collider->pPos) + collider->offset;
-	D3DXMatrixIdentity(&mtxWorld);
-	D3DXMatrixScaling(&mtxScale, collider->size.x * 2, collider->size.y * 2, collider->size.z * 2);
-	D3DXMatrixTranslation(&mtxTranslate, pos.x, pos.y, pos.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScale);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTranslate);
+	////行列計算
+	//D3DXVECTOR3 pos = *(collider->pPos) + collider->offset;
+	//D3DXMatrixIdentity(&mtxWorld);
+	//D3DXMatrixScaling(&mtxScale, collider->size.x * 2, collider->size.y * 2, collider->size.z * 2);
+	//D3DXMatrixTranslation(&mtxTranslate, pos.x, pos.y, pos.z);
+	//D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScale);
+	//D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTranslate);
 
-	//ワールド情報セット
-	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+	////ワールド情報セット
+	//pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
-	//描画
-	mesh->DrawSubset(0);
+	////描画
+	//mesh->DrawSubset(0);
 
-	//レンダーステートとマテリアル復元
-	pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	pDevice->SetMaterial(&matDef);
+	////レンダーステートとマテリアル復元
+	//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	//pDevice->SetMaterial(&matDef);
 
 }
 #endif

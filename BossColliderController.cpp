@@ -131,34 +131,34 @@ void BossColliderController::DeleteAll()
 ***************************************/
 void BossColliderController::OnNotified(ObserveSubject* notifier)
 {
-	//model.OnDamage();
+	model.OnDamage();
 
-	//LineTrailModel model = modelMap[notifier];
+	LineTrailModel model = modelMap[notifier];
 
-	//D3DXVECTOR3 right, left;
-	//model.GetEdgePos(&right, &left);
-	//right.z = left.z = posZ;
-	//D3DXVECTOR3 offset = right - left;
-	//offset /= 10.0f;
+	D3DXVECTOR3 right, left;
+	model.GetEdgePos(&right, &left);
+	right.z = left.z = posZ;
+	D3DXVECTOR3 offset = right - left;
+	offset /= 10.0f;
 
-	//for (int i = 0; i < 10; i++)
-	//{
-	//	GameParticleManager::Instance()->SetBossHit(&(left + offset));
-	//	left += offset;
-	//}
+	for (int i = 0; i < 10; i++)
+	{
+		GameParticleManager::Instance()->SetBossHit(&(left + offset));
+		left += offset;
+	}
 
-	//modelMap.erase(notifier);
+	modelMap.erase(notifier);
 
-	//SAFE_DELETE(guideMap[notifier]);
-	//guideMap.erase(notifier);
+	SAFE_DELETE(guideMap[notifier]);
+	guideMap.erase(notifier);
 
-	//auto itr = std::find(colliderList.begin(), colliderList.end(), notifier);
-	//(*itr)->active = false;
+	auto itr = std::find(colliderList.begin(), colliderList.end(), notifier);
+	(*itr)->active = false;
 
-	////
-	//cntHit++;
-	//if (cntHit == colliderList.size())
-	//{
-	//	this->model.ChangeState(BossEnemyModel::State::LargeDamage);
-	//}
+	//
+	cntHit++;
+	if (cntHit == colliderList.size())
+	{
+		this->model.ChangeState(BossEnemyModel::State::LargeDamage);
+	}
 }

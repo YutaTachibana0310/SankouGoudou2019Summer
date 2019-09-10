@@ -88,6 +88,8 @@ private:
 	int moveTarget;
 	std::vector<D3DXVECTOR3> targetPos;
 
+	PlayerAnimID prevAnim;
+
 	void ChangeStatePlayer(PlayerState next);
 	
 	void TryStockBomber();

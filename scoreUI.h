@@ -10,19 +10,12 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	INTERVAL_NUMBER	(160.0f)		// スコア数字の表示間隔
+#define	INTERVAL_NUMBER	(120.0f)		// スコア数字の表示間隔
 #define	INTERVAL_RANKING_NUMBER	(45.0f)	// スコア数字の表示間隔（ランキング用）
 #define	INTERVAL_NUMBER_TEXTURE	(0.1f)	// テクスチャテクスチャ内のスコア数字の表示間隔
 #define	PLACE_MAX		(6)				// スコアの桁数
 #define BASE_NUMBER		(10)			// 進数
 #define VOLUME_ZOOM		(30.0f)
-
-#define SIZE_NUMBER_SCORE	(D3DXVECTOR3(200.0f,160.0f,0.0f))
-#define SIZE_BG_SCORE		(D3DXVECTOR3(1024.0f,256.0f,0.0f))
-
-//座標設定(3D)
-#define POSITION_NUMBER_SCORE	(D3DXVECTOR3(200.0f,300.0f,0.0f))
-#define POSITION_BG_SCORE		(D3DXVECTOR3(1024.0f,256.0f,0.0f))
 
 /**************************************
 前方宣言

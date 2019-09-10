@@ -13,7 +13,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	INTERVAL_NUMBER		(160.0f)	// コンボ数字の表示間隔
+#define	INTERVAL_NUMBER		(120.0f)	// コンボ数字の表示間隔
 #define	INTERVAL_NUMBER_TEXTURE	(0.1f)	// テクスチャ内コンボ数字の表示間隔
 #define	PLACE_MAX			(3)			// コンボの桁数
 #define BASE_NUMBER			(10)		// 進数
@@ -54,8 +54,8 @@ Combo::Combo()
 	bg->CreateObjectCircle();
 
 	//ビュアー
-	viewer = new Viewer3D(SIZE_BACKGROUND_COMBO.x, SIZE_BACKGROUND_COMBO.y, D3DXVECTOR2(20.0f, 15.0f));
-	viewer->SetPosition(D3DXVECTOR3((float)-SCREEN_WIDTH / 14.5f, (float)SCREEN_HEIGHT/16.0f, 0.0f));
+	viewer = new Viewer3D(SIZE_BACKGROUND_COMBO.x, SIZE_BACKGROUND_COMBO.y, D3DXVECTOR2(20.0f, 10.0f));
+	viewer->SetPosition(D3DXVECTOR3((float)-SCREEN_WIDTH / 15.5f,  (float)SCREEN_HEIGHT/23.0f, 0.0f));
 	viewer->SetRotation(0.0f, -30.0f, 0.0f);
 
 	// 最大値設定
@@ -153,8 +153,8 @@ void Combo::VolumeUpEffect(void)
 void Combo::UpdateNumberColor(void)
 {
 	int firstColorStartCombo  = 0;
-	int secondColorStartCombo = 20;
-	int thirdColorStartCombo  = 45;
+	int secondColorStartCombo = 50;
+	int thirdColorStartCombo  = 100;
 
 	if (combo >= firstColorStartCombo && combo < secondColorStartCombo)
 	{

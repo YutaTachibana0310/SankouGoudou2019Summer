@@ -13,6 +13,12 @@
 // マクロ定義
 //*****************************************************************************
 #define SPEED_VOLUMEUP_NUMBER_SCORE (0.2f)
+#define SIZE_NUMBER_SCORE	(D3DXVECTOR3(120.0f,200.0f,0.0f))
+#define SIZE_BG_SCORE		(D3DXVECTOR3(1024.0f,256.0f,0.0f))
+
+//座標設定(3D)
+#define POSITION_NUMBER_SCORE	(D3DXVECTOR3(240.0f,300.0f,0.0f))
+#define POSITION_BG_SCORE		(D3DXVECTOR3(1024.0f,256.0f,0.0f))
 
 //*****************************************************************************
 // コンストラクタ
@@ -38,8 +44,8 @@ Score::Score()
 	bg->SetColorObject(SET_COLOR_NOT_COLORED);
 
 	//ビュアー
-	viewer = new Viewer3D(SIZE_BG_SCORE.x, SIZE_BG_SCORE.y, D3DXVECTOR2(20.0f, 15.0f));
-	viewer->SetPosition(D3DXVECTOR3((float)-SCREEN_WIDTH/14.5f, (float)SCREEN_HEIGHT/40.0f, 0.0f));
+	viewer = new Viewer3D(SIZE_BG_SCORE.x, SIZE_BG_SCORE.y, D3DXVECTOR2(40.0f, 10.0f));
+	viewer->SetPosition(D3DXVECTOR3((float)-SCREEN_WIDTH/19.0f,(float)SCREEN_HEIGHT / 15.0f, 0.0f));
 	viewer->SetRotation(0.0f, -30.0f, 0.0f);
 
 	// 最大値設定

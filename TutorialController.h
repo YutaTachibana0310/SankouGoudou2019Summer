@@ -15,6 +15,7 @@
 前方宣言
 ***************************************/
 class TutorialGuide;
+class Polygon2D;
 
 /**************************************
 クラス定義
@@ -31,9 +32,10 @@ public:
 private:
 	int cntFrame;
 	int step;
-	std::vector<TutorialGuide*> tutorialContainer;
+	TutorialGuide *guide;
+	Polygon2D *skip;
 
-	const int StepMax = 1;
+	const int GuideDuration = 360;
 };
 
 #endif

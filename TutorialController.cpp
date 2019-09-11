@@ -17,17 +17,19 @@
 ***************************************/
 TutorialController::TutorialController() :
 	cntFrame(0),
-	step(0)
+	step(0),
+	guide(new TutorialGuide()),
+	skip(new Polygon2D())
 {
-	tutorialContainer.reserve(StepMax);
-	for (int i = 0; i < StepMax; i++)
-	{
-		TutorialGuide *ptr = new TutorialGuide("");
+	//座標決定
+	const D3DXVECTOR3 Position = D3DXVECTOR3(300.0f, 700.0f, 0.0f);
+	guide->transform.pos = Position;
+	guide->Set(step);
 
-		ptr->transform.pos = D3DXVECTOR3(SCREEN_CENTER_X, SCREEN_CENTER_Y, 0.0f);
-
-		tutorialContainer.push_back(ptr);
-	}
+	//スキップガイド設定
+	skip->LoadTexture("data/TEXTURE/Tutorial/skip.png");
+	skip->SetSize(240.0f, 30.0f);
+	skip->transform.pos = D3DXVECTOR3(SCREEN_WIDTH - 240.0f, SCREEN_HEIGHT - 30.0f, 0.0f);
 }
 
 /**************************************
@@ -35,11 +37,8 @@ TutorialController::TutorialController() :
 ***************************************/
 TutorialController::~TutorialController()
 {
-	for (auto&& guide : tutorialContainer)
-	{
-		SAFE_DELETE(guide);
-	}
-	tutorialContainer.clear();
+	SAFE_DELETE(guide);
+	SAFE_DELETE(skip);
 }
 
 /**************************************
@@ -47,20 +46,16 @@ TutorialController::~TutorialController()
 ***************************************/
 void TutorialController::Update()
 {
-	if (step >= StepMax)
-		return;
+	guide->Update();
 
-	tutorialContainer[step]->Update();
-
-	cntFrame = WrapAround(0, TutorialGuide::LifeFrame, cntFrame + 1);
+	cntFrame = WrapAround(0, GuideDuration, cntFrame + 1);
 
 	if (cntFrame == 0)
 	{
 		step++;
-		if (step == StepMax)
-		{
+		bool isTutorialEnd = !guide->Set(step);
+		if (isTutorialEnd)
 			SceneChangeFlag(true, Scene::SceneGame);
-		}
 	}
 
 }
@@ -70,8 +65,6 @@ void TutorialController::Update()
 ***************************************/
 void TutorialController::Draw()
 {
-	if (step >= StepMax)
-		return;
-
-	tutorialContainer[step]->Draw();
+	guide->Draw();
+	skip->Draw();
 }

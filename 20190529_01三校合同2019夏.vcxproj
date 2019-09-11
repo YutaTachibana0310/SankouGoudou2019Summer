@@ -350,8 +350,12 @@
     <ClInclude Include="trailUI.h" />
     <ClInclude Include="TrailCollider.h" />
     <ClInclude Include="TutorialBG.h" />
+    <ClInclude Include="TutorialBomber.h" />
     <ClInclude Include="TutorialController.h" />
+    <ClInclude Include="TutorialEnemyController.h" />
+    <ClInclude Include="TutorialEnemyModel.h" />
     <ClInclude Include="TutorialGuide.h" />
+    <ClInclude Include="TutorialIdle.h" />
     <ClInclude Include="TutorialScene.h" />
     <ClInclude Include="UIdrawer.h" />
     <ClInclude Include="GameSceneUIManager.h" />
@@ -562,8 +566,12 @@
     <ClCompile Include="trailUI.cpp" />
     <ClCompile Include="TrailCollider.cpp" />
     <ClCompile Include="TutorialBG.cpp" />
+    <ClCompile Include="TutorialBomber.cpp" />
     <ClCompile Include="TutorialController.cpp" />
+    <ClCompile Include="TutorialEnemyController.cpp" />
+    <ClCompile Include="TutorialEnemyModel.cpp" />
     <ClCompile Include="TutorialGuide.cpp" />
+    <ClCompile Include="TutorialIdle.cpp" />
     <ClCompile Include="TutorialScene.cpp" />
     <ClCompile Include="UIdrawer.cpp" />
     <ClCompile Include="GameSceneUIManager.cpp" />

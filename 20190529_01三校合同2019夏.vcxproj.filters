@@ -199,6 +199,12 @@
     <Filter Include="ソース ファイル\Player\Bomber">
       <UniqueIdentifier>{fc1d7cbb-8c73-409b-abc3-ff3ee75a7cc6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Tutorial">
+      <UniqueIdentifier>{fcfaffed-ec0c-440e-894a-b70d60d8f2da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Tutorial">
+      <UniqueIdentifier>{b6292941-2ea1-4e58-a442-90d726c759b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -843,12 +849,6 @@
     <ClInclude Include="TutorialBG.h">
       <Filter>ヘッダー ファイル\BG</Filter>
     </ClInclude>
-    <ClInclude Include="TutorialController.h">
-      <Filter>ヘッダー ファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="TutorialGuide.h">
-      <Filter>ヘッダー ファイル\System</Filter>
-    </ClInclude>
     <ClInclude Include="Viewer3D.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
@@ -895,6 +895,24 @@
     </ClInclude>
     <ClInclude Include="InputGuide.h">
       <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialEnemyController.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialEnemyModel.h">
+      <Filter>ヘッダー ファイル\Enemy\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialController.h">
+      <Filter>ヘッダー ファイル\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialGuide.h">
+      <Filter>ヘッダー ファイル\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialIdle.h">
+      <Filter>ヘッダー ファイル\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialBomber.h">
+      <Filter>ヘッダー ファイル\Tutorial</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1489,12 +1507,6 @@
     <ClCompile Include="TutorialBG.cpp">
       <Filter>ソース ファイル\BG</Filter>
     </ClCompile>
-    <ClCompile Include="TutorialController.cpp">
-      <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
-    <ClCompile Include="TutorialGuide.cpp">
-      <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
     <ClCompile Include="Viewer3D.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
@@ -1541,6 +1553,24 @@
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialEnemyController.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialEnemyModel.cpp">
+      <Filter>ソース ファイル\Enemy\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialController.cpp">
+      <Filter>ソース ファイル\Tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialGuide.cpp">
+      <Filter>ソース ファイル\Tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialIdle.cpp">
+      <Filter>ソース ファイル\Tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialBomber.cpp">
+      <Filter>ソース ファイル\Tutorial</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

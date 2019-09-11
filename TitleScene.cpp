@@ -63,7 +63,7 @@ void TitleScene::Update(HWND hWnd)
 	{
 		//SE
 		Sound::GetInstance()->SetPlaySE(ENTERSE, Sound::GetInstance()->enterSE, (Sound::GetInstance()->changevol / 5.0f));
-		SceneChangeFlag(true, Scene::SceneGame);
+		SceneChangeFlag(true, Scene::SceneTutorial);
 	}
 
 	bgController->Update();

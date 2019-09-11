@@ -131,7 +131,11 @@ void UpdateGame(HWND hWnd)
 	UpdateLight();
 	Camera::Instance()->Update();
 
-	fsm[currentScene]->Update(hWnd);
+	static bool flgPause = false;
+	if (GetKeyboardTrigger(DIK_P))
+		flgPause = !flgPause;
+	if(!flgPause)
+		fsm[currentScene]->Update(hWnd);
 }
 
 /**************************************

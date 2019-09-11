@@ -13,6 +13,14 @@
 #include "InputController.h"
 #include "GameParticleManager.h"
 #include "TutorialController.h"
+#include "TutorialEnemyController.h"
+#include "ScoreManager.h"
+#include "Framework\Polygon2D.h"
+#include "input.h"
+#include "masktex.h"
+
+#include "TutorialIdle.h"
+#include "TutorialBomber.h"
 
 /**************************************
 グローバル変数
@@ -23,6 +31,11 @@
 ***************************************/
 void TutorialScene::Init()
 {
+	//FSM作成
+	fsm.resize(State::Max, NULL);
+	fsm[State::Idle] = new TutorialIdle();
+	fsm[State::Bomber] = new TutorialBomber();
+	
 	//UIインスタンス作成
 	container = new GameSceneUIManager();
 
@@ -35,12 +48,23 @@ void TutorialScene::Init()
 	bg = new TutorialBG();
 	playerObserver = new PlayerObserver();
 	controller = new TutorialController();
+	enemyController = new TutorialEnemyController();
+
+	//暗転用ポリゴン作成
+	darkMask = new Polygon2D();
+	darkMask->SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
+	darkMask->SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.5f));
+	useDarkMask = false;
 
 	//PlayerControllerにPlayerObserverをセット
 	SetPlayerObserverAdr(playerObserver);
 
 	//インプットコントローラにUIManagerのインスタンスを渡す
 	SetInstanceUIManager(container);
+
+	//スコアマネージャにインスタンスを渡す
+	SetScoreIntance(container->score);
+	SetGameScneeUIManagerInstance(container);
 	
 	//フォグを有効化
 	FLOAT StartPos = 10000;
@@ -57,6 +81,8 @@ void TutorialScene::Init()
 	//初期化処理
 	GameParticleManager::Instance()->Init();
 	playerObserver->Init();
+
+	current = State::Idle;
 }
 
 /**************************************
@@ -68,6 +94,18 @@ void TutorialScene::Uninit()
 	SAFE_DELETE(bg);
 	SAFE_DELETE(container);
 	SAFE_DELETE(controller);
+	SAFE_DELETE(enemyController);
+	SAFE_DELETE(darkMask);
+
+	//FSM削除
+	for (auto&& statemachine : fsm)
+	{
+		SAFE_DELETE(statemachine);
+	}
+	fsm.clear();
+
+	//パーティクル終了
+	GameParticleManager::Instance()->Uninit();
 
 	//フォグを無効化
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
@@ -80,17 +118,29 @@ void TutorialScene::Uninit()
 ***************************************/
 void TutorialScene::Update(HWND hWnd)
 {
-	//入力確認
-	playerObserver->CheckInput();
+	int result = fsm[current]->OnUpdate(this);
 
-	bg->Update();
-	playerObserver->Update();
+	if (result != current)
+	{
+		current = (State)result;
+		fsm[current]->OnStart(this);
+	}
 
-	controller->Update();
-
+	//UI更新
 	container->Update(hWnd);
 
+	//パーティクル更新
 	GameParticleManager::Instance()->Update();
+
+	//衝突判定
+	TrailCollider::UpdateCollision();
+	BoxCollider3D::UpdateCollision();
+
+	//エンターキーが押されたらチュートリアル終了
+	if (GetKeyboardTrigger(DIK_RETURN))
+	{
+		SceneChangeFlag(true, Scene::SceneGame);
+	}
 }
 
 /**************************************
@@ -99,11 +149,32 @@ void TutorialScene::Update(HWND hWnd)
 void TutorialScene::Draw()
 {
 	bg->Draw();
+
+	//暗転用ポリゴンの描画
+	if (useDarkMask)
+	{
+		LPDIRECT3DDEVICE9 pDevice = GetDevice();
+		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
+
+		darkMask->Draw();
+
+		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+	}
+
 	playerObserver->Draw();
+	enemyController->Draw();
 
 	GameParticleManager::Instance()->Draw();
 
 	container->Draw();
 
 	controller->Draw();
+}
+
+/**************************************
+ボンバーを撃つべきかどうか
+***************************************/
+bool TutorialScene::ShouldFireBomber()
+{
+	return playerObserver->ShouldFireBomber() && enemyController->IsExistEnemy();
 }

@@ -171,6 +171,7 @@ void TutorialScene::Draw()
 
 	container->SetBomberStock(playerObserver->GetBomberStockNum(), playerObserver->IsBomberCharging());
 	container->Draw();
+	playerObserver->DrawInputGuide();
 
 	controller->Draw();
 }

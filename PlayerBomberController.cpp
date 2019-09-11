@@ -290,8 +290,6 @@ void PlayerBomberController::AddStock()
 {
 	if (stock < BOMBER_STOCK_MAX) {
 		stock = Min(stock + 1, BOMBER_STOCK_MAX);
-		//ストック追加時のSE
-		Sound::GetInstance()->SetPlaySE(BOMBSTOCK, true, (Sound::GetInstance()->changevol / 5.0f));
 	}
 	//stockInterval = 0;
 }

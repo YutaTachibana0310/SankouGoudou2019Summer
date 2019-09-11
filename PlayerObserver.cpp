@@ -7,6 +7,7 @@
 #include "PlayerObserver.h"
 #include "InputController.h"
 #include "InputGuide.h"
+#include "ScoreManager.h"
 
 #include "PlayerMove.h"
 #include "PlayerWait.h"
@@ -411,6 +412,13 @@ void PlayerObserver::TryStockBomber()
 	const float HealValue = 5.0f;
 	player->AddHp(HealValue);
 
+	//スコアも加算する
+	const int AddScoreValue = 100;
+	SetAddScore(AddScoreValue);
+
+	//SE再生
+	//ストック追加時のSE
+	Sound::GetInstance()->SetPlaySE(BOMBSTOCK, true, (Sound::GetInstance()->changevol / 5.0f));
 }
 
 /**************************************

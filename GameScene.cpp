@@ -347,9 +347,13 @@ void GameScene::OnAddCombo(int n)
 	if (currentCombo % COMBOEFFECT_PERIOD != 0)
 		return;
 
+	//”wŒi‰Á‘¬
 	SpeedBlurController::Instance()->AddPower(AddPower);
 	bgController->AddScrollSpeed(AddSpeed);
 	playerObserver->OnStartAccel();
+
+	//ƒvƒŒƒCƒ„[‚ÌHP‚ð0.5‰ñ•ª‰ñ•œ
+	playerObserver->HealPlayer(Player::MaxHp / 10.0f);
 }
 
 /**************************************

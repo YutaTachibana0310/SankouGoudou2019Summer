@@ -80,6 +80,8 @@ public:
 
 	void OnGameOver();
 
+	void HealPlayer(float value);
+
 private:
 	Player *player;
 	PlayerBomberController *bomberController;

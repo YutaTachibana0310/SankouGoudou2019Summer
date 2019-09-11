@@ -408,10 +408,6 @@ void PlayerObserver::TryStockBomber()
 	//エフェクト再生
 	player->StockBomber();
 
-	//プレイヤーのHPを回復
-	const float HealValue = 5.0f;
-	player->AddHp(HealValue);
-
 	//スコアも加算する
 	const int AddScoreValue = 100;
 	SetAddScore(AddScoreValue);
@@ -477,4 +473,12 @@ void PlayerObserver::OnGameOver()
 	Sound::GetInstance()->SetPlaySE(GAMEOVER, true, Sound::GetInstance()->changevol / 2.0f);
 	trailEffect->Uninit();
 	ChangeStatePlayer(PlayerState::Falldown);  
+}
+
+/**************************************
+プレイヤー回復処理
+***************************************/
+void PlayerObserver::HealPlayer(float value)
+{
+	player->AddHp(value);
 }

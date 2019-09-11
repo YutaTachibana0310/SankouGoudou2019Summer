@@ -325,6 +325,7 @@ void BossEnemyModel::OnHitBomber()
 {
 	flgBomberHit = true;
 	colliderController->DeleteAll();
+	bulletController->DisableAll();
 }
 
 /**************************************

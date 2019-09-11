@@ -8,6 +8,7 @@
 #include "MidiumEnemyModel.h"
 #include "GameParticleManager.h"
 #include "Framework\CameraShakePlugin.h"
+#include "sound.h"
 
 /**************************************
 ƒOƒ[ƒoƒ‹•Ï”
@@ -122,7 +123,12 @@ void MidiumEnemyModel::OnNotified(ObserveSubject * notifier)
 		for (auto&& enemy : enemyList)
 		{
 			enemy->m_FlgDestroyed = true;
+			Sound::GetInstance()->SetPlaySE(ENEMYDOWN2, true, (Sound::GetInstance()->changevol / 10.0f));
 		}
+
+	}
+	else {
+		Sound::GetInstance()->SetPlaySE(MIDENEMYDAMAGE, true, (Sound::GetInstance()->changevol / 2.0f));
 
 	}
 

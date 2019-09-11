@@ -65,7 +65,7 @@ void BossController::SetActive(bool state)
 ***************************************/
 bool BossController::IsActive()
 {
-	return active;
+	return bossModel->IsAlive();
 }
 
 /**************************************

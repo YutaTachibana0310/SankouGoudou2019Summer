@@ -352,6 +352,14 @@ void BossEnemyModel::ReceivePlayerPosition(int index)
 }
 
 /**************************************
+¶‘¶”»’è
+**************************************/
+bool BossEnemyModel::IsAlive()
+{
+	return currentState != State::Defeat;
+}
+
+/**************************************
 ˆê•M‘‚«‚Ì‹OÕì¬ˆ—
 **************************************/
 void BossEnemyModel::MakeOneStrokeEdge(int edgeNum, std::vector<int>& edgeList)

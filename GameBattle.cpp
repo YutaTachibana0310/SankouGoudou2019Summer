@@ -32,7 +32,7 @@ void GameScene::GameBattle::OnStart(GameScene *entity)
 ***************************************/
 int GameScene::GameBattle::OnUpdate(GameScene *entity)
 {
-	int result = GameScene::State::Battle;
+	int result = GameScene::State::BossStart;
 
 	entity->cntFrame++;
 

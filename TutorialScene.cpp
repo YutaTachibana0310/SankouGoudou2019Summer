@@ -16,6 +16,8 @@
 #include "TutorialEnemyController.h"
 #include "ScoreManager.h"
 #include "Framework\Polygon2D.h"
+#include "input.h"
+#include "masktex.h"
 
 #include "TutorialIdle.h"
 #include "TutorialBomber.h"
@@ -133,6 +135,12 @@ void TutorialScene::Update(HWND hWnd)
 	//衝突判定
 	TrailCollider::UpdateCollision();
 	BoxCollider3D::UpdateCollision();
+
+	//エンターキーが押されたらチュートリアル終了
+	if (GetKeyboardTrigger(DIK_RETURN))
+	{
+		SceneChangeFlag(true, Scene::SceneGame);
+	}
 }
 
 /**************************************

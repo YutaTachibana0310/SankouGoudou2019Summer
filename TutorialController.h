@@ -15,7 +15,8 @@
 前方宣言
 ***************************************/
 class TutorialGuide;
-	
+class Polygon2D;
+
 /**************************************
 クラス定義
 ***************************************/
@@ -32,6 +33,7 @@ private:
 	int cntFrame;
 	int step;
 	TutorialGuide *guide;
+	Polygon2D *skip;
 
 	const int GuideDuration = 360;
 };

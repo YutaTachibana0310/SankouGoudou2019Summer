@@ -27,7 +27,6 @@ TutorialGuide::TutorialGuide() :
 
 	//テクスチャ名
 	const char* TexturePath[TutorialStep::Max] = {
-		"data/TEXTURE/Tutorial/playermove.png",
 		"data/TEXTURE/Tutorial/movebutton.png",
 		"data/TEXTURE/Tutorial/comboreset.png",
 		"data/TEXTURE/Tutorial/bombstock.png",

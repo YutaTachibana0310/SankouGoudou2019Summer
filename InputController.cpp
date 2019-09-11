@@ -299,6 +299,9 @@ bool GetBomberInput()
 	if (GetKeyboardTrigger(DIK_SPACE) || GetKeyboardTrigger(DIK_LSHIFT))
 		return true;
 
+	if (IsShoulderButtonTriggerd())
+		return true;
+
 	return false;
 }
 
@@ -321,11 +324,16 @@ bool IsAnyKeyTriggered()
 
 bool IsAnyButtonTriggerd()
 {
-	for (DWORD button = BUTTON_A; button < BUTTON_M; button = button << 1)
+	for (DWORD button = BUTTON_A; button <= BUTTON_X; button = button << 1)
 	{
 		if (IsButtonTriggered(0, button))
 			return true;
 	}
 
 	return false;
+}
+
+bool IsShoulderButtonTriggerd()
+{
+	return IsButtonTriggered(0, BUTTON_Y) || IsButtonTriggered(0, BUTTON_Z);
 }

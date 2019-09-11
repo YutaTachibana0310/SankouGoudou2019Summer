@@ -16,11 +16,11 @@
 // マクロ定義
 //*****************************************************************************
 #define NUMBER_ROTATION		(1)
-#define SIZE_STAR			(D3DXVECTOR3(100.0f,100.0f,0.0f))
+#define SIZE_STAR			(D3DXVECTOR3(80.0f,80.0f,0.0f))
 #define VOLUME_ZOOM			(30.0f)
 #define DURATION_ROTATION	(60.0f)
 #define SPEED_CIRCLE_ROTATE (0.04f)
-
+#define STARBUTTON_COLOR	(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.75f))
 //*****************************************************************************
 // コンストラクタ
 //*****************************************************************************
@@ -42,7 +42,7 @@ StarButton::StarButton()
 		star[i]->size = SIZE_STAR;
 		star[i]->colliderSize = COLLIDERSIZE_STAR;
 		star[i]->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		star[i]->SetColorObject(SET_COLOR_NOT_COLORED);
+		star[i]->SetColorObject(STARBUTTON_COLOR);
 		star[i]->position.x = sinf(i * BaseAngle) * -Radius + CenterX;
 		star[i]->position.y = cosf(i * BaseAngle) * -Radius + CenterY;
 
@@ -54,7 +54,7 @@ StarButton::StarButton()
 		outerCircle[i]->size = SIZE_STAR;
 		outerCircle[i]->colliderSize = COLLIDERSIZE_STAR;
 		outerCircle[i]->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		outerCircle[i]->SetColorObject(SET_COLOR_NOT_COLORED);
+		outerCircle[i]->SetColorObject(STARBUTTON_COLOR);
 		outerCircle[i]->position.x = sinf(i * BaseAngle) * -Radius + CenterX;
 		outerCircle[i]->position.y = cosf(i * BaseAngle) * -Radius + CenterY;
 
@@ -66,7 +66,7 @@ StarButton::StarButton()
 		innerCircle[i]->size = SIZE_STAR;
 		innerCircle[i]->colliderSize = COLLIDERSIZE_STAR;
 		innerCircle[i]->rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		innerCircle[i]->SetColorObject(SET_COLOR_NOT_COLORED);
+		innerCircle[i]->SetColorObject(STARBUTTON_COLOR);
 		innerCircle[i]->position.x = sinf(i * BaseAngle) * -Radius + CenterX;
 		innerCircle[i]->position.y = cosf(i * BaseAngle) * -Radius + CenterY;
 	}

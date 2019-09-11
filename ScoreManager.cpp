@@ -13,6 +13,7 @@
 
 static int currentStageScore;
 static int currentCombo;
+static int comboCaunta;
 static Score *score;
 static GameSceneUIManager *gameSceneUIManager;
 
@@ -45,10 +46,14 @@ void SetAddScore(int n) {
 void SetAddCombo(int n) {
 	
 	currentCombo += n;
+
+	if (currentCombo % 5 == 0)
+		comboCaunta++;
+
 	gameSceneUIManager->AddCombo(n);
 
-	Sound::GetInstance()->SetPlaySE(COMBOSE, true, (Sound::GetInstance()->changevol / 10.0f));
-	Sound::GetInstance()->changepitch += n * 100;
+	Sound::GetInstance()->SetPlaySE(COMBOSE, true, (Sound::GetInstance()->changevol / 7.0f));
+	Sound::GetInstance()->changepitch = comboCaunta * 100;
 	if (Sound::GetInstance()->changepitch > 1200) {
 		Sound::GetInstance()->changepitch = 1200;
 	}
@@ -64,6 +69,7 @@ void SetAddCombo(int n) {
 void ClearCombo(void) {
 
 	currentCombo = 0;
+	comboCaunta = 0;
 	gameSceneUIManager->ReSetCombo();
 	Sound::GetInstance()->changepitch = 0;
 

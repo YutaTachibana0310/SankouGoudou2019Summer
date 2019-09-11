@@ -7,6 +7,7 @@
 #include "PlayerObserver.h"
 #include "InputController.h"
 #include "InputGuide.h"
+#include "ScoreManager.h"
 
 #include "PlayerMove.h"
 #include "PlayerWait.h"
@@ -407,6 +408,13 @@ void PlayerObserver::TryStockBomber()
 	//エフェクト再生
 	player->StockBomber();
 
+	//スコアも加算する
+	const int AddScoreValue = 100;
+	SetAddScore(AddScoreValue);
+
+	//SE再生
+	//ストック追加時のSE
+	Sound::GetInstance()->SetPlaySE(BOMBSTOCK, true, (Sound::GetInstance()->changevol / 5.0f));
 }
 
 /**************************************
@@ -465,4 +473,12 @@ void PlayerObserver::OnGameOver()
 	Sound::GetInstance()->SetPlaySE(GAMEOVER, true, Sound::GetInstance()->changevol / 2.0f);
 	trailEffect->Uninit();
 	ChangeStatePlayer(PlayerState::Falldown);  
+}
+
+/**************************************
+プレイヤー回復処理
+***************************************/
+void PlayerObserver::HealPlayer(float value)
+{
+	player->AddHp(value);
 }

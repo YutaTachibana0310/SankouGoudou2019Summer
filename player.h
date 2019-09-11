@@ -72,6 +72,7 @@ public:
 	void EnableCollider(bool state);
 	bool IsAlive();
 	float GetHp();
+	void AddHp(float value);
 
 	static const float MaxHp;
 
@@ -82,7 +83,7 @@ private:
 	float hp;
 	PlayerAnimID currentAnim, prevAnim;
 
-	const float DamageValue = MaxHp / 4.0f;
+	const float DamageValue = MaxHp / 5.0f;
 
 	static const float AnimShiftTime[PlayerAnimID::PlayerAnimMax];
 	static const D3DXVECTOR3 CameraShakeAmplitude;

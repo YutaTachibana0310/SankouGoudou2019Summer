@@ -316,3 +316,11 @@ float Player::GetHp()
 	return hp;
 }
 
+/*****************************************
+HP‰ÁŽZˆ—
+******************************************/
+void Player::AddHp(float value)
+{
+	this->hp = Clampf(0.0f, 100.0f, this->hp + value);
+}
+

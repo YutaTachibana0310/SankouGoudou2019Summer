@@ -35,6 +35,7 @@ void TutorialScene::TutorialIdle::OnStart(TutorialScene * entity)
 int TutorialScene::TutorialIdle::OnUpdate(TutorialScene * entity)
 {
 	int result = TutorialScene::State::Idle;
+
 	//“ü—ÍŠm”F
 	entity->playerObserver->CheckInput();
 

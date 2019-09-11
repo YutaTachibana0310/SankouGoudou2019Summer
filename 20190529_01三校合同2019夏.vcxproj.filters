@@ -911,6 +911,9 @@
     <ClInclude Include="TutorialIdle.h">
       <Filter>ヘッダー ファイル\Tutorial</Filter>
     </ClInclude>
+    <ClInclude Include="TutorialBomber.h">
+      <Filter>ヘッダー ファイル\Tutorial</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -1564,6 +1567,9 @@
       <Filter>ソース ファイル\Tutorial</Filter>
     </ClCompile>
     <ClCompile Include="TutorialIdle.cpp">
+      <Filter>ソース ファイル\Tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialBomber.cpp">
       <Filter>ソース ファイル\Tutorial</Filter>
     </ClCompile>
   </ItemGroup>

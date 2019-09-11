@@ -17,6 +17,7 @@
 #include "ScoreManager.h"
 
 #include "TutorialIdle.h"
+#include "TutorialBomber.h"
 
 /**************************************
 グローバル変数
@@ -30,6 +31,7 @@ void TutorialScene::Init()
 	//FSM作成
 	fsm.resize(State::Max, NULL);
 	fsm[State::Idle] = new TutorialIdle();
+	fsm[State::Bomber] = new TutorialBomber();
 	
 	//UIインスタンス作成
 	container = new GameSceneUIManager();
@@ -84,6 +86,13 @@ void TutorialScene::Uninit()
 	SAFE_DELETE(container);
 	SAFE_DELETE(controller);
 	SAFE_DELETE(enemyController);
+
+	//FSM削除
+	for (auto&& statemachine : fsm)
+	{
+		SAFE_DELETE(statemachine);
+	}
+	fsm.clear();
 
 	//フォグを無効化
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();

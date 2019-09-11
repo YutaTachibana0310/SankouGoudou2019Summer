@@ -350,6 +350,7 @@
     <ClInclude Include="trailUI.h" />
     <ClInclude Include="TrailCollider.h" />
     <ClInclude Include="TutorialBG.h" />
+    <ClInclude Include="TutorialBomber.h" />
     <ClInclude Include="TutorialController.h" />
     <ClInclude Include="TutorialEnemyController.h" />
     <ClInclude Include="TutorialEnemyModel.h" />
@@ -565,6 +566,7 @@
     <ClCompile Include="trailUI.cpp" />
     <ClCompile Include="TrailCollider.cpp" />
     <ClCompile Include="TutorialBG.cpp" />
+    <ClCompile Include="TutorialBomber.cpp" />
     <ClCompile Include="TutorialController.cpp" />
     <ClCompile Include="TutorialEnemyController.cpp" />
     <ClCompile Include="TutorialEnemyModel.cpp" />

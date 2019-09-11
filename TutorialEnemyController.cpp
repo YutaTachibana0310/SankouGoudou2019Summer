@@ -82,5 +82,5 @@ void TutorialEnemyController::Draw()
 ***************************************/
 bool TutorialEnemyController::IsExistEnemy()
 {
-	return modelList.empty();
+	return !modelList.empty();
 }

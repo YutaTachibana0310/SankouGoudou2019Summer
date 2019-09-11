@@ -98,7 +98,8 @@ void TutorialScene::Uninit()
 	SAFE_DELETE(controller);
 	SAFE_DELETE(enemyController);
 	SAFE_DELETE(darkMask);
-
+	SAFE_DELETE(playerObserver);
+	
 	//FSMçÌèú
 	for (auto&& statemachine : fsm)
 	{

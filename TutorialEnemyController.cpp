@@ -20,6 +20,8 @@
 TutorialEnemyController::TutorialEnemyController()
 {
 	ResourceManager::Instance()->LoadMesh("Enemy", "data/MODEL/Enemy/drone.x");
+
+	modelList.push_back(new TutorialEnemyModel(LineTrailModel(1, 4), 3));
 }
 
 /**************************************

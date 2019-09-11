@@ -72,6 +72,7 @@ public:
 	void EnableCollider(bool state);
 	bool IsAlive();
 	float GetHp();
+	void AddHp(float value);
 
 	static const float MaxHp;
 

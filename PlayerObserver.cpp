@@ -407,6 +407,10 @@ void PlayerObserver::TryStockBomber()
 	//エフェクト再生
 	player->StockBomber();
 
+	//プレイヤーのHPを回復
+	const float HealValue = 5.0f;
+	player->AddHp(HealValue);
+
 }
 
 /**************************************

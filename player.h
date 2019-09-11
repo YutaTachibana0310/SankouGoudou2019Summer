@@ -82,7 +82,7 @@ private:
 	float hp;
 	PlayerAnimID currentAnim, prevAnim;
 
-	const float DamageValue = MaxHp / 4.0f;
+	const float DamageValue = MaxHp / 5.0f;
 
 	static const float AnimShiftTime[PlayerAnimID::PlayerAnimMax];
 	static const D3DXVECTOR3 CameraShakeAmplitude;

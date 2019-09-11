@@ -25,7 +25,6 @@ public:
 	//チュートリアルのステップ定義
 	enum TutorialStep
 	{
-		TutorialStart,
 		PlayerMove,
 		MoveButton,
 		ComboReset,

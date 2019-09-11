@@ -169,6 +169,7 @@ void TutorialScene::Draw()
 
 	GameParticleManager::Instance()->Draw();
 
+	container->SetBomberStock(playerObserver->GetBomberStockNum(), playerObserver->IsBomberCharging());
 	container->Draw();
 
 	controller->Draw();

@@ -27,7 +27,6 @@ TutorialGuide::TutorialGuide() :
 
 	//テクスチャ名
 	const char* TexturePath[TutorialStep::Max] = {
-		"data/TEXTURE/Tutorial/tutorialstart.png",
 		"data/TEXTURE/Tutorial/playermove.png",
 		"data/TEXTURE/Tutorial/movebutton.png",
 		"data/TEXTURE/Tutorial/comboreset.png",
@@ -43,6 +42,8 @@ TutorialGuide::TutorialGuide() :
 	{
 		D3DXCreateTextureFromFile(pDevice, (LPCSTR)TexturePath[i], &textureContainer[i]);
 	}
+
+	SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f));
 }
 
 /**************************************

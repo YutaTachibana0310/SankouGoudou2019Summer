@@ -11,12 +11,12 @@
 #include "UIdrawer.h"
 
 #define	ADRESS_TEXTURE_NUMBER_RANK	"data/TEXTURE/UI/Combo/number_L.png"	// 読み込むテクスチャファイル名
-#define	ADRESS_TEXTURE_BG_RANK1	"data/TEXTURE/UI/Result/rank1.jpg"	// 読み込むテクスチャファイル名
-#define	ADRESS_TEXTURE_BG_RANK2	"data/TEXTURE/UI/Result/rank2.jpg"	// 読み込むテクスチャファイル名
-#define	ADRESS_TEXTURE_BG_RANK3	"data/TEXTURE/UI/Result/rank3.jpg"	// 読み込むテクスチャファイル名
-#define	ADRESS_TEXTURE_BG_RANK4	"data/TEXTURE/UI/Result/rank4.jpg"	// 読み込むテクスチャファイル名
-#define	ADRESS_TEXTURE_BG_RANK5	"data/TEXTURE/UI/Result/rank5.jpg"	// 読み込むテクスチャファイル名
-#define	ADRESS_TEXTURE_BG_RANK6	"data/TEXTURE/UI/Result/myrank.jpg"	// 読み込むテクスチャファイル名
+#define	ADRESS_TEXTURE_BG_RANK1	"data/TEXTURE/UI/Result/rank1.png"	// 読み込むテクスチャファイル名
+#define	ADRESS_TEXTURE_BG_RANK2	"data/TEXTURE/UI/Result/rank2.png"	// 読み込むテクスチャファイル名
+#define	ADRESS_TEXTURE_BG_RANK3	"data/TEXTURE/UI/Result/rank3.png"	// 読み込むテクスチャファイル名
+#define	ADRESS_TEXTURE_BG_RANK4	"data/TEXTURE/UI/Result/rank4.png"	// 読み込むテクスチャファイル名
+#define	ADRESS_TEXTURE_BG_RANK5	"data/TEXTURE/UI/Result/rank5.png"	// 読み込むテクスチャファイル名
+#define	ADRESS_TEXTURE_BG_RANK6	"data/TEXTURE/UI/Result/myrank.png"	// 読み込むテクスチャファイル名
 
 #define MYSCORE (5)
 #define RANK_MAX (6)

@@ -41,6 +41,8 @@ const char ALARM_SE[] = "警報";
 const char BOSSSHOT_SE[] = "bossshot";
 const char BOSSEXPLODE_SE[] = "BossExplode";
 const char GAMEOVER_SE[] = "gameover";
+const char MIDENEMYDAMAGE_SE[] = "中エネミーダメージ";
+
 
 //ナンバーはWaveに登録した順番になること
 //名前は正式曲名ではなく、わかりやすく明示すること（例：ステージ1BGM）
@@ -70,6 +72,7 @@ enum SENAME
 	BOSSSHOT,
 	BOSSEXPLODE,
 	GAMEOVER,
+	MIDENEMYDAMAGE,
 	MAXSE
 };
 class Sound {

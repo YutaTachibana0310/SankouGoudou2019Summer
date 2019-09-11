@@ -16,6 +16,7 @@
 ***************************************/
 class TutorialGuide;
 class Polygon2D;
+class TutorialTitle;
 
 /**************************************
 ƒNƒ‰ƒX’è‹`
@@ -32,8 +33,11 @@ public:
 private:
 	int cntFrame;
 	int step;
+	bool isFinishTitle;
+
 	TutorialGuide *guide;
 	Polygon2D *skip;
+	TutorialTitle *title;
 
 	const int GuideDuration = 360;
 };

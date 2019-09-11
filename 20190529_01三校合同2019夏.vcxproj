@@ -357,6 +357,7 @@
     <ClInclude Include="TutorialGuide.h" />
     <ClInclude Include="TutorialIdle.h" />
     <ClInclude Include="TutorialScene.h" />
+    <ClInclude Include="TutorialTitle.h" />
     <ClInclude Include="UIdrawer.h" />
     <ClInclude Include="GameSceneUIManager.h" />
     <ClInclude Include="ResultScene.h" />
@@ -573,6 +574,7 @@
     <ClCompile Include="TutorialGuide.cpp" />
     <ClCompile Include="TutorialIdle.cpp" />
     <ClCompile Include="TutorialScene.cpp" />
+    <ClCompile Include="TutorialTitle.cpp" />
     <ClCompile Include="UIdrawer.cpp" />
     <ClCompile Include="GameSceneUIManager.cpp" />
     <ClCompile Include="ResultScene.cpp" />

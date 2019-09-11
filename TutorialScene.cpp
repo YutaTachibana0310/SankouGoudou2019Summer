@@ -13,6 +13,8 @@
 #include "InputController.h"
 #include "GameParticleManager.h"
 #include "TutorialController.h"
+#include "TutorialEnemyController.h"
+#include "ScoreManager.h"
 
 /**************************************
 グローバル変数
@@ -35,12 +37,17 @@ void TutorialScene::Init()
 	bg = new TutorialBG();
 	playerObserver = new PlayerObserver();
 	controller = new TutorialController();
+	enemyController = new TutorialEnemyController();
 
 	//PlayerControllerにPlayerObserverをセット
 	SetPlayerObserverAdr(playerObserver);
 
 	//インプットコントローラにUIManagerのインスタンスを渡す
 	SetInstanceUIManager(container);
+
+	//スコアマネージャにインスタンスを渡す
+	SetScoreIntance(container->score);
+	SetGameScneeUIManagerInstance(container);
 	
 	//フォグを有効化
 	FLOAT StartPos = 10000;
@@ -68,6 +75,7 @@ void TutorialScene::Uninit()
 	SAFE_DELETE(bg);
 	SAFE_DELETE(container);
 	SAFE_DELETE(controller);
+	SAFE_DELETE(enemyController);
 
 	//フォグを無効化
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
@@ -83,14 +91,23 @@ void TutorialScene::Update(HWND hWnd)
 	//入力確認
 	playerObserver->CheckInput();
 
+	//各オブジェクト更新
 	bg->Update();
 	playerObserver->Update();
+	enemyController->Update();
 
+	//チュートリアルガイド更新
 	controller->Update();
 
+	//UI更新
 	container->Update(hWnd);
 
+	//パーティクル更新
 	GameParticleManager::Instance()->Update();
+
+	//衝突判定
+	TrailCollider::UpdateCollision();
+	BoxCollider3D::UpdateCollision();
 }
 
 /**************************************
@@ -100,6 +117,7 @@ void TutorialScene::Draw()
 {
 	bg->Draw();
 	playerObserver->Draw();
+	enemyController->Draw();
 
 	GameParticleManager::Instance()->Draw();
 

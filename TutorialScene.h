@@ -18,6 +18,7 @@ class TutorialBG;
 class GameSceneUIManager;
 class PlayerObserver;
 class TutorialController;
+class TutorialEnemyController;
 
 /**************************************
 ƒNƒ‰ƒX’è‹`
@@ -35,7 +36,7 @@ private:
 	GameSceneUIManager* container;
 	PlayerObserver *playerObserver;
 	TutorialController *controller;
-
+	TutorialEnemyController *enemyController;
 };
 
 #endif

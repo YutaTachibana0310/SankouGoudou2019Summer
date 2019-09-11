@@ -830,3 +830,109 @@ void EnemyMidium::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, float frame)
 {
 	//空
 }
+
+/****************************************
+EnemyTutorial初期化処理
+*****************************************/
+HRESULT EnemyTutorial::VInit(void)
+{
+	m_WaitTime = 0.0f;
+
+	m_Active = false;
+
+	m_Scl = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	m_Rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
+
+	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_PosDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Start = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_FrameDest = 0.0f;
+
+	m_RotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_CntFrame = 0.0f;
+
+	m_SclRate = 0.0f;
+	m_Expansion = true;
+	m_AnimationActive = false;
+	m_SclSpeed = 0.0f;
+
+	SetAnimation(true, true, 0.0f, 0.05f);
+	return S_OK;
+}
+
+/****************************************
+終了処理
+*****************************************/
+void EnemyTutorial::VUninit(void)
+{
+	m_Active = false;
+}
+
+/****************************************
+セット処理
+*****************************************/
+void EnemyTutorial::VUpdate(void)
+{
+	if (m_Active)
+	{
+
+	if (m_CntFrame < m_FrameDest)
+		{
+			//ブレーキの手触り
+			m_Pos = Easing::EaseValue(m_CntFrame / m_FrameDest, m_Start,
+				m_PosDest, EaseType::OutCubic);
+
+		}
+
+		Animation();
+		//countする
+		m_CntFrame++;
+
+	}
+}
+
+/****************************************
+描画処理
+*****************************************/
+void EnemyTutorial::VDraw(void)
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	D3DXMATRIX mtxScl, mtxRot, mtxTranslate, mtxWorld;
+
+	if (m_Active)
+	{
+		// ワールドマトリックスの初期化
+		D3DXMatrixIdentity(&mtxWorld);
+
+		// スケールを反映
+		D3DXMatrixScaling(&mtxScl, m_Scl.y, m_Scl.x, m_Scl.z);
+		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScl);
+
+		// 回転を反映
+		D3DXMatrixRotationYawPitchRoll(&mtxRot, m_Rot.y, m_Rot.x, m_Rot.z);
+		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRot);
+
+		// 移動を反映
+		D3DXMatrixTranslation(&mtxTranslate, m_Pos.x, m_Pos.y, m_Pos.z);
+		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTranslate);
+
+		// ワールドマトリックスの設定
+		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+
+		m_pMesh->Draw();
+	}
+}
+
+/****************************************
+セット処理
+*****************************************/
+void EnemyTutorial::VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, float frame)
+{
+	m_FrameDest = frame;
+	m_PosDest = end;
+	m_Start = start;
+	m_Active = true;
+}
+

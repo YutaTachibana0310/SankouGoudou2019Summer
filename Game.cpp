@@ -59,7 +59,7 @@ static IStateScene* fsm[SceneMax];
 static SoundStateScene* ssm[SceneMax];
 
 //Œ»Ý‚ÌƒV[ƒ“
-static Scene currentScene = Scene::SceneTitle;
+static Scene currentScene = Scene::SceneTutorial;
 
 /**************************************
 ‰Šú‰»ˆ—
@@ -131,7 +131,11 @@ void UpdateGame(HWND hWnd)
 	UpdateLight();
 	Camera::Instance()->Update();
 
-	fsm[currentScene]->Update(hWnd);
+	static bool flgPause = false;
+	if (GetKeyboardTrigger(DIK_P))
+		flgPause = !flgPause;
+	if(!flgPause)
+		fsm[currentScene]->Update(hWnd);
 }
 
 /**************************************

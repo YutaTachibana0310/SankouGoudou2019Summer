@@ -175,6 +175,21 @@ public:
 	void VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, float frame);
 	
 };
+
+class EnemyTutorial : public Enemy
+{
+	using Enemy::Enemy;
+public:
+	float			m_WaitTime;		//停止の時間
+
+	HRESULT  VInit(void);
+	void VUninit(void);
+	void VUpdate(void);
+	void VDraw(void);
+
+	void VSet(D3DXVECTOR3 start, D3DXVECTOR3 end, float frame);
+};
+
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************

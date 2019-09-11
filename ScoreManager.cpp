@@ -14,8 +14,7 @@
 static int currentStageScore;
 static int currentCombo;
 static int comboCaunta;
-static Score *score;
-static GameSceneUIManager *gameSceneUIManager;
+static GameSceneUIManager *viewerInstance;
 
 /**************************************
 マクロ定義
@@ -37,7 +36,9 @@ void SetAddScore(int n) {
 	int addScore = (int)(n * (1.0f + currentCombo * 0.05f));
 
 	currentStageScore += addScore;
-	gameSceneUIManager->AddScore(addScore);
+
+	if(viewerInstance != NULL)
+		viewerInstance->AddScore(addScore);
 }
 
 /**************************************
@@ -50,7 +51,8 @@ void SetAddCombo(int n) {
 	if (currentCombo % 5 == 0)
 		comboCaunta++;
 
-	gameSceneUIManager->AddCombo(n);
+	if(viewerInstance != NULL)
+		viewerInstance->AddCombo(n);
 
 	Sound::GetInstance()->SetPlaySE(COMBOSE, true, (Sound::GetInstance()->changevol / 7.0f));
 	Sound::GetInstance()->changepitch = comboCaunta * 100;
@@ -70,12 +72,14 @@ void ClearCombo(void) {
 
 	currentCombo = 0;
 	comboCaunta = 0;
-	gameSceneUIManager->ReSetCombo();
+	
+	if(viewerInstance != NULL)
+		viewerInstance->ReSetCombo();
+
 	Sound::GetInstance()->changepitch = 0;
 
 	if (onClearCombo != NULL)
 		onClearCombo();
-
 }
 
 /**************************************
@@ -94,27 +98,44 @@ void SetCallbackClearCombo(std::function<void(void)> callback)
 	onClearCombo = callback;
 }
 
-void SetScoreIntance(Score *instance)
-{
-	score = instance;
-}
-
+/**************************************
+ゲームUIマネージャインスタンス設定処理
+***************************************/
 void SetGameScneeUIManagerInstance(GameSceneUIManager* instance)
 {
-	gameSceneUIManager = instance;
+	viewerInstance = instance;
 }
 
+/**************************************
+スコア取得処理
+***************************************/
 int GetCurrentGameScore()
 {
 	return currentStageScore;
 }
 
+/**************************************
+スコア設定処理
+***************************************/
 void SetCurrentGameScore(int score)
 {
 	currentStageScore = score;
 }
 
+/**************************************
+コンボ設定処理
+***************************************/
 void SetCurrentCombo(int combo)
 {
 	currentCombo = combo;
+}
+
+/**************************************
+諸々クリア処理
+***************************************/
+void ClearScoreManager()
+{
+	onAddComboEffect = NULL;
+	onClearCombo = NULL;
+	viewerInstance = NULL;
 }

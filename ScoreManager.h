@@ -18,7 +18,6 @@ void SetAddCombo(int n);
 
 void ClearCombo(void);
 
-void SetScoreIntance(Score *instance);
 void SetGameScneeUIManagerInstance(GameSceneUIManager* instance);
 
 int GetCurrentGameScore();
@@ -27,5 +26,7 @@ void SetCurrentCombo(int combo);
 
 void SetCallbackAddCombo(std::function<void(int)> callback);
 void SetCallbackClearCombo(std::function<void(void)> callbak);
+
+void ClearScoreManager();
 
 #endif

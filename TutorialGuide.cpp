@@ -5,24 +5,44 @@
 //
 //=====================================
 #include "TutorialGuide.h"
+#include "Framework\ResourceManager.h"
 
 /**************************************
 グローバル変数
 ***************************************/
-const int TutorialGuide::FadeDuration = 20;
-const int TutorialGuide::LifeFrame = 300;
+const int TutorialGuide::FadeDuration = 60;
+const int TutorialGuide::LifeFrame = 420;
 
 /**************************************
 コンストラクタ
 ***************************************/
-TutorialGuide::TutorialGuide(const char * TexturePath) :
-	cntFrame(0)
+TutorialGuide::TutorialGuide() :
+	cntFrame(LifeFrame)
 {
-	LoadTexture(TexturePath);
-
-	const float Width = 400.0;
-	const float Height = 200.0f;
+	//ポリゴンサイズ設定
+	const float AspectRatio = 3.75f;
+	const float Height = 80.0f;
+	const float Width = Height * AspectRatio;
 	SetSize(Width, Height);
+
+	//テクスチャ名
+	const char* TexturePath[TutorialStep::Max] = {
+		"data/TEXTURE/Tutorial/tutorialstart.png",
+		"data/TEXTURE/Tutorial/playermove.png",
+		"data/TEXTURE/Tutorial/movebutton.png",
+		"data/TEXTURE/Tutorial/comboreset.png",
+		"data/TEXTURE/Tutorial/bombstock.png",
+		"data/TEXTURE/Tutorial/firebomber.png",
+		"data/TEXTURE/Tutorial/tutorialend.png"
+	};
+
+	//テクスチャ読み込み
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	textureContainer.resize(TutorialStep::Max, NULL);
+	for (int i = 0; i < TutorialStep::Max; i++)
+	{
+		D3DXCreateTextureFromFile(pDevice, (LPCSTR)TexturePath[i], &textureContainer[i]);
+	}
 }
 
 /**************************************
@@ -30,6 +50,9 @@ TutorialGuide::TutorialGuide(const char * TexturePath) :
 ***************************************/
 void TutorialGuide::Update()
 {
+	if (cntFrame > LifeFrame)
+		return;
+
 	cntFrame++;
 
 	if (cntFrame <= FadeDuration)
@@ -42,4 +65,29 @@ void TutorialGuide::Update()
 		float t = 1.0f * (LifeFrame - cntFrame) / FadeDuration;
 		SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, t));
 	}
+}
+
+/**************************************
+描画処理
+***************************************/
+void TutorialGuide::Draw()
+{
+	if (cntFrame > LifeFrame)
+		return;
+
+	Polygon2D::Draw();
+}
+
+/**************************************
+セット処理
+***************************************/
+bool TutorialGuide::Set(int step)
+{
+	if (step >= TutorialStep::Max)
+		return false;
+
+	SetTexture(textureContainer[step]);
+	cntFrame = 0;
+
+	return true;
 }

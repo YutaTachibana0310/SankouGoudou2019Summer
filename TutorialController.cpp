@@ -17,17 +17,11 @@
 ***************************************/
 TutorialController::TutorialController() :
 	cntFrame(0),
-	step(0)
+	step(0),
+	guide(new TutorialGuide())
 {
-	tutorialContainer.reserve(StepMax);
-	for (int i = 0; i < StepMax; i++)
-	{
-		TutorialGuide *ptr = new TutorialGuide("");
-
-		ptr->transform.pos = D3DXVECTOR3(SCREEN_CENTER_X, SCREEN_CENTER_Y, 0.0f);
-
-		tutorialContainer.push_back(ptr);
-	}
+	guide->transform.pos = D3DXVECTOR3(SCREEN_CENTER_X, SCREEN_CENTER_Y, 0.0f);
+	guide->Set(step);
 }
 
 /**************************************
@@ -35,11 +29,7 @@ TutorialController::TutorialController() :
 ***************************************/
 TutorialController::~TutorialController()
 {
-	for (auto&& guide : tutorialContainer)
-	{
-		SAFE_DELETE(guide);
-	}
-	tutorialContainer.clear();
+	SAFE_DELETE(guide);
 }
 
 /**************************************
@@ -47,20 +37,16 @@ TutorialController::~TutorialController()
 ***************************************/
 void TutorialController::Update()
 {
-	if (step >= StepMax)
-		return;
+	guide->Update();
 
-	tutorialContainer[step]->Update();
-
-	cntFrame = WrapAround(0, TutorialGuide::LifeFrame, cntFrame + 1);
+	cntFrame = WrapAround(0, GuideDuration, cntFrame + 1);
 
 	if (cntFrame == 0)
 	{
 		step++;
-		if (step == StepMax)
-		{
+		bool isTutorialEnd = !guide->Set(step);
+		if (isTutorialEnd)
 			SceneChangeFlag(true, Scene::SceneGame);
-		}
 	}
 
 }
@@ -70,8 +56,5 @@ void TutorialController::Update()
 ***************************************/
 void TutorialController::Draw()
 {
-	if (step >= StepMax)
-		return;
-
-	tutorialContainer[step]->Draw();
+	guide->Draw();
 }

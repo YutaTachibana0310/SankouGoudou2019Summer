@@ -10,6 +10,7 @@
 
 #include "main.h"
 #include "Framework\Polygon2D.h"
+#include <vector>
 
 /**************************************
 前方宣言
@@ -21,15 +22,32 @@
 class TutorialGuide : public Polygon2D
 {
 public:
-	TutorialGuide(const char* TexturePath);
+	//チュートリアルのステップ定義
+	enum TutorialStep
+	{
+		TutorialStart,
+		PlayerMove,
+		MoveButton,
+		ComboReset,
+		BombStock,
+		FireBomber,
+		TutorialEnd,
+		Max
+	};
+
+	TutorialGuide();
 
 	void Update();
+	void Draw();
+
+	bool Set(int step);
 
 	static const int FadeDuration;
 	static const int LifeFrame;
-
+	
 private:
 	int cntFrame;
+	std::vector<LPDIRECT3DTEXTURE9> textureContainer;
 };
 
 #endif

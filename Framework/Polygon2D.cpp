@@ -140,6 +140,18 @@ void Polygon2D::LoadTexture(const char* path)
 }
 
 /**************************************
+テクスチャ設定処理
+***************************************/
+void Polygon2D::SetTexture(LPDIRECT3DTEXTURE9 texture)
+{
+	SAFE_RELEASE(this->texture);
+	this->texture = texture;
+
+	if(texture != NULL)
+		texture->AddRef();
+}
+
+/**************************************
 ディフューズ初期化
 ***************************************/
 void Polygon2D::InitDiffuse()

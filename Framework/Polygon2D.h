@@ -31,6 +31,7 @@ public:
 	virtual void SetUV(float left, float top, float width, float height);
 
 	virtual void LoadTexture(const char* path);
+	virtual void SetTexture(LPDIRECT3DTEXTURE9 texture);
 
 	virtual void InitDiffuse();
 	virtual void InitRHW();

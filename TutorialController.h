@@ -15,7 +15,7 @@
 前方宣言
 ***************************************/
 class TutorialGuide;
-
+	
 /**************************************
 クラス定義
 ***************************************/
@@ -31,9 +31,9 @@ public:
 private:
 	int cntFrame;
 	int step;
-	std::vector<TutorialGuide*> tutorialContainer;
+	TutorialGuide *guide;
 
-	const int StepMax = 1;
+	const int GuideDuration = 360;
 };
 
 #endif

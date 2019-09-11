@@ -10,6 +10,9 @@
 
 #include "main.h"
 #include "IStateScene.h"
+#include "IStateMachine.h"
+
+#include <vector>
 
 /**************************************
 前方宣言
@@ -31,12 +34,28 @@ public:
 	void Update(HWND hWnd) override;
 	void Draw() override;
 
+	enum State
+	{
+		Idle,
+		Bomber,
+		Max
+	};
+
 private:
 	TutorialBG * bg;
 	GameSceneUIManager* container;
 	PlayerObserver *playerObserver;
 	TutorialController *controller;
 	TutorialEnemyController *enemyController;
+
+	std::vector<IStateMachine<TutorialScene>*> fsm;
+	State current;
+
+	bool ShouldFireBomber();
+
+	//ステートクラス
+	class TutorialIdle;
+	class TutorialBomber;
 };
 
 #endif

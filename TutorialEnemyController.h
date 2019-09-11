@@ -27,6 +27,8 @@ public:
 	void Update();
 	void Draw();
 
+	bool IsExistEnemy();
+
 private:
 	std::list<EnemyModel*> modelList;
 };

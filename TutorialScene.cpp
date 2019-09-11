@@ -16,6 +16,8 @@
 #include "TutorialEnemyController.h"
 #include "ScoreManager.h"
 
+#include "TutorialIdle.h"
+
 /**************************************
 グローバル変数
 ***************************************/
@@ -25,6 +27,10 @@
 ***************************************/
 void TutorialScene::Init()
 {
+	//FSM作成
+	fsm.resize(State::Max, NULL);
+	fsm[State::Idle] = new TutorialIdle();
+	
 	//UIインスタンス作成
 	container = new GameSceneUIManager();
 
@@ -64,6 +70,8 @@ void TutorialScene::Init()
 	//初期化処理
 	GameParticleManager::Instance()->Init();
 	playerObserver->Init();
+
+	current = State::Idle;
 }
 
 /**************************************
@@ -88,16 +96,13 @@ void TutorialScene::Uninit()
 ***************************************/
 void TutorialScene::Update(HWND hWnd)
 {
-	//入力確認
-	playerObserver->CheckInput();
+	int result = fsm[current]->OnUpdate(this);
 
-	//各オブジェクト更新
-	bg->Update();
-	playerObserver->Update();
-	enemyController->Update();
-
-	//チュートリアルガイド更新
-	controller->Update();
+	if (result != current)
+	{
+		current = (State)result;
+		fsm[current]->OnStart(this);
+	}
 
 	//UI更新
 	container->Update(hWnd);
@@ -124,4 +129,12 @@ void TutorialScene::Draw()
 	container->Draw();
 
 	controller->Draw();
+}
+
+/**************************************
+ボンバーを撃つべきかどうか
+***************************************/
+bool TutorialScene::ShouldFireBomber()
+{
+	return playerObserver->ShouldFireBomber() && enemyController->IsExistEnemy();
 }

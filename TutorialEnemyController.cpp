@@ -76,3 +76,11 @@ void TutorialEnemyController::Draw()
 		model->Draw();
 	}
 }
+
+/**************************************
+エネミー存在確認
+***************************************/
+bool TutorialEnemyController::IsExistEnemy()
+{
+	return modelList.empty();
+}

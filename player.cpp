@@ -149,7 +149,6 @@ int Player::Update()
 		if (cntInvincible == 0)
 		{
 			flgInvincible = false;
-			collider->active = true;
 		}
 	}
 
@@ -281,7 +280,6 @@ void Player::OnNotified(BoxCollider3DTag other)
 
 	//–³“GŽžŠÔŠJŽn
 	cntInvincible = PLAYER_INVINCIBLE_DURATION;
-	collider->active = false;
 	flgInvincible = true;
 
 	//HP‚ð‚Ö‚ç‚·

@@ -10,8 +10,8 @@
 /**************************************
 グローバル変数
 ***************************************/
-const int TutorialGuide::FadeDuration = 60;
-const int TutorialGuide::LifeFrame = 420;
+const int TutorialGuide::FadeDuration = 30;
+const int TutorialGuide::LifeFrame = 300;
 
 /**************************************
 コンストラクタ

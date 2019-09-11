@@ -56,7 +56,7 @@ void PlayerBomberBoss::Update()
 ***************************************/
 void PlayerBomberBoss::Set(std::shared_ptr<BossEnemyModel>& target, D3DXVECTOR3 initPos)
 {
-	const int ReachFrame = 80;
+	const int ReachFrame = 40;
 
 	this->target = target;
 	transform.pos = initPos;

@@ -63,7 +63,6 @@ void TutorialScene::Init()
 	SetInstanceUIManager(container);
 
 	//スコアマネージャにインスタンスを渡す
-	SetScoreIntance(container->score);
 	SetGameScneeUIManagerInstance(container);
 	
 	//フォグを有効化
@@ -90,13 +89,17 @@ void TutorialScene::Init()
 ***************************************/
 void TutorialScene::Uninit()
 {
+	//スコアマネージャクリア
+	ClearScoreManager();
+
 	//インスタンス削除
 	SAFE_DELETE(bg);
 	SAFE_DELETE(container);
 	SAFE_DELETE(controller);
 	SAFE_DELETE(enemyController);
 	SAFE_DELETE(darkMask);
-
+	SAFE_DELETE(playerObserver);
+	
 	//FSM削除
 	for (auto&& statemachine : fsm)
 	{

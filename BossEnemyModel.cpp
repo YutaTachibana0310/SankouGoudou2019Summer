@@ -325,6 +325,7 @@ void BossEnemyModel::OnHitBomber()
 {
 	flgBomberHit = true;
 	colliderController->DeleteAll();
+	bulletController->DisableAll();
 }
 
 /**************************************
@@ -349,6 +350,14 @@ void BossEnemyModel::GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out
 void BossEnemyModel::ReceivePlayerPosition(int index)
 {
 	playerPositionIndex = index;
+}
+
+/**************************************
+ê∂ë∂îªíË
+**************************************/
+bool BossEnemyModel::IsAlive()
+{
+	return currentState != State::Defeat;
 }
 
 /**************************************

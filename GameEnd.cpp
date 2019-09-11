@@ -31,8 +31,8 @@ int GameScene::GameEnd::OnUpdate(GameScene *entity)
 
 	entity->UpdateWhole();
 
-	const int TelopTiming = 180;
-	const int Duration = 360;
+	const int TelopTiming = 360;
+	const int Duration = 540;
 
 	if (entity->cntFrame == TelopTiming)
 	{

@@ -59,10 +59,6 @@ void MidiumEnemyModel::Uninit()
 {
 	collider->active = false;
 	active = false;
-
-	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(5.0f, 5.0f, 0.0f);
-	const int ShakeDuration = 180;
-	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
 }
 
 /**************************************
@@ -111,11 +107,6 @@ void MidiumEnemyModel::OnNotified(ObserveSubject * notifier)
 	if (state == State::Damage)
 		return;
 
-	//ƒJƒƒ‰—h‚ç‚·
-	const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(0.75f, 0.75f, 0.0f);
-	const int ShakeDuration = 120;
-	Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
-
 	hp--;
 
 	if (hp == 0)
@@ -126,10 +117,19 @@ void MidiumEnemyModel::OnNotified(ObserveSubject * notifier)
 			Sound::GetInstance()->SetPlaySE(ENEMYDOWN2, true, (Sound::GetInstance()->changevol / 10.0f));
 		}
 
+		//ƒJƒƒ‰‚ð‘å‚«‚­—h‚ç‚·
+		const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(5.0f, 5.0f, 0.0f);
+		const int ShakeDuration = 180;
+		Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
+
 	}
 	else {
 		Sound::GetInstance()->SetPlaySE(MIDENEMYDAMAGE, true, (Sound::GetInstance()->changevol / 2.0f));
 
+		//ƒJƒƒ‰‚ð¬‚³‚­—h‚ç‚·
+		const D3DXVECTOR3 ShakeAmplitude = D3DXVECTOR3(0.75f, 0.75f, 0.0f);
+		const int ShakeDuration = 120;
+		Camera::ShakePlugin::Instance()->Set(ShakeAmplitude, ShakeDuration);
 	}
 
 	for (auto&& emitter : chageEffectList)

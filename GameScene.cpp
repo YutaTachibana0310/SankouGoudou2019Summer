@@ -138,7 +138,6 @@ void GameScene::Init()
 	{
 		this->OnAddCombo(n);
 	});
-	SetScoreIntance(gameSceneUIManager->score);
 	SetGameScneeUIManagerInstance(gameSceneUIManager);
 
 	//インプットコントローラにUImanagerのインスタンスを渡す
@@ -159,7 +158,6 @@ void GameScene::Uninit()
 	UninitBackGroundField();
 	bgController->Uninit();
 
-
 	//プレイヤー終了
 	playerObserver->Uninit();
 
@@ -168,6 +166,9 @@ void GameScene::Uninit()
 
 	//UI終了
 	gameSceneUIManager->Uninit();
+
+	//スコアマネージャクリア
+	ClearScoreManager();
 
 	//インスタンス削除
 	SAFE_DELETE(gameSceneUIManager);

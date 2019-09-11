@@ -72,6 +72,8 @@ public:
 	void GetRebarList(std::list<std::shared_ptr<RebarObstacle>>& out);
 	void ReceivePlayerPosition(int index);
 
+	bool IsAlive();
+
 private:
 	BossEnemyActor* actor;
 	std::unordered_map < State, IStateMachine<BossEnemyModel>*> fsm;

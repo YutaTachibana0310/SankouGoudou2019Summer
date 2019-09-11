@@ -20,7 +20,9 @@ TutorialController::TutorialController() :
 	step(0),
 	guide(new TutorialGuide())
 {
-	guide->transform.pos = D3DXVECTOR3(SCREEN_CENTER_X, SCREEN_CENTER_Y, 0.0f);
+	//À•WŒˆ’è
+	const D3DXVECTOR3 Position = D3DXVECTOR3(300.0f, 700.0f, 0.0f);
+	guide->transform.pos = Position;
 	guide->Set(step);
 }
 

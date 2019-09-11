@@ -21,7 +21,7 @@ TutorialGuide::TutorialGuide() :
 {
 	//ポリゴンサイズ設定
 	const float AspectRatio = 3.75f;
-	const float Height = 80.0f;
+	const float Height = 65.0f;
 	const float Width = Height * AspectRatio;
 	SetSize(Width, Height);
 

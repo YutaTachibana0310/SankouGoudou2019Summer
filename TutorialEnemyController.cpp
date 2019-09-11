@@ -84,3 +84,14 @@ bool TutorialEnemyController::IsExistEnemy()
 {
 	return !modelList.empty();
 }
+
+/**************************************
+エネミー取得処理
+***************************************/
+void TutorialEnemyController::GetEnemyList(std::list<std::shared_ptr<Enemy>>& out)
+{
+	for (auto&& model : modelList)
+	{
+		model->GetEnemy(out);
+	}
+}

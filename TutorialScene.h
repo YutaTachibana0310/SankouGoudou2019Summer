@@ -22,6 +22,7 @@ class GameSceneUIManager;
 class PlayerObserver;
 class TutorialController;
 class TutorialEnemyController;
+class Polygon2D;
 
 /**************************************
 ƒNƒ‰ƒX’è‹`
@@ -50,6 +51,9 @@ private:
 
 	std::vector<IStateMachine<TutorialScene>*> fsm;
 	State current;
+
+	bool useDarkMask;
+	Polygon2D *darkMask;
 
 	bool ShouldFireBomber();
 

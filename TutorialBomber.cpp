@@ -14,6 +14,7 @@
 グローバル変数
 ***************************************/
 #define TUTORIALBOMBERSEQUENCE_DURATION		(120)
+#define TUTORIALBOMBERSEQUENCE_LAUNCH_TIME	(80)
 
 /**************************************
 入場処理
@@ -21,7 +22,7 @@
 void TutorialScene::TutorialBomber::OnStart(TutorialScene * entity)
 {
 	entity->playerObserver->OnStartBomberSequence();
-
+	entity->useDarkMask = true;
 	cntFrame = 0;
 }
 
@@ -42,19 +43,18 @@ int TutorialScene::TutorialBomber::OnUpdate(TutorialScene * entity)
 	GameParticleManager::Instance()->UpdateBombParticle();
 
 	//発射タイミングであればボンバー発射
-	//if (cntFrame == TUTORIALBOMBERSEQUENCE_LAUNCH_TIME)
-	//{
-	//	list<shared_ptr<Enemy>> targetList;
-	//	entity->enemyController->GetEnemyList(targetList);
-	//	entity->playerObserver->FirePlayerBomber(targetList);
-	//}
+	if (cntFrame == TUTORIALBOMBERSEQUENCE_LAUNCH_TIME)
+	{
+		list<shared_ptr<Enemy>> targetList;
+		entity->enemyController->GetEnemyList(targetList);
+		entity->playerObserver->FirePlayerBomber(targetList);
+	}
 
 	////終了判定
 	if (cntFrame == TUTORIALBOMBERSEQUENCE_DURATION)
 	{
 		entity->playerObserver->OnFinishBomberSequence();
-		//entity->enemyController->OnFinishBombSequence();
-		//entity->useDarkMask = false;
+		entity->useDarkMask = false;
 
 		result = State::Idle;
 	}

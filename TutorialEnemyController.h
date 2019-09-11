@@ -10,11 +10,13 @@
 
 #include "main.h"
 #include <list>
+#include <memory>
+
 /**************************************
 前方宣言
 ***************************************/
 class EnemyModel;
-
+class Enemy;
 /**************************************
 クラス定義
 ***************************************/
@@ -28,6 +30,8 @@ public:
 	void Draw();
 
 	bool IsExistEnemy();
+
+	void GetEnemyList(std::list<std::shared_ptr<Enemy>>& out);
 
 private:
 	std::list<EnemyModel*> modelList;

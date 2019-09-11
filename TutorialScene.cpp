@@ -15,6 +15,7 @@
 #include "TutorialController.h"
 #include "TutorialEnemyController.h"
 #include "ScoreManager.h"
+#include "Framework\Polygon2D.h"
 
 #include "TutorialIdle.h"
 #include "TutorialBomber.h"
@@ -46,6 +47,12 @@ void TutorialScene::Init()
 	playerObserver = new PlayerObserver();
 	controller = new TutorialController();
 	enemyController = new TutorialEnemyController();
+
+	//暗転用ポリゴン作成
+	darkMask = new Polygon2D();
+	darkMask->SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
+	darkMask->SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.5f));
+	useDarkMask = false;
 
 	//PlayerControllerにPlayerObserverをセット
 	SetPlayerObserverAdr(playerObserver);
@@ -86,6 +93,7 @@ void TutorialScene::Uninit()
 	SAFE_DELETE(container);
 	SAFE_DELETE(controller);
 	SAFE_DELETE(enemyController);
+	SAFE_DELETE(darkMask);
 
 	//FSM削除
 	for (auto&& statemachine : fsm)
@@ -93,6 +101,9 @@ void TutorialScene::Uninit()
 		SAFE_DELETE(statemachine);
 	}
 	fsm.clear();
+
+	//パーティクル終了
+	GameParticleManager::Instance()->Uninit();
 
 	//フォグを無効化
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
@@ -130,6 +141,18 @@ void TutorialScene::Update(HWND hWnd)
 void TutorialScene::Draw()
 {
 	bg->Draw();
+
+	//暗転用ポリゴンの描画
+	if (useDarkMask)
+	{
+		LPDIRECT3DDEVICE9 pDevice = GetDevice();
+		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
+
+		darkMask->Draw();
+
+		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+	}
+
 	playerObserver->Draw();
 	enemyController->Draw();
 

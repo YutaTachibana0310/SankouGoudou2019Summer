@@ -144,5 +144,5 @@ void StartButton::BlinkStartButtonText(void)
 //=============================================================================
 void StartButton::GoGameScene(void)
 {
-	SceneChangeFlag(true, SceneGame);
+	SceneChangeFlag(true, SceneTutorial);
 }

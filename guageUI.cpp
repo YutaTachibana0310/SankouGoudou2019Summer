@@ -14,7 +14,7 @@
 //*****************************************************************************
 // É}ÉNÉçíËã`
 //*****************************************************************************
-#define WIDTH_GUAGEFLAME	(3.5f)
+#define WIDTH_GUAGEFLAME	(7.0f)
 #define DECREASESPEED_GUAGE (0.0050f)
 #define INITIALVALUE_GUAGEPERCENTAGE (1.0f)
 #define SIZE_GUAGE			(D3DXVECTOR3(768.0f,128.0f,0.0f))

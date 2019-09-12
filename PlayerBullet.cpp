@@ -163,6 +163,9 @@ PlayerBullet::PlayerBullet()
 PlayerBullet::~PlayerBullet()
 {
 	SAFE_RELEASE(vtxBuff);
+	SAFE_DELETE(collider);
+	SAFE_DELETE(colliderR);
+	SAFE_DELETE(colliderL);
 }
 
 /****************************************

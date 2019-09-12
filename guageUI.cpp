@@ -66,7 +66,7 @@ Guage::Guage()
 	bg->SetColorObject(SET_COLOR_NOT_COLORED);
 
 	//ƒrƒ…ƒA[
-	viewer = new Viewer3D(SIZE_GUAGE_BG.x, SIZE_GUAGE_BG.y, D3DXVECTOR2(35.0f, 8.0f));
+	viewer = new Viewer3D((DWORD)SIZE_GUAGE_BG.x, (DWORD)SIZE_GUAGE_BG.y, D3DXVECTOR2(35.0f, 8.0f));
 	viewer->SetPosition(D3DXVECTOR3((float)SCREEN_WIDTH / 18.0f, (float)SCREEN_HEIGHT/16.0f,0.0f));
 	viewer->SetRotation(0.0f, 30.0f, 0.0f);
 

@@ -76,6 +76,12 @@ PlayerObserver::~PlayerObserver()
 
 	SAFE_DELETE(bomberController);
 	SAFE_DELETE(bulletController);
+
+	for (auto&& pair : fsm)
+	{
+		SAFE_DELETE(pair.second);
+	}
+	fsm.clear();
 }
 
 /**************************************

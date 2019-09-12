@@ -10,6 +10,7 @@
 #include "ResultSceneUIManager.h"
 #include "ResultPlayer.h"
 #include "Framework\PlayerPrefs.h"
+#include "sound.h"
 
 /**************************************
 ƒ}ƒNƒ’è‹`
@@ -32,6 +33,13 @@ void ResultScene::Init()
 	player = new ResultPlayer(gameresult);
 
 	InitResultSceneUI();
+
+	if (gameresult) {
+		Sound::GetInstance()->SetPlaySE(RESULTCLEAR, true, (Sound::GetInstance()->changevol / 10.0f));
+	}
+	else {
+		Sound::GetInstance()->SetPlaySE(RESULTFAILED, true, (Sound::GetInstance()->changevol / 10.0f));
+	}
 
 }
 

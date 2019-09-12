@@ -9,6 +9,8 @@
 #include "sound.h"
 #include "GameSceneUIManager.h"
 #include "starButtonUI.h"
+#include "Framework\Vector3.h"
+#include "LineTrailModel.h"
 
 /**************************************
 グローバル変数
@@ -18,12 +20,7 @@ static GameSceneUIManager* instanceUImanager;
 /**************************************
 プロトタイプ宣言
 ***************************************/
-int CheckInputTop(float x, float y);
-int CheckInputMiddleLeft(float x, float y);
-int CheckInputLowerLeft(float x, float y);
-int CheckInputLowerRight(float x, float y);
-int CheckInputMiddleRight(float x, float y);
-int CheckInputCenter(float x, float y);
+int CheckStickInput(D3DXVECTOR3& stick, int current);
 
 /**************************************
 ゲームパッド以外での入力処理
@@ -62,233 +59,42 @@ int GetMoveInput() {
 ***************************************/
 int GetStickInput(int currentStar)
 {
-	float x = GetAxisX(0);
-	float y = GetAxisY(0);
+	//スティックの傾きベクトルを計算
+	D3DXVECTOR3 stick = Vector3::Zero;
+	stick.x = GetAxisX(0);
+	stick.y = GetAxisY(0);
 
-	if (currentStar == TOP)
-		return CheckInputTop(x, y);
+	//傾きゼロならリターン
+	if (stick == Vector3::Zero)
+		return STAR_MAX;
 
-	if (currentStar == MIDDLE_LEFT)
-		return CheckInputMiddleLeft(x, y);
-
-	if (currentStar == LOWER_LEFT)
-		return CheckInputLowerLeft(x, y);
-
-	if (currentStar == LOWER_RIGHT)
-		return CheckInputLowerRight(x, y);
-
-	if (currentStar == MIDDLE_RIGHT)
-		return CheckInputMiddleRight(x, y);
-
-	if (currentStar == STAR_MAX)
-		return CheckInputCenter(x, y);
-
-	return STAR_MAX;
+	return CheckStickInput(stick, currentStar);
 }
 
-/**************************************
-一番上の☆にいるときのパッド入力処理
+/*************************************
+パッド入力処理
 ***************************************/
-int CheckInputTop(float x, float y)
+int CheckStickInput(D3DXVECTOR3& stick, int current)
 {
-	const float BorderMiddleLeftX = -0.8f;		//MiddleLeftへ移動するスティックのX値
-	const float BorderMiddleRightX = 0.8f;		//MiddleRightへ移動するスティックのX値
-	const float BorderLowerY = -0.5f;			//Lowerへ移動するスティックのY値
-	const float BorderLowerLeftX = -0.05f;		//LowerLeftへ移動するスティックのX値
-	const float BorderLowerRightX = 0.05f;		//LowerRightへ移動するスティックのX値
+	float minAngle = 90.0f;
+	int target = STAR_MAX;
 
-	//MiddleLeftへの判定
-	if (x < BorderMiddleLeftX)
-		return MIDDLE_LEFT;
-
-	//MiddleRightへの判定
-	if (x > BorderMiddleRightX)
-		return MIDDLE_RIGHT;
-
-	//Lowerへの判定
-	if (y < BorderLowerY)
+	//スティックの傾きに一番近い星を探す
+	for (int i = 0; i < STAR_MAX; i++)
 	{
-		//LowerLeftへの判定
-		if (x < BorderLowerLeftX)
-			return LOWER_LEFT;
+		if (i == current)
+			continue;
 
-		//LowerRightへの判定
-		if (x > BorderLowerRightX)
-			return LOWER_RIGHT;
+		D3DXVECTOR3 line = LineTrailModel::GetEdgePos(i) - LineTrailModel::GetEdgePos(current);
+		float angle = fabsf(Vector3::Angle(stick, line));
+		if (fabsf(angle) <= minAngle)
+		{
+			minAngle = angle;
+			target = i;
+		}
 	}
 
-	return STAR_MAX;
-}
-
-/**************************************
-左上の☆にいるときのパッド入力判定
-***************************************/
-int CheckInputMiddleLeft(float x, float y)
-{
-	const float BorderTopY = 0.8f;				//Topへ移動するスティックのY値
-	const float BorderMiddleRightX = 0.9f;		//MiddleRightへ移動するスティックのX値
-	const float BorderLowerRightX = 0.1f;		//LowerRightへ移動するスティックのX値
-	const float BorderLowerRightY = 0.0f;		//LowerRightへ移動するスティックのY値
-	const float BorderLowerLeftX = -0.1f;		//LowerLeftへ移動するスティックのX値
-
-	//Topへの判定
-	if (y > BorderTopY)
-		return TOP;
-
-	//MiddleRightへの判定
-	if (x > BorderMiddleRightX)
-		return MIDDLE_RIGHT;
-
-	//LowerRightへの判定
-	if (x > BorderLowerRightX && y < BorderLowerRightY)
-		return LOWER_RIGHT;
-
-	//LowerLeftへの判定
-	if (y < BorderLowerLeftX)
-		return LOWER_LEFT;
-
-	return STAR_MAX;
-}
-
-/**************************************
-左下の☆にいるときのパッド入力処理
-***************************************/
-int CheckInputLowerLeft(float x, float y)
-{
-	const float BorderMiddleLeftY = 0.7f;		//MiddleLeftとTopへ移動するスティックのY値
-	const float BorderMiddleLeftX = -0.6f;		//MiddleLeftへ移動するスティックのX値
-	const float BorderMiddleRightY = 0.3f;		//MiddleRightへ移動するスティックのY値
-	const float BorderMiddleRightX = 0.3f;		//MiddleRightへ移動するスティックのX値
-	const float BorderLowerRightX = 0.9f;		//LowerRightへ移動するスティックのX値
-
-	//MiddleLeftとTopへの判定
-	if (y > BorderMiddleLeftY)
-	{
-		//MiddleLeftへの判定
-		if (x < BorderMiddleLeftX)
-			return MIDDLE_LEFT;
-
-		return TOP;
-	}
-	
-	//MiddleRightへの判定
-	if (y > BorderMiddleRightY && x > BorderMiddleRightX)
-	{
-		return MIDDLE_RIGHT;
-	}
-
-	//LowerRightへの判定
-	if (x > BorderLowerRightX)
-		return LOWER_RIGHT;
-
-	return STAR_MAX;
-}
-
-/**************************************
-右下の☆にいるときのパッド入力処理
-***************************************/
-int CheckInputLowerRight(float x, float y)
-{
-	const float BorderMiddleRightY = 0.7f;		//MiddleRightへ移動するスティックのY値
-	const float BorderMiddleRightX = 0.6f;		//MiddleRightへ移動するスティックのX値
-	const float BorderMiddleLeftX = -0.3f;		//MiddleLeftへ移動するスティックのX値
-	const float BorderMiddleLeftY = 0.3f;		//MiddleLeftへ移動するスティックのY値
-	const float BorderLowerLeftX = -0.9f;		//LowerLeftへ移動するスティックのX値
-
-	//MiddleRightとTopへの判定
-	if (y > BorderMiddleRightY)
-	{
-		//MiddleRightへの判定
-		if (x > BorderMiddleRightX)
-			return MIDDLE_RIGHT;
-
-		return TOP;
-	}
-
-	//MiddleLeftへの判定
-	if (y > BorderMiddleLeftY && x < BorderMiddleLeftX)
-	{
-		return MIDDLE_LEFT;
-	}
-
-	//LowerLeftへの判定
-	if (x < BorderLowerLeftX)
-		return LOWER_LEFT;
-
-	return STAR_MAX;
-}
-
-/**************************************
-右上の☆にいるときのパッド入力処理
-***************************************/
-int CheckInputMiddleRight(float x, float y)
-{
-	const float BorderTopY = 0.8f;				//Topへ移動するスティックのY値
-	const float BorderMiddleLeftX = -0.9f;		//MiddleLeftへ移動するスティックのX値
-	const float BorderLowerLeftX = -0.1f;		//LowerLeftへ移動するスティックのX値
-	const float BorderLowerLeftY = 0.0f;		//LowerLeftへ移動するスティックのY値
-	const float BorderLowerRightY = -0.1f;		//LowerRightへ移動するスティックのY値
-
-	//Topへの判定
-	if (y > BorderTopY)
-		return TOP;
-
-	//MiddleLeftへの判定
-	if (x < BorderMiddleLeftX)
-		return MIDDLE_LEFT;
-
-	//LowerLeftへの判定
-	if (x < BorderLowerLeftX && y < BorderLowerLeftY)
-		return LOWER_LEFT;
-
-	//LowerRightへの判定
-	if (y < BorderLowerRightY)
-		return LOWER_RIGHT;
-
-	return STAR_MAX;
-}
-
-/**************************************
-真ん中の☆にいるときのパッド入力処理
-***************************************/
-int CheckInputCenter(float x, float y)
-{
-	const float BorderTopY = 0.9f;				//Topへ移動するスティックのY値
-	const float BorderLowerY = -0.5f;			//Lowerへ移動するスティックのY値
-	const float BorderLowerRightX = 0.3f;		//LowerRightへ移動するスティックのX値
-	const float BorderLowerLeftX = -0.3f;		//LowerLeftへ移動するスティックのX値
-	const float BorderMiddleLeftX = -0.3f;		//MiddleLeftへ移動するスティックのX値
-	const float BorderMiddleRightX = 0.3f;		//MiddleRightへ移動するスティックのX値
-
-	//Topへの判定
-	if (y > BorderTopY)
-		return TOP;
-
-	//Lowerへの判定
-	if (y < BorderLowerY)
-	{
-		//LowerRightへの判定
-		if (x > BorderLowerRightX)
-			return LOWER_RIGHT;
-
-		//LowerLeftへの判定
-		if (x < BorderLowerLeftX)
-			return LOWER_LEFT;
-	}
-
-	//MiddleLeftへの判定
-	if (x < BorderMiddleLeftX)
-	{
-		return MIDDLE_LEFT;
-	}
-
-	//MiddleRightへの判定
-	if (x > BorderMiddleRightX)
-	{
-		return MIDDLE_RIGHT;
-	}
-
-	return STAR_MAX;
+	return target;
 }
 
 bool GetBomberInput()

@@ -79,6 +79,7 @@ TrailCollider::TrailCollider(TrailColliderTag tag) :
 TrailCollider::~TrailCollider()
 {
 	RemoveFromCheckList();
+	observers.clear();
 
 #ifdef TRAILCOLLIDER_USE_DEBUG
 	instanceCount--;

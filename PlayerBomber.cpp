@@ -121,7 +121,9 @@ void PlayerBomber::Homing(void)
 	cntFrame--;
 
 	transform.pos += velocity;
-	emitter->transform.pos = transform.pos;
+
+	if(emitter != NULL)
+		emitter->transform.pos = transform.pos;
 }
 
 /***************************************

@@ -17,6 +17,7 @@
 #include "telopBG.h"
 #include "bomberStockUI.h"
 #include "GameSceneUIManager.h"
+#include "sound.h"
 
 //*****************************************************************************
 // ƒ}ƒNƒ’è‹`
@@ -258,6 +259,7 @@ void  GameSceneUIManager::SetScore(int num)
 void  GameSceneUIManager::SetStageClearTelop(void)
 {
 	stageClearTelop->isStageClearTelopActivated = true;
+	Sound::GetInstance()->SetPlaySE(WINSE, true, (Sound::GetInstance()->changevol / 10.0f));
 }
 
 //=============================================================================

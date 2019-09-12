@@ -138,4 +138,6 @@ void ClearScoreManager()
 	onAddComboEffect = NULL;
 	onClearCombo = NULL;
 	viewerInstance = NULL;
+	Sound::GetInstance()->changepitch = 0;
+	comboCaunta = 0;
 }

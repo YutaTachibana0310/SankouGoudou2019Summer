@@ -178,6 +178,7 @@ void GameScene::Uninit()
 	SAFE_DELETE(darkMask);
 	SAFE_DELETE(bossController);
 	SAFE_DELETE(bossUI);
+	SAFE_DELETE(gameover);
 
 	//パーティクル終了
 	particleManager->Uninit();

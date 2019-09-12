@@ -105,19 +105,6 @@ void PlayerObserver::Update()
 {
 	if (enableUpdateLogic)
 	{
-		if (current == PlayerState::Wait || current == PlayerState::Idle)
-		{
-			int inputID = GetStickInput(moveTarget);
-
-			if (inputID != InvalidInputID)
-			{
-				inputGuide->Set(player->transform.pos, LineTrailModel::GetEdgePos(inputID));
-
-				if (IsAnyButtonTriggerd())
-					PushInput(inputID);
-			}
-		}
-
 		int stateResult = player->Update();
 
 		if (stateResult != STATE_CONTINUOUS)
@@ -167,9 +154,26 @@ void PlayerObserver::CheckInput()
 	//入力を確認
 	const int InvalidInput = 5;
 	int inputID = GetMoveInput();
+	int stickInput = InvalidInputID;
 
+	if (current == PlayerState::Wait || current == PlayerState::Idle)
+	{
+		stickInput = GetStickInput(moveTarget);
+
+		if (stickInput != InvalidInputID)
+		{
+			inputGuide->Set(player->transform.pos, LineTrailModel::GetEdgePos(stickInput));
+		}
+	}
+
+	//キーボードとマウスを優先的に使用
 	if(inputID < InvalidInput)
 		PushInput(inputID);
+	//パッドのスティックで移動
+	else if (stickInput < InvalidInputID && IsAnyButtonTriggerd())
+	{
+		PushInput(stickInput);
+	}
 }
 
 /**************************************

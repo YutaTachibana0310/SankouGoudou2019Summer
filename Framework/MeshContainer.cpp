@@ -199,7 +199,7 @@ DWORD MeshContainer::GetMaterialNum()
 ***************************************/
 void MeshContainer::SetMaterialColor(const D3DXCOLOR& color)
 {
-	for (int i = 0; i < materialNum; i++)
+	for (unsigned i = 0; i < materialNum; i++)
 	{
 		materials[i].Diffuse = color;
 	}
